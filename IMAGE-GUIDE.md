@@ -1,4 +1,4 @@
-# 📸 Sai Innovation - Image Optimization Guide
+# 📸 WoodenMax - Image Optimization Guide
 
 ## Quick Reference
 - **Format:** WebP (preferred) or JPEG
@@ -43,7 +43,7 @@
 
 | File Name | Alt Text (SEO) |
 |-----------|----------------|
-| `images/products/upvc-windows/upvc-sliding-window.webp` | "UPVC Sliding Window Lucknow - Sai Innovation" |
+| `images/products/upvc-windows/upvc-sliding-window.webp` | "UPVC Sliding Window Lucknow - WoodenMax" |
 | `images/products/upvc-windows/upvc-casement-window.webp` | "UPVC Casement Window with Multi-point Lock" |
 | `images/products/upvc-windows/upvc-tilt-turn-window.webp` | "UPVC Tilt and Turn Window German Hardware" |
 | `images/products/upvc-windows/upvc-villa-window.webp` | "UPVC Villa Window Premium White Finish" |
@@ -69,7 +69,7 @@
 
 | File Name | Alt Text (SEO) |
 |-----------|----------------|
-| `images/products/sliding-systems/glass-sliding-door.webp` | "Glass Sliding Door System Sai Innovation" |
+| `images/products/sliding-systems/glass-sliding-door.webp` | "Glass Sliding Door System WoodenMax" |
 | `images/products/sliding-systems/panoramic-sliding-window.webp` | "Panoramic Sliding Window Large Glass" |
 | `images/products/sliding-systems/lift-slide-door.webp` | "Lift and Slide Door Premium Hardware" |
 | `images/products/sliding-systems/multi-track-sliding.webp` | "Multi Track Sliding System 3 Panel" |
@@ -206,7 +206,7 @@ Before uploading any image:
    - `IMG_001.jpg` ❌
 
 2. **Alt Text = Natural Description + Keywords**
-   - "UPVC Sliding Window with German hardware - Sai Innovation Lucknow" ✅
+   - "UPVC Sliding Window with German hardware - WoodenMax Lucknow" ✅
    - "window" ❌
 
 3. **Lazy Loading** (already implemented in your site)

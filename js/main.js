@@ -1,5 +1,5 @@
 /* ============================================
-   SAI INNOVATION - MAIN JAVASCRIPT
+   WOODENMAX - MAIN JAVASCRIPT
    All Interactions & Animations
    ============================================ */
 
@@ -472,10 +472,10 @@ document.addEventListener('DOMContentLoaded', function() {
       const message = formData.get('message');
       
       // Create WhatsApp message
-      const whatsappMessage = `Hello Sai Innovation!%0A%0AName: ${name}%0APhone: ${phone}%0AProduct Interest: ${product}%0AMessage: ${message}`;
+      const whatsappMessage = `Hello WoodenMax!%0A%0AName: ${name}%0APhone: ${phone}%0AProduct Interest: ${product}%0AMessage: ${message}`;
       
       // Open WhatsApp
-      window.open(`https://wa.me/919540400034?text=${whatsappMessage}`, '_blank');
+      window.open(`https://wa.me/917895328080?text=${whatsappMessage}`, '_blank');
       
       // Reset form
       contactForm.reset();

@@ -1,0 +1,32 @@
+# robots.txt for woodenmax.in
+
+User-agent: *
+Allow: /
+
+# Disallow admin and private directories if any
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+
+# Allow sitemap and robots.txt
+Allow: /sitemap.xml
+Allow: /robots.txt
+
+# Allow important resources
+Allow: /css/
+Allow: /js/
+Allow: /images/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+
+# Sitemap location
+Sitemap: https://woodenmax.in/sitemap.xml
+
+# Crawl delay (optional - adjust if needed)
+Crawl-delay: 1
+

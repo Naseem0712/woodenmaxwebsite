@@ -1,26 +1,31 @@
 /* ============================================
-   SAI INNOVATION - STATIC THEME CSS
+   WOODENMAX - STATIC THEME CSS
    Complete Theme with Colors & Animations
    ============================================ */
 
 /* --- CSS Variables (Theme Colors) --- */
 :root {
-  /* Primary Colors */
-  --gold-400: #fbbf24;
-  --gold-500: #f59e0b;
-  --gold-600: #d97706;
-  --obsidian: #020617;
+  /* Primary Colors - Soft Gold for Hover */
+  --gold-400: #d4af37;
+  --gold-500: #c9a227;
+  --gold-600: #b8941a;
+  --obsidian: #000000;
+  
+  /* Soft Grey for Buttons */
+  --soft-grey: #4a4a4a;
+  --soft-grey-hover: #5a5a5a;
+  --soft-grey-light: #6a6a6a;
   
   /* Slate Colors */
-  --slate-200: #e2e8f0;
-  --slate-300: #cbd5e1;
-  --slate-400: #94a3b8;
-  --slate-500: #64748b;
-  --slate-600: #475569;
-  --slate-700: #334155;
-  --slate-800: #1e293b;
-  --slate-900: #0f172a;
-  --slate-950: #020617;
+  --slate-200: #ffffff;
+  --slate-300: #f5f5f5;
+  --slate-400: #e0e0e0;
+  --slate-500: #b0b0b0;
+  --slate-600: #808080;
+  --slate-700: #505050;
+  --slate-800: #303030;
+  --slate-900: #1a1a1a;
+  --slate-950: #000000;
   
   /* Fonts */
   --font-sans: 'Inter', sans-serif;
@@ -52,8 +57,8 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--obsidian);
-  color: var(--slate-200);
+  background-color: #000000;
+  color: #ffffff;
   line-height: 1.6;
   min-height: 100vh;
   overflow-x: hidden;
@@ -145,10 +150,17 @@ a {
 
 /* Glass Panel Effect */
 .glass-panel {
-  background: rgba(15, 23, 42, 0.6);
+  background: #1a1a1a;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(212, 175, 55, 0.1);
+  transition: all 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(212, 175, 55, 0.15);
 }
 
 /* Text Colors */
@@ -187,36 +199,45 @@ a {
 }
 
 .btn-primary {
-  background-color: var(--gold-600);
+  background-color: var(--soft-grey);
   color: white;
-  box-shadow: 0 0 20px rgba(217, 119, 6, 0.3);
+  box-shadow: 0 4px 15px rgba(74, 74, 74, 0.3);
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  background-color: var(--gold-500);
-  box-shadow: 0 0 40px rgba(217, 119, 6, 0.6);
+  background-color: var(--soft-grey-hover);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  color: var(--gold-400);
+  transform: translateY(-2px);
 }
 
 .btn-outline {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--soft-grey);
   color: white;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--soft-grey-light);
   backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
 }
 
 .btn-outline:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--soft-grey-hover);
+  border-color: var(--gold-400);
+  color: var(--gold-400);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
 .btn-gold-outline {
   background: transparent;
-  color: var(--gold-500);
-  border: 1px solid var(--gold-500);
+  color: var(--gold-400);
+  border: 1px solid var(--gold-400);
+  transition: all 0.3s ease;
 }
 
 .btn-gold-outline:hover {
-  background: var(--gold-500);
-  color: white;
+  background: var(--gold-400);
+  color: #000000;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.5);
 }
 
 /* ============================================
@@ -229,16 +250,16 @@ a {
   z-index: 100;
   transition: all 0.5s ease;
   padding: 0;
-  background: linear-gradient(to bottom, rgba(2, 6, 23, 0.9) 0%, rgba(2, 6, 23, 0.7) 50%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.9) 50%, transparent 100%);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
 
 .navbar.scrolled {
-  background: rgba(2, 6, 23, 0.95);
+  background: rgba(0, 0, 0, 0.98);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
 }
 
 .navbar-content {
@@ -1633,8 +1654,12 @@ img.about-card {
 }
 
 .product-feature svg {
-  color: rgba(245, 158, 11, 0.7);
+  color: #ffffff;
   flex-shrink: 0;
+  transition: color 0.3s ease;
+}
+.product-feature:hover svg {
+  color: #d4af37;
 }
 
 /* ============================================
@@ -2108,18 +2133,23 @@ footer {
 
 .vision-card {
   padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 2px;
+  background: #1a1a1a;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 0.75rem;
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(212, 175, 55, 0.1);
 }
 
 .vision-card:hover {
   transform: translateY(-8px);
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(212, 175, 55, 0.15);
 }
 
 .vision-card.featured {
-  background: rgba(255, 255, 255, 0.05);
+  background: #1a1a1a;
+  border-color: rgba(212, 175, 55, 0.4);
 }
 
 .vision-icon {
@@ -2133,13 +2163,22 @@ footer {
 }
 
 .vision-icon.gold {
-  background: var(--gold-500);
+  background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
   color: white;
 }
 
 .vision-icon.outline {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--gold-500);
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: var(--gold-400);
+  transition: all 0.3s ease;
+}
+
+.vision-card:hover .vision-icon.outline {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: rgba(212, 175, 55, 0.5);
+  transform: scale(1.05);
 }
 
 .vision-card h3 {
@@ -2237,6 +2276,14 @@ footer {
   border-radius: 2px;
   color: var(--gold-500);
   margin-top: 0.25rem;
+}
+
+.feature-item svg {
+  color: #ffffff !important;
+}
+
+.feature-item:hover svg {
+  color: #d4af37 !important;
 }
 
 .feature-item h4 {
