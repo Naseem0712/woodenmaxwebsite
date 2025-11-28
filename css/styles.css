@@ -277,15 +277,33 @@ a {
 }
 
 .logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 2px solid var(--gold-400);
   border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 6px;
+  overflow: hidden;
   transform: rotate(45deg);
   transition: transform 0.7s ease;
+  box-sizing: border-box;
+}
+
+.logo-icon img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transform: rotate(-45deg);
+  transition: transform 0.7s ease;
+  display: block;
+}
+
+.navbar-logo:hover .logo-icon img {
+  transform: rotate(-90deg);
 }
 
 .navbar-logo:hover .logo-icon {
@@ -1918,12 +1936,25 @@ footer {
 }
 
 .footer-brand-icon {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   border: 1px solid var(--gold-400);
+  border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 5px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.footer-brand-icon img {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .footer-brand-icon span {
