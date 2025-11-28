@@ -2,8 +2,9 @@
 
 ## ✅ Current Status:
 - ✅ Bing Webmaster Tools: **Domain Already Verified!**
-- ⏳ Google Search Console: Needs verification
-- ⏳ Sitemap: Ready to submit
+- ✅ Google Search Console: **Domain Already Verified!**
+- ✅ Sitemap: Created and ready to submit
+- ✅ Code: Pushed to GitHub
 
 ---
 
@@ -15,21 +16,17 @@ Upload these to your server root:
 - ✅ robots.txt
 - ✅ .htaccess
 
-### 2. Google Search Console (5 minutes):
+### 2. Google Search Console (2 minutes):
+✅ **Domain Already Verified!**
 1. Go to: https://search.google.com/search-console
-2. Click "Add Property" → "URL prefix"
-3. Enter: `https://woodenmax.in`
-4. **Verify Ownership:**
-   - Google will give you a meta tag
-   - Add it to `index.html` in `<head>` section:
-     ```html
-     <meta name="google-site-verification" content="YOUR_CODE_HERE" />
-     ```
-   - Click "Verify"
-5. **Submit Sitemap:**
-   - Go to "Sitemaps" in left menu
-   - Enter: `sitemap.xml`
-   - Click "Submit"
+2. Click on your verified property (woodenmax.in)
+3. Go to "Sitemaps" in left menu
+4. Enter: `sitemap.xml`
+5. Click "Submit"
+6. **Request Indexing** for homepage:
+   - Go to "URL Inspection"
+   - Enter: `https://woodenmax.in`
+   - Click "Request Indexing"
 
 ### 3. Bing Webmaster Tools (2 minutes):
 ✅ **Already Verified!**
@@ -48,12 +45,13 @@ Upload these to your server root:
 ---
 
 ## ✅ Checklist:
-- [ ] Files uploaded (sitemap.xml, robots.txt, .htaccess)
-- [ ] Google Search Console verified
-- [ ] Google sitemap submitted
+- [x] Files created (sitemap.xml, robots.txt, .htaccess)
+- [x] Code pushed to GitHub ✅
+- [x] Google Search Console verified ✅
+- [ ] Google sitemap submitted (just submit sitemap.xml)
 - [x] Bing already verified ✅
-- [ ] Bing sitemap submitted
-- [ ] Homepage indexing requested
+- [ ] Bing sitemap submitted (just submit sitemap.xml)
+- [ ] Homepage indexing requested (after sitemap submission)
 
 ---
 
