@@ -52,16 +52,22 @@
   }
   </script>
   
-  <!-- Fonts -->
+  <!-- Resource Hints -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://unpkg.com">
+  
+  <!-- Fonts with optimized loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-  
-  <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"></noscript>
   
   <!-- Custom Styles -->
   <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Lucide Icons CDN - Deferred -->
+  <script src="https://unpkg.com/lucide@latest" defer></script>
 </head>
 <body>
   
@@ -189,7 +195,7 @@
     <!-- Slide 1 - Villa Front Elevation -->
     <div class="slide active" data-index="0">
       <div class="slide-image-container">
-        <img src="images/hero/villa_front_elevation_louvers_slim_profile_glazing_hpl_premium_design.JPG" alt="Premium villa front elevation with louvers slim profile glazing and HPL design Hyderabad" class="slide-image">
+        <img src="images/hero/villa_front_elevation_louvers_slim_profile_glazing_hpl_premium_design.JPG" alt="Premium villa front elevation with louvers slim profile glazing and HPL design Hyderabad" class="slide-image" fetchpriority="high" loading="eager" width="1920" height="800">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -208,7 +214,7 @@
     <!-- Slide 2 - Modern Elevation -->
     <div class="slide" data-index="1">
       <div class="slide-image-container">
-        <img src="images/hero/modern_elevation_louvers_slim_window_structure_glazing_hpl_cladding_lucknow.JPG" alt="Modern elevation with louvers slim windows structure glazing and HPL cladding Hyderabad" class="slide-image">
+        <img src="images/hero/modern_elevation_louvers_slim_window_structure_glazing_hpl_cladding_lucknow.JPG" alt="Modern elevation with louvers slim windows structure glazing and HPL cladding Hyderabad" class="slide-image" loading="lazy" width="1920" height="800">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -227,7 +233,7 @@
     <!-- Slide 3 - Premium Front Elevation -->
     <div class="slide" data-index="2">
       <div class="slide-image-container">
-        <img src="images/hero/premium_front_elevation_louvers_slim_glass_windows_hpl_facade_india.JPG" alt="Premium front elevation with louvers slim glass windows and HPL facade India" class="slide-image">
+        <img src="images/hero/premium_front_elevation_louvers_slim_glass_windows_hpl_facade_india.JPG" alt="Premium front elevation with louvers slim glass windows and HPL facade India" class="slide-image" loading="lazy" width="1920" height="800">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -246,7 +252,7 @@
     <!-- Slide 4 - Architectural Louvers -->
     <div class="slide" data-index="3">
       <div class="slide-image-container">
-        <img src="images/hero/architectural_louvers_slim_frame_windows_structure_glazing_hpl_exterior.JPG" alt="Architectural louvers with slim frame windows structure glazing and HPL exterior" class="slide-image">
+        <img src="images/hero/architectural_louvers_slim_frame_windows_structure_glazing_hpl_exterior.JPG" alt="Architectural louvers with slim frame windows structure glazing and HPL exterior" class="slide-image" loading="lazy" width="1920" height="800">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -265,7 +271,7 @@
     <!-- Slide 5 - Complete Solutions -->
     <div class="slide" data-index="4">
       <div class="slide-image-container">
-        <img src="images/hero/WhatsApp Image 2025-11-26 at 8.32.33 PM (2).jpeg" alt="Complete elevation solutions with windows louvers and cladding by WoodenMax Hyderabad" class="slide-image">
+        <img src="images/hero/WhatsApp Image 2025-11-26 at 8.32.33 PM (2).jpeg" alt="Complete elevation solutions with windows louvers and cladding by WoodenMax Hyderabad" class="slide-image" loading="lazy" width="1920" height="800">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -331,10 +337,10 @@
                 <h3>Premium Quality</h3>
                 <p>German hardware & precision engineering.</p>
               </div>
-              <img src="images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa_lucknow.JPG" alt="WoodenMax Architecture Projects" class="about-card">
+              <img src="images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa_lucknow.JPG" alt="WoodenMax Architecture Projects" class="about-card" loading="lazy">
             </div>
             <div>
-              <img src="images/products/shower-partitions/Premium_Black_Profile_Bathroom_Shower_Glass_ Sliding_Soft_Close_Door.JPG" alt="WoodenMax Craftsmanship Details" class="about-card">
+              <img src="images/products/shower-partitions/Premium_Black_Profile_Bathroom_Shower_Glass_ Sliding_Soft_Close_Door.JPG" alt="WoodenMax Craftsmanship Details" class="about-card" loading="lazy">
               <div class="about-card">
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 <h3>Expert Team</h3>
@@ -391,7 +397,7 @@
         <a href="products/telescope-windows.html" class="product-card">
           <div class="product-card-inner glass-panel">
             <div class="product-image-container">
-              <img src="images/products/telescope-windows/telescopic_slim_profile_soft_close_fluted_glass_kitchen_partition.JPG" alt="Telescopic Slim Profile Sliding Door - Best Telescope Windows Hyderabad" class="product-image">
+              <img src="images/products/telescope-windows/telescopic_slim_profile_soft_close_fluted_glass_kitchen_partition.JPG" alt="Telescopic Slim Profile Sliding Door - Best Telescope Windows Hyderabad" class="product-image" loading="lazy">
               <div class="product-image-overlay"></div>
               <span class="product-category-badge">Telescope Windows</span>
               <div class="product-title-row">
@@ -421,7 +427,7 @@
         <a href="products/folding-systems.html" class="product-card">
           <div class="product-card-inner glass-panel">
             <div class="product-image-container">
-              <img src="images/products/aluminium-windows/2_track_aluminium_french_sliding_door_window_lucknow.JPG" alt="Bi-Fold Doors Luxury Edition - Premium Folding Doors Hyderabad" class="product-image">
+              <img src="images/products/aluminium-windows/2_track_aluminium_french_sliding_door_window_lucknow.JPG" alt="Bi-Fold Doors Luxury Edition - Premium Folding Doors Hyderabad" class="product-image" loading="lazy">
               <div class="product-image-overlay"></div>
               <span class="product-category-badge">Folding Systems</span>
               <div class="product-title-row">
@@ -451,7 +457,7 @@
         <a href="products/shower-partitions/premium-black-profile-shower.html" class="product-card">
           <div class="product-card-inner glass-panel">
             <div class="product-image-container">
-              <img src="images/products/shower-partitions/Premium_Black_Profile_Bathroom_Shower_Glass_ Sliding_Soft_Close_Door.JPG" alt="Premium Black Profile Sliding Shower Glass with Soft-Close Door" class="product-image">
+              <img src="images/products/shower-partitions/Premium_Black_Profile_Bathroom_Shower_Glass_ Sliding_Soft_Close_Door.JPG" alt="Premium Black Profile Sliding Shower Glass with Soft-Close Door" class="product-image" loading="lazy">
               <div class="product-image-overlay"></div>
               <span class="product-category-badge">Luxury Shower</span>
               <div class="product-title-row">
@@ -481,7 +487,7 @@
         <a href="products/metal-louvers/wooden-finish-aluminium-louvers.html" class="product-card">
           <div class="product-card-inner glass-panel">
             <div class="product-image-container">
-              <img src="images/products/metal-louvers/wooden_finish_aluminium_louvers_elevation_lucknow.jpeg" alt="Wooden finish aluminium louvers for modern building elevation and facade design" class="product-image">
+              <img src="images/products/metal-louvers/wooden_finish_aluminium_louvers_elevation_lucknow.jpeg" alt="Wooden finish aluminium louvers for modern building elevation and facade design" class="product-image" loading="lazy">
               <div class="product-image-overlay"></div>
               <span class="product-category-badge">Metal Louvers</span>
               <div class="product-title-row">
@@ -526,13 +532,13 @@
       <div class="category-grid">
         <a href="products/aluminium-windows.html" class="category-card large" id="aluminiumWindowCarouselCard" style="position: relative; overflow: hidden;">
           <div id="aluminiumWindowCarousel" style="position: relative; width: 100%; height: 100%;">
-            <img src="images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa_lucknow.JPG" alt="Full Elevation Aluminium Windows & Doors" class="aluminium-window-carousel-img active" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/2_track_aluminium_french_sliding_door_window_lucknow.JPG" alt="2 Track Aluminium French Sliding Door Window" class="aluminium-window-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/3_track_aluminium_sliding_window_with_mesh_lucknow.jpg" alt="3 Track Aluminium Sliding Window" class="aluminium-window-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/op_hung_aluminium_casement_window_lucknow.JPG" alt="Top Hung Aluminium Casement Window" class="aluminium-window-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/aluminium_casement_door_georgian_grill_lucknow.JPG" alt="Aluminium Casement Door with Georgian Grill" class="aluminium-window-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/french_aluminium_door_georgian_bar_lucknow.JPG" alt="French Aluminium Door with Golden Georgian Bar" class="aluminium-window-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/slim_entrance_aluminium_glass_door_lucknow.JPG" alt="Slim Entrance Aluminium Glass Door" class="aluminium-window-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa_lucknow.JPG" alt="Full Elevation Aluminium Windows & Doors" class="aluminium-window-carousel-img active" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/2_track_aluminium_french_sliding_door_window_lucknow.JPG" alt="2 Track Aluminium French Sliding Door Window" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/3_track_aluminium_sliding_window_with_mesh_lucknow.jpg" alt="3 Track Aluminium Sliding Window" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/op_hung_aluminium_casement_window_lucknow.JPG" alt="Top Hung Aluminium Casement Window" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/aluminium_casement_door_georgian_grill_lucknow.JPG" alt="Aluminium Casement Door with Georgian Grill" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/french_aluminium_door_georgian_bar_lucknow.JPG" alt="French Aluminium Door with Golden Georgian Bar" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/slim_entrance_aluminium_glass_door_lucknow.JPG" alt="Slim Entrance Aluminium Glass Door" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
           </div>
           <div class="category-card-overlay">
             <h3>Aluminium Window</h3>
@@ -549,9 +555,9 @@
 
         <a href="products/metal-louvers.html" class="category-card small" id="louversCarouselCard" style="position: relative; overflow: hidden;">
           <div id="louversCarousel" style="position: relative; width: 100%; height: 100%;">
-            <img src="images/products/metal-louvers/wooden_finish_aluminium_louvers_elevation_lucknow.jpeg" alt="Wooden Finish Aluminium Louvers" class="louvers-carousel-img active" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/metal-louvers/architectural_curved_aluminium_louvers_facade_lucknow.jpeg" alt="Curved Architectural Aluminium Louvers" class="louvers-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/metal-louvers/aluminium_ceiling_louvers_pergola_backyard_lucknow.jpeg" alt="Ceiling Aluminium Pergola Louvers" class="louvers-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/metal-louvers/wooden_finish_aluminium_louvers_elevation_lucknow.jpeg" alt="Wooden Finish Aluminium Louvers" class="louvers-carousel-img active" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/metal-louvers/architectural_curved_aluminium_louvers_facade_lucknow.jpeg" alt="Curved Architectural Aluminium Louvers" class="louvers-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/metal-louvers/aluminium_ceiling_louvers_pergola_backyard_lucknow.jpeg" alt="Ceiling Aluminium Pergola Louvers" class="louvers-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
           </div>
           <div class="category-card-overlay">
             <h3>Metal Louvers</h3>
@@ -560,11 +566,11 @@
 
         <a href="products/shower-partitions.html" class="category-card small" id="showerCarouselCard" style="position: relative; overflow: hidden;">
           <div id="showerCarousel" style="position: relative; width: 100%; height: 100%;">
-            <img src="images/products/shower-partitions/frameless_shower_glass_door_openable_sliding_india.jpg" alt="Frameless Shower Glass Door" class="shower-carousel-img active" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/shower-partitions/Premium_Black_Profile_Bathroom_Shower_Glass_ Sliding_Soft_Close_Door.JPG" alt="Premium Black Profile Shower" class="shower-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/shower-partitions/frosted_glass_bathroom_door_aluminium_frame_openable_india.JPG" alt="Frosted Glass Bathroom Door" class="shower-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/shower-partitions/Slim_Gold_Profile_Fluted_Shower_Glass_Partition_lucknow.png" alt="Gold Profile Fluted Shower" class="shower-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/shower-partitions/black_profile_shower_glass_partition_lucknow.jpg" alt="Black Profile Shower Partition" class="shower-carousel-img" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/shower-partitions/frameless_shower_glass_door_openable_sliding_india.jpg" alt="Frameless Shower Glass Door" class="shower-carousel-img active" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/shower-partitions/Premium_Black_Profile_Bathroom_Shower_Glass_ Sliding_Soft_Close_Door.JPG" alt="Premium Black Profile Shower" class="shower-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/shower-partitions/frosted_glass_bathroom_door_aluminium_frame_openable_india.JPG" alt="Frosted Glass Bathroom Door" class="shower-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/shower-partitions/Slim_Gold_Profile_Fluted_Shower_Glass_Partition_lucknow.png" alt="Gold Profile Fluted Shower" class="shower-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/shower-partitions/black_profile_shower_glass_partition_lucknow.jpg" alt="Black Profile Shower Partition" class="shower-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
           </div>
           <div class="category-card-overlay">
             <h3>Luxury Showers</h3>

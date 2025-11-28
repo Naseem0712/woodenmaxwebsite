@@ -51,6 +51,16 @@ img {
   height: auto;
 }
 
+/* Image optimization */
+img[loading="lazy"] {
+  content-visibility: auto;
+}
+
+/* Prevent layout shift for images */
+img:not([width]):not([height]) {
+  aspect-ratio: attr(width) / attr(height);
+}
+
 html {
   scroll-behavior: smooth;
 }
