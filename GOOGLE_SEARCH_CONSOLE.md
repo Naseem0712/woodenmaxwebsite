@@ -12,7 +12,7 @@ Your domain is already verified in Google Search Console. Now you just need to s
 4. Enter: `sitemap.xml`
 5. Click "Submit"
 
-## Step 2: Request Indexing
+## Step 2: Request Indexing (Optional but Recommended)
 
 1. Go to "URL Inspection" tool
 2. Enter your homepage URL: `https://woodenmax.in`
@@ -22,14 +22,7 @@ Your domain is already verified in Google Search Console. Now you just need to s
    - https://woodenmax.in/contact.html
    - https://woodenmax.in/about.html
 
-## Step 3: Request Indexing
-
-1. Go to "URL Inspection" tool
-2. Enter your homepage URL: https://woodenmax.in
-3. Click "Request Indexing"
-4. Repeat for important pages
-
-## Step 4: Monitor Performance
+## Step 3: Monitor Performance
 
 - Check "Coverage" for indexing issues
 - Monitor "Performance" for search queries
