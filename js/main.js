@@ -3,6 +3,11 @@
    All Interactions & Animations
    ============================================ */
 
+// Enable browser's scroll position restoration on page refresh
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'auto';
+}
+
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', function() {
   
@@ -23,127 +28,178 @@ document.addEventListener('DOMContentLoaded', function() {
   handleNavbarScroll(); // Check on load
   
   // ============================================
-  // CATEGORY CAROUSEL IN HEADER (Smooth Sliding)
+  // CATEGORY CAROUSEL IN HEADER (Infinite Wheel)
   // ============================================
   const categoryCarousel = document.getElementById('categoryCarousel');
   const catPrev = document.getElementById('catPrev');
   const catNext = document.getElementById('catNext');
   
   if (categoryCarousel && catPrev && catNext) {
-    const catItems = categoryCarousel.querySelectorAll('.cat-item');
-    const totalCategories = catItems.length;
+    const originalItems = Array.from(categoryCarousel.querySelectorAll('.cat-item'));
+    const totalCategories = originalItems.length;
+    
+    // Clone items for infinite scroll effect (add clones before and after)
+    const clonesBefore = [];
+    const clonesAfter = [];
+    
+    // Create clones
+    originalItems.forEach((item, index) => {
+      const cloneBefore = item.cloneNode(true);
+      const cloneAfter = item.cloneNode(true);
+      cloneBefore.classList.add('clone');
+      cloneAfter.classList.add('clone');
+      cloneBefore.dataset.originalIndex = index;
+      cloneAfter.dataset.originalIndex = index;
+      clonesBefore.push(cloneBefore);
+      clonesAfter.push(cloneAfter);
+    });
+    
+    // Add clones to carousel
+    clonesBefore.reverse().forEach(clone => {
+      categoryCarousel.insertBefore(clone, categoryCarousel.firstChild);
+    });
+    clonesAfter.forEach(clone => {
+      categoryCarousel.appendChild(clone);
+    });
+    
+    // Get all items including clones
+    const allItems = Array.from(categoryCarousel.querySelectorAll('.cat-item'));
     
     // Detect current page and set initial active category
     const currentPath = window.location.pathname.toLowerCase();
     let currentCatIndex = 0;
-    let previousCatIndex = 0;
     let isAnimating = false;
     
     // Category mapping based on URL path
     const categoryMap = {
       'upvc': 0,
-      'aluminium': 1,
-      'telescope': 2,
-      'folding': 3,
-      'louver': 4,
-      'metal-louver': 4,
-      'shower': 5,
-      'elevation': 6,
-      'cladding': 6,
-      'glass': 7
+      'aluminium': 0,
+      'telescope': 1,
+      'folding': 2,
+      'louver': 3,
+      'metal-louver': 3,
+      'shower': 4,
+      'elevation': 5,
+      'cladding': 5,
+      'glass': 6
     };
     
     // Find matching category from URL
     for (const [keyword, index] of Object.entries(categoryMap)) {
       if (currentPath.includes(keyword)) {
         currentCatIndex = index;
-        previousCatIndex = index;
         break;
       }
     }
     
-    // Smooth easing function (like car brakes)
-    function easeOutQuart(t) {
-      return 1 - Math.pow(1 - t, 4);
+    // Wheel rotation easing - very smooth, like a spinning wheel slowing down
+    function easeOutQuint(t) {
+      return 1 - Math.pow(1 - t, 5);
     }
     
-    // Smooth scroll to position with custom easing
-    function smoothScrollTo(targetPos, duration) {
+    // Smooth scroll to position with wheel rotation effect
+    function smoothScrollTo(targetPos, duration, callback) {
       const startPos = categoryCarousel.scrollLeft;
       const distance = targetPos - startPos;
       const startTime = performance.now();
       
+      // Cancel any existing animation
+      if (categoryCarousel.animationId) {
+        cancelAnimationFrame(categoryCarousel.animationId);
+      }
+      
       function animate(currentTime) {
         const elapsed = currentTime - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const easedProgress = easeOutQuart(progress);
+        const easedProgress = easeOutQuint(progress);
         
         categoryCarousel.scrollLeft = startPos + (distance * easedProgress);
         
         if (progress < 1) {
-          requestAnimationFrame(animate);
+          categoryCarousel.animationId = requestAnimationFrame(animate);
         } else {
           isAnimating = false;
+          categoryCarousel.animationId = null;
+          if (callback) callback();
         }
       }
       
-      requestAnimationFrame(animate);
+      categoryCarousel.animationId = requestAnimationFrame(animate);
+    }
+    
+    // Update visual states of all items
+    function updateItemStates() {
+      allItems.forEach((item) => {
+        item.classList.remove('active', 'near');
+        
+        // Get the original index of this item
+        const itemIndex = item.classList.contains('clone') 
+          ? parseInt(item.dataset.originalIndex) 
+          : originalItems.indexOf(item);
+        
+        // Calculate relative position
+        let diff = itemIndex - currentCatIndex;
+        
+        // Handle wrap-around for visual state
+        if (diff > totalCategories / 2) diff -= totalCategories;
+        if (diff < -totalCategories / 2) diff += totalCategories;
+        
+        if (diff === 0) {
+          item.classList.add('active');
+        } else if (Math.abs(diff) === 1) {
+          item.classList.add('near');
+        }
+      });
+    }
+    
+    // Scroll to specific index (in the middle set)
+    function scrollToIndex(index, animate = true, duration = 1000) {
+      // Find the original item (not clone) at this index
+      const targetItem = originalItems[index];
+      if (!targetItem) return;
+      
+      const containerWidth = categoryCarousel.offsetWidth;
+      const itemLeft = targetItem.offsetLeft;
+      const itemWidth = targetItem.offsetWidth;
+      const targetScroll = itemLeft - (containerWidth / 2) + (itemWidth / 2);
+      
+      if (animate) {
+        smoothScrollTo(targetScroll, duration);
+      } else {
+        categoryCarousel.scrollLeft = targetScroll;
+        isAnimating = false;
+      }
+    }
+    
+    // Handle infinite loop - reset position when reaching clones
+    function checkInfiniteLoop() {
+      const scrollLeft = categoryCarousel.scrollLeft;
+      const containerWidth = categoryCarousel.offsetWidth;
+      const totalWidth = categoryCarousel.scrollWidth;
+      const singleSetWidth = totalWidth / 3; // 3 sets: clones + originals + clones
+      
+      // If scrolled too far left (into left clones), jump to right side
+      if (scrollLeft < singleSetWidth * 0.3) {
+        categoryCarousel.scrollLeft = scrollLeft + singleSetWidth;
+      }
+      // If scrolled too far right (into right clones), jump to left side
+      else if (scrollLeft > singleSetWidth * 1.7) {
+        categoryCarousel.scrollLeft = scrollLeft - singleSetWidth;
+      }
     }
     
     function updateCarousel(direction) {
       if (isAnimating) return;
       isAnimating = true;
       
-      // Determine slide direction
-      const slideDirection = direction || (currentCatIndex > previousCatIndex ? 'right' : 'left');
+      // Update visual states
+      updateItemStates();
       
-      catItems.forEach((item, index) => {
-        // Remove all classes first
-        item.classList.remove('active', 'near', 'sliding-left', 'sliding-right');
-        
-        // Calculate relative position
-        let diff = index - currentCatIndex;
-        
-        // Handle wrap-around
-        if (diff > totalCategories / 2) diff -= totalCategories;
-        if (diff < -totalCategories / 2) diff += totalCategories;
-        
-        if (diff === 0) {
-          item.classList.add('active');
-          // Add slide animation class
-          if (slideDirection === 'right') {
-            item.classList.add('sliding-left');
-          } else if (slideDirection === 'left') {
-            item.classList.add('sliding-right');
-          }
-        } else if (Math.abs(diff) === 1) {
-          item.classList.add('near');
-        }
-      });
-      
-      // Smooth scroll to center the active item (car brake effect)
-      const activeItem = catItems[currentCatIndex];
-      if (activeItem) {
-        const containerWidth = categoryCarousel.offsetWidth;
-        const itemLeft = activeItem.offsetLeft;
-        const itemWidth = activeItem.offsetWidth;
-        const targetScroll = itemLeft - (containerWidth / 2) + (itemWidth / 2);
-        
-        // Use custom smooth scroll with easing (600ms duration for smooth brake feel)
-        smoothScrollTo(targetScroll, 600);
-      }
-      
-      previousCatIndex = currentCatIndex;
-      
-      // Remove animation classes after animation completes
-      setTimeout(() => {
-        catItems.forEach(item => {
-          item.classList.remove('sliding-left', 'sliding-right');
-        });
-      }, 600);
+      // Scroll to the target item with smooth animation
+      scrollToIndex(currentCatIndex, true, 1000);
     }
     
-    // Arrow navigation with direction
+    // Arrow navigation - infinite loop
     catNext.addEventListener('click', function() {
       if (isAnimating) return;
       currentCatIndex = (currentCatIndex + 1) % totalCategories;
@@ -156,35 +212,65 @@ document.addEventListener('DOMContentLoaded', function() {
       updateCarousel('left');
     });
     
-    // Click on item - smooth slide to that item
-    catItems.forEach((item, index) => {
+    // Click on any item (original or clone)
+    allItems.forEach((item) => {
       item.addEventListener('click', function(e) {
-        if (isAnimating || index === currentCatIndex) return;
+        if (isAnimating) return;
         
-        const direction = index > currentCatIndex ? 'right' : 'left';
-        currentCatIndex = index;
-        updateCarousel(direction);
+        // Get original index
+        const clickedIndex = item.classList.contains('clone') 
+          ? parseInt(item.dataset.originalIndex) 
+          : originalItems.indexOf(item);
+        
+        if (clickedIndex === currentCatIndex) return;
+        
+        isAnimating = true;
+        currentCatIndex = clickedIndex;
+        
+        // Update visual states
+        updateItemStates();
+        
+        // Scroll to the CLICKED item directly (not the original)
+        // This ensures wheel rotates in the direction user clicked
+        const containerWidth = categoryCarousel.offsetWidth;
+        const itemLeft = item.offsetLeft;
+        const itemWidth = item.offsetWidth;
+        const targetScroll = itemLeft - (containerWidth / 2) + (itemWidth / 2);
+        
+        // Smooth scroll to clicked item
+        smoothScrollTo(targetScroll, 1000, function() {
+          // After animation, silently reset to original item position if needed
+          checkInfiniteLoop();
+        });
       });
     });
     
-    // Initialize with correct category selected (no animation on load)
-    isAnimating = false;
-    catItems.forEach((item, index) => {
-      item.classList.remove('active', 'near');
-      let diff = index - currentCatIndex;
-      if (diff > totalCategories / 2) diff -= totalCategories;
-      if (diff < -totalCategories / 2) diff += totalCategories;
-      
-      if (diff === 0) item.classList.add('active');
-      else if (Math.abs(diff) === 1) item.classList.add('near');
+    // Initialize - NO animation on page load, instant positioning
+    // Disable all transitions temporarily
+    categoryCarousel.style.scrollBehavior = 'auto';
+    allItems.forEach(item => {
+      item.style.transition = 'none';
     });
     
-    // Initial scroll position (instant, no animation)
-    const activeItem = catItems[currentCatIndex];
-    if (activeItem) {
-      const targetScroll = activeItem.offsetLeft - (categoryCarousel.offsetWidth / 2) + (activeItem.offsetWidth / 2);
-      categoryCarousel.scrollLeft = targetScroll;
-    }
+    // Set initial state instantly
+    updateItemStates();
+    scrollToIndex(currentCatIndex, false);
+    
+    // Re-enable transitions after a brief delay (after browser renders)
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        allItems.forEach(item => {
+          item.style.transition = '';
+        });
+      });
+    });
+    
+    // Check for infinite loop on scroll end
+    categoryCarousel.addEventListener('scroll', function() {
+      if (!isAnimating) {
+        checkInfiniteLoop();
+      }
+    });
   }
   
   // ============================================
@@ -503,11 +589,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   });
-  
-  // ============================================
-  // SCROLL TO TOP ON PAGE LOAD
-  // ============================================
-  window.scrollTo(0, 0);
   
   // ============================================
   // INTERSECTION OBSERVER FOR ANIMATIONS

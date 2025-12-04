@@ -47,151 +47,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="../../css/styles.css">
-  
-  <style>
-    .product-detail-hero {
-      padding: 10rem 0 4rem;
-      background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9));
-    }
-    
-    .product-detail-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      margin-top: 3rem;
-    }
-    
-    .product-image-gallery {
-      position: sticky;
-      top: 100px;
-      height: fit-content;
-    }
-    
-    .product-main-image {
-      width: 100%;
-      border-radius: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-    }
-    
-    .product-options {
-      background: #1a1a1a;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 1rem;
-      padding: 2rem;
-      margin-bottom: 2rem;
-    }
-    
-    .product-options h3 {
-      color: var(--amber-400);
-      margin-bottom: 1.5rem;
-      font-size: 1.25rem;
-    }
-    
-    .option-group {
-      margin-bottom: 1.5rem;
-    }
-    
-    .option-group label {
-      display: block;
-      color: #f5f5f5;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-    }
-    
-    .option-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-    
-    .option-btn {
-      padding: 0.5rem 1rem;
-      background: rgba(0, 0, 0, 0.8);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      border-radius: 0.5rem;
-      color: #f5f5f5;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    
-    .option-btn:hover,
-    .option-btn.active {
-      background: var(--amber-500);
-      border-color: var(--amber-500);
-      color: #1a1a1a;
-    }
-    
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin: 2rem 0;
-    }
-    
-    .feature-item {
-      display: flex;
-      align-items: start;
-      gap: 0.75rem;
-      padding: 1rem;
-      background: #1a1a1a;
-      border-radius: 0.5rem;
-    }
-    
-    .feature-item svg { color: #ffffff !important; transition: color 0.3s ease; flex-shrink: 0; width: 16px; height: 16px; }
-    
-    .related-products {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
-    }
-    
-    .related-product-card {
-      background: #1a1a1a;
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 1rem;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      text-decoration: none;
-      display: block;
-    }
-    
-    .related-product-card:hover {
-      transform: translateY(-5px);
-      border-color: var(--amber-500);
-    }
-    
-    .related-product-card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    
-    .related-product-card-content {
-      padding: 1.5rem;
-    }
-    
-    .related-product-card h4 {
-      color: #ffffff;
-      margin-bottom: 0.5rem;
-    }
-    
-    .related-product-card p {
-      color: #e0e0e0;
-      font-size: 0.9rem;
-    }
-    
-    @media (max-width: 900px) {
-      .product-detail-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .product-image-gallery {
-        position: static;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="../../css/product-pages-global.css">
 </head>
 <body>
   
@@ -509,8 +365,10 @@
   </section>
 
   <!-- CTA SECTION -->
-  <section style="padding: 4rem 0; text-align: center; background: linear-gradient(to right, rgba(217, 119, 6, 0.1), rgba(245, 158, 11, 0.05));">
-    <div class="container">
+  <section style="padding: 4rem 0; text-align: center; background: linear-gradient(135deg, rgba(30, 58, 138, 0.15), rgba(59, 130, 246, 0.1), rgba(212, 175, 55, 0.08)); backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(212, 175, 55, 0.1); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: -50%; width: 200%; height: 100%; background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%); filter: blur(40px); pointer-events: none;"></div>
+    <div style="position: absolute; top: 0; right: -50%; width: 200%; height: 100%; background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%); filter: blur(40px); pointer-events: none;"></div>
+    <div class="container" style="position: relative; z-index: 1;">
       <h2 class="section-title" style="margin-bottom: 1rem;">Ready to Order?</h2>
       <p style="color: #e0e0e0; max-width: 600px; margin: 0 auto 2rem;">Get a free consultation and site visit. Our experts will help you choose the perfect configuration for your home.</p>
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">

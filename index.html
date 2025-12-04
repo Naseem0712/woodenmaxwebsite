@@ -29,33 +29,96 @@
   <meta name="twitter:title" content="WoodenMax | Premium Window Systems" />
   <meta name="twitter:description" content="Luxury window solutions in Hyderabad, Delhi, Bangalore, Pune, Jaipur - Aluminium, Sliding & Telescope Systems" />
   
-  <!-- Schema.org Organization Markup -->
+  <!-- Enhanced Schema.org Organization Markup -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "WoodenMax",
-      "url": "https://woodenmax.in",
-      "logo": "https://woodenmax.in/images/woodenmax-logo.png",
-    "description": "Premium window and facade systems manufacturer in Hyderabad, Delhi, Bangalore, Pune, Jaipur",
+    "alternateName": "WoodenMax Architectural Elements",
+    "url": "https://woodenmax.in",
+    "logo": "https://woodenmax.in/images/woodenmax-logo.png",
+    "description": "Premium window and facade systems manufacturer in Hyderabad, Delhi, Bangalore, Pune, Jaipur. 15+ years experience, 500+ projects, 10-year warranty.",
+    "foundingDate": "2010",
     "address": {
       "@type": "PostalAddress",
+      "streetAddress": "5-6-411/413, Aakhpura, Nampally",
       "addressLocality": "Hyderabad",
       "addressRegion": "Telangana",
+      "postalCode": "500001",
       "addressCountry": "IN"
     },
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+917895328080",
-      "contactType": "sales"
+    "contactPoint": [
+      {
+        "@type": "ContactPoint",
+        "telephone": "+917895328080",
+        "contactType": "sales",
+        "availableLanguage": ["English", "Hindi", "Telugu"]
+      },
+      {
+        "@type": "ContactPoint",
+        "email": "info@woodenmax.com",
+        "contactType": "customer support"
+      }
+    ],
+    "sameAs": [
+      "https://www.facebook.com",
+      "https://www.instagram.com",
+      "https://twitter.com"
+    ],
+    "areaServed": [
+      {"@type": "City", "name": "Hyderabad"},
+      {"@type": "City", "name": "Delhi"},
+      {"@type": "City", "name": "Bangalore"},
+      {"@type": "City", "name": "Pune"},
+      {"@type": "City", "name": "Jaipur"}
+    ]
+  }
+  </script>
+  
+  <!-- Website Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "WoodenMax",
+    "url": "https://woodenmax.in",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://woodenmax.in/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
     }
   }
   </script>
   
-  <!-- Resource Hints -->
+  <!-- LocalBusiness Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "WoodenMax",
+    "image": "https://woodenmax.in/images/woodenmax-logo.png",
+    "description": "Premium window and facade systems manufacturer",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "5-6-411/413, Aakhpura, Nampally",
+      "addressLocality": "Hyderabad",
+      "addressRegion": "Telangana",
+      "postalCode": "500001",
+      "addressCountry": "IN"
+    },
+    "telephone": "+917895328080",
+    "priceRange": "$$",
+    "openingHours": "Mo-Sa 09:00-18:00"
+  }
+  </script>
+  
+  <!-- Resource Hints for Speed Optimization -->
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
   <link rel="dns-prefetch" href="https://unpkg.com">
+  <link rel="preload" href="css/styles.css" as="style">
+  <link rel="preload" href="images/woodenmax-logo.png" as="image">
   
   <!-- Fonts with optimized loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -192,10 +255,32 @@
        HERO SLIDER
        ============================================ -->
   <section class="hero-slider" id="heroSlider">
-    <!-- Slide 1 - Villa Front Elevation -->
+    <!-- Slide 1 - Structural Glazing / Glass Elevation (NEW) -->
     <div class="slide active" data-index="0">
       <div class="slide-image-container">
-        <img src="images/hero/villa_front_elevation_louvers_slim_profile_glazing_hpl_premium_design.JPG" alt="Premium villa front elevation with louvers slim profile glazing and HPL design Hyderabad" class="slide-image" fetchpriority="high" loading="eager" width="1920" height="800">
+        <img src="images/products/structural-glazing-building-elevation.webp" alt="Structural Glazing Building Elevation - Premium Glass Curtain Wall Facade India" class="slide-image" fetchpriority="high" loading="eager" width="1920" height="800">
+        <div class="slide-overlay"></div>
+      </div>
+      <div class="slide-content">
+        <div class="slide-content-inner">
+          <span class="slide-subtitle">STRUCTURAL GLAZING</span>
+          <h2 class="slide-title">Premium Glass Elevation & Curtain Wall</h2>
+          <p class="slide-description">Transform your building with stunning reflector glass facades. Structural glazing, curtain wall, and spider glazing solutions for commercial towers, showrooms, and luxury residences.</p>
+          <div class="slide-buttons">
+            <a href="products/glass-elevation.html" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/></svg>
+              Calculate Price
+            </a>
+            <a href="products/glass-elevation.html" class="btn btn-outline">View Glass Systems</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Slide 2 - Villa Front Elevation -->
+    <div class="slide" data-index="1">
+      <div class="slide-image-container">
+        <img src="images/hero/villa_front_elevation_louvers_slim_profile_glazing_hpl_premium_design.JPG" alt="Premium villa front elevation with louvers slim profile glazing and HPL design" class="slide-image" loading="lazy" width="1920" height="800">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -204,46 +289,33 @@
           <h2 class="slide-title">Luxury Front Elevation Design</h2>
           <p class="slide-description">Transform your villa with premium louvers, slim profile glazing, and HPL cladding. Modern architectural solutions for luxury homes in Hyderabad, Delhi, Bangalore, Pune, Jaipur.</p>
           <div class="slide-buttons">
-            <a href="products/elevation-cladding.html" class="btn btn-primary">Explore Elevation Solutions</a>
-            <a href="contact.html" class="btn btn-outline">Book Consultation</a>
+            <a href="products/elevation-cladding/hpl-exterior-cladding.html" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/></svg>
+              Calculate HPL Price
+            </a>
+            <a href="products/elevation-cladding.html" class="btn btn-outline">Explore Elevations</a>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- Slide 2 - Modern Elevation -->
-    <div class="slide" data-index="1">
-      <div class="slide-image-container">
-        <img src="images/hero/modern_elevation_louvers_slim_window_structure_glazing_hpl_cladding_lucknow.JPG" alt="Modern elevation with louvers slim windows structure glazing and HPL cladding Hyderabad" class="slide-image" loading="lazy" width="1920" height="800">
-        <div class="slide-overlay"></div>
-      </div>
-      <div class="slide-content">
-        <div class="slide-content-inner">
-          <span class="slide-subtitle">MODERN ARCHITECTURE</span>
-          <h2 class="slide-title">Contemporary Elevation Design</h2>
-          <p class="slide-description">Sleek louvers combined with slim profile windows and structural glazing. HPL cladding for a futuristic facade that stands out.</p>
-          <div class="slide-buttons">
-            <a href="products/metal-louvers.html" class="btn btn-primary">Explore Metal Louvers</a>
-            <a href="contact.html" class="btn btn-outline">Get Free Quote</a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Slide 3 - Premium Front Elevation -->
+    <!-- Slide 3 - ACP Elevation -->
     <div class="slide" data-index="2">
       <div class="slide-image-container">
-        <img src="images/hero/premium_front_elevation_louvers_slim_glass_windows_hpl_facade_india.JPG" alt="Premium front elevation with louvers slim glass windows and HPL facade India" class="slide-image" loading="lazy" width="1920" height="800">
+        <img src="images/hero/hpl-acp-sheet-facade-calading.jpeg" alt="ACP HPL sheet facade cladding for modern building elevation" class="slide-image" loading="lazy" width="1920" height="800">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
         <div class="slide-content-inner">
-          <span class="slide-subtitle">ARCHITECTURAL EXCELLENCE</span>
-          <h2 class="slide-title">Premium Glass & Louver Facade</h2>
-          <p class="slide-description">Complete front elevation solutions with architectural louvers, slim glass windows, and premium HPL facade. Best quality in India.</p>
+          <span class="slide-subtitle">ACP ELEVATION CLADDING</span>
+          <h2 class="slide-title">Commercial Building Facades</h2>
+          <p class="slide-description">Premium ACP sheets with PVDF coating for commercial elevations. Plain & wooden colors, FR Grade B for railways, airports, and government projects.</p>
           <div class="slide-buttons">
-            <a href="products/aluminium-windows.html" class="btn btn-primary">Explore Windows</a>
-            <a href="contact.html" class="btn btn-outline">Book Site Visit</a>
+            <a href="products/elevation-cladding/hpl-acp-elevation-cladding.html" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/></svg>
+              Calculate ACP Price
+            </a>
+            <a href="products/elevation-cladding.html" class="btn btn-outline">View All Cladding</a>
           </div>
         </div>
       </div>
@@ -257,12 +329,12 @@
       </div>
       <div class="slide-content">
         <div class="slide-content-inner">
-          <span class="slide-subtitle">SLIM FRAME TECHNOLOGY</span>
-          <h2 class="slide-title">Architectural Louvers & Slim Windows</h2>
-          <p class="slide-description">Ultra-slim frame windows combined with architectural louvers and structural glazing. HPL exterior finish for weather-resistant luxury look.</p>
+          <span class="slide-subtitle">METAL LOUVERS</span>
+          <h2 class="slide-title">Architectural Louvers & Pergolas</h2>
+          <p class="slide-description">Premium aluminium louvers with wooden finish, curved designs, and ceiling pergolas. 6063 T6 grade aluminium for durability and zero maintenance.</p>
           <div class="slide-buttons">
             <a href="products/metal-louvers.html" class="btn btn-primary">View Louver Collection</a>
-            <a href="contact.html" class="btn btn-outline">Get Quote</a>
+            <a href="contact.html" class="btn btn-outline">Book Consultation</a>
           </div>
         </div>
       </div>
@@ -271,17 +343,20 @@
     <!-- Slide 5 - Complete Solutions -->
     <div class="slide" data-index="4">
       <div class="slide-image-container">
-        <img src="images/hero/WhatsApp Image 2025-11-26 at 8.32.33 PM (2).jpeg" alt="Complete elevation solutions with windows louvers and cladding by WoodenMax Hyderabad" class="slide-image" loading="lazy" width="1920" height="800">
+        <img src="images/hero/modern_elevation_louvers_slim_window_structure_glazing_hpl_cladding.JPG" alt="Modern elevation with louvers slim windows structural glazing HPL cladding" class="slide-image" loading="lazy" width="1920" height="800">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
         <div class="slide-content-inner">
           <span class="slide-subtitle">COMPLETE SOLUTIONS</span>
           <h2 class="slide-title">Your Vision, Our Innovation</h2>
-          <p class="slide-description">From windows to louvers, glazing to cladding - WoodenMax offers complete architectural solutions. 15+ years experience, 500+ projects, 10-year warranty.</p>
+          <p class="slide-description">From windows to louvers, glass elevation to HPL cladding - WoodenMax offers complete architectural solutions. 15+ years experience, 500+ projects, 10-year warranty.</p>
           <div class="slide-buttons">
-            <a href="products/aluminium-windows.html" class="btn btn-primary">Browse All Products</a>
-            <a href="contact.html" class="btn btn-outline">Contact Us</a>
+            <a href="#calculators" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/></svg>
+              Free Price Calculators
+            </a>
+            <a href="catalog.html" class="btn btn-outline">Browse All Products</a>
           </div>
         </div>
       </div>
@@ -337,7 +412,7 @@
                 <h3>Premium Quality</h3>
                 <p>German hardware & precision engineering.</p>
               </div>
-              <img src="images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa_lucknow.JPG" alt="WoodenMax Architecture Projects" class="about-card" loading="lazy">
+              <img src="images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa.JPG" alt="WoodenMax Architecture Projects" class="about-card" loading="lazy">
             </div>
             <div>
               <img src="images/products/shower-partitions/Premium_Black_Profile_Bathroom_Shower_Glass_ Sliding_Soft_Close_Door.JPG" alt="WoodenMax Craftsmanship Details" class="about-card" loading="lazy">
@@ -381,6 +456,94 @@
   </section>
 
   <!-- ============================================
+       FREE PRICE CALCULATORS - SEO FEATURE SECTION
+       ============================================ -->
+  <section id="calculators" style="padding: 5rem 0; background: linear-gradient(135deg, #0d1f3c 0%, #1a1a1a 50%, #0a1628 100%); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px); background-size: 60px 60px;"></div>
+    
+    <div class="container" style="position: relative; z-index: 2;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <span class="section-label" style="color: #60a5fa;">Instant Pricing Tools</span>
+        <h2 class="section-title" style="margin-bottom: 1rem;">Free Price Calculators</h2>
+        <p style="color: #94a3b8; max-width: 700px; margin: 0 auto; font-size: 1.05rem; line-height: 1.7;">
+          Get instant price estimates for your architectural projects. Our calculators provide accurate pricing for HPL cladding, ACP sheets, glass elevation, curtain walls, and more. No hidden charges - transparent pricing!
+        </p>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; max-width: 1000px; margin: 0 auto;">
+        
+        <!-- HPL Exterior Cladding Calculator -->
+        <a href="products/elevation-cladding/hpl-exterior-cladding.html" style="text-decoration: none;">
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: 16px; padding: 1.75rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='rgba(217, 119, 6, 0.5)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.borderColor='rgba(217, 119, 6, 0.2)'; this.style.transform='translateY(0)';">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, rgba(217, 119, 6, 0.2) 0%, rgba(245, 158, 11, 0.2) 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/></svg>
+              </div>
+              <div>
+                <h3 style="color: #ffffff; font-size: 1.1rem; margin: 0;">HPL Exterior Cladding</h3>
+                <p style="color: var(--gold-400); font-size: 0.85rem; margin: 0;">Premium Imported Sheets</p>
+              </div>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">Calculate HPL cladding cost for facades, ceilings. Includes sheet calculations, 5% wastage, aluminium framing & installation.</p>
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: #f59e0b; font-size: 0.9rem; font-weight: 500;">
+              <span>Calculate Now</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+        
+        <!-- ACP Elevation Calculator -->
+        <a href="products/elevation-cladding/hpl-acp-elevation-cladding.html" style="text-decoration: none;">
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: 16px; padding: 1.75rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='rgba(217, 119, 6, 0.5)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.borderColor='rgba(217, 119, 6, 0.2)'; this.style.transform='translateY(0)';">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, rgba(217, 119, 6, 0.2) 0%, rgba(245, 158, 11, 0.2) 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+              </div>
+              <div>
+                <h3 style="color: #ffffff; font-size: 1.1rem; margin: 0;">ACP Sheet Elevation</h3>
+                <p style="color: var(--gold-400); font-size: 0.85rem; margin: 0;">PVDF & FR Grade Options</p>
+              </div>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">ACP cladding price calculator for commercial buildings. Plain, wooden colors, FR Grade B for railways, airports & govt projects.</p>
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: #f59e0b; font-size: 0.9rem; font-weight: 500;">
+              <span>Calculate Now</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+        
+        <!-- Glass Elevation Calculator -->
+        <a href="products/glass-elevation.html" style="text-decoration: none;">
+          <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 16px; padding: 1.75rem; transition: all 0.3s ease; cursor: pointer;" onmouseover="this.style.borderColor='rgba(59, 130, 246, 0.5)'; this.style.transform='translateY(-5px)';" onmouseout="this.style.borderColor='rgba(59, 130, 246, 0.2)'; this.style.transform='translateY(0)';">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="3" x2="21" y1="15" y2="15"/><line x1="9" x2="9" y1="3" y2="21"/><line x1="15" x2="15" y1="3" y2="21"/></svg>
+              </div>
+              <div>
+                <h3 style="color: #ffffff; font-size: 1.1rem; margin: 0;">Glass Elevation & Curtain Wall</h3>
+                <p style="color: #60a5fa; font-size: 0.85rem; margin: 0;">Structural Glazing</p>
+              </div>
+            </div>
+            <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">Reflector glass facade pricing. 6 glass colors, complete package with aluminium frame, silicon, GI brackets & installation.</p>
+            <div style="display: flex; align-items: center; gap: 0.5rem; color: #60a5fa; font-size: 0.9rem; font-weight: 500;">
+              <span>Calculate Now</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </div>
+          </div>
+        </a>
+        
+      </div>
+      
+      <!-- SEO Rich Text -->
+      <div style="text-align: center; margin-top: 3rem; padding: 1.5rem; background: rgba(255,255,255,0.02); border-radius: 12px; max-width: 900px; margin-left: auto; margin-right: auto;">
+        <p style="color: #64748b; font-size: 0.9rem; line-height: 1.8; margin: 0;">
+          <strong style="color: #94a3b8;">Serving across India:</strong> Our price calculators help architects, builders, and homeowners in <strong style="color: #e0e0e0;">Hyderabad, Delhi, Bangalore, Pune, Mumbai, Chennai, Jaipur</strong> and other cities estimate their facade and elevation project costs instantly. Get accurate quotes for <strong style="color: #e0e0e0;">HPL cladding, ACP sheets, glass curtain walls, structural glazing, metal louvers</strong>, and complete elevation solutions. All prices include premium materials and professional installation.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
        FEATURED PRODUCTS
        ============================================ -->
   <section class="featured-section">
@@ -397,7 +560,7 @@
         <a href="products/telescope-windows.html" class="product-card">
           <div class="product-card-inner glass-panel">
             <div class="product-image-container">
-              <img src="images/products/telescope-windows/telescopic_slim_profile_soft_close_fluted_glass_kitchen_partition.JPG" alt="Telescopic Slim Profile Sliding Door - Best Telescope Windows Hyderabad" class="product-image" loading="lazy">
+              <img src="images/products/telescope-windows/telescopic_slim_profile_soft_close_fluted_glass_kitchen_partition.JPG" alt="Telescopic Slim Profile Sliding Door - Best Telescope Windows India" class="product-image" loading="lazy">
               <div class="product-image-overlay"></div>
               <span class="product-category-badge">Telescope Windows</span>
               <div class="product-title-row">
@@ -427,7 +590,7 @@
         <a href="products/folding-systems.html" class="product-card">
           <div class="product-card-inner glass-panel">
             <div class="product-image-container">
-              <img src="images/products/aluminium-windows/2_track_aluminium_french_sliding_door_window_lucknow.JPG" alt="Bi-Fold Doors Luxury Edition - Premium Folding Doors Hyderabad" class="product-image" loading="lazy">
+              <img src="images/products/aluminium-windows/2_track_aluminium_french_sliding_door_window.JPG" alt="Bi-Fold Doors Luxury Edition - Premium Folding Doors India" class="product-image" loading="lazy">
               <div class="product-image-overlay"></div>
               <span class="product-category-badge">Folding Systems</span>
               <div class="product-title-row">
@@ -487,7 +650,7 @@
         <a href="products/metal-louvers/wooden-finish-aluminium-louvers.html" class="product-card">
           <div class="product-card-inner glass-panel">
             <div class="product-image-container">
-              <img src="images/products/metal-louvers/wooden_finish_aluminium_louvers_elevation_lucknow.jpeg" alt="Wooden finish aluminium louvers for modern building elevation and facade design" class="product-image" loading="lazy">
+              <img src="images/products/metal-louvers/wooden_finish_aluminium_louvers_elevation.jpeg" alt="Wooden finish aluminium louvers for modern building elevation and facade design" class="product-image" loading="lazy">
               <div class="product-image-overlay"></div>
               <span class="product-category-badge">Metal Louvers</span>
               <div class="product-title-row">
@@ -532,13 +695,13 @@
       <div class="category-grid">
         <a href="products/aluminium-windows.html" class="category-card large" id="aluminiumWindowCarouselCard" style="position: relative; overflow: hidden;">
           <div id="aluminiumWindowCarousel" style="position: relative; width: 100%; height: 100%;">
-            <img src="images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa_lucknow.JPG" alt="Full Elevation Aluminium Windows & Doors" class="aluminium-window-carousel-img active" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/2_track_aluminium_french_sliding_door_window_lucknow.JPG" alt="2 Track Aluminium French Sliding Door Window" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/3_track_aluminium_sliding_window_with_mesh_lucknow.jpg" alt="3 Track Aluminium Sliding Window" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/op_hung_aluminium_casement_window_lucknow.JPG" alt="Top Hung Aluminium Casement Window" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/aluminium_casement_door_georgian_grill_lucknow.JPG" alt="Aluminium Casement Door with Georgian Grill" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/french_aluminium_door_georgian_bar_lucknow.JPG" alt="French Aluminium Door with Golden Georgian Bar" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/aluminium-windows/slim_entrance_aluminium_glass_door_lucknow.JPG" alt="Slim Entrance Aluminium Glass Door" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa.JPG" alt="Full Elevation Aluminium Windows & Doors" class="aluminium-window-carousel-img active" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/2_track_aluminium_french_sliding_door_window.JPG" alt="2 Track Aluminium French Sliding Door Window" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/3_track_aluminium_sliding_window_with_mesh.jpg" alt="3 Track Aluminium Sliding Window" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/op_hung_aluminium_casement_window.JPG" alt="Top Hung Aluminium Casement Window" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/aluminium_casement_door_georgian_grill.JPG" alt="Aluminium Casement Door with Georgian Grill" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/french_aluminium_door_georgian_bar.JPG" alt="French Aluminium Door with Golden Georgian Bar" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/aluminium-windows/slim_entrance_aluminium_glass_door.JPG" alt="Slim Entrance Aluminium Glass Door" class="aluminium-window-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
           </div>
           <div class="category-card-overlay">
             <h3>Aluminium Window</h3>
@@ -547,7 +710,7 @@
         </a>
 
         <a href="products/telescope-windows.html" class="category-card medium">
-          <img src="images/products/telescope-windows/telescopic_slim_profile_soft_close_fluted_glass_kitchen_partition.JPG" alt="Telescopic Sliding Door Hyderabad">
+          <img src="images/products/telescope-windows/telescopic_slim_profile_soft_close_fluted_glass_kitchen_partition.JPG" alt="Telescopic Sliding Door for Kitchen Partition">
           <div class="category-card-overlay">
             <h3>Telescope Windows</h3>
           </div>
@@ -555,9 +718,9 @@
 
         <a href="products/metal-louvers.html" class="category-card small" id="louversCarouselCard" style="position: relative; overflow: hidden;">
           <div id="louversCarousel" style="position: relative; width: 100%; height: 100%;">
-            <img src="images/products/metal-louvers/wooden_finish_aluminium_louvers_elevation_lucknow.jpeg" alt="Wooden Finish Aluminium Louvers" class="louvers-carousel-img active" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/metal-louvers/architectural_curved_aluminium_louvers_facade_lucknow.jpeg" alt="Curved Architectural Aluminium Louvers" class="louvers-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/metal-louvers/aluminium_ceiling_louvers_pergola_backyard_lucknow.jpeg" alt="Ceiling Aluminium Pergola Louvers" class="louvers-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/metal-louvers/wooden_finish_aluminium_louvers_elevation.jpeg" alt="Wooden Finish Aluminium Louvers" class="louvers-carousel-img active" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/metal-louvers/architectural_curved_aluminium_louvers_facade.jpeg" alt="Curved Architectural Aluminium Louvers" class="louvers-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/metal-louvers/aluminium_ceiling_louvers_pergola_backyard.jpeg" alt="Ceiling Aluminium Pergola Louvers" class="louvers-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
           </div>
           <div class="category-card-overlay">
             <h3>Metal Louvers</h3>
@@ -569,8 +732,8 @@
             <img src="images/products/shower-partitions/frameless_shower_glass_door_openable_sliding_india.jpg" alt="Frameless Shower Glass Door" class="shower-carousel-img active" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transition: opacity 0.8s ease-in-out;">
             <img src="images/products/shower-partitions/Premium_Black_Profile_Bathroom_Shower_Glass_ Sliding_Soft_Close_Door.JPG" alt="Premium Black Profile Shower" class="shower-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
             <img src="images/products/shower-partitions/frosted_glass_bathroom_door_aluminium_frame_openable_india.JPG" alt="Frosted Glass Bathroom Door" class="shower-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/shower-partitions/Slim_Gold_Profile_Fluted_Shower_Glass_Partition_lucknow.png" alt="Gold Profile Fluted Shower" class="shower-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
-            <img src="images/products/shower-partitions/black_profile_shower_glass_partition_lucknow.jpg" alt="Black Profile Shower Partition" class="shower-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/shower-partitions/Slim_Gold_Profile_Fluted_Shower_Glass_Partition.png" alt="Gold Profile Fluted Shower" class="shower-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
+            <img src="images/products/shower-partitions/black_profile_shower_glass_partition.jpg" alt="Black Profile Shower Partition" class="shower-carousel-img" loading="lazy" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.8s ease-in-out;">
           </div>
           <div class="category-card-overlay">
             <h3>Luxury Showers</h3>
@@ -578,7 +741,7 @@
         </a>
 
         <a href="products/elevation-cladding.html" class="category-card small">
-          <img src="images/products/elevation-cladding/hpl_acp_elevation_house_cladding_lucknow.JPG" alt="HPL Elevation Cladding Hyderabad">
+          <img src="images/products/elevation-cladding/hpl_acp_elevation_house_cladding.JPG" alt="HPL ACP Elevation Cladding for Buildings">
           <div class="category-card-overlay">
             <h3>Elevation & Cladding</h3>
           </div>
@@ -629,9 +792,9 @@
               </a>
             </li>
             <li>
-              <a href="products/aluminium-windows.html">
+              <a href="catalog.html">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Our Collection
+                Catalog
               </a>
             </li>
             <li>
@@ -644,6 +807,61 @@
               <a href="contact.html">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                 Contact Us
+              </a>
+            </li>
+            <li>
+              <a href="blog.html">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Blog
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Product Categories for Internal Linking -->
+        <div>
+          <h3 class="footer-title">Our Products</h3>
+          <ul class="footer-links">
+            <li>
+              <a href="products/aluminium-windows.html">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Aluminium Windows
+              </a>
+            </li>
+            <li>
+              <a href="products/telescope-windows.html">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Telescope Windows
+              </a>
+            </li>
+            <li>
+              <a href="products/folding-systems.html">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Folding Systems
+              </a>
+            </li>
+            <li>
+              <a href="products/metal-louvers.html">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Metal Louvers
+              </a>
+            </li>
+            <li>
+              <a href="products/shower-partitions.html">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Shower Partitions
+              </a>
+            </li>
+            <li>
+              <a href="products/elevation-cladding.html">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Elevation Cladding
+              </a>
+            </li>
+            <li>
+              <a href="products/glass-elevation.html">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Glass Elevation
               </a>
             </li>
           </ul>

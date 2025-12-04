@@ -18,51 +18,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../css/styles.css">
-  
-  <style>
-    .product-detail-hero { padding: 8rem 0 3rem; background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9)); }
-    .product-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-    .product-image-gallery { position: sticky; top: 100px; height: fit-content; }
-    .product-main-image { width: 100%; border-radius: 0.75rem; margin-bottom: 0.75rem; border: 1px solid rgba(212, 175, 55, 0.3); }
-    .product-options { background: #1a1a1a; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 0.75rem; padding: 1.25rem; margin-bottom: 1.5rem; }
-    .product-options h3 { color: #ffffff; margin-bottom: 1rem; font-size: 1.1rem; font-weight: 600; }
-    .option-group { margin-bottom: 1rem; }
-    .option-group label { display: block; color: #f5f5f5; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
-    .option-buttons { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-    .option-btn { padding: 0.4rem 0.85rem; background: rgba(0, 0, 0, 0.8); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 0.4rem; color: #f5f5f5; cursor: pointer; transition: all 0.3s ease; font-size: 0.875rem; }
-    .option-btn:hover, .option-btn.active { background: var(--amber-500); border-color: var(--amber-500); color: #1a1a1a; }
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; margin: 1.25rem 0; }
-    .feature-item { display: flex; align-items: start; gap: 0.6rem; padding: 0.75rem; background: #1a1a1a; border-radius: 0.5rem; }
-    .feature-item svg { color: #ffffff !important; transition: color 0.3s ease; flex-shrink: 0; width: 16px; height: 16px; }
-    .feature-item strong { color: #ffffff; font-size: 0.875rem; display: block; margin-bottom: 0.25rem; }
-    .feature-item p { color: #e0e0e0; font-size: 0.8rem; margin: 0; }
-    .specs-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; background: #1a1a1a; border-radius: 0.5rem; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.3); }
-    .specs-table th { background: rgba(217, 119, 6, 0.15); color: #ffffff; padding: 0.75rem 1rem; text-align: left; font-weight: 600; font-size: 0.875rem; border-bottom: 1px solid rgba(148, 163, 184, 0.1); }
-    .specs-table td { padding: 0.75rem 1rem; color: #f5f5f5; border-top: 1px solid rgba(148, 163, 184, 0.05); font-size: 0.875rem; }
-    .specs-table tr:hover { background: rgba(148, 163, 184, 0.05); }
-    .faq-item { background: #1a1a1a; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 0.5rem; margin-bottom: 0.75rem; overflow: hidden; }
-    .faq-question { padding: 0.875rem 1rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: #ffffff; font-weight: 500; font-size: 0.95rem; transition: all 0.3s ease; }
-    .faq-question:hover { background: rgba(148, 163, 184, 0.05); }
-    .faq-toggle { width: 24px; height: 24px; border-radius: 50%; background: rgba(217, 119, 6, 0.2); border: 1px solid var(--amber-500); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s ease; }
-    .faq-toggle svg { width: 12px; height: 12px; color: var(--amber-400); transition: transform 0.3s ease; }
-    .faq-item.active .faq-toggle svg { transform: rotate(180deg); }
-    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    .faq-item.active .faq-answer { max-height: 500px; }
-    .faq-answer-content { padding: 0 1rem 0.875rem 1rem; color: #f5f5f5; line-height: 1.6; font-size: 0.875rem; }
-    .benefits-list { background: #1a1a1a; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 0.75rem; padding: 1.5rem; margin: 1.5rem 0; }
-    .benefits-list h3 { color: #ffffff; margin-bottom: 1rem; font-size: 1.1rem; }
-    .benefits-list ul { list-style: none; padding: 0; margin: 0; }
-    .benefits-list li { color: #f5f5f5; padding: 0.5rem 0; padding-left: 1.5rem; position: relative; font-size: 0.95rem; }
-    .benefits-list li:before { content: "✔"; position: absolute; left: 0; color: #d4af37; font-weight: bold; }; font-weight: bold; }
-    @media (max-width: 900px) { 
-      .product-detail-grid { grid-template-columns: 1fr; gap: 1.5rem; } 
-      .product-image-gallery { position: static; }
-      .product-detail-hero { padding: 6rem 0 2rem; }
-      .features-grid { grid-template-columns: 1fr; }
-      .specs-table { font-size: 0.8rem; }
-      .specs-table th, .specs-table td { padding: 0.6rem 0.75rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="../../css/product-pages-global.css">
+  <link rel="stylesheet" href="../../css/calculator-global.css">
 </head>
 <body>
   
@@ -136,123 +93,69 @@
     <div class="container">
       <div class="product-detail-grid">
         <div class="product-image-gallery">
-          <img src="../../images/products/aluminium-windows/french_aluminium_door_georgian_bar_lucknow.JPG" alt="French aluminium door with golden Georgian bar grill and toughened glass in Hyderabad, Delhi, Bangalore, Pune, Jaipur" class="product-main-image">
-        </div>
-        <div>
-          <span class="section-label" style="display: inline-block; margin-bottom: 1rem;">Latest Trend</span>
-          <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; color: #ffffff;">French Aluminium Door with Georgian Bar</h1>
-          <p style="color: #f5f5f5; font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">Bring elegance and premium European styling to your home entrance with this French Aluminium Door, beautifully detailed with a golden Georgian bar design. This trend is becoming the favorite choice of modern luxury homes, adding a royal look without heavy grills or bulky structures. Made from 6063 T6 high-grade aluminium, this door features multiple openable panels, an elegant top fixed panel, and premium toughened glass.</p>
+          <img src="../../images/products/aluminium-windows/french_aluminium_door_georgian_bar.JPG" alt="French aluminium door with golden Georgian bar grill and toughened glass in Hyderabad, Delhi, Bangalore, Pune, Jaipur" class="product-main-image">
           
-          <div class="product-options">
-            <h3>Configure Your French Door</h3>
-            <div class="option-group">
-              <label>Panel Options</label>
-              <div class="option-buttons">
-                <button class="option-btn">Single Panel</button>
-                <button class="option-btn active">Double Panel</button>
-                <button class="option-btn">Multiple Panels</button>
-              </div>
+          <!-- Product Description Below Image -->
+          <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(26, 26, 26, 0.8); border-radius: 0.75rem; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(212, 175, 55, 0.1);">
+            <h2 style="color: #ffffff; margin-bottom: 1.5rem; font-size: 1.5rem; font-weight: 600;">Product Description</h2>
+            <div style="color: #f5f5f5; line-height: 1.8; font-size: 0.95rem;">
+              <p style="margin-bottom: 1.25rem;">The <strong style="color: #ffffff;">French Aluminium Door</strong> is a premium <strong style="color: #ffffff;">35mm slim profile series</strong> door that represents the latest luxury trend in modern home design. This premium item combines elegance with premium European styling, making it the favorite choice of modern luxury homes. Perfect for modern villas, bungalows, apartments, balconies, and lobby entrances. <strong style="color: #ffffff;">Note:</strong> Georgian bar design is not included in the base rate.</p>
+              <h3 style="color: #ffffff; margin: 1.5rem 0 0.75rem; font-size: 1.1rem;">Premium 35mm Slim Profile Series</h3>
+              <p style="margin-bottom: 1.25rem;">This door features a <strong style="color: #ffffff;">35mm slim profile series</strong>, which is a premium specification offering superior strength and aesthetics. The slim profile provides a modern, elegant look while maintaining structural integrity. This premium series is designed for luxury applications where both appearance and performance matter. <strong style="color: #ffffff;">Note:</strong> Georgian bar design is not included in the base rate.</p>
+              <h3 style="color: #ffffff; margin: 1.5rem 0 0.75rem; font-size: 1.1rem;">8mm Toughened Glass Included</h3>
+              <p style="margin-bottom: 1.25rem;">The base rate includes <strong style="color: #ffffff;">8mm clear toughened glass</strong>, providing excellent clarity and safety. You can upgrade to 10mm, 12mm, DGU (Double Glazed Unit), or Safety glass for enhanced performance. When you select 12mm, DGU, or Safety glass, the hardware automatically upgrades to premium multipoint hardware to support the heavier glass.</p>
+              <h3 style="color: #ffffff; margin: 1.5rem 0 0.75rem; font-size: 1.1rem;">Maximum Height 9 Feet</h3>
+              <p style="margin-bottom: 1.25rem;">This door is designed with a <strong style="color: #ffffff;">maximum height of 9 feet</strong>, ensuring optimal structural stability and performance. The height limitation ensures that the door maintains its integrity and smooth operation while providing ample clearance for most residential and commercial applications.</p>
+              <h3 style="color: #ffffff; margin: 1.5rem 0 0.75rem; font-size: 1.1rem;">Premium Materials & Security</h3>
+              <p style="margin-bottom: 1.25rem;">Made from <strong style="color: #ffffff;">6063 T6 high-grade aluminium</strong>, this door offers exceptional strength and durability. Combined with premium toughened glass, standard hardware, and optional multipoint or mortice lock systems, it provides maximum security for your home entrance. Optional security mesh is also available for added protection.</p>
             </div>
-            <div class="option-group">
-              <label>Colour Options</label>
-              <div class="option-buttons">
-                <button class="option-btn active">Black</button>
-                <button class="option-btn">Grey</button>
-                <button class="option-btn">Champagne</button>
-                <button class="option-btn">Wooden</button>
+          </div>
+
+          <!-- Key Features Below Product Description -->
+          <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(26, 26, 26, 0.8); border-radius: 0.75rem; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(212, 175, 55, 0.1);">
+            <h3 style="color: #ffffff; margin-bottom: 1.25rem; font-size: 1.25rem; font-weight: 600;">Key Features</h3>
+            <div class="features-grid" style="grid-template-columns: 1fr; gap: 1rem;">
+              <div class="feature-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                <div><strong>35mm Slim Profile</strong><p>Premium series profile</p></div>
               </div>
-            </div>
-            <div class="option-group">
-              <label>Glass Type</label>
-              <div class="option-buttons">
-                <button class="option-btn active">10-12mm Laminated Toughened</button>
-                <button class="option-btn">Toughened</button>
-                <button class="option-btn">DGU</button>
+              <div class="feature-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                <div><strong>8mm Glass Included</strong><p>Base rate includes 8mm toughened</p></div>
+              </div>
+              <div class="feature-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                <div><strong>Premium Hardware</strong><p>Auto-upgrade for heavy glass</p></div>
+              </div>
+              <div class="feature-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                <div><strong>Security Options</strong><p>Multipoint/Mortice lock, Security mesh</p></div>
+              </div>
+              <div class="feature-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                <div><strong>Max Height 9 Feet</strong><p>Optimal structural stability</p></div>
               </div>
             </div>
           </div>
 
-          <div style="margin-bottom: 1.5rem;">
-            <h3 style="color: #ffffff; margin-bottom: 1rem; font-size: 1.1rem;">Key Features</h3>
-            <div class="features-grid">
-              <div class="feature-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-                <div><strong>Golden Georgian Bar</strong><p>Premium European style</p></div>
-              </div>
-              <div class="feature-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-                <div><strong>6063 T6 Aluminium</strong><p>High-grade material</p></div>
-              </div>
-              <div class="feature-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-                <div><strong>Multipoint Locking</strong><p>Heavy security lock</p></div>
-              </div>
-              <div class="feature-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-                <div><strong>Multiple Panels</strong><p>Single/Double/Multiple</p></div>
-              </div>
-              <div class="feature-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-                <div><strong>Weather Resistant</strong><p>Moisture proof</p></div>
-              </div>
-              <div class="feature-item">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-                <div><strong>Low Maintenance</strong><p>No rust, no termites</p></div>
-              </div>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-            <a href="../../contact.html?product=french-door-georgian-bar" class="btn btn-primary" style="flex: 1; min-width: 200px;">Get Free Quote</a>
-            <a href="tel:+917895328080" class="btn btn-outline" style="flex: 1; min-width: 200px;">Call Now</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DETAILED DESCRIPTION -->
-  <section style="padding: 3rem 0; background: #000000;">
-    <div class="container">
-      <div style="max-width: 900px; margin: 0 auto;">
-        <h2 class="section-title" style="margin-bottom: 1.5rem; color: #ffffff;">Product Description</h2>
-        <div style="color: #f5f5f5; line-height: 1.8; font-size: 1rem;">
-          <p style="margin-bottom: 1.25rem;">The <strong style="color: #ffffff;">French Aluminium Door with Golden Georgian Bar</strong> represents the latest luxury trend in modern home design. This door combines elegance with premium European styling, making it the favorite choice of modern luxury homes. The golden lattice pattern reflects English architecture style—perfect for modern villas, bungalows, apartments, balconies, and lobby entrances.</p>
-          <h3 style="color: #ffffff; margin: 1.5rem 0 0.75rem; font-size: 1.2rem;">Latest Luxury Trend</h3>
-          <p style="margin-bottom: 1.25rem;">This trend is becoming increasingly popular among homeowners who want to add a royal look without heavy grills or bulky structures. The <strong style="color: #ffffff;">golden Georgian bar design</strong> adds sophistication and elegance, making your entrance stand out while maintaining a modern aesthetic.</p>
-          <h3 style="color: #ffffff; margin: 1.5rem 0 0.75rem; font-size: 1.2rem;">Multiple Openable Panels</h3>
-              <p style="margin-bottom: 1.25rem;">The door features multiple openable panels with an elegant top fixed panel, providing flexibility in ventilation and access. You can choose from single, double, or multiple panel configurations based on your space requirements and design preferences.</p>
-          <h3 style="color: #ffffff; margin: 1.5rem 0 0.75rem; font-size: 1.2rem;">Premium Materials & Security</h3>
-          <p style="margin-bottom: 1.25rem;">Made from <strong style="color: #ffffff;">6063 T6 high-grade aluminium</strong>, this door offers exceptional strength and durability. Combined with premium toughened glass and a multipoint heavy lock system, it provides maximum security for your home entrance while maintaining its elegant appearance.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY CHOOSE SECTION -->
-  <section style="padding: 3rem 0; background: #1a1a1a;">
-    <div class="container">
-      <div style="max-width: 900px; margin: 0 auto;">
-        <h2 class="section-title" style="margin-bottom: 1.5rem; color: #ffffff;">What Makes This Design Special?</h2>
+          <!-- What Makes This Design Special? Below Key Features -->
+          <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(26, 26, 26, 0.8); border-radius: 0.75rem; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(212, 175, 55, 0.1);">
+            <h3 style="color: #ffffff; margin-bottom: 1.25rem; font-size: 1.25rem; font-weight: 600;">What Makes This Design Special?</h3>
         <div class="benefits-list">
-          <ul>
+              <ul style="margin: 0; padding-left: 1.5rem; color: #f5f5f5; line-height: 2;">
             <li>Premium European-style golden lines</li>
             <li>Strong, weather-proof 6063 aluminium</li>
             <li>Secure multipoint locking system</li>
             <li>Easy to clean, no rust, no termites</li>
             <li>Fully weather & moisture resistant</li>
-            <li>Looks 10x more premium than normal grills</li>
+                <li>Looks 10x more premium than standard doors</li>
           </ul>
         </div>
       </div>
-    </div>
-  </section>
-
-  <!-- TECHNICAL SPECIFICATIONS -->
-  <section style="padding: 3rem 0; background: #000000;">
-    <div class="container">
-      <div style="max-width: 900px; margin: 0 auto;">
-        <h2 class="section-title" style="margin-bottom: 1.5rem; color: #ffffff;">Top Specifications</h2>
+          
+          <!-- Top Specifications Below What Makes This Design Special? -->
+          <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(26, 26, 26, 0.8); border-radius: 0.75rem; border: 1px solid rgba(212, 175, 55, 0.2); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(212, 175, 55, 0.1);">
+            <h3 style="color: #ffffff; margin-bottom: 1.5rem; font-size: 1.25rem; font-weight: 600;">Top Specifications</h3>
         <table class="specs-table">
           <thead>
             <tr>
@@ -295,6 +198,214 @@
             </tr>
           </tbody>
         </table>
+          </div>
+        </div>
+        <div>
+          <span class="section-label" style="display: inline-block; margin-bottom: 1rem;">Latest Trend</span>
+          <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; color: #ffffff;">French Aluminium Door with Georgian Bar</h1>
+          <p style="color: #f5f5f5; font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem;">Bring elegance and premium European styling to your home entrance with this French Aluminium Door, beautifully detailed with a golden Georgian bar design. This trend is becoming the favorite choice of modern luxury homes, adding a royal look without heavy grills or bulky structures. Made from 6063 T6 high-grade aluminium, this door features multiple openable panels, an elegant top fixed panel, and premium toughened glass.</p>
+          
+          <!-- Live Price Calculator -->
+          <div id="price-calculator-french-georgian-bar" data-product="french-georgian-bar" class="price-calculator-container">
+            <div class="calc-header">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--gold-400);"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <h3 style="color: var(--gold-400); margin: 0; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.5px;">Live Price Calculator</h3>
+            </div>
+            
+            <!-- Size Input -->
+            <div class="calc-group">
+              <label>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><path d="M9 9h6v6H9z"/></svg>
+                Door Size
+              </label>
+              <div class="calc-size-input-grid" style="display: grid; grid-template-columns: 1fr 1fr auto; gap: 0.75rem; align-items: end;">
+                <div>
+                  <input type="text" id="calc-width" inputmode="decimal" placeholder="Width" class="calc-input">
+                </div>
+                <div>
+                  <input type="text" id="calc-height" inputmode="decimal" placeholder="Height (Max 9 ft)" class="calc-input">
+                </div>
+                <div class="calc-unit-selector">
+                  <select id="calc-unit" class="calc-select">
+                    <option value="ft">Feet (ft)</option>
+                    <option value="ft-in">Feet + Inches</option>
+                    <option value="m">Meters (m)</option>
+                    <option value="cm">Centimeters (cm)</option>
+                    <option value="mm">Millimeters (mm)</option>
+                    <option value="inch">Inches</option>
+                  </select>
+                </div>
+              </div>
+              <div id="calc-area-display" style="margin-top: 0.75rem; color: var(--gold-400); font-weight: 600; font-size: 1rem;">0.00 sq.ft</div>
+            </div>
+            
+            <!-- Number of Windows -->
+            <div class="calc-group">
+              <label>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><path d="M17 2H7a2 2 0 0 0-2 2v5h16V4a2 2 0 0 0-2-2Z"/></svg>
+                Number of Doors
+              </label>
+              <input type="number" id="calc-windows" min="1" value="1" class="calc-input">
+            </div>
+            
+            <!-- Glass Options -->
+            <div class="calc-group">
+              <label>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M12 8v8"/><path d="M8 12h8"/></svg>
+                Glass Type
+              </label>
+              <select id="calc-glass" class="calc-select">
+                <option value="8mm">8mm Clear Toughened Glass (Included)</option>
+                <option value="10mm">10mm Clear Toughened Glass</option>
+                <option value="12mm">12mm Clear Toughened Glass</option>
+                <option value="dgu">DGU (Double Glazed Unit)</option>
+                <option value="safety">Safety Glass</option>
+              </select>
+              <div style="color: #b0b0b0; font-size: 0.8rem; margin-top: 0.5rem; padding-left: 1.5rem;">Base includes 8mm clear toughened glass. Selecting 12mm, DGU, or Safety glass will automatically upgrade hardware to premium multipoint hardware.</div>
+            </div>
+            
+            <!-- Coating Option -->
+            <div class="calc-group">
+              <label>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                Coating Type
+              </label>
+              <select id="calc-coating" class="calc-select">
+                <option value="texture">Texture Finish (Included)</option>
+                <option value="smooth">Smooth Finish (Included)</option>
+                <option value="wooden">Wooden Coating</option>
+              </select>
+              <div style="color: #b0b0b0; font-size: 0.8rem; margin-top: 0.5rem; padding-left: 1.5rem;">Texture and Smooth finish included. Wooden coating available as upgrade.</div>
+            </div>
+            
+            <!-- Color Option -->
+            <div class="calc-group">
+              <label>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125 0-.926.746-1.662 1.688-1.662.437 0 .835.18 1.125.437.289.29.652.438 1.125.438.926 0 1.662-.746 1.662-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125 0-.926.746-1.662 1.688-1.662.437 0 .835.18 1.125.437.289.29.652.438 1.125.438C20.5 22 22 20.5 22 18.5c0-.926-.746-1.662-1.688-1.662-.437 0-.835.18-1.125.437-.289.29-.652.438-1.125.438-.926 0-1.662-.746-1.662-1.688 0-.437.18-.835.437-1.125.29-.289.438-.652.438-1.125 0-.926-.746-1.662-1.688-1.662-.437 0-.835.18-1.125.437-.289.29-.652.438-1.125.438z"/></svg>
+                Color Selection
+              </label>
+              <select id="calc-color" class="calc-select">
+                <option value="dark-grey">Dark Grey (Ready Stock)</option>
+                <option value="matt-black">Matt Black (Ready Stock)</option>
+                <option value="champion-gold">Champion Gold (Ready Stock)</option>
+                <option value="ral-other">Other RAL Colors (On Order)</option>
+              </select>
+              <div style="color: #b0b0b0; font-size: 0.8rem; margin-top: 0.5rem; padding-left: 1.5rem;">Dark Grey, Matt Black, and Champion Gold available in ready stock. Other RAL colors available on order.</div>
+            </div>
+            
+            <!-- Lock Option -->
+            <div class="calc-group">
+              <label>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Lock Type
+              </label>
+              <select id="calc-lock" class="calc-select">
+                <option value="single">Single Point Lock - Included</option>
+                <option value="multi">Multipoint Lock</option>
+                <option value="mortice">Mortice Lock</option>
+              </select>
+              <div style="color: #b0b0b0; font-size: 0.8rem; margin-top: 0.5rem; padding-left: 1.5rem;">Single point lock included. Multipoint or Mortice lock available as upgrade.</div>
+            </div>
+            
+            <!-- Security Mesh -->
+            <div class="calc-group">
+              <label>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+                Security Mesh
+              </label>
+              <div class="calc-checkbox-group">
+                <input type="checkbox" id="calc-mesh">
+                <label for="calc-mesh">Add Security Mesh</label>
+              </div>
+            </div>
+            
+            <!-- Price Display -->
+            <div class="calc-price-display">
+              <div>
+                <div class="calc-price-row">
+                  <span class="calc-price-label" id="calc-label-per-window">Per Door Cost (Range):</span>
+                  <span id="calc-result-per-window" class="calc-price-value">₹0 - ₹0</span>
+                </div>
+                <div class="calc-price-row" style="display: none;">
+                  <span class="calc-price-label">Per Door (+20%):</span>
+                  <span id="calc-result-per-window-plus20" class="calc-price-value">₹0</span>
+                </div>
+                <div class="calc-price-row" style="display: none;">
+                  <span class="calc-price-label">Per Door (-20%):</span>
+                  <span id="calc-result-per-window-minus20" class="calc-price-value">₹0</span>
+                </div>
+                <div class="calc-price-row" style="border-top: 2px solid rgba(212, 175, 55, 0.3); margin-top: 0.5rem; padding-top: 1.25rem;">
+                  <span class="calc-price-label" id="calc-label-total">Total Cost - All Doors (Range):</span>
+                  <span id="calc-result-total" class="calc-price-value">₹0 - ₹0</span>
+                </div>
+                <div class="calc-price-row" style="display: none;">
+                  <span class="calc-price-label">Total (+20%):</span>
+                  <span id="calc-result-total-plus20" class="calc-price-value">₹0</span>
+                </div>
+                <div class="calc-price-row" style="display: none;">
+                  <span class="calc-price-label">Total (-20%):</span>
+                  <span id="calc-result-total-minus20" class="calc-price-value">₹0</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- User Details Form -->
+            <div id="calc-user-form" class="calc-user-form" style="margin-top: 2rem; padding: 1.5rem; background: rgba(26, 26, 26, 0.8); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 0.75rem;">
+              <h4 style="color: var(--gold-400); margin-bottom: 1rem; font-size: 1.1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Get Exact Price
+              </h4>
+              <p style="color: #e0e0e0; font-size: 0.875rem; margin-bottom: 1.25rem;">Fill in your details to see the exact price and receive a detailed quote via email.</p>
+              <form id="calc-user-form" onsubmit="return false;">
+                <div class="calc-group" style="margin-bottom: 1rem;">
+                  <label style="color: #f5f5f5; margin-bottom: 0.5rem; font-size: 0.9rem; display: block;">Name <span style="color: #ff6b6b;">*</span></label>
+                  <input type="text" id="calc-user-name" class="calc-input" placeholder="Enter your name" required style="width: 100%; padding: 0.75rem 1rem; background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(212, 175, 55, 0.2); border-radius: 0.5rem; color: #ffffff; font-size: 0.95rem;">
+                </div>
+                <div class="calc-group" style="margin-bottom: 1rem;">
+                  <label style="color: #f5f5f5; margin-bottom: 0.5rem; font-size: 0.9rem; display: block;">City / Location <span style="color: #ff6b6b;">*</span></label>
+                  <input type="text" id="calc-user-city" class="calc-input" placeholder="Enter your city" required style="width: 100%; padding: 0.75rem 1rem; background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(212, 175, 55, 0.2); border-radius: 0.5rem; color: #ffffff; font-size: 0.95rem;">
+                </div>
+                <div class="calc-group" style="margin-bottom: 1rem;">
+                  <label style="color: #f5f5f5; margin-bottom: 0.5rem; font-size: 0.9rem; display: block;">Mobile Number <span style="color: #ff6b6b;">*</span></label>
+                  <input type="tel" id="calc-user-mobile" class="calc-input" placeholder="Enter your mobile number" required pattern="[0-9]{10}" style="width: 100%; padding: 0.75rem 1rem; background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(212, 175, 55, 0.2); border-radius: 0.5rem; color: #ffffff; font-size: 0.95rem;">
+                </div>
+                <div class="calc-group" style="margin-bottom: 1.25rem;">
+                  <label style="color: #f5f5f5; margin-bottom: 0.5rem; font-size: 0.9rem; display: block;">Email Address <span style="color: #b0b0b0; font-size: 0.8rem;">(Optional)</span></label>
+                  <input type="email" id="calc-user-email" class="calc-input" placeholder="Enter your email (optional)" style="width: 100%; padding: 0.75rem 1rem; background: rgba(0, 0, 0, 0.6); border: 2px solid rgba(212, 175, 55, 0.2); border-radius: 0.5rem; color: #ffffff; font-size: 0.95rem;">
+                </div>
+                <button type="submit" class="calc-submit-btn">
+                  Get Exact Price
+                </button>
+              </form>
+            </div>
+            
+            <!-- Success Message -->
+            <div id="calc-success-message" style="display: none; margin-top: 2rem; padding: 1.5rem; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 0.75rem; color: #86efac; text-align: center;">
+              <p style="margin: 0; font-weight: 600;">✓ Exact price displayed below. Check your email for detailed quote!</p>
+            </div>
+            
+            <div class="calc-info-box">
+              <strong>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                Pricing Information
+              </strong>
+              <p><strong>Profile:</strong> 35mm Slim Profile Series (Premium)</p>
+              <p><strong>Base Rate:</strong> Includes 8mm toughened glass and standard hardware per door</p>
+              <p><strong>Hardware:</strong> Standard hardware included. Automatically upgrades to premium multipoint hardware for 12mm, DGU, or Safety glass</p>
+              <p><strong>Maximum Height:</strong> 9 feet</p>
+              <p><strong>Coating Options:</strong> Texture Finish, Smooth Finish (included), Wooden Coating (upgrade)</p>
+              <p><strong>Color Options:</strong> Dark Grey, Matt Black, Champion Gold (Ready Stock), Other RAL Colors (On Order)</p>
+              <p><strong>Optional Add-ons:</strong> Security Mesh, Multipoint Lock, Mortice Lock</p>
+              <p><strong>Note:</strong> Georgian bar design is not included in the base rate.</p>
+              <p>Prices shown are based on current market rates for premium items</p>
+              <p>Rates may change due to inflation, market fluctuations, and material cost variations</p>
+              <p>Wastage percentage is not included in this calculator - actual prices may be higher</p>
+              <p>Final quotation will be provided after site inspection and exact measurements</p>
+              <p><strong style="color: var(--gold-400);">GST extra as applicable</strong></p>
+            </div>
+            
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -306,57 +417,90 @@
       <div style="max-width: 900px; margin: 0 auto;">
         <div class="faq-item">
           <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-            <span>Is the golden design inside or outside the glass?</span>
+            <span>What is the 35mm slim profile series in French Aluminium Door with Georgian Bar?</span>
             <div class="faq-toggle">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </div>
           </div>
           <div class="faq-answer">
-            <div class="faq-answer-content">You can choose: Inside the glass (sealed) or outside (decorative). Inside the glass provides a cleaner look and better protection for the golden bar design, while outside placement offers easier maintenance and replacement if needed.</div>
+            <div class="faq-answer-content">The <strong>35mm slim profile series</strong> is a premium specification offering superior strength and aesthetics. This premium series provides a modern, elegant look while maintaining structural integrity. It's designed for luxury applications where both appearance and performance matter. The slim profile gives a sleek, contemporary appearance while ensuring durability and strength.</div>
           </div>
         </div>
         <div class="faq-item">
           <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-            <span>Does the design fade?</span>
+            <span>What glass is included in the base rate for French Georgian Bar door?</span>
             <div class="faq-toggle">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </div>
           </div>
           <div class="faq-answer">
-            <div class="faq-answer-content">No. With powder-coated or laminated finish, it stays premium for years. The high-quality finish ensures that the golden Georgian bar design maintains its elegant appearance and doesn't fade even after prolonged exposure to sunlight and weather conditions.</div>
+            <div class="faq-answer-content">The base rate includes <strong>8mm clear toughened glass</strong>, providing excellent clarity and safety. You can upgrade to 10mm, 12mm, DGU (Double Glazed Unit), or Safety glass for enhanced performance. When you select 12mm, DGU, or Safety glass, the hardware automatically upgrades to premium multipoint hardware to support the heavier glass.</div>
           </div>
         </div>
         <div class="faq-item">
           <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-            <span>Which glass is best for this French door?</span>
+            <span>What is the maximum height for French Aluminium Door with Georgian Bar?</span>
             <div class="faq-toggle">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </div>
           </div>
           <div class="faq-answer">
-            <div class="faq-answer-content">10–12mm laminated toughened for safety + clarity. This combination provides excellent safety features while maintaining crystal-clear visibility. Laminated glass also offers better sound insulation and UV protection compared to standard toughened glass.</div>
+            <div class="faq-answer-content">The maximum height for this door is <strong>9 feet</strong>. This height limitation ensures optimal structural stability and performance. The door maintains its integrity and smooth operation while providing ample clearance for most residential and commercial applications. The calculator will alert you if you exceed this height limit.</div>
           </div>
         </div>
         <div class="faq-item">
           <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-            <span>Is this door safe for the main entrance?</span>
+            <span>How does the hardware cost change when I select different glass types?</span>
             <div class="faq-toggle">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </div>
           </div>
           <div class="faq-answer">
-            <div class="faq-answer-content">Yes. With multipoint lock + laminated glass, it is extremely secure. The multipoint heavy lock system engages multiple locking points along the door frame, making it significantly more secure than single-point locks. Combined with laminated toughened glass, this door provides excellent security for main entrance applications.</div>
+            <div class="faq-answer-content">The standard hardware is included in the base rate. When you select <strong>12mm, DGU, or Safety glass</strong>, the hardware automatically upgrades to premium multipoint hardware to support the heavier glass. This ensures proper structural support and smooth operation. The calculator automatically applies this upgrade when you select these glass options.</div>
           </div>
         </div>
         <div class="faq-item">
           <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
-            <span>What is the price range for French doors with Georgian bar in Hyderabad, Delhi, Bangalore, Pune, Jaipur?</span>
+            <span>What lock options are available for French Georgian Bar door?</span>
             <div class="faq-toggle">
               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </div>
           </div>
           <div class="faq-answer">
-            <div class="faq-answer-content">Price varies based on size, panel configuration (single/double/multiple), glass type (toughened/laminated/DGU), finish option, and Georgian bar placement. Typically ranges from ₹1,200/sq.ft to ₹2,200/sq.ft depending on specifications. Contact us for accurate quote based on your requirements.</div>
+            <div class="faq-answer-content">You can choose from <strong>Single Point Lock</strong> (included), <strong>Multipoint Lock</strong>, or <strong>Mortice Lock</strong>. Single point lock is included in the base rate. Multipoint and Mortice locks are available as upgrades using standard rates. The multipoint lock provides enhanced security by locking at multiple points along the door frame.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            <span>What is the security mesh option and how much does it cost?</span>
+            <div class="faq-toggle">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">The <strong>Security Mesh</strong> is an optional add-on that provides additional protection. It can be selected in the calculator and adds an extra layer of protection while maintaining ventilation. It's perfect for ground floor entrances and areas requiring enhanced security.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            <span>What is the price range for French Aluminium Door with Georgian Bar?</span>
+            <div class="faq-toggle">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">Price varies based on size, glass type (8mm base, upgrade to 10mm, 12mm, DGU, Safety), lock type (single point, multipoint, mortice), and security mesh option. Use our <strong>live price calculator</strong> above for instant quote or contact us for accurate pricing in <strong>Hyderabad, Delhi, Bangalore, Pune, Jaipur</strong>.</div>
+          </div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="this.parentElement.classList.toggle('active')">
+            <span>How does the live price calculator work for French Georgian Bar door?</span>
+            <div class="faq-toggle">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+          </div>
+          <div class="faq-answer">
+            <div class="faq-answer-content">Our live price calculator provides instant, accurate budget estimates for your French Aluminium Door with Georgian Bar based on your exact door size and custom material selections. Simply enter door dimensions (max height 9 feet), select glass type (8mm base, upgrade to 10mm, 12mm, DGU, Safety), lock type (single point, multipoint, mortice), and security mesh option. The calculator shows an estimated price range initially. <strong>Hint:</strong> When you submit your contact details (name, city, mobile), the calculator reveals the exact original rate for your specific configuration, which you'll also receive via email for your records.</div>
           </div>
         </div>
       </div>
@@ -364,8 +508,10 @@
   </section>
 
   <!-- CTA -->
-  <section style="padding: 3rem 0; text-align: center; background: linear-gradient(to right, rgba(217, 119, 6, 0.1), rgba(245, 158, 11, 0.05));">
-    <div class="container">
+  <section style="padding: 3rem 0; text-align: center; background: linear-gradient(135deg, rgba(30, 58, 138, 0.15), rgba(59, 130, 246, 0.1), rgba(212, 175, 55, 0.08)); backdrop-filter: blur(10px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(212, 175, 55, 0.1); position: relative; overflow: hidden;">
+    <div style="position: absolute; top: 0; left: -50%; width: 200%; height: 100%; background: radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%); filter: blur(40px); pointer-events: none;"></div>
+    <div style="position: absolute; top: 0; right: -50%; width: 200%; height: 100%; background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%); filter: blur(40px); pointer-events: none;"></div>
+    <div class="container" style="position: relative; z-index: 1;">
       <h2 class="section-title" style="margin-bottom: 1rem; color: #ffffff;">Want the Latest French Georgian Door Design?</h2>
       <p style="color: #e0e0e0; max-width: 600px; margin: 0 auto 1.5rem;">Get a site visit & quotation in Hyderabad, Delhi, Bangalore, Pune, Jaipur – Contact WoodenMax today!</p>
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
@@ -401,6 +547,16 @@
   </footer>
 
   <script src="../../js/main.js"></script>
+  <!-- Mobile Floating Calculator Button -->
+  <a href="#price-calculator-french-georgian-bar" class="mobile-calc-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>
+    Calculate Price
+  </a>
+
+  <script src="../../js/calculator/configs.js" defer></script>
+  <script src="../../js/calculator/base.js" defer></script>
+  <script src="../../js/calculator/extensions/french-georgian-bar.js" defer></script>
+  <script src="../../js/calculator/loader.js" defer></script>
 </body>
 </html>
 

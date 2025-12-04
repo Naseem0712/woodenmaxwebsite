@@ -1,18 +1,21 @@
+# ============================================
 # robots.txt for woodenmax.in
+# Premium Aluminium Windows, Louvers & Glass Solutions
+# Last Updated: 2025-12-04
+# ============================================
 
+# Allow all search engine bots
 User-agent: *
 Allow: /
 
-# Disallow admin and private directories if any
-Disallow: /admin/
-Disallow: /private/
-Disallow: /*.json$
+# Allow important pages
+Allow: /index.html
+Allow: /about.html
+Allow: /contact.html
+Allow: /catalog.html
+Allow: /products/
 
-# Allow sitemap and robots.txt
-Allow: /sitemap.xml
-Allow: /robots.txt
-
-# Allow important resources
+# Allow static assets for better indexing
 Allow: /css/
 Allow: /js/
 Allow: /images/
@@ -21,16 +24,38 @@ Allow: /*.js$
 Allow: /*.jpg$
 Allow: /*.jpeg$
 Allow: /*.png$
-Allow: /*.gif$
 Allow: /*.webp$
+Allow: /*.svg$
 
-# Sitemap location
+# Disallow non-essential paths
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /node_modules/
+Disallow: /.git/
+
+# Sitemap location (IMPORTANT for SEO)
 Sitemap: https://woodenmax.in/sitemap.xml
 
-# Note: Submit "sitemap.xml" (without URL) in Google Search Console
-# OR full URL: https://woodenmax.in/sitemap.xml
-# DO NOT submit GitHub URLs
+# ============================================
+# Googlebot specific rules
+# ============================================
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
 
-# Crawl delay (optional - adjust if needed)
+# ============================================
+# Bingbot specific rules
+# ============================================
+User-agent: Bingbot
+Allow: /
 Crawl-delay: 1
 
+# ============================================
+# Image bots - allow all images
+# ============================================
+User-agent: Googlebot-Image
+Allow: /images/
+
+User-agent: Bingbot-Image
+Allow: /images/

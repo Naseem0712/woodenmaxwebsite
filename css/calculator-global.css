@@ -1,0 +1,537 @@
+/**
+ * Global Calculator Styles
+ * Reusable CSS for all price calculators
+ * Optimized for performance and SEO
+ */
+
+/* ============================================
+   CALCULATOR CONTAINER
+   ============================================ */
+.price-calculator-container {
+  background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+  border: 2px solid rgba(212, 175, 55, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.1) inset;
+  transition: all 0.3s ease;
+  border-radius: 1rem;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.price-calculator-container:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 12px 40px rgba(212, 175, 55, 0.2), 0 0 0 1px rgba(212, 175, 55, 0.2) inset;
+}
+
+/* ============================================
+   CALCULATOR HEADER
+   ============================================ */
+.calc-header {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(245, 158, 11, 0.1));
+  padding: 1.25rem 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.calc-header svg {
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+  color: var(--gold-400);
+  flex-shrink: 0;
+}
+
+.calc-header h3 {
+  color: var(--gold-400);
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================
+   FORM GROUPS
+   ============================================ */
+.calc-group {
+  margin-bottom: 1.75rem;
+}
+
+.calc-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #f5f5f5;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.calc-group label svg {
+  width: 18px;
+  height: 18px;
+  color: var(--gold-400);
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   INPUTS & SELECTS
+   ============================================ */
+.calc-input,
+.calc-select {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(212, 175, 55, 0.2);
+  border-radius: 0.625rem;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+}
+
+.calc-input:focus,
+.calc-select:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2), 0 4px 12px rgba(212, 175, 55, 0.3);
+  transform: translateY(-1px);
+}
+
+.calc-input:hover,
+.calc-select:hover {
+  border-color: rgba(212, 175, 55, 0.4);
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.calc-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.calc-select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 3rem;
+}
+
+.calc-select option {
+  background: #1a1a1a;
+  color: #ffffff;
+  padding: 0.5rem;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+/* ============================================
+   SIZE INPUT GRID
+   ============================================ */
+.calc-size-input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.calc-unit-selector {
+  min-width: 120px;
+}
+
+/* ============================================
+   AREA DISPLAY
+   ============================================ */
+#calc-area-display {
+  background: rgba(212, 175, 55, 0.1);
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: var(--gold-400);
+}
+
+/* ============================================
+   PRICE DISPLAY
+   ============================================ */
+.calc-price-display {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(245, 158, 11, 0.1));
+  border: 2px solid var(--gold-400);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.calc-price-display::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold-400), transparent);
+  animation: calc-shimmer 3s infinite;
+}
+
+@keyframes calc-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.calc-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  transition: all 0.3s ease;
+}
+
+.calc-price-row:last-child {
+  border-bottom: none;
+  padding-top: 1.25rem;
+  margin-top: 0.5rem;
+  border-top: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.calc-price-row:hover {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  background: rgba(212, 175, 55, 0.05);
+  border-radius: 0.5rem;
+}
+
+.calc-price-label {
+  color: #e0e0e0;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.calc-price-value {
+  color: var(--gold-400);
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+.calc-grand-total {
+  color: var(--gold-400) !important;
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+/* ============================================
+   USER FORM
+   ============================================ */
+.calc-user-form {
+  background: rgba(26, 26, 26, 0.8);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.calc-user-form input {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid rgba(212, 175, 55, 0.2);
+  border-radius: 0.625rem;
+  color: #ffffff;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.calc-user-form input:focus {
+  outline: none;
+  border-color: var(--gold-400);
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.calc-user-form input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.calc-submit-btn {
+  width: 100%;
+  padding: 0.875rem 1.5rem;
+  background: linear-gradient(135deg, #d4af37, #f59e0b) !important;
+  border: none !important;
+  border-radius: 0.5rem;
+  color: #1a1a1a !important;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.calc-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5) !important;
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+  color: #1a1a1a !important;
+}
+
+.calc-submit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.4) !important;
+}
+
+.calc-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.calc-submit-btn:disabled:hover {
+  transform: none !important;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3) !important;
+}
+
+/* ============================================
+   SUCCESS MESSAGE
+   ============================================ */
+.calc-success-message {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  color: #86efac;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* ============================================
+   INFO BOX
+   ============================================ */
+.calc-info-box {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  font-size: 0.875rem;
+  color: #e0e0e0;
+  line-height: 1.8;
+}
+
+.calc-info-box strong {
+  color: var(--gold-400);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.calc-info-box p {
+  margin: 0.75rem 0;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.calc-info-box p::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--gold-400);
+  font-weight: bold;
+}
+
+/* ============================================
+   CHECKBOX STYLING
+   ============================================ */
+.calc-checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+}
+
+.calc-checkbox-group:hover {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+.calc-checkbox-group input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--gold-400);
+  flex-shrink: 0;
+}
+
+.calc-checkbox-group label {
+  color: #f5f5f5;
+  font-size: 0.95rem;
+  cursor: pointer;
+  margin: 0;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+}
+
+.calc-checkbox-group input[type="checkbox"]:checked + label {
+  color: var(--gold-400);
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .price-calculator-container {
+    padding: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .calc-header {
+    padding: 1rem;
+    flex-wrap: wrap;
+  }
+  
+  .calc-header h3 {
+    font-size: 1.25rem !important;
+  }
+  
+  .calc-group {
+    margin-bottom: 1.5rem !important;
+  }
+  
+  .calc-group label {
+    font-size: 0.9rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+  
+  .calc-input,
+  .calc-select {
+    padding: 1rem !important;
+    font-size: 1rem !important;
+    min-height: 48px !important;
+  }
+  
+  .calc-size-input-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.5rem !important;
+  }
+  
+  .calc-unit-selector {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+  
+  .calc-unit-selector .calc-select {
+    width: 100% !important;
+    font-size: 0.9rem !important;
+    padding: 0.75rem 1rem !important;
+    max-width: 100% !important;
+  }
+  
+  .calc-select {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    word-wrap: break-word !important;
+    white-space: normal !important;
+  }
+  
+  .calc-select option {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    padding: 0.5rem !important;
+  }
+  
+  .calc-price-display {
+    padding: 1.5rem !important;
+  }
+  
+  .calc-price-value {
+    font-size: 1.15rem !important;
+    word-break: break-word !important;
+  }
+  
+  .calc-price-label {
+    font-size: 0.9rem !important;
+  }
+  
+  .calc-grand-total {
+    font-size: 1.5rem !important;
+  }
+  
+  .calc-user-form {
+    padding: 1.25rem !important;
+    margin-top: 1.5rem !important;
+  }
+  
+  .calc-user-form input {
+    font-size: 1rem !important;
+    padding: 1rem !important;
+    min-height: 48px !important;
+  }
+  
+  .calc-info-box {
+    padding: 1.25rem !important;
+    font-size: 0.85rem !important;
+  }
+  
+  #calc-area-display {
+    font-size: 0.95rem !important;
+    padding: 0.5rem 0.75rem !important;
+    margin-top: 0.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .price-calculator-container {
+    padding: 1rem !important;
+  }
+  
+  .calc-header {
+    padding: 0.75rem !important;
+  }
+  
+  .calc-header h3 {
+    font-size: 1.1rem !important;
+  }
+  
+  .calc-input,
+  .calc-select {
+    font-size: 16px !important;
+    padding: 0.875rem !important;
+  }
+  
+  .calc-price-display {
+    padding: 1rem !important;
+  }
+  
+  .calc-price-value {
+    font-size: 1rem !important;
+  }
+}
+

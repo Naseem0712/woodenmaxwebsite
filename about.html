@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Us | WoodenMax Windows</title>
-  <meta name="description" content="Learn about WoodenMax - Hyderabad's leading manufacturer of luxury window systems since 2008. Aluminium, Sliding, Telescope Windows & Architectural solutions. 15+ years experience, 500+ projects completed." />
-  <meta name="keywords" content="About WoodenMax, Window Manufacturer in Hyderabad, Delhi, Bangalore, Pune, Jaipur, Delhi, Bangalore, Pune, Jaipur, Windows Company, Aluminium Windows Manufacturer, Fenestration Company India, Window Systems Hyderabad" />
+  <title>About Us | WoodenMax - Premium Window & Facade Systems Since 2008</title>
+  <meta name="description" content="Learn about WoodenMax - India's leading manufacturer of luxury window systems since 2008. Aluminium windows, telescope doors, metal louvers, HPL cladding & glass elevation. 15+ years experience, 500+ projects completed across Hyderabad, Delhi, Bangalore, Pune." />
+  <meta name="keywords" content="About WoodenMax, Window Manufacturer India, Hyderabad Windows Company, Aluminium Windows Manufacturer, Fenestration Company, HPL Cladding Manufacturer, Glass Elevation Experts, Curtain Wall Specialists" />
   <meta name="author" content="WoodenMax" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://woodenmax.in/about.html" />
@@ -15,68 +15,320 @@
   <link rel="icon" type="image/png" href="images/woodenmax-logo.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="images/woodenmax-logo.png" />
   
-  <!-- Open Graph Meta Tags -->
-  <meta property="og:title" content="About WoodenMax | Premium Window Manufacturer in Hyderabad, Delhi, Bangalore, Pune, Jaipur, Delhi, Bangalore, Pune, Jaipur" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="About WoodenMax | Premium Architectural Solutions" />
   <meta property="og:description" content="15+ years of expertise in luxury window systems. Aluminium & architectural solutions. 500+ projects completed." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://woodenmax.in/about.html" />
-  <meta property="og:image" content="https://woodenmax.in/images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa_lucknow.JPG" />
-  <meta property="og:locale" content="en_IN" />
-  
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="About WoodenMax | Window Experts" />
-  <meta name="twitter:description" content="15+ years experience in premium window manufacturing. Hyderabad's trusted window company." />
-  
-  <!-- Schema.org Organization Markup -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "WoodenMax",
-    "description": "Premium window systems manufacturer in Hyderabad, Delhi, Bangalore, Pune, Jaipur - Aluminium, Sliding & Architectural solutions",
-    "image": "https://woodenmax.in/images/woodenmax-logo.png",
-    "url": "https://woodenmax.in/",
-    "telephone": "+917895328080",
-    "email": "info@woodenmax.com",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Hyderabad",
-      "addressRegion": "Telangana",
-      "addressCountry": "IN"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": "26.8467",
-      "longitude": "80.9462"
-    },
-    "openingHours": "Mo-Sa 09:00-19:00",
-    "priceRange": "₹₹₹",
-    "areaServed": ["Hyderabad", "Telangana", "India"]
-  }
-  </script>
+  <meta property="og:image" content="https://woodenmax.in/images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa.JPG" />
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
   
-  <!-- Custom Styles -->
   <link rel="stylesheet" href="css/styles.css">
+  
+  <style>
+    /* About Page Unique Styles */
+    .about-hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d1117 100%);
+    }
+    
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse at 30% 20%, rgba(217, 119, 6, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 80%, rgba(217, 119, 6, 0.1) 0%, transparent 50%);
+    }
+    
+    .about-hero-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: 
+        linear-gradient(rgba(217, 119, 6, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(217, 119, 6, 0.03) 1px, transparent 1px);
+      background-size: 80px 80px;
+    }
+    
+    .about-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+    
+    .about-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1.25rem;
+      background: rgba(217, 119, 6, 0.15);
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 50px;
+      color: var(--gold-400);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .about-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 600;
+      color: #ffffff;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    
+    .about-title span {
+      background: linear-gradient(135deg, var(--gold-400) 0%, var(--gold-500) 50%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .about-desc {
+      color: #94a3b8;
+      font-size: 1.15rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    
+    .about-hero-image {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 45%;
+      max-width: 600px;
+      z-index: 1;
+    }
+    
+    .about-hero-image img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+      border-radius: 20px 0 0 20px;
+      box-shadow: -30px 0 60px rgba(0,0,0,0.5);
+    }
+    
+    .about-hero-image::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: 20px;
+      bottom: 20px;
+      border: 2px solid rgba(217, 119, 6, 0.3);
+      border-radius: 20px;
+    }
+    
+    /* Timeline */
+    .timeline-section {
+      padding: 5rem 0;
+      background: linear-gradient(180deg, #0d1117 0%, #1a1a1a 100%);
+    }
+    
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--gold-500), transparent);
+    }
+    
+    .timeline-item {
+      display: flex;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    
+    .timeline-item:nth-child(odd) {
+      flex-direction: row-reverse;
+      text-align: right;
+    }
+    
+    .timeline-content {
+      width: 45%;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(217, 119, 6, 0.15);
+      border-radius: 16px;
+    }
+    
+    .timeline-year {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000;
+      font-weight: 700;
+      font-size: 0.85rem;
+      z-index: 2;
+    }
+    
+    /* Value Cards */
+    .value-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(217, 119, 6, 0.15);
+      border-radius: 20px;
+      padding: 2.5rem;
+      text-align: center;
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .value-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold-500), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .value-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(217, 119, 6, 0.4);
+    }
+    
+    .value-card:hover::before {
+      opacity: 1;
+    }
+    
+    .value-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.2), rgba(245, 158, 11, 0.1));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+    }
+    
+    /* Stats Counters */
+    .stat-counter {
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .stat-number {
+      font-size: 3.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-500));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stat-label {
+      color: #94a3b8;
+      font-size: 1rem;
+    }
+    
+    /* Why Choose Grid */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .why-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .why-card:hover {
+      border-color: rgba(217, 119, 6, 0.3);
+      transform: translateY(-5px);
+    }
+    
+    .why-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, rgba(217, 119, 6, 0.15), rgba(217, 119, 6, 0.05));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+    }
+    
+    @media (max-width: 1024px) {
+      .about-hero-image {
+        display: none;
+      }
+      
+      .about-hero-content {
+        max-width: 100%;
+        text-align: center;
+      }
+      
+      .timeline::before {
+        left: 20px;
+      }
+      
+      .timeline-item,
+      .timeline-item:nth-child(odd) {
+        flex-direction: row;
+        text-align: left;
+      }
+      
+      .timeline-content {
+        width: calc(100% - 80px);
+        margin-left: 60px;
+      }
+      
+      .timeline-year {
+        left: 20px;
+        transform: none;
+      }
+    }
+  </style>
 </head>
 <body>
   
   <!-- NAVBAR -->
-  <nav class="navbar" id="navbar">
+  <nav class="navbar scrolled" id="navbar">
     <div class="container">
       <div class="navbar-content">
         <a href="index.html" class="navbar-logo">
-          <div class="logo-icon">
-            <img src="images/woodenmax-logo.png" alt="WoodenMax Logo" >
-          </div>
-          
+          <div class="logo-icon"><img src="images/woodenmax-logo.png" alt="WoodenMax Logo"></div>
         </a>
-
         <div class="nav-menu">
           <a href="index.html" class="nav-link">Home</a>
           <div class="category-carousel-wrapper">
@@ -95,196 +347,230 @@
           <a href="about.html" class="nav-link active">About</a>
           <a href="contact.html" class="nav-link">Contact</a>
         </div>
-
-        <div class="nav-cta">
-          <a href="tel:+917895328080">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            Call Now
-          </a>
-        </div>
-
+        <div class="nav-cta"><a href="tel:+917895328080"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call Now</a></div>
         <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="menuIcon"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="closeIcon" style="display:none;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" id="menuIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" id="closeIcon" style="display:none;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
         </button>
       </div>
     </div>
   </nav>
 
-  <!-- MOBILE MENU -->
+  <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
     <div class="mobile-menu-content">
       <a href="index.html" class="mobile-nav-item">Home</a>
-      <div class="mobile-category-grid">
-        <a href="products/aluminium-windows.html" class="mobile-cat-item"><span>Aluminium</span></a>
-        <a href="products/telescope-windows.html" class="mobile-cat-item"><span>Telescope</span></a>
-        <a href="products/folding-systems.html" class="mobile-cat-item"><span>Folding</span></a>
-        <a href="products/metal-louvers.html" class="mobile-cat-item"><span>Louvers</span></a>
-        <a href="products/shower-partitions.html" class="mobile-cat-item"><span>Shower</span></a>
-        <a href="products/elevation-cladding.html" class="mobile-cat-item"><span>Elevation</span></a>
-        <a href="products/glass-elevation.html" class="mobile-cat-item"><span>Glass</span></a>
-      </div>
+      <a href="catalog.html" class="mobile-nav-item">Catalog</a>
       <a href="about.html" class="mobile-nav-item" style="color: var(--gold-400);">About Us</a>
       <a href="contact.html" class="mobile-nav-item">Contact Us</a>
-      <div class="mobile-menu-footer">
-        <a href="tel:+917895328080" class="cta-btn">📞 Call Now</a>
-      </div>
+      <div class="mobile-menu-footer"><a href="tel:+917895328080" class="cta-btn">Call Now</a></div>
     </div>
   </div>
 
-  <!-- PAGE HEADER -->
-  <div class="page-header" style="padding-top: 8rem;">
-    <div class="page-header-bg" style="background-image: url('images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa_lucknow.JPG');"></div>
-    <div class="page-header-overlay"></div>
-    <div class="page-header-content">
-      <span class="section-label">Our Story</span>
-      <h1>Redefining Spaces Since 2008</h1>
-      <p>WoodenMax has established itself as a leader in architectural fenestration, delivering world-class window and facade systems across India.</p>
-    </div>
-  </div>
-
-  <!-- VISION / MISSION SECTION -->
-  <section style="padding: 5rem 0;">
+  <!-- HERO SECTION -->
+  <section class="about-hero">
+    <div class="about-hero-pattern"></div>
+    
     <div class="container">
-      <div class="vision-grid">
+      <div class="about-hero-content">
+        <div class="about-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          Trusted Since 2008
+        </div>
         
-        <div class="vision-card glass-panel">
-          <div class="vision-icon outline">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-          </div>
-          <h3>Our Vision</h3>
-          <p>To be India's most trusted brand for luxury architectural solutions, bridging the gap between functionality and art.</p>
-        </div>
-
-        <div class="vision-card glass-panel featured">
-          <div class="vision-icon gold">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-          </div>
-          <h3>Our Mission</h3>
-          <p>To consistently innovate and deliver high-performance window systems that enhance energy efficiency, security, and aesthetics.</p>
-        </div>
-
-        <div class="vision-card glass-panel">
-          <div class="vision-icon outline">
-            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-          </div>
-          <h3>Our Values</h3>
-          <p>Integrity, Precision, and Customer Obsession. We do not compromise on quality, ensuring every installation is a masterpiece.</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- CRAFTSMANSHIP SECTION -->
-  <section class="craftsmanship-section">
-    <div class="container">
-      <div class="craftsmanship-grid">
+        <h1 class="about-title">
+          Redefining Spaces with<br><span>Architectural Excellence</span>
+        </h1>
         
-        <div class="craftsmanship-image">
-          <img src="images/products/shower-partitions/Premium_Black_Profile_Bathroom_Shower_Glass_ Sliding_Soft_Close_Door.JPG" alt="WoodenMax Craftsmanship - Premium Window Manufacturing">
-        </div>
-
-        <div class="craftsmanship-content">
-          <h2>Craftsmanship & Innovation</h2>
-          <p>At WoodenMax, we understand that windows are the eyes of a building. Our team of skilled engineers and designers work tirelessly to bring you systems that are not only visually stunning but also technically superior.</p>
-          <p>Since 2008, WoodenMax has been a prominent player in the window industry. Over these years, we have witnessed, analyzed, and understood countless products in this field. Our extensive experience has reached a level where understanding sections, profiles, projects, and products comes naturally to us. This deep expertise enables us to develop new products tailored to customer needs with remarkable ease. Understanding and fulfilling customer requirements has become second nature to our team, making us highly responsive to market demands and client expectations.</p>
-          <p>From premium aluminium windows and doors capable of holding large glass panels to intricate louvers that control light and privacy, our product portfolio is vast and versatile.</p>
-          
-          <div class="feature-list">
-            <div class="feature-item">
-              <div class="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
-              </div>
-              <div>
-                <h4>Custom Fabrication</h4>
-                <p>Tailor-made solutions to fit unique architectural requirements.</p>
-              </div>
-            </div>
-            <div class="feature-item">
-              <div class="feature-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
-              </div>
-              <div>
-                <h4>Quality Assurance</h4>
-                <p>Rigorous testing for wind load, water tightness, and sound insulation.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- TEAM SECTION -->
-  <section style="padding: 5rem 0; background: var(--slate-900);">
-    <div class="container">
-      <div style="text-align: center; margin-bottom: 4rem;">
-        <span class="section-label">Our Team</span>
-        <h2 class="section-title">Specialized Expertise for Every Product</h2>
-        <div class="section-divider" style="margin: 1.5rem auto;"></div>
-      </div>
-      
-      <div style="max-width: 900px; margin: 0 auto;">
-        <p style="color: var(--slate-300); font-size: 1.1rem; line-height: 1.8; margin-bottom: 2rem; text-align: center;">
-          Our team is specially skilled and trained for all our products. We maintain dedicated, separate teams for each product category, ensuring specialized expertise and focused attention. Each team is deeply knowledgeable about their specific product line—from windows to aluminium systems, telescope doors, metal louvers, shower partitions, and elevation cladding. This specialized approach allows us to deliver exceptional quality, precise customization, and unmatched service for every product we offer.
+        <p class="about-desc">
+          WoodenMax is India's leading manufacturer of premium window systems, glass elevations, metal louvers, and facade solutions. With 15+ years of expertise, we've transformed 500+ buildings across Hyderabad, Delhi, Bangalore, Pune, and beyond.
         </p>
         
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
-          <div class="glass-panel" style="padding: 2rem; text-align: center;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">👥</div>
-            <h3 style="color: var(--gold-400); margin-bottom: 0.5rem;">Dedicated Teams</h3>
-            <p style="color: var(--slate-400); font-size: 0.9rem;">Separate specialized teams for each product category</p>
-          </div>
-          
-          <div class="glass-panel" style="padding: 2rem; text-align: center;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
-            <h3 style="color: var(--gold-400); margin-bottom: 0.5rem;">Deep Expertise</h3>
-            <p style="color: var(--slate-400); font-size: 0.9rem;">15+ years of experience in understanding customer needs</p>
-          </div>
-          
-          <div class="glass-panel" style="padding: 2rem; text-align: center;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
-            <h3 style="color: var(--gold-400); margin-bottom: 0.5rem;">Quick Development</h3>
-            <p style="color: var(--slate-400); font-size: 0.9rem;">Easily develop new products based on customer requirements</p>
-          </div>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="contact.html" class="btn btn-primary">Get Free Consultation</a>
+          <a href="products/aluminium-windows.html" class="btn btn-outline">View Products</a>
         </div>
+      </div>
+      
+      <div class="about-hero-image">
+        <img src="images/products/aluminium-windows/luxury_aluminium_elevation_windows_doors_villa.JPG" alt="Premium Aluminium Windows and Doors - WoodenMax Projects">
       </div>
     </div>
   </section>
 
   <!-- STATS SECTION -->
-  <section class="stats-section">
-    <div class="stats-bg"></div>
+  <section style="padding: 4rem 0; background: linear-gradient(to right, rgba(217, 119, 6, 0.1), rgba(217, 119, 6, 0.05));">
     <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item">
-          <div class="stat-value">15+</div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; max-width: 900px; margin: 0 auto;">
+        <div class="stat-counter">
+          <div class="stat-number">15+</div>
           <div class="stat-label">Years Experience</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-value">500+</div>
+        <div class="stat-counter">
+          <div class="stat-number">500+</div>
           <div class="stat-label">Projects Completed</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-value">150+</div>
+        <div class="stat-counter">
+          <div class="stat-number">150+</div>
           <div class="stat-label">Product Variants</div>
         </div>
-        <div class="stat-item">
-          <div class="stat-value">10 Yrs</div>
-          <div class="stat-label">Warranty</div>
+        <div class="stat-counter">
+          <div class="stat-number">10</div>
+          <div class="stat-label">Years Warranty</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES SECTION -->
+  <section style="padding: 5rem 0; background: #1a1a1a;">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <span class="section-label">Our Foundation</span>
+        <h2 class="section-title">Vision, Mission & Values</h2>
+      </div>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
+        <div class="value-card">
+          <div class="value-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <h3 style="color: var(--gold-400); font-size: 1.25rem; margin-bottom: 1rem;">Our Vision</h3>
+          <p style="color: #94a3b8; line-height: 1.7;">To be India's most trusted brand for luxury architectural solutions, bridging the gap between functionality, beauty, and innovation in every space we touch.</p>
+        </div>
+        
+        <div class="value-card">
+          <div class="value-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
+          <h3 style="color: var(--gold-400); font-size: 1.25rem; margin-bottom: 1rem;">Our Mission</h3>
+          <p style="color: #94a3b8; line-height: 1.7;">To consistently innovate and deliver high-performance window systems, glass facades, and cladding solutions that enhance energy efficiency, security, and aesthetics.</p>
+        </div>
+        
+        <div class="value-card">
+          <div class="value-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          </div>
+          <h3 style="color: var(--gold-400); font-size: 1.25rem; margin-bottom: 1rem;">Our Values</h3>
+          <p style="color: #94a3b8; line-height: 1.7;">Integrity, Precision, and Customer Obsession. We never compromise on quality—every installation is crafted to be a masterpiece that stands the test of time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR JOURNEY TIMELINE -->
+  <section class="timeline-section">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <span class="section-label">Our Story</span>
+        <h2 class="section-title">The WoodenMax Journey</h2>
+      </div>
+      
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3 style="color: var(--gold-400); margin-bottom: 0.5rem;">The Beginning</h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.7;">WoodenMax was founded with a vision to bring world-class window solutions to India. Started with aluminium windows and doors.</p>
+          </div>
+          <div class="timeline-year">2008</div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3 style="color: var(--gold-400); margin-bottom: 0.5rem;">Expansion Era</h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.7;">Expanded to telescope windows, folding systems, and shower partitions. Completed 100+ projects across South India.</p>
+          </div>
+          <div class="timeline-year">2015</div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3 style="color: var(--gold-400); margin-bottom: 0.5rem;">Facade Solutions</h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.7;">Launched HPL/ACP cladding and metal louvers division. Entered commercial projects including malls, offices, and showrooms.</p>
+          </div>
+          <div class="timeline-year">2019</div>
+        </div>
+        
+        <div class="timeline-item">
+          <div class="timeline-content">
+            <h3 style="color: var(--gold-400); margin-bottom: 0.5rem;">Glass Elevation Launch</h3>
+            <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.7;">Introduced structural glazing & curtain wall systems. Now serving pan-India with 500+ completed projects.</p>
+          </div>
+          <div class="timeline-year">2023</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section style="padding: 5rem 0; background: #1a1a1a;">
+    <div class="container">
+      <div style="text-align: center; margin-bottom: 4rem;">
+        <span class="section-label">Why WoodenMax</span>
+        <h2 class="section-title">What Sets Us Apart</h2>
+      </div>
+      
+      <div class="why-grid" style="max-width: 1100px; margin: 0 auto;">
+        <div class="why-card">
+          <div class="why-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 0.75rem;">Dedicated Teams</h3>
+          <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.7;">Separate specialized teams for each product—windows, louvers, cladding, glass elevation. Deep expertise in every category.</p>
+        </div>
+        
+        <div class="why-card">
+          <div class="why-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+          </div>
+          <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 0.75rem;">Custom Fabrication</h3>
+          <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.7;">Every project is unique. We custom-fabricate solutions to fit your exact architectural requirements and design vision.</p>
+        </div>
+        
+        <div class="why-card">
+          <div class="why-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
+          </div>
+          <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 0.75rem;">10-Year Warranty</h3>
+          <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.7;">We stand behind our work. Every installation comes with comprehensive warranty and after-sales support.</p>
+        </div>
+        
+        <div class="why-card">
+          <div class="why-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/></svg>
+          </div>
+          <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 0.75rem;">Transparent Pricing</h3>
+          <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.7;">Free online calculators for instant estimates. No hidden charges—what we quote is what you pay.</p>
+        </div>
+        
+        <div class="why-card">
+          <div class="why-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 0.75rem;">Timely Delivery</h3>
+          <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.7;">We respect your timeline. Our efficient processes ensure on-time project completion without compromising quality.</p>
+        </div>
+        
+        <div class="why-card">
+          <div class="why-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <h3 style="color: #fff; font-size: 1.1rem; margin-bottom: 0.75rem;">Pan-India Service</h3>
+          <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.7;">Serving Hyderabad, Delhi, Bangalore, Pune, Mumbai, Chennai, Jaipur, and all major cities across India.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- CTA SECTION -->
-  <section style="padding: 5rem 0; text-align: center;">
+  <section style="padding: 5rem 0; background: linear-gradient(135deg, rgba(217, 119, 6, 0.15) 0%, rgba(217, 119, 6, 0.05) 100%); text-align: center;">
     <div class="container">
-      <h2 class="section-title" style="margin-bottom: 1rem;">Ready to Transform Your Space?</h2>
-      <p class="text-slate-400" style="max-width: 600px; margin: 0 auto 2rem;">Contact our experts today for a free consultation and discover the perfect window solution for your project.</p>
-      <a href="contact.html" class="btn btn-primary">Get in Touch</a>
+      <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; color: #fff; margin-bottom: 1rem;">Ready to Transform Your Space?</h2>
+      <p style="color: #94a3b8; max-width: 600px; margin: 0 auto 2rem; font-size: 1.1rem;">Contact our experts today for a free consultation. Let's bring your architectural vision to life.</p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="contact.html" class="btn btn-primary" style="padding: 1rem 2.5rem;">Get Free Quote</a>
+        <a href="tel:+917895328080" class="btn btn-outline" style="padding: 1rem 2.5rem;">Call: +91 789-5328080</a>
+      </div>
     </div>
   </section>
 
@@ -293,58 +579,28 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-brand">
-            <div class="footer-brand-icon">
-              <img src="images/woodenmax-logo.png" alt="WoodenMax Logo" >
-            </div>
-            
-          </div>
-          <p class="footer-description">Elevating architectural aesthetics with premium window systems. We blend innovation with luxury to create timeless views for your spaces.</p>
-          <div class="social-links">
-            <a href="https://www.facebook.com" target="_blank" class="social-link" aria-label="Facebook">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </a>
-            <a href="https://www.instagram.com" target="_blank" class="social-link" aria-label="Instagram">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-            </a>
-            <a href="https://twitter.com" target="_blank" class="social-link" aria-label="Twitter">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-            </a>
-          </div>
+          <div class="footer-brand"><div class="footer-brand-icon"><img src="images/woodenmax-logo.png" alt="WoodenMax Logo"></div></div>
+          <p class="footer-description">Premium window systems, glass elevation & facade solutions for modern architecture.</p>
         </div>
         <div>
           <h3 class="footer-title">Quick Links</h3>
           <ul class="footer-links">
-            <li><a href="index.html"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> Home</a></li>
-            <li><a href="products/aluminium-windows.html"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> Our Collection</a></li>
-            <li><a href="about.html"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> About Us</a></li>
-            <li><a href="contact.html"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg> Contact Us</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="catalog.html">Catalog</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
           </ul>
         </div>
         <div>
-        <div>
           <h3 class="footer-title">Contact Us</h3>
-          <div class="contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>5-6-411/413, Aakhpura, Nampally, Hyderabad, Telangana 500001</span>
-          </div>
-          <div class="contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            <span>+91 789-5328080</span>
-          </div>
-          <div class="contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            <a href="mailto:info@woodenmax.com">info@woodenmax.com</a>
-          </div>
+          <div class="contact-item"><span>+91 789-5328080</span></div>
+          <div class="contact-item"><a href="mailto:info@woodenmax.com">info@woodenmax.com</a></div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 WoodenMax Architectural elements. All rights reserved.</p>
-      </div>
+      <div class="footer-bottom"><p>&copy; 2025 WoodenMax Architectural elements. All rights reserved.</p></div>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
 </body>
 </html>
-
