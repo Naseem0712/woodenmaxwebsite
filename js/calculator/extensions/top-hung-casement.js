@@ -489,7 +489,7 @@ Generated from Live Price Calculator
       const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
       const validTotal = isNaN(amounts.total) || amounts.total <= 0 ? 0 : Math.round(amounts.total);
       
-      console.log('📧 Submitting email via FormSubmit.co...', {
+      console.log('📧 Submitting email via Cloudflare Worker / Web3Forms...', {
         perWindow: validPerWindow,
         total: validTotal
       });
@@ -497,42 +497,18 @@ Generated from Live Price Calculator
       // Mark as submitted
       this._emailSubmitted = true;
       
-      const formData = new FormData();
-      formData.append('_subject', `New Quote Request - ${this.config.name || this.productId}`);
-      formData.append('_template', 'box');
-      formData.append('_captcha', 'false');
-      formData.append('_next', window.location.href);
-      formData.append('message', emailBody);
-      
-      // Table format - Only basic user details (as requested)
-      formData.append('Name', userDetails.name);
-      formData.append('City', userDetails.city);
-      formData.append('Mobile', userDetails.mobile);
-      if (userDetails.email) {
-        formData.append('Email', userDetails.email);
+      if (window.EmailSubmitter) {
+        window.EmailSubmitter.submit({
+          subject: `New Quote Request - ${this.config.name || this.productId}`,
+          message: emailBody,
+          userDetails: userDetails,
+          onSuccess: () => this.showSuccessMessage(),
+          onError: () => this.showSuccessMessage()
+        });
+      } else {
+        console.warn('⚠️ EmailSubmitter not loaded');
+        this.showSuccessMessage();
       }
-      
-      // All other details are in message format only (not in table)
-      
-      // Try AJAX first
-      fetch('https://formsubmit.co/info@woodenmax.com', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success === true || data.success === 'true') {
-          console.log('✅ Email sent successfully via FormSubmit.co (AJAX)');
-          this.showSuccessMessage();
-        } else {
-          console.log('⚠️ FormSubmit.co AJAX failed:', data.message);
-          this.submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts);
-        }
-      })
-      .catch(error => {
-        console.error('❌ Error submitting email:', error);
-        this.submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts);
-      });
     }
     
     submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts) {

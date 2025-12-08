@@ -240,50 +240,20 @@ Generated from Live Price Calculator
     }
     
     submitEmailFormCustom(emailBody, userDetails, selections, amounts) {
-      console.log('📧 Submitting email via FormSubmit.co...');
+      console.log('📧 Submitting email via Cloudflare Worker / Web3Forms...');
       
-      const formData = new FormData();
-      formData.append('_subject', `New Quote Request - ${this.config.name || this.productId}`);
-      formData.append('_template', 'box');
-      formData.append('_captcha', 'false');
-      formData.append('_next', window.location.href);
-      formData.append('message', emailBody);
-      formData.append('Name', userDetails.name);
-      formData.append('City', userDetails.city);
-      formData.append('Mobile', userDetails.mobile);
-      if (userDetails.email) {
-        formData.append('Email', userDetails.email);
-      }
-      formData.append('Product', this.config.name || this.productId);
-      formData.append('Size', `${selections.width} × ${selections.height} ${selections.unit}`);
-      formData.append('Area', selections.area);
-      formData.append('Number of Windows', selections.numberOfWindows);
-      formData.append('Track Option', selections.track);
-      formData.append('Glass Type', selections.glass);
-      formData.append('Color', selections.color);
-      formData.append('Per Window Cost', `₹${Math.round(amounts.perWindow).toLocaleString('en-IN')}`);
-      formData.append('Total Cost', `₹${Math.round(amounts.total).toLocaleString('en-IN')}`);
-      
-      // Try AJAX first
-      fetch('https://formsubmit.co/info@woodenmax.com', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success === true || data.success === 'true') {
-          console.log('✅ Email sent successfully via FormSubmit.co (AJAX)');
-          this.showSuccessMessage();
-        } else {
-          console.log('⚠️ FormSubmit.co AJAX failed:', data.message);
-          // Fallback would be handled by base class if needed
-          this.showSuccessMessage();
-        }
-      })
-      .catch(error => {
-        console.error('❌ Error submitting email:', error);
+      if (window.EmailSubmitter) {
+        window.EmailSubmitter.submit({
+          subject: `New Quote Request - ${this.config.name || this.productId}`,
+          message: emailBody,
+          userDetails: userDetails,
+          onSuccess: () => this.showSuccessMessage(),
+          onError: () => this.showSuccessMessage()
+        });
+      } else {
+        console.warn('⚠️ EmailSubmitter not loaded');
         this.showSuccessMessage();
-      });
+      }
     }
     
     showSuccessMessage() {

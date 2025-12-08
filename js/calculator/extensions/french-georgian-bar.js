@@ -434,43 +434,32 @@ Generated from Live Price Calculator
       // Mark as submitted
       this._emailSubmitted = true;
       
-      const formData = new FormData();
-      formData.append('_subject', `New Quote Request - ${this.config.name || this.productId}`);
-      formData.append('_template', 'box');
-      formData.append('_captcha', 'false');
-      formData.append('_next', window.location.href);
-      formData.append('message', emailBody);
-      
-      // Table format - Only basic user details
-      formData.append('Name', userDetails.name);
-      formData.append('City', userDetails.city);
-      formData.append('Mobile', userDetails.mobile);
-      if (userDetails.email) {
-        formData.append('Email', userDetails.email);
+      if (window.EmailSubmitter) {
+        window.EmailSubmitter.submit({
+          subject: `New Quote Request - ${this.config.name || this.productId}`,
+          message: emailBody,
+          userDetails: userDetails,
+          onSuccess: () => {
+            this.showSuccessMessage();
+            this.isSubmittingEmail = false;
+          },
+          onError: () => {
+            this.showSuccessMessage();
+            this.isSubmittingEmail = false;
+          }
+        });
+      } else {
+        this.showSuccessMessage();
+        this.isSubmittingEmail = false;
       }
-      
-      // Try AJAX first
-      fetch('https://formsubmit.co/info@woodenmax.com', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => {
-        if (response.ok) {
-          console.log('✅ Email submitted via FormSubmit.co (AJAX - HTML response is normal)');
-          this.showSuccessMessage();
-          this.isSubmittingEmail = false;
-        } else {
-          throw new Error('FormSubmit.co returned non-OK status');
-        }
-      })
-      .catch(error => {
-        console.error('❌ Error submitting email:', error);
-        console.log('📧 Using fallback form submission method...');
-        this.submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts);
-      });
     }
     
     submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts) {
+      // Legacy method - now uses EmailSubmitter
+      this.submitEmailForm(emailBody, userDetails, selections, amounts);
+    }
+    
+    _submitEmailViaFormSubmitFallbackOld(emailBody, userDetails, selections, amounts) {
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = 'https://formsubmit.co/info@woodenmax.com';

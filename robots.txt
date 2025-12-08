@@ -1,61 +1,115 @@
 # ============================================
-# robots.txt for woodenmax.in
-# Premium Aluminium Windows, Louvers & Glass Solutions
-# Last Updated: 2025-12-04
+# Robots.txt - WoodenMax Architectural Elements
+# Optimized for Google, Bing & AI Crawlers
 # ============================================
 
-# Allow all search engine bots
+# Allow all search engines
 User-agent: *
 Allow: /
-
-# Allow important pages
-Allow: /index.html
-Allow: /about.html
-Allow: /contact.html
-Allow: /catalog.html
 Allow: /products/
-
-# Allow static assets for better indexing
-Allow: /css/
-Allow: /js/
-Allow: /images/
-Allow: /*.css$
-Allow: /*.js$
-Allow: /*.jpg$
-Allow: /*.jpeg$
-Allow: /*.png$
-Allow: /*.webp$
-Allow: /*.svg$
-
-# Disallow non-essential paths
+Allow: /products/*/
+Allow: /city/
 Disallow: /admin/
 Disallow: /private/
 Disallow: /*.json$
-Disallow: /node_modules/
-Disallow: /.git/
-
-# Sitemap location (IMPORTANT for SEO)
-Sitemap: https://woodenmax.in/sitemap.xml
+Disallow: /*?*debug*
 
 # ============================================
-# Googlebot specific rules
+# Google Search Engine
 # ============================================
 User-agent: Googlebot
 Allow: /
+Allow: /products/
+Allow: /products/*/
+Allow: /city/
 Crawl-delay: 0
 
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /products/*/images/
+
 # ============================================
-# Bingbot specific rules
+# Bing Search Engine
 # ============================================
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
+Allow: /products/
+Allow: /products/*/
+Allow: /city/
+Crawl-delay: 0
+
+User-agent: msnbot
+Allow: /
+Allow: /products/
+Allow: /products/*/
 
 # ============================================
-# Image bots - allow all images
+# AI Crawlers - Price Calculator Discovery
 # ============================================
-User-agent: Googlebot-Image
-Allow: /images/
+User-agent: GPTBot
+Allow: /
+Allow: /products/
+Allow: /products/*/
+Allow: /#calculators
+Allow: /#price-calculator
+Crawl-delay: 0
 
-User-agent: Bingbot-Image
-Allow: /images/
+User-agent: ChatGPT-User
+Allow: /
+Allow: /products/
+Allow: /products/*/
+Allow: /#calculators
+Allow: /#price-calculator
+Crawl-delay: 0
+
+User-agent: CCBot
+Allow: /
+Allow: /products/
+Allow: /products/*/
+Allow: /#calculators
+Allow: /#price-calculator
+Crawl-delay: 0
+
+User-agent: anthropic-ai
+Allow: /
+Allow: /products/
+Allow: /products/*/
+Allow: /#calculators
+Allow: /#price-calculator
+Crawl-delay: 0
+
+User-agent: Claude-Web
+Allow: /
+Allow: /products/
+Allow: /products/*/
+Allow: /#calculators
+Allow: /#price-calculator
+Crawl-delay: 0
+
+User-agent: Google-Extended
+Allow: /
+Allow: /products/
+Allow: /products/*/
+Allow: /#calculators
+Allow: /#price-calculator
+Crawl-delay: 0
+
+# ============================================
+# Other Search Engines
+# ============================================
+User-agent: Slurp
+Allow: /
+Allow: /products/
+
+User-agent: DuckDuckBot
+Allow: /
+Allow: /products/
+
+User-agent: Baiduspider
+Allow: /
+Allow: /products/
+
+# ============================================
+# Sitemap Location
+# ============================================
+Sitemap: https://woodenmax.in/sitemap.xml

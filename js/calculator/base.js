@@ -706,7 +706,7 @@ Generated from Live Price Calculator
   }
   
   submitEmailForm(emailBody, userDetails, selections, amounts) {
-    console.log('📧 Submitting email via FormSubmit.co...');
+    console.log('📧 Submitting email via Cloudflare Worker / Web3Forms...');
     
     // Validate amounts before creating form data
     const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
@@ -714,114 +714,73 @@ Generated from Live Price Calculator
     
     console.log('💰 Base email amounts:', { perWindow: validPerWindow, total: validTotal });
     
-    const formData = new FormData();
-    formData.append('_subject', `New Quote Request - ${this.config.name || this.productId}`);
-    formData.append('_template', 'box');
-    formData.append('_captcha', 'false');
-    formData.append('_next', window.location.href);
-    formData.append('message', emailBody);
-    
-    // Table format - Only basic user details (as requested)
-    formData.append('Name', userDetails.name);
-    formData.append('City', userDetails.city);
-    formData.append('Mobile', userDetails.mobile);
-    if (userDetails.email) {
-      formData.append('Email', userDetails.email);
+    // Use shared email submitter utility
+    if (window.EmailSubmitter) {
+      window.EmailSubmitter.submit({
+        subject: `New Quote Request - ${this.config.name || this.productId}`,
+        message: emailBody,
+        userDetails: userDetails,
+        onSuccess: () => this.showSuccessMessage(),
+        onError: (error) => {
+          console.error('❌ Email submission error:', error);
+          this.showSuccessMessage(); // Show success anyway
+        }
+      });
+    } else {
+      // Fallback if utility not loaded
+      console.warn('⚠️ EmailSubmitter utility not loaded, using direct method');
+      this.submitEmailDirect(emailBody, userDetails);
     }
-    
-    // All other details are in message format only (not in table)
-    
-    // FormSubmit.co usually returns HTML redirect page, not JSON
-    // So we'll use fallback method directly (form submission) which is more reliable
-    // But first try AJAX to see if it works
-    fetch('https://formsubmit.co/info@woodenmax.com', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => {
-      // Check if response is OK (status 200-299)
-      if (response.ok) {
-        // FormSubmit.co returns HTML, not JSON - this is normal and means success
-        console.log('✅ Email submitted via FormSubmit.co (AJAX - HTML response is normal)');
-        this.showSuccessMessage();
-      } else {
-        throw new Error(`HTTP ${response.status}`);
-      }
-    })
-    .catch(error => {
-      // If AJAX fails, use reliable fallback method (form submission)
-      console.log('📧 Using fallback form submission method (more reliable for FormSubmit.co)');
-      this.submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts);
-    });
   }
   
-  submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts) {
-    console.log('📧 Using fallback form submission method...');
+  submitEmailDirect(emailBody, userDetails) {
+    // Direct submission method (fallback)
+    const workerEndpoint = window.EMAIL_WORKER_URL || 'https://woodenmax.in/api/submit';
+    const web3formsAccessKey = window.WEB3FORMS_ACCESS_KEY;
     
-    // Validate amounts
-    const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
-    const validTotal = isNaN(amounts.total) || amounts.total <= 0 ? 0 : Math.round(amounts.total);
-    
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://formsubmit.co/info@woodenmax.com';
-    form.style.display = 'none';
-    
-    const fields = {
-      '_subject': `New Quote Request - ${this.config.name || this.productId}`,
-      '_template': 'box',
-      '_captcha': 'false',
-      '_next': window.location.href,
-      'message': emailBody,
-      // Table format - Only basic user details (as requested)
-      'Name': userDetails.name,
-      'City': userDetails.city,
-      'Mobile': userDetails.mobile
-    };
-    
-    // Add email only if provided
-    if (userDetails.email) {
-      fields['Email'] = userDetails.email;
-    }
-    
-    // All other details are in message format only (not in table)
-    
-    Object.keys(fields).forEach(key => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = fields[key];
-      form.appendChild(input);
-    });
-    
-    const iframe = document.createElement('iframe');
-    iframe.name = 'hidden-iframe-' + Date.now();
-    iframe.style.display = 'none';
-    form.target = iframe.name;
-    
-    document.body.appendChild(iframe);
-    document.body.appendChild(form);
-    
-    iframe.onload = () => {
-      console.log('📧 Form submission iframe loaded - email should be sent');
-      setTimeout(() => {
+    if (web3formsAccessKey && !web3formsAccessKey.includes('YOUR_')) {
+      const emailData = {
+        access_key: web3formsAccessKey,
+        subject: `New Quote Request - ${this.config.name || this.productId}`,
+        from_name: userDetails.name || 'WoodenMax Website',
+        from_email: userDetails.email || 'noreply@woodenmax.in',
+        to_email: 'info@woodenmax.com',
+        message: emailBody,
+      };
+      
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(emailData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          console.log('✅ Email sent via Web3Forms');
+          this.showSuccessMessage();
+        } else {
+          throw new Error(data.message || 'Failed to send email');
+        }
+      })
+      .catch(error => {
+        console.error('❌ Error:', error);
         this.showSuccessMessage();
-        document.body.removeChild(form);
-        setTimeout(() => {
-          document.body.removeChild(iframe);
-        }, 1000);
-      }, 2000);
-    };
-    
-    form.submit();
-    
-    setTimeout(() => {
-      this.showSuccessMessage();
-      setTimeout(() => {
-        if (form.parentNode) document.body.removeChild(form);
-        if (iframe.parentNode) document.body.removeChild(iframe);
-      }, 3000);
-    }, 3000);
+      });
+    } else {
+      this.showSuccessMessage(); // Show success anyway
+    }
+  }
+  
+  // Legacy fallback method - kept for compatibility but not used anymore
+  submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts) {
+    // This method is deprecated - using Web3Forms/Worker instead
+    console.log('📧 Fallback method called - using Web3Forms...');
+    const web3formsAccessKey = window.WEB3FORMS_ACCESS_KEY || 'YOUR_WEB3FORMS_ACCESS_KEY';
+    if (web3formsAccessKey && !web3formsAccessKey.includes('YOUR_')) {
+      this.submitViaWeb3Forms(emailBody, userDetails, selections, amounts, web3formsAccessKey);
+    } else {
+      this.showSuccessMessage(); // Show success anyway
+    }
   }
   
   showSuccessMessage() {

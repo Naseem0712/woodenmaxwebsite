@@ -336,26 +336,17 @@ Cost Breakdown:
 Generated from Louver Canopy Price Calculator
     `.trim();
     
-    const formData = new FormData();
-    formData.append('_subject', 'New Quote - Aluminium Louver Canopy');
-    formData.append('_template', 'box');
-    formData.append('_captcha', 'false');
-    formData.append('_next', window.location.href);
-    formData.append('message', emailBody);
-    formData.append('Name', userDetails.name);
-    formData.append('City', userDetails.city);
-    formData.append('Mobile', userDetails.mobile);
-    if (userDetails.email) formData.append('Email', userDetails.email);
-    
-    fetch('https://formsubmit.co/info@woodenmax.com', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => {
-      if (response.ok) this.showSuccessMessage();
-      else throw new Error(`HTTP ${response.status}`);
-    })
-    .catch(() => this.showSuccessMessage());
+    if (window.EmailSubmitter) {
+      window.EmailSubmitter.submit({
+        subject: 'New Quote - Aluminium Louver Canopy',
+        message: emailBody,
+        userDetails: userDetails,
+        onSuccess: () => this.showSuccessMessage(),
+        onError: () => this.showSuccessMessage()
+      });
+    } else {
+      this.showSuccessMessage();
+    }
   }
   
   showSuccessMessage() {

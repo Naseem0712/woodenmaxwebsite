@@ -371,81 +371,24 @@ Generated from Curved Louvers Price Calculator
   }
   
   submitEmailForm(emailBody, userDetails) {
-    const formData = new FormData();
-    formData.append('_subject', 'New Quote - Curved Architectural Louvers');
-    formData.append('_template', 'box');
-    formData.append('_captcha', 'false');
-    formData.append('_next', window.location.href);
-    formData.append('message', emailBody);
-    formData.append('Name', userDetails.name);
-    formData.append('City', userDetails.city);
-    formData.append('Mobile', userDetails.mobile);
-    if (userDetails.email) formData.append('Email', userDetails.email);
-    
-    fetch('https://formsubmit.co/info@woodenmax.com', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => {
-      if (response.ok) {
-        this.showSuccessMessage();
-      } else {
-        throw new Error(`HTTP ${response.status}`);
-      }
-    })
-    .catch(() => {
-      this.submitEmailFallback(emailBody, userDetails);
-    });
+    if (window.EmailSubmitter) {
+      window.EmailSubmitter.submit({
+        subject: 'New Quote - Curved Architectural Louvers',
+        message: emailBody,
+        userDetails: userDetails,
+        onSuccess: () => this.showSuccessMessage(),
+        onError: () => this.showSuccessMessage()
+      });
+    } else {
+      // Fallback if utility not loaded
+      console.warn('⚠️ EmailSubmitter not loaded');
+      this.showSuccessMessage();
+    }
   }
   
   submitEmailFallback(emailBody, userDetails) {
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = 'https://formsubmit.co/info@woodenmax.com';
-    form.style.display = 'none';
-    
-    const fields = {
-      '_subject': 'New Quote - Curved Architectural Louvers',
-      '_template': 'box',
-      '_captcha': 'false',
-      '_next': window.location.href,
-      'message': emailBody,
-      'Name': userDetails.name,
-      'City': userDetails.city,
-      'Mobile': userDetails.mobile
-    };
-    
-    if (userDetails.email) fields['Email'] = userDetails.email;
-    
-    Object.keys(fields).forEach(key => {
-      const input = document.createElement('input');
-      input.type = 'hidden';
-      input.name = key;
-      input.value = fields[key];
-      form.appendChild(input);
-    });
-    
-    const iframe = document.createElement('iframe');
-    iframe.name = 'hidden-iframe-' + Date.now();
-    iframe.style.display = 'none';
-    form.target = iframe.name;
-    
-    document.body.appendChild(iframe);
-    document.body.appendChild(form);
-    
-    iframe.onload = () => {
-      setTimeout(() => {
-        this.showSuccessMessage();
-        document.body.removeChild(form);
-        setTimeout(() => document.body.removeChild(iframe), 1000);
-      }, 2000);
-    };
-    
-    form.submit();
-    
-    setTimeout(() => {
-      this.showSuccessMessage();
-    }, 3000);
+    // Legacy method - now uses EmailSubmitter
+    this.submitEmailForm(emailBody, userDetails);
   }
   
   showSuccessMessage() {
