@@ -16,6 +16,17 @@ RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 # Or add www (uncomment if you prefer)
 # RewriteCond %{HTTP_HOST} !^www\. [NC]
 # RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# Remove .html extension from URLs
+# External redirect from .html to non-.html
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1? [NC,L,R=301]
+
+# Internal rewrite to add .html if file exists
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [NC,L]
 </IfModule>
 
 # Enable Compression

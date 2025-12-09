@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
         xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
   
@@ -18,24 +19,31 @@
        MAIN PAGES
        ============================================ -->
   <url>
-    <loc>https://woodenmax.in/about.html</loc>
+    <loc>https://woodenmax.in/about</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/contact.html</loc>
+    <loc>https://woodenmax.in/contact</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/catalog.html</loc>
+    <loc>https://woodenmax.in/catalog</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://woodenmax.in/blog</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
   
   <!-- ============================================
@@ -43,49 +51,49 @@
        Price Calculator & Instant Quote Pages
        ============================================ -->
   <url>
-    <loc>https://woodenmax.in/products/aluminium-windows.html</loc>
+    <loc>https://woodenmax.in/products/aluminium-windows</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/telescope-windows.html</loc>
+    <loc>https://woodenmax.in/products/telescope-windows</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/folding-systems.html</loc>
+    <loc>https://woodenmax.in/products/folding-systems</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/metal-louvers.html</loc>
+    <loc>https://woodenmax.in/products/metal-louvers</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions.html</loc>
+    <loc>https://woodenmax.in/products/shower-partitions</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/elevation-cladding.html</loc>
+    <loc>https://woodenmax.in/products/elevation-cladding</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/glass-elevation.html</loc>
+    <loc>https://woodenmax.in/products/glass-elevation</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
@@ -95,63 +103,63 @@
        ALUMINIUM WINDOWS PRODUCTS
        ============================================ -->
   <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door.html</loc>
+    <loc>https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/3-track-sliding-window.html</loc>
+    <loc>https://woodenmax.in/products/aluminium-windows/3-track-sliding-window</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window.html</loc>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/french-door-georgian-bar.html</loc>
+    <loc>https://woodenmax.in/products/aluminium-windows/french-door-georgian-bar</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/full-elevation-villa-facade.html</loc>
+    <loc>https://woodenmax.in/products/aluminium-windows/full-elevation-villa-facade</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/georgian-grill-casement-door.html</loc>
+    <loc>https://woodenmax.in/products/aluminium-windows/georgian-grill-casement-door</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/slim-entrance-glass-door.html</loc>
+    <loc>https://woodenmax.in/products/aluminium-windows/slim-entrance-glass-door</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window.html</loc>
+    <loc>https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/top-hung-casement-window.html</loc>
+    <loc>https://woodenmax.in/products/aluminium-windows/top-hung-casement-window</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -161,7 +169,7 @@
        TELESCOPE WINDOWS PRODUCTS
        ============================================ -->
   <url>
-    <loc>https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door.html</loc>
+    <loc>https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -171,14 +179,14 @@
        FOLDING SYSTEMS PRODUCTS
        ============================================ -->
   <url>
-    <loc>https://woodenmax.in/products/folding-systems/fold-bifold-aluminium-doors.html</loc>
+    <loc>https://woodenmax.in/products/folding-systems/fold-bifold-aluminium-doors</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/folding-systems/fold-sliding-window-system.html</loc>
+    <loc>https://woodenmax.in/products/folding-systems/fold-sliding-window-system</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -188,28 +196,28 @@
        METAL LOUVERS PRODUCTS
        ============================================ -->
   <url>
-    <loc>https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers.html</loc>
+    <loc>https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/metal-louvers/curved-architectural-louvers.html</loc>
+    <loc>https://woodenmax.in/products/metal-louvers/curved-architectural-louvers</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/metal-louvers/ceiling-pergola-louvers.html</loc>
+    <loc>https://woodenmax.in/products/metal-louvers/ceiling-pergola-louvers</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/metal-louvers/louver-canopy-facade.html</loc>
+    <loc>https://woodenmax.in/products/metal-louvers/louver-canopy-facade</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -219,35 +227,35 @@
        SHOWER PARTITIONS PRODUCTS
        ============================================ -->
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/frameless-shower-partition.html</loc>
+    <loc>https://woodenmax.in/products/shower-partitions/frameless-shower-partition</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/premium-black-profile-shower.html</loc>
+    <loc>https://woodenmax.in/products/shower-partitions/premium-black-profile-shower</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/black-profile-shower-partition.html</loc>
+    <loc>https://woodenmax.in/products/shower-partitions/black-profile-shower-partition</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/frosted-glass-bathroom-door.html</loc>
+    <loc>https://woodenmax.in/products/shower-partitions/frosted-glass-bathroom-door</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/slim-frame-shower-partition.html</loc>
+    <loc>https://woodenmax.in/products/shower-partitions/slim-frame-shower-partition</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -257,14 +265,14 @@
        ELEVATION CLADDING PRODUCTS
        ============================================ -->
   <url>
-    <loc>https://woodenmax.in/products/elevation-cladding/hpl-exterior-cladding.html</loc>
+    <loc>https://woodenmax.in/products/elevation-cladding/hpl-exterior-cladding</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   
   <url>
-    <loc>https://woodenmax.in/products/elevation-cladding/hpl-acp-elevation-cladding.html</loc>
+    <loc>https://woodenmax.in/products/elevation-cladding/hpl-acp-elevation-cladding</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

@@ -192,5 +192,41 @@ Calculator uses **FormSubmit.co** for email sending:
 
 ---
 
+## 🔗 URL Structure & SEO
+
+### URL Format
+- **All URLs work WITHOUT `.html` extension**
+- Example: `https://woodenmax.in/products/glass-elevation` (NOT `.html`)
+- `.htaccess` automatically handles URL rewriting
+
+### Canonical URLs
+- **Format**: Always use URLs WITHOUT `.html` extension
+- **Location**: In `<head>` section of all HTML files
+- **Example**: `<link rel="canonical" href="https://woodenmax.in/products/glass-elevation" />`
+- **Important**: Canonical must match the actual working URL (without .html)
+
+### .htaccess Configuration
+- **File**: `.htaccess` in root directory
+- **Function**: 
+  - Removes `.html` extension from URLs (external redirect)
+  - Internally rewrites to `.html` files when needed
+  - Forces HTTPS
+  - Removes www from domain
+
+### Sitemap Files
+- **sitemap.xml**: Contains all page URLs (without .html)
+- **sitemap-images.xml**: Contains all image URLs with metadata
+- **ALL_URLS.txt**: Complete list of all site URLs for reference
+- **Update**: When adding new pages, update all three files
+
+### Adding New Pages
+1. Create HTML file (e.g., `new-page.html`)
+2. Add canonical URL (without .html): `<link rel="canonical" href="https://woodenmax.in/new-page" />`
+3. Update `sitemap.xml` with new URL
+4. Update `sitemap-images.xml` if page has images
+5. Update `ALL_URLS.txt` for reference
+
+---
+
 **Last Updated**: 2025-01-27
 

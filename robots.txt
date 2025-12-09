@@ -113,3 +113,4 @@ Allow: /products/
 # Sitemap Location
 # ============================================
 Sitemap: https://woodenmax.in/sitemap.xml
+Sitemap: https://woodenmax.in/sitemap-images.xml

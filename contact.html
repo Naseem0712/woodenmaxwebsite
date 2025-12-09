@@ -8,7 +8,7 @@
   <meta name="keywords" content="Contact WoodenMax, Window Quote Hyderabad, Aluminium Windows Price, Glass Elevation Quote, HPL Cladding Cost, Free Consultation Windows, Fenestration Services India" />
   <meta name="author" content="WoodenMax" />
   <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://woodenmax.in/contact.html" />
+  <link rel="canonical" href="https://woodenmax.in/contact" />
   
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png" sizes="32x32" />
@@ -725,6 +725,7 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/email-submitter.js"></script>
   
   <script>
     function submitContactForm(event) {
@@ -732,32 +733,68 @@
       
       const name = document.getElementById('name').value;
       const phone = document.getElementById('phone').value;
-      const email = document.getElementById('email').value || 'Not provided';
-      const city = document.getElementById('city').value || 'Not provided';
+      const email = document.getElementById('email').value || '';
+      const city = document.getElementById('city').value || '';
       const product = document.getElementById('product').value;
       const message = document.getElementById('message').value || 'No additional details';
       
       const subject = `New Enquiry from ${name} - ${product}`;
-      const body = `
-NEW ENQUIRY FROM WEBSITE
+      const body = `NEW ENQUIRY FROM WEBSITE
 ========================
 
 Customer Details:
 - Name: ${name}
 - Phone: ${phone}
-- Email: ${email}
-- City: ${city}
+- Email: ${email || 'Not provided'}
+- City: ${city || 'Not provided'}
 
 Product Interest: ${product}
 
 Project Details:
 ${message}
 
-Generated: ${new Date().toLocaleString('en-IN')}
-      `;
+Generated: ${new Date().toLocaleString('en-IN')}`;
       
-      // Open email client
-      window.location.href = `mailto:info@woodenmax.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      // Use EmailSubmitter if available, otherwise fallback to mailto
+      if (window.EmailSubmitter) {
+        const submitBtn = event.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
+        
+        window.EmailSubmitter.submit({
+          subject: subject,
+          message: body,
+          userDetails: {
+            name: name,
+            city: city,
+            mobile: phone,
+            email: email
+          },
+          onSuccess: () => {
+            submitBtn.textContent = '✓ Sent Successfully!';
+            submitBtn.style.background = '#10b981';
+            event.target.reset();
+            setTimeout(() => {
+              submitBtn.textContent = originalText;
+              submitBtn.style.background = '';
+              submitBtn.disabled = false;
+            }, 3000);
+          },
+          onError: () => {
+            submitBtn.textContent = 'Try Again';
+            submitBtn.style.background = '#ef4444';
+            setTimeout(() => {
+              submitBtn.textContent = originalText;
+              submitBtn.style.background = '';
+              submitBtn.disabled = false;
+            }, 3000);
+          }
+        });
+      } else {
+        // Fallback to mailto
+        window.location.href = `mailto:info@woodenmax.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      }
       
       // Show success message
       alert('Thank you! Your enquiry has been submitted. We will contact you within 2 hours.');

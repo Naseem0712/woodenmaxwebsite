@@ -512,7 +512,12 @@ Generated from Live Price Calculator
     }
     
     submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts) {
-      console.log('📧 Using fallback form submission method...');
+      // Legacy method - now uses EmailSubmitter
+      this.submitEmailForm(emailBody, userDetails, selections, amounts);
+    }
+    
+    _submitEmailViaFormSubmitFallbackOld(emailBody, userDetails, selections, amounts) {
+      console.log('📧 Using old fallback form submission method...');
       
       // Validate amounts
       const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
