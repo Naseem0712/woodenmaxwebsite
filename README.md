@@ -88,11 +88,22 @@ Common rates are defined in `globalRates` section and can be reused across produ
 ```
 
 ### Step 3: Include Scripts (if not already included)
+**Important**: Scripts must be loaded in this exact order:
 ```html
 <script src="../../js/calculator/configs.js" defer></script>
 <script src="../../js/calculator/base.js" defer></script>
+<!-- Include extension file if product has custom calculator -->
+<script src="../../js/calculator/extensions/product-extension.js" defer></script>
 <script src="../../js/calculator/loader.js" defer></script>
 ```
+
+**Script Loading Order:**
+1. `configs.js` - Loads product data
+2. `base.js` - Defines PriceCalculatorBase class
+3. `extensions/[product].js` - Custom calculator (if exists)
+4. `loader.js` - Auto-initializes calculators
+
+**Why this order matters:** `loader.js` needs `PriceCalculatorBase` from `base.js`, and `base.js` needs `productManager` from `configs.js`.
 
 ### Step 4: Include CSS (if not already included)
 ```html
