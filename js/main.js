@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // ============================================
-  // MOBILE MENU TOGGLE
+  // MOBILE MENU TOGGLE - Fixed for all pages
   // ============================================
   const mobileToggle = document.getElementById('mobileToggle');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -283,41 +283,124 @@ document.addEventListener('DOMContentLoaded', function() {
   
   let isMobileMenuOpen = false;
   
+  // Always ensure menu is closed on page load
+  function initializeMobileMenu() {
+    isMobileMenuOpen = false;
+    if (mobileMenu) {
+      mobileMenu.classList.remove('active');
+    }
+    if (menuIcon) {
+      menuIcon.style.display = 'block';
+    }
+    if (closeIcon) {
+      closeIcon.style.display = 'none';
+    }
+    // Reset body overflow and remove menu-open class
+    document.body.classList.remove('menu-open');
+    document.documentElement.classList.remove('menu-open');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    document.documentElement.style.overflow = '';
+    delete document.body.dataset.scrollY;
+  }
+  
+  // Initialize on page load
+  initializeMobileMenu();
+  
   function toggleMobileMenu() {
     isMobileMenuOpen = !isMobileMenuOpen;
     
     if (isMobileMenuOpen) {
+      // Open menu
       if (mobileMenu) mobileMenu.classList.add('active');
       if (menuIcon) menuIcon.style.display = 'none';
       if (closeIcon) closeIcon.style.display = 'block';
-      document.body.style.overflow = 'hidden';
+      
+      // Prevent body scroll - multiple methods for compatibility
+      const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+      document.body.classList.add('menu-open');
+      document.documentElement.classList.add('menu-open');
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.left = '0';
+      document.body.style.right = '0';
+      
+      // Store scroll position
+      document.body.dataset.scrollY = scrollY;
     } else {
+      // Close menu
       if (mobileMenu) mobileMenu.classList.remove('active');
       if (menuIcon) menuIcon.style.display = 'block';
       if (closeIcon) closeIcon.style.display = 'none';
-      document.body.style.overflow = '';
+      
+      // Restore body scroll
+      const scrollY = document.body.dataset.scrollY || '0';
+      document.body.classList.remove('menu-open');
+      document.documentElement.classList.remove('menu-open');
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.left = '';
+      document.body.style.right = '';
+      
+      // Restore scroll position
+      window.scrollTo(0, parseInt(scrollY || '0', 10));
+      delete document.body.dataset.scrollY;
     }
   }
   
   function closeMobileMenu() {
+    if (!isMobileMenuOpen) return;
+    
     isMobileMenuOpen = false;
     if (mobileMenu) mobileMenu.classList.remove('active');
     if (menuIcon) menuIcon.style.display = 'block';
     if (closeIcon) closeIcon.style.display = 'none';
-    document.body.style.overflow = '';
+    
+    // Restore body scroll
+    const scrollY = document.body.dataset.scrollY || '0';
+    document.body.classList.remove('menu-open');
+    document.documentElement.classList.remove('menu-open');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    
+    // Restore scroll position
+    window.scrollTo(0, parseInt(scrollY || '0', 10));
+    delete document.body.dataset.scrollY;
   }
   
-  if (mobileToggle && mobileMenu) {
+  // Toggle button event - works even if mobileMenu doesn't exist yet
+  if (mobileToggle) {
     mobileToggle.addEventListener('click', function(e) {
       e.preventDefault();
       e.stopPropagation();
       toggleMobileMenu();
     });
     
+    // Also handle touch events for better mobile support
+    mobileToggle.addEventListener('touchend', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      toggleMobileMenu();
+    });
+  }
+  
+  // Menu interactions - only if menu exists
+  if (mobileMenu) {
     // Close menu when clicking a link
     const mobileLinks = mobileMenu.querySelectorAll('a');
     mobileLinks.forEach(function(link) {
-      link.addEventListener('click', closeMobileMenu);
+      link.addEventListener('click', function() {
+        closeMobileMenu();
+      });
     });
     
     // Close on background click (outside content)
@@ -326,7 +409,26 @@ document.addEventListener('DOMContentLoaded', function() {
         closeMobileMenu();
       }
     });
+    
+    // Close on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && isMobileMenuOpen) {
+        closeMobileMenu();
+      }
+    });
   }
+  
+  // Close menu on window resize (if resizing to desktop)
+  window.addEventListener('resize', function() {
+    if (window.innerWidth >= 1024 && isMobileMenuOpen) {
+      closeMobileMenu();
+    }
+  });
+  
+  // Ensure menu is closed when page unloads
+  window.addEventListener('beforeunload', function() {
+    closeMobileMenu();
+  });
   
   // ============================================
   // MOBILE ACCORDION (Products)

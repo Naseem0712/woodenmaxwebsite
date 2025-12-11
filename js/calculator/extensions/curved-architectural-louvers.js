@@ -456,6 +456,13 @@ Generated from Curved Louvers Price Calculator
     }
     
     console.log('🔄 Initializing Curved Louvers Calculator...');
+    
+    // Prevent duplicate initialization
+    if (window[`calculator_${productId}`]) {
+      console.log('⚠️ Calculator already initialized for:', productId);
+      return;
+    }
+    
     try {
       const productData = await productManager.getProduct(productId);
       if (!productData) {

@@ -457,4 +457,107 @@
     </image:image>
   </url>
 
+  <!-- ============================================
+       BLOG POSTS - IMAGES
+       ============================================ -->
+  <url>
+    <loc>https://woodenmax.in/blog/window-maintenance-tips</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Sliding-window-cleaning.webp</image:loc>
+      <image:title>Sliding Window Cleaning - Proper Window Maintenance Techniques</image:title>
+      <image:caption>Professional window cleaning and maintenance tips for aluminium sliding windows</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/opnable-window-maintenance.webp</image:loc>
+      <image:title>Openable Window Maintenance - Lubricating and Maintaining Window Hardware</image:title>
+      <image:caption>Maintaining and lubricating openable windows for optimal performance</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/blog/energy-efficient-windows-guide</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3_track_aluminium_sliding_window_with_mesh.jpg</image:loc>
+      <image:title>Energy Efficient Aluminium Windows</image:title>
+      <image:caption>Energy efficient aluminium windows with double glazed units for reduced electricity bills</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/blog/soundproof-windows-Hyderabad</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/aluminium_sliding_window_dgu_glass.JPG</image:loc>
+      <image:title>Soundproof Windows for Hyderabad, Delhi, Bangalore, Pune, Jaipur</image:title>
+      <image:caption>Soundproof aluminium windows with acoustic glass for peaceful living in Indian cities</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/blog/sliding-window-vs-folding-door-comparison</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3_track_aluminium_sliding_window_with_mesh.jpg</image:loc>
+      <image:title>3 Track Aluminium Sliding Window - Maximum Opening Space Comparison</image:title>
+      <image:caption>Sliding windows vs folding doors - complete comparison guide for maximum opening space</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/folding-systems/folding_aluminium_balcony_door_toughened_glass_india.JPG</image:loc>
+      <image:title>Folding Aluminium Balcony Door - Maximum Opening Space</image:title>
+      <image:caption>Folding aluminium balcony doors with 95% opening space for seamless indoor-outdoor living</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/blog/aluminium-sliding-glass-door-complete-guide</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Aluminium%20Sliding%20Glass%20Door%20for%20Balcony.webp</image:loc>
+      <image:title>Aluminium Sliding Glass Door for Balcony - Premium Installation</image:title>
+      <image:caption>Premium aluminium sliding glass doors for balconies - complete expert guide 2025</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Balcony%20Sliding%20Glass%20Door%20with%20Clear%20View.webp</image:loc>
+      <image:title>Balcony Sliding Glass Door with Clear View - Maximum Opening Space</image:title>
+      <image:caption>Balcony sliding glass doors with clear view and maximum opening space for modern homes</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Aluminium%20System%20Windows%20for%20Indian%20Homes.webp</image:loc>
+      <image:title>Aluminium System Windows for Indian Homes - Modern Design Solutions</image:title>
+      <image:caption>Modern aluminium system windows designed specifically for Indian homes and climate</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/blog/frameless-sliding-doors-interior-partitions</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Frameless%20Sliding%20Glass%20Door%20for%20Interior%20Partition.webp</image:loc>
+      <image:title>Frameless Sliding Glass Door for Interior Partition - Modern Design</image:title>
+      <image:caption>Frameless sliding glass doors for modern interior partitions and room dividers</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Frameless%20Patch%20Fitting%20Glass%20Door%20–%20Premium%20Look.webp</image:loc>
+      <image:title>Frameless Patch Fitting Glass Door - Premium Look and Design</image:title>
+      <image:caption>Premium frameless patch fitting glass doors with invisible hardware for luxury interiors</image:caption>
+    </image:image>
+  </url>
+
+  <!-- ============================================
+       PRICE CALCULATOR PAGES - IMAGES
+       ============================================ -->
+  <url>
+    <loc>https://woodenmax.in/aluminium-window-price-calculator</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/aluminium-window-price-calculator.webp</image:loc>
+      <image:title>Aluminium Window Price Calculator - Free Online Calculator Tool</image:title>
+      <image:caption>Free online aluminium window price calculator - Calculate sliding and casement window prices instantly</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/glass-elevation-price-calculator</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/glass-elevation-price-calculator.webp</image:loc>
+      <image:title>Glass Elevation Price Calculator - Free Online Calculator Tool</image:title>
+      <image:caption>Free online glass elevation price calculator - Calculate curtain wall and structural glazing prices instantly</image:caption>
+    </image:image>
+  </url>
+
 </urlset>

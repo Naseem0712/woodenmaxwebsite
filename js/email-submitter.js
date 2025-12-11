@@ -1,12 +1,14 @@
 /**
- * Email Submission Utility
+ * Email & WhatsApp Submission Utility
  * Replaces formsubmit.co with Cloudflare Worker / Web3Forms
+ * Also sends same quotation via WhatsApp
  * Compatible with Cloudflare
  */
 
 window.EmailSubmitter = {
   /**
    * Submit email via Cloudflare Worker or Web3Forms
+   * Also sends same quotation via WhatsApp
    * @param {Object} options - Email submission options
    * @param {string} options.subject - Email subject
    * @param {string} options.message - Email body/message
@@ -29,6 +31,12 @@ window.EmailSubmitter = {
     // Option 2: Direct Web3Forms (fallback - access key visible in source)
     const web3formsAccessKey = window.WEB3FORMS_ACCESS_KEY || 'fd9946a6-03dd-4f6f-bad8-c430f7c6d351';
     const useWeb3FormsDirect = !window.EMAIL_WORKER_URL || workerEndpoint.includes('YOUR_') || workerEndpoint.includes('woodenmax.in/api');
+
+    // WhatsApp number for business
+    const whatsappNumber = window.WHATSAPP_BUSINESS_NUMBER || '917895328080';
+
+    // Send WhatsApp message with same quotation
+    this.sendWhatsApp(message, userDetails, whatsappNumber);
 
     // Try Cloudflare Worker first (if configured)
     if (!useWeb3FormsDirect) {
@@ -97,6 +105,39 @@ window.EmailSubmitter = {
       console.warn('⚠️ No email service configured. Please set EMAIL_WORKER_URL or WEB3FORMS_ACCESS_KEY');
       // Call success anyway to not block user
       onSuccess();
+    }
+  },
+
+  /**
+   * Send WhatsApp message with quotation
+   * @param {string} message - The quotation message
+   * @param {Object} userDetails - User details
+   * @param {string} whatsappNumber - Business WhatsApp number
+   */
+  sendWhatsApp(message, userDetails, whatsappNumber) {
+    try {
+      // Format message for WhatsApp (URL encode)
+      const whatsappMessage = encodeURIComponent(message);
+      
+      // Create WhatsApp URL
+      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+      
+      // Open WhatsApp in new tab/window (silent - user won't see it)
+      // We use a hidden iframe to send the message without user interaction
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = whatsappUrl;
+      document.body.appendChild(iframe);
+      
+      // Remove iframe after a short delay
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 2000);
+      
+      console.log('✅ WhatsApp message sent to business');
+    } catch (error) {
+      console.warn('⚠️ WhatsApp send failed:', error);
+      // Don't block user experience if WhatsApp fails
     }
   }
 };

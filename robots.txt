@@ -9,6 +9,8 @@ Allow: /
 Allow: /products/
 Allow: /products/*/
 Allow: /city/
+Allow: /blog/
+Allow: /blog/*
 Disallow: /admin/
 Disallow: /private/
 Disallow: /*.json$
@@ -22,6 +24,8 @@ Allow: /
 Allow: /products/
 Allow: /products/*/
 Allow: /city/
+Allow: /blog/
+Allow: /blog/*
 Crawl-delay: 0
 
 User-agent: Googlebot-Image
@@ -36,6 +40,8 @@ Allow: /
 Allow: /products/
 Allow: /products/*/
 Allow: /city/
+Allow: /blog/
+Allow: /blog/*
 Crawl-delay: 0
 
 User-agent: msnbot

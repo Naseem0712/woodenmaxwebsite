@@ -41,9 +41,79 @@
   
   <url>
     <loc>https://woodenmax.in/blog</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2025-01-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
+  </url>
+  
+  <!-- ============================================
+       BLOG POSTS - High Priority for SEO
+       ============================================ -->
+  <url>
+    <loc>https://woodenmax.in/blog/window-maintenance-tips</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://woodenmax.in/blog/energy-efficient-windows-guide</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://woodenmax.in/blog/soundproof-windows-Hyderabad</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://woodenmax.in/blog/sliding-window-vs-folding-door-comparison</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://woodenmax.in/blog/aluminium-sliding-glass-door-complete-guide</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://woodenmax.in/blog/frameless-sliding-doors-interior-partitions</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- ============================================
+       PRICE CALCULATOR PAGES - High Priority
+       Free Online Calculator Tools
+       ============================================ -->
+  <url>
+    <loc>https://woodenmax.in/aluminium-window-price-calculator</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://woodenmax.in/glass-elevation-price-calculator</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://woodenmax.in/calculators</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
   
   <!-- ============================================

@@ -10,6 +10,13 @@
  * @param {string} containerId - Optional container ID (default: price-calculator-{productId})
  */
 async function initCalculator(productId, containerId = null) {
+  // Prevent duplicate initialization
+  const instanceKey = `calculator_${productId}`;
+  if (window[instanceKey]) {
+    console.log(`⚠️ Calculator already initialized for: ${productId}`);
+    return window[instanceKey];
+  }
+  
   try {
     // Check if base class is loaded
     if (typeof PriceCalculatorBase === 'undefined') {
@@ -44,7 +51,7 @@ async function initCalculator(productId, containerId = null) {
     const calculator = new PriceCalculatorBase(productId, productData, calcContainerId);
     
     // Store instance globally for access
-    window[`calculator_${productId}`] = calculator;
+    window[instanceKey] = calculator;
     
     console.log(`✅ Calculator initialized for: ${productData.name}`);
     return calculator;
@@ -74,6 +81,9 @@ function loadScript(src) {
   });
 }
 
+// Track initialized calculators to prevent duplicates
+const initializedCalculators = new Set();
+
 /**
  * Auto-initialize calculators on page load
  * Looks for elements with data-product attribute
@@ -85,7 +95,8 @@ function autoInitCalculators() {
     const productId = container.getAttribute('data-product');
     const containerId = container.id || `price-calculator-${productId}`;
     
-    if (productId) {
+    if (productId && !initializedCalculators.has(containerId)) {
+      initializedCalculators.add(containerId);
       // Small delay to ensure DOM is ready
       setTimeout(() => {
         initCalculator(productId, containerId);
