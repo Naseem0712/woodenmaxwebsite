@@ -432,14 +432,10 @@
     // Fallback for browsers that don't support onload on link tags
     (function() {
       var link = document.querySelector('link[rel="preload"][as="style"]');
-      if (link && !link.onload) {
+      if (link && (!('onload' in link) || !link.onload)) {
         link.rel = 'stylesheet';
       }
     })();
-  </script>
-  <script>
-    // Fallback for browsers that don't support onload on link
-    !function(e){"use strict";var t=function(t,n,o){var i,r=e.document,a=r.createElement("link");if(n)i=n;else{var l=r.getElementsByTagName("script");i=l[l.length-1].parentNode}var d=r.createElement("script");d.src="//cdn.jsdelivr.net/npm/loadcss@2.0.2/src/cssrelpreload.min.js",d.onload=function(){o&&o(),t.rel="stylesheet"},i.appendChild(d),a.rel="preload",a.as="style",a.href=t.href||t.getAttribute("href"),i.appendChild(a)};return t};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);
   </script>
   
   <!-- Lucide Icons removed - Using inline SVG icons for better performance and privacy -->
