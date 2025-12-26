@@ -386,15 +386,61 @@
   
   <!-- Preload Critical Resources (LCP Image First) -->
   <link rel="preload" href="images/products/structural-glazing-building-elevation.webp" as="image" fetchpriority="high" />
-  <link rel="preload" href="css/styles.css" as="style" />
   <link rel="preload" href="images/woodenmax-logo.png" as="image" />
   
   <!-- Fonts with optimized loading (async) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"></noscript>
   
-  <!-- Custom Styles (Critical CSS loaded immediately) -->
-  <link rel="stylesheet" href="css/styles.css">
+  <!-- Critical CSS (Inline for faster render) -->
+  <style>
+  /* Critical Above-the-Fold CSS */
+  :root{--gold-400:#d4af37;--gold-500:#c9a227;--gold-600:#b8941a;--obsidian:#000000;--soft-grey:#4a4a4a;--soft-grey-hover:#5a5a5a;--soft-grey-light:#6a6a6a;--slate-200:#ffffff;--slate-300:#f5f5f5;--slate-400:#e0e0e0;--slate-500:#b0b0b0;--slate-600:#808080;--slate-700:#505050;--slate-800:#303030;--slate-900:#1a1a1a;--slate-950:#000000;--font-sans:'Inter',sans-serif;--font-serif:'Playfair Display',serif}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{overflow-x:hidden;max-width:100vw}
+  img{max-width:100%;height:auto}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--font-sans);background-color:#000000;color:#ffffff;line-height:1.6;min-height:100vh;overflow-x:hidden}
+  .container{max-width:1280px;margin:0 auto;padding:0 1rem;width:100%}
+  .navbar{position:fixed;top:0;width:100%;z-index:100;transition:all 0.5s ease;padding:0;background:linear-gradient(to bottom,rgba(0,0,0,0.95) 0%,rgba(0,0,0,0.9) 50%,transparent 100%);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+  .navbar-content{display:flex;align-items:center;justify-content:space-between;padding:1rem;max-width:1280px;margin:0 auto;width:100%}
+  .hero-slider{position:relative;height:100vh;min-height:600px;width:100%;overflow:hidden;background:var(--obsidian);contain:layout style paint;content-visibility:auto}
+  .slide{position:absolute;inset:0;opacity:0;z-index:0;transition:opacity 1s ease-in-out}
+  .slide.active{opacity:1;z-index:10}
+  .slide-image-container{position:absolute;inset:0;overflow:hidden;contain:layout style paint;will-change:contents}
+  .slide-image{width:100%;height:100%;object-fit:cover;transform:scale(1);transition:transform 10s linear;will-change:transform;backface-visibility:hidden;content-visibility:auto}
+  .slide.active .slide-image{transform:scale(1.1)}
+  .slide-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.4) 50%,rgba(0,0,0,0.8) 100%)}
+  .slide-content{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;padding-top:100px}
+  .slide-content-inner{max-width:1024px;margin:0 auto}
+  .slide-subtitle{display:inline-block;color:var(--gold-400);letter-spacing:0.3em;text-transform:uppercase;font-size:0.875rem;margin-bottom:1.5rem}
+  .slide-title{font-size:3rem;color:white;margin-bottom:2rem;line-height:1.1}
+  .slide-description{color:var(--slate-200);font-size:1.125rem;margin-bottom:2.5rem;font-weight:300;max-width:672px;margin:0 auto 2.5rem;line-height:1.75}
+  .slide-buttons{display:flex;flex-direction:column;gap:1.5rem;justify-content:center}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:1rem 2rem;font-size:0.875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;border-radius:2px;transition:all 0.3s ease;cursor:pointer;border:none}
+  .btn-primary{background-color:var(--soft-grey);color:white;box-shadow:0 4px 15px rgba(74,74,74,0.3)}
+  .btn-outline{background:var(--soft-grey);color:white;border:1px solid var(--soft-grey-light);backdrop-filter:blur(4px)}
+  @media (min-width:640px){.container{padding:0 1.5rem};.slide-buttons{flex-direction:row}}
+  @media (min-width:768px){.slide-title{font-size:4.5rem};.slide-description{font-size:1.25rem}}
+  @media (min-width:1024px){.container{padding:0 2rem};.slide-title{font-size:6rem}}
+  </style>
+  
+  <!-- Non-Critical CSS (Deferred) -->
+  <link rel="preload" href="css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="css/styles.css"></noscript>
+  <script>
+    // Fallback for browsers that don't support onload on link tags
+    (function() {
+      var link = document.querySelector('link[rel="preload"][as="style"]');
+      if (link && !link.onload) {
+        link.rel = 'stylesheet';
+      }
+    })();
+  </script>
+  <script>
+    // Fallback for browsers that don't support onload on link
+    !function(e){"use strict";var t=function(t,n,o){var i,r=e.document,a=r.createElement("link");if(n)i=n;else{var l=r.getElementsByTagName("script");i=l[l.length-1].parentNode}var d=r.createElement("script");d.src="//cdn.jsdelivr.net/npm/loadcss@2.0.2/src/cssrelpreload.min.js",d.onload=function(){o&&o(),t.rel="stylesheet"},i.appendChild(d),a.rel="preload",a.as="style",a.href=t.href||t.getAttribute("href"),i.appendChild(a)};return t};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);
+  </script>
   
   <!-- Lucide Icons removed - Using inline SVG icons for better performance and privacy -->
 </head>

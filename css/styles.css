@@ -159,6 +159,12 @@ a {
 }
 
 @media (max-width: 480px) {
+  /* Extra Mobile LCP Optimizations */
+  .hero-slider {
+    min-height: 400px;
+    height: 60vh;
+  }
+  
   .section-title {
     font-size: 1.5rem !important;
   }
@@ -1018,6 +1024,8 @@ html.menu-open {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  contain: layout style paint;
+  will-change: contents;
 }
 
 .slide-image {
@@ -1654,6 +1662,7 @@ img.about-card {
   .product-description {
     font-size: 0.8rem;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
   
   .product-content {
@@ -1690,6 +1699,7 @@ img.about-card {
   margin-bottom: 1rem;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   font-weight: 300;
