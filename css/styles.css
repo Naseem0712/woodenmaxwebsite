@@ -126,6 +126,21 @@ a {
 
 /* Responsive text */
 @media (max-width: 768px) {
+  /* Mobile LCP Optimizations */
+  .hero-slider {
+    min-height: 500px;
+    height: 70vh;
+  }
+  
+  .slide-image {
+    will-change: auto;
+    transform: none !important;
+  }
+  
+  .slide.active .slide-image {
+    transform: none !important;
+  }
+  
   .section-title {
     font-size: 1.75rem !important;
   }
@@ -982,6 +997,8 @@ html.menu-open {
   width: 100%;
   overflow: hidden;
   background: var(--obsidian);
+  contain: layout style paint;
+  content-visibility: auto;
 }
 
 .slide {
@@ -1009,6 +1026,11 @@ html.menu-open {
   object-fit: cover;
   transform: scale(1);
   transition: transform 10s linear;
+  will-change: transform;
+  backface-visibility: hidden;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  content-visibility: auto;
 }
 
 .slide.active .slide-image {

@@ -22,6 +22,12 @@
   <link rel="icon" type="image/png" href="favicon.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="favicon.png" />
   
+  <!-- Performance Optimizations -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+  
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="FREE Aluminium Window Price Calculator 2025 | Instant Quotes | WoodenMax" />
   <meta property="og:description" content="FREE live price calculator for windows & facades. Get instant quotes in 30 seconds. No registration required. 15+ years experience, 500+ projects. Works for Hyderabad, Delhi, Bangalore, Pune & all Indian cities. Calculate now →" />
@@ -372,19 +378,22 @@
   }
   </script>
   
-  <!-- Resource Hints for Speed Optimization -->
+  <!-- Performance Optimizations -->
   <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-  <link rel="preload" href="css/styles.css" as="style">
-  <link rel="preload" href="images/woodenmax-logo.png" as="image">
-  
-  <!-- Fonts with optimized loading -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  
+  <!-- Preload Critical Resources (LCP Image First) -->
+  <link rel="preload" href="images/products/structural-glazing-building-elevation.webp" as="image" fetchpriority="high" />
+  <link rel="preload" href="css/styles.css" as="style" />
+  <link rel="preload" href="images/woodenmax-logo.png" as="image" />
+  
+  <!-- Fonts with optimized loading (async) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"></noscript>
   
-  <!-- Custom Styles -->
+  <!-- Custom Styles (Critical CSS loaded immediately) -->
   <link rel="stylesheet" href="css/styles.css">
   
   <!-- Lucide Icons removed - Using inline SVG icons for better performance and privacy -->
@@ -515,7 +524,7 @@
     <!-- Slide 1 - Structural Glazing / Glass Elevation (NEW) -->
     <div class="slide active" data-index="0">
       <div class="slide-image-container">
-        <img src="images/products/structural-glazing-building-elevation.webp" alt="Structural Glazing Building Elevation - Premium Glass Curtain Wall Facade India" class="slide-image" fetchpriority="high" loading="eager" width="1920" height="800">
+        <img src="images/products/structural-glazing-building-elevation.webp" alt="Structural Glazing Building Elevation - Premium Glass Curtain Wall Facade India" class="slide-image" fetchpriority="high" loading="eager" width="1920" height="800" decoding="async">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -1162,10 +1171,11 @@
     // Fallback: Direct Web3Forms (uncomment if Worker not working)
     // window.WEB3FORMS_ACCESS_KEY = 'fd9946a6-03dd-4f6f-bad8-c430f7c6d351';
   </script>
-  <script src="js/email-submitter.js"></script>
+  <!-- Non-critical JS (deferred for better LCP) -->
+  <script src="js/email-submitter.js" defer></script>
   
-  <!-- JavaScript -->
-  <script src="js/main.js"></script>
+  <!-- JavaScript (deferred) -->
+  <script src="js/main.js" defer></script>
   <script>
     // Shower Carousel Auto-Slide
     (function() {
