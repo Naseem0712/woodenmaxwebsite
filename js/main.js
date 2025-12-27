@@ -12,9 +12,10 @@ if ('scrollRestoration' in history) {
 document.addEventListener('DOMContentLoaded', function() {
   
   // ============================================
-  // NAVBAR SCROLL EFFECT
+  // NAVBAR SCROLL EFFECT (Optimized with RAF)
   // ============================================
   const navbar = document.getElementById('navbar');
+  let ticking = false;
   
   function handleNavbarScroll() {
     if (window.scrollY > 20) {
@@ -22,9 +23,17 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       navbar.classList.remove('scrolled');
     }
+    ticking = false;
   }
   
-  window.addEventListener('scroll', handleNavbarScroll);
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(handleNavbarScroll);
+      ticking = true;
+    }
+  }
+  
+  window.addEventListener('scroll', onScroll, { passive: true });
   handleNavbarScroll(); // Check on load
   
   // ============================================

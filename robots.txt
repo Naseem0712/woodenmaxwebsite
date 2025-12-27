@@ -56,48 +56,36 @@ User-agent: GPTBot
 Allow: /
 Allow: /products/
 Allow: /products/*/
-Allow: /#calculators
-Allow: /#price-calculator
 Crawl-delay: 0
 
 User-agent: ChatGPT-User
 Allow: /
 Allow: /products/
 Allow: /products/*/
-Allow: /#calculators
-Allow: /#price-calculator
 Crawl-delay: 0
 
 User-agent: CCBot
 Allow: /
 Allow: /products/
 Allow: /products/*/
-Allow: /#calculators
-Allow: /#price-calculator
 Crawl-delay: 0
 
 User-agent: anthropic-ai
 Allow: /
 Allow: /products/
 Allow: /products/*/
-Allow: /#calculators
-Allow: /#price-calculator
 Crawl-delay: 0
 
 User-agent: Claude-Web
 Allow: /
 Allow: /products/
 Allow: /products/*/
-Allow: /#calculators
-Allow: /#price-calculator
 Crawl-delay: 0
 
 User-agent: Google-Extended
 Allow: /
 Allow: /products/
 Allow: /products/*/
-Allow: /#calculators
-Allow: /#price-calculator
 Crawl-delay: 0
 
 # ============================================

@@ -805,7 +805,8 @@ html.menu-open {
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   transform: translateY(32px);
   opacity: 0;
-  transition: all 0.7s ease, padding-left 0.3s ease;
+  transition: transform 0.7s ease, opacity 0.7s ease, padding-left 0.3s ease;
+  will-change: transform, opacity;
 }
 
 .mobile-menu.active .mobile-nav-item {
@@ -1588,11 +1589,23 @@ img.about-card {
   overflow: hidden;
 }
 
+/* Prevent CLS - Reserve space for images */
+img:not([width]):not([height]) {
+  aspect-ratio: attr(width) / attr(height);
+}
+
+img[width][height] {
+  aspect-ratio: attr(width) / attr(height);
+  height: auto;
+}
+
 .product-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.7s ease;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .product-card:hover .product-image {
@@ -1861,6 +1874,8 @@ img.about-card {
   object-fit: cover;
   opacity: 0.6;
   transition: transform 1s ease, opacity 0.5s ease;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
 }
 
 .category-card:hover img {
