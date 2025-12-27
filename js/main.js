@@ -525,12 +525,36 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
     
-    // Auto-play
+    // Auto-play (Optimized with requestAnimationFrame)
+    let autoPlayAnimationId = null;
+    let lastAutoPlayTime = performance.now();
+    const autoPlayInterval = 6000;
+    
+    function autoPlayLoop(currentTime) {
+      if (currentTime - lastAutoPlayTime >= autoPlayInterval) {
+        nextSlide();
+        lastAutoPlayTime = currentTime;
+      }
+      autoPlayAnimationId = requestAnimationFrame(autoPlayLoop);
+    }
+    
     function startAutoPlay() {
-      autoPlayInterval = setInterval(nextSlide, 6000);
+      if (!autoPlayAnimationId) {
+        lastAutoPlayTime = performance.now();
+        autoPlayAnimationId = requestAnimationFrame(autoPlayLoop);
+      }
+    }
+    
+    function stopAutoPlay() {
+      if (autoPlayAnimationId) {
+        cancelAnimationFrame(autoPlayAnimationId);
+        autoPlayAnimationId = null;
+      }
     }
     
     function resetAutoPlay() {
+      stopAutoPlay();
+      startAutoPlay();
       clearInterval(autoPlayInterval);
       startAutoPlay();
     }
