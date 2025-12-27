@@ -450,35 +450,8 @@
   @media (min-width:1024px){.container{padding:0 2rem};.slide-title{font-size:6rem};.about-grid{grid-template-columns:1fr 1fr};.products-grid{grid-template-columns:repeat(3,1fr)};.category-grid{grid-template-columns:repeat(3,1fr)};.footer-grid{grid-template-columns:repeat(4,1fr)}}
   </style>
   
-  <!-- Non-Critical CSS (Deferred but with faster fallback to prevent FOUC) -->
-  <link rel="preload" href="css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="css/styles.css"></noscript>
-  <script>
-    // Fast fallback to prevent FOUC - load CSS immediately if preload fails
-    (function() {
-      var link = document.querySelector('link[rel="preload"][as="style"]');
-      if (link) {
-        // Fallback for browsers that don't support onload
-        if (!('onload' in link)) {
-          link.rel = 'stylesheet';
-        } else {
-          // If CSS hasn't loaded in 100ms, force load to prevent FOUC
-          var timeout = setTimeout(function() {
-            if (link.rel === 'preload') {
-              link.rel = 'stylesheet';
-            }
-          }, 100);
-          
-          // Clear timeout if CSS loads successfully
-          link.onload = function() {
-            clearTimeout(timeout);
-            this.onload = null;
-            this.rel = 'stylesheet';
-          };
-        }
-      }
-    })();
-  </script>
+  <!-- Non-Critical CSS (Load immediately to prevent FOUC) -->
+  <link rel="stylesheet" href="css/styles.css">
   
   <!-- Lucide Icons removed - Using inline SVG icons for better performance and privacy -->
 </head>
