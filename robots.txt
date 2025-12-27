@@ -14,7 +14,8 @@ Allow: /blog/*
 Disallow: /admin/
 Disallow: /private/
 Disallow: /*.json$
-Disallow: /*debug*
+Disallow: /debug
+Disallow: /*?debug*
 
 # ============================================
 # Google Search Engine

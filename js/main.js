@@ -167,34 +167,44 @@ document.addEventListener('DOMContentLoaded', function() {
       const targetItem = originalItems[index];
       if (!targetItem) return;
       
+      // Cache all layout reads in one batch (optimized to prevent forced reflow)
       const containerWidth = categoryCarousel.offsetWidth;
       const itemLeft = targetItem.offsetLeft;
       const itemWidth = targetItem.offsetWidth;
       const targetScroll = itemLeft - (containerWidth / 2) + (itemWidth / 2);
       
+      // Batch DOM write in requestAnimationFrame
       if (animate) {
-        smoothScrollTo(targetScroll, duration);
+        requestAnimationFrame(() => {
+          smoothScrollTo(targetScroll, duration);
+        });
       } else {
-        categoryCarousel.scrollLeft = targetScroll;
-        isAnimating = false;
+        requestAnimationFrame(() => {
+          categoryCarousel.scrollLeft = targetScroll;
+          isAnimating = false;
+        });
       }
     }
     
     // Handle infinite loop - reset position when reaching clones
     function checkInfiniteLoop() {
+      // Cache all layout reads in one batch (optimized to prevent forced reflow)
       const scrollLeft = categoryCarousel.scrollLeft;
       const containerWidth = categoryCarousel.offsetWidth;
       const totalWidth = categoryCarousel.scrollWidth;
       const singleSetWidth = totalWidth / 3; // 3 sets: clones + originals + clones
       
-      // If scrolled too far left (into left clones), jump to right side
-      if (scrollLeft < singleSetWidth * 0.3) {
-        categoryCarousel.scrollLeft = scrollLeft + singleSetWidth;
-      }
-      // If scrolled too far right (into right clones), jump to left side
-      else if (scrollLeft > singleSetWidth * 1.7) {
-        categoryCarousel.scrollLeft = scrollLeft - singleSetWidth;
-      }
+      // Batch DOM writes in requestAnimationFrame
+      requestAnimationFrame(() => {
+        // If scrolled too far left (into left clones), jump to right side
+        if (scrollLeft < singleSetWidth * 0.3) {
+          categoryCarousel.scrollLeft = scrollLeft + singleSetWidth;
+        }
+        // If scrolled too far right (into right clones), jump to left side
+        else if (scrollLeft > singleSetWidth * 1.7) {
+          categoryCarousel.scrollLeft = scrollLeft - singleSetWidth;
+        }
+      });
     }
     
     function updateCarousel(direction) {
@@ -241,15 +251,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Scroll to the CLICKED item directly (not the original)
         // This ensures wheel rotates in the direction user clicked
+        // Cache all layout reads in one batch (optimized to prevent forced reflow)
         const containerWidth = categoryCarousel.offsetWidth;
         const itemLeft = item.offsetLeft;
         const itemWidth = item.offsetWidth;
         const targetScroll = itemLeft - (containerWidth / 2) + (itemWidth / 2);
         
-        // Smooth scroll to clicked item
-        smoothScrollTo(targetScroll, 1000, function() {
-          // After animation, silently reset to original item position if needed
-          checkInfiniteLoop();
+        // Batch DOM operations in requestAnimationFrame
+        requestAnimationFrame(() => {
+          // Smooth scroll to clicked item
+          smoothScrollTo(targetScroll, 1000, function() {
+            // After animation, silently reset to original item position if needed
+            checkInfiniteLoop();
+          });
         });
       });
     });
@@ -304,16 +318,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (closeIcon) {
       closeIcon.style.display = 'none';
     }
-    // Reset body overflow and remove menu-open class
+    // Reset body overflow and remove menu-open class - using CSS classes
     document.body.classList.remove('menu-open');
     document.documentElement.classList.remove('menu-open');
-    document.body.style.overflow = '';
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    document.body.style.left = '';
-    document.body.style.right = '';
-    document.documentElement.style.overflow = '';
+    // Remove CSS custom property
+    document.documentElement.style.removeProperty('--scroll-y');
     delete document.body.dataset.scrollY;
   }
   
@@ -329,15 +338,12 @@ document.addEventListener('DOMContentLoaded', function() {
       if (menuIcon) menuIcon.style.display = 'none';
       if (closeIcon) closeIcon.style.display = 'block';
       
-      // Prevent body scroll - multiple methods for compatibility
+      // Prevent body scroll - using CSS classes (optimized for performance)
       const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+      // Use CSS custom property to prevent scroll jump
+      document.documentElement.style.setProperty('--scroll-y', `-${scrollY}px`);
       document.body.classList.add('menu-open');
       document.documentElement.classList.add('menu-open');
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = '100%';
-      document.body.style.left = '0';
-      document.body.style.right = '0';
       
       // Store scroll position
       document.body.dataset.scrollY = scrollY;
@@ -347,15 +353,12 @@ document.addEventListener('DOMContentLoaded', function() {
       if (menuIcon) menuIcon.style.display = 'block';
       if (closeIcon) closeIcon.style.display = 'none';
       
-      // Restore body scroll
+      // Restore body scroll - using CSS classes (optimized for performance)
       const scrollY = document.body.dataset.scrollY || '0';
       document.body.classList.remove('menu-open');
       document.documentElement.classList.remove('menu-open');
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      document.body.style.left = '';
-      document.body.style.right = '';
+      // Remove CSS custom property
+      document.documentElement.style.removeProperty('--scroll-y');
       
       // Restore scroll position
       window.scrollTo(0, parseInt(scrollY || '0', 10));
