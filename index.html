@@ -422,20 +422,53 @@
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:1rem 2rem;font-size:0.875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;border-radius:2px;transition:all 0.3s ease;cursor:pointer;border:none}
   .btn-primary{background-color:var(--soft-grey);color:white;box-shadow:0 4px 15px rgba(74,74,74,0.3)}
   .btn-outline{background:var(--soft-grey);color:white;border:1px solid var(--soft-grey-light);backdrop-filter:blur(4px)}
+  .section-label{color:var(--gold-500);letter-spacing:0.2em;text-transform:uppercase;font-size:0.875rem;margin-bottom:0.5rem;display:block}
+  .section-title{font-size:2rem;margin-bottom:1rem;font-family:var(--font-serif);color:white}
+  .about-section{padding:6rem 0;background:var(--slate-950)}
+  .about-grid{display:grid;grid-template-columns:1fr;gap:4rem;align-items:center}
+  .about-text{color:var(--slate-400);font-size:1.125rem;line-height:1.75;margin-bottom:1.5rem}
+  .stats-section{padding:5rem 0;border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05);background:var(--obsidian);position:relative}
+  .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;text-align:center;position:relative;z-index:10}
+  .stat-value{font-size:2.5rem;font-family:var(--font-serif);color:var(--gold-500);margin-bottom:0.5rem}
+  .stat-label{color:var(--slate-400);font-size:0.875rem;text-transform:uppercase;letter-spacing:0.1em}
+  .featured-section{padding:6rem 0;background:var(--obsidian)}
+  .products-grid{display:grid;grid-template-columns:1fr;gap:2rem}
+  .product-card{display:block;height:100%;transition:transform 0.5s ease;will-change:transform}
+  .product-card-inner{height:100%;border-radius:2px;overflow:hidden;background:#1a1a1a;backdrop-filter:blur(12px);border:1px solid rgba(212,175,55,0.3)}
+  .product-image-container{position:relative;aspect-ratio:4/3;overflow:hidden}
+  .product-image{width:100%;height:100%;object-fit:cover;transition:transform 0.7s ease;will-change:transform;backface-visibility:hidden}
+  .product-content{padding:1.5rem}
+  .product-description{color:var(--slate-400);font-size:0.875rem;line-height:1.5;margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:300}
+  .category-section{padding:6rem 0;background:#050b1f;position:relative;overflow:hidden}
+  .category-grid{display:grid;grid-template-columns:1fr;gap:1.5rem}
+  .category-card{position:relative;overflow:hidden;border-radius:2px;cursor:pointer;display:block}
+  .category-card img{width:100%;height:100%;object-fit:cover;opacity:0.6;transition:transform 1s ease,opacity 0.5s ease;will-change:transform,opacity;backface-visibility:hidden}
+  footer{background:var(--slate-950);border-top:1px solid rgba(255,255,255,0.1);padding-top:4rem;padding-bottom:2rem}
+  .footer-grid{display:grid;grid-template-columns:1fr;gap:3rem}
   @media (min-width:640px){.container{padding:0 1.5rem};.slide-buttons{flex-direction:row}}
-  @media (min-width:768px){.slide-title{font-size:4.5rem};.slide-description{font-size:1.25rem}}
-  @media (min-width:1024px){.container{padding:0 2rem};.slide-title{font-size:6rem}}
+  @media (min-width:768px){.slide-title{font-size:4.5rem};.slide-description{font-size:1.25rem};.section-title{font-size:2.5rem};.stats-grid{grid-template-columns:repeat(4,1fr)};.stat-value{font-size:3rem};.products-grid{grid-template-columns:repeat(2,1fr)};.footer-grid{grid-template-columns:repeat(2,1fr)}}
+  @media (min-width:1024px){.container{padding:0 2rem};.slide-title{font-size:6rem};.about-grid{grid-template-columns:1fr 1fr};.products-grid{grid-template-columns:repeat(3,1fr)};.category-grid{grid-template-columns:repeat(3,1fr)};.footer-grid{grid-template-columns:repeat(4,1fr)}}
   </style>
   
-  <!-- Non-Critical CSS (Deferred) -->
+  <!-- Non-Critical CSS (Deferred but with faster fallback) -->
   <link rel="preload" href="css/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="css/styles.css"></noscript>
   <script>
-    // Fallback for browsers that don't support onload on link tags
+    // Immediate fallback to prevent FOUC
     (function() {
       var link = document.querySelector('link[rel="preload"][as="style"]');
-      if (link && (!('onload' in link) || !link.onload)) {
-        link.rel = 'stylesheet';
+      if (link) {
+        // Set stylesheet immediately if preload hasn't loaded in 50ms
+        setTimeout(function() {
+          if (link.rel === 'preload') {
+            link.rel = 'stylesheet';
+          }
+        }, 50);
+        
+        // Fallback for browsers that don't support onload
+        if (!('onload' in link)) {
+          link.rel = 'stylesheet';
+        }
       }
     })();
   </script>
