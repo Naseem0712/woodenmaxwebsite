@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let currentSlide = 0;
     let isAnimating = false;
-    let autoPlayInterval;
+    // autoPlayInterval removed - using requestAnimationFrame instead
     
     function goToSlide(index) {
       if (isAnimating) return;
