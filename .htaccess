@@ -42,28 +42,49 @@ RewriteRule ^(.*)$ $1.html [NC,L]
 <IfModule mod_expires.c>
   ExpiresActive On
   
-  # Images
+  # Images (optimized cache lifetimes)
   ExpiresByType image/jpeg "access plus 1 year"
   ExpiresByType image/jpg "access plus 1 year"
   ExpiresByType image/gif "access plus 1 year"
   ExpiresByType image/png "access plus 1 year"
   ExpiresByType image/webp "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
   
-  # CSS and JavaScript
-  ExpiresByType text/css "access plus 1 month"
-  ExpiresByType application/javascript "access plus 1 month"
-  ExpiresByType application/x-javascript "access plus 1 month"
-  ExpiresByType text/javascript "access plus 1 month"
+  # CSS and JavaScript (optimized cache lifetimes)
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType application/x-javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
   
-  # HTML
-  ExpiresByType text/html "access plus 1 day"
+  # HTML (shorter cache for dynamic content)
+  ExpiresByType text/html "access plus 1 hour"
   
-  # Fonts
+  # Fonts (long cache for static assets)
   ExpiresByType font/woff "access plus 1 year"
   ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType application/font-woff "access plus 1 year"
   ExpiresByType application/font-woff2 "access plus 1 year"
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType font/otf "access plus 1 year"
+</IfModule>
+
+# Cache-Control Headers (for better control)
+<IfModule mod_headers.c>
+  # Images - long cache
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|avif)$">
+    Header set Cache-Control "max-age=31536000, public, immutable"
+  </FilesMatch>
+  
+  # CSS and JS - long cache with versioning
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "max-age=31536000, public, immutable"
+  </FilesMatch>
+  
+  # Fonts - long cache
+  <FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
+    Header set Cache-Control "max-age=31536000, public, immutable"
+  </FilesMatch>
 </IfModule>
 
 # Security Headers
