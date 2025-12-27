@@ -555,8 +555,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetAutoPlay() {
       stopAutoPlay();
       startAutoPlay();
-      clearInterval(autoPlayInterval);
-      startAutoPlay();
     }
     
     startAutoPlay();
