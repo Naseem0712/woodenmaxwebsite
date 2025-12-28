@@ -67,7 +67,16 @@ class ProductManager {
             } else {
               // No 'products' folder found, count all directory parts
               const dirParts = pathParts.filter(p => !p.endsWith('.html') && !p.endsWith('.htm'));
-              levelsUp = dirParts.length;
+              const htmlFile = pathParts.find(p => p.endsWith('.html') || p.endsWith('.htm'));
+              
+              // If file is directly in project root (only one directory part which is project folder name)
+              // Example: /woodenmaxwebsite-main/file.html -> data/products.json (same level)
+              if (dirParts.length === 1 && htmlFile) {
+                // Root level file - data folder is at same level
+                levelsUp = 0;
+              } else {
+                levelsUp = dirParts.length;
+              }
             }
               
               // Build relative path

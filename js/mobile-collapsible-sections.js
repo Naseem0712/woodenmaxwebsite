@@ -52,10 +52,12 @@
           targetContent.classList.remove('expanded');
         }
         button.classList.remove('active');
+        button.setAttribute('aria-expanded', 'false');
       } else {
         // Desktop - show all content
         targetContent.classList.remove('collapsed', 'expanded');
         button.classList.remove('active');
+        button.setAttribute('aria-expanded', 'true');
       }
       
       // Toggle on button click
@@ -71,11 +73,13 @@
           targetContent.classList.remove('expanded');
           targetContent.classList.add('collapsed');
           button.classList.remove('active');
+          button.setAttribute('aria-expanded', 'false');
         } else {
           // Expand - remove collapsed, add expanded
           targetContent.classList.remove('collapsed');
           targetContent.classList.add('expanded');
           button.classList.add('active');
+          button.setAttribute('aria-expanded', 'true');
         }
         
         // Debug log

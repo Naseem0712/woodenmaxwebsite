@@ -18,12 +18,17 @@
     // Find calculator area - try multiple methods
     let calculatorArea = null;
     
-    // Method 1: Check if href points to external page (city/blog pages)
+    // Method 1: Check if href points to external page (calculator pages, city/blog pages)
     const href = button.getAttribute('href');
     if (href && !href.startsWith('#')) {
-      // External link - don't hide/show based on calculator visibility
-      // Just show button always (no visibility logic needed)
-      return;
+      // External link - allow normal link behavior, don't add any click handlers
+      // Button will work as a normal link, navigating to the calculator page
+      // Ensure button is visible and clickable
+      button.style.display = '';
+      button.style.opacity = '1';
+      button.style.visibility = 'visible';
+      button.style.pointerEvents = 'auto';
+      return; // Exit early - no need to set up scroll/visibility logic
     }
     
     // Method 2: Try to find by href if button has one (internal anchor)

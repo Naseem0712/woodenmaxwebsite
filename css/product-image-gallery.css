@@ -1,0 +1,163 @@
+/* ============================================
+   PRODUCT IMAGE GALLERY - REUSABLE CSS
+   Lightweight, responsive image gallery
+   ============================================ */
+
+/* Main Image Container - Flexible Size, Shows Full Image Without Cropping */
+.product-main-image-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+  min-height: 400px;
+  border-radius: 0.5rem;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  /* Prevent layout shift - container maintains minimum size */
+  contain: layout style;
+}
+
+.product-main-image {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 70vh !important;
+  object-fit: contain !important; /* Show full image without cropping */
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Ensure images of any size fit properly */
+.product-main-image-container img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 70vh !important;
+  object-fit: contain !important;
+}
+
+@media (min-width: 768px) {
+  .product-main-image-container {
+    min-height: 500px;
+    padding: 1.5rem;
+  }
+  
+  .product-main-image,
+  .product-main-image-container img {
+    max-height: 75vh !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-main-image-container {
+    min-height: 600px;
+    padding: 2rem;
+  }
+  
+  .product-main-image,
+  .product-main-image-container img {
+    max-height: 80vh !important;
+  }
+}
+
+.product-main-image-container::after {
+  content: '🔍 Click to enlarge';
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.product-main-image-container:hover::after {
+  opacity: 1;
+}
+
+/* Thumbnail Gallery Grid */
+.product-thumbnail-gallery {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 1024px) {
+  .product-thumbnail-gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .product-thumbnail-gallery {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+}
+
+/* Thumbnail Items - Fixed Square Cards */
+.thumbnail-item {
+  aspect-ratio: 1;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 0.25rem;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+  width: 100%;
+  min-height: 60px;
+  background: #1a1a1a;
+  position: relative;
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.thumbnail-item:hover {
+  opacity: 1 !important;
+  transform: scale(1.05);
+  border-color: var(--gold-500) !important;
+}
+
+.thumbnail-item.active {
+  opacity: 1 !important;
+  border-color: var(--gold-400) !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+}
+
+@media (min-width: 768px) {
+  .thumbnail-item {
+    min-height: 80px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .thumbnail-item {
+    min-height: 94px; /* Approximately 25mm at 96dpi */
+  }
+}
+
+@media (max-width: 767px) {
+  .thumbnail-item {
+    min-height: 60px;
+  }
+}
+
