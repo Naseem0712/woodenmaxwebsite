@@ -87,7 +87,11 @@ class ProductManager {
                 basePath = '../'.repeat(levelsUp) + 'data/products.json';
             }
             
-            console.log('📁 JSON Path calculated:', basePath, 'from', pathname, 'levels:', levelsUp);
+            // Only log once per page load to avoid duplicate console messages
+            if (!window._jsonPathCalculated) {
+              console.log('📁 JSON Path calculated:', basePath, 'from', pathname, 'levels:', levelsUp);
+              window._jsonPathCalculated = true;
+            }
             return basePath;
           } catch (e) {
             console.error('Error calculating JSON path:', e);

@@ -1,9 +1,10 @@
 # ============================================
 # Robots.txt - WoodenMax Architectural Elements
 # Optimized for Google, Bing & AI Crawlers
+# Last Updated: 2025-01-27
 # ============================================
 
-# Allow all search engines
+# Default rules for all crawlers
 User-agent: *
 Allow: /
 Allow: /products/
@@ -16,6 +17,10 @@ Disallow: /private/
 Disallow: /*.json$
 Disallow: /debug
 Disallow: /*?debug*
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /*.log$
+Disallow: /*.sql$
 
 # ============================================
 # Google Search Engine

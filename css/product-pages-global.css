@@ -569,75 +569,136 @@
   right: 2rem;
   z-index: 999;
   padding: 1rem 1.5rem;
-  background: linear-gradient(135deg, #d4af37, #b8860b);
-  color: #000;
-  font-weight: 600;
+  /* Glassmorphism / Water Drop Effect - Transparent like mineral water */
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  font-weight: 700;
   font-size: 0.95rem;
-  border: none;
   border-radius: 50px;
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4), 0 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 
+              0 4px 16px rgba(0, 0, 0, 0.1),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
   cursor: pointer;
-  display: flex;
+  display: flex !important;
   align-items: center;
   gap: 0.75rem;
   text-decoration: none;
-  transition: opacity 0.4s ease-out, transform 0.4s ease-out, box-shadow 0.2s ease, visibility 0.4s;
-  opacity: 1;
-  visibility: visible;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+              transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+              visibility 0.8s,
+              box-shadow 0.3s ease;
+  opacity: 1 !important;
+  visibility: visible !important;
   transform: translateY(0) scale(1);
+  /* Water drop floating animation - continuous gentle movement */
+  animation: waterDropFloat 3s ease-in-out infinite;
   /* Prevent layout shifts */
   width: auto;
   min-width: 180px;
   max-width: 220px;
   justify-content: center;
   white-space: nowrap;
-  /* Ensure stable rendering */
-  contain: layout style paint;
   box-sizing: border-box;
-  backface-visibility: hidden;
-  perspective: 1000px;
+}
+
+/* Water Drop Floating Animation - Like floating in air */
+@keyframes waterDropFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-6px) scale(1.01) rotate(-0.5deg);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.02) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-6px) scale(1.01) rotate(0.5deg);
+  }
+}
+
+/* Water Drop Touch Effect - Wobbles when touched/hovered */
+@keyframes waterDropTouch {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  15% {
+    transform: translateY(-8px) scale(0.96) rotate(-3deg);
+  }
+  30% {
+    transform: translateY(4px) scale(1.06) rotate(3deg);
+  }
+  45% {
+    transform: translateY(-3px) scale(0.98) rotate(-2deg);
+  }
+  60% {
+    transform: translateY(2px) scale(1.04) rotate(2deg);
+  }
+  75% {
+    transform: translateY(-1px) scale(0.99) rotate(-1deg);
+  }
+  90% {
+    transform: translateY(1px) scale(1.01) rotate(1deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
 }
 
 .floating-calc-button:hover {
-  box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5), 0 6px 15px rgba(0, 0, 0, 0.4);
-  transform: translateY(-2px) scale(1.02);
+  background: rgba(255, 255, 255, 0.25) !important;
+  backdrop-filter: blur(25px) saturate(200%);
+  -webkit-backdrop-filter: blur(25px) saturate(200%);
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 
+              0 6px 20px rgba(0, 0, 0, 0.2),
+              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  animation: waterDropTouch 0.6s ease-in-out;
+  transform: translateY(-3px) scale(1.05);
 }
 
 .floating-calc-button:active {
-  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4), 0 3px 8px rgba(0, 0, 0, 0.3);
-  transform: translateY(0) scale(0.98);
+  background: rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 
+              inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(0) scale(0.97);
+  animation: none;
 }
 
 .floating-calc-button svg {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  stroke: #000;
+  stroke: #ffffff;
+  fill: none;
+  display: block;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .floating-calc-button-text {
-  display: inline-block;
+  display: inline-block !important;
   min-width: 120px;
   width: auto;
   max-width: 150px;
   text-align: center;
   white-space: nowrap;
-  overflow: hidden;
-  color: #000 !important;
-  font-weight: 600;
-  font-size: 0.95rem;
-  /* Prevent layout shifts during typing */
-  will-change: auto;
-  backface-visibility: hidden;
-  transform: translateZ(0);
-  contain: strict;
+  overflow: visible !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 0.95rem !important;
   box-sizing: border-box;
   font-family: inherit;
-  letter-spacing: 0;
+  letter-spacing: 0.5px;
   user-select: none;
   pointer-events: none;
-  transition: opacity 0.2s ease;
-  opacity: 1;
+  opacity: 1 !important;
+  visibility: visible !important;
+  line-height: 1.2;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4),
+               0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive adjustments */
@@ -649,17 +710,23 @@
     font-size: 0.9rem;
     min-width: 160px;
     max-width: 180px;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
   }
   
   .floating-calc-button svg {
     width: 18px;
     height: 18px;
+    stroke: #ffffff !important;
   }
   
   .floating-calc-button-text {
     min-width: 110px;
     max-width: 130px;
-    font-size: 0.9rem;
+    font-size: 0.9rem !important;
+    font-weight: 700 !important;
   }
 }
 
@@ -671,17 +738,23 @@
     font-size: 0.85rem;
     min-width: 140px;
     max-width: 160px;
+    background: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
   }
   
   .floating-calc-button svg {
     width: 16px;
     height: 16px;
+    stroke: #ffffff !important;
   }
   
   .floating-calc-button-text {
     min-width: 100px;
     max-width: 120px;
-    font-size: 0.85rem;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
   }
 }
 
