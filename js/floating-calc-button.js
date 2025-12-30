@@ -219,8 +219,8 @@
         });
       }
 
-    // Smooth scroll to calculator on button click
-    button.addEventListener('click', function(e) {
+      // Smooth scroll to calculator on button click
+      button.addEventListener('click', function(e) {
       e.preventDefault();
       
       // Mark as scrolling
@@ -249,44 +249,47 @@
         isScrolling = false;
         // Check visibility after scroll
         setTimeout(updateButtonVisibility, 200);
-      }, 1000); // Wait for smooth scroll to complete
-    });
+        }, 1000); // Wait for smooth scroll to complete
+      });
 
-    // Update visibility on scroll with smooth throttling
-    let scrollTimeout2 = null;
-    
-    window.addEventListener('scroll', function() {
-      if (scrollTimeout2) {
-        clearTimeout(scrollTimeout2);
-      }
+      // Update visibility on scroll with smooth throttling
+      let scrollTimeout2 = null;
       
-      // Throttle scroll events for smooth performance
-      scrollTimeout2 = setTimeout(function() {
-        if (!isScrolling) {
-          const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-          // Update on every scroll (reduced threshold for smoother detection)
-          // This ensures button hides/shows smoothly as user enters/exits calculator area
-          if (Math.abs(currentScrollTop - lastScrollTop) > 5) {
-            updateButtonVisibility();
-            lastScrollTop = currentScrollTop;
-          }
+      window.addEventListener('scroll', function() {
+        if (scrollTimeout2) {
+          clearTimeout(scrollTimeout2);
         }
-      }, 16); // ~60fps throttling for smooth updates
-    }, { passive: true });
+        
+        // Throttle scroll events for smooth performance
+        scrollTimeout2 = setTimeout(function() {
+          if (!isScrolling) {
+            const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            // Update on every scroll (reduced threshold for smoother detection)
+            // This ensures button hides/shows smoothly as user enters/exits calculator area
+            if (Math.abs(currentScrollTop - lastScrollTop) > 5) {
+              updateButtonVisibility();
+              lastScrollTop = currentScrollTop;
+            }
+          }
+        }, 16); // ~60fps throttling for smooth updates
+      }, { passive: true });
 
-    // Initial check - set correct state immediately, then check again after delay
-    updateButtonVisibility(); // Immediate check for correct initial state
+      // Initial check - set correct state immediately, then check again after delay
+      updateButtonVisibility(); // Immediate check for correct initial state
+      
+      // Also check after delay to allow page to fully load
+      setTimeout(() => {
+        updateButtonVisibility();
+      }, 500);
+      
+      // Also check on resize
+      window.addEventListener('resize', function() {
+        setTimeout(updateButtonVisibility, 100);
+      }, { passive: true });
+    }
     
-    // Also check after delay to allow page to fully load
-    setTimeout(() => {
-      updateButtonVisibility();
-    }, 500);
-    
-    // Also check on resize
-    window.addEventListener('resize', function() {
-      setTimeout(updateButtonVisibility, 100);
-    }, { passive: true });
-  }
+    // Call initialization
+    initializeCalculatorVisibility();
 
   // Initialize auto-typing animation for button text
   function initButtonTextTyping() {
