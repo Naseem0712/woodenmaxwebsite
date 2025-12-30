@@ -221,34 +221,34 @@
 
       // Smooth scroll to calculator on button click
       button.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      // Mark as scrolling
-      isScrolling = true;
-      
-      // Smoothly hide button
-      button.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
-      button.style.opacity = '0';
-      button.style.pointerEvents = 'none';
-      button.style.transform = 'translateY(20px) scale(0.95)';
-      
-      // Calculate scroll position (calculator top - some offset)
-      const calculatorRect = calculatorArea.getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      const targetPosition = calculatorRect.top + scrollTop - 100; // 100px offset from top
-      
-      // Smooth scroll
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'smooth'
-      });
-      
-      // Reset scrolling flag after scroll completes
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(function() {
-        isScrolling = false;
-        // Check visibility after scroll
-        setTimeout(updateButtonVisibility, 200);
+        e.preventDefault();
+        
+        // Mark as scrolling
+        isScrolling = true;
+        
+        // Smoothly hide button
+        button.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out';
+        button.style.opacity = '0';
+        button.style.pointerEvents = 'none';
+        button.style.transform = 'translateY(20px) scale(0.95)';
+        
+        // Calculate scroll position (calculator top - some offset)
+        const calculatorRect = calculatorArea.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const targetPosition = calculatorRect.top + scrollTop - 100; // 100px offset from top
+        
+        // Smooth scroll
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+        
+        // Reset scrolling flag after scroll completes
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(function() {
+          isScrolling = false;
+          // Check visibility after scroll
+          setTimeout(updateButtonVisibility, 200);
         }, 1000); // Wait for smooth scroll to complete
       });
 
@@ -290,6 +290,7 @@
     
     // Call initialization
     initializeCalculatorVisibility();
+  }
 
   // Initialize auto-typing animation for button text
   function initButtonTextTyping() {
