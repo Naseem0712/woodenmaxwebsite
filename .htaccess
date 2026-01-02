@@ -1,8 +1,5 @@
-# -*- mode: apache; -*-
 # ============================================
 # Apache .htaccess Configuration File
-# Language: Apache HTTP Server Configuration
-# NOT PowerShell - This is Apache .htaccess syntax
 # ============================================
 
 <IfModule mod_rewrite.c>

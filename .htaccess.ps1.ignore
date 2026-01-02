@@ -1,3 +1,0 @@
-# This file tells PowerShell linter to ignore .htaccess
-# .htaccess is Apache configuration, NOT PowerShell
-
