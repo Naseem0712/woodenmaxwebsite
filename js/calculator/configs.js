@@ -29,27 +29,40 @@ class ProductManager {
         // All product pages are in products/*/ subdirectories (2 levels deep from root)
         const getJsonPath = () => {
           try {
+            // Helper function to normalize pathname (remove folder name)
+            const normalizePathname = (path) => {
+              if (!path) return path;
+              const folderName = 'woodenmaxwebsite-main';
+              if (path.startsWith(`/${folderName}/`)) {
+                return path.replace(`/${folderName}`, '');
+              } else if (path === `/${folderName}`) {
+                return '/';
+              }
+              return path;
+            };
+            
             // Use window.location.pathname to determine depth
-            let pathname = window.location.pathname;
+            let pathname = normalizePathname(window.location.pathname);
             
             // Handle cases where pathname might be empty or just '/'
             if (!pathname || pathname === '/') {
-              pathname = window.location.href;
-              // Extract pathname from full URL
+              let fullUrl = window.location.href;
+              // Extract pathname from full URL and normalize it
               try {
-                const url = new URL(pathname);
-                pathname = url.pathname;
+                const url = new URL(fullUrl);
+                pathname = normalizePathname(url.pathname);
               } catch (e) {
                 // If URL parsing fails, try to extract manually
-                const match = pathname.match(/\/[^?#]*/);
-                pathname = match ? match[0] : '/';
+                const match = fullUrl.match(/\/[^?#]*/);
+                pathname = match ? normalizePathname(match[0]) : '/';
               }
             }
             
             // Parse the pathname to count directory levels
-            // Example: /woodenmaxwebsite-main/products/aluminium-windows/file.html
+            // Filter out project folder name (woodenmaxwebsite-main) as it's not part of actual URLs
+            // Example: /products/aluminium-windows/file.html (after normalization)
             // We need to find where 'products' folder starts
-            const pathParts = pathname.split('/').filter(p => p && p !== '');
+            const pathParts = pathname.split('/').filter(p => p && p !== '' && p !== 'woodenmaxwebsite-main');
             
             // Find the index of 'products' folder (if exists)
             // This helps us calculate from the actual project root
@@ -57,10 +70,10 @@ class ProductManager {
             
             let levelsUp;
             if (productsIndex >= 0) {
-              // If 'products' folder found, count directory levels after 'products'
-              // Example: ['woodenmaxwebsite-main', 'products', 'aluminium-windows', 'file.html']
-              // productsIndex = 1, so we count directories after products: ['aluminium-windows'] = 1 level
-              // But we also need to go up from 'products' folder itself, so total = 1 + 1 = 2 levels
+            // If 'products' folder found, count directory levels after 'products'
+            // Example: ['products', 'aluminium-windows', 'file.html'] (after filtering out folder name)
+            // productsIndex = 0, so we count directories after products: ['aluminium-windows'] = 1 level
+            // But we also need to go up from 'products' folder itself, so total = 1 + 1 = 2 levels
               const dirsAfterProducts = pathParts.slice(productsIndex + 1).filter(p => !p.endsWith('.html') && !p.endsWith('.htm'));
               // Count: 'products' folder (1 level) + directories after products
               levelsUp = 1 + dirsAfterProducts.length;
@@ -69,9 +82,9 @@ class ProductManager {
               const dirParts = pathParts.filter(p => !p.endsWith('.html') && !p.endsWith('.htm'));
               const htmlFile = pathParts.find(p => p.endsWith('.html') || p.endsWith('.htm'));
               
-              // If file is directly in project root (only one directory part which is project folder name)
-              // Example: /woodenmaxwebsite-main/file.html -> data/products.json (same level)
-              if (dirParts.length === 1 && htmlFile) {
+              // If file is directly in project root (no directory parts after filtering)
+              // Example: /file.html or /index.html -> data/products.json (same level)
+              if (dirParts.length === 0 && htmlFile) {
                 // Root level file - data folder is at same level
                 levelsUp = 0;
               } else {

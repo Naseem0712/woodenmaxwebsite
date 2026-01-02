@@ -390,7 +390,7 @@ Generated from Pergola Louvers Price Calculator
       '_subject': 'New Quote - Ceiling Pergola Louvers',
       '_template': 'box',
       '_captcha': 'false',
-      '_next': window.location.href,
+      '_next': (typeof normalizeUrl !== 'undefined' ? normalizeUrl(window.location.href) : window.location.href),
       'message': emailBody,
       'Name': userDetails.name,
       'City': userDetails.city,

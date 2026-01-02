@@ -533,7 +533,7 @@ Generated from Live Price Calculator
         '_subject': `New Quote Request - ${this.config.name || this.productId}`,
         '_template': 'box',
         '_captcha': 'false',
-        '_next': window.location.href,
+        '_next': (typeof normalizeUrl !== 'undefined' ? normalizeUrl(window.location.href) : window.location.href),
         'message': emailBody,
         // Table format - Only basic user details (as requested)
         'Name': userDetails.name,

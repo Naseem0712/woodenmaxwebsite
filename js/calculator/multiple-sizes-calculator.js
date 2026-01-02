@@ -423,6 +423,22 @@
     
     // Update main calculator total display
     updateMainCalculatorDisplay(totalCost, totalArea, totalQty);
+    
+    // Track calculation event
+    if (typeof trackCalculatorCalculation === 'function' && totalArea > 0) {
+      const glassSelect = document.getElementById('calc-glass');
+      const coatingSelect = document.getElementById('calc-coating');
+      const lockSelect = document.getElementById('calc-lock');
+      const meshCheckbox = document.getElementById('calc-mesh');
+      
+      const selections = {
+        glass: glassSelect?.value || 'unknown',
+        coating: coatingSelect?.value || 'unknown',
+        lock: lockSelect?.value || 'unknown',
+        mesh: meshCheckbox?.checked || false
+      };
+      trackCalculatorCalculation(totalCost, totalArea, selections);
+    }
   }
   
   function updateMainCalculatorDisplay(totalCost, totalArea, totalQty) {
@@ -547,11 +563,27 @@
           recalculateRow(rowId);
           updateTotalArea();
           triggerMainCalculator();
+          // Track size change
+          if (typeof trackCalculatorSize === 'function') {
+            const unit = getRowSelections(rowId).unit || 'ft';
+            const width = parseFloat(widthInput.value) || 0;
+            const height = parseFloat(heightInput.value) || 0;
+            const qty = parseInt(qtyInput.value) || 1;
+            trackCalculatorSize(width, height, unit, qty);
+          }
         });
         input.addEventListener('change', () => {
           recalculateRow(rowId);
           updateTotalArea();
           triggerMainCalculator();
+          // Track size change
+          if (typeof trackCalculatorSize === 'function') {
+            const unit = getRowSelections(rowId).unit || 'ft';
+            const width = parseFloat(widthInput.value) || 0;
+            const height = parseFloat(heightInput.value) || 0;
+            const qty = parseInt(qtyInput.value) || 1;
+            trackCalculatorSize(width, height, unit, qty);
+          }
         });
         // Also trigger on paste
         input.addEventListener('paste', () => {
@@ -711,6 +743,9 @@
     if (glassSelect && !glassSelect.hasAttribute('data-listener-attached')) {
       glassSelect.setAttribute('data-listener-attached', 'true');
       glassSelect.addEventListener('change', () => {
+        if (typeof trackCalculatorMaterial === 'function') {
+          trackCalculatorMaterial('glass', glassSelect.value);
+        }
         applyToLastRow();
       });
       glassSelect.addEventListener('input', () => {
@@ -721,6 +756,9 @@
     if (coatingSelect && !coatingSelect.hasAttribute('data-listener-attached')) {
       coatingSelect.setAttribute('data-listener-attached', 'true');
       coatingSelect.addEventListener('change', () => {
+        if (typeof trackCalculatorMaterial === 'function') {
+          trackCalculatorMaterial('coating', coatingSelect.value);
+        }
         applyToLastRow();
       });
       coatingSelect.addEventListener('input', () => {
@@ -731,6 +769,9 @@
     if (lockSelect && !lockSelect.hasAttribute('data-listener-attached')) {
       lockSelect.setAttribute('data-listener-attached', 'true');
       lockSelect.addEventListener('change', () => {
+        if (typeof trackCalculatorMaterial === 'function') {
+          trackCalculatorMaterial('lock', lockSelect.value);
+        }
         applyToLastRow();
       });
       lockSelect.addEventListener('input', () => {
@@ -741,6 +782,9 @@
     if (meshCheckbox && !meshCheckbox.hasAttribute('data-listener-attached')) {
       meshCheckbox.setAttribute('data-listener-attached', 'true');
       meshCheckbox.addEventListener('change', () => {
+        if (typeof trackCalculatorMaterial === 'function') {
+          trackCalculatorMaterial('mesh', meshCheckbox.checked ? 'yes' : 'no');
+        }
         applyToLastRow();
       });
       meshCheckbox.addEventListener('click', () => {

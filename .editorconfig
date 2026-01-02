@@ -1,0 +1,7 @@
+# EditorConfig for Apache .htaccess files
+root = true
+
+[.htaccess]
+# This is an Apache configuration file, not PowerShell
+# Linter may show false positives - syntax is valid Apache
+

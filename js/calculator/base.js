@@ -94,6 +94,11 @@ class PriceCalculatorBase {
         if (document.getElementById(this.containerId)) {
           this.setupEventListeners();
           this.calculate();
+          
+          // Track calculator page view
+          if (typeof trackCalculatorPageView === 'function') {
+            trackCalculatorPageView(this.productId, this.config.name || this.productId);
+          }
         }
       }, 100);
     };
@@ -114,12 +119,14 @@ class PriceCalculatorBase {
     if (widthInput) {
       widthInput.addEventListener('input', () => {
         this.updateAreaDisplay();
+        this.trackSizeChange();
         this.calculate();
       });
     }
     if (heightInput) {
       heightInput.addEventListener('input', () => {
         this.updateAreaDisplay();
+        this.trackSizeChange();
         this.calculate();
       });
     }
@@ -127,33 +134,87 @@ class PriceCalculatorBase {
       unitSelect.addEventListener('change', () => {
         this.updateUnitHints();
         this.updateAreaDisplay();
+        this.trackSizeChange();
         this.calculate();
       });
     }
     
     // Number of windows/doors
     const windowsInput = document.getElementById('calc-windows');
-    if (windowsInput) windowsInput.addEventListener('input', () => this.calculate());
+    if (windowsInput) {
+      windowsInput.addEventListener('input', () => {
+        this.trackSizeChange();
+        this.calculate();
+      });
+    }
     
     // Options
     const glassSelect = document.getElementById('calc-glass');
     const coatingSelect = document.getElementById('calc-coating');
     const lockSelect = document.getElementById('calc-lock');
     
-    if (glassSelect) glassSelect.addEventListener('change', () => this.calculate());
-    if (coatingSelect) coatingSelect.addEventListener('change', () => this.calculate());
-    if (lockSelect) lockSelect.addEventListener('change', () => this.calculate());
+    if (glassSelect) {
+      glassSelect.addEventListener('change', () => {
+        this.trackMaterialSelection('glass', glassSelect.value);
+        this.calculate();
+      });
+    }
+    if (coatingSelect) {
+      coatingSelect.addEventListener('change', () => {
+        this.trackMaterialSelection('coating', coatingSelect.value);
+        this.calculate();
+      });
+    }
+    if (lockSelect) {
+      lockSelect.addEventListener('change', () => {
+        this.trackMaterialSelection('lock', lockSelect.value);
+        this.calculate();
+      });
+    }
     
     // Mesh checkbox (if available)
     const meshCheckbox = document.getElementById('calc-mesh');
-    if (meshCheckbox) meshCheckbox.addEventListener('change', () => this.calculate());
+    if (meshCheckbox) {
+      meshCheckbox.addEventListener('change', () => {
+        this.trackMaterialSelection('mesh', meshCheckbox.checked ? 'yes' : 'no');
+        this.calculate();
+      });
+    }
     
     // Top fixed checkbox (if available)
     const topFixedCheckbox = document.getElementById('calc-top-fixed');
-    if (topFixedCheckbox) topFixedCheckbox.addEventListener('change', () => this.calculate());
+    if (topFixedCheckbox) {
+      topFixedCheckbox.addEventListener('change', () => {
+        this.trackMaterialSelection('top_fixed', topFixedCheckbox.checked ? 'yes' : 'no');
+        this.calculate();
+      });
+    }
     
     // Form submission
     this.setupFormSubmission();
+  }
+  
+  // Track size changes
+  trackSizeChange() {
+    if (typeof trackCalculatorSize === 'undefined') return;
+    
+    const widthInput = document.getElementById('calc-width');
+    const heightInput = document.getElementById('calc-height');
+    const unitSelect = document.getElementById('calc-unit');
+    const windowsInput = document.getElementById('calc-windows');
+    
+    const width = widthInput?.value || 0;
+    const height = heightInput?.value || 0;
+    const unit = unitSelect?.value || 'ft';
+    const quantity = windowsInput?.value || 1;
+    
+    trackCalculatorSize(width, height, unit, quantity);
+  }
+  
+  // Track material selections
+  trackMaterialSelection(materialType, materialValue) {
+    if (typeof trackCalculatorMaterial === 'undefined') return;
+    trackCalculatorMaterial(materialType, materialValue);
   }
   
   updateUnitHints() {
@@ -429,6 +490,17 @@ class PriceCalculatorBase {
     
     // Display results
     this.displayResults(perWindowCost, perWindowPlus20, perWindowMinus20, subtotal, totalPlus20, totalMinus20, areaSqft);
+    
+    // Track calculation event
+    if (typeof trackCalculatorCalculation === 'function' && areaSqft > 0) {
+      const selections = {
+        glass: glassOption,
+        coating: coatingOption,
+        lock: lockOption,
+        mesh: hasMesh
+      };
+      trackCalculatorCalculation(subtotal, areaSqft, selections);
+    }
   }
   
   displayResults(perWindowCost, perWindowPlus20, perWindowMinus20, subtotal, totalPlus20, totalMinus20, areaSqft = 0) {
@@ -540,6 +612,13 @@ class PriceCalculatorBase {
       }
       
       const userDetails = { name, city, mobile, email: email || '' };
+      
+      // Track form submission
+      if (typeof trackCalculatorFormSubmit === 'function') {
+        const hasPrice = this.lastCalculatedAmounts && this.lastCalculatedAmounts.subtotal > 0;
+        trackCalculatorFormSubmit('quote_request', hasPrice);
+      }
+      
       this.submitUserDetails(userDetails);
       
       return false;
@@ -762,16 +841,22 @@ User Details:
 ${userDetails.email ? `- Email: ${userDetails.email}` : ''}
 
 Product: ${this.config.name || this.productId}
-Size: ${selections.width} × ${selections.height} ${selections.unit}
-Area: ${selections.area}
-Number of Windows: ${selections.numberOfWindows}
 
-Selected Options:
+SIZE & QUANTITY:
+- Dimensions: ${selections.width} × ${selections.height} ${selections.unit}
+- Area: ${selections.area}
+- Number of Windows: ${selections.numberOfWindows}
+
+SELECTED MATERIALS & OPTIONS:
 - Glass Type: ${selections.glass}
 - Coating: ${selections.coating}
 - Lock: ${selections.lock}
 ${this.hasMesh ? `- Mesh: ${selections.mesh}` : ''}
 ${this.hasTopFixed ? `- Top Fixed: ${selections.topFixed}` : ''}
+
+CALCULATED PRICE:
+- Per Window Cost: ₹${finalPerWindow.toLocaleString('en-IN')}
+- Total Cost (${selections.numberOfWindows} window(s)): ₹${finalTotal.toLocaleString('en-IN')}
 
 Calculated Amount:
 - Per Window: ₹${finalPerWindow.toLocaleString('en-IN')}
@@ -895,6 +980,34 @@ Generated from Live Price Calculator
     const totalDisplay = document.getElementById('calc-result-total');
     const totalPriceText = totalDisplay?.textContent || '₹0 - ₹0';
     
+    // Get actual calculated amounts from lastCalculatedAmounts if available
+    let totalCalculatedAmount = 0;
+    if (this.lastCalculatedAmounts && this.lastCalculatedAmounts.subtotal > 0) {
+      totalCalculatedAmount = Math.round(this.lastCalculatedAmounts.subtotal);
+    } else {
+      // Try to extract from display text
+      const match = totalPriceText.match(/₹[\d,]+/);
+      if (match) {
+        totalCalculatedAmount = parseInt(match[0].replace(/[₹,]/g, '')) || 0;
+      }
+    }
+    
+    // Calculate per-row amounts from displayed prices
+    rows.forEach((row, index) => {
+      const amountDisplay = row.querySelector('.row-amount-text');
+      if (amountDisplay && rowDetails[index]) {
+        const priceText = amountDisplay.textContent || '₹0';
+        // Extract numeric value from price text
+        const priceMatch = priceText.match(/₹[\d,]+/);
+        if (priceMatch) {
+          const priceValue = parseInt(priceMatch[0].replace(/[₹,]/g, '')) || 0;
+          rowDetails[index].calculatedAmount = priceValue;
+        } else {
+          rowDetails[index].calculatedAmount = 0;
+        }
+      }
+    });
+    
     // Build email body
     let emailBody = `
 New Quote Request - ${this.config.name || this.productId}
@@ -914,17 +1027,21 @@ Size ${row.rowNumber}:
 - Quantity: ${row.qty} unit(s)
 - Area per unit: ${row.area} sq.ft
 - Total area: ${row.totalArea} sq.ft
+
+SELECTED MATERIALS & OPTIONS:
 - Glass Type: ${row.glass}
 - Coating: ${row.coating}
 - Lock: ${row.lock}
 ${this.hasMesh ? `- Mesh: ${row.mesh}` : ''}
-- Price Range: ${row.price}
+
+CALCULATED PRICE:
+- Price for this size: ${row.calculatedAmount ? '₹' + row.calculatedAmount.toLocaleString('en-IN') : row.price}
 `).join('')}
 
 SUMMARY:
 - Total Units: ${totalQty}
 - Total Area: ${totalArea.toFixed(2)} sq.ft
-- Total Price Range: ${totalPriceText}
+- Total Calculated Price: ${totalCalculatedAmount > 0 ? '₹' + totalCalculatedAmount.toLocaleString('en-IN') : totalPriceText}
 
 ---
 Generated from Live Price Calculator (Multiple Sizes)

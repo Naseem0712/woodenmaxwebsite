@@ -1,48 +1,82 @@
-# .htaccess file for woodenmax.in
-# Enable Rewrite Engine
+# -*- mode: apache; -*-
+# ============================================
+# Apache .htaccess Configuration File
+# Language: Apache HTTP Server Configuration
+# NOT PowerShell - This is Apache .htaccess syntax
+# ============================================
+
 <IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteBase /
 
-# Force HTTPS
+# ============================================
+# CRITICAL REDIRECTS (Correct Order)
+# ============================================
+
+# 1️⃣ FORCE HTTPS (MUST BE FIRST - prevents redirect chains)
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Force www or non-www (choose one)
-# Remove www
+# 2️⃣ FORCE WWW OR NON-WWW (choose one)
+# Remove www (recommended for SEO)
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 
-# Or add www (uncomment if you prefer)
+# Or add www (uncomment if you prefer www)
 # RewriteCond %{HTTP_HOST} !^www\. [NC]
 # RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-# Redirect index.html to root (must be before .html removal)
-RewriteCond %{THE_REQUEST} /index\.html[\s?] [NC]
+# 3️⃣ FOLDER REDIRECT (remove project folder name from URLs)
+# Redirect folder name (woodenmaxwebsite-main) from URLs
+RewriteCond %{REQUEST_URI} ^/woodenmaxwebsite-main/(.*)$ [NC]
+RewriteRule ^woodenmaxwebsite-main/(.*)$ /$1 [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^/woodenmaxwebsite-main/?$ [NC]
+RewriteRule ^woodenmaxwebsite-main/?$ / [R=301,L]
+
+# ============================================
+# URL CLEANUP RULES
+# ============================================
+
+# Remove trailing slash (except root)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+?)/$ /$1 [R=301,L]
+
+# Redirect index.html → /
+RewriteCond %{THE_REQUEST} \s/index\.html(\s|\?) [NC]
 RewriteRule ^index\.html$ / [R=301,L]
 
-# Remove .html extension from URLs
+# Remove .html extension from URLs (EXTERNAL REDIRECT)
 # External redirect from .html to non-.html
-RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
-RewriteRule ^ /%1? [NC,L,R=301]
+RewriteCond %{THE_REQUEST} \s/([^.]+)\.html(\s|\?) [NC]
+RewriteRule ^ %1 [R=301,L]
 
-# Internal rewrite to add .html if file exists
+# Redirect uppercase .HTML/.HTM → lowercase version
+RewriteCond %{REQUEST_URI} \.(HTML|HTM)$ [NC]
+RewriteRule ^(.*)\.(HTML|HTM)$ /$1 [R=301,L]
+
+# Internally load .html when user opens clean URL (INTERNAL REWRITE)
+# Example: /products/window  ->  /products/window.html
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.*)$ $1.html [NC,L]
+RewriteRule ^(.*)$ $1.html [L]
+
 </IfModule>
 
-# Enable Compression
+# =========================
+# Compression
+# =========================
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json
 </IfModule>
 
+# =========================
 # Browser Caching
+# =========================
 <IfModule mod_expires.c>
   ExpiresActive On
   
-  # Images (optimized cache lifetimes)
   ExpiresByType image/jpeg "access plus 1 year"
   ExpiresByType image/jpg "access plus 1 year"
   ExpiresByType image/gif "access plus 1 year"
@@ -50,17 +84,14 @@ RewriteRule ^(.*)$ $1.html [NC,L]
   ExpiresByType image/webp "access plus 1 year"
   ExpiresByType image/svg+xml "access plus 1 year"
   ExpiresByType image/avif "access plus 1 year"
-  
-  # CSS and JavaScript (optimized cache lifetimes)
+
   ExpiresByType text/css "access plus 1 year"
   ExpiresByType application/javascript "access plus 1 year"
   ExpiresByType application/x-javascript "access plus 1 year"
   ExpiresByType text/javascript "access plus 1 year"
-  
-  # HTML (shorter cache for dynamic content)
+
   ExpiresByType text/html "access plus 1 hour"
-  
-  # Fonts (long cache for static assets)
+
   ExpiresByType font/woff "access plus 1 year"
   ExpiresByType font/woff2 "access plus 1 year"
   ExpiresByType application/font-woff "access plus 1 year"
@@ -69,58 +100,50 @@ RewriteRule ^(.*)$ $1.html [NC,L]
   ExpiresByType font/otf "access plus 1 year"
 </IfModule>
 
-# Cache-Control Headers (for better control)
+# =========================
+# Cache-Control Headers
+# =========================
 <IfModule mod_headers.c>
-  # Images - long cache
   <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|avif)$">
     Header set Cache-Control "max-age=31536000, public, immutable"
   </FilesMatch>
-  
-  # CSS and JS - long cache with versioning
+
   <FilesMatch "\.(css|js)$">
     Header set Cache-Control "max-age=31536000, public, immutable"
   </FilesMatch>
-  
-  # Fonts - long cache
+
   <FilesMatch "\.(woff|woff2|ttf|otf|eot)$">
     Header set Cache-Control "max-age=31536000, public, immutable"
   </FilesMatch>
 </IfModule>
 
+# =========================
 # Security Headers
+# =========================
 <IfModule mod_headers.c>
-  # XSS Protection
+
   Header set X-XSS-Protection "1; mode=block"
-  
-  # Prevent MIME type sniffing
   Header set X-Content-Type-Options "nosniff"
-  
-  # Clickjacking Protection
   Header set X-Frame-Options "SAMEORIGIN"
-  
-  # Referrer Policy
   Header set Referrer-Policy "strict-origin-when-cross-origin"
-  
-  # Content Security Policy (CSP) - Allow inline styles and scripts for compatibility
-  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://fonts.googleapis.com https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://jolly-field-be49.finilexnaseem.workers.dev; frame-ancestors 'self';"
-  
-  # HSTS (HTTP Strict Transport Security) - Only if HTTPS is available
+
+  # SAFE CSP for production
+  Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.googletagmanager.com https://*.google-analytics.com; style-src 'self' 'unsafe-inline' https://*.googleapis.com; font-src 'self' https://*.googleapis.com https://*.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.google-analytics.com https://*.googletagmanager.com https://jolly-field-be49.finilexnaseem.workers.dev; frame-ancestors 'self';"
+
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-  
-  # Cross-Origin-Opener-Policy
+
   Header set Cross-Origin-Opener-Policy "same-origin"
-  
-  # Cross-Origin-Embedder-Policy (optional, can break some embeds)
-  # Header set Cross-Origin-Embedder-Policy "require-corp"
+
 </IfModule>
 
+# =========================
 # Error Pages
+# =========================
 ErrorDocument 404 /404.html
 ErrorDocument 500 /500.html
 
-# Default charset
+# =========================
+# Defaults
+# =========================
 AddDefaultCharset UTF-8
-
-# Disable directory browsing
 Options -Indexes
-

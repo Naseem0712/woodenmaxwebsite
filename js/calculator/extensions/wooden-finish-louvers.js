@@ -418,7 +418,7 @@ Generated from Louvers Price Calculator
       '_subject': 'New Quote - Wooden Finish Aluminium Louvers',
       '_template': 'box',
       '_captcha': 'false',
-      '_next': window.location.href,
+      '_next': (typeof normalizeUrl !== 'undefined' ? normalizeUrl(window.location.href) : window.location.href),
       'message': emailBody,
       'Name': userDetails.name,
       'City': userDetails.city,

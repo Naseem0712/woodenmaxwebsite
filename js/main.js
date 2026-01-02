@@ -3,6 +3,54 @@
    All Interactions & Animations
    ============================================ */
 
+// Utility function to normalize URLs by removing project folder name
+// This ensures URLs work correctly both in local dev (with folder name) and production (without)
+function normalizeUrl(url) {
+  if (!url) return url;
+  
+  // Remove the folder name from URLs
+  // Example: /woodenmaxwebsite-main/products/... -> /products/...
+  const folderName = 'woodenmaxwebsite-main';
+  
+  // Handle both pathname and full URLs
+  try {
+    const urlObj = new URL(url, window.location.origin);
+    let pathname = urlObj.pathname;
+    
+    // Remove folder name from pathname
+    if (pathname.startsWith(`/${folderName}/`)) {
+      pathname = pathname.replace(`/${folderName}`, '');
+    } else if (pathname === `/${folderName}`) {
+      pathname = '/';
+    }
+    
+    // Reconstruct URL with normalized pathname
+    urlObj.pathname = pathname;
+    return urlObj.href;
+  } catch (e) {
+    // If URL parsing fails, try simple string replacement
+    if (url.includes(`/${folderName}/`)) {
+      return url.replace(`/${folderName}`, '');
+    } else if (url.endsWith(`/${folderName}`)) {
+      return url.replace(`/${folderName}`, '/');
+    }
+    return url;
+  }
+}
+
+// Utility function to normalize pathname
+function normalizePathname(pathname) {
+  if (!pathname) return pathname;
+  const folderName = 'woodenmaxwebsite-main';
+  
+  if (pathname.startsWith(`/${folderName}/`)) {
+    return pathname.replace(`/${folderName}`, '');
+  } else if (pathname === `/${folderName}`) {
+    return '/';
+  }
+  return pathname;
+}
+
 // Enable browser's scroll position restoration on page refresh
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'auto';
@@ -75,7 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const allItems = Array.from(categoryCarousel.querySelectorAll('.cat-item'));
     
     // Detect current page and set initial active category
-    const currentPath = window.location.pathname.toLowerCase();
+    const currentPath = normalizePathname(window.location.pathname).toLowerCase();
     let currentCatIndex = 0;
     let isAnimating = false;
     
