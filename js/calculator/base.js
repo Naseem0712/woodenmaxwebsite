@@ -830,40 +830,45 @@ class PriceCalculatorBase {
       });
     }
     
-    // Email body
+    // Email body - formatted clearly with all details
     const emailBody = `
-New Quote Request - ${this.config.name || this.productId}
+═══════════════════════════════════════════════════════════
+NEW QUOTE REQUEST - ${this.config.name || this.productId}
+═══════════════════════════════════════════════════════════
 
-User Details:
-- Name: ${userDetails.name}
-- City: ${userDetails.city}
-- Mobile: ${userDetails.mobile}
-${userDetails.email ? `- Email: ${userDetails.email}` : ''}
+📋 USER CONTACT INFORMATION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Name: ${userDetails.name || 'Not provided'}
+City: ${userDetails.city || 'Not provided'}
+Mobile: ${userDetails.mobile || 'Not provided'}
+${userDetails.email ? `Email: ${userDetails.email}` : 'Email: Not provided'}
 
+📦 PRODUCT DETAILS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Product: ${this.config.name || this.productId}
 
-SIZE & QUANTITY:
-- Dimensions: ${selections.width} × ${selections.height} ${selections.unit}
-- Area: ${selections.area}
-- Number of Windows: ${selections.numberOfWindows}
+📐 SIZE & QUANTITY:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Dimensions: ${selections.width} × ${selections.height} ${selections.unit}
+Area: ${selections.area}
+Number of Windows: ${selections.numberOfWindows}
 
-SELECTED MATERIALS & OPTIONS:
-- Glass Type: ${selections.glass}
-- Coating: ${selections.coating}
-- Lock: ${selections.lock}
-${this.hasMesh ? `- Mesh: ${selections.mesh}` : ''}
-${this.hasTopFixed ? `- Top Fixed: ${selections.topFixed}` : ''}
+🔧 SELECTED MATERIALS & OPTIONS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Glass Type: ${selections.glass}
+Coating: ${selections.coating}
+Lock: ${selections.lock}
+${this.hasMesh ? `Mesh: ${selections.mesh}` : ''}
+${this.hasTopFixed ? `Top Fixed: ${selections.topFixed}` : ''}
 
-CALCULATED PRICE:
-- Per Window Cost: ₹${finalPerWindow.toLocaleString('en-IN')}
-- Total Cost (${selections.numberOfWindows} window(s)): ₹${finalTotal.toLocaleString('en-IN')}
+💰 CALCULATED PRICE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Per Window Cost: ₹${finalPerWindow.toLocaleString('en-IN')}
+Total Cost (${selections.numberOfWindows} window(s)): ₹${finalTotal.toLocaleString('en-IN')}
 
-Calculated Amount:
-- Per Window: ₹${finalPerWindow.toLocaleString('en-IN')}
-- Total Cost: ₹${finalTotal.toLocaleString('en-IN')}
-
----
-Generated from Live Price Calculator
+═══════════════════════════════════════════════════════════
+Generated from Live Price Calculator on WoodenMax Website
+═══════════════════════════════════════════════════════════
     `.trim();
     
     this.submitEmailForm(emailBody, userDetails, selections, {
@@ -1008,43 +1013,50 @@ Generated from Live Price Calculator
       }
     });
     
-    // Build email body
+    // Build email body - formatted clearly with all details
     let emailBody = `
-New Quote Request - ${this.config.name || this.productId}
+═══════════════════════════════════════════════════════════
+NEW QUOTE REQUEST - ${this.config.name || this.productId}
+═══════════════════════════════════════════════════════════
 
-User Details:
-- Name: ${userDetails.name}
-- City: ${userDetails.city}
-- Mobile: ${userDetails.mobile}
-${userDetails.email ? `- Email: ${userDetails.email}` : ''}
+📋 USER CONTACT INFORMATION:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Name: ${userDetails.name || 'Not provided'}
+City: ${userDetails.city || 'Not provided'}
+Mobile: ${userDetails.mobile || 'Not provided'}
+${userDetails.email ? `Email: ${userDetails.email}` : 'Email: Not provided'}
 
+📦 PRODUCT DETAILS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Product: ${this.config.name || this.productId}
 
-MULTIPLE SIZES DETAILS:
+📐 MULTIPLE SIZES DETAILS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ${rowDetails.map(row => `
 Size ${row.rowNumber}:
-- Dimensions: ${row.width} × ${row.height} ${row.unit}
-- Quantity: ${row.qty} unit(s)
-- Area per unit: ${row.area} sq.ft
-- Total area: ${row.totalArea} sq.ft
+  Dimensions: ${row.width} × ${row.height} ${row.unit}
+  Quantity: ${row.qty} unit(s)
+  Area per unit: ${row.area} sq.ft
+  Total area: ${row.totalArea} sq.ft
+  
+  Selected Materials & Options:
+  - Glass Type: ${row.glass}
+  - Coating: ${row.coating}
+  - Lock: ${row.lock}
+  ${this.hasMesh ? `- Mesh: ${row.mesh}` : ''}
+  
+  Calculated Price: ${row.calculatedAmount ? '₹' + row.calculatedAmount.toLocaleString('en-IN') : row.price}
+`).join('\n')}
 
-SELECTED MATERIALS & OPTIONS:
-- Glass Type: ${row.glass}
-- Coating: ${row.coating}
-- Lock: ${row.lock}
-${this.hasMesh ? `- Mesh: ${row.mesh}` : ''}
+💰 SUMMARY:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Total Units: ${totalQty}
+Total Area: ${totalArea.toFixed(2)} sq.ft
+Total Calculated Price: ${totalCalculatedAmount > 0 ? '₹' + totalCalculatedAmount.toLocaleString('en-IN') : totalPriceText}
 
-CALCULATED PRICE:
-- Price for this size: ${row.calculatedAmount ? '₹' + row.calculatedAmount.toLocaleString('en-IN') : row.price}
-`).join('')}
-
-SUMMARY:
-- Total Units: ${totalQty}
-- Total Area: ${totalArea.toFixed(2)} sq.ft
-- Total Calculated Price: ${totalCalculatedAmount > 0 ? '₹' + totalCalculatedAmount.toLocaleString('en-IN') : totalPriceText}
-
----
-Generated from Live Price Calculator (Multiple Sizes)
+═══════════════════════════════════════════════════════════
+Generated from Live Price Calculator (Multiple Sizes) on WoodenMax Website
+═══════════════════════════════════════════════════════════
     `.trim();
     
     this.submitEmailForm(emailBody, userDetails, { multipleSizes: true, rows: rowDetails }, {
@@ -1061,6 +1073,10 @@ Generated from Live Price Calculator (Multiple Sizes)
     const validTotal = isNaN(amounts.total) || amounts.total <= 0 ? 0 : Math.round(amounts.total);
     
     console.log('💰 Base email amounts:', { perWindow: validPerWindow, total: validTotal });
+    console.log('📋 User details:', userDetails);
+    console.log('🔧 Selections:', selections);
+    console.log('📝 Email body length:', emailBody.length, 'characters');
+    console.log('📄 Email body preview (first 500 chars):', emailBody.substring(0, 500));
     
     // Use shared email submitter utility
     if (window.EmailSubmitter) {
@@ -1068,9 +1084,18 @@ Generated from Live Price Calculator (Multiple Sizes)
         subject: `New Quote Request - ${this.config.name || this.productId}`,
         message: emailBody,
         userDetails: userDetails,
-        onSuccess: () => this.showSuccessMessage(),
+        onSuccess: () => {
+          console.log('✅ Email submission successful');
+          this.showSuccessMessage();
+        },
         onError: (error) => {
           console.error('❌ Email submission error:', error);
+          console.error('❌ Error details:', {
+            userDetails,
+            selections,
+            amounts,
+            emailBodyLength: emailBody.length
+          });
           this.showSuccessMessage(); // Show success anyway
         }
       });

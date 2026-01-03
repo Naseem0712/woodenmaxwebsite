@@ -43,13 +43,31 @@ window.EmailSubmitter = {
       try {
         const formData = new FormData();
         formData.append('_subject', subject);
+        // Include full message with all details
         formData.append('message', message);
+        // Also include user details as separate fields for better email formatting
         formData.append('Name', userDetails.name || '');
         formData.append('City', userDetails.city || '');
         formData.append('Mobile', userDetails.mobile || '');
         if (userDetails.email) {
           formData.append('Email', userDetails.email);
         }
+        // Add a formatted email body that includes everything
+        const formattedMessage = `QUOTE REQUEST DETAILS
+================================
+
+${message}
+
+---
+User Contact Information:
+- Name: ${userDetails.name || 'Not provided'}
+- City: ${userDetails.city || 'Not provided'}
+- Mobile: ${userDetails.mobile || 'Not provided'}
+${userDetails.email ? `- Email: ${userDetails.email}` : ''}
+
+This email was generated from the Live Price Calculator on WoodenMax website.
+        `.trim();
+        formData.append('_body', formattedMessage);
 
         const response = await fetch(workerEndpoint, {
           method: 'POST',
@@ -59,8 +77,12 @@ window.EmailSubmitter = {
         const data = await response.json();
         if (data.success) {
           console.log('✅ Email submitted via Cloudflare Worker');
+          console.log('📧 Email details:', { subject, messageLength: message.length, userDetails });
           onSuccess();
           return;
+        } else {
+          console.error('❌ Cloudflare Worker returned error:', data);
+          throw new Error(data.message || 'Worker returned error');
         }
       } catch (error) {
         console.warn('⚠️ Cloudflare Worker failed, trying Web3Forms...', error);
@@ -70,14 +92,42 @@ window.EmailSubmitter = {
     // Fallback to Web3Forms
     if (web3formsAccessKey && !web3formsAccessKey.includes('YOUR_')) {
       try {
+        // Format message to include all details clearly
+        const formattedMessage = `QUOTE REQUEST DETAILS
+================================
+
+${message}
+
+---
+User Contact Information:
+- Name: ${userDetails.name || 'Not provided'}
+- City: ${userDetails.city || 'Not provided'}
+- Mobile: ${userDetails.mobile || 'Not provided'}
+${userDetails.email ? `- Email: ${userDetails.email}` : ''}
+
+This email was generated from the Live Price Calculator on WoodenMax website.
+        `.trim();
+
         const emailData = {
           access_key: web3formsAccessKey,
           subject: subject,
           from_name: userDetails.name || 'WoodenMax Website',
           from_email: userDetails.email || 'noreply@woodenmax.in',
           to_email: 'info@woodenmax.com',
-          message: message
+          message: formattedMessage,
+          // Also include user details as separate fields for better email formatting
+          Name: userDetails.name || '',
+          City: userDetails.city || '',
+          Mobile: userDetails.mobile || '',
+          Email: userDetails.email || ''
         };
+
+        console.log('📧 Sending email via Web3Forms with details:', {
+          subject,
+          messageLength: formattedMessage.length,
+          userDetails,
+          hasMessage: !!message
+        });
 
         const response = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
@@ -90,9 +140,11 @@ window.EmailSubmitter = {
         const data = await response.json();
         if (data.success) {
           console.log('✅ Email sent via Web3Forms');
+          console.log('📧 Email response:', data);
           onSuccess();
           return;
         } else {
+          console.error('❌ Web3Forms returned error:', data);
           throw new Error(data.message || 'Failed to send email');
         }
       } catch (error) {

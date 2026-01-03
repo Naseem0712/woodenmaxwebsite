@@ -23,13 +23,17 @@ RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
 # RewriteCond %{HTTP_HOST} !^www\. [NC]
 # RewriteRule ^(.*)$ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
-# 3️⃣ FOLDER REDIRECT (remove project folder name from URLs)
-# Redirect folder name (woodenmaxwebsite-main) from URLs
-RewriteCond %{REQUEST_URI} ^/woodenmaxwebsite-main/(.*)$ [NC]
-RewriteRule ^woodenmaxwebsite-main/(.*)$ /$1 [R=301,L]
+# 3️⃣ FOLDER REDIRECT (remove project folder names from URLs)
+# Redirect any folder name from URLs (woodenmaxwebsite-main, woodenmaxwebsite, etc.)
+RewriteCond %{REQUEST_URI} ^/(woodenmaxwebsite-main|woodenmaxwebsite)/(.*)$ [NC]
+RewriteRule ^(woodenmaxwebsite-main|woodenmaxwebsite)/(.*)$ /$2 [R=301,L]
 
-RewriteCond %{REQUEST_URI} ^/woodenmaxwebsite-main/?$ [NC]
-RewriteRule ^woodenmaxwebsite-main/?$ / [R=301,L]
+RewriteCond %{REQUEST_URI} ^/(woodenmaxwebsite-main|woodenmaxwebsite)/?$ [NC]
+RewriteRule ^(woodenmaxwebsite-main|woodenmaxwebsite)/?$ / [R=301,L]
+
+# Remove any other common folder names that might appear
+RewriteCond %{REQUEST_URI} ^/(html|www|public|dist|build)/(.*)$ [NC]
+RewriteRule ^(html|www|public|dist|build)/(.*)$ /$2 [R=301,L]
 
 # ============================================
 # URL CLEANUP RULES
