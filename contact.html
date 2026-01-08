@@ -59,7 +59,7 @@
       "email": "info@woodenmax.com",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "5-6-411/413, Aakhpura, Nampally",
+        "streetAddress": "5-6-411/413, Aaghpura, Nampally",
         "addressLocality": "Hyderabad",
         "addressRegion": "Telangana",
         "postalCode": "500001",
@@ -83,7 +83,7 @@
       position: relative;
       padding: 10rem 0 5rem;
       overflow: hidden;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d1117 100%);
+      background: linear-gradient(135deg, #F3F4F6 0%, #E0E7EF 100%);
     }
     
     .contact-hero::before {
@@ -135,20 +135,17 @@
       font-family: 'Playfair Display', serif;
       font-size: clamp(2.5rem, 5vw, 3.5rem);
       font-weight: 600;
-      color: #ffffff;
+      color: #0F172A;
       line-height: 1.2;
       margin-bottom: 1.25rem;
     }
     
     .contact-title span {
-      background: linear-gradient(135deg, var(--gold-400) 0%, #10b981 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #1E40AF;
     }
     
     .contact-desc {
-      color: #94a3b8;
+      color: #475569;
       font-size: 1.1rem;
       line-height: 1.7;
       margin-bottom: 2rem;
@@ -185,9 +182,9 @@
     }
     
     .quick-btn.email {
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fff;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      color: #0F172A;
     }
     
     .quick-btn:hover {
@@ -198,7 +195,7 @@
     /* Contact Cards Grid */
     .contact-cards-section {
       padding: 4rem 0;
-      background: linear-gradient(180deg, #0d1117 0%, #1a1a1a 100%);
+      background: #F3F4F6;
     }
     
     .contact-info-grid {
@@ -210,8 +207,8 @@
     }
     
     .info-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(217, 119, 6, 0.15);
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
       border-radius: 16px;
       padding: 2rem;
       text-align: center;
@@ -219,14 +216,15 @@
     }
     
     .info-card:hover {
-      border-color: rgba(217, 119, 6, 0.4);
+      border-color: #1E40AF;
       transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
     
     .info-icon {
       width: 60px;
       height: 60px;
-      background: linear-gradient(135deg, rgba(217, 119, 6, 0.15), rgba(217, 119, 6, 0.05));
+      background: rgba(30, 64, 175, 0.1);
       border-radius: 16px;
       display: flex;
       align-items: center;
@@ -235,30 +233,30 @@
     }
     
     .info-card h3 {
-      color: var(--gold-400);
+      color: #1E40AF;
       font-size: 1.1rem;
       margin-bottom: 0.75rem;
     }
     
     .info-card p {
-      color: #e0e0e0;
+      color: #475569;
       font-size: 0.95rem;
       line-height: 1.6;
     }
     
     .info-card a {
-      color: #e0e0e0;
+      color: #475569;
       text-decoration: none;
     }
     
     .info-card a:hover {
-      color: var(--gold-400);
+      color: #1E40AF;
     }
     
     /* Form Section */
     .form-section {
       padding: 5rem 0;
-      background: #1a1a1a;
+      background: #FFFFFF;
     }
     
     .form-container {
@@ -277,12 +275,12 @@
     .form-info h2 {
       font-family: 'Playfair Display', serif;
       font-size: 2rem;
-      color: #fff;
+      color: #0F172A;
       margin-bottom: 1rem;
     }
     
     .form-info p {
-      color: #94a3b8;
+      color: #475569;
       line-height: 1.7;
       margin-bottom: 2rem;
     }
@@ -298,36 +296,36 @@
       align-items: center;
       gap: 1rem;
       padding: 1rem;
-      background: rgba(255,255,255,0.03);
+      background: #F3F4F6;
       border-radius: 10px;
     }
     
     .form-feature svg {
-      color: #10b981;
+      color: #1E40AF;
       flex-shrink: 0;
     }
     
     .form-feature span {
-      color: #e0e0e0;
+      color: #475569;
       font-size: 0.95rem;
     }
     
     .contact-form-box {
-      background: linear-gradient(135deg, rgba(217, 119, 6, 0.08), rgba(217, 119, 6, 0.02));
-      border: 1px solid rgba(217, 119, 6, 0.2);
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
       border-radius: 20px;
       padding: 2.5rem;
     }
     
     .contact-form-box h3 {
-      color: #fff;
+      color: #0F172A;
       font-size: 1.35rem;
       margin-bottom: 0.5rem;
       text-align: center;
     }
     
     .contact-form-box .subtitle {
-      color: #94a3b8;
+      color: #475569;
       font-size: 0.9rem;
       text-align: center;
       margin-bottom: 2rem;
@@ -346,9 +344,10 @@
     
     .form-group label {
       display: block;
-      color: #94a3b8;
+      color: #475569;
       font-size: 0.9rem;
       margin-bottom: 0.5rem;
+      font-weight: 500;
     }
     
     .form-group input,
@@ -356,10 +355,10 @@
     .form-group textarea {
       width: 100%;
       padding: 0.875rem 1rem;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(217, 119, 6, 0.2);
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
       border-radius: 10px;
-      color: #fff;
+      color: #0F172A;
       font-size: 1rem;
       transition: all 0.3s ease;
     }
@@ -368,8 +367,8 @@
     .form-group select:focus,
     .form-group textarea:focus {
       outline: none;
-      border-color: var(--gold-500);
-      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+      border-color: #1E40AF;
+      box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
     }
     
     .form-group select {
@@ -384,10 +383,10 @@
     .submit-btn {
       width: 100%;
       padding: 1rem;
-      background: linear-gradient(135deg, var(--gold-500), var(--gold-600));
+      background: linear-gradient(135deg, #1E40AF, #111111);
       border: none;
       border-radius: 10px;
-      color: #000;
+      color: #fff;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
@@ -396,13 +395,13 @@
     
     .submit-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(217, 119, 6, 0.3);
+      box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
     }
     
     /* Map Section */
     .map-section {
       padding: 4rem 0;
-      background: linear-gradient(180deg, #1a1a1a 0%, #0d1117 100%);
+      background: #F3F4F6;
     }
     
     .map-container {
@@ -423,7 +422,7 @@
     /* Service Areas */
     .areas-section {
       padding: 4rem 0;
-      background: linear-gradient(to right, rgba(217, 119, 6, 0.1), rgba(217, 119, 6, 0.05));
+      background: #FFFFFF;
     }
     
     .areas-grid {
@@ -437,17 +436,17 @@
     
     .area-tag {
       padding: 0.75rem 1.5rem;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(217, 119, 6, 0.2);
+      background: #F3F4F6;
+      border: 1px solid #E5E7EB;
       border-radius: 50px;
-      color: #e0e0e0;
+      color: #475569;
       font-size: 0.95rem;
       transition: all 0.3s ease;
     }
     
     .area-tag:hover {
-      border-color: var(--gold-400);
-      color: var(--gold-400);
+      border-color: #1E40AF;
+      color: #1E40AF;
     }
     
     @media (max-width: 768px) {
@@ -555,7 +554,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--gold-400)" stroke-width="2"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
           </div>
           <h3>Visit Our Office</h3>
-          <p>5-6-411/413, Aakhpura,<br>Nampally, Hyderabad,<br>Telangana 500001</p>
+          <p>5-6-411/413, Aaghpura,<br>Nampally, Hyderabad,<br>Telangana 500001</p>
         </div>
         
         <div class="info-card">
@@ -726,7 +725,7 @@
           <div class="contact-item"><a href="mailto:info@woodenmax.com">info@woodenmax.com</a></div>
         </div>
       </div>
-      <div class="footer-bottom"><p>&copy; 2025 WoodenMax Architectural elements. All rights reserved.</p></div>
+      <div class="footer-bottom"><p>&copy; 2026 WoodenMax Architectural elements. All rights reserved.</p></div>
     </div>
   </footer>
 

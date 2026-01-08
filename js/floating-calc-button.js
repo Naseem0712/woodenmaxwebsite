@@ -17,7 +17,7 @@
     
     // CRITICAL FIX: Ensure text is visible immediately on page load
     // This prevents the issue where text doesn't show if animation script fails
-    const defaultText = buttonText.textContent.trim() || buttonText.getAttribute('data-original-text') || buttonText.innerHTML.trim() || 'Get Price';
+    const defaultText = buttonText.textContent.trim() || buttonText.getAttribute('data-original-text') || buttonText.innerHTML.trim() || 'Try Calculator';
     
     // Force set text content - this ensures it's always visible
     buttonText.textContent = defaultText;
@@ -25,65 +25,30 @@
     
     buttonText.setAttribute('data-original-text', defaultText);
     
-    // Detect background color and set appropriate text color
-    function detectBackgroundAndSetTextColor() {
-      // Get element behind button (approximate position)
-      const buttonRect = button.getBoundingClientRect();
-      const centerX = buttonRect.left + buttonRect.width / 2;
-      const centerY = buttonRect.top + buttonRect.height / 2;
-      
-      // Try to get background color from element at button position
-      const elementBelow = document.elementFromPoint(centerX, centerY);
-      if (elementBelow && elementBelow !== button) {
-        const computedStyle = window.getComputedStyle(elementBelow);
-        const bgColor = computedStyle.backgroundColor;
-        
-        // Extract RGB values
-        const rgbMatch = bgColor.match(/\d+/g);
-        if (rgbMatch && rgbMatch.length >= 3) {
-          const r = parseInt(rgbMatch[0]);
-          const g = parseInt(rgbMatch[1]);
-          const b = parseInt(rgbMatch[2]);
-          
-          // Calculate brightness (0-255)
-          const brightness = (r * 299 + g * 587 + b * 114) / 1000;
-          
-          // Set text color based on background brightness
-          if (brightness > 128) {
-            // Light background - use dark text
-            buttonText.style.color = '#000000';
-            buttonText.style.textShadow = '0 1px 3px rgba(255, 255, 255, 0.8)';
-            button.querySelector('svg').style.stroke = '#000000';
-          } else {
-            // Dark background - use light text
-            buttonText.style.color = '#ffffff';
-            buttonText.style.textShadow = '0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3)';
-            button.querySelector('svg').style.stroke = '#ffffff';
-          }
-        }
-      } else {
-        // Default to white text (for dark backgrounds)
-        buttonText.style.color = '#ffffff';
-        buttonText.style.textShadow = '0 2px 8px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3)';
-        button.querySelector('svg').style.stroke = '#ffffff';
+    // Always use light grey text and icon for light grey button background
+    function setButtonColors() {
+      buttonText.style.color = '#475569';
+      buttonText.style.textShadow = 'none';
+      if (button.querySelector('svg')) {
+        button.querySelector('svg').style.stroke = '#475569';
       }
     }
     
-    // Set initial text color based on background
-    setTimeout(detectBackgroundAndSetTextColor, 100);
+    // Set initial colors (always light grey for light grey button)
+    setTimeout(setButtonColors, 100);
     
-    // Update text color on scroll (background might change)
+    // Update colors on scroll (maintain consistency)
     let colorCheckTimeout;
     window.addEventListener('scroll', () => {
       clearTimeout(colorCheckTimeout);
-      colorCheckTimeout = setTimeout(detectBackgroundAndSetTextColor, 150);
+      colorCheckTimeout = setTimeout(setButtonColors, 150);
     }, { passive: true });
     
     // Force visibility with !important equivalent via inline styles
     buttonText.style.cssText += 'display: inline-block !important; opacity: 1 !important; visibility: visible !important; font-weight: 700 !important; font-size: 0.95rem !important; overflow: visible !important; line-height: 1.2 !important;';
     
-    // Set transparent glassmorphism background
-    button.style.cssText += 'display: flex !important; background: rgba(255, 255, 255, 0.15) !important; backdrop-filter: blur(20px) saturate(180%) !important; -webkit-backdrop-filter: blur(20px) saturate(180%) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important;';
+    // Use CSS-defined light grey background (don't override)
+    // Button background is set in CSS: #F3F4F6 with border #E5E7EB
 
     // Find calculator area - try multiple methods
     let calculatorArea = null;
@@ -100,10 +65,10 @@
       button.style.pointerEvents = 'auto';
       // Ensure text is visible for external links too
       if (buttonText.textContent.trim() === '') {
-        buttonText.textContent = buttonText.getAttribute('data-original-text') || 'Get Price';
+        buttonText.textContent = buttonText.getAttribute('data-original-text') || 'Try Calculator';
       }
-      buttonText.style.cssText = 'display: inline-block !important; opacity: 1 !important; visibility: visible !important; color: #ffffff !important; font-weight: 700 !important; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;';
-      button.style.cssText += 'background: rgba(255, 255, 255, 0.15) !important; backdrop-filter: blur(20px) !important; border: 1px solid rgba(255, 255, 255, 0.3) !important;';
+      buttonText.style.cssText = 'display: inline-block !important; opacity: 1 !important; visibility: visible !important; color: #475569 !important; font-weight: 700 !important; text-shadow: none !important;';
+      // Use CSS-defined light grey background (don't override)
       return; // Exit early - no need to set up scroll/visibility logic
     }
     
@@ -301,7 +266,7 @@
       return;
     }
 
-    const originalText = buttonText.textContent.trim() || buttonText.getAttribute('data-original-text') || buttonText.innerHTML.trim() || 'Get Price';
+    const originalText = buttonText.textContent.trim() || buttonText.getAttribute('data-original-text') || buttonText.innerHTML.trim() || 'Try Calculator';
     
     // Store original text
     buttonText.setAttribute('data-original-text', originalText);

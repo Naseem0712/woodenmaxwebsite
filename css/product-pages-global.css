@@ -9,7 +9,7 @@
    ============================================ */
 .product-detail-hero {
   padding: 8rem 0 3rem;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.9));
+  background: #FFFFFF;
 }
 
 /* ============================================
@@ -44,16 +44,16 @@
    PRODUCT OPTIONS
    ============================================ */
 .product-options {
-  background: #1a1a1a;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 0.75rem;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px; /* Slightly sharp */
   padding: 1.25rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(212, 175, 55, 0.1);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .product-options h3 {
-  color: #ffffff;
+  color: #0F172A;
   margin-bottom: 1rem;
   font-size: 1.1rem;
   font-weight: 600;
@@ -65,7 +65,7 @@
 
 .option-group label {
   display: block;
-  color: #f5f5f5;
+  color: #111111;
   margin-bottom: 0.5rem;
   font-weight: 500;
   font-size: 0.9rem;
@@ -79,10 +79,10 @@
 
 .option-btn {
   padding: 0.4rem 0.85rem;
-  background: #4a4a4a;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 0.4rem;
-  color: #ffffff;
+  background: #F8F9FA;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px; /* Slightly sharp */
+  color: #111111;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.875rem;
@@ -90,9 +90,10 @@
 
 .option-btn:hover,
 .option-btn.active {
-  background: #d4af37;
-  border-color: #d4af37;
-  color: #000000;
+  background: #1E40AF;
+  border-color: #1E40AF;
+  color: #FFFFFF;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 /* ============================================
@@ -110,20 +111,20 @@
   align-items: start;
   gap: 0.6rem;
   padding: 0.75rem;
-  background: #1a1a1a;
-  border-radius: 0.5rem;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  background: #FFFFFF;
+  border-radius: 8px; /* Slightly sharp */
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
 .feature-item:hover {
-  border-color: rgba(212, 175, 55, 0.4);
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+  border-color: #1E40AF;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .feature-item svg {
-  color: #ffffff !important;
+  color: #1E40AF !important;
   transition: color 0.3s ease;
   flex-shrink: 0;
   width: 16px;
@@ -131,18 +132,18 @@
 }
 
 .feature-item:hover svg {
-  color: #d4af37;
+  color: #1E3A8A;
 }
 
 .feature-item strong {
-  color: #ffffff;
+  color: #0F172A;
   font-size: 0.875rem;
   display: block;
   margin-bottom: 0.25rem;
 }
 
 .feature-item p {
-  color: #e0e0e0;
+  color: #111111;
   font-size: 0.8rem;
   margin: 0;
 }
@@ -154,32 +155,32 @@
   width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
-  background: #1a1a1a;
-  border-radius: 0.5rem;
+  background: #FFFFFF;
+  border-radius: 8px; /* Slightly sharp */
   overflow: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .specs-table th {
-  background: rgba(212, 175, 55, 0.2);
-  color: #ffffff;
+  background: #F8F9FA;
+  color: #0F172A;
   padding: 0.75rem 1rem;
   text-align: left;
   font-weight: 600;
   font-size: 0.875rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #E5E7EB;
 }
 
 .specs-table td {
   padding: 0.75rem 1rem;
-  color: #f5f5f5;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: #111111;
+  border-top: 1px solid #F3F4F6;
   font-size: 0.875rem;
 }
 
 .specs-table tr:hover {
-  background: rgba(212, 175, 55, 0.1);
+  background: #F8F9FA;
 }
 
 /* ============================================
@@ -189,50 +190,50 @@
   width: 100%;
   border-collapse: collapse;
   margin: 1.5rem 0;
-  background: #1a1a1a;
-  border-radius: 0.5rem;
+  background: #FFFFFF;
+  border-radius: 8px; /* Slightly sharp */
   overflow: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .comparison-table th {
-  background: rgba(212, 175, 55, 0.2);
-  color: #ffffff;
+  background: #F8F9FA;
+  color: #0F172A;
   padding: 0.75rem 1rem;
   text-align: left;
   font-weight: 600;
   font-size: 0.875rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #E5E7EB;
 }
 
 .comparison-table td {
   padding: 0.75rem 1rem;
-  color: #f5f5f5;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  color: #111111;
+  border-top: 1px solid #F3F4F6;
   font-size: 0.875rem;
 }
 
 .comparison-table tr:hover {
-  background: rgba(212, 175, 55, 0.1);
+  background: #F8F9FA;
 }
 
 /* ============================================
    FAQ ACCORDION
    ============================================ */
 .faq-item {
-  background: #1a1a1a;
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 0.5rem;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px; /* Slightly sharp */
   margin-bottom: 0.75rem;
   overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
 .faq-item:hover {
-  border-color: rgba(212, 175, 55, 0.4);
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.15);
+  border-color: #1E40AF;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .faq-question {
@@ -241,23 +242,23 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #ffffff;
+  color: #0F172A;
   font-weight: 500;
   font-size: 0.95rem;
   transition: all 0.3s ease;
 }
 
 .faq-question:hover {
-  background: rgba(212, 175, 55, 0.1);
-  color: #d4af37;
+  background: #F8F9FA;
+  color: #1E40AF;
 }
 
 .faq-toggle {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: rgba(212, 175, 55, 0.2);
-  border: 1px solid #d4af37;
+  background: #F8F9FA;
+  border: 1px solid #1E40AF;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -268,7 +269,7 @@
 .faq-toggle svg {
   width: 12px;
   height: 12px;
-  color: #d4af37;
+  color: #1E40AF;
   transition: transform 0.3s ease;
 }
 
@@ -288,9 +289,465 @@
 
 .faq-answer-content {
   padding: 0 1rem 0.875rem 1rem;
-  color: #f5f5f5;
+  color: #111111;
   line-height: 1.6;
   font-size: 0.875rem;
+}
+
+/* FAQ Container - 90% width and Light Theme */
+.faq-section,
+.alum-faq-section,
+section[style*="FAQ"],
+section[style*="faq"] {
+  background: #F8F9FA !important;
+}
+
+.faq-section .container > div,
+.alum-faq-list,
+section[style*="FAQ"] > div > div,
+section[style*="faq"] > div > div {
+  max-width: 90% !important;
+  margin: 0 auto !important;
+}
+
+/* Technical Specifications - Light Theme */
+.technical-specs-mobile-only,
+section[style*="Technical Specifications"],
+section[style*="technical specifications"] {
+  background: #FFFFFF !important;
+}
+
+section[style*="Technical Specifications"] h2,
+section[style*="technical specifications"] h2 {
+  color: #0F172A !important;
+}
+
+/* Hardware & Material Options - Light Theme */
+section[style*="Hardware"],
+section[style*="hardware"] {
+  background: #FFFFFF !important;
+}
+
+section[style*="Hardware"] h2,
+section[style*="hardware"] h2 {
+  color: #0F172A !important;
+}
+
+/* Related Products - Light Theme */
+section[style*="Related Products"],
+section[style*="related products"] {
+  background: #F8F9FA !important;
+}
+
+section[style*="Related Products"] h2,
+section[style*="related products"] h2 {
+  color: #0F172A !important;
+}
+
+/* Explore Other Categories - Light Theme */
+section[style*="Explore Other"],
+section[style*="explore other"] {
+  background: #F8F9FA !important;
+}
+
+section[style*="Explore Other"] h2,
+section[style*="explore other"] h2 {
+  color: #0F172A !important;
+}
+
+/* Customer Feedback - Light Theme */
+section[style*="Customer Feedback"],
+section[style*="customer feedback"] {
+  background: #F8F9FA !important;
+}
+
+section[style*="Customer Feedback"] h2,
+section[style*="customer feedback"] h2 {
+  color: #0F172A !important;
+}
+
+/* Override all dark backgrounds in sections */
+section[style*="background: #000"],
+section[style*="background: #1a1a1a"],
+section[style*="background: #0a0a0a"],
+section[style*="background:#000"],
+section[style*="background:#1a1a1a"],
+section[style*="background:#0a0a0a"] {
+  background: #F8F9FA !important;
+}
+
+/* Fix white text on light backgrounds */
+section[style*="background: #000"] h2,
+section[style*="background: #1a1a1a"] h2,
+section[style*="background: #0a0a0a"] h2,
+section[style*="background:#000"] h2,
+section[style*="background:#1a1a1a"] h2,
+section[style*="background:#0a0a0a"] h2,
+section[style*="color: #fff"],
+section[style*="color:#fff"],
+section[style*="color: white"],
+section[style*="color:white"] {
+  color: #0F172A !important;
+}
+
+section[style*="background: #000"] p,
+section[style*="background: #1a1a1a"] p,
+section[style*="background: #0a0a0a"] p,
+section[style*="color: #94a3b8"],
+section[style*="color:#94a3b8"],
+section[style*="color: #b0b0b0"],
+section[style*="color:#b0b0b0"] {
+  color: #111111 !important;
+}
+
+/* Fix Product Short Description Text Color - Dark on White Background */
+.product-detail-hero p[style*="color: #f5f5f5"],
+.product-detail-hero p[style*="color:#f5f5f5"],
+.product-detail-hero > div > div > p[style*="color: #f5f5f5"],
+.product-detail-hero > div > div > p[style*="color:#f5f5f5"] {
+  color: #111111 !important;
+}
+
+/* Also target paragraphs in product detail grid */
+.product-detail-grid p[style*="color: #f5f5f5"],
+.product-detail-grid p[style*="color:#f5f5f5"] {
+  color: #111111 !important;
+}
+
+/* Fix Product H1 Text Color - Dark on White Background */
+.product-detail-hero h1[style*="color: #ffffff"],
+.product-detail-hero h1[style*="color:#ffffff"],
+.product-detail-hero h1[style*="color: #fff"],
+.product-detail-hero h1[style*="color:#fff"] {
+  color: #0F172A !important;
+}
+
+/* ============================================
+   PRODUCT PAGE VISIBILITY OVERRIDES (LIGHT THEME)
+   Forces readability even when inline styles are dark/white
+   ============================================ */
+
+/* Convert common inline dark panels to white cards (many pages use divs, not sections) */
+.product-detail-grid [style*="background: rgba(26, 26, 26"],
+.product-detail-grid [style*="background:rgba(26, 26, 26"],
+section[style*="background: rgba(26, 26, 26"],
+section[style*="background:rgba(26, 26, 26"],
+div[style*="background: rgba(26, 26, 26"],
+div[style*="background:rgba(26, 26, 26"] {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Convert "pure dark" sections to premium light grey */
+section[style*="background: #000000"],
+section[style*="background:#000000"],
+section[style*="background: #000"],
+section[style*="background:#000"],
+section[style*="background: #0a0a0a"],
+section[style*="background:#0a0a0a"],
+section[style*="background: #1a1a1a"],
+section[style*="background:#1a1a1a"] {
+  background: #F8F9FA !important;
+}
+
+/* Headings inside converted dark sections must be dark */
+section[style*="background: #000000"] h1,
+section[style*="background: #000000"] h2,
+section[style*="background: #000000"] h3,
+section[style*="background: #000000"] h4,
+section[style*="background:#000000"] h1,
+section[style*="background:#000000"] h2,
+section[style*="background:#000000"] h3,
+section[style*="background:#000000"] h4,
+section[style*="background: #000"] h1,
+section[style*="background: #000"] h2,
+section[style*="background: #000"] h3,
+section[style*="background: #000"] h4,
+section[style*="background:#000"] h1,
+section[style*="background:#000"] h2,
+section[style*="background:#000"] h3,
+section[style*="background:#000"] h4,
+section[style*="background: #0a0a0a"] h1,
+section[style*="background: #0a0a0a"] h2,
+section[style*="background: #0a0a0a"] h3,
+section[style*="background: #0a0a0a"] h4,
+section[style*="background:#0a0a0a"] h1,
+section[style*="background:#0a0a0a"] h2,
+section[style*="background:#0a0a0a"] h3,
+section[style*="background:#0a0a0a"] h4,
+section[style*="background: #1a1a1a"] h1,
+section[style*="background: #1a1a1a"] h2,
+section[style*="background: #1a1a1a"] h3,
+section[style*="background: #1a1a1a"] h4,
+section[style*="background:#1a1a1a"] h1,
+section[style*="background:#1a1a1a"] h2,
+section[style*="background:#1a1a1a"] h3,
+section[style*="background:#1a1a1a"] h4 {
+  color: #0F172A !important;
+}
+
+/* Paragraph/list text inside converted dark sections */
+section[style*="background: #000000"] p,
+section[style*="background: #000000"] li,
+section[style*="background: #000000"] td,
+section[style*="background: #000000"] span,
+section[style*="background:#000000"] p,
+section[style*="background:#000000"] li,
+section[style*="background:#000000"] td,
+section[style*="background:#000000"] span,
+section[style*="background: #000"] p,
+section[style*="background: #000"] li,
+section[style*="background: #000"] td,
+section[style*="background: #000"] span,
+section[style*="background:#000"] p,
+section[style*="background:#000"] li,
+section[style*="background:#000"] td,
+section[style*="background:#000"] span,
+section[style*="background: #0a0a0a"] p,
+section[style*="background: #0a0a0a"] li,
+section[style*="background: #0a0a0a"] td,
+section[style*="background: #0a0a0a"] span,
+section[style*="background:#0a0a0a"] p,
+section[style*="background:#0a0a0a"] li,
+section[style*="background:#0a0a0a"] td,
+section[style*="background:#0a0a0a"] span,
+section[style*="background: #1a1a1a"] p,
+section[style*="background: #1a1a1a"] li,
+section[style*="background: #1a1a1a"] td,
+section[style*="background: #1a1a1a"] span,
+section[style*="background:#1a1a1a"] p,
+section[style*="background:#1a1a1a"] li,
+section[style*="background:#1a1a1a"] td,
+section[style*="background:#1a1a1a"] span {
+  color: #475569 !important;
+}
+
+/* Make links visible (many were gold-on-light or grey-on-light) */
+section[style*="background: #000000"] a,
+section[style*="background:#000000"] a,
+section[style*="background: #000"] a,
+section[style*="background:#000"] a,
+section[style*="background: #0a0a0a"] a,
+section[style*="background:#0a0a0a"] a,
+section[style*="background: #1a1a1a"] a,
+section[style*="background:#1a1a1a"] a {
+  color: #1E40AF !important;
+  text-decoration: underline !important;
+}
+
+/* Fix "Best For / Perfect For / Use Cases" blocks that still contain inline white text on white cards */
+.product-detail-grid h1[style*="color: #ffffff"],
+.product-detail-grid h1[style*="color:#ffffff"],
+.product-detail-grid h1[style*="color: #fff"],
+.product-detail-grid h1[style*="color:#fff"],
+.product-detail-grid h2[style*="color: #ffffff"],
+.product-detail-grid h2[style*="color:#ffffff"],
+.product-detail-grid h3[style*="color: #ffffff"],
+.product-detail-grid h3[style*="color:#ffffff"],
+.product-detail-grid h4[style*="color: #ffffff"],
+.product-detail-grid h4[style*="color:#ffffff"],
+.product-detail-grid strong[style*="color: #ffffff"],
+.product-detail-grid strong[style*="color:#ffffff"] {
+  color: #0F172A !important;
+}
+
+.product-detail-grid p[style*="color: #f5f5f5"],
+.product-detail-grid p[style*="color:#f5f5f5"],
+.product-detail-grid p[style*="color: #e0e0e0"],
+.product-detail-grid p[style*="color:#e0e0e0"],
+.product-detail-grid p[style*="color: #b0b0b0"],
+.product-detail-grid p[style*="color:#b0b0b0"],
+.product-detail-grid li[style*="color: #e0e0e0"],
+.product-detail-grid li[style*="color:#e0e0e0"],
+.product-detail-grid ul[style*="color: #f5f5f5"],
+.product-detail-grid ul[style*="color:#f5f5f5"] {
+  color: #475569 !important;
+}
+
+/* Make any leftover inline white/grey text in the grid readable */
+.product-detail-grid [style*="color: #ffffff"],
+.product-detail-grid [style*="color:#ffffff"],
+.product-detail-grid [style*="color: #fff"],
+.product-detail-grid [style*="color:#fff"] {
+  color: #0F172A !important;
+}
+
+.product-detail-grid [style*="color: #e0e0e0"],
+.product-detail-grid [style*="color:#e0e0e0"],
+.product-detail-grid [style*="color: #f5f5f5"],
+.product-detail-grid [style*="color:#f5f5f5"],
+.product-detail-grid [style*="color: #b0b0b0"],
+.product-detail-grid [style*="color:#b0b0b0"],
+.product-detail-grid [style*="color: #d1d5db"],
+.product-detail-grid [style*="color:#d1d5db"],
+.product-detail-grid [style*="color: #cbd5e1"],
+.product-detail-grid [style*="color:#cbd5e1"] {
+  color: #475569 !important;
+}
+
+/* Fix dark inline inputs in Get Exact Price / user details blocks */
+.product-detail-grid input[style*="background: rgba(0, 0, 0"],
+.product-detail-grid input[style*="background:rgba(0, 0, 0"],
+.product-detail-grid textarea[style*="background: rgba(0, 0, 0"],
+.product-detail-grid textarea[style*="background:rgba(0, 0, 0"],
+.product-detail-grid select[style*="background: rgba(0, 0, 0"],
+.product-detail-grid select[style*="background:rgba(0, 0, 0"] {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #E5E7EB !important;
+}
+
+/* If a section/card is explicitly light, force any leftover inline white text to dark */
+section[style*="background: #FFFFFF"] [style*="color: #ffffff"],
+section[style*="background: #FFFFFF"] [style*="color:#ffffff"],
+section[style*="background:#FFFFFF"] [style*="color: #ffffff"],
+section[style*="background:#FFFFFF"] [style*="color:#ffffff"],
+section[style*="background: #F3F4F6"] [style*="color: #ffffff"],
+section[style*="background: #F3F4F6"] [style*="color:#ffffff"],
+section[style*="background:#F3F4F6"] [style*="color: #ffffff"],
+section[style*="background:#F3F4F6"] [style*="color:#ffffff"],
+section[style*="background: #F8F9FA"] [style*="color: #ffffff"],
+section[style*="background: #F8F9FA"] [style*="color:#ffffff"],
+section[style*="background:#F8F9FA"] [style*="color: #ffffff"],
+section[style*="background:#F8F9FA"] [style*="color:#ffffff"],
+div[style*="background: #FFFFFF"] [style*="color: #ffffff"],
+div[style*="background: #FFFFFF"] [style*="color:#ffffff"],
+div[style*="background:#FFFFFF"] [style*="color: #ffffff"],
+div[style*="background:#FFFFFF"] [style*="color:#ffffff"],
+div[style*="background: #F3F4F6"] [style*="color: #ffffff"],
+div[style*="background: #F3F4F6"] [style*="color:#ffffff"],
+div[style*="background:#F3F4F6"] [style*="color: #ffffff"],
+div[style*="background:#F3F4F6"] [style*="color:#ffffff"] {
+  color: #0F172A !important;
+}
+
+section[style*="background: #FFFFFF"] [style*="color: #e0e0e0"],
+section[style*="background: #FFFFFF"] [style*="color:#e0e0e0"],
+section[style*="background: #FFFFFF"] [style*="color: #f5f5f5"],
+section[style*="background: #FFFFFF"] [style*="color:#f5f5f5"],
+section[style*="background: #FFFFFF"] [style*="color: #b0b0b0"],
+section[style*="background: #FFFFFF"] [style*="color:#b0b0b0"],
+section[style*="background: #F3F4F6"] [style*="color: #e0e0e0"],
+section[style*="background: #F3F4F6"] [style*="color:#e0e0e0"],
+section[style*="background: #F3F4F6"] [style*="color: #f5f5f5"],
+section[style*="background: #F3F4F6"] [style*="color:#f5f5f5"],
+section[style*="background: #F3F4F6"] [style*="color: #b0b0b0"],
+section[style*="background: #F3F4F6"] [style*="color:#b0b0b0"],
+section[style*="background: #F8F9FA"] [style*="color: #e0e0e0"],
+section[style*="background: #F8F9FA"] [style*="color:#e0e0e0"],
+section[style*="background: #F8F9FA"] [style*="color: #f5f5f5"],
+section[style*="background: #F8F9FA"] [style*="color:#f5f5f5"],
+section[style*="background: #F8F9FA"] [style*="color: #b0b0b0"],
+section[style*="background: #F8F9FA"] [style*="color:#b0b0b0"],
+div[style*="background: #FFFFFF"] [style*="color: #e0e0e0"],
+div[style*="background: #FFFFFF"] [style*="color:#e0e0e0"],
+div[style*="background: #FFFFFF"] [style*="color: #f5f5f5"],
+div[style*="background: #FFFFFF"] [style*="color:#f5f5f5"],
+div[style*="background: #FFFFFF"] [style*="color: #b0b0b0"],
+div[style*="background: #FFFFFF"] [style*="color:#b0b0b0"],
+div[style*="background: #F3F4F6"] [style*="color: #e0e0e0"],
+div[style*="background: #F3F4F6"] [style*="color:#e0e0e0"],
+div[style*="background: #F3F4F6"] [style*="color: #f5f5f5"],
+div[style*="background: #F3F4F6"] [style*="color:#f5f5f5"],
+div[style*="background: #F3F4F6"] [style*="color: #b0b0b0"],
+div[style*="background: #F3F4F6"] [style*="color:#b0b0b0"] {
+  color: #475569 !important;
+}
+
+/* Force calc-user-form wrapper to stay light even if inline style sets dark background */
+.calc-user-form {
+  background: #F8F9FA !important;
+  border: 1px solid #E5E7EB !important;
+  color: #475569 !important;
+}
+
+/* Sleek specs styling even when tables use inline gold/dark colors */
+.specs-table,
+.specs-table th,
+.specs-table td {
+  border-color: #E5E7EB !important;
+}
+
+.specs-table th {
+  background: #F8F9FA !important;
+  color: #1E40AF !important;
+  border-bottom: 1px solid #E5E7EB !important;
+}
+
+.specs-table td {
+  color: #475569 !important;
+  border-top: 1px solid #E5E7EB !important;
+}
+
+/* Product Description Sections - Light Grey Background */
+.product-description-section,
+section[style*="product-description"],
+section[style*="Product Description"],
+section[style*="About Our Systems"],
+section[style*="about our systems"],
+section[style*="Key Features"],
+section[style*="key features"],
+section[style*="Get Exact Price"],
+section[style*="get exact price"],
+section[style*="Common Price Queries"],
+section[style*="common price queries"],
+section[style*="Applications"],
+section[style*="applications"] {
+  background: #F3F4F6 !important;
+}
+
+.product-description-section h2,
+.product-description-section h3,
+.product-description-section p,
+.product-description-section strong,
+section[style*="product-description"] h2,
+section[style*="product-description"] h3,
+section[style*="product-description"] p,
+section[style*="Key Features"] h2,
+section[style*="Get Exact Price"] h2,
+section[style*="Common Price Queries"] h2,
+section[style*="Applications"] h2,
+section[style*="About Our Systems"] h2 {
+  color: #0F172A !important;
+}
+
+.product-description-section .mobile-collapsible-content,
+section[style*="product-description"] .mobile-collapsible-content {
+  color: #111111 !important;
+}
+
+/* Fix dark grey backgrounds to light grey */
+section[style*="background: rgba(26, 26, 26"],
+section[style*="background:linear-gradient"][style*="#1a1a1a"],
+section[style*="background:linear-gradient"][style*="#0d1f3c"],
+section[style*="background: rgba(255,255,255,0.05)"],
+section[style*="Common Price Queries"],
+section[style*="common price queries"] {
+  background: #F3F4F6 !important;
+}
+
+/* Fix FAQ width to 90% in all files */
+section[style*="FAQ"] > div > div[style*="max-width: 85%"],
+section[style*="FAQ"] > div > div[style*="max-width: 900px"],
+section[style*="faq"] > div > div[style*="max-width: 85%"],
+section[style*="faq"] > div > div[style*="max-width: 900px"] {
+  max-width: 90% !important;
+}
+
+/* Fix text colors in Common Price Queries and Get Exact Price sections */
+section[style*="Common Price Queries"] h2,
+section[style*="common price queries"] h2,
+section[style*="Get Exact Price"] h4,
+section[style*="get exact price"] h4 {
+  color: #0F172A !important;
+}
+
+section[style*="Common Price Queries"] p,
+section[style*="common price queries"] p,
+section[style*="Get Exact Price"] p,
+section[style*="get exact price"] p {
+  color: #111111 !important;
 }
 
 /* ============================================
@@ -304,18 +761,20 @@
 }
 
 .related-product-card {
-  background: #1a1a1a;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 1rem;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px; /* Slightly sharp */
   overflow: hidden;
   transition: all 0.3s ease;
   text-decoration: none;
   display: block;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .related-product-card:hover {
   transform: translateY(-5px);
-  border-color: var(--amber-500);
+  border-color: #1E40AF;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 .related-product-card img {
@@ -329,12 +788,12 @@
 }
 
 .related-product-card h4 {
-  color: #ffffff;
+  color: #0F172A;
   margin-bottom: 0.5rem;
 }
 
 .related-product-card p {
-  color: #e0e0e0;
+  color: #111111;
   font-size: 0.9rem;
 }
 
@@ -428,15 +887,16 @@
 
 /* Benefits List */
 .benefits-list {
-  background: #1a1a1a;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 0.75rem;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px; /* Slightly sharp */
   padding: 1.5rem;
   margin: 1.5rem 0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .benefits-list h3 {
-  color: #ffffff;
+  color: #0F172A;
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
@@ -448,7 +908,7 @@
 }
 
 .benefits-list li {
-  color: #f5f5f5;
+  color: #111111;
   padding: 0.5rem 0;
   padding-left: 1.5rem;
   position: relative;
@@ -459,21 +919,22 @@
   content: "✔";
   position: absolute;
   left: 0;
-  color: #d4af37;
+  color: #1E40AF;
   font-weight: bold;
 }
 
 /* Security Features */
 .security-features {
-  background: #1a1a1a;
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 0.75rem;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px; /* Slightly sharp */
   padding: 1.5rem;
   margin: 1.5rem 0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .security-features h3 {
-  color: #ffffff;
+  color: #0F172A;
   margin-bottom: 1rem;
   font-size: 1.1rem;
 }
@@ -485,7 +946,7 @@
 }
 
 .security-features li {
-  color: #f5f5f5;
+  color: #111111;
   padding: 0.5rem 0;
   padding-left: 1.5rem;
   position: relative;
@@ -496,7 +957,7 @@
   content: "✔";
   position: absolute;
   left: 0;
-  color: var(--gold-400);
+  color: #1E40AF;
   font-weight: bold;
 }
 
@@ -510,10 +971,10 @@
 
 .finish-badge {
   padding: 0.5rem 1rem;
-  background: #1a1a1a;
-  border: 1px solid rgba(148, 163, 184, 0.2);
-  border-radius: 0.5rem;
-  color: #f5f5f5;
+  background: #F8F9FA;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px; /* Slightly sharp */
+  color: #111111;
   font-size: 0.875rem;
 }
 
@@ -528,15 +989,16 @@
 
 /* Highlight Box */
 .highlight-box {
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(6, 182, 212, 0.1));
-  border: 1px solid rgba(34, 197, 94, 0.3);
-  border-radius: 0.75rem;
+  background: #F8F9FA;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px; /* Slightly sharp */
   padding: 1.25rem;
   margin: 1.5rem 0;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   text-align: center;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .highlight-item {
@@ -550,7 +1012,7 @@
 
 .highlight-item .text {
   font-size: 0.75rem;
-  color: #f5f5f5;
+  color: #111111;
   font-weight: 500;
 }
 
@@ -569,18 +1031,14 @@
   right: 2rem;
   z-index: 999;
   padding: 1rem 1.5rem;
-  /* Glassmorphism / Water Drop Effect - Transparent like mineral water */
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: #ffffff;
+  /* Light Theme - Solid Button */
+  background: #F3F4F6;
+  border: 1px solid #E5E7EB;
+  color: #475569;
   font-weight: 700;
   font-size: 0.95rem;
-  border-radius: 50px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 
-              0 4px 16px rgba(0, 0, 0, 0.1),
-              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border-radius: 8px; /* Slightly sharp */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   cursor: pointer;
   display: flex !important;
   align-items: center;
@@ -649,21 +1107,16 @@
 }
 
 .floating-calc-button:hover {
-  background: rgba(255, 255, 255, 0.25) !important;
-  backdrop-filter: blur(25px) saturate(200%);
-  -webkit-backdrop-filter: blur(25px) saturate(200%);
-  border-color: rgba(255, 255, 255, 0.5) !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 
-              0 6px 20px rgba(0, 0, 0, 0.2),
-              inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  background: #E5E7EB !important;
+  border-color: #D1D5DB !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   animation: waterDropTouch 0.6s ease-in-out;
   transform: translateY(-3px) scale(1.05);
 }
 
 .floating-calc-button:active {
-  background: rgba(255, 255, 255, 0.3) !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 
-              inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #E5E7EB !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   transform: translateY(0) scale(0.97);
   animation: none;
 }
@@ -672,10 +1125,9 @@
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  stroke: #ffffff;
+  stroke: #475569;
   fill: none;
   display: block;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
 }
 
 .floating-calc-button-text {
@@ -686,7 +1138,7 @@
   text-align: center;
   white-space: nowrap;
   overflow: visible !important;
-  color: #ffffff !important;
+  color: #475569 !important;
   font-weight: 700 !important;
   font-size: 0.95rem !important;
   box-sizing: border-box;
@@ -697,8 +1149,6 @@
   opacity: 1 !important;
   visibility: visible !important;
   line-height: 1.2;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4),
-               0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* Responsive adjustments */
@@ -710,16 +1160,14 @@
     font-size: 0.9rem;
     min-width: 160px;
     max-width: 180px;
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    background: #1E40AF !important;
+    border: 1px solid #1E40AF !important;
   }
   
   .floating-calc-button svg {
     width: 18px;
     height: 18px;
-    stroke: #ffffff !important;
+    stroke: #FFFFFF !important;
   }
   
   .floating-calc-button-text {
@@ -727,6 +1175,7 @@
     max-width: 130px;
     font-size: 0.9rem !important;
     font-weight: 700 !important;
+    color: #FFFFFF !important;
   }
 }
 
@@ -738,16 +1187,14 @@
     font-size: 0.85rem;
     min-width: 140px;
     max-width: 160px;
-    background: rgba(255, 255, 255, 0.15) !important;
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    background: #1E40AF !important;
+    border: 1px solid #1E40AF !important;
   }
   
   .floating-calc-button svg {
     width: 16px;
     height: 16px;
-    stroke: #ffffff !important;
+    stroke: #FFFFFF !important;
   }
   
   .floating-calc-button-text {
@@ -755,6 +1202,7 @@
     max-width: 120px;
     font-size: 0.85rem !important;
     font-weight: 700 !important;
+    color: #FFFFFF !important;
   }
 }
 

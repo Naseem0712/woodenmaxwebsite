@@ -1,7 +1,7 @@
 # ============================================
 # Robots.txt - WoodenMax Architectural Elements
 # Optimized for Google, Bing & AI Crawlers
-# Last Updated: 2025-01-27
+# Last Updated: 2026-01-27
 # ============================================
 
 # Default rules for all crawlers

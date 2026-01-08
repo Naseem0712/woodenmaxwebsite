@@ -204,7 +204,7 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         'copper-gold': 'Copper Gold'
       };
       
-      const message = `Telescopic Slim Profile Sliding Door Quote Request
+      const emailBody = `Telescopic Slim Profile Sliding Door Quote Request
 
 Dimensions:
 - Width: ${width} ${unit}
@@ -229,18 +229,11 @@ Contact Details:
 - Mobile: ${userDetails.mobile}
 ${userDetails.email ? `- Email: ${userDetails.email}` : ''}`;
       
-      const formData = new FormData();
-      formData.append('Name', userDetails.name || '');
-      formData.append('City', userDetails.city || '');
-      formData.append('Mobile', userDetails.mobile || '');
-      if (userDetails.email) {
-        formData.append('Email', userDetails.email);
-      }
-      formData.append('message', message);
-      formData.append('_subject', `Telescopic Slim Sliding Door Quote - ${userDetails.name}`);
-      formData.append('_captcha', 'false');
-      
-      this.submitEmailForm(formData);
+      // Use base class submitEmailForm method with correct format
+      this.submitEmailForm(emailBody, userDetails, selections, {
+        perWindow: perDoorCost,
+        total: subtotal
+      });
     }
     
   }

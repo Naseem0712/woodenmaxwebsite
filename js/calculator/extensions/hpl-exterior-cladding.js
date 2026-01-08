@@ -4,9 +4,13 @@
  * Reveals exact price after form submission
  */
 
+if (typeof PriceCalculatorBase !== 'undefined') {
 class HPLCladdingCalculator extends PriceCalculatorBase {
   constructor(productId, productConfig, containerId) {
     super(productId, productConfig, containerId);
+    
+    // Prevent base class from setting up listeners (we'll do it ourselves)
+    this._baseSetupCalled = false;
     
     // Grade configurations (internal pricing)
     this.grades = {
@@ -54,6 +58,17 @@ class HPLCladdingCalculator extends PriceCalculatorBase {
     // Store calculated values for email and reveal
     this.lastCalcDetails = {};
     
+    // Prevent base class from setting up listeners (we'll do it ourselves)
+    this._baseSetupCalled = false;
+    
+    // Initialize will be called by base class constructor via initializeCalculator()
+    // But we override initializeCalculator() below
+  }
+  
+  // Override base class initializeCalculator to use our own
+  initializeCalculator() {
+    // Don't call super() - we'll handle initialization ourselves
+    console.log('🔧 HPL: Overriding base initializeCalculator()');
     this.initHPLCalculator();
   }
   
@@ -65,21 +80,68 @@ class HPLCladdingCalculator extends PriceCalculatorBase {
   }
   
   initHPLCalculator() {
+    console.log('🚀 HPL Calculator: initHPLCalculator() called');
+    
     const init = () => {
       setTimeout(() => {
-        if (document.getElementById(this.containerId)) {
-          this.setupHPLEventListeners();
-          this.updateGradeInfo();
-          this.calculate();
+        const container = document.getElementById(this.containerId);
+        if (!container) {
+          console.warn('⚠️ HPL Calculator: Container not found, retrying...', this.containerId);
+          setTimeout(init, 200);
+          return;
         }
-      }, 150);
+        
+        console.log('✅ HPL Calculator: Container found, setting up...');
+        this.setupHPLEventListeners();
+        this.updateGradeInfo();
+        
+        // Initialize display with empty values first
+        this.lastCalcDetails = {
+          baseArea: 0,
+          totalAreaWithWastage: 0,
+          sheetsNeeded: 0,
+          totalCost: 0,
+          priceLow: 0,
+          priceHigh: 0
+        };
+        this.displayHPLResults();
+        
+        // Verify inputs exist and trigger initial calculation
+        const widthInput = document.getElementById('calc-width');
+        const heightInput = document.getElementById('calc-height');
+        if (widthInput && heightInput) {
+          console.log('✅ HPL Calculator: Input elements found, triggering initial calculation...');
+          // Manually trigger once to verify everything works
+          setTimeout(() => {
+            this.calculate();
+          }, 150);
+        } else {
+          console.error('❌ HPL Calculator: Input elements NOT found!', {
+            width: !!widthInput,
+            height: !!heightInput
+          });
+        }
+      }, 100);
     };
     
+    // Don't wait for DOMContentLoaded if already loaded
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', init);
     } else {
       init();
     }
+  }
+  
+  // Override base class setupEventListeners to prevent conflicts
+  setupEventListeners() {
+    // Do nothing - we use setupHPLEventListeners instead
+    this._baseSetupCalled = true;
+  }
+  
+  // Force recalculation - can be called manually for testing
+  forceCalculate() {
+    console.log('🔄 HPL: Force calculate called');
+    this.calculate();
   }
   
   setupHPLEventListeners() {
@@ -98,16 +160,77 @@ class HPLCladdingCalculator extends PriceCalculatorBase {
       installSelect.addEventListener('change', () => this.calculate());
     }
     
-    // Size inputs
+    // Size inputs - use direct event binding
     const widthInput = document.getElementById('calc-width');
     const heightInput = document.getElementById('calc-height');
     const unitSelect = document.getElementById('calc-unit');
     const quantityInput = document.getElementById('calc-quantity');
     
-    if (widthInput) widthInput.addEventListener('input', () => this.calculate());
-    if (heightInput) heightInput.addEventListener('input', () => this.calculate());
-    if (unitSelect) unitSelect.addEventListener('change', () => this.calculate());
-    if (quantityInput) quantityInput.addEventListener('input', () => this.calculate());
+    const handleCalculate = () => {
+      console.log('🔄 HPL: Input changed, calling calculate()...');
+      console.log('📝 HPL: Current values:', {
+        width: widthInput?.value,
+        height: heightInput?.value,
+        unit: unitSelect?.value,
+        quantity: quantityInput?.value,
+        grade: gradeSelect?.value,
+        installation: installSelect?.value
+      });
+      this.calculate();
+    };
+    
+    // Store handler reference for cleanup
+    this._calculateHandler = handleCalculate;
+    
+    if (widthInput) {
+      // Remove old listener if exists
+      if (this._oldCalculateHandler) {
+        widthInput.removeEventListener('input', this._oldCalculateHandler);
+        console.log('🗑️ HPL: Removed old width listener');
+      }
+      widthInput.addEventListener('input', handleCalculate, { passive: true });
+      console.log('✅ HPL: Width input listener attached to #calc-width');
+    } else {
+      console.error('❌ HPL: calc-width element NOT found!');
+    }
+    
+    if (heightInput) {
+      if (this._oldCalculateHandler) {
+        heightInput.removeEventListener('input', this._oldCalculateHandler);
+        console.log('🗑️ HPL: Removed old height listener');
+      }
+      heightInput.addEventListener('input', handleCalculate, { passive: true });
+      console.log('✅ HPL: Height input listener attached to #calc-height');
+    } else {
+      console.error('❌ HPL: calc-height element NOT found!');
+    }
+    
+    if (unitSelect) {
+      if (this._oldCalculateHandler) {
+        unitSelect.removeEventListener('change', this._oldCalculateHandler);
+        console.log('🗑️ HPL: Removed old unit listener');
+      }
+      unitSelect.addEventListener('change', handleCalculate, { passive: true });
+      console.log('✅ HPL: Unit select listener attached to #calc-unit');
+    } else {
+      console.warn('⚠️ HPL: calc-unit element not found!');
+    }
+    
+    if (quantityInput) {
+      if (this._oldCalculateHandler) {
+        quantityInput.removeEventListener('input', this._oldCalculateHandler);
+        console.log('🗑️ HPL: Removed old quantity listener');
+      }
+      quantityInput.addEventListener('input', handleCalculate, { passive: true });
+      console.log('✅ HPL: Quantity input listener attached to #calc-quantity');
+    } else {
+      console.warn('⚠️ HPL: calc-quantity element not found!');
+    }
+    
+    // Store for next cleanup
+    this._oldCalculateHandler = handleCalculate;
+    
+    console.log('✅ HPL: Event listeners setup complete. All input listeners attached.');
     
     // Form submission with price reveal
     this.setupFormSubmissionWithReveal();
@@ -224,7 +347,11 @@ class HPLCladdingCalculator extends PriceCalculatorBase {
   }
   
   calculate() {
-    if (!document.getElementById(this.containerId)) return;
+    const container = document.getElementById(this.containerId);
+    if (!container) {
+      console.warn('⚠️ HPL Calculator: Container not found', this.containerId);
+      return;
+    }
     
     const gradeKey = this.getSelectedGrade();
     const grade = this.grades[gradeKey];
@@ -234,6 +361,16 @@ class HPLCladdingCalculator extends PriceCalculatorBase {
     // Get base area for one wall/area
     const baseAreaPerUnit = this.getArea();
     const totalBaseArea = baseAreaPerUnit * quantity;
+    
+    console.log('📊 HPL Calculate called:', { 
+      baseAreaPerUnit, 
+      totalBaseArea, 
+      gradeKey,
+      installationType,
+      quantity,
+      width: document.getElementById('calc-width')?.value,
+      height: document.getElementById('calc-height')?.value
+    });
     
     // Calculate wastage (5%)
     const wastageArea = totalBaseArea * (this.wastagePercent / 100);
@@ -291,31 +428,118 @@ class HPLCladdingCalculator extends PriceCalculatorBase {
       subtotal: totalCost
     };
     
-    // Display results
-    this.displayHPLResults();
+    // Display results - ALWAYS call this
+    console.log('📺 HPL: About to display results with:', this.lastCalcDetails);
+    try {
+      this.displayHPLResults();
+      console.log('✅ HPL: Display results called successfully');
+    } catch (error) {
+      console.error('❌ Error displaying HPL results:', error);
+    }
   }
   
   displayHPLResults() {
-    const details = this.lastCalcDetails;
+    console.log('🎨 HPL displayHPLResults() called');
+    console.log('📦 lastCalcDetails:', this.lastCalcDetails);
+    
+    if (!this.lastCalcDetails || typeof this.lastCalcDetails !== 'object') {
+      console.warn('⚠️ HPL: lastCalcDetails is empty or invalid');
+      this.lastCalcDetails = {};
+      // Still try to display with zeros
+    }
+    
+    const details = this.lastCalcDetails || {};
     
     // Area displays
     const areaEl = document.getElementById('calc-area-display');
     const wastageAreaEl = document.getElementById('calc-wastage-area');
     const sheetsEl = document.getElementById('calc-sheets-needed');
-    
-    if (areaEl) areaEl.textContent = details.baseArea > 0 ? details.baseArea.toFixed(2) + ' sq.ft' : '0.00 sq.ft';
-    if (wastageAreaEl) wastageAreaEl.textContent = details.totalAreaWithWastage > 0 ? details.totalAreaWithWastage.toFixed(2) + ' sq.ft' : '0.00 sq.ft';
-    if (sheetsEl) sheetsEl.textContent = details.sheetsNeeded || '0';
-    
-    // Price range display (before form submission)
     const priceRangeEl = document.getElementById('calc-price-range');
+    
+    console.log('🔍 HPL: Elements found:', {
+      areaEl: !!areaEl,
+      wastageAreaEl: !!wastageAreaEl,
+      sheetsEl: !!sheetsEl,
+      priceRangeEl: !!priceRangeEl
+    });
+    
+    if (!areaEl) console.error('❌ HPL: calc-area-display element NOT found!');
+    if (!wastageAreaEl) console.error('❌ HPL: calc-wastage-area element NOT found!');
+    if (!sheetsEl) console.error('❌ HPL: calc-sheets-needed element NOT found!');
+    if (!priceRangeEl) console.error('❌ HPL: calc-price-range element NOT found!');
+    
+    // Safe value access with defaults
+    const baseArea = (details && typeof details.baseArea === 'number') ? details.baseArea : 0;
+    const totalAreaWithWastage = (details && typeof details.totalAreaWithWastage === 'number') ? details.totalAreaWithWastage : 0;
+    const sheetsNeeded = (details && typeof details.sheetsNeeded === 'number') ? details.sheetsNeeded : 0;
+    const totalCost = (details && typeof details.totalCost === 'number') ? details.totalCost : 0;
+    const priceLow = (details && typeof details.priceLow === 'number') ? details.priceLow : 0;
+    const priceHigh = (details && typeof details.priceHigh === 'number') ? details.priceHigh : 0;
+    
+    console.log('💰 HPL: Values to display:', {
+      baseArea,
+      totalAreaWithWastage,
+      sheetsNeeded,
+      totalCost,
+      priceLow,
+      priceHigh
+    });
+    
+    // Update area display - FORCE update
+    if (areaEl) {
+      const areaText = baseArea > 0 ? baseArea.toFixed(2) + ' sq.ft' : '0.00 sq.ft';
+      areaEl.textContent = areaText;
+      areaEl.innerText = areaText; // Also set innerText as backup
+      console.log('✅ HPL: Updated area display:', areaText, 'Element:', areaEl);
+    } else {
+      console.error('❌ HPL: Cannot update area - element missing. Searching...');
+      const searchResult = document.querySelector('#calc-area-display');
+      console.error('❌ Search result:', searchResult);
+    }
+    
+    // Update wastage area display - FORCE update
+    if (wastageAreaEl) {
+      const wastageText = totalAreaWithWastage > 0 ? totalAreaWithWastage.toFixed(2) + ' sq.ft' : '0.00 sq.ft';
+      wastageAreaEl.textContent = wastageText;
+      wastageAreaEl.innerText = wastageText; // Also set innerText as backup
+      console.log('✅ HPL: Updated wastage area display:', wastageText, 'Element:', wastageAreaEl);
+    } else {
+      console.error('❌ HPL: Cannot update wastage - element missing. Searching...');
+      const searchResult = document.querySelector('#calc-wastage-area');
+      console.error('❌ Search result:', searchResult);
+    }
+    
+    // Update sheets needed - FORCE update
+    if (sheetsEl) {
+      const sheetsText = String(sheetsNeeded);
+      sheetsEl.textContent = sheetsText;
+      sheetsEl.innerText = sheetsText; // Also set innerText as backup
+      console.log('✅ HPL: Updated sheets needed:', sheetsText, 'Element:', sheetsEl);
+    } else {
+      console.error('❌ HPL: Cannot update sheets - element missing. Searching...');
+      const searchResult = document.querySelector('#calc-sheets-needed');
+      console.error('❌ Search result:', searchResult);
+    }
+    
+    // Price range display (before form submission) - FORCE update
     if (priceRangeEl) {
-      if (details.totalCost > 0) {
-        priceRangeEl.textContent = `${this.formatCurrency(details.priceLow)} - ${this.formatCurrency(details.priceHigh)}`;
+      if (totalCost > 0 && priceLow > 0 && priceHigh > 0) {
+        const priceText = `${this.formatCurrency(priceLow)} - ${this.formatCurrency(priceHigh)}`;
+        priceRangeEl.textContent = priceText;
+        priceRangeEl.innerText = priceText; // Also set innerText as backup
+        console.log('✅ HPL: Updated price range:', priceText, 'Element:', priceRangeEl);
       } else {
         priceRangeEl.textContent = '₹0 - ₹0';
+        priceRangeEl.innerText = '₹0 - ₹0'; // Also set innerText as backup
+        console.warn('⚠️ HPL: Price values are 0, displaying ₹0 - ₹0. Values:', {totalCost, priceLow, priceHigh});
       }
+    } else {
+      console.error('❌ HPL: Cannot update price range - element missing. Searching...');
+      const searchResult = document.querySelector('#calc-price-range');
+      console.error('❌ Search result:', searchResult);
     }
+    
+    console.log('✅ HPL: Display update complete. All elements updated.');
   }
   
   getCalculatorSelections() {
@@ -396,7 +620,41 @@ Customer saw exact price: ${this.formatCurrency(details.totalCost)} after submis
   }
 }
 
-// Register this calculator for HPL cladding product
-createExtensionInitCalculator('hpl-exterior-cladding', HPLCladdingCalculator, 'HPLCladdingCalculator');
-
-console.log('✅ HPL Exterior Cladding Calculator extension loaded');
+  // Register this calculator for HPL cladding product
+  if (typeof createExtensionInitCalculator !== 'undefined') {
+    createExtensionInitCalculator('hpl-exterior-cladding', HPLCladdingCalculator, 'HPLCladdingCalculator');
+    console.log('✅ HPL Exterior Cladding Calculator extension registered');
+  } else {
+    console.warn('⚠️ createExtensionInitCalculator not found, registering later...');
+    const registerWhenReady = setInterval(() => {
+      if (typeof createExtensionInitCalculator !== 'undefined') {
+        createExtensionInitCalculator('hpl-exterior-cladding', HPLCladdingCalculator, 'HPLCladdingCalculator');
+        console.log('✅ HPL Exterior Cladding Calculator extension registered (delayed)');
+        clearInterval(registerWhenReady);
+      }
+    }, 100);
+    // Stop trying after 5 seconds
+    setTimeout(() => clearInterval(registerWhenReady), 5000);
+  }
+  
+  // Export
+  window.HPLCladdingCalculator = HPLCladdingCalculator;
+  
+  // Export global test function
+  window.testHPLCalculator = function() {
+    const instanceKey = 'calculator_hpl-exterior-cladding';
+    const calc = window[instanceKey];
+    if (calc && calc instanceof HPLCladdingCalculator) {
+      console.log('🧪 Testing HPL Calculator...');
+      calc.forceCalculate();
+      return calc;
+    } else {
+      console.error('❌ HPL Calculator instance not found!', calc);
+      return null;
+    }
+  };
+  
+  console.log('✅ HPL Calculator test function available: window.testHPLCalculator()');
+} else {
+  console.warn('⚠️ PriceCalculatorBase not found - HPL calculator will not initialize');
+}

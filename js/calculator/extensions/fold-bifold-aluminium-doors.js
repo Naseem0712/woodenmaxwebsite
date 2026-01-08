@@ -166,7 +166,11 @@
     sendEmail(userDetails) {
       const selections = this.getCalculatorSelections();
       
-      const message = `
+      // Get calculated amounts
+      const perDoorCost = this.lastCalculatedAmounts?.perWindowCost || 0;
+      const totalCost = this.lastCalculatedAmounts?.subtotal || 0;
+      
+      const emailBody = `
 New Quote Request - Fold & Bi-Fold Aluminium Glass Doors
 
 Door Specifications:
@@ -176,24 +180,21 @@ Door Specifications:
 - Profile: ${selections.profile}
 - Glass: ${selections.glass}
 
+Calculated Amounts:
+- Cost per door: ₹${Math.round(perDoorCost).toLocaleString('en-IN')}
+- Total cost: ₹${Math.round(totalCost).toLocaleString('en-IN')}
+
 Contact Details:
 - Name: ${userDetails.name}
 - City: ${userDetails.city}
 - Mobile: ${userDetails.mobile}
-${userDetails.email ? `- Email: ${userDetails.email}` : ''}`;
+${userDetails.email ? `- Email: ${userDetails.email}` : ''}`.trim();
       
-      const formData = new FormData();
-      formData.append('Name', userDetails.name || '');
-      formData.append('City', userDetails.city || '');
-      formData.append('Mobile', userDetails.mobile || '');
-      if (userDetails.email) {
-        formData.append('Email', userDetails.email);
-      }
-      formData.append('message', message);
-      formData.append('_subject', `Fold & Bi-Fold Door Quote - ${userDetails.name}`);
-      formData.append('_captcha', 'false');
-      
-      this.submitEmailForm(formData);
+      // Use base class submitEmailForm method with correct format
+      this.submitEmailForm(emailBody, userDetails, selections, {
+        perWindow: perDoorCost,
+        total: totalCost
+      });
     }
   }
   
