@@ -80,8 +80,8 @@ class ACPElevationCalculator extends PriceCalculatorBase {
         }
         
         console.log('✅ ACP Calculator: Container found, setting up...');
-        this.setupACPEventListeners();
-        this.updateProjectInfo();
+          this.setupACPEventListeners();
+          this.updateProjectInfo();
         
         // Initialize display with empty values first
         this.lastCalcDetails = {
@@ -101,7 +101,7 @@ class ACPElevationCalculator extends PriceCalculatorBase {
           console.log('✅ ACP Calculator: Input elements found, triggering initial calculation...');
           // Manually trigger once to verify everything works
           setTimeout(() => {
-            this.calculate();
+          this.calculate();
           }, 150);
         } else {
           console.error('❌ ACP Calculator: Input elements NOT found!', {
@@ -453,7 +453,7 @@ class ACPElevationCalculator extends PriceCalculatorBase {
     // Display results - ALWAYS call this
     console.log('📺 ACP: About to display results with:', this.lastCalcDetails);
     try {
-      this.displayACPResults();
+    this.displayACPResults();
       console.log('✅ ACP: Display results called successfully');
     } catch (error) {
       console.error('❌ Error displaying ACP results:', error);
@@ -659,7 +659,7 @@ Customer saw exact price: ${this.formatCurrency(details.totalCost)} after submis
   }
 }
 
-  // Register this calculator for ACP elevation product
+// Register this calculator for ACP elevation product
   if (typeof createExtensionInitCalculator !== 'undefined') {
     createExtensionInitCalculator('acp-elevation', ACPElevationCalculator, 'ACPElevationCalculator');
     console.log('✅ ACP Elevation Cladding Calculator extension registered');
@@ -667,7 +667,7 @@ Customer saw exact price: ${this.formatCurrency(details.totalCost)} after submis
     console.warn('⚠️ createExtensionInitCalculator not found, registering later...');
     const registerWhenReady = setInterval(() => {
       if (typeof createExtensionInitCalculator !== 'undefined') {
-        createExtensionInitCalculator('acp-elevation', ACPElevationCalculator, 'ACPElevationCalculator');
+createExtensionInitCalculator('acp-elevation', ACPElevationCalculator, 'ACPElevationCalculator');
         console.log('✅ ACP Elevation Cladding Calculator extension registered (delayed)');
         clearInterval(registerWhenReady);
       }

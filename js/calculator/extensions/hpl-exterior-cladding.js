@@ -92,8 +92,8 @@ class HPLCladdingCalculator extends PriceCalculatorBase {
         }
         
         console.log('✅ HPL Calculator: Container found, setting up...');
-        this.setupHPLEventListeners();
-        this.updateGradeInfo();
+          this.setupHPLEventListeners();
+          this.updateGradeInfo();
         
         // Initialize display with empty values first
         this.lastCalcDetails = {
@@ -113,7 +113,7 @@ class HPLCladdingCalculator extends PriceCalculatorBase {
           console.log('✅ HPL Calculator: Input elements found, triggering initial calculation...');
           // Manually trigger once to verify everything works
           setTimeout(() => {
-            this.calculate();
+          this.calculate();
           }, 150);
         } else {
           console.error('❌ HPL Calculator: Input elements NOT found!', {
@@ -431,7 +431,7 @@ class HPLCladdingCalculator extends PriceCalculatorBase {
     // Display results - ALWAYS call this
     console.log('📺 HPL: About to display results with:', this.lastCalcDetails);
     try {
-      this.displayHPLResults();
+    this.displayHPLResults();
       console.log('✅ HPL: Display results called successfully');
     } catch (error) {
       console.error('❌ Error displaying HPL results:', error);
@@ -620,7 +620,7 @@ Customer saw exact price: ${this.formatCurrency(details.totalCost)} after submis
   }
 }
 
-  // Register this calculator for HPL cladding product
+// Register this calculator for HPL cladding product
   if (typeof createExtensionInitCalculator !== 'undefined') {
     createExtensionInitCalculator('hpl-exterior-cladding', HPLCladdingCalculator, 'HPLCladdingCalculator');
     console.log('✅ HPL Exterior Cladding Calculator extension registered');
@@ -628,7 +628,7 @@ Customer saw exact price: ${this.formatCurrency(details.totalCost)} after submis
     console.warn('⚠️ createExtensionInitCalculator not found, registering later...');
     const registerWhenReady = setInterval(() => {
       if (typeof createExtensionInitCalculator !== 'undefined') {
-        createExtensionInitCalculator('hpl-exterior-cladding', HPLCladdingCalculator, 'HPLCladdingCalculator');
+createExtensionInitCalculator('hpl-exterior-cladding', HPLCladdingCalculator, 'HPLCladdingCalculator');
         console.log('✅ HPL Exterior Cladding Calculator extension registered (delayed)');
         clearInterval(registerWhenReady);
       }
