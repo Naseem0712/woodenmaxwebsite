@@ -15,6 +15,42 @@
   border-radius: 8px; /* Slightly sharp */
   padding: 2.5rem;
   margin-bottom: 2rem;
+  user-select: none; /* Prevent text selection on container */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.price-calculator-container * {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.price-calculator-container input,
+.price-calculator-container select,
+.price-calculator-container textarea,
+.price-calculator-container input *,
+.price-calculator-container select *,
+.price-calculator-container textarea * {
+  user-select: text !important; /* Allow text selection in inputs */
+  -webkit-user-select: text !important;
+  -moz-user-select: text !important;
+  -ms-user-select: text !important;
+}
+
+.price-calculator-container label,
+.price-calculator-container .calc-price-label,
+.price-calculator-container .calc-price-value,
+.price-calculator-container .calc-group,
+.price-calculator-container button {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
 }
 
 .price-calculator-container:hover {

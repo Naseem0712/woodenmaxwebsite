@@ -523,15 +523,19 @@ class PriceCalculatorBase {
       }
       
       if (showActualAmounts) {
-        // Show actual amounts
+        // Hide per window display if multi-size calculator is used (qty is in each row)
+        const multipleSizesContainer = document.getElementById('calc-sizes-container');
         const perWindowEl = document.getElementById('calc-result-per-window');
-        const perWindowLabel = document.getElementById('calc-label-per-window');
-        if (perWindowEl) {
+        if (multipleSizesContainer && perWindowEl) {
+          perWindowEl.parentElement.style.display = 'none';
+        } else if (perWindowEl) {
+          // Show per window cost only for single-size calculators
+          const perWindowLabel = document.getElementById('calc-label-per-window');
           perWindowEl.textContent = formatCurrency(perWindowCost);
           perWindowEl.parentElement.style.display = 'flex';
-        }
-        if (perWindowLabel) {
-          perWindowLabel.textContent = 'Per Window Cost:';
+          if (perWindowLabel) {
+            perWindowLabel.textContent = 'Per Window Cost:';
+          }
         }
         
         const totalEl = document.getElementById('calc-result-total');

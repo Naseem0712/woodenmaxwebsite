@@ -114,11 +114,22 @@
   }
 
   // Initialize when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMobileCollapsible);
-  } else {
+  function initialize() {
     initMobileCollapsible();
+    // Also initialize after a short delay to ensure all elements are loaded
+    setTimeout(initMobileCollapsible, 300);
   }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize);
+  } else {
+    initialize();
+  }
+  
+  // Also initialize on window load
+  window.addEventListener('load', function() {
+    setTimeout(initMobileCollapsible, 200);
+  });
   
   // Re-initialize on dynamic content changes (for calculators that add content)
   const observer = new MutationObserver(function(mutations) {
@@ -126,7 +137,7 @@
     mutations.forEach(function(mutation) {
       if (mutation.addedNodes.length > 0) {
         mutation.addedNodes.forEach(function(node) {
-          if (node.nodeType === 1 && (node.classList.contains('mobile-toggle-btn') || node.querySelector('.mobile-toggle-btn'))) {
+          if (node.nodeType === 1 && (node.classList && (node.classList.contains('mobile-toggle-btn') || node.querySelector('.mobile-toggle-btn')))) {
             shouldReinit = true;
           }
         });

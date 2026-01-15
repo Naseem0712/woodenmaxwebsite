@@ -161,3 +161,56 @@
   }
 }
 
+/* Image Description Styling - Just below image, above gallery, black background */
+.product-image-description {
+  position: relative;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding: 1rem 2.5rem 1rem 1rem;
+  background: #1a1a1a;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  transition: opacity 0.3s ease;
+  min-height: 50px;
+  display: none;
+}
+
+.product-image-description-text {
+  color: #ffffff;
+}
+
+.product-image-description-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.product-image-description-close:hover {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .product-image-description {
+    padding: 0.875rem 2rem 0.875rem 0.875rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .product-image-description-close {
+    top: 0.375rem;
+    right: 0.375rem;
+    font-size: 1.1rem;
+  }
+}
+

@@ -9,7 +9,9 @@
  * @param {string} productId - Product ID
  * @param {string} containerId - Optional container ID (default: price-calculator-{productId})
  */
-async function initCalculator(productId, containerId = null) {
+// Only create initCalculator if it doesn't already exist (glass-railing.js may have set it)
+if (typeof window.initCalculator === 'undefined') {
+  window.initCalculator = async function(productId, containerId = null) {
   // Prevent duplicate initialization
   const instanceKey = `calculator_${productId}`;
   if (window[instanceKey]) {
@@ -47,6 +49,12 @@ async function initCalculator(productId, containerId = null) {
       return null;
     }
     
+    // Check if this is a glass railing product - skip base initialization
+    if (productId === 'glass-railing-balcony' || productId === 'glass-railing-staircase') {
+      console.log(`⏭️ Skipping base calculator initialization for glass railing: ${productId}`);
+      return null; // Let glass-railing.js handle it
+    }
+    
     // Create calculator instance
     const calculator = new PriceCalculatorBase(productId, productData, calcContainerId);
     
@@ -59,6 +67,7 @@ async function initCalculator(productId, containerId = null) {
     console.error(`Error initializing calculator for ${productId}:`, error);
     return null;
   }
+  };
 }
 
 /**
@@ -120,9 +129,24 @@ if (document.readyState === 'loading') {
 setTimeout(autoInitCalculators, 500);
 setTimeout(autoInitCalculators, 1000);
 
-// Export functions
+// Export functions - but don't override if glass railing extension has already set it
 if (typeof window !== 'undefined') {
-  window.initCalculator = initCalculator;
+  // Check if glass railing extension has already overridden initCalculator
+  const currentInitCalc = window.initCalculator;
+  const isGlassRailingFunction = currentInitCalc && (
+    currentInitCalc.toString().includes('glass-railing-balcony') ||
+    currentInitCalc.toString().includes('glassRailingInitCalculator') ||
+    currentInitCalc.name === 'glassRailingInitCalculator'
+  );
+  
+  if (isGlassRailingFunction) {
+    console.log('⏭️ Skipping loader.js initCalculator override - glass railing extension already set it');
+    console.log('Current function name:', currentInitCalc.name);
+    console.log('Current function includes glass-railing:', currentInitCalc.toString().includes('glass-railing-balcony'));
+  } else {
+    console.log('⚠️ loader.js is setting initCalculator (glass railing extension may not have loaded yet)');
+    window.initCalculator = initCalculator;
+  }
   window.autoInitCalculators = autoInitCalculators;
 }
 

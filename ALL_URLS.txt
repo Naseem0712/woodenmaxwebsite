@@ -10,6 +10,7 @@ https://woodenmax.in/products/metal-louvers
 https://woodenmax.in/products/shower-partitions
 https://woodenmax.in/products/elevation-cladding
 https://woodenmax.in/products/glass-elevation
+https://woodenmax.in/products/glass-railing
 https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door
 https://woodenmax.in/products/aluminium-windows/3-track-sliding-window
 https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window
@@ -33,6 +34,8 @@ https://woodenmax.in/products/shower-partitions/premium-black-profile-shower
 https://woodenmax.in/products/shower-partitions/slim-frame-shower-partition
 https://woodenmax.in/products/elevation-cladding/hpl-acp-elevation-cladding
 https://woodenmax.in/products/elevation-cladding/hpl-exterior-cladding
+https://woodenmax.in/products/glass-railing/balcony-glass-railing
+https://woodenmax.in/products/glass-railing/staircase-glass-railing
 https://woodenmax.in/city/hyderabad
 https://woodenmax.in/city/bangalore
 https://woodenmax.in/city/delhi

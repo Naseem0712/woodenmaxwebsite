@@ -169,7 +169,52 @@
       <image:caption>Premium aluminium curtain wall system with glass elevation for commercial buildings</image:caption>
     </image:image>
   </url>
+
+  <url>
+    <loc>https://woodenmax.in/products/glass-railing</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</image:loc>
+      <image:title>Luxury Balcony Glass Railing</image:title>
+      <image:caption>Premium balcony glass railing system with slim profile and clear glass</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</image:loc>
+      <image:title>Luxury Staircase Glass Railing</image:title>
+      <image:caption>Luxury staircase glass railing system with slim profile and clear glass</image:caption>
+    </image:image>
+  </url>
   
+  <!-- ============================================
+       GLASS RAILING PRODUCT PAGES - IMAGES
+       ============================================ -->
+  <url>
+    <loc>https://woodenmax.in/products/glass-railing/balcony-glass-railing</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</image:loc>
+      <image:title>Balcony Glass Railing System</image:title>
+      <image:caption>Luxury balcony glass railing with slim profile and clear glass panels</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/modern-balcony-glass-railing.webp</image:loc>
+      <image:title>Modern Balcony Glass Railing</image:title>
+      <image:caption>Modern balcony glass railing with slim aluminium base rail</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/products/glass-railing/staircase-glass-railing</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</image:loc>
+      <image:title>Staircase Glass Railing System</image:title>
+      <image:caption>Luxury staircase glass railing system with slim profile</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/interior-glass-staircase-railing.webp</image:loc>
+      <image:title>Interior Staircase Glass Railing</image:title>
+      <image:caption>Interior staircase glass railing with slim aluminium profile</image:caption>
+    </image:image>
+  </url>
+
   <!-- ============================================
        ALUMINIUM WINDOWS PRODUCT PAGES - IMAGES
        ============================================ -->

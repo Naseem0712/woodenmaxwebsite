@@ -21,12 +21,14 @@
   
   // Get current global selections
   function getCurrentSelections() {
+    const unitSelect = document.getElementById('calc-unit');
+    const currentUnit = unitSelect?.value || 'ft';
     return {
       glass: document.getElementById('calc-glass')?.value || '6mm',
       coating: document.getElementById('calc-coating')?.value || 'texture',
       lock: document.getElementById('calc-lock')?.value || 'single',
       mesh: document.getElementById('calc-mesh')?.checked || false,
-      unit: document.getElementById('calc-unit')?.value || 'ft'
+      unit: currentUnit
     };
   }
   
@@ -145,14 +147,25 @@
   }
   
   function convertToSqft(width, height, unit) {
-    // Linear unit conversions to feet
+    // Ensure width and height are numbers
+    width = parseFloat(width) || 0;
+    height = parseFloat(height) || 0;
+    
+    if (width <= 0 || height <= 0) return 0;
+    
+    // If unit is not provided or invalid, default to feet
+    if (!unit || unit === '' || unit === null || unit === undefined) {
+      unit = 'ft';
+    }
+    
+    // Linear unit conversions to feet (conversion factors)
     const linearToFeet = {
-      'mm': 0.00328084,     // 1 mm = 0.00328084 ft
-      'cm': 0.0328084,     // 1 cm = 0.0328084 ft
-      'inch': 0.0833333,   // 1 inch = 1/12 ft = 0.0833333 ft
-      'ft': 1,             // 1 ft = 1 ft
-      'm': 3.28084,        // 1 m = 3.28084 ft
-      'ft-in': 1           // Will handle separately
+      'mm': 0.00328084,     // 1 mm = 0.00328084 ft (1 mm = 1/304.8 ft)
+      'cm': 0.0328084,      // 1 cm = 0.0328084 ft (1 cm = 1/30.48 ft)
+      'inch': 0.0833333,    // 1 inch = 1/12 ft = 0.0833333 ft
+      'ft': 1,              // 1 ft = 1 ft
+      'm': 3.28084,         // 1 m = 3.28084 ft
+      'ft-in': 1            // Will handle separately
     };
     
     if (unit === 'ft-in') {
@@ -161,13 +174,17 @@
       return width * height;
     }
     
-    // Convert linear dimensions to feet, then multiply for area
+    // Get conversion factor (default to 1 if unit not found - assumes feet)
     const factor = linearToFeet[unit] || 1;
+    
+    // Convert linear dimensions to feet first, then multiply for area
+    // This ensures area is always in square feet (sqft)
     const widthInFt = width * factor;
     const heightInFt = height * factor;
     const areaSqft = widthInFt * heightInFt;
     
-    return areaSqft;
+    // Ensure we return a valid number (area in square feet)
+    return isNaN(areaSqft) || areaSqft < 0 ? 0 : areaSqft;
   }
   
   function calculateRowCost(areaSqft, qty, glassOption, coatingOption, lockOption, hasMesh) {
@@ -280,9 +297,11 @@
     
     // Get options from stored selections for this row (not global)
     const rowSelections = getRowSelections(rowId);
-    const unit = rowSelections.unit;
+    // Fallback to global unit if row selection doesn't have unit
+    const unitSelect = document.getElementById('calc-unit');
+    const unit = rowSelections.unit || unitSelect?.value || 'ft';
     
-    // Calculate area immediately (even if 0)
+    // Calculate area immediately (even if 0) - always returns sqft
     const areaSqft = convertToSqft(width, height, unit);
     const totalAreaForRow = areaSqft * qty;
     
@@ -364,7 +383,9 @@
         if (width > 0 && height > 0) {
           const rowId = row.id;
           const rowSelections = getRowSelections(rowId);
-          const unit = rowSelections.unit;
+          // Fallback to global unit if row selection doesn't have unit
+          const unitSelect = document.getElementById('calc-unit');
+          const unit = rowSelections.unit || unitSelect?.value || 'ft';
           const areaSqft = convertToSqft(width, height, unit);
           totalArea += areaSqft * qty;
         }
@@ -396,7 +417,9 @@
         if (width > 0 && height > 0) {
           const rowId = row.id;
           const rowSelections = getRowSelections(rowId);
-          const unit = rowSelections.unit;
+          // Fallback to global unit if row selection doesn't have unit
+          const unitSelect = document.getElementById('calc-unit');
+          const unit = rowSelections.unit || unitSelect?.value || 'ft';
           
           const areaSqft = convertToSqft(width, height, unit);
           totalArea += areaSqft * qty;
@@ -454,19 +477,16 @@
         totalDisplay.textContent = `₹${rangeLow.toLocaleString('en-IN')} - ₹${rangeHigh.toLocaleString('en-IN')}`;
       }
       
-      // Calculate per window average
-      if (totalQty > 0 && perWindowDisplay) {
-        const avgPerWindow = totalCost / totalQty;
-        const perWindowLow = Math.round(avgPerWindow * 0.8);
-        const perWindowHigh = Math.round(avgPerWindow * 1.2);
-        perWindowDisplay.textContent = `₹${perWindowLow.toLocaleString('en-IN')} - ₹${perWindowHigh.toLocaleString('en-IN')}`;
+      // Hide per window display (not needed when qty is in each row)
+      if (perWindowDisplay) {
+        perWindowDisplay.parentElement.style.display = 'none';
       }
     } else {
       if (totalDisplay) {
         totalDisplay.textContent = '₹0 - ₹0';
       }
       if (perWindowDisplay) {
-        perWindowDisplay.textContent = '₹0 - ₹0';
+        perWindowDisplay.parentElement.style.display = 'none';
       }
     }
   }
@@ -518,16 +538,16 @@
     row.id = rowId;
     row.innerHTML = `
       <div>
-        <div class="size-label">Width</div>
-        <input type="text" class="calc-size-width" inputmode="decimal" placeholder="Width" data-row="${rowId}">
+        <label for="calc-size-width-${rowId}" class="size-label">Width</label>
+        <input type="text" id="calc-size-width-${rowId}" name="calc-size-width-${rowId}" class="calc-size-width" inputmode="decimal" placeholder="Width" data-row="${rowId}" aria-label="Width">
       </div>
       <div>
-        <div class="size-label">Height</div>
-        <input type="text" class="calc-size-height" inputmode="decimal" placeholder="Height" data-row="${rowId}">
+        <label for="calc-size-height-${rowId}" class="size-label">Height</label>
+        <input type="text" id="calc-size-height-${rowId}" name="calc-size-height-${rowId}" class="calc-size-height" inputmode="decimal" placeholder="Height" data-row="${rowId}" aria-label="Height">
       </div>
       <div>
-        <div class="size-label">Qty</div>
-        <input type="number" class="calc-size-qty" min="1" value="1" data-row="${rowId}">
+        <label for="calc-size-qty-${rowId}" class="size-label">Qty</label>
+        <input type="number" id="calc-size-qty-${rowId}" name="calc-size-qty-${rowId}" class="calc-size-qty" min="1" value="1" data-row="${rowId}" aria-label="Quantity">
       </div>
       <button type="button" class="remove-size-btn" onclick="window.removeSizeRow('${rowId}')" title="Remove">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
@@ -696,9 +716,13 @@
     if (unitSelect && !unitSelect.hasAttribute('data-listener-attached')) {
       unitSelect.setAttribute('data-listener-attached', 'true');
       unitSelect.addEventListener('change', () => {
+        // Update stored unit for all rows when unit changes
+        applyUnitToAllRows();
         recalculateAll();
       });
       unitSelect.addEventListener('input', () => {
+        // Update stored unit for all rows when unit changes
+        applyUnitToAllRows();
         recalculateAll();
       });
     }
@@ -732,11 +756,28 @@
       const lastRowId = lastRow.id;
       const currentSelections = getCurrentSelections();
       
-      // Store selections for last row
+      // Store selections for last row (including unit)
       storeRowSelections(lastRowId, currentSelections);
       
       // Recalculate all
       recalculateAll();
+    }
+    
+    // Function to apply unit change to all rows
+    function applyUnitToAllRows() {
+      const unitSelect = document.getElementById('calc-unit');
+      if (!unitSelect) return;
+      
+      const newUnit = unitSelect.value || 'ft';
+      const rows = document.querySelectorAll('.calc-size-row');
+      
+      rows.forEach(row => {
+        const rowId = row.id;
+        if (rowId) {
+          const currentSelections = getRowSelections(rowId);
+          storeRowSelections(rowId, { ...currentSelections, unit: newUnit });
+        }
+      });
     }
     
     // Prevent duplicate listeners for option selects

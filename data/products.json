@@ -667,6 +667,204 @@
       },
       "features": ["projectTypeSelection", "colorTypeSelection", "thicknessSelection", "sheetCalculation", "wastageCalculation", "frGradeOption"],
       "description": "Premium ACP elevation cladding for commercial buildings. Aluminium coil both sides with PVDF coating. 3mm, 4mm, 6mm thickness. FR Grade B available for Railways/Airports/Govt projects. Includes 4x4 grid aluminium framework installation."
+    },
+    {
+      "id": "glass-railing-balcony",
+      "name": "Balcony Glass Railing System",
+      "slug": "balcony-glass-railing",
+      "category": "glass-railing",
+      "subcategory": "balcony",
+      "status": "active",
+      "rates": {
+        "useGlobalRates": false,
+        "glassWastagePercent": 0,
+        "glass": {
+          "12mm": 250,
+          "laminated_5_5": 440,
+          "laminated_6_6": 480
+        },
+        "bottomProfiles": [
+          {
+            "id": "121x45",
+            "label": "121x45mm Bottom Profile",
+            "baseRate": 750,
+            "coatingRates": { "wooden": 180, "plain": 150 }
+          },
+          {
+            "id": "100x45",
+            "label": "100x45mm Bottom Profile",
+            "baseRate": 650,
+            "coatingRates": { "wooden": 140, "plain": 130 }
+          },
+          {
+            "id": "80x40",
+            "label": "80x40mm Bottom Profile",
+            "baseRate": 580,
+            "coatingRates": { "wooden": 120, "plain": 90 }
+          }
+        ],
+        "handrails": [
+          {
+            "id": "ss_14x12",
+            "label": "14x12mm SS Handrail",
+            "material": "ss",
+            "baseRate": 280
+          },
+          {
+            "id": "al_19x15",
+            "label": "19x15mm Aluminium Handrail",
+            "material": "aluminium",
+            "baseRate": 150,
+            "coatingRates": { "wooden": 40, "plain": 30 }
+          },
+          {
+            "id": "al_25x25",
+            "label": "25x25mm Aluminium Handrail",
+            "material": "aluminium",
+            "baseRate": 180,
+            "coatingRates": { "wooden": 65, "plain": 45 }
+          },
+          {
+            "id": "al_38x38",
+            "label": "38x38mm Aluminium Handrail (Round/Square)",
+            "material": "aluminium",
+            "baseRate": 240,
+            "coatingRates": { "wooden": 90, "plain": 70 }
+          },
+          {
+            "id": "al_50x50",
+            "label": "50x50mm Aluminium Handrail (Round/Square)",
+            "material": "aluminium",
+            "baseRate": 280,
+            "coatingRates": { "wooden": 120, "plain": 100 }
+          }
+        ],
+        "hardwarePackagePerRft": 100,
+        "anchorBoltPerRft": 32.5,
+        "installationPerRft": 150
+      },
+      "features": ["glassRailingCalculator"],
+      "description": "Balcony glass railing system with slim profiles, SS304 brackets, and luxury handrails. Rates are per running feet."
+    },
+    {
+      "id": "glass-railing-staircase",
+      "name": "Staircase Glass Railing System",
+      "slug": "staircase-glass-railing",
+      "category": "glass-railing",
+      "subcategory": "staircase",
+      "status": "active",
+      "rates": {
+        "useGlobalRates": false,
+        "glassWastagePercent": 20,
+        "glass": {
+          "12mm": 250,
+          "laminated_5_5": 440,
+          "laminated_6_6": 480
+        },
+        "bottomProfiles": [
+          {
+            "id": "121x45",
+            "label": "121x45mm Bottom Profile",
+            "baseRate": 750,
+            "coatingRates": { "wooden": 180, "plain": 150 }
+          },
+          {
+            "id": "100x45",
+            "label": "100x45mm Bottom Profile",
+            "baseRate": 650,
+            "coatingRates": { "wooden": 140, "plain": 130 }
+          },
+          {
+            "id": "80x40",
+            "label": "80x40mm Bottom Profile",
+            "baseRate": 580,
+            "coatingRates": { "wooden": 120, "plain": 90 }
+          }
+        ],
+        "handrails": [
+          {
+            "id": "ss_14x12",
+            "label": "14x12mm SS Handrail",
+            "material": "ss",
+            "baseRate": 280
+          },
+          {
+            "id": "al_19x15",
+            "label": "19x15mm Aluminium Handrail",
+            "material": "aluminium",
+            "baseRate": 150,
+            "coatingRates": { "wooden": 40, "plain": 30 }
+          },
+          {
+            "id": "al_25x25",
+            "label": "25x25mm Aluminium Handrail",
+            "material": "aluminium",
+            "baseRate": 180,
+            "coatingRates": { "wooden": 65, "plain": 45 }
+          },
+          {
+            "id": "al_38x38",
+            "label": "38x38mm Aluminium Handrail (Round/Square)",
+            "material": "aluminium",
+            "baseRate": 240,
+            "coatingRates": { "wooden": 90, "plain": 70 }
+          },
+          {
+            "id": "al_50x50",
+            "label": "50x50mm Aluminium Handrail (Round/Square)",
+            "material": "aluminium",
+            "baseRate": 280,
+            "coatingRates": { "wooden": 120, "plain": 100 }
+          }
+        ],
+        "pillarBrackets": [
+          {
+            "id": "pillar_150mm",
+            "label": "150mm SS Pillar/Bracket",
+            "material": "ss",
+            "baseRate": 550,
+            "coatingRates": { "wooden": 150, "plain": 120 },
+            "spacing": 3,
+            "description": "SS304 stainless steel pillar/bracket installed every 3 steps. For 6-7 feet glass: 3 pcs (2 corners + 1 middle)"
+          },
+          {
+            "id": "pillar_200mm",
+            "label": "200mm SS Pillar/Bracket",
+            "material": "ss",
+            "baseRate": 750,
+            "coatingRates": { "wooden": 30, "plain": 30 },
+            "spacing": 3,
+            "description": "SS304 stainless steel pillar/bracket installed every 3 steps. For 6-7 feet glass: 3 pcs (2 corners + 1 middle)"
+          }
+        ],
+        "studs": [
+          {
+            "id": "stud_50mm",
+            "label": "50mm Stud (Side Support)",
+            "material": "aluminium",
+            "baseRate": 350,
+            "coatingRates": { "wooden": 80, "plain": 60 },
+            "averagePerRft": 1,
+            "pcsPerLocation": 2,
+            "description": "Vertical studs installed on staircase sides. Average 1 pc per RFT. For 6-7 feet glass: 3 locations × 2 pcs each = 6 pcs total"
+          },
+          {
+            "id": "stud_38mm",
+            "label": "38mm Stud (Side Support)",
+            "material": "aluminium",
+            "baseRate": 280,
+            "coatingRates": { "wooden": 80, "plain": 60 },
+            "averagePerRft": 1,
+            "pcsPerLocation": 2,
+            "description": "Vertical studs installed on staircase sides. Average 1 pc per RFT. For 6-7 feet glass: 3 locations × 2 pcs each = 6 pcs total"
+          }
+        ],
+        "hardwarePackagePerRft": 100,
+        "anchorBoltPerRft": 32.5,
+        "installationPerRft": 150
+      },
+      "features": ["glassRailingCalculator"],
+      "description": "Staircase glass railing system with slim profiles and luxury handrails. Includes 20% glass wastage in calculator. Supports pillar/brackets and studs for enhanced structural support."
     }
   ],
   "categories": [
@@ -699,6 +897,11 @@
       "id": "folding-systems",
       "name": "Folding Systems",
       "slug": "folding-systems"
+    },
+    {
+      "id": "glass-railing",
+      "name": "Glass Railing",
+      "slug": "glass-railing"
     }
   ]
 }

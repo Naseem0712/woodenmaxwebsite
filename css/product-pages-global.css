@@ -1222,6 +1222,9 @@ section[style*="get exact price"] p {
   justify-content: center;
   min-width: 40px;
   height: 40px;
+  flex-shrink: 0;
+  z-index: 10;
+  position: relative;
 }
 
 .mobile-toggle-btn:hover {
@@ -1247,22 +1250,55 @@ section[style*="get exact price"] p {
 /* Mobile only - show toggle button and collapse content */
 @media (max-width: 768px) {
   .mobile-toggle-btn {
-    display: flex;
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 10 !important;
+  }
+  
+  /* Force button visibility even if inline styles try to hide it */
+  button.mobile-toggle-btn,
+  .mobile-toggle-btn[type="button"],
+  button[class*="mobile-toggle-btn"],
+  button[data-target] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  /* Override any inline display:none styles on mobile */
+  button[style*="display: none"].mobile-toggle-btn,
+  button[style*="display:none"].mobile-toggle-btn {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
   
   .mobile-collapsible-content {
     max-height: 200px; /* Show preview on mobile */
     opacity: 1;
+    overflow: hidden;
+    position: relative;
   }
   
   .mobile-collapsible-content.collapsed {
-    max-height: 200px;
+    max-height: 200px !important;
     opacity: 0.8;
+    overflow: hidden;
   }
   
   .mobile-collapsible-content.expanded {
-    max-height: 5000px; /* Large enough for full content */
+    max-height: 5000px !important; /* Large enough for full content */
     opacity: 1;
+    overflow: visible;
+  }
+  
+  /* Ensure toggle icon is visible */
+  .mobile-toggle-btn .toggle-icon {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
 
