@@ -45,6 +45,9 @@
   <link rel="icon" type="image/png" href="../../favicon.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="../../favicon.png" />
 
+  <!-- Preload Hero Image for Better LCP -->
+  <link rel="preload" as="image" href="https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -250,7 +253,7 @@
     "@type": "BreadcrumbList",
     "itemListElement": [
       {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://woodenmax.in/"},
-      {"@type": "ListItem", "position": 2, "name": "Catalog", "item": "https://woodenmax.in/catalog.html"},
+      {"@type": "ListItem", "position": 2, "name": "Catalog", "item": "https://woodenmax.in/catalog"},
       {"@type": "ListItem", "position": 3, "name": "Glass Railing", "item": "https://woodenmax.in/products/glass-railing"},
       {"@type": "ListItem", "position": 4, "name": "Staircase Glass Railing", "item": "https://woodenmax.in/products/glass-railing/staircase-glass-railing"}
     ]
@@ -367,10 +370,10 @@
   </div>
 
   <!-- BREADCRUMB -->
-  <div style="padding: 6rem 0 1rem; background: #1a1a1a;">
+  <div style="padding: 6rem 0 1rem; background: #F3F4F6;">
     <div class="container">
-      <nav style="font-size: 0.875rem; color: #e0e0e0;">
-        <a href="../../index.html">Home</a> / <a href="../../catalog.html">Catalog</a> / <a href="../glass-railing.html">Glass Railing</a> / <span style="color: var(--amber-400);">Staircase Glass Railing</span>
+      <nav style="font-size: 0.875rem; color: #475569;" aria-label="Breadcrumb">
+        <a href="../../index.html" style="color: #475569; text-decoration: none;">Home</a> / <a href="../../catalog.html" style="color: #475569; text-decoration: none;">Catalog</a> / <a href="../glass-railing.html" style="color: #475569; text-decoration: none;">Glass Railing</a> / <span style="color: #1E40AF; font-weight: 500;">Staircase Glass Railing</span>
       </nav>
     </div>
   </div>
@@ -382,25 +385,25 @@
         <div class="product-image-gallery">
           <!-- Main Image Display -->
           <div class="product-main-image-container">
-            <img id="product-main-image" src="../../images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp" alt="Luxury staircase glass railing system with slim aluminium profile, SS304 brackets, and clear toughened glass panels for premium residential and commercial staircases" class="product-main-image" loading="eager" decoding="async">
+            <img id="product-main-image" src="../../images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp" alt="Luxury staircase glass railing system with slim aluminium profile, SS304 brackets, and clear toughened glass panels for premium residential and commercial staircases" class="product-main-image" width="1200" height="800" loading="eager" decoding="async">
           </div>
 
           <!-- Thumbnail Gallery -->
           <div class="product-thumbnail-gallery">
             <div class="thumbnail-item active" data-image="../../images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp" data-alt="Luxury staircase glass railing system with slim aluminium profile, SS304 brackets, and clear toughened glass panels for premium residential and commercial staircases" data-description="Premium staircase glass railing featuring slim aluminium base rail, SS304 grade stainless steel brackets, and crystal-clear 12mm toughened glass. Designed for luxury residential homes, duplexes, and high-end commercial interiors. Includes 20% glass wastage in price calculation for complex cuts and angles.">
-              <img src="../../images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp" alt="Luxury staircase glass railing system with slim aluminium profile, SS304 brackets, and clear toughened glass panels for premium residential and commercial staircases" loading="lazy" decoding="async">
+              <img src="../../images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp" alt="Luxury staircase glass railing system with slim aluminium profile, SS304 brackets, and clear toughened glass panels for premium residential and commercial staircases" width="300" height="200" loading="lazy" decoding="async">
             </div>
             <div class="thumbnail-item" data-image="../../images/products/staircase-glass-railing/interior-glass-staircase-railing.webp" data-alt="Interior staircase glass railing with slim aluminium profile, full-length base rail, and luxury handrail finishes for modern residential applications" data-description="Interior staircase railing system showcasing slim aluminium profiles and full-length base rail. Features precision nut-bolt assembly system for easy maintenance. Suitable for residential homes, duplexes, and luxury interiors. Handrail options available in multiple sizes with powder coating or PVD finishes.">
-              <img src="../../images/products/staircase-glass-railing/interior-glass-staircase-railing.webp" alt="Interior staircase glass railing with slim aluminium profile, full-length base rail, and luxury handrail finishes for modern residential applications" loading="lazy" decoding="async">
+              <img src="../../images/products/staircase-glass-railing/interior-glass-staircase-railing.webp" alt="Interior staircase glass railing with slim aluminium profile, full-length base rail, and luxury handrail finishes for modern residential applications" width="300" height="200" loading="lazy" decoding="async">
             </div>
             <div class="thumbnail-item" data-image="../../images/products/staircase-glass-railing/glass-stair-railing-with-aluminium-profile.webp" data-alt="Glass stair railing with aluminium profile and base rail, showing mechanical nut-bolt assembly system for staircase applications" data-description="Staircase glass railing system with aluminium profile base rail and SS304 brackets. Uses mechanical nut-bolt assembly eliminating need for welding or adhesives. Glass panels follow staircase angle with proper alignment. Requires 8-10mm ply or MDF board template from customer for accurate glass cutting.">
-              <img src="../../images/products/staircase-glass-railing/glass-stair-railing-with-aluminium-profile.webp" alt="Glass stair railing with aluminium profile and base rail, showing mechanical nut-bolt assembly system for staircase applications" loading="lazy" decoding="async">
+              <img src="../../images/products/staircase-glass-railing/glass-stair-railing-with-aluminium-profile.webp" alt="Glass stair railing with aluminium profile and base rail, showing mechanical nut-bolt assembly system for staircase applications" width="300" height="200" loading="lazy" decoding="async">
             </div>
             <div class="thumbnail-item" data-image="../../images/products/staircase-glass-railing/outdoor-glass-railing-with-profile.webp" data-alt="Outdoor staircase glass railing with slim profile system, weather-resistant SS304 brackets, and safety glass panels for exterior staircase applications" data-description="Outdoor staircase railing system engineered for weather resistance and durability. Uses marine-grade SS304 stainless steel brackets and full-length aluminium base rail. Suitable for exterior staircases, commercial buildings, and high-traffic applications. Laminated glass recommended for enhanced safety in outdoor environments.">
-              <img src="../../images/products/staircase-glass-railing/outdoor-glass-railing-with-profile.webp" alt="Outdoor staircase glass railing with slim profile system, weather-resistant SS304 brackets, and safety glass panels for exterior staircase applications" loading="lazy" decoding="async">
+              <img src="../../images/products/staircase-glass-railing/outdoor-glass-railing-with-profile.webp" alt="Outdoor staircase glass railing with slim profile system, weather-resistant SS304 brackets, and safety glass panels for exterior staircase applications" width="300" height="200" loading="lazy" decoding="async">
             </div>
             <div class="thumbnail-item" data-image="../../images/products/staircase-glass-railing/minimal-glass-railing-balcony-design.webp" data-alt="Minimal glass railing design with clean handrail profile, ultra-slim aluminium profiles, and frameless glass panels for contemporary staircase applications" data-description="Minimalist staircase railing design featuring ultra-slim aluminium profiles and frameless glass panels. Ideal for modern architecture where clean lines and minimal visual obstruction are priorities. Uses same calculation logic as standard railings with 20% glass wastage included. Handrail options include ultra-slim 13x12mm and 19x19mm profiles.">
-              <img src="../../images/products/staircase-glass-railing/minimal-glass-railing-balcony-design.webp" alt="Minimal glass railing design with clean handrail profile, ultra-slim aluminium profiles, and frameless glass panels for contemporary staircase applications" loading="lazy" decoding="async">
+              <img src="../../images/products/staircase-glass-railing/minimal-glass-railing-balcony-design.webp" alt="Minimal glass railing design with clean handrail profile, ultra-slim aluminium profiles, and frameless glass panels for contemporary staircase applications" width="300" height="200" loading="lazy" decoding="async">
             </div>
           </div>
 
@@ -857,21 +860,42 @@
   <!-- RELATED PRODUCTS -->
   <section style="padding: 4rem 0; background: #F8F9FA;">
     <div class="container">
-      <h2 class="section-title" style="text-align: center; margin-bottom: 3rem; color: #0F172A;">Related Products</h2>
-      <div class="related-products">
-        <a href="balcony-glass-railing.html" class="related-product-card">
-          <img src="../../images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp" alt="Luxury balcony glass railing system with slim profile" loading="lazy">
-          <div class="related-product-card-content">
-            <h4>Balcony Glass Railing</h4>
-            <p>Outdoor-ready slim system</p>
+      <h2 class="section-title" style="text-align: center; margin-bottom: 2rem; color: #0F172A; font-size: 2rem;">Related Glass Railing Systems</h2>
+      <p style="text-align: center; color: #475569; margin-bottom: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">Explore other premium glass railing solutions for your home</p>
+      <div class="related-products" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
+        <a href="balcony-glass-railing.html" class="related-product-card" style="background: #FFFFFF; border-radius: 12px; overflow: hidden; border: 1px solid #E5E7EB; transition: all 0.3s ease; text-decoration: none; display: block; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'; this.style.borderColor='#1E40AF';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.1)'; this.style.borderColor='#E5E7EB';">
+          <img src="../../images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp" alt="Balcony Glass Railing Price India - Outdoor Slim Profile System | ₹600-1200 per sqft | Hyderabad Delhi Bangalore" loading="lazy" style="width: 100%; height: 200px; object-fit: cover;">
+          <div class="related-product-card-content" style="padding: 1.25rem;">
+            <h4 style="color: #0F172A; margin: 0 0 0.5rem; font-size: 1.1rem; font-weight: 600;">Balcony Glass Railing</h4>
+            <p style="color: #64748B; margin: 0; font-size: 0.9rem;">Outdoor-ready slim system</p>
           </div>
         </a>
-        <a href="../glass-railing.html" class="related-product-card">
-          <img src="../../images/products/staircase-glass-railing/interior-glass-staircase-railing.webp" alt="Glass railing systems collection" loading="lazy">
-          <div class="related-product-card-content">
-            <h4>View All Glass Railing</h4>
-            <p>Explore complete collection</p>
+        <a href="../glass-railing.html" class="related-product-card" style="background: #FFFFFF; border-radius: 12px; overflow: hidden; border: 1px solid #E5E7EB; transition: all 0.3s ease; text-decoration: none; display: block; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'; this.style.borderColor='#1E40AF';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.1)'; this.style.borderColor='#E5E7EB';">
+          <img src="../../images/products/staircase-glass-railing/interior-glass-staircase-railing.webp" alt="Glass Railing Systems Collection - Premium Balcony & Staircase Solutions | Hyderabad Delhi Bangalore" loading="lazy" style="width: 100%; height: 200px; object-fit: cover;">
+          <div class="related-product-card-content" style="padding: 1.25rem;">
+            <h4 style="color: #0F172A; margin: 0 0 0.5rem; font-size: 1.1rem; font-weight: 600;">View All Glass Railing</h4>
+            <p style="color: #64748B; margin: 0; font-size: 0.9rem;">Explore complete collection</p>
           </div>
+        </a>
+        <a href="../shower-partitions/frameless-shower-partition.html" class="related-product-card" style="background: #FFFFFF; border-radius: 12px; overflow: hidden; border: 1px solid #E5E7EB; transition: all 0.3s ease; text-decoration: none; display: block; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'; this.style.borderColor='#1E40AF';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.1)'; this.style.borderColor='#E5E7EB';">
+          <img src="../../images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp" alt="Frameless Shower Partition Price India - Profile-less Luxury Design | ₹1000-1500 per sqft | Hyderabad Delhi Bangalore" loading="lazy" style="width: 100%; height: 200px; object-fit: cover;">
+          <div class="related-product-card-content" style="padding: 1.25rem;">
+            <h4 style="color: #0F172A; margin: 0 0 0.5rem; font-size: 1.1rem; font-weight: 600;">Frameless Shower Partition</h4>
+            <p style="color: #64748B; margin: 0; font-size: 0.9rem;">Premium bathroom solution</p>
+          </div>
+        </a>
+        <a href="../aluminium-windows/aluminium-sliding-window.html" class="related-product-card" style="background: #FFFFFF; border-radius: 12px; overflow: hidden; border: 1px solid #E5E7EB; transition: all 0.3s ease; text-decoration: none; display: block; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 4px 12px rgba(0,0,0,0.15)'; this.style.borderColor='#1E40AF';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 1px 3px rgba(0,0,0,0.1)'; this.style.borderColor='#E5E7EB';">
+          <img src="../../images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp" alt="Aluminium Sliding Window Price India - 29mm Series with Mesh | ₹500-600 per sqft | Hyderabad Delhi Bangalore" loading="lazy" style="width: 100%; height: 200px; object-fit: cover;">
+          <div class="related-product-card-content" style="padding: 1.25rem;">
+            <h4 style="color: #0F172A; margin: 0 0 0.5rem; font-size: 1.1rem; font-weight: 600;">Aluminium Sliding Window</h4>
+            <p style="color: #64748B; margin: 0; font-size: 0.9rem;">Premium window solution</p>
+          </div>
+        </a>
+      </div>
+      <div style="text-align: center; margin-top: 2rem;">
+        <a href="../glass-railing.html" style="color: #1E40AF; font-size: 1rem; font-weight: 500; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;" onmouseover="this.style.color='#3B82F6';" onmouseout="this.style.color='#1E40AF';">
+          View All Glass Railing Systems
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
     </div>

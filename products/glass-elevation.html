@@ -56,6 +56,9 @@
   <link rel="icon" type="image/png" href="../images/woodenmax-logo.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="../images/woodenmax-logo.png" />
   
+  <!-- Preload Hero Image for Better LCP -->
+  <link rel="preload" as="image" href="https://woodenmax.in/images/products/Glazing/architectural-glass-elevation.webp" />
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -263,20 +266,58 @@
     },
     "mainEntity": {
       "@type": "Product",
-      "image": "https://woodenmax.in/images/products/Glazing/architectural-glass-elevation.webp"
+      "name": "Glass Elevation & Curtain Wall",
+      "image": "https://woodenmax.in/images/products/Glazing/architectural-glass-elevation.webp",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "INR",
+        "availability": "https://schema.org/InStock",
+        "lowPrice": 850,
+        "highPrice": 850,
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "priceCurrency": "INR",
+          "price": 850,
+          "unitCode": "SQFT"
+        }
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": 4.6,
+        "reviewCount": 124
+      }
     },
-    "breadcrumb": {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://woodenmax.in/"},
-        {"@type": "ListItem", "position": 2, "name": "Catalog", "item": "https://woodenmax.in/catalog"},
-        {"@type": "ListItem", "position": 3, "name": "Glass Elevation", "item": "https://woodenmax.in/products/glass-elevation"}
-      ]
-    }
   }
   </script>
   
   <!-- ImageObject Schema - Primary Image for Search Results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ImageObject",
+    "contentUrl": "https://woodenmax.in/images/products/Glazing/architectural-glass-elevation.webp",
+    "url": "https://woodenmax.in/images/products/Glazing/architectural-glass-elevation.webp",
+    "width": 1200,
+    "height": 800,
+    "description": "Architectural Glass Elevation Price India - Elevation glass glazing system with structural glazing. Best price for glass glazing in Hyderabad, Delhi, Bangalore.",
+    "name": "Architectural Glass Elevation - Elevation Glass Glazing"
+  }
+  </script>
+  
+  <!-- BreadcrumbList Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://woodenmax.in/"},
+      {"@type": "ListItem", "position": 2, "name": "Catalog", "item": "https://woodenmax.in/catalog"},
+      {"@type": "ListItem", "position": 3, "name": "Glass Elevation", "item": "https://woodenmax.in/products/glass-elevation"}
+    ]
+  }
+  </script>
+  
+  <!-- ImageObject Schema -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -402,6 +443,80 @@
         "position": 3,
         "name": "All Products",
         "url": "https://woodenmax.in/catalog"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- FAQPage Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is reflector glass and how is it used in curtain walls?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Reflector glass has a metallic coating that reflects sunlight, creating a mirror-like appearance. In curtain wall and structural glazing systems, it provides excellent solar control (reduces heat and glare by up to 40%), offers daytime privacy, and creates stunning modern facades. We use 5mm toughened reflector glass which is 5x stronger than regular glass."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's the difference between curtain wall and structural glazing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Curtain wall systems have aluminium frames visible from outside, creating a grid pattern. Structural glazing uses silicon to bond glass directly to the frame from behind, creating a seamless glass-only appearance. Both use our 58x58x1.5mm aluminium framework. Structural glazing is more premium and modern-looking, while curtain walls are more traditional and slightly more economical."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What's included in your complete package?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Our package includes: 58x58x1.5mm powder-coated aluminium framing, 5mm reflector toughened glass, structural silicon for glass bonding, double-sided adhesive tape, weatherproof silicon grooves for external sealing, hot-dip galvanized GI brackets (75x75x75x6mm), anchor bolts (100x10mm), and professional installation by our certified team."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which reflector glass colors are available?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We offer 6 premium reflector glass colors: Sapphire Blue (bright reflective blue), Imperial Blue (deep royal blue), Grey (modern neutral), Black (bold dramatic), Brown (warm earth tone), and Light Brown (subtle warmth). All colors have identical reflective properties, solar control performance, and quality standards."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is the glass facade waterproofed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We use a multi-layer waterproofing system: structural silicon bonds glass to the aluminium frame from inside, while weatherproof silicon grooves seal all external joints. The GI brackets are hot-dip galvanized to prevent rust even in monsoon conditions, and heavy-duty anchor bolts (100x10mm) secure the entire system firmly to the building structure."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What panel orientation do you recommend for luxury look?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "For luxury aesthetics, we recommend portrait-oriented panels where height is greater than width (e.g., 3ft width × 5ft height). This creates elegant vertical lines on the facade—a design pattern associated with premium high-rise buildings and luxury architecture worldwide. The exact dimensions are customized based on your building's design."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does installation take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Installation time depends on project size. A typical showroom facade (200-300 sqft) takes 3-5 days. Larger commercial buildings with 1000+ sqft can take 2-4 weeks. We provide a detailed timeline after site assessment. Our team works efficiently to minimize disruption to your business or construction schedule."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the lifespan of glass elevation systems?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "With proper installation and minimal maintenance, our glass elevation systems last 25-30 years or more. The toughened glass is extremely durable, aluminium doesn't rust, and our hot-dip galvanized brackets resist corrosion. Silicon sealants may need reapplication every 10-15 years depending on weather exposure, which is a simple maintenance task."
+        }
       }
     ]
   }
@@ -819,6 +934,15 @@
       </div>
     </div>
   </nav>
+
+  <!-- BREADCRUMB -->
+  <div style="padding: 6rem 0 1rem; background: #F3F4F6;">
+    <div class="container">
+      <nav style="font-size: 0.875rem; color: #475569;" aria-label="Breadcrumb">
+        <a href="../index.html" style="color: #475569; text-decoration: none;">Home</a> / <a href="../catalog.html" style="color: #475569; text-decoration: none;">Catalog</a> / <span style="color: #1E40AF; font-weight: 500;">Glass Elevation</span>
+      </nav>
+    </div>
+  </div>
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu">
