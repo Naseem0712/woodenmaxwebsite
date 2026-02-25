@@ -2,27 +2,27 @@
   "globalRates": {
     "glass": {
       "6mm": 0,
-      "8mm": 30,
-      "10mm": 50,
-      "12mm": 80,
-      "dgu": 180,
-      "laminated": 220,
-      "safety": 220
+      "8mm": 32,
+      "10mm": 53,
+      "12mm": 85,
+      "dgu": 189,
+      "laminated": 231,
+      "safety": 231
     },
     "coating": {
-      "wooden": 65
+      "wooden": 68
     },
     "lock": {
       "singlePoint": 0,
-      "multiPoint": 1200,
-      "mortice": 1500
+      "multiPoint": 1260,
+      "mortice": 1575
     },
     "mesh": {
-      "standard": 120,
-      "openable": 350
+      "standard": 127,
+      "openable": 370
     },
     "grill": {
-      "aluminium12mm": 280
+      "aluminium12mm": 295
     }
   },
   "products": [
@@ -34,14 +34,14 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 750,
-        "hardwareCost": 2200,
+        "baseRate": 790,
+        "hardwareCost": 2310,
         "useGlobalRates": true,
         "glass": {},
         "coating": {},
         "lock": {},
         "mesh": {
-          "standard": 120
+          "standard": 127
         }
       },
       "features": ["mesh"],
@@ -55,14 +55,14 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 750,
-        "hardwareCost": 2200,
+        "baseRate": 790,
+        "hardwareCost": 2310,
         "useGlobalRates": true,
         "glass": {},
         "coating": {},
         "lock": {},
         "mesh": {
-          "standard": 120
+          "standard": 127
         }
       },
       "features": ["mesh", "morticeLock", "topFixed"],
@@ -76,16 +76,16 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 500,
-        "hardwareCost": 800,
-        "mesh": 100,
+        "baseRate": 525,
+        "hardwareCost": 840,
+        "mesh": 105,
         "glass": {
-          "6mm": 15,
-          "8mm": 30
+          "6mm": 16,
+          "8mm": 32
         },
         "trackOptions": {
           "2track": 0,
-          "3track": 100
+          "3track": 105
         }
       },
       "features": ["trackSelection", "heightValidation", "colorOptions"],
@@ -99,9 +99,9 @@
       "subcategory": "casement",
       "status": "active",
       "rates": {
-        "baseRate": 650,
-        "hardwareCost": 650,
-        "hardwareCostMultiPoint": 1400,
+        "baseRate": 685,
+        "hardwareCost": 683,
+        "hardwareCostMultiPoint": 1470,
         "useGlobalRates": true,
         "glass": {
           "6mm": 0,
@@ -112,10 +112,10 @@
           "laminated": 0
         },
         "grill": {
-          "aluminium12mm": 280
+          "aluminium12mm": 295
         },
         "mesh": {
-          "openable": 350
+          "openable": 370
         },
         "lock": {
           "singlePoint": 0,
@@ -133,9 +133,9 @@
       "subcategory": "casement",
       "status": "active",
       "rates": {
-        "baseRate": 900,
-        "hardwareCost": 650,
-        "hardwareCostMultiPoint": 1400,
+        "baseRate": 950,
+        "hardwareCost": 683,
+        "hardwareCostMultiPoint": 1470,
         "useGlobalRates": true,
         "glass": {
           "6mm": 0,
@@ -146,10 +146,10 @@
           "laminated": 0
         },
         "grill": {
-          "aluminium12mm": 280
+          "aluminium12mm": 295
         },
         "mesh": {
-          "openable": 350
+          "openable": 370
         },
         "lock": {
           "singlePoint": 0,
@@ -167,9 +167,9 @@
       "subcategory": "french-door",
       "status": "active",
       "rates": {
-        "baseRate": 950,
-        "hardwareCost": 1800,
-        "hardwareCostMultiPoint": 2200,
+        "baseRate": 1000,
+        "hardwareCost": 1890,
+        "hardwareCostMultiPoint": 2310,
         "useGlobalRates": true,
         "glass": {
           "8mm": 0,
@@ -189,7 +189,7 @@
           "mortice": 0
         },
         "mesh": {
-          "security": 280
+          "security": 295
         }
       },
       "features": ["mesh", "multiPointLock", "morticeLock", "heightValidation"],
@@ -204,9 +204,9 @@
       "subcategory": "entrance-door",
       "status": "active",
       "rates": {
-        "baseRate": 1250,
-        "hardwareCost": 1800,
-        "hardwareCostMultiPoint": 2200,
+        "baseRate": 1315,
+        "hardwareCost": 1890,
+        "hardwareCostMultiPoint": 2310,
         "useGlobalRates": true,
         "glass": {
           "8mm": 0,
@@ -226,7 +226,7 @@
           "mortice": 0
         },
         "mesh": {
-          "security": 280
+          "security": 295
         }
       },
       "features": ["mesh", "multiPointLock", "morticeLock", "heightValidation", "coating", "colorOptions"],
@@ -241,7 +241,7 @@
       "subcategory": "full-elevation",
       "status": "active",
       "rates": {
-        "baseRate": 500,
+        "baseRate": 525,
         "hardwareCost": 0,
         "useGlobalRates": true,
         "glass": {
@@ -254,12 +254,12 @@
           "5mm": 0
         },
         "flutedGlass": {
-          "6mm-clear-fluted": 65,
-          "8mm-clear-fluted": 85,
-          "6mm-brown-fluted": 85,
-          "8mm-brown-fluted": 115,
-          "6mm-grey-fluted": 85,
-          "8mm-grey-fluted": 115
+          "6mm-clear-fluted": 68,
+          "8mm-clear-fluted": 89,
+          "6mm-brown-fluted": 89,
+          "8mm-brown-fluted": 121,
+          "6mm-grey-fluted": 89,
+          "8mm-grey-fluted": 121
         },
         "flutedMaxHeights": {
           "clear": 10,
@@ -267,8 +267,8 @@
           "grey": 8
         },
         "premiumColors": {
-          "rose-gold": 65,
-          "copper-gold": 65
+          "rose-gold": 68,
+          "copper-gold": 68
         }
       },
       "features": ["heightValidation", "colorOptions", "flutedGlass", "premiumColors"],
@@ -283,7 +283,7 @@
       "subcategory": "telescopic",
       "status": "active",
       "rates": {
-        "baseRate": 1250,
+        "baseRate": 1315,
         "useGlobalRates": false,
         "profiles": {
           "ultra-slim-12x35": 0,
@@ -291,20 +291,20 @@
           "regular-slim-16x45": 0
         },
         "panelConfig": {
-          "1+1": 4500,
-          "2+1": 6500,
-          "3+1": 9500,
-          "4+1": 12500
+          "1+1": 4730,
+          "2+1": 6830,
+          "3+1": 9980,
+          "4+1": 13125
         },
         "glass": {
           "8mm-clear": 0,
-          "8mm-clear-fluted": 85,
-          "8mm-grey-fluted": 115,
-          "8mm-brown-fluted": 115
+          "8mm-clear-fluted": 89,
+          "8mm-grey-fluted": 121,
+          "8mm-brown-fluted": 121
         },
         "premiumColors": {
-          "rose-gold": 65,
-          "copper-gold": 65
+          "rose-gold": 68,
+          "copper-gold": 68
         }
       },
       "features": ["panelConfig", "profileOptions", "colorOptions", "flutedGlass", "premiumColors"],
@@ -322,7 +322,7 @@
       "subcategory": "bifold",
       "status": "active",
       "rates": {
-        "baseRate": 1750,
+        "baseRate": 1840,
         "useGlobalRates": false,
         "profiles": {
           "50mm": 0,
@@ -330,11 +330,11 @@
         },
         "glass": {
           "8mm-clear": 0,
-          "6mm-clear": -20,
-          "10mm-clear": 35,
-          "12mm-clear": 65,
-          "safety": 180,
-          "dgu": 200
+          "6mm-clear": -21,
+          "10mm-clear": 37,
+          "12mm-clear": 68,
+          "safety": 189,
+          "dgu": 210
         }
       },
       "features": ["profileOptions", "glassOptions", "ralColors"],
@@ -348,18 +348,18 @@
       "subcategory": "fold-sliding",
       "status": "active",
       "rates": {
-        "baseRate": 2250,
+        "baseRate": 2370,
         "useGlobalRates": false,
         "glass": {
           "8mm-clear": 0,
-          "10mm-clear": 35,
-          "8mm-clear-fluted": 85,
-          "8mm-grey-fluted": 115,
-          "8mm-brown-fluted": 115
+          "10mm-clear": 37,
+          "8mm-clear-fluted": 89,
+          "8mm-grey-fluted": 121,
+          "8mm-brown-fluted": 121
         },
         "premiumColors": {
-          "rose-gold": 65,
-          "copper-gold": 65
+          "rose-gold": 68,
+          "copper-gold": 68
         }
       },
       "features": ["glassOptions", "colorOptions", "premiumColors", "morticeLock"],
@@ -373,14 +373,14 @@
       "subcategory": "wooden-finish",
       "status": "active",
       "rates": {
-        "baseRate": 450,
+        "baseRate": 473,
         "useGlobalRates": false,
         "profileSize": "100x50x1.2MM",
         "profileGap": 12,
         "profileLengths": [12, 16],
         "profileWeight12ft": 5.5,
-        "aluminiumRatePerKg": 330,
-        "coatingRatePerFt": 50
+        "aluminiumRatePerKg": 347,
+        "coatingRatePerFt": 53
       },
       "features": ["louverCalculation", "wastageCalculation", "colorOptions"],
       "description": "Premium wooden finish aluminium louvers with 100x50x1.2MM profiles. Installed every 12 inches gap. Available in 12ft and 16ft sections. Multiple wooden texture colors available. Same rates apply for pergola."
@@ -393,14 +393,14 @@
       "subcategory": "sleek-curved",
       "status": "active",
       "rates": {
-        "baseRate": 490,
+        "baseRate": 515,
         "useGlobalRates": false,
         "profileSize": "60x40x1.2MM",
         "profileGap": 8,
         "profileLengths": [12, 16],
         "profileWeight12ft": 4.8,
-        "aluminiumRatePerKg": 330,
-        "coatingRatePerFt": 50,
+        "aluminiumRatePerKg": 347,
+        "coatingRatePerFt": 53,
         "extraWastagePercent": 10
       },
       "features": ["louverCalculation", "wastageCalculation", "colorOptions", "sleekDesign"],
@@ -414,14 +414,14 @@
       "subcategory": "ceiling-pergola",
       "status": "active",
       "rates": {
-        "baseRate": 480,
+        "baseRate": 504,
         "useGlobalRates": false,
         "profileSize": "25x75MM",
         "profileGap": 6,
         "profileLengths": [12, 16],
         "profileWeight12ft": 3.7,
-        "aluminiumRatePerKg": 330,
-        "coatingRatePerFt": 50
+        "aluminiumRatePerKg": 347,
+        "coatingRatePerFt": 53
       },
       "features": ["louverCalculation", "wastageCalculation", "colorOptions", "pergolaDesign"],
       "description": "Premium ceiling aluminium louvers pergola with 25x75MM profiles. Installed every 6 inches gap. Available in 12ft and 16ft sections. All coating options included. Perfect for backyard, terrace, farmhouse, poolside."
@@ -434,14 +434,14 @@
       "subcategory": "canopy-sunshade",
       "status": "active",
       "rates": {
-        "baseRate": 520,
+        "baseRate": 546,
         "useGlobalRates": false,
         "profileSize": "50x50x1.5MM",
         "profileGap": 8,
         "profileLengths": [12, 16],
         "profileWeight12ft": 4.2,
-        "aluminiumRatePerKg": 330,
-        "coatingRatePerFt": 50
+        "aluminiumRatePerKg": 347,
+        "coatingRatePerFt": 53
       },
       "features": ["louverCalculation", "wastageCalculation", "colorOptions", "canopyDesign"],
       "description": "Premium aluminium louver canopy sunshade with 50x50x1.5MM profiles. Installed every 8 inches gap. Available in 12ft and 16ft sections. All coating options included. Perfect for entry canopy, terrace roof, balcony sunshade."
@@ -459,22 +459,22 @@
         "maxHeight": 8,
         "standardHeight": 7,
         "hinged": {
-          "glassRate": 350,
+          "glassRate": 368,
           "hardware": {
-            "mill-finish": 4500,
-            "black": 5500,
-            "gold": 5500,
-            "rose-gold": 7500
+            "mill-finish": 4730,
+            "black": 5780,
+            "gold": 5780,
+            "rose-gold": 7880
           },
           "sealTypes": ["T-seal", "F-seal", "Magnetic", "D-type"],
           "sealColors": ["Black", "Clear"]
         },
         "sliding": {
-          "glassRate": 450,
+          "glassRate": 473,
           "hardware": {
-            "mill-finish": 5500,
-            "black": 6500,
-            "gold": 6500
+            "mill-finish": 5780,
+            "black": 6830,
+            "gold": 6830
           },
           "includes": ["D-seal", "Bottom Guide", "Round Knob Handle", "Top Track"]
         }
@@ -491,13 +491,13 @@
       "status": "active",
       "rates": {
         "useGlobalRates": false,
-        "glassRate": 650,
+        "glassRate": 683,
         "profiles": {
           "regular-slim": "16x45mm",
           "ultra-slim": "16x35mm"
         },
         "glassOptions": ["8mm"],
-        "hardwarePerDoor": 4500,
+        "hardwarePerDoor": 4730,
         "hardwareFinishes": ["matt-black", "gold", "mill-finish"],
         "hardwareIncludes": ["Towel Handle", "3pc Hinges", "Seals"]
       },
@@ -513,8 +513,8 @@
       "status": "active",
       "rates": {
         "useGlobalRates": false,
-        "baseGlassRate": 650,
-        "roseGoldExtraPerSqft": 100,
+        "baseGlassRate": 683,
+        "roseGoldExtraPerSqft": 105,
         "profiles": {
           "regular-slim": "16x45mm",
           "ultra-slim": "16x35mm"
@@ -522,10 +522,10 @@
         "glassOptions": ["8mm"],
         "hardware": {
           "sliding": {
-            "matt-black": 6500,
-            "gold": 6500,
-            "mill-finish": 5500,
-            "rose-gold": 7500
+            "matt-black": 6830,
+            "gold": 6830,
+            "mill-finish": 5780,
+            "rose-gold": 7880
           }
         },
         "hardwareIncludes": ["Top Track", "Soft-Close Wheels", "Towel Handle", "Seals"]
@@ -542,10 +542,10 @@
       "status": "active",
       "rates": {
         "useGlobalRates": false,
-        "baseRate": 1250,
-        "frostingExtra": 25,
-        "hardwarePerSet": 9500,
-        "lockExtra": 2500,
+        "baseRate": 1315,
+        "frostingExtra": 26,
+        "hardwarePerSet": 9980,
+        "lockExtra": 2630,
         "profiles": {
           "regular-slim": "16x45mm",
           "ultra-slim": "16x35mm"
@@ -566,9 +566,9 @@
       "status": "active",
       "rates": {
         "useGlobalRates": false,
-        "baseRate": 850,
-        "flutedGlassExtra": 100,
-        "hardwarePerDoor": 7500,
+        "baseRate": 893,
+        "flutedGlassExtra": 105,
+        "hardwarePerDoor": 7880,
         "profiles": {
           "gold": "Gold PVD Coated",
           "rose-gold": "Rose Gold PVD Coated"
@@ -595,31 +595,31 @@
             "name": "FunderMax (Imported)",
             "sheetWidthMM": 1300,
             "sheetHeightMM": 3050,
-            "ratePerSqft": 465,
+            "ratePerSqft": 488,
             "colors": "30+ Plain & Wooden"
           },
           "greenlam": {
             "name": "Greenlam (Indian)",
             "sheetWidthMM": 1300,
             "sheetHeightMM": 3050,
-            "ratePerSqft": 350,
+            "ratePerSqft": 368,
             "colors": "30+ Plain"
           },
           "newmika": {
             "name": "Newmika (Budget)",
             "sheetWidthMM": 1220,
             "sheetHeightMM": 2440,
-            "ratePerSqft": 295,
+            "ratePerSqft": 310,
             "colors": "30+ Plain & Wooden"
           }
         },
         "installation": {
           "ceiling": {
-            "ratePerSqft": 165,
+            "ratePerSqft": 173,
             "frameGap": "16-18 inches"
           },
           "facade": {
-            "ratePerSqft": 145,
+            "ratePerSqft": 152,
             "frameGap": "22-24 inches"
           }
         },
@@ -645,12 +645,12 @@
         "standardSheetSqft": 48,
         "sheetSizes": ["4x8ft", "4x10ft", "4x12ft"],
         "commercial": {
-          "3mm": { "plain": 270, "wooden": 320 },
-          "4mm": { "plain": 310, "wooden": 380 },
-          "6mm": { "plain": 390, "wooden": 450 }
+          "3mm": { "plain": 284, "wooden": 336 },
+          "4mm": { "plain": 326, "wooden": 399 },
+          "6mm": { "plain": 410, "wooden": 473 }
         },
         "frGradeB": {
-          "4mm": { "plain": 520 },
+          "4mm": { "plain": 546 },
           "brackets": {
             "gi": "75x75x6mm GI with 10x100mm anchor bolts",
             "aluminium": "50x50x50mm angles with screws"
@@ -679,28 +679,28 @@
         "useGlobalRates": false,
         "glassWastagePercent": 0,
         "glass": {
-          "12mm": 250,
-          "laminated_5_5": 440,
-          "laminated_6_6": 480
+          "12mm": 263,
+          "laminated_5_5": 462,
+          "laminated_6_6": 504
         },
         "bottomProfiles": [
           {
             "id": "121x45",
             "label": "121x45mm Bottom Profile",
-            "baseRate": 750,
-            "coatingRates": { "wooden": 180, "plain": 150 }
+            "baseRate": 789,
+            "coatingRates": { "wooden": 189, "plain": 158 }
           },
           {
             "id": "100x45",
             "label": "100x45mm Bottom Profile",
-            "baseRate": 650,
-            "coatingRates": { "wooden": 140, "plain": 130 }
+            "baseRate": 683,
+            "coatingRates": { "wooden": 147, "plain": 137 }
           },
           {
             "id": "80x40",
             "label": "80x40mm Bottom Profile",
-            "baseRate": 580,
-            "coatingRates": { "wooden": 120, "plain": 90 }
+            "baseRate": 609,
+            "coatingRates": { "wooden": 126, "plain": 95 }
           }
         ],
         "handrails": [
@@ -708,40 +708,40 @@
             "id": "ss_14x12",
             "label": "14x12mm SS Handrail",
             "material": "ss",
-            "baseRate": 280
+            "baseRate": 294
           },
           {
             "id": "al_19x15",
             "label": "19x15mm Aluminium Handrail",
             "material": "aluminium",
-            "baseRate": 150,
-            "coatingRates": { "wooden": 40, "plain": 30 }
+            "baseRate": 158,
+            "coatingRates": { "wooden": 42, "plain": 32 }
           },
           {
             "id": "al_25x25",
             "label": "25x25mm Aluminium Handrail",
             "material": "aluminium",
-            "baseRate": 180,
-            "coatingRates": { "wooden": 65, "plain": 45 }
+            "baseRate": 189,
+            "coatingRates": { "wooden": 68, "plain": 47 }
           },
           {
             "id": "al_38x38",
             "label": "38x38mm Aluminium Handrail (Round/Square)",
             "material": "aluminium",
-            "baseRate": 240,
-            "coatingRates": { "wooden": 90, "plain": 70 }
+            "baseRate": 252,
+            "coatingRates": { "wooden": 95, "plain": 74 }
           },
           {
             "id": "al_50x50",
             "label": "50x50mm Aluminium Handrail (Round/Square)",
             "material": "aluminium",
-            "baseRate": 280,
-            "coatingRates": { "wooden": 120, "plain": 100 }
+            "baseRate": 294,
+            "coatingRates": { "wooden": 126, "plain": 105 }
           }
         ],
-        "hardwarePackagePerRft": 100,
-        "anchorBoltPerRft": 32.5,
-        "installationPerRft": 150
+        "hardwarePackagePerRft": 105,
+        "anchorBoltPerRft": 34,
+        "installationPerRft": 158
       },
       "features": ["glassRailingCalculator"],
       "description": "Balcony glass railing system with slim profiles, SS304 brackets, and luxury handrails. Rates are per running feet."
@@ -757,28 +757,28 @@
         "useGlobalRates": false,
         "glassWastagePercent": 20,
         "glass": {
-          "12mm": 250,
-          "laminated_5_5": 440,
-          "laminated_6_6": 480
+          "12mm": 263,
+          "laminated_5_5": 462,
+          "laminated_6_6": 504
         },
         "bottomProfiles": [
           {
             "id": "121x45",
             "label": "121x45mm Bottom Profile",
-            "baseRate": 750,
-            "coatingRates": { "wooden": 180, "plain": 150 }
+            "baseRate": 789,
+            "coatingRates": { "wooden": 189, "plain": 158 }
           },
           {
             "id": "100x45",
             "label": "100x45mm Bottom Profile",
-            "baseRate": 650,
-            "coatingRates": { "wooden": 140, "plain": 130 }
+            "baseRate": 683,
+            "coatingRates": { "wooden": 147, "plain": 137 }
           },
           {
             "id": "80x40",
             "label": "80x40mm Bottom Profile",
-            "baseRate": 580,
-            "coatingRates": { "wooden": 120, "plain": 90 }
+            "baseRate": 609,
+            "coatingRates": { "wooden": 126, "plain": 95 }
           }
         ],
         "handrails": [
@@ -786,35 +786,35 @@
             "id": "ss_14x12",
             "label": "14x12mm SS Handrail",
             "material": "ss",
-            "baseRate": 280
+            "baseRate": 294
           },
           {
             "id": "al_19x15",
             "label": "19x15mm Aluminium Handrail",
             "material": "aluminium",
-            "baseRate": 150,
-            "coatingRates": { "wooden": 40, "plain": 30 }
+            "baseRate": 158,
+            "coatingRates": { "wooden": 42, "plain": 32 }
           },
           {
             "id": "al_25x25",
             "label": "25x25mm Aluminium Handrail",
             "material": "aluminium",
-            "baseRate": 180,
-            "coatingRates": { "wooden": 65, "plain": 45 }
+            "baseRate": 189,
+            "coatingRates": { "wooden": 68, "plain": 47 }
           },
           {
             "id": "al_38x38",
             "label": "38x38mm Aluminium Handrail (Round/Square)",
             "material": "aluminium",
-            "baseRate": 240,
-            "coatingRates": { "wooden": 90, "plain": 70 }
+            "baseRate": 252,
+            "coatingRates": { "wooden": 95, "plain": 74 }
           },
           {
             "id": "al_50x50",
             "label": "50x50mm Aluminium Handrail (Round/Square)",
             "material": "aluminium",
-            "baseRate": 280,
-            "coatingRates": { "wooden": 120, "plain": 100 }
+            "baseRate": 294,
+            "coatingRates": { "wooden": 126, "plain": 105 }
           }
         ],
         "pillarBrackets": [
@@ -822,8 +822,8 @@
             "id": "pillar_150mm",
             "label": "150mm SS Pillar/Bracket",
             "material": "ss",
-            "baseRate": 550,
-            "coatingRates": { "wooden": 150, "plain": 120 },
+            "baseRate": 578,
+            "coatingRates": { "wooden": 158, "plain": 126 },
             "spacing": 3,
             "description": "SS304 stainless steel pillar/bracket installed every 3 steps. For 6-7 feet glass: 3 pcs (2 corners + 1 middle)"
           },
@@ -831,7 +831,7 @@
             "id": "pillar_200mm",
             "label": "200mm SS Pillar/Bracket",
             "material": "ss",
-            "baseRate": 750,
+            "baseRate": 788,
             "coatingRates": { "wooden": 30, "plain": 30 },
             "spacing": 3,
             "description": "SS304 stainless steel pillar/bracket installed every 3 steps. For 6-7 feet glass: 3 pcs (2 corners + 1 middle)"
@@ -842,8 +842,8 @@
             "id": "stud_50mm",
             "label": "50mm Stud (Side Support)",
             "material": "aluminium",
-            "baseRate": 350,
-            "coatingRates": { "wooden": 80, "plain": 60 },
+            "baseRate": 368,
+            "coatingRates": { "wooden": 84, "plain": 63 },
             "averagePerRft": 1,
             "pcsPerLocation": 2,
             "description": "Vertical studs installed on staircase sides. Average 1 pc per RFT. For 6-7 feet glass: 3 locations × 2 pcs each = 6 pcs total"
@@ -852,16 +852,16 @@
             "id": "stud_38mm",
             "label": "38mm Stud (Side Support)",
             "material": "aluminium",
-            "baseRate": 280,
-            "coatingRates": { "wooden": 80, "plain": 60 },
+            "baseRate": 294,
+            "coatingRates": { "wooden": 84, "plain": 63 },
             "averagePerRft": 1,
             "pcsPerLocation": 2,
             "description": "Vertical studs installed on staircase sides. Average 1 pc per RFT. For 6-7 feet glass: 3 locations × 2 pcs each = 6 pcs total"
           }
         ],
-        "hardwarePackagePerRft": 100,
-        "anchorBoltPerRft": 32.5,
-        "installationPerRft": 150
+        "hardwarePackagePerRft": 105,
+        "anchorBoltPerRft": 34,
+        "installationPerRft": 158
       },
       "features": ["glassRailingCalculator"],
       "description": "Staircase glass railing system with slim profiles and luxury handrails. Includes 20% glass wastage in calculator. Supports pillar/brackets and studs for enhanced structural support."

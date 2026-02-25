@@ -319,27 +319,27 @@ class ProductManager {
       "globalRates": {
         "glass": {
           "6mm": 0,
-          "8mm": 30,
-          "10mm": 50,
-          "12mm": 80,
-          "dgu": 180,
-          "laminated": 220,
-          "safety": 220
+          "8mm": 32,
+          "10mm": 53,
+          "12mm": 85,
+          "dgu": 189,
+          "laminated": 231,
+          "safety": 231
         },
         "coating": {
-          "wooden": 65
+          "wooden": 68
         },
         "lock": {
           "singlePoint": 0,
-          "multiPoint": 1200,
-          "mortice": 1500
+          "multiPoint": 1260,
+          "mortice": 1575
         },
         "mesh": {
-          "standard": 120,
-          "openable": 350
+          "standard": 127,
+          "openable": 370
         },
         "grill": {
-          "aluminium12mm": 280
+          "aluminium12mm": 295
         }
       },
       "products": [
@@ -363,9 +363,9 @@ class ProductManager {
         {"id":"black-profile-shower-partition","name":"Black Profile Shower Glass Partition","slug":"black-profile-shower-partition","category":"shower-partitions","subcategory":"black-profile-sliding","status":"active","rates":{"useGlobalRates":false,"baseGlassRate":650,"roseGoldExtraPerSqft":100,"profiles":{"regular-slim":"16x45mm","ultra-slim":"16x35mm"},"glassOptions":["8mm"],"hardware":{"sliding":{"matt-black":6500,"gold":6500,"mill-finish":5500,"rose-gold":7500}},"hardwareIncludes":["Top Track","Soft-Close Wheels","Towel Handle","Seals"]},"features":["lCornerSupport","profileSelection","importedHardware","softCloseSliding","dualDoorLCorner"],"description":"Black profile shower glass partition with soft-close sliding doors. Imported slim profiles (16x45mm Regular, 16x35mm Ultra Slim). Top track with wheels. Single door for straight, dual sliding for L-corner. 8mm toughened glass."},
         {"id":"frosted-glass-bathroom-door","name":"Frosted Glass Fold & Slide Door","slug":"frosted-glass-bathroom-door","category":"shower-partitions","subcategory":"fold-slide-door","status":"active","rates":{"useGlobalRates":false,"baseRate":1250,"frostingExtra":25,"hardwarePerSet":9500,"lockExtra":2500,"profiles":{"regular-slim":"16x45mm","ultra-slim":"16x35mm"},"glassOptions":["8mm-clear","8mm-frosted"],"hardwareColors":["white","matt-black","gold"],"hardwareIncludes":["Fold & Slide Track","Rollers","Gasket","Handle","Seals"]},"features":["foldAndSlide","95percentOpening","lockOption","multiUse"],"description":"Frosted glass fold & slide door with 95% opening. Imported slim profiles (16x45mm Regular, 16x35mm Ultra Slim). 8mm clear or frosted glass. 2-door fold & slide mechanism. Optional lock. Perfect for bathroom, staircase, entrance, public toilet, mall."},
         {"id":"slim-gold-profile-fluted-shower","name":"Slim Gold Profile Fluted Shower Glass","slug":"slim-frame-shower-partition","category":"shower-partitions","subcategory":"gold-profile","status":"active","rates":{"useGlobalRates":false,"baseRate":850,"flutedGlassExtra":100,"hardwarePerDoor":7500,"profiles":{"gold":"Gold PVD Coated","rose-gold":"Rose Gold PVD Coated"},"glassColors":["clear","grey","black","brown"],"doorTypes":["openable","sliding"],"hardwareIncludes":["Soft-Close Track/Hinges","Handle","Seals","Connectors"]},"features":["goldProfile","flutedGlass","softClose","multipleGlassColors"],"description":"Slim gold profile fluted shower glass partition with imported PVD coated aluminium. Fluted textured glass in Grey, Black, Brown, Clear. Soft-close openable & sliding options."},
-        {"id":"hpl-exterior-cladding","name":"HPL Exterior Cladding & Ceiling","slug":"hpl-exterior-cladding","category":"elevation-cladding","subcategory":"hpl-cladding","status":"active","rates":{"useGlobalRates":false,"wastagePercent":5,"brands":{"fundermax":{"name":"FunderMax (Imported)","sheetWidthMM":1300,"sheetHeightMM":3050,"ratePerSqft":465,"colors":"30+ Plain & Wooden"},"greenlam":{"name":"Greenlam (Indian)","sheetWidthMM":1300,"sheetHeightMM":3050,"ratePerSqft":350,"colors":"30+ Plain"},"newmika":{"name":"Newmika (Budget)","sheetWidthMM":1220,"sheetHeightMM":2440,"ratePerSqft":295,"colors":"30+ Plain & Wooden"}},"installation":{"ceiling":{"ratePerSqft":165,"frameGap":"16-18 inches"},"facade":{"ratePerSqft":145,"frameGap":"22-24 inches"}},"framework":{"pipe":"50x25mm aluminium rectangle","fixings":"Rivets + 75x10mm screws with gitti","coating":"Powder coating matching HPL color"}},"features":["brandSelection","sheetCalculation","wastageCalculation","installationOptions"],"description":"Premium HPL exterior cladding with FunderMax, Greenlam, Newmika brands. 30+ color options. 6mm thickness. Includes aluminium framework installation with powder coating."},
-        {"id":"acp-elevation","name":"ACP Elevation Cladding","slug":"acp-elevation-cladding","category":"elevation-cladding","subcategory":"acp-cladding","status":"active","rates":{"useGlobalRates":false,"wastagePercent":5,"standardSheetSqft":48,"sheetSizes":["4x8ft","4x10ft","4x12ft"],"commercial":{"3mm":{"plain":270,"wooden":320},"4mm":{"plain":310,"wooden":380},"6mm":{"plain":390,"wooden":450}},"frGradeB":{"4mm":{"plain":520},"brackets":{"gi":"75x75x6mm GI with 10x100mm anchor bolts","aluminium":"50x50x50mm angles with screws"},"applications":["railways","airports","metro","government"]},"coating":"PVDF on both wooden and plain colors","framework":{"pattern":"4x4 grid","profile":"Aluminium profile frame","fixings":"Wooden screws + Silicon sealant","note":"No rivets - concealed fixing"}},"features":["projectTypeSelection","colorTypeSelection","thicknessSelection","sheetCalculation","wastageCalculation","frGradeOption"],"description":"Premium ACP elevation cladding for commercial buildings. Aluminium coil both sides with PVDF coating. 3mm, 4mm, 6mm thickness. FR Grade B available for Railways/Airports/Govt projects. Includes 4x4 grid aluminium framework installation."},
-        {"id":"aluminium-sliding-window","name":"Aluminium Sliding Window","slug":"aluminium-sliding-window","category":"aluminium-windows","subcategory":"sliding","status":"active","rates":{"baseRate":750,"hardwareCost":2200,"useGlobalRates":true,"glass":{},"coating":{},"lock":{},"mesh":{"standard":120}},"features":["mesh"],"description":"Premium aluminium sliding window with mesh options."}
+        {"id":"hpl-exterior-cladding","name":"HPL Exterior Cladding & Ceiling","slug":"hpl-exterior-cladding","category":"elevation-cladding","subcategory":"hpl-cladding","status":"active","rates":{"useGlobalRates":false,"wastagePercent":5,"brands":{"fundermax":{"name":"FunderMax (Imported)","sheetWidthMM":1300,"sheetHeightMM":3050,"ratePerSqft":488,"colors":"30+ Plain & Wooden"},"greenlam":{"name":"Greenlam (Indian)","sheetWidthMM":1300,"sheetHeightMM":3050,"ratePerSqft":368,"colors":"30+ Plain"},"newmika":{"name":"Newmika (Budget)","sheetWidthMM":1220,"sheetHeightMM":2440,"ratePerSqft":310,"colors":"30+ Plain & Wooden"}},"installation":{"ceiling":{"ratePerSqft":173,"frameGap":"16-18 inches"},"facade":{"ratePerSqft":152,"frameGap":"22-24 inches"}},"framework":{"pipe":"50x25mm aluminium rectangle","fixings":"Rivets + 75x10mm screws with gitti","coating":"Powder coating matching HPL color"}},"features":["brandSelection","sheetCalculation","wastageCalculation","installationOptions"],"description":"Premium HPL exterior cladding with FunderMax, Greenlam, Newmika brands. 30+ color options. 6mm thickness. Includes aluminium framework installation with powder coating."},
+        {"id":"acp-elevation","name":"ACP Elevation Cladding","slug":"acp-elevation-cladding","category":"elevation-cladding","subcategory":"acp-cladding","status":"active","rates":{"useGlobalRates":false,"wastagePercent":5,"standardSheetSqft":48,"sheetSizes":["4x8ft","4x10ft","4x12ft"],"commercial":{"3mm":{"plain":284,"wooden":336},"4mm":{"plain":326,"wooden":399},"6mm":{"plain":410,"wooden":473}},"frGradeB":{"4mm":{"plain":546},"brackets":{"gi":"75x75x6mm GI with 10x100mm anchor bolts","aluminium":"50x50x50mm angles with screws"},"applications":["railways","airports","metro","government"]},"coating":"PVDF on both wooden and plain colors","framework":{"pattern":"4x4 grid","profile":"Aluminium profile frame","fixings":"Wooden screws + Silicon sealant","note":"No rivets - concealed fixing"}},"features":["projectTypeSelection","colorTypeSelection","thicknessSelection","sheetCalculation","wastageCalculation","frGradeOption"],"description":"Premium ACP elevation cladding for commercial buildings. Aluminium coil both sides with PVDF coating. 3mm, 4mm, 6mm thickness. FR Grade B available for Railways/Airports/Govt projects. Includes 4x4 grid aluminium framework installation."},
+        {"id":"aluminium-sliding-window","name":"Aluminium Sliding Window","slug":"aluminium-sliding-window","category":"aluminium-windows","subcategory":"sliding","status":"active","rates":{"baseRate":790,"hardwareCost":2310,"useGlobalRates":true,"glass":{},"coating":{},"lock":{},"mesh":{"standard":127}},"features":["mesh"],"description":"Premium aluminium sliding window with mesh options."}
       ]
     };
   }
