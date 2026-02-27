@@ -604,6 +604,7 @@ class PriceCalculatorBase {
       const city = newForm.querySelector('#calc-user-city')?.value?.trim();
       const mobile = newForm.querySelector('#calc-user-mobile')?.value?.trim();
       const email = newForm.querySelector('#calc-user-email')?.value?.trim();
+      const leadType = newForm.querySelector('#calc-user-lead-type')?.value?.trim() || '';
       
       if (!name || !city || !mobile) {
         alert('Please fill in Name, City, and Mobile Number');
@@ -615,7 +616,7 @@ class PriceCalculatorBase {
         return false;
       }
       
-      const userDetails = { name, city, mobile, email: email || '' };
+      const userDetails = { name, city, mobile, email: email || '', leadType: leadType || '' };
       
       // Track form submission
       if (typeof trackCalculatorFormSubmit === 'function') {

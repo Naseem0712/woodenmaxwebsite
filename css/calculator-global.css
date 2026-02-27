@@ -437,6 +437,24 @@
   color: #9CA3AF;
 }
 
+.calc-user-form select {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  color: #111111;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.calc-user-form select:focus {
+  outline: none;
+  border-color: #1E40AF;
+}
+
 .calc-submit-btn {
   width: 100%;
   padding: 0.875rem 1.5rem;

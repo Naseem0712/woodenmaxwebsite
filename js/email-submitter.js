@@ -64,6 +64,7 @@ User Contact Information:
 - City: ${userDetails.city || 'Not provided'}
 - Mobile: ${userDetails.mobile || 'Not provided'}
 ${userDetails.email ? `- Email: ${userDetails.email}` : ''}
+${userDetails.leadType ? `- I am: ${userDetails.leadType}` : ''}
 
 This email was generated from the Live Price Calculator on WoodenMax website.
         `.trim();
@@ -104,6 +105,7 @@ User Contact Information:
 - City: ${userDetails.city || 'Not provided'}
 - Mobile: ${userDetails.mobile || 'Not provided'}
 ${userDetails.email ? `- Email: ${userDetails.email}` : ''}
+${userDetails.leadType ? `- I am: ${userDetails.leadType}` : ''}
 
 This email was generated from the Live Price Calculator on WoodenMax website.
         `.trim();

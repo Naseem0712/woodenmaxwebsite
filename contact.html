@@ -636,6 +636,18 @@
             </div>
             
             <div class="form-group">
+              <label for="leadType">I am a *</label>
+              <select id="leadType" name="leadType" required>
+                <option value="">Select your profile...</option>
+                <option value="Home Owner">Home Owner</option>
+                <option value="Project Engineer">Project Engineer</option>
+                <option value="Architect">Architect</option>
+                <option value="Interior Designer">Interior Designer</option>
+                <option value="Builder">Builder</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
               <label for="product">Product Interest *</label>
               <select id="product" name="product" required>
                 <option value="">Select a product...</option>
@@ -789,6 +801,7 @@
       const phone = document.getElementById('phone').value;
       const email = document.getElementById('email').value || '';
       const city = document.getElementById('city').value || '';
+      const leadType = document.getElementById('leadType').value || '';
       const product = document.getElementById('product').value;
       const message = document.getElementById('message').value || 'No additional details';
       
@@ -801,6 +814,7 @@ Customer Details:
 - Phone: ${phone}
 - Email: ${email || 'Not provided'}
 - City: ${city || 'Not provided'}
+- I am: ${leadType || 'Not provided'}
 
 Product Interest: ${product}
 
@@ -823,7 +837,8 @@ Generated: ${new Date().toLocaleString('en-IN')}`;
             name: name,
             city: city,
             mobile: phone,
-            email: email
+            email: email,
+            leadType: leadType
           },
           onSuccess: () => {
             submitBtn.textContent = '✓ Sent Successfully!';
