@@ -13,7 +13,7 @@
 
 ## 📷 Why Only ~18 Images in GSC "Image" Report?
 
-The "Image" enhancement in GSC counts **pages** with image metadata that qualify for image-specific features, not total images.
+**vs 83 Review snippets:** Review counts pages with AggregateRating; Image counts pages with validated image metadata. Main sitemap had no `image:image` tags – fixed.
 
 Possible reasons:
 1. **Indexing lag** – New pages take time to be crawled and validated
