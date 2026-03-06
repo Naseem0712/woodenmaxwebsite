@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:g="http://base.google.com/ns/1.0">
+  <title>WoodenMax Products - Aluminium Windows, Glass Railing, Shower Partitions</title>
+  <link href="https://woodenmax.in"/>
+  <link href="https://woodenmax.in/products-feed.xml" rel="self"/>
+  <updated>2026-02-27T00:00:00Z</updated>
+  
+  <!-- Glass Railing -->
+  <entry>
+    <g:id>balcony-glass-railing</g:id>
+    <g:title>Balcony Glass Railing System | Slim Profile | WoodenMax</g:title>
+    <g:description>Complete guide to balcony glass railing systems. SS304 brackets, aluminium profiles, laminated/toughened glass. Nut-bolt assembly. Includes price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/glass-railing/balcony-glass-railing</g:link>
+    <g:image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</g:image_link>
+    <g:price>18000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Glass Railing</g:product_type>
+  </entry>
+  <entry>
+    <g:id>staircase-glass-railing</g:id>
+    <g:title>Staircase Glass Railing System | WoodenMax</g:title>
+    <g:description>Staircase glass railing systems with SS304 brackets, aluminium profiles, laminated/toughened glass. 20% glass wastage. Price calculator. Residential, duplexes, luxury interiors.</g:description>
+    <g:link>https://woodenmax.in/products/glass-railing/staircase-glass-railing</g:link>
+    <g:image_link>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</g:image_link>
+    <g:price>20000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Glass Railing</g:product_type>
+  </entry>
+  
+  <!-- Aluminium Windows -->
+  <entry>
+    <g:id>2-track-french-sliding-door</g:id>
+    <g:title>2 Track French Sliding Door | Aluminium | WoodenMax</g:title>
+    <g:description>2 track aluminium French sliding door. Premium profiles, Saint-Gobain glass. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</g:image_link>
+    <g:price>25000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Aluminium Windows</g:product_type>
+  </entry>
+  <entry>
+    <g:id>3-track-sliding-window</g:id>
+    <g:title>3 Track Aluminium Sliding Window | Mesh Option | WoodenMax</g:title>
+    <g:description>3 track aluminium sliding window with mesh. 27MM Domal series. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/3-track-sliding-window</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:image_link>
+    <g:price>22000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Aluminium Windows</g:product_type>
+  </entry>
+  <entry>
+    <g:id>aluminium-sliding-window</g:id>
+    <g:title>Aluminium Sliding Window | Premium | WoodenMax</g:title>
+    <g:description>Premium aluminium sliding window. Hindalco profiles, Saint-Gobain glass. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:image_link>
+    <g:price>25000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Aluminium Windows</g:product_type>
+  </entry>
+  <entry>
+    <g:id>french-door-georgian-bar</g:id>
+    <g:title>French Door Georgian Bar | Aluminium | WoodenMax</g:title>
+    <g:description>Aluminium French door with Georgian bar design. Premium profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/french-door-georgian-bar</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</g:image_link>
+    <g:price>35000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Aluminium Windows</g:product_type>
+  </entry>
+  <entry>
+    <g:id>full-elevation-villa-facade</g:id>
+    <g:title>Full Elevation Villa Facade | Aluminium Windows Doors</g:title>
+    <g:description>Luxury aluminium elevation windows and doors for villa facade. Premium profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/full-elevation-villa-facade</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</g:image_link>
+    <g:price>80000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Aluminium Windows</g:product_type>
+  </entry>
+  <entry>
+    <g:id>georgian-grill-casement-door</g:id>
+    <g:title>Georgian Grill Casement Door | Aluminium | WoodenMax</g:title>
+    <g:description>Aluminium casement door with Georgian grill. Premium profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/georgian-grill-casement-door</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</g:image_link>
+    <g:price>32000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Aluminium Windows</g:product_type>
+  </entry>
+  <entry>
+    <g:id>slim-entrance-glass-door</g:id>
+    <g:title>Slim Entrance Glass Door | Aluminium | WoodenMax</g:title>
+    <g:description>Slim profile aluminium glass door for entrance. Premium profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/slim-entrance-glass-door</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</g:image_link>
+    <g:price>45000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Aluminium Windows</g:product_type>
+  </entry>
+  <entry>
+    <g:id>slimline-aluminium-window</g:id>
+    <g:title>Slimline Aluminium Window | Casement | WoodenMax</g:title>
+    <g:description>Slimline aluminium casement window. Premium profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:image_link>
+    <g:price>22000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Aluminium Windows</g:product_type>
+  </entry>
+  <entry>
+    <g:id>top-hung-casement-window</g:id>
+    <g:title>Top Hung Casement Window | Aluminium | WoodenMax</g:title>
+    <g:description>Top hung casement window aluminium. Multipoint locking. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/top-hung-casement-window</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:image_link>
+    <g:price>25000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Aluminium Windows</g:product_type>
+  </entry>
+  
+  <!-- Telescope Windows -->
+  <entry>
+    <g:id>telescopic-slim-sliding-door</g:id>
+    <g:title>Telescopic Slim Profile Sliding Door | Kitchen Partition | Soft Close</g:title>
+    <g:description>Telescopic slim sliding door with soft-close for kitchen, living room. 1+1, 2+1, 3+1, 4+1 panels. Live price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door</g:link>
+    <g:image_link>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</g:image_link>
+    <g:price>20000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Telescope Windows</g:product_type>
+  </entry>
+  
+  <!-- Folding Systems -->
+  <entry>
+    <g:id>fold-bifold-aluminium-doors</g:id>
+    <g:title>Fold and Bi-Fold Aluminium Glass Doors | Balcony | WoodenMax</g:title>
+    <g:description>Bi-fold aluminium glass doors with 95% opening. 50mm and 52mm profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/folding-systems/fold-bifold-aluminium-doors</g:link>
+    <g:image_link>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</g:image_link>
+    <g:price>28000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Folding Systems</g:product_type>
+  </entry>
+  <entry>
+    <g:id>fold-sliding-window-system</g:id>
+    <g:title>Fold and Sliding Window System | Slim Aluminium | WoodenMax</g:title>
+    <g:description>Fold sliding window system for gates, entrance doors. 2-door configuration. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/folding-systems/fold-sliding-window-system</g:link>
+    <g:image_link>https://woodenmax.in/images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles.webp</g:image_link>
+    <g:price>35000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Folding Systems</g:product_type>
+  </entry>
+  
+  <!-- Metal Louvers -->
+  <entry>
+    <g:id>wooden-finish-aluminium-louvers</g:id>
+    <g:title>Wooden Finish Aluminium Louvers | Natural Wood Look | WoodenMax</g:title>
+    <g:description>Wooden finish aluminium louvers. 100x50x1.2MM 6063-T6 profiles. UV-proof, termite-free. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers</g:link>
+    <g:image_link>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</g:image_link>
+    <g:price>7000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Metal Louvers</g:product_type>
+  </entry>
+  <entry>
+    <g:id>curved-architectural-louvers</g:id>
+    <g:title>Architectural Curved Aluminium Louvers | Sleek 60x40MM | WoodenMax</g:title>
+    <g:description>Curved architectural aluminium louvers for facades. 60x40x1.2MM profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/metal-louvers/curved-architectural-louvers</g:link>
+    <g:image_link>https://woodenmax.in/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp</g:image_link>
+    <g:price>8000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Metal Louvers</g:product_type>
+  </entry>
+  <entry>
+    <g:id>ceiling-pergola-louvers</g:id>
+    <g:title>Ceiling Aluminium Louvers Pergola | Outdoor Backyard | WoodenMax</g:title>
+    <g:description>Ceiling aluminium louvers pergola for backyard, terrace, poolside. 25x75MM profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/metal-louvers/ceiling-pergola-louvers</g:link>
+    <g:image_link>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</g:image_link>
+    <g:price>7500 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Metal Louvers</g:product_type>
+  </entry>
+  <entry>
+    <g:id>louver-canopy-facade</g:id>
+    <g:title>Aluminium Louver Canopy Sunshade | Entry Gate Facade | WoodenMax</g:title>
+    <g:description>Aluminium louver canopy for entry gate and facade. Sunshade design. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/metal-louvers/louver-canopy-facade</g:link>
+    <g:image_link>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</g:image_link>
+    <g:price>8500 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Metal Louvers</g:product_type>
+  </entry>
+  
+  <!-- Shower Partitions -->
+  <entry>
+    <g:id>frameless-shower-partition</g:id>
+    <g:title>Frameless Shower Glass Door | Bathroom Shower Partition | WoodenMax</g:title>
+    <g:description>Frameless shower glass door. Openable sliding. 8-10mm toughened glass. Imported hardware. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/shower-partitions/frameless-shower-partition</g:link>
+    <g:image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:image_link>
+    <g:price>6000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Shower Partitions</g:product_type>
+  </entry>
+  <entry>
+    <g:id>premium-black-profile-shower</g:id>
+    <g:title>Premium Black Profile Shower Glass Door | Bathroom | WoodenMax</g:title>
+    <g:description>Premium black profile shower glass door. Soft-close sliding. Imported hardware. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/shower-partitions/premium-black-profile-shower</g:link>
+    <g:image_link>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</g:image_link>
+    <g:price>10000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Shower Partitions</g:product_type>
+  </entry>
+  <entry>
+    <g:id>black-profile-shower-partition</g:id>
+    <g:title>Black Profile Shower Glass Door | Bathroom Shower Partition | WoodenMax</g:title>
+    <g:description>Black profile shower glass door. Sliding shower door. Soft-close. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/shower-partitions/black-profile-shower-partition</g:link>
+    <g:image_link>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</g:image_link>
+    <g:price>10000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Shower Partitions</g:product_type>
+  </entry>
+  <entry>
+    <g:id>frosted-glass-bathroom-door</g:id>
+    <g:title>Frosted Glass Bathroom Door | Fold Slide Door | WoodenMax</g:title>
+    <g:description>Frosted glass fold and slide bathroom door. 95% opening. Imported slim profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/shower-partitions/frosted-glass-bathroom-door</g:link>
+    <g:image_link>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</g:image_link>
+    <g:price>20000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Shower Partitions</g:product_type>
+  </entry>
+  <entry>
+    <g:id>slim-frame-shower-partition</g:id>
+    <g:title>Gold Profile Shower Glass Door | Slim Frame | WoodenMax</g:title>
+    <g:description>Gold profile slim frame shower partition. Fluted glass. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/shower-partitions/slim-frame-shower-partition</g:link>
+    <g:image_link>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</g:image_link>
+    <g:price>13000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Shower Partitions</g:product_type>
+  </entry>
+  
+  <!-- Elevation Cladding -->
+  <entry>
+    <g:id>hpl-acp-elevation-cladding</g:id>
+    <g:title>ACP HPL Elevation Cladding | Commercial Buildings | WoodenMax</g:title>
+    <g:description>ACP and HPL elevation cladding. PVDF coating, grooving system. Waterproof, UV-resistant. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/elevation-cladding/hpl-acp-elevation-cladding</g:link>
+    <g:image_link>https://woodenmax.in/images/products/acp-sheets-pic/acp-elevation-cladding-aluminium-composite-panel-for-commercial-buildings.webp</g:image_link>
+    <g:price>5000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Elevation Cladding</g:product_type>
+  </entry>
+  <entry>
+    <g:id>hpl-exterior-cladding</g:id>
+    <g:title>HPL Exterior Cladding | Luxury Villas | WoodenMax</g:title>
+    <g:description>HPL exterior cladding for luxury villas. Premium wood texture. Waterproof, UV-resistant. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:link>https://woodenmax.in/products/elevation-cladding/hpl-exterior-cladding</g:link>
+    <g:image_link>https://woodenmax.in/images/products/hpl-sheet-pic/hpl-acp-exterior-cladding-india.webp</g:image_link>
+    <g:price>5000 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>WoodenMax</g:brand>
+    <g:product_type>Elevation Cladding</g:product_type>
+  </entry>
+</feed>

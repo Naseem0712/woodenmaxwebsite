@@ -114,3 +114,6 @@ Allow: /products/
 # ============================================
 Sitemap: https://woodenmax.in/sitemap.xml
 Sitemap: https://woodenmax.in/sitemap-images.xml
+
+# Product feed for Google Merchant Center (store/marketplace)
+# Submit at: https://merchantcenter.google.com
