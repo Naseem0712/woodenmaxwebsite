@@ -43,32 +43,11 @@ window.EmailSubmitter = {
       try {
         const formData = new FormData();
         formData.append('_subject', subject);
-        // Include full message with all details
+        // Message already contains: calculator details + contact details (from base.js)
         formData.append('message', message);
-        // Also include user details as separate fields for better email formatting
+        // Pass name/email for From header only (Worker uses for from_name, from_email)
         formData.append('Name', userDetails.name || '');
-        formData.append('City', userDetails.city || '');
-        formData.append('Mobile', userDetails.mobile || '');
-        if (userDetails.email) {
-          formData.append('Email', userDetails.email);
-        }
-        // Add a formatted email body that includes everything
-        const formattedMessage = `QUOTE REQUEST DETAILS
-================================
-
-${message}
-
----
-User Contact Information:
-- Name: ${userDetails.name || 'Not provided'}
-- City: ${userDetails.city || 'Not provided'}
-- Mobile: ${userDetails.mobile || 'Not provided'}
-${userDetails.email ? `- Email: ${userDetails.email}` : ''}
-${userDetails.leadType ? `- I am: ${userDetails.leadType}` : ''}
-
-This email was generated from the Live Price Calculator on WoodenMax website.
-        `.trim();
-        formData.append('_body', formattedMessage);
+        formData.append('Email', userDetails.email || '');
 
         const response = await fetch(workerEndpoint, {
           method: 'POST',
@@ -93,40 +72,19 @@ This email was generated from the Live Price Calculator on WoodenMax website.
     // Fallback to Web3Forms
     if (web3formsAccessKey && !web3formsAccessKey.includes('YOUR_')) {
       try {
-        // Format message to include all details clearly
-        const formattedMessage = `QUOTE REQUEST DETAILS
-================================
-
-${message}
-
----
-User Contact Information:
-- Name: ${userDetails.name || 'Not provided'}
-- City: ${userDetails.city || 'Not provided'}
-- Mobile: ${userDetails.mobile || 'Not provided'}
-${userDetails.email ? `- Email: ${userDetails.email}` : ''}
-${userDetails.leadType ? `- I am: ${userDetails.leadType}` : ''}
-
-This email was generated from the Live Price Calculator on WoodenMax website.
-        `.trim();
-
+        // Message already contains: calculator details + contact details (from base.js) - use as-is
         const emailData = {
           access_key: web3formsAccessKey,
           subject: subject,
           from_name: userDetails.name || 'WoodenMax Website',
           from_email: userDetails.email || 'noreply@woodenmax.in',
           to_email: 'info@woodenmax.com',
-          message: formattedMessage,
-          // Also include user details as separate fields for better email formatting
-          Name: userDetails.name || '',
-          City: userDetails.city || '',
-          Mobile: userDetails.mobile || '',
-          Email: userDetails.email || ''
+          message: message
         };
 
         console.log('📧 Sending email via Web3Forms with details:', {
           subject,
-          messageLength: formattedMessage.length,
+          messageLength: message.length,
           userDetails,
           hasMessage: !!message
         });

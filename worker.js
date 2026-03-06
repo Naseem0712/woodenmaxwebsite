@@ -28,21 +28,11 @@ export default {
       const subject = formData.get('_subject') || formData.get('subject') || 'New Quote Request';
       const message = formData.get('message') || formData.get('body') || '';
       const name = formData.get('Name') || formData.get('name') || '';
-      const city = formData.get('City') || formData.get('city') || '';
-      const mobile = formData.get('Mobile') || formData.get('mobile') || '';
       const email = formData.get('Email') || formData.get('email') || '';
       
-      // Build email body
-      let emailBody = message;
-      
-      // Add user details if not in message
-      if (name || city || mobile || email) {
-        emailBody = `Name: ${name}\n`;
-        emailBody += `City: ${city}\n`;
-        emailBody += `Mobile: ${mobile}\n`;
-        if (email) emailBody += `Email: ${email}\n`;
-        emailBody += `\n---\n\n${message}`;
-      }
+      // Message already contains: calculator details + contact details (Name, City, Mobile, Email)
+      // Use as-is - no duplication
+      const emailBody = message;
       
       // Use Web3Forms API (free alternative to formsubmit)
       // Get access key from environment variable (set in Cloudflare Dashboard)
