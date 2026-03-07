@@ -1,1 +1,7 @@
+# www to non-www
 https://www.woodenmax.in/* https://woodenmax.in/:splat 301
+
+# .html to clean URL (fix duplicate indexing - GSC showed both URLs)
+/products/shower-partitions/frosted-glass-bathroom-door.html /products/shower-partitions/frosted-glass-bathroom-door 301
+/products/shower-partitions.html /products/shower-partitions 301
+/blog.html /blog 301
