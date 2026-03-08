@@ -43,7 +43,27 @@ Is feed mein 25 products hain – aluminium windows, shower partitions, glass ra
 
 ---
 
-### Option B: Manual Upload (Agar URL fetch kaam na kare)
+### Option B: Google Sheets (Easiest – Edit karne mein aasaan)
+
+1. **CSV import karo**
+   - `products-feed.csv` file kholo (project folder mein hai)
+   - Apni Google Sheet kholo: https://docs.google.com/spreadsheets/d/1uyz24_lE5J6Fim6fFLZ8oiCbzCbi09cIYqh3pFM4g7Y/
+   - **File** → **Import** → **Upload** → `products-feed.csv` select karo
+   - "Replace spreadsheet" ya "Insert new sheet" choose karo
+   - Delimiter: Comma
+
+2. **Merchant Center mein connect karo**
+   - Merchant Center → **Products** → **Feeds** → **Add feed**
+   - **Input method:** Google Sheets
+   - Apni Sheet select karo (same Google account hona chahiye)
+   - Sheet name / range select karo (e.g. Sheet1 ya data wala range)
+   - **Fetch schedule:** Daily
+
+3. **Fayda:** Sheet mein direct edit karo – price, title, description change – Merchant Center next fetch pe update le lega.
+
+---
+
+### Option C: Manual Upload (Agar URL fetch kaam na kare)
 
 1. Merchant Center → Products → Feeds
 2. **Add feed** → **Primary feed** → **Upload**
