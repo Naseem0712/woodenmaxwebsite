@@ -830,6 +830,8 @@ Generated: ${new Date().toLocaleString('en-IN')}`;
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
         
+        // Track form submission for analytics
+        if (typeof trackContactFormSubmit === 'function') trackContactFormSubmit();
         window.EmailSubmitter.submit({
           subject: subject,
           message: body,

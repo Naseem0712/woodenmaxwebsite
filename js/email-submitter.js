@@ -43,11 +43,12 @@ window.EmailSubmitter = {
       try {
         const formData = new FormData();
         formData.append('_subject', subject);
-        // Message already contains: calculator details + contact details (from base.js)
+        // Message contains: calculator details + contact details (from base.js / extensions)
         formData.append('message', message);
-        // Pass name/email for From header only (Worker uses for from_name, from_email)
         formData.append('Name', userDetails.name || '');
         formData.append('Email', userDetails.email || '');
+        formData.append('City', userDetails.city || '');
+        formData.append('Mobile', userDetails.mobile || '');
 
         const response = await fetch(workerEndpoint, {
           method: 'POST',

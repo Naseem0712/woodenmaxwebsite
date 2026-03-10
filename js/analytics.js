@@ -155,14 +155,38 @@
     });
   };
 
-  // Track form submission
+  // Track form submission (GA4 generate_lead for conversion tracking)
   window.trackCalculatorFormSubmit = function(formType, hasPrice) {
+    const pagePath = typeof window !== 'undefined' && window.location ? window.location.pathname : '';
     trackCalculatorEvent('calculator_form_submit', {
       'event_category': 'Calculator',
       'event_label': 'Form Submitted',
       'form_type': formType,
       'has_price': hasPrice,
+      'value': hasPrice ? 1 : 0,
+      'page_path': pagePath
+    });
+    // GA4 recommended: generate_lead for conversion counting
+    gtag('event', 'generate_lead', {
+      'event_category': 'Lead',
+      'event_label': 'Calculator Quote',
+      'method': formType,
       'value': hasPrice ? 1 : 0
+    });
+  };
+
+  // Track contact form submission (for mail count)
+  window.trackContactFormSubmit = function() {
+    if (typeof gtag === 'undefined') return;
+    gtag('event', 'generate_lead', {
+      'event_category': 'Lead',
+      'event_label': 'Contact Form',
+      'method': 'contact_form',
+      'value': 1
+    });
+    gtag('event', 'form_submit', {
+      'event_category': 'Form',
+      'event_label': 'Contact Form Submit'
     });
   };
 

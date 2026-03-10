@@ -1112,9 +1112,8 @@ Generated from Live Price Calculator (Multiple Sizes) on WoodenMax Website
   }
   
   submitEmailDirect(emailBody, userDetails) {
-    // Direct submission method (fallback)
-    const workerEndpoint = window.EMAIL_WORKER_URL || 'https://woodenmax.in/api/submit';
-    const web3formsAccessKey = window.WEB3FORMS_ACCESS_KEY;
+    // Direct submission method (fallback when EmailSubmitter not loaded)
+    const web3formsAccessKey = window.WEB3FORMS_ACCESS_KEY || 'fd9946a6-03dd-4f6f-bad8-c430f7c6d351';
     
     if (web3formsAccessKey && !web3formsAccessKey.includes('YOUR_')) {
       const emailData = {
