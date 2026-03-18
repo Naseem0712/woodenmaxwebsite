@@ -125,7 +125,6 @@
     // Handle main image click to enlarge (optional - can add lightbox later)
     mainImage.addEventListener('click', function() {
       // Can add lightbox modal here if needed
-      console.log('Main image clicked - can add lightbox here');
     });
   }
 

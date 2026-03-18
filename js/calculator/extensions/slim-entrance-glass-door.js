@@ -31,20 +31,16 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     setupExtensionEventListeners() {
-      console.log('🔧 Setting up Slim Entrance Glass Door extension event listeners...');
-      
       // Add glass option listener
       const glassSelect = document.getElementById('calc-glass');
       if (glassSelect) {
         glassSelect.addEventListener('change', () => this.calculate());
-        console.log('✅ Glass select listener added');
       }
       
       // Add coating option listener
       const coatingSelect = document.getElementById('calc-coating');
       if (coatingSelect) {
         coatingSelect.addEventListener('change', () => this.calculate());
-        console.log('✅ Coating select listener added');
       }
       
       // Add mesh checkbox listener
@@ -64,11 +60,8 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     setupMeshCheckbox() {
       const meshCheckbox = document.getElementById('calc-mesh');
       if (!meshCheckbox) {
-        console.warn('⚠️ Mesh checkbox not found');
         return;
       }
-      
-      console.log('✅ Mesh checkbox found, adding listeners, Rate:', this.MESH_RATE);
       
       // Remove existing listeners by cloning
       const newCheckbox = meshCheckbox.cloneNode(true);
@@ -76,7 +69,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       
       // Add change event
       newCheckbox.addEventListener('change', () => {
-        console.log('🔄 Mesh checkbox changed:', newCheckbox.checked);
         this.calculate();
       });
       
@@ -90,7 +82,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       if (meshLabel) {
         meshLabel.addEventListener('click', (e) => {
           setTimeout(() => {
-            console.log('🔄 Mesh label clicked, checked:', newCheckbox.checked);
             this.calculate();
           }, 10);
         });
@@ -275,19 +266,16 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     sendEmail(userDetails) {
-      console.log('📧 Preparing email (Extension - slim-entrance-glass-door)...');
       const selections = this.getCalculatorSelections();
       
       // Always get area and numberOfWindows (needed for email body and logging)
       let areaSqft = this.getArea();
       if (isNaN(areaSqft) || areaSqft <= 0) {
-        console.warn('⚠️ Invalid area, using 0');
         areaSqft = 0;
       }
       
       let numberOfWindows = this.getNumberOfWindows();
       if (isNaN(numberOfWindows) || numberOfWindows <= 0) {
-        console.warn('⚠️ Invalid number of windows, using 1');
         numberOfWindows = 1;
       }
       
@@ -298,14 +286,7 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       if (this.lastCalculatedAmounts && this.lastCalculatedAmounts.perWindowCost > 0) {
         finalPerWindow = Math.round(this.lastCalculatedAmounts.perWindowCost);
         finalTotal = Math.round(this.lastCalculatedAmounts.subtotal);
-        console.log('✅ Using stored amounts from calculate() method:', {
-          perWindow: finalPerWindow,
-          total: finalTotal,
-          areaSqft,
-          numberOfWindows
-        });
       } else {
-        console.warn('⚠️ Stored amounts not available, calculating...');
         
         const glassOption = this.getGlassOption();
         const coatingOption = this.getCoatingOption();
@@ -372,13 +353,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         finalTotal = isNaN(totalCost) || totalCost <= 0 ? 0 : Math.round(totalCost);
       }
       
-      console.log('💰 Extension email amounts calculated (slim-entrance-glass-door):', {
-        areaSqft,
-        numberOfWindows,
-        perWindowCost: finalPerWindow,
-        totalCost: finalTotal
-      });
-      
       // Email body
       const emailBody = `
 New Quote Request - ${this.config.name || this.productId}
@@ -418,18 +392,12 @@ Generated from Live Price Calculator
     submitEmailForm(emailBody, userDetails, selections, amounts) {
       // Prevent duplicate submissions
       if (this.isSubmittingEmail && this._emailSubmitted) {
-        console.log('⚠️ Email already submitted, skipping duplicate');
         return;
       }
       
       // Validate amounts
       const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
       const validTotal = isNaN(amounts.total) || amounts.total <= 0 ? 0 : Math.round(amounts.total);
-      
-      console.log('📧 Submitting email via FormSubmit.co...', {
-        perWindow: validPerWindow,
-        total: validTotal
-      });
       
       // Mark as submitted
       this._emailSubmitted = true;
@@ -528,7 +496,6 @@ Generated from Live Price Calculator
       if (productId === 'slim-entrance-glass-door') {
         try {
           if (typeof PriceCalculatorBase === 'undefined' || typeof productManager === 'undefined') {
-            console.error('Required dependencies not found');
             return null;
           }
           const productData = await productManager.getProduct(productId);
@@ -540,7 +507,6 @@ Generated from Live Price Calculator
           window[`calculator_${productId}`] = calculator;
           return calculator;
         } catch (error) {
-          console.error(`Error initializing slim-entrance-glass-door calculator:`, error);
           return null;
         }
       } else if (originalInitCalculator) {

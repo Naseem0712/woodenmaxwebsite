@@ -450,7 +450,6 @@ Generated from Pergola Louvers Price Calculator
     if (productId === 'ceiling-pergola-louvers') {
       try {
         if (typeof productManager === 'undefined') {
-          console.error('productManager not found');
           return null;
         }
         
@@ -463,10 +462,8 @@ Generated from Pergola Louvers Price Calculator
         
         const calculator = new CeilingPergolaLouversCalculator(productId, productData, calcContainerId);
         window[`calculator_${productId}`] = calculator;
-        console.log('✅ Ceiling Pergola Louvers Calculator initialized:', productData.name);
         return calculator;
       } catch (error) {
-        console.error('Error initializing ceiling pergola louvers calculator:', error);
         return null;
       }
     } else if (originalInitCalculator) {
@@ -483,30 +480,23 @@ Generated from Pergola Louvers Price Calculator
     if (!container) return;
     
     if (typeof productManager === 'undefined') {
-      console.warn('productManager not ready, retrying...');
       setTimeout(initPergolaCalculator, 200);
       return;
     }
     
     const existingCalc = window[`calculator_${productId}`];
     if (existingCalc && existingCalc instanceof CeilingPergolaLouversCalculator) {
-      console.log('✅ Ceiling Pergola Louvers Calculator already initialized correctly');
       return;
     }
-    
-    console.log('🔄 Initializing Ceiling Pergola Louvers Calculator...');
     try {
       const productData = await productManager.getProduct(productId);
       if (!productData) {
-        console.error('Product data not found for:', productId);
         return;
       }
       
       const calculator = new CeilingPergolaLouversCalculator(productId, productData, `price-calculator-${productId}`);
       window[`calculator_${productId}`] = calculator;
-      console.log('✅ Ceiling Pergola Louvers Calculator initialized with wastage calculation');
     } catch (error) {
-      console.error('Error initializing ceiling pergola louvers calculator:', error);
     }
   };
   

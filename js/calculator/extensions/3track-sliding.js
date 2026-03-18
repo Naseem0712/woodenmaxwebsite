@@ -240,8 +240,6 @@ Generated from Live Price Calculator
     }
     
     submitEmailFormCustom(emailBody, userDetails, selections, amounts) {
-      console.log('📧 Submitting email via Cloudflare Worker / Web3Forms...');
-      
       if (window.EmailSubmitter) {
         window.EmailSubmitter.submit({
           subject: `New Quote Request - ${this.config.name || this.productId}`,

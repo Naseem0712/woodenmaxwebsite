@@ -50,14 +50,11 @@ class ACPElevationCalculator extends PriceCalculatorBase {
   
   // Override base class initializeCalculator to use our own
   initializeCalculator() {
-    // Don't call super() - we'll handle initialization ourselves
-    console.log('🔧 ACP: Overriding base initializeCalculator()');
     this.initACPCalculator();
   }
   
   // Force recalculation - can be called manually for testing
   forceCalculate() {
-    console.log('🔄 ACP: Force calculate called');
     this.calculate();
   }
   
@@ -68,19 +65,15 @@ class ACPElevationCalculator extends PriceCalculatorBase {
   }
   
   initACPCalculator() {
-    console.log('🚀 ACP Calculator: initACPCalculator() called');
-    
     const init = () => {
       setTimeout(() => {
         const container = document.getElementById(this.containerId);
         if (!container) {
-          console.warn('⚠️ ACP Calculator: Container not found, retrying...', this.containerId);
           setTimeout(init, 200);
           return;
         }
         
-        console.log('✅ ACP Calculator: Container found, setting up...');
-          this.setupACPEventListeners();
+        this.setupACPEventListeners();
           this.updateProjectInfo();
         
         // Initialize display with empty values first
@@ -98,16 +91,10 @@ class ACPElevationCalculator extends PriceCalculatorBase {
         const widthInput = document.getElementById('calc-width');
         const heightInput = document.getElementById('calc-height');
         if (widthInput && heightInput) {
-          console.log('✅ ACP Calculator: Input elements found, triggering initial calculation...');
           // Manually trigger once to verify everything works
           setTimeout(() => {
           this.calculate();
           }, 150);
-        } else {
-          console.error('❌ ACP Calculator: Input elements NOT found!', {
-            width: !!widthInput,
-            height: !!heightInput
-          });
         }
       }, 100);
     };
@@ -149,13 +136,6 @@ class ACPElevationCalculator extends PriceCalculatorBase {
     const quantityInput = document.getElementById('calc-quantity');
     
     const handleCalculate = () => {
-      console.log('🔄 ACP: Input changed, calling calculate()...');
-      console.log('📝 ACP: Current values:', {
-        width: widthInput?.value,
-        height: heightInput?.value,
-        unit: unitSelect?.value,
-        quantity: quantityInput?.value
-      });
       this.calculate();
     };
     
@@ -166,51 +146,32 @@ class ACPElevationCalculator extends PriceCalculatorBase {
       // Remove old listener if exists
       if (this._oldCalculateHandler) {
         widthInput.removeEventListener('input', this._oldCalculateHandler);
-        console.log('🗑️ ACP: Removed old width listener');
       }
       widthInput.addEventListener('input', handleCalculate, { passive: true });
-      console.log('✅ ACP: Width input listener attached to #calc-width');
-    } else {
-      console.error('❌ ACP: calc-width element NOT found!');
     }
     
     if (heightInput) {
       if (this._oldCalculateHandler) {
         heightInput.removeEventListener('input', this._oldCalculateHandler);
-        console.log('🗑️ ACP: Removed old height listener');
       }
       heightInput.addEventListener('input', handleCalculate, { passive: true });
-      console.log('✅ ACP: Height input listener attached to #calc-height');
-    } else {
-      console.error('❌ ACP: calc-height element NOT found!');
     }
     
     if (unitSelect) {
       if (this._oldCalculateHandler) {
         unitSelect.removeEventListener('change', this._oldCalculateHandler);
-        console.log('🗑️ ACP: Removed old unit listener');
       }
       unitSelect.addEventListener('change', handleCalculate, { passive: true });
-      console.log('✅ ACP: Unit select listener attached to #calc-unit');
-    } else {
-      console.warn('⚠️ ACP: calc-unit element not found!');
     }
     
     if (quantityInput) {
       if (this._oldCalculateHandler) {
         quantityInput.removeEventListener('input', this._oldCalculateHandler);
-        console.log('🗑️ ACP: Removed old quantity listener');
       }
       quantityInput.addEventListener('input', handleCalculate, { passive: true });
-      console.log('✅ ACP: Quantity input listener attached to #calc-quantity');
-    } else {
-      console.warn('⚠️ ACP: calc-quantity element not found!');
     }
     
-    // Store for next cleanup
     this._oldCalculateHandler = handleCalculate;
-    
-    console.log('✅ ACP: Event listeners setup complete. All input listeners attached.');
     
     // Form submission with price reveal
     this.setupFormSubmissionWithReveal();
@@ -375,7 +336,6 @@ class ACPElevationCalculator extends PriceCalculatorBase {
   calculate() {
     const container = document.getElementById(this.containerId);
     if (!container) {
-      console.warn('⚠️ ACP Calculator: Container not found', this.containerId);
       return;
     }
     
@@ -388,15 +348,6 @@ class ACPElevationCalculator extends PriceCalculatorBase {
     // Get base area for one facade/area
     const baseAreaPerUnit = this.getArea();
     const totalBaseArea = baseAreaPerUnit * quantity;
-    
-    console.log('📊 ACP Calculate called:', { 
-      baseAreaPerUnit, 
-      totalBaseArea, 
-      ratePerSqft,
-      quantity,
-      width: document.getElementById('calc-width')?.value,
-      height: document.getElementById('calc-height')?.value
-    });
     
     // Calculate wastage (5%)
     const wastageArea = totalBaseArea * (this.wastagePercent / 100);
@@ -450,22 +401,14 @@ class ACPElevationCalculator extends PriceCalculatorBase {
       subtotal: totalCost
     };
     
-    // Display results - ALWAYS call this
-    console.log('📺 ACP: About to display results with:', this.lastCalcDetails);
     try {
-    this.displayACPResults();
-      console.log('✅ ACP: Display results called successfully');
+      this.displayACPResults();
     } catch (error) {
-      console.error('❌ Error displaying ACP results:', error);
     }
   }
   
   displayACPResults() {
-    console.log('🎨 ACP displayACPResults() called');
-    console.log('📦 lastCalcDetails:', this.lastCalcDetails);
-    
     if (!this.lastCalcDetails || typeof this.lastCalcDetails !== 'object') {
-      console.warn('⚠️ ACP: lastCalcDetails is empty or invalid');
       this.lastCalcDetails = {};
       // Still try to display with zeros
     }
@@ -478,18 +421,6 @@ class ACPElevationCalculator extends PriceCalculatorBase {
     const sheetsEl = document.getElementById('calc-sheets-needed');
     const priceRangeEl = document.getElementById('calc-price-range');
     
-    console.log('🔍 ACP: Elements found:', {
-      areaEl: !!areaEl,
-      wastageAreaEl: !!wastageAreaEl,
-      sheetsEl: !!sheetsEl,
-      priceRangeEl: !!priceRangeEl
-    });
-    
-    if (!areaEl) console.error('❌ ACP: calc-area-display element NOT found!');
-    if (!wastageAreaEl) console.error('❌ ACP: calc-wastage-area element NOT found!');
-    if (!sheetsEl) console.error('❌ ACP: calc-sheets-needed element NOT found!');
-    if (!priceRangeEl) console.error('❌ ACP: calc-price-range element NOT found!');
-    
     // Safe value access with defaults
     const baseArea = (details && typeof details.baseArea === 'number') ? details.baseArea : 0;
     const totalAreaWithWastage = (details && typeof details.totalAreaWithWastage === 'number') ? details.totalAreaWithWastage : 0;
@@ -498,49 +429,25 @@ class ACPElevationCalculator extends PriceCalculatorBase {
     const priceLow = (details && typeof details.priceLow === 'number') ? details.priceLow : 0;
     const priceHigh = (details && typeof details.priceHigh === 'number') ? details.priceHigh : 0;
     
-    console.log('💰 ACP: Values to display:', {
-      baseArea,
-      totalAreaWithWastage,
-      sheetsNeeded,
-      totalCost,
-      priceLow,
-      priceHigh
-    });
-    
     // Update area display - FORCE update
     if (areaEl) {
       const areaText = baseArea > 0 ? baseArea.toFixed(2) + ' sq.ft' : '0.00 sq.ft';
       areaEl.textContent = areaText;
-      areaEl.innerText = areaText; // Also set innerText as backup
-      console.log('✅ ACP: Updated area display:', areaText, 'Element:', areaEl);
-    } else {
-      console.error('❌ ACP: Cannot update area - element missing. Searching...');
-      const searchResult = document.querySelector('#calc-area-display');
-      console.error('❌ Search result:', searchResult);
+      areaEl.innerText = areaText;
     }
     
     // Update wastage area display - FORCE update
     if (wastageAreaEl) {
       const wastageText = totalAreaWithWastage > 0 ? totalAreaWithWastage.toFixed(2) + ' sq.ft' : '0.00 sq.ft';
       wastageAreaEl.textContent = wastageText;
-      wastageAreaEl.innerText = wastageText; // Also set innerText as backup
-      console.log('✅ ACP: Updated wastage area display:', wastageText, 'Element:', wastageAreaEl);
-    } else {
-      console.error('❌ ACP: Cannot update wastage - element missing. Searching...');
-      const searchResult = document.querySelector('#calc-wastage-area');
-      console.error('❌ Search result:', searchResult);
+      wastageAreaEl.innerText = wastageText;
     }
     
     // Update sheets needed - FORCE update
     if (sheetsEl) {
       const sheetsText = String(sheetsNeeded);
       sheetsEl.textContent = sheetsText;
-      sheetsEl.innerText = sheetsText; // Also set innerText as backup
-      console.log('✅ ACP: Updated sheets needed:', sheetsText, 'Element:', sheetsEl);
-    } else {
-      console.error('❌ ACP: Cannot update sheets - element missing. Searching...');
-      const searchResult = document.querySelector('#calc-sheets-needed');
-      console.error('❌ Search result:', searchResult);
+      sheetsEl.innerText = sheetsText;
     }
     
     // Price range display (before form submission) - FORCE update
@@ -548,20 +455,12 @@ class ACPElevationCalculator extends PriceCalculatorBase {
       if (totalCost > 0 && priceLow > 0 && priceHigh > 0) {
         const priceText = `${this.formatCurrency(priceLow)} - ${this.formatCurrency(priceHigh)}`;
         priceRangeEl.textContent = priceText;
-        priceRangeEl.innerText = priceText; // Also set innerText as backup
-        console.log('✅ ACP: Updated price range:', priceText, 'Element:', priceRangeEl);
+        priceRangeEl.innerText = priceText;
       } else {
         priceRangeEl.textContent = '₹0 - ₹0';
-        priceRangeEl.innerText = '₹0 - ₹0'; // Also set innerText as backup
-        console.warn('⚠️ ACP: Price values are 0, displaying ₹0 - ₹0. Values:', {totalCost, priceLow, priceHigh});
+        priceRangeEl.innerText = '₹0 - ₹0';
       }
-    } else {
-      console.error('❌ ACP: Cannot update price range - element missing. Searching...');
-      const searchResult = document.querySelector('#calc-price-range');
-      console.error('❌ Search result:', searchResult);
     }
-    
-    console.log('✅ ACP: Display update complete. All elements updated.');
   }
   
   getCalculatorSelections() {
@@ -585,8 +484,6 @@ class ACPElevationCalculator extends PriceCalculatorBase {
   }
   
   sendEmail(userDetails) {
-    console.log('📧 Preparing ACP cladding quote email...');
-    
     const selections = this.getCalculatorSelections();
     const details = this.lastCalcDetails;
     
@@ -662,13 +559,10 @@ Customer saw exact price: ${this.formatCurrency(details.totalCost)} after submis
 // Register this calculator for ACP elevation product
   if (typeof createExtensionInitCalculator !== 'undefined') {
     createExtensionInitCalculator('acp-elevation', ACPElevationCalculator, 'ACPElevationCalculator');
-    console.log('✅ ACP Elevation Cladding Calculator extension registered');
   } else {
-    console.warn('⚠️ createExtensionInitCalculator not found, registering later...');
     const registerWhenReady = setInterval(() => {
       if (typeof createExtensionInitCalculator !== 'undefined') {
-createExtensionInitCalculator('acp-elevation', ACPElevationCalculator, 'ACPElevationCalculator');
-        console.log('✅ ACP Elevation Cladding Calculator extension registered (delayed)');
+        createExtensionInitCalculator('acp-elevation', ACPElevationCalculator, 'ACPElevationCalculator');
         clearInterval(registerWhenReady);
       }
     }, 100);
@@ -684,16 +578,11 @@ createExtensionInitCalculator('acp-elevation', ACPElevationCalculator, 'ACPEleva
     const instanceKey = 'calculator_acp-elevation';
     const calc = window[instanceKey];
     if (calc && calc instanceof ACPElevationCalculator) {
-      console.log('🧪 Testing ACP Calculator...');
       calc.forceCalculate();
       return calc;
-    } else {
-      console.error('❌ ACP Calculator instance not found!', calc);
-      return null;
     }
+    return null;
   };
-  
-  console.log('✅ ACP Calculator test function available: window.testACPCalculator()');
 } else {
-  console.warn('⚠️ PriceCalculatorBase not found - ACP calculator will not initialize');
+  /* PriceCalculatorBase not found - ACP calculator will not initialize */
 }

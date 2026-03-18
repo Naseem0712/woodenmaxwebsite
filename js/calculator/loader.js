@@ -15,20 +15,17 @@ if (typeof window.initCalculator === 'undefined') {
   // Prevent duplicate initialization
   const instanceKey = `calculator_${productId}`;
   if (window[instanceKey]) {
-    console.log(`⚠️ Calculator already initialized for: ${productId}`);
     return window[instanceKey];
   }
   
   try {
     // Check if base class is loaded
     if (typeof PriceCalculatorBase === 'undefined') {
-      console.error('PriceCalculatorBase not found. Loading base.js...');
       await loadScript('/js/calculator/base.js');
     }
     
     // Check if ProductManager is loaded
     if (typeof productManager === 'undefined') {
-      console.error('ProductManager not found. Loading configs.js...');
       await loadScript('/js/calculator/configs.js');
     }
     
@@ -36,7 +33,6 @@ if (typeof window.initCalculator === 'undefined') {
     const productData = await productManager.getProduct(productId);
     
     if (!productData) {
-      console.error(`Product not found: ${productId}`);
       return null;
     }
     
@@ -45,13 +41,11 @@ if (typeof window.initCalculator === 'undefined') {
     const container = document.getElementById(calcContainerId);
     
     if (!container) {
-      console.warn(`Calculator container not found: ${calcContainerId}`);
       return null;
     }
     
     // Check if this is a glass railing product - skip base initialization
     if (productId === 'glass-railing-balcony' || productId === 'glass-railing-staircase') {
-      console.log(`⏭️ Skipping base calculator initialization for glass railing: ${productId}`);
       return null; // Let glass-railing.js handle it
     }
     
@@ -60,11 +54,8 @@ if (typeof window.initCalculator === 'undefined') {
     
     // Store instance globally for access
     window[instanceKey] = calculator;
-    
-    console.log(`✅ Calculator initialized for: ${productData.name}`);
     return calculator;
   } catch (error) {
-    console.error(`Error initializing calculator for ${productId}:`, error);
     return null;
   }
   };
@@ -140,11 +131,8 @@ if (typeof window !== 'undefined') {
   );
   
   if (isGlassRailingFunction) {
-    console.log('⏭️ Skipping loader.js initCalculator override - glass railing extension already set it');
-    console.log('Current function name:', currentInitCalc.name);
-    console.log('Current function includes glass-railing:', currentInitCalc.toString().includes('glass-railing-balcony'));
+    /* Glass railing extension already set initCalculator */
   } else {
-    console.log('⚠️ loader.js is setting initCalculator (glass railing extension may not have loaded yet)');
     window.initCalculator = initCalculator;
   }
   window.autoInitCalculators = autoInitCalculators;

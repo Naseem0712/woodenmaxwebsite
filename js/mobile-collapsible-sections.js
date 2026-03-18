@@ -34,13 +34,11 @@
       
       const targetId = button.getAttribute('data-target');
       if (!targetId) {
-        console.warn('Toggle button missing data-target attribute');
         return;
       }
       
       const targetContent = document.getElementById(targetId);
       if (!targetContent) {
-        console.warn('Target content not found for:', targetId);
         return;
       }
       
@@ -81,9 +79,6 @@
           button.classList.add('active');
           button.setAttribute('aria-expanded', 'true');
         }
-        
-        // Debug log
-        console.log('Toggle clicked:', targetId, 'isExpanded:', isExpanded, 'new state:', isExpanded ? 'collapsed' : 'expanded');
       });
     });
     

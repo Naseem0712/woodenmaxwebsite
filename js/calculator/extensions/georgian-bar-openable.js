@@ -30,15 +30,10 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     setupExtensionEventListeners() {
-      console.log('🔧 Setting up extension event listeners...');
-      
       // Add glass option listener
       const glassSelect = document.getElementById('calc-glass');
       if (glassSelect) {
         glassSelect.addEventListener('change', () => this.calculate());
-        console.log('✅ Glass select listener added');
-      } else {
-        console.warn('⚠️ Glass select not found');
       }
       
       // Fresh Grill Checkbox Implementation
@@ -47,14 +42,11 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       // Add mesh checkbox listener - ensure it works properly
       const meshCheckbox = document.getElementById('calc-mesh');
       if (meshCheckbox) {
-        console.log('✅ Mesh checkbox found, adding listeners, Rate:', this.MESH_RATE);
         const meshChangeHandler = () => {
-          console.log('🕸️ Mesh checkbox changed:', meshCheckbox.checked, 'Mesh Rate:', this.MESH_RATE);
           this.calculate();
         };
         const meshClickHandler = (e) => {
           setTimeout(() => {
-            console.log('🕸️ Mesh checkbox clicked:', meshCheckbox.checked);
             this.calculate();
           }, 50);
         };
@@ -67,7 +59,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         if (meshLabel) {
           meshLabel.addEventListener('click', (e) => {
             setTimeout(() => {
-              console.log('🕸️ Mesh label clicked, checkbox state:', meshCheckbox.checked);
               this.calculate();
             }, 50);
           });
@@ -75,20 +66,13 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         
         // Store handlers for potential cleanup
         this._meshHandlers = { change: meshChangeHandler, click: meshClickHandler };
-      } else {
-        console.error('❌ Mesh checkbox NOT FOUND!');
       }
       
       // Add lock option listener
       const lockSelect = document.getElementById('calc-lock');
       if (lockSelect) {
         lockSelect.addEventListener('change', () => this.calculate());
-        console.log('✅ Lock select listener added');
-      } else {
-        console.warn('⚠️ Lock select not found');
       }
-      
-      console.log('✅ Extension event listeners setup complete');
     }
     
     getGlassOption() {
@@ -108,11 +92,8 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       const grillCheckbox = document.getElementById('calc-grill');
       
       if (!grillCheckbox) {
-        console.warn('⚠️ Grill checkbox element not found');
         return;
       }
-      
-      console.log('✅ Setting up grill checkbox, Rate:', this.GRILL_RATE);
       
       // Remove any existing listeners by cloning
       const newCheckbox = grillCheckbox.cloneNode(true);
@@ -120,16 +101,12 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       
       // Fresh change event listener
       newCheckbox.addEventListener('change', () => {
-        const isChecked = newCheckbox.checked;
-        console.log('🔥 Grill checkbox changed:', isChecked, 'Rate:', this.GRILL_RATE);
         this.calculate();
       });
       
       // Fresh click event listener
       newCheckbox.addEventListener('click', () => {
         setTimeout(() => {
-          const isChecked = newCheckbox.checked;
-          console.log('🔥 Grill checkbox clicked:', isChecked);
           this.calculate();
         }, 10);
       });
@@ -139,14 +116,10 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       if (grillLabel) {
         grillLabel.addEventListener('click', () => {
           setTimeout(() => {
-            const isChecked = newCheckbox.checked;
-            console.log('🔥 Grill label clicked, state:', isChecked);
             this.calculate();
           }, 10);
         });
       }
-      
-      console.log('✅ Grill checkbox listeners setup complete');
     }
     
     /**
@@ -157,9 +130,7 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       if (!checkbox) {
         return false;
       }
-      const isChecked = checkbox.checked;
-      console.log('📋 getGrillOption() called, checked:', isChecked);
-      return isChecked;
+      return checkbox.checked;
     }
     
     getMeshOption() {
@@ -227,10 +198,7 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       // Grill add-on (per sqft) - Fresh Implementation
       if (hasGrill && this.GRILL_RATE) {
         const grillRate = isNaN(this.GRILL_RATE) ? 0 : Number(this.GRILL_RATE);
-        console.log('💰 Adding grill rate:', grillRate, 'per sqft, Area:', areaSqft);
         addOnsPerSqft += grillRate;
-      } else if (hasGrill) {
-        console.warn('⚠️ Grill selected but GRILL_RATE not set');
       }
       
       // Mesh add-on (per sqft)
@@ -294,19 +262,16 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     sendEmail(userDetails) {
-      console.log('📧 Preparing email (Extension - georgian-bar-openable)...');
       const selections = this.getCalculatorSelections();
       
       // Always get area and numberOfWindows (needed for email body and logging)
       let areaSqft = this.getArea();
       if (isNaN(areaSqft) || areaSqft <= 0) {
-        console.warn('⚠️ Invalid area, using 0');
         areaSqft = 0;
       }
       
       let numberOfWindows = this.getNumberOfWindows();
       if (isNaN(numberOfWindows) || numberOfWindows <= 0) {
-        console.warn('⚠️ Invalid number of windows, using 1');
         numberOfWindows = 1;
       }
       
@@ -319,15 +284,8 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         // Use stored amounts (actual amounts shown to user)
         finalPerWindow = Math.round(this.lastCalculatedAmounts.perWindowCost);
         finalTotal = Math.round(this.lastCalculatedAmounts.subtotal);
-        console.log('✅ Using stored amounts from calculate() method:', {
-          perWindow: finalPerWindow,
-          total: finalTotal,
-          areaSqft,
-          numberOfWindows
-        });
       } else {
         // Fallback: Calculate if stored amounts not available
-        console.warn('⚠️ Stored amounts not available, calculating...');
         
         const glassOption = this.getGlassOption();
         const lockOption = this.getLockOption();
@@ -377,10 +335,7 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         // Grill add-on (per sqft) - Fresh Implementation
         if (hasGrill && this.GRILL_RATE) {
           const grillRate = isNaN(this.GRILL_RATE) ? 0 : this.GRILL_RATE;
-          console.log('💰 Adding grill rate:', grillRate, 'per sqft, Area:', areaSqft);
           addOnsPerSqft += grillRate;
-        } else if (hasGrill) {
-          console.warn('⚠️ Grill selected but GRILL_RATE not set');
         }
         
         // Mesh add-on (per sqft)
@@ -416,32 +371,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         // Validate final amounts
         finalPerWindow = isNaN(perWindowCost) || perWindowCost <= 0 ? 0 : Math.round(perWindowCost);
         finalTotal = isNaN(totalCost) || totalCost <= 0 ? 0 : Math.round(totalCost);
-      }
-      
-      console.log('💰 Extension email amounts calculated (georgian-bar-openable):', {
-        areaSqft: validAreaSqft,
-        numberOfWindows: validNumberOfWindows,
-        baseRate: baseRate,
-        baseHardware: baseHardware,
-        multipointHardware: multipointHardware,
-        hardwareCostPerWindow: hardwareCostPerWindow,
-        baseCostPerWindow: validBaseCostPerWindow,
-        addOnsPerSqft: validAddOnsPerSqft,
-        addOnsCost: addOnsCost,
-        lockAddition: validLockAddition,
-        perWindowCost: finalPerWindow,
-        totalCost: finalTotal
-      });
-      
-      // Check if amounts are 0 and warn
-      if (finalPerWindow === 0 || finalTotal === 0) {
-        console.error('❌ ERROR: Calculated amounts are 0!', {
-          areaSqft: validAreaSqft,
-          baseRate,
-          baseHardware,
-          hardwareCostPerWindow,
-          addOnsPerSqft: validAddOnsPerSqft
-        });
       }
       
       // Email body
@@ -482,18 +411,12 @@ Generated from Live Price Calculator
     submitEmailForm(emailBody, userDetails, selections, amounts) {
       // Prevent duplicate submissions
       if (this.isSubmittingEmail && this._emailSubmitted) {
-        console.log('⚠️ Email already submitted, skipping duplicate');
         return;
       }
       
       // Validate amounts
       const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
       const validTotal = isNaN(amounts.total) || amounts.total <= 0 ? 0 : Math.round(amounts.total);
-      
-      console.log('📧 Submitting email via Cloudflare Worker / Web3Forms...', {
-        perWindow: validPerWindow,
-        total: validTotal
-      });
       
       // Mark as submitted
       this._emailSubmitted = true;
@@ -507,7 +430,6 @@ Generated from Live Price Calculator
           onError: () => this.showSuccessMessage()
         });
       } else {
-        console.warn('⚠️ EmailSubmitter not loaded');
         this.showSuccessMessage();
       }
     }
@@ -518,8 +440,6 @@ Generated from Live Price Calculator
     }
     
     _submitEmailViaFormSubmitFallbackOld(emailBody, userDetails, selections, amounts) {
-      console.log('📧 Using old fallback form submission method...');
-      
       // Validate amounts
       const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
       const validTotal = isNaN(amounts.total) || amounts.total <= 0 ? 0 : Math.round(amounts.total);
@@ -569,7 +489,6 @@ Generated from Live Price Calculator
       document.body.appendChild(form);
       
       iframe.onload = () => {
-        console.log('📧 Form submission iframe loaded - email should be sent');
         setTimeout(() => {
           this.showSuccessMessage();
           document.body.removeChild(form);
@@ -612,7 +531,6 @@ Generated from Live Price Calculator
       if (productId === 'georgian-bar-openable') {
         try {
           if (typeof PriceCalculatorBase === 'undefined' || typeof productManager === 'undefined') {
-            console.error('Required dependencies not found');
             return null;
           }
           const productData = await productManager.getProduct(productId);
@@ -624,7 +542,6 @@ Generated from Live Price Calculator
           window[`calculator_${productId}`] = calculator;
           return calculator;
         } catch (error) {
-          console.error(`Error initializing georgian-bar-openable calculator:`, error);
           return null;
         }
       } else if (originalInitCalculator) {

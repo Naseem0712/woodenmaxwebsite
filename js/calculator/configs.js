@@ -100,14 +100,11 @@ class ProductManager {
                 basePath = '../'.repeat(levelsUp) + 'data/products.json';
             }
             
-            // Only log once per page load to avoid duplicate console messages
             if (!window._jsonPathCalculated) {
-              console.log('📁 JSON Path calculated:', basePath, 'from', pathname, 'levels:', levelsUp);
               window._jsonPathCalculated = true;
             }
             return basePath;
           } catch (e) {
-            console.error('Error calculating JSON path:', e);
             // Fallback: assume 2 levels deep (most common case for product pages)
             return '../../data/products.json';
           }
@@ -117,7 +114,6 @@ class ProductManager {
         
         // Check if we're using file:// protocol (won't work with fetch)
         if (window.location.protocol === 'file:') {
-          console.warn('⚠️ File:// protocol detected. Using embedded fallback data.');
           // Use embedded fallback data for file:// protocol
           const fallbackData = this.getFallbackData();
           this.products = fallbackData.products || [];
@@ -127,8 +123,6 @@ class ProductManager {
         
         const response = await fetch(jsonPath);
         if (!response.ok) {
-          // Fallback to embedded data if fetch fails
-          console.warn('⚠️ Failed to fetch products.json, using embedded fallback data.');
           const fallbackData = this.getFallbackData();
           this.products = fallbackData.products || [];
           this.globalRates = fallbackData.globalRates || {};
@@ -149,7 +143,6 @@ class ProductManager {
         return this.products;
       }
     } catch (error) {
-      console.error('Error loading products:', error);
       return [];
     }
   }
@@ -259,7 +252,6 @@ class ProductManager {
         return product;
       }
     } catch (error) {
-      console.error(`Error loading product ${productId}:`, error);
       return null;
     }
   }

@@ -478,7 +478,6 @@ Generated from Louvers Price Calculator
     if (productId === 'wooden-finish-aluminium-louvers') {
       try {
         if (typeof productManager === 'undefined') {
-          console.error('productManager not found');
           return null;
         }
         
@@ -491,10 +490,8 @@ Generated from Louvers Price Calculator
         
         const calculator = new WoodenFinishLouversCalculator(productId, productData, calcContainerId);
         window[`calculator_${productId}`] = calculator;
-        console.log('✅ Louvers Calculator initialized:', productData.name);
         return calculator;
       } catch (error) {
-        console.error('Error initializing louvers calculator:', error);
         return null;
       }
     } else if (originalInitCalculator) {
@@ -513,7 +510,6 @@ Generated from Louvers Price Calculator
     }
     
     if (typeof productManager === 'undefined') {
-      console.warn('productManager not ready, retrying...');
       setTimeout(initLouversCalculator, 200);
       return;
     }
@@ -521,24 +517,18 @@ Generated from Louvers Price Calculator
     // Check if already initialized with correct calculator
     const existingCalc = window[`calculator_${productId}`];
     if (existingCalc && existingCalc instanceof WoodenFinishLouversCalculator) {
-      console.log('✅ Louvers Calculator already initialized correctly');
       return;
     }
     
-    // Replace any existing base calculator with our custom one
-    console.log('🔄 Initializing Louvers Calculator (replacing base if exists)...');
     try {
       const productData = await productManager.getProduct(productId);
       if (!productData) {
-        console.error('Product data not found for:', productId);
         return;
       }
       
       const calculator = new WoodenFinishLouversCalculator(productId, productData, `price-calculator-${productId}`);
       window[`calculator_${productId}`] = calculator;
-      console.log('✅ Louvers Calculator initialized with wastage calculation');
     } catch (error) {
-      console.error('Error initializing louvers calculator:', error);
     }
   };
   

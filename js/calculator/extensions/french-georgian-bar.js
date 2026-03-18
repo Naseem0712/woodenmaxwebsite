@@ -31,20 +31,16 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     setupExtensionEventListeners() {
-      console.log('🔧 Setting up French Georgian Bar extension event listeners...');
-      
       // Add glass option listener
       const glassSelect = document.getElementById('calc-glass');
       if (glassSelect) {
         glassSelect.addEventListener('change', () => this.calculate());
-        console.log('✅ Glass select listener added');
       }
       
       // Add coating option listener
       const coatingSelect = document.getElementById('calc-coating');
       if (coatingSelect) {
         coatingSelect.addEventListener('change', () => this.calculate());
-        console.log('✅ Coating select listener added');
       }
       
       // Add mesh checkbox listener
@@ -68,15 +64,12 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         return;
       }
       
-      console.log('✅ Mesh checkbox found, adding listeners, Rate:', this.MESH_RATE);
-      
       // Remove existing listeners by cloning
       const newCheckbox = meshCheckbox.cloneNode(true);
       meshCheckbox.parentNode.replaceChild(newCheckbox, meshCheckbox);
       
       // Add change event
       newCheckbox.addEventListener('change', () => {
-        console.log('🔄 Mesh checkbox changed:', newCheckbox.checked);
         this.calculate();
       });
       
@@ -90,7 +83,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       if (meshLabel) {
         meshLabel.addEventListener('click', (e) => {
           setTimeout(() => {
-            console.log('🔄 Mesh label clicked, checked:', newCheckbox.checked);
             this.calculate();
           }, 10);
         });
@@ -275,7 +267,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     sendEmail(userDetails) {
-      console.log('📧 Preparing email (Extension - french-georgian-bar)...');
       const selections = this.getCalculatorSelections();
       
       // Always get area and numberOfWindows (needed for email body and logging)
@@ -298,12 +289,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       if (this.lastCalculatedAmounts && this.lastCalculatedAmounts.perWindowCost > 0) {
         finalPerWindow = Math.round(this.lastCalculatedAmounts.perWindowCost);
         finalTotal = Math.round(this.lastCalculatedAmounts.subtotal);
-        console.log('✅ Using stored amounts from calculate() method:', {
-          perWindow: finalPerWindow,
-          total: finalTotal,
-          areaSqft,
-          numberOfWindows
-        });
       } else {
         console.warn('⚠️ Stored amounts not available, calculating...');
         
@@ -372,13 +357,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         finalTotal = isNaN(totalCost) || totalCost <= 0 ? 0 : Math.round(totalCost);
       }
       
-      console.log('💰 Extension email amounts calculated (french-georgian-bar):', {
-        areaSqft,
-        numberOfWindows,
-        perWindowCost: finalPerWindow,
-        totalCost: finalTotal
-      });
-      
       // Email body
       const emailBody = `
 New Quote Request - ${this.config.name || this.productId}
@@ -418,18 +396,12 @@ Generated from Live Price Calculator
     submitEmailForm(emailBody, userDetails, selections, amounts) {
       // Prevent duplicate submissions
       if (this.isSubmittingEmail && this._emailSubmitted) {
-        console.log('⚠️ Email already submitted, skipping duplicate');
         return;
       }
       
       // Validate amounts
       const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
       const validTotal = isNaN(amounts.total) || amounts.total <= 0 ? 0 : Math.round(amounts.total);
-      
-      console.log('📧 Submitting email via FormSubmit.co...', {
-        perWindow: validPerWindow,
-        total: validTotal
-      });
       
       // Mark as submitted
       this._emailSubmitted = true;

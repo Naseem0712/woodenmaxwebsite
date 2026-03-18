@@ -380,8 +380,6 @@ Generated from Curved Louvers Price Calculator
         onError: () => this.showSuccessMessage()
       });
     } else {
-      // Fallback if utility not loaded
-      console.warn('⚠️ EmailSubmitter not loaded');
       this.showSuccessMessage();
     }
   }
@@ -411,7 +409,6 @@ Generated from Curved Louvers Price Calculator
     if (productId === 'curved-architectural-louvers') {
       try {
         if (typeof productManager === 'undefined') {
-          console.error('productManager not found');
           return null;
         }
         
@@ -424,10 +421,8 @@ Generated from Curved Louvers Price Calculator
         
         const calculator = new CurvedLouversCalculator(productId, productData, calcContainerId);
         window[`calculator_${productId}`] = calculator;
-        console.log('✅ Curved Louvers Calculator initialized:', productData.name);
         return calculator;
       } catch (error) {
-        console.error('Error initializing curved louvers calculator:', error);
         return null;
       }
     } else if (originalInitCalculator) {
@@ -444,37 +439,28 @@ Generated from Curved Louvers Price Calculator
     if (!container) return;
     
     if (typeof productManager === 'undefined') {
-      console.warn('productManager not ready, retrying...');
       setTimeout(initCurvedLouversCalculator, 200);
       return;
     }
     
     const existingCalc = window[`calculator_${productId}`];
     if (existingCalc && existingCalc instanceof CurvedLouversCalculator) {
-      console.log('✅ Curved Louvers Calculator already initialized correctly');
       return;
     }
     
-    console.log('🔄 Initializing Curved Louvers Calculator...');
-    
-    // Prevent duplicate initialization
     if (window[`calculator_${productId}`]) {
-      console.log('⚠️ Calculator already initialized for:', productId);
       return;
     }
     
     try {
       const productData = await productManager.getProduct(productId);
       if (!productData) {
-        console.error('Product data not found for:', productId);
         return;
       }
       
       const calculator = new CurvedLouversCalculator(productId, productData, `price-calculator-${productId}`);
       window[`calculator_${productId}`] = calculator;
-      console.log('✅ Curved Louvers Calculator initialized with wastage calculation (+10%)');
     } catch (error) {
-      console.error('Error initializing curved louvers calculator:', error);
     }
   };
   

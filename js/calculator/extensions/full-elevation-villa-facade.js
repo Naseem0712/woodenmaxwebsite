@@ -40,8 +40,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     setupExtensionEventListeners() {
-      console.log('🔧 Setting up Full Elevation Villa Facade extension event listeners...');
-      
       // Glass option listener
       const glassSelect = document.getElementById('calc-glass');
       if (glassSelect) {

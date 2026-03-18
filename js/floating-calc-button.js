@@ -149,8 +149,6 @@
           // Calculator is visible if any significant part is in viewport
           return isTopInView && isBottomInView && isHorizontallyVisible;
         } catch (e) {
-          // If error occurs, assume calculator is not visible
-          console.warn('Error checking calculator visibility:', e);
           return false;
         }
       }
@@ -286,7 +284,6 @@
         // Only start animation after text has been visible for a while
         setTimeout(() => {
           if (buttonText && buttonText.textContent.trim() === originalText) {
-            console.log('Initializing button text typing animation...');
             window.createSmoothTypingIndicator(buttonText, originalText, {
               minTypeSpeed: 70,
               maxTypeSpeed: 130,

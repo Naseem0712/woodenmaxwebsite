@@ -57,16 +57,13 @@ window.EmailSubmitter = {
 
         const data = await response.json();
         if (data.success) {
-          console.log('✅ Email submitted via Cloudflare Worker');
-          console.log('📧 Email details:', { subject, messageLength: message.length, userDetails });
           onSuccess();
           return;
         } else {
-          console.error('❌ Cloudflare Worker returned error:', data);
           throw new Error(data.message || 'Worker returned error');
         }
       } catch (error) {
-        console.warn('⚠️ Cloudflare Worker failed, trying Web3Forms...', error);
+        /* Cloudflare Worker failed, trying Web3Forms */
       }
     }
 
@@ -83,13 +80,6 @@ window.EmailSubmitter = {
           message: message
         };
 
-        console.log('📧 Sending email via Web3Forms with details:', {
-          subject,
-          messageLength: message.length,
-          userDetails,
-          hasMessage: !!message
-        });
-
         const response = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: {
@@ -100,22 +90,17 @@ window.EmailSubmitter = {
 
         const data = await response.json();
         if (data.success) {
-          console.log('✅ Email sent via Web3Forms');
-          console.log('📧 Email response:', data);
           onSuccess();
           return;
         } else {
-          console.error('❌ Web3Forms returned error:', data);
           throw new Error(data.message || 'Failed to send email');
         }
       } catch (error) {
-        console.error('❌ Web3Forms error:', error);
         onError(error);
         // Still call onSuccess to not block user experience
         onSuccess();
       }
     } else {
-      console.warn('⚠️ No email service configured. Please set EMAIL_WORKER_URL or WEB3FORMS_ACCESS_KEY');
       // Call success anyway to not block user
       onSuccess();
     }
@@ -146,11 +131,8 @@ window.EmailSubmitter = {
       setTimeout(() => {
         document.body.removeChild(iframe);
       }, 2000);
-      
-      console.log('✅ WhatsApp message sent to business');
     } catch (error) {
-      console.warn('⚠️ WhatsApp send failed:', error);
-      // Don't block user experience if WhatsApp fails
+      /* Don't block user experience if WhatsApp fails */
     }
   }
 };

@@ -8,7 +8,6 @@
 
   // Check if gtag is available
   if (typeof gtag === 'undefined') {
-    console.warn('Google Analytics (gtag) not loaded');
     return;
   }
 
@@ -224,7 +223,5 @@
 
   // Initialize engagement tracking
   updateActivity();
-
-  console.log('✅ Google Analytics Enhanced Tracking initialized');
 })();
 

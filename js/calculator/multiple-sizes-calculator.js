@@ -86,8 +86,6 @@
     const currentSelections = getCurrentSelections();
     const rows = document.querySelectorAll('.calc-size-row');
     
-    console.log('Applying selections to all rows:', currentSelections);
-    
     rows.forEach(row => {
       const rowId = row.id;
       storeRowSelections(rowId, currentSelections);
@@ -101,8 +99,6 @@
     if (syncBtn) {
       syncBtn.style.display = 'none';
     }
-    
-    console.log('✅ Selections applied to all rows successfully');
   }
   
   // Try to get calculator instance (non-blocking)
@@ -119,7 +115,6 @@
         calculatorInstance = window[instanceKey] || null;
         
         if (calculatorInstance) {
-          console.log(`✅ Calculator instance found for: ${productId}`);
           recalculateAll();
           return;
         }
@@ -131,7 +126,6 @@
     for (const key of allKeys) {
       if (key.startsWith('calculator_') && window[key] && typeof window[key].calculatePrice === 'function') {
         calculatorInstance = window[key];
-        console.log(`✅ Calculator instance found via fallback: ${key}`);
         recalculateAll();
         return;
       }
@@ -141,8 +135,6 @@
     const elapsed = Date.now() - (window.calcInitStartTime || Date.now());
     if (elapsed < 10000) {
       setTimeout(tryGetCalculatorInstance, 500);
-    } else {
-      console.log('⚠️ Calculator instances not available after 10s, using fallback rates');
     }
   }
   
@@ -492,16 +484,13 @@
   }
   
   function addSizeRow() {
-    console.log('addSizeRow called');
     const container = document.getElementById('calc-sizes-container');
     if (!container) {
-      console.error('Container not found!');
       return;
     }
     
     sizeRowCounter++;
     const rowId = `size-row-${sizeRowCounter}`;
-    console.log('Adding row:', rowId);
     
     // Get selections from last row (if exists) or current global selections
     let selectionsToApply;
@@ -511,7 +500,6 @@
       const lastRow = existingRows[existingRows.length - 1];
       const lastRowId = lastRow.id;
       selectionsToApply = getRowSelections(lastRowId);
-      console.log('Auto-applying selections from last row:', selectionsToApply);
     } else {
       // First row: Use current global selections
       selectionsToApply = getCurrentSelections();
@@ -558,7 +546,6 @@
     `;
     
     container.appendChild(row);
-    console.log('Row added successfully, total rows:', container.children.length);
     
     // Store selections for this new row
     storeRowSelections(rowId, selectionsToApply);
@@ -683,17 +670,13 @@
     const addBtn = document.getElementById('calc-add-size-btn');
     
     if (!container || !addBtn) {
-      console.log('Multiple sizes container or button not found, skipping...');
       return;
     }
     
     // Prevent duplicate initialization
     if (addBtn.hasAttribute('data-listener-attached')) {
-      console.log('Event listener already attached, skipping...');
       return;
     }
-    
-    console.log('Initializing multiple sizes calculator...');
     
     // Mark button as having listener attached
     addBtn.setAttribute('data-listener-attached', 'true');
@@ -707,7 +690,6 @@
     addBtn.addEventListener('click', function handleAddClick(e) {
       e.preventDefault();
       e.stopPropagation();
-      console.log('Add button clicked');
       addSizeRow();
     });
     

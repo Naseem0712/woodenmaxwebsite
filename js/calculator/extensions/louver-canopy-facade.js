@@ -379,10 +379,8 @@ Generated from Louver Canopy Price Calculator
         
         const calculator = new LouverCanopyCalculator(productId, productData, calcContainerId);
         window[`calculator_${productId}`] = calculator;
-        console.log('✅ Louver Canopy Calculator initialized:', productData.name);
         return calculator;
       } catch (error) {
-        console.error('Error initializing louver canopy calculator:', error);
         return null;
       }
     } else if (originalInitCalculator) {
@@ -405,17 +403,13 @@ Generated from Louver Canopy Price Calculator
     
     const existingCalc = window[`calculator_${productId}`];
     if (existingCalc && existingCalc instanceof LouverCanopyCalculator) return;
-    
-    console.log('🔄 Initializing Louver Canopy Calculator...');
     try {
       const productData = await productManager.getProduct(productId);
       if (!productData) return;
       
       const calculator = new LouverCanopyCalculator(productId, productData, `price-calculator-${productId}`);
       window[`calculator_${productId}`] = calculator;
-      console.log('✅ Louver Canopy Calculator initialized with wastage calculation');
     } catch (error) {
-      console.error('Error:', error);
     }
   };
   

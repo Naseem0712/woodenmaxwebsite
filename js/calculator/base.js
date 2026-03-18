@@ -15,7 +15,6 @@ function createExtensionInitCalculator(productId, CalculatorClass, className) {
     if (calcProductId === productId) {
       try {
         if (typeof PriceCalculatorBase === 'undefined' || typeof productManager === 'undefined') {
-          console.error('Required dependencies not found');
           return null;
         }
         const productData = await productManager.getProduct(calcProductId);
@@ -25,10 +24,8 @@ function createExtensionInitCalculator(productId, CalculatorClass, className) {
         if (!container) return null;
         const calculator = new CalculatorClass(calcProductId, productData, calcContainerId);
         window[`calculator_${calcProductId}`] = calculator;
-        console.log(`✅ Extended Calculator initialized for: ${productData.name}`);
         return calculator;
       } catch (error) {
-        console.error(`Error initializing ${className} calculator:`, error);
         return null;
       }
     } else if (originalInitCalculator) {
@@ -300,7 +297,6 @@ class PriceCalculatorBase {
             totalArea += rowArea;
           }
         } catch (error) {
-          console.error('Error calculating area for row:', error);
         }
       });
       
@@ -334,7 +330,6 @@ class PriceCalculatorBase {
       
       return width * height;
     } catch (error) {
-      console.error('Error calculating area:', error);
       return 0;
     }
   }
@@ -576,7 +571,6 @@ class PriceCalculatorBase {
         });
       }
     } catch (error) {
-      console.error('Error displaying results:', error);
     }
   }
   
@@ -596,7 +590,6 @@ class PriceCalculatorBase {
       
       // Prevent multiple submissions
       if (this.isSubmittingEmail) {
-        console.log('⚠️ Email already being sent, please wait...');
         return false;
       }
       
@@ -633,7 +626,6 @@ class PriceCalculatorBase {
   submitUserDetails(userDetails) {
     // Prevent duplicate submissions
     if (this.isSubmittingEmail) {
-      console.log('⚠️ Email already being sent, please wait...');
       return;
     }
     
@@ -645,20 +637,16 @@ class PriceCalculatorBase {
     // Recalculate to get latest prices
     this.calculate();
     
-    console.log('📧 Sending email with user details:', userDetails);
-    
     // Send email
     try {
       this.sendEmail(userDetails);
     } catch (error) {
-      console.error('❌ Error in sendEmail:', error);
       this.isSubmittingEmail = false;
     }
     
     // Reset flag after 10 seconds (longer timeout for reliability)
     setTimeout(() => {
       this.isSubmittingEmail = false;
-      console.log('✅ Email submission flag reset');
     }, 10000);
   }
   
@@ -688,8 +676,6 @@ class PriceCalculatorBase {
   }
   
   sendEmail(userDetails) {
-    console.log('📧 Preparing email (Base class)...');
-    
     // Check if multiple sizes calculator is active
     const multipleSizesContainer = document.getElementById('calc-sizes-container');
     const hasMultipleSizes = multipleSizesContainer && multipleSizesContainer.querySelectorAll('.calc-size-row').length > 0;
@@ -706,13 +692,11 @@ class PriceCalculatorBase {
     // Always get area and numberOfWindows (needed for email body and logging)
     let areaSqft = this.getArea();
     if (isNaN(areaSqft) || areaSqft <= 0) {
-      console.warn('⚠️ Invalid area in sendEmail, using 0');
       areaSqft = 0;
     }
     
     let numberOfWindows = this.getNumberOfWindows();
     if (isNaN(numberOfWindows) || numberOfWindows <= 0) {
-      console.warn('⚠️ Invalid number of windows in sendEmail, using 1');
       numberOfWindows = 1;
     }
     
@@ -733,16 +717,8 @@ class PriceCalculatorBase {
       // Use stored amounts (actual amounts shown to user)
       finalPerWindow = Math.round(this.lastCalculatedAmounts.perWindowCost);
       finalTotal = Math.round(this.lastCalculatedAmounts.subtotal);
-      console.log('✅ Using stored amounts from calculate() method:', {
-        perWindow: finalPerWindow,
-        total: finalTotal,
-        areaSqft,
-        numberOfWindows
-      });
     } else {
       // Fallback: Calculate if stored amounts not available
-      console.warn('⚠️ Stored amounts not available, calculating...');
-      
       // Validate rates
       baseRate = isNaN(this.BASE_RATE_PER_SQFT) ? 0 : Number(this.BASE_RATE_PER_SQFT);
       baseHardware = isNaN(this.BASE_HARDWARE_COST) ? 0 : Number(this.BASE_HARDWARE_COST);
@@ -799,41 +775,6 @@ class PriceCalculatorBase {
       finalTotal = isNaN(totalCost) || totalCost <= 0 ? 0 : Math.round(totalCost);
     }
     
-    // Log amounts (conditional based on whether stored amounts were used)
-    if (this.lastCalculatedAmounts && this.lastCalculatedAmounts.perWindowCost > 0) {
-      console.log('💰 Base email amounts (using stored):', {
-        areaSqft,
-        numberOfWindows,
-        perWindowCost: finalPerWindow,
-        totalCost: finalTotal
-      });
-    } else {
-      console.log('💰 Base email amounts calculated:', {
-        areaSqft,
-        numberOfWindows,
-        baseRate,
-        baseHardware,
-        baseCostPerWindow,
-        addOnsPerSqft,
-        addOnsCost,
-        lockAdditionPerWindow,
-        perWindowCost: finalPerWindow,
-        totalCost: finalTotal
-      });
-    }
-    
-    // Check if amounts are 0 and warn
-    if (finalPerWindow === 0 || finalTotal === 0) {
-      console.error('❌ ERROR: Base class calculated amounts are 0!', {
-        areaSqft,
-        numberOfWindows,
-        'BASE_RATE_PER_SQFT': this.BASE_RATE_PER_SQFT,
-        'BASE_HARDWARE_COST': this.BASE_HARDWARE_COST,
-        'GLASS_RATES': this.GLASS_RATES,
-        'LOCK_RATES': this.LOCK_RATES,
-        'lastCalculatedAmounts': this.lastCalculatedAmounts
-      });
-    }
     
     // Email body - formatted clearly with all details
     const emailBody = `
@@ -883,17 +824,13 @@ Generated from Live Price Calculator on WoodenMax Website
   }
   
   sendEmailMultipleSizes(userDetails) {
-    console.log('📧 Preparing email with multiple sizes...');
-    
     const multipleSizesContainer = document.getElementById('calc-sizes-container');
     if (!multipleSizesContainer) {
-      console.error('❌ Multiple sizes container not found');
       return;
     }
     
     const rows = multipleSizesContainer.querySelectorAll('.calc-size-row');
     if (rows.length === 0) {
-      console.error('❌ No size rows found');
       return;
     }
     
@@ -1071,17 +1008,9 @@ Generated from Live Price Calculator (Multiple Sizes) on WoodenMax Website
   }
   
   submitEmailForm(emailBody, userDetails, selections, amounts) {
-    console.log('📧 Submitting email via Cloudflare Worker / Web3Forms...');
-    
     // Validate amounts before creating form data
     const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
     const validTotal = isNaN(amounts.total) || amounts.total <= 0 ? 0 : Math.round(amounts.total);
-    
-    console.log('💰 Base email amounts:', { perWindow: validPerWindow, total: validTotal });
-    console.log('📋 User details:', userDetails);
-    console.log('🔧 Selections:', selections);
-    console.log('📝 Email body length:', emailBody.length, 'characters');
-    console.log('📄 Email body preview (first 500 chars):', emailBody.substring(0, 500));
     
     // Use shared email submitter utility
     if (window.EmailSubmitter) {
@@ -1090,23 +1019,13 @@ Generated from Live Price Calculator (Multiple Sizes) on WoodenMax Website
         message: emailBody,
         userDetails: userDetails,
         onSuccess: () => {
-          console.log('✅ Email submission successful');
           this.showSuccessMessage();
         },
         onError: (error) => {
-          console.error('❌ Email submission error:', error);
-          console.error('❌ Error details:', {
-            userDetails,
-            selections,
-            amounts,
-            emailBodyLength: emailBody.length
-          });
           this.showSuccessMessage(); // Show success anyway
         }
       });
     } else {
-      // Fallback if utility not loaded
-      console.warn('⚠️ EmailSubmitter utility not loaded, using direct method');
       this.submitEmailDirect(emailBody, userDetails);
     }
   }
@@ -1133,14 +1052,12 @@ Generated from Live Price Calculator (Multiple Sizes) on WoodenMax Website
       .then(response => response.json())
       .then(data => {
         if (data.success) {
-          console.log('✅ Email sent via Web3Forms');
           this.showSuccessMessage();
         } else {
           throw new Error(data.message || 'Failed to send email');
         }
       })
       .catch(error => {
-        console.error('❌ Error:', error);
         this.showSuccessMessage();
       });
     } else {
@@ -1150,8 +1067,6 @@ Generated from Live Price Calculator (Multiple Sizes) on WoodenMax Website
   
   // Legacy fallback method - kept for compatibility but not used anymore
   submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts) {
-    // This method is deprecated - using Web3Forms/Worker instead
-    console.log('📧 Fallback method called - using Web3Forms...');
     const web3formsAccessKey = window.WEB3FORMS_ACCESS_KEY || 'YOUR_WEB3FORMS_ACCESS_KEY';
     if (web3formsAccessKey && !web3formsAccessKey.includes('YOUR_')) {
       this.submitViaWeb3Forms(emailBody, userDetails, selections, amounts, web3formsAccessKey);

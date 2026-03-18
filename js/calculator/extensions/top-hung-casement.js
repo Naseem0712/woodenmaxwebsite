@@ -29,13 +29,10 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     setupExtensionEventListeners() {
-      console.log('🔧 Setting up extension event listeners...');
-      
       // Add glass option listener (override parent if needed)
       const glassSelect = document.getElementById('calc-glass');
       if (glassSelect) {
         glassSelect.addEventListener('change', () => this.calculate());
-        console.log('✅ Glass select listener added');
       } else {
         console.warn('⚠️ Glass select not found');
       }
@@ -46,14 +43,11 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       // Add mesh checkbox listener - ensure it works properly
       const meshCheckbox = document.getElementById('calc-mesh');
       if (meshCheckbox) {
-        console.log('✅ Mesh checkbox found, adding listeners, Rate:', this.MESH_RATE);
         const meshChangeHandler = () => {
-          console.log('🕸️ Mesh checkbox changed:', meshCheckbox.checked, 'Mesh Rate:', this.MESH_RATE);
           this.calculate();
         };
         const meshClickHandler = (e) => {
           setTimeout(() => {
-            console.log('🕸️ Mesh checkbox clicked:', meshCheckbox.checked);
             this.calculate();
           }, 50);
         };
@@ -66,7 +60,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         if (meshLabel) {
           meshLabel.addEventListener('click', (e) => {
             setTimeout(() => {
-              console.log('🕸️ Mesh label clicked, checkbox state:', meshCheckbox.checked);
               this.calculate();
             }, 50);
           });
@@ -82,12 +75,9 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       const lockSelect = document.getElementById('calc-lock');
       if (lockSelect) {
         lockSelect.addEventListener('change', () => this.calculate());
-        console.log('✅ Lock select listener added');
       } else {
         console.warn('⚠️ Lock select not found');
       }
-      
-      console.log('✅ Extension event listeners setup complete');
     }
     
     getGlassOption() {
@@ -111,24 +101,18 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         return;
       }
       
-      console.log('✅ Setting up grill checkbox, Rate:', this.GRILL_RATE);
-      
       // Remove any existing listeners by cloning
       const newCheckbox = grillCheckbox.cloneNode(true);
       grillCheckbox.parentNode.replaceChild(newCheckbox, grillCheckbox);
       
       // Fresh change event listener
       newCheckbox.addEventListener('change', () => {
-        const isChecked = newCheckbox.checked;
-        console.log('🔥 Grill checkbox changed:', isChecked, 'Rate:', this.GRILL_RATE);
         this.calculate();
       });
       
       // Fresh click event listener
       newCheckbox.addEventListener('click', () => {
         setTimeout(() => {
-          const isChecked = newCheckbox.checked;
-          console.log('🔥 Grill checkbox clicked:', isChecked);
           this.calculate();
         }, 10);
       });
@@ -138,14 +122,10 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       if (grillLabel) {
         grillLabel.addEventListener('click', () => {
           setTimeout(() => {
-            const isChecked = newCheckbox.checked;
-            console.log('🔥 Grill label clicked, state:', isChecked);
             this.calculate();
           }, 10);
         });
       }
-      
-      console.log('✅ Grill checkbox listeners setup complete');
     }
     
     /**
@@ -156,9 +136,7 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       if (!checkbox) {
         return false;
       }
-      const isChecked = checkbox.checked;
-      console.log('📋 getGrillOption() called, checked:', isChecked);
-      return isChecked;
+      return checkbox.checked;
     }
     
     getMeshOption() {
@@ -226,7 +204,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       // Grill add-on (per sqft) - Fresh Implementation
       if (hasGrill && this.GRILL_RATE) {
         const grillRate = isNaN(this.GRILL_RATE) ? 0 : Number(this.GRILL_RATE);
-        console.log('💰 Adding grill rate:', grillRate, 'per sqft, Area:', areaSqft);
         addOnsPerSqft += grillRate;
       } else if (hasGrill) {
         console.warn('⚠️ Grill selected but GRILL_RATE not set');
@@ -293,7 +270,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     sendEmail(userDetails) {
-      console.log('📧 Preparing email (Extension - top-hung-casement)...');
       const selections = this.getCalculatorSelections();
       
       // Always get area and numberOfWindows (needed for email body and logging)
@@ -318,12 +294,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         // Use stored amounts (actual amounts shown to user)
         finalPerWindow = Math.round(this.lastCalculatedAmounts.perWindowCost);
         finalTotal = Math.round(this.lastCalculatedAmounts.subtotal);
-        console.log('✅ Using stored amounts from calculate() method:', {
-          perWindow: finalPerWindow,
-          total: finalTotal,
-          areaSqft,
-          numberOfWindows
-        });
       } else {
         // Fallback: Calculate if stored amounts not available
         console.warn('⚠️ Stored amounts not available, calculating...');
@@ -376,7 +346,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         // Grill add-on (per sqft) - Fresh Implementation
         if (hasGrill && this.GRILL_RATE) {
           const grillRate = isNaN(this.GRILL_RATE) ? 0 : this.GRILL_RATE;
-          console.log('💰 Adding grill rate:', grillRate, 'per sqft, Area:', areaSqft);
           addOnsPerSqft += grillRate;
         } else if (hasGrill) {
           console.warn('⚠️ Grill selected but GRILL_RATE not set');
@@ -416,21 +385,6 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         finalPerWindow = isNaN(perWindowCost) || perWindowCost <= 0 ? 0 : Math.round(perWindowCost);
         finalTotal = isNaN(totalCost) || totalCost <= 0 ? 0 : Math.round(totalCost);
       }
-      
-      console.log('💰 Extension email amounts calculated (top-hung-casement):', {
-        areaSqft: validAreaSqft,
-        numberOfWindows: validNumberOfWindows,
-        baseRate: baseRate,
-        baseHardware: baseHardware,
-        multipointHardware: multipointHardware,
-        hardwareCostPerWindow: hardwareCostPerWindow,
-        baseCostPerWindow: validBaseCostPerWindow,
-        addOnsPerSqft: validAddOnsPerSqft,
-        addOnsCost: addOnsCost,
-        lockAddition: validLockAddition,
-        perWindowCost: finalPerWindow,
-        totalCost: finalTotal
-      });
       
       // Check if amounts are 0 and warn
       if (finalPerWindow === 0 || finalTotal === 0) {
@@ -481,18 +435,12 @@ Generated from Live Price Calculator
     submitEmailForm(emailBody, userDetails, selections, amounts) {
       // Prevent duplicate submissions
       if (this.isSubmittingEmail && this._emailSubmitted) {
-        console.log('⚠️ Email already submitted, skipping duplicate');
         return;
       }
       
       // Validate amounts
       const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
       const validTotal = isNaN(amounts.total) || amounts.total <= 0 ? 0 : Math.round(amounts.total);
-      
-      console.log('📧 Submitting email via Cloudflare Worker / Web3Forms...', {
-        perWindow: validPerWindow,
-        total: validTotal
-      });
       
       // Mark as submitted
       this._emailSubmitted = true;
@@ -517,8 +465,6 @@ Generated from Live Price Calculator
     }
     
     _submitEmailViaFormSubmitFallbackOld(emailBody, userDetails, selections, amounts) {
-      console.log('📧 Using old fallback form submission method...');
-      
       // Validate amounts
       const validPerWindow = isNaN(amounts.perWindow) || amounts.perWindow <= 0 ? 0 : Math.round(amounts.perWindow);
       const validTotal = isNaN(amounts.total) || amounts.total <= 0 ? 0 : Math.round(amounts.total);
@@ -568,7 +514,6 @@ Generated from Live Price Calculator
       document.body.appendChild(form);
       
       iframe.onload = () => {
-        console.log('📧 Form submission iframe loaded - email should be sent');
         setTimeout(() => {
           this.showSuccessMessage();
           document.body.removeChild(form);
