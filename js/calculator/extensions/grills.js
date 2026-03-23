@@ -638,10 +638,12 @@
   GrillsCalculator.prototype._loadJsPDF = function(cb) {
     if (window.jspdf && window.jspdf.jsPDF) { cb(); return; }
     var s1 = document.createElement('script');
-    s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js';
+    s1.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s1.onerror = function() { alert('Failed to load PDF library. Check your internet connection.'); };
     s1.onload = function() {
       var s2 = document.createElement('script');
-      s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.4/jspdf.plugin.autotable.min.js';
+      s2.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.0/jspdf.plugin.autotable.min.js';
+      s2.onerror = function() { alert('Failed to load PDF table plugin. Check your internet connection.'); };
       s2.onload = cb;
       document.head.appendChild(s2);
     };
