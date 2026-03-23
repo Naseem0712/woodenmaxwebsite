@@ -555,6 +555,88 @@
   </url>
 
   <!-- ============================================
+       GRILLS PRODUCTS - Safety Grills & Balustrades
+       ============================================ -->
+  <url>
+    <loc>https://woodenmax.in/products/grills</loc>
+    <lastmod>2026-03-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-window-grill-design-modern.webp</image:loc>
+      <image:title>Aluminium and Iron Grill Price Comparison</image:title>
+      <image:caption>Compare 5 types of aluminium and iron grills - window, balcony, safety, staircase</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/products/grills/aluminium-window-grills</loc>
+    <lastmod>2026-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-window-grill-design-modern.webp</image:loc>
+      <image:title>Aluminium Window Grill Design Modern</image:title>
+      <image:caption>Premium aluminium window grills with live price calculator</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/products/grills/balcony-safety-grills</loc>
+    <lastmod>2026-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-child-safety-balcony-grill.webp</image:loc>
+      <image:title>Aluminium Child Safety Balcony Grill</image:title>
+      <image:caption>Balcony safety grills for high-rise apartments - child and pet safe</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/products/grills/window-safety-grills</loc>
+    <lastmod>2026-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/window%20grill%20design.webp</image:loc>
+      <image:title>Window Safety Grill Design</image:title>
+      <image:caption>Heavy-duty window safety grills for ground floor security</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/products/grills/iron-safety-grills</loc>
+    <lastmod>2026-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium%20grill%20fabricators%20near%20me.webp</image:loc>
+      <image:title>Iron Safety Grill Fabrication</image:title>
+      <image:caption>Traditional iron safety grills at budget-friendly prices</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/products/grills/staircase-balustrade-grills</loc>
+    <lastmod>2026-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/safety%20grill%20for%20balcony%20with%20children.webp</image:loc>
+      <image:title>Staircase Balustrade Safety Grill</image:title>
+      <image:caption>Premium aluminium staircase balustrade and ramp safety grills</image:caption>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://woodenmax.in/products/grills-tools-guide</loc>
+    <lastmod>2026-03-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- ============================================
        CITY PAGES - High Priority for Local SEO
        ============================================ -->
 <url>
