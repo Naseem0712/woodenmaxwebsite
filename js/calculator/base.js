@@ -1022,7 +1022,7 @@ Generated from Live Price Calculator (Multiple Sizes) on WoodenMax Website
           this.showSuccessMessage();
         },
         onError: (error) => {
-          this.showSuccessMessage(); // Show success anyway
+          this.showEmailSubmitFailed(error);
         }
       });
     } else {
@@ -1058,10 +1058,10 @@ Generated from Live Price Calculator (Multiple Sizes) on WoodenMax Website
         }
       })
       .catch(error => {
-        this.showSuccessMessage();
+        this.showEmailSubmitFailed(error);
       });
     } else {
-      this.showSuccessMessage(); // Show success anyway
+      this.showEmailSubmitFailed(new Error('Web3Forms key not configured'));
     }
   }
   
@@ -1075,7 +1075,28 @@ Generated from Live Price Calculator (Multiple Sizes) on WoodenMax Website
     }
   }
   
+  showEmailSubmitFailed(error) {
+    console.error('Quote email failed:', error);
+    const form = document.getElementById('calc-user-form');
+    let errEl = document.getElementById('calc-email-error');
+    if (!errEl && form) {
+      errEl = document.createElement('p');
+      errEl.id = 'calc-email-error';
+      errEl.setAttribute('role', 'alert');
+      errEl.style.cssText = 'color:#f87171;margin:0 0 1rem 0;font-size:0.95rem;';
+      form.insertBefore(errEl, form.firstChild);
+    }
+    if (errEl) {
+      errEl.textContent = 'Email could not be sent. Please try again or reach us on WhatsApp.';
+      errEl.style.display = 'block';
+    } else {
+      alert('Could not send your quote by email. Please try again or WhatsApp us.');
+    }
+  }
+
   showSuccessMessage() {
+    const errEl = document.getElementById('calc-email-error');
+    if (errEl) errEl.style.display = 'none';
     const form = document.getElementById('calc-user-form');
     const successMsg = document.getElementById('calc-success-message');
     

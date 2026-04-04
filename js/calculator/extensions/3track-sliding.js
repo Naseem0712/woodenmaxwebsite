@@ -246,7 +246,7 @@ Generated from Live Price Calculator
           message: emailBody,
           userDetails: userDetails,
           onSuccess: () => this.showSuccessMessage(),
-          onError: () => this.showSuccessMessage()
+          onError: (e) => this.showEmailSubmitFailed(e)
         });
       } else {
         console.warn('⚠️ EmailSubmitter not loaded');

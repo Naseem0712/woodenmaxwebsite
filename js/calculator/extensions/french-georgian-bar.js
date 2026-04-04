@@ -415,8 +415,8 @@ Generated from Live Price Calculator
             this.showSuccessMessage();
             this.isSubmittingEmail = false;
           },
-          onError: () => {
-            this.showSuccessMessage();
+          onError: (e) => {
+            this.showEmailSubmitFailed(e);
             this.isSubmittingEmail = false;
           }
         });

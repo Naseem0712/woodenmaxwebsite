@@ -368,7 +368,7 @@ Generated from Pergola Louvers Price Calculator
         message: emailBody,
         userDetails: userDetails,
         onSuccess: () => this.showSuccessMessage(),
-        onError: () => this.showSuccessMessage()
+        onError: (e) => this.showEmailSubmitFailed(e)
       });
     } else {
       this.showSuccessMessage();
@@ -430,6 +430,11 @@ Generated from Pergola Louvers Price Calculator
     }, 3000);
   }
   
+  showEmailSubmitFailed(error) {
+    console.error('Quote email failed:', error);
+    alert('Could not send email. Please try again or WhatsApp us.');
+  }
+
   showSuccessMessage() {
     const form = document.getElementById('calc-user-form');
     const successMsg = document.getElementById('calc-success-message');

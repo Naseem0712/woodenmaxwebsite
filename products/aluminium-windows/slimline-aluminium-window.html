@@ -18,7 +18,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Slimline Aluminium Window ( Slim Profile Window ) ₹600-900/sqft 2026 | Price Calculator</title>
-  <meta name="description" content="Slimline aluminium window price ₹600-900/sqft. Black powder coating, Hindalco profiles, Saint-Gobain glass. Live calculator included." />
+  <meta name="description" content="Slimline aluminium window price ₹600-900/sqft. Black powder coating, Hindalco profiles, Saint-Gobain glass. Get a quote via enquiry form on this page." />
   <meta name="keywords" content="slimline aluminium window, slim profile casement, black aluminium window, premium casement window, elite window" />
   <meta name="author" content="WoodenMax" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -310,7 +310,7 @@
         "@type": "ListItem",
         "position": 1,
         "name": "Price Calculator",
-        "url": "https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window#price-calculator"
+        "url": "https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window#slimline-inquiry-section"
       },
       {
         "@type": "ListItem",
@@ -781,6 +781,22 @@
     </div>
   </section>
 
+  <!-- Quick inquiry: this page has no embedded live calculator -->
+  <section class="container" id="slimline-inquiry-section" style="padding: 3rem 1rem 4rem; max-width: 560px; margin: 0 auto;">
+    <span class="section-label">Get a quote</span>
+    <h2 class="section-title" style="margin-bottom: 0.75rem;">Slimline window — send enquiry</h2>
+    <p style="color: #94a3b8; margin-bottom: 1.5rem; font-size: 0.95rem;">No calculator on this page — submit details and we will reply by email or WhatsApp.</p>
+    <form id="slimline-inquiry-form" style="display: flex; flex-direction: column; gap: 0.875rem;">
+      <input type="text" id="slimline-name" name="name" required placeholder="Your name *" autocomplete="name" style="padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #334155; background: #0f172a; color: #f8fafc;">
+      <input type="tel" id="slimline-mobile" name="mobile" required placeholder="Mobile *" autocomplete="tel" style="padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #334155; background: #0f172a; color: #f8fafc;">
+      <input type="text" id="slimline-city" name="city" required placeholder="City *" autocomplete="address-level2" style="padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #334155; background: #0f172a; color: #f8fafc;">
+      <input type="email" id="slimline-email" name="email" placeholder="Email (optional)" autocomplete="email" style="padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #334155; background: #0f172a; color: #f8fafc;">
+      <textarea id="slimline-message" name="message" rows="3" placeholder="Rough size, quantity, or other notes (optional)" style="padding: 0.75rem 1rem; border-radius: 0.5rem; border: 1px solid #334155; background: #0f172a; color: #f8fafc; resize: vertical;"></textarea>
+      <button type="submit" class="btn btn-primary" id="slimline-submit">Send enquiry</button>
+      <p id="slimline-inquiry-status" role="status" style="display: none; font-size: 0.95rem;"></p>
+    </form>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="container">
@@ -823,6 +839,57 @@
   </footer>
 
   <script src="../../js/main.js"></script>
+  <script src="../../js/email-submitter.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('slimline-inquiry-form');
+      if (!form || !window.EmailSubmitter) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var name = document.getElementById('slimline-name').value.trim();
+        var mobile = document.getElementById('slimline-mobile').value.trim();
+        var city = document.getElementById('slimline-city').value.trim();
+        var email = document.getElementById('slimline-email').value.trim();
+        var message = document.getElementById('slimline-message').value.trim();
+        var btn = document.getElementById('slimline-submit');
+        var status = document.getElementById('slimline-inquiry-status');
+        var body =
+          'Product: Slimline Aluminium Window\nPage: products/aluminium-windows/slimline-aluminium-window\n\n' +
+          (message || '(no extra notes)') +
+          '\n\n---\nName: ' +
+          name +
+          '\nCity: ' +
+          city +
+          '\nMobile: ' +
+          mobile +
+          '\nEmail: ' +
+          (email || 'N/A');
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        status.style.display = 'none';
+        window.EmailSubmitter.submit({
+          subject: 'New Quote - Slimline Aluminium Window - ' + name,
+          message: body,
+          userDetails: { name: name, city: city, mobile: mobile, email: email },
+          onSuccess: function () {
+            status.textContent = 'Sent. We will contact you soon.';
+            status.style.color = '#34d399';
+            status.style.display = 'block';
+            form.reset();
+            btn.textContent = 'Send enquiry';
+            btn.disabled = false;
+          },
+          onError: function () {
+            status.textContent = 'Could not send email. Please WhatsApp or call us.';
+            status.style.color = '#f87171';
+            status.style.display = 'block';
+            btn.textContent = 'Send enquiry';
+            btn.disabled = false;
+          }
+        });
+      });
+    })();
+  </script>
   <script src="../../js/mobile-collapsible-sections.js" defer></script>
   <script src="../../js/product-image-gallery.js" defer></script>
 </body>

@@ -25,12 +25,13 @@ window.EmailSubmitter = {
       onError = () => {}
     } = options;
 
-    // Get configuration
-    // Option 1: Use Cloudflare Worker (recommended - access key stays server-side)
-    const workerEndpoint = window.EMAIL_WORKER_URL || 'https://jolly-field-be49.finilexnaseem.workers.dev';
-    // Option 2: Direct Web3Forms (fallback - access key visible in source)
+    // Cloudflare Worker first (same URL site-wide — override with window.EMAIL_WORKER_URL if needed)
+    const defaultWorkerUrl = 'https://jolly-field-be49.finilexnaseem.workers.dev';
+    const workerEndpoint = window.EMAIL_WORKER_URL || defaultWorkerUrl;
+    // Direct Web3Forms only when Worker URL is explicitly a placeholder (not when EMAIL_WORKER_URL is omitted)
     const web3formsAccessKey = window.WEB3FORMS_ACCESS_KEY || 'fd9946a6-03dd-4f6f-bad8-c430f7c6d351';
-    const useWeb3FormsDirect = !window.EMAIL_WORKER_URL || workerEndpoint.includes('YOUR_') || workerEndpoint.includes('woodenmax.in/api');
+    const useWeb3FormsDirect =
+      workerEndpoint.includes('YOUR_') || workerEndpoint.includes('woodenmax.in/api');
 
     // WhatsApp number for business
     const whatsappNumber = window.WHATSAPP_BUSINESS_NUMBER || '917895328080';
@@ -97,12 +98,9 @@ window.EmailSubmitter = {
         }
       } catch (error) {
         onError(error);
-        // Still call onSuccess to not block user experience
-        onSuccess();
       }
     } else {
-      // Call success anyway to not block user
-      onSuccess();
+      onError(new Error('Email not configured'));
     }
   },
 

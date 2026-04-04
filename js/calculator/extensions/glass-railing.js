@@ -918,9 +918,9 @@ Generated from Glass Railing Calculator on WoodenMax.in
           this.showSuccessMessage();
           this.isSubmittingEmail = false;
         },
-        onError: () => {
-          // Show success message anyway (user experience)
-          this.showSuccessMessage();
+        onError: (e) => {
+          console.error('Quote email failed:', e);
+          alert('Could not send email. Please try again or WhatsApp us.');
           this.isSubmittingEmail = false;
         }
       });
