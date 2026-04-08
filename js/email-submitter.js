@@ -56,6 +56,10 @@ window.EmailSubmitter = {
           body: formData
         });
 
+        if (!response.ok) {
+          throw new Error('Worker HTTP ' + response.status);
+        }
+
         const data = await response.json();
         if (data.success) {
           onSuccess();

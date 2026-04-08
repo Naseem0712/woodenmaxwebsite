@@ -830,8 +830,9 @@ Generated: ${new Date().toLocaleString('en-IN')}`;
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
         
-        // Track form submission for analytics
-        if (typeof trackContactFormSubmit === 'function') trackContactFormSubmit();
+        try {
+          if (typeof trackContactFormSubmit === 'function') trackContactFormSubmit();
+        } catch (e) { /* analytics optional */ }
         window.EmailSubmitter.submit({
           subject: subject,
           message: body,
@@ -850,25 +851,23 @@ Generated: ${new Date().toLocaleString('en-IN')}`;
               submitBtn.textContent = originalText;
               submitBtn.style.background = '';
               submitBtn.disabled = false;
-            }, 3000);
+            }, 4000);
           },
-          onError: () => {
+          onError: (err) => {
+            console.error('Contact form email failed:', err);
             submitBtn.textContent = 'Try Again';
             submitBtn.style.background = '#ef4444';
+            submitBtn.disabled = false;
+            alert('Email could not be sent. Please WhatsApp or call +91 789-5328080, or try again in a moment.');
             setTimeout(() => {
               submitBtn.textContent = originalText;
               submitBtn.style.background = '';
-              submitBtn.disabled = false;
-            }, 3000);
+            }, 4000);
           }
         });
       } else {
-        // Fallback to mailto
         window.location.href = `mailto:info@woodenmax.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       }
-      
-      // Show success message
-      alert('Thank you! Your enquiry has been submitted. We will contact you within 2 hours.');
     }
   </script>
 </body>
