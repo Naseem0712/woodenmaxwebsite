@@ -51,6 +51,63 @@ function normalizePathname(pathname) {
   return pathname;
 }
 
+/** Path segments from a nav link href (for matching current page to category). */
+function categoryHrefPathSegments(href) {
+  if (!href || href === '#' || href.toLowerCase().indexOf('javascript:') === 0) return [];
+  try {
+    const abs = new URL(href, window.location.href);
+    let p = normalizePathname(abs.pathname).replace(/\/+$/, '') || '/';
+    return p.split('/').filter(Boolean);
+  } catch (e) {
+    return [];
+  }
+}
+
+/**
+ * Pick which carousel item matches the current URL — avoids brittle keyword maps
+ * (e.g. "glass" matching glass-railing before glass-elevation) and out-of-range indices.
+ */
+function detectCategoryCarouselIndex(originalItems) {
+  const path = normalizePathname(window.location.pathname).toLowerCase().replace(/\/+$/, '') || '/';
+  const pathSegs = path.split('/').filter(Boolean);
+
+  for (let i = 0; i < originalItems.length; i++) {
+    if (originalItems[i].classList && originalItems[i].classList.contains('active')) {
+      return i;
+    }
+  }
+
+  let bestIdx = 0;
+  let bestScore = -1;
+
+  for (let idx = 0; idx < originalItems.length; idx++) {
+    const href = originalItems[idx].getAttribute('href') || '';
+    const segs = categoryHrefPathSegments(href);
+    if (segs.length === 0) continue;
+
+    const last = segs[segs.length - 1].toLowerCase();
+    let score = 0;
+
+    for (let j = 0; j < pathSegs.length; j++) {
+      if (pathSegs[j].toLowerCase() === last) {
+        score = Math.max(score, last.length);
+      }
+    }
+
+    const hrefPath = '/' + segs.map((s) => s.toLowerCase()).join('/');
+    if (path.indexOf(hrefPath) >= 0) {
+      score = Math.max(score, hrefPath.length);
+    }
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestIdx = idx;
+    }
+  }
+
+  return bestIdx;
+}
+
 // Enable browser's scroll position restoration on page refresh
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'auto';
@@ -122,32 +179,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Get all items including clones
     const allItems = Array.from(categoryCarousel.querySelectorAll('.cat-item'));
     
-    // Detect current page and set initial active category
-    const currentPath = normalizePathname(window.location.pathname).toLowerCase();
-    let currentCatIndex = 0;
+    // Detect current page from nav link hrefs (same labels as home; no missing/wrong highlight)
+    let currentCatIndex = detectCategoryCarouselIndex(originalItems);
+    currentCatIndex = Math.max(0, Math.min(currentCatIndex, totalCategories - 1));
     let isAnimating = false;
-    
-    // Category mapping based on URL path
-    const categoryMap = {
-      'upvc': 0,
-      'aluminium': 0,
-      'telescope': 1,
-      'folding': 2,
-      'louver': 3,
-      'metal-louver': 3,
-      'shower': 4,
-      'elevation': 5,
-      'cladding': 5,
-      'glass': 6
-    };
-    
-    // Find matching category from URL
-    for (const [keyword, index] of Object.entries(categoryMap)) {
-      if (currentPath.includes(keyword)) {
-        currentCatIndex = index;
-        break;
-      }
-    }
     
     // Wheel rotation easing - very smooth, like a spinning wheel slowing down
     function easeOutQuint(t) {
