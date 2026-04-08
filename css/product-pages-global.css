@@ -12,6 +12,21 @@
   background: #FFFFFF;
 }
 
+/* Grills product heroes: “Why / Specs” — stack on narrow screens to avoid cramped overlap. */
+.grills-hero-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .grills-hero-two-col {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
 /* ============================================
    PRODUCT DETAIL GRID
    ============================================ */

@@ -2072,6 +2072,12 @@ footer {
   display: grid;
   grid-template-columns: 1fr;
   gap: 3rem;
+  align-items: start;
+}
+
+/* Prevent long address lines from overflowing into adjacent columns (grills + all product pages). */
+.footer-grid > div {
+  min-width: 0;
 }
 
 @media (min-width: 768px) {
@@ -2206,6 +2212,11 @@ footer {
 .contact-item span {
   color: var(--text-secondary);
   font-size: 0.875rem;
+  line-height: 1.65;
+  min-width: 0;
+  flex: 1 1 auto;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .footer-bottom {

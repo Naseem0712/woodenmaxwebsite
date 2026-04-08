@@ -663,18 +663,28 @@
     .calc-input {
       width: 100%;
       padding: 0.875rem 1rem;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(59, 130, 246, 0.25);
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
       border-radius: 10px;
-      color: #ffffff;
+      color: #0f172a;
       font-size: 1rem;
       transition: all 0.3s ease;
+    }
+    .calc-input::placeholder {
+      color: #64748b;
+    }
+    .calc-input:-webkit-autofill,
+    .calc-input:-webkit-autofill:hover,
+    .calc-input:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px #f8fafc inset;
+      -webkit-text-fill-color: #0f172a;
+      caret-color: #0f172a;
     }
     
     .calc-input:focus {
       outline: none;
-      border-color: #60a5fa;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
     
     .calc-btn {
@@ -1090,6 +1100,7 @@
               <p style="color: #64748b; font-size: 0.9rem;">Get instant estimate for your glass elevation</p>
             </div>
           
+          <p id="glassDimError" role="alert" style="display:none;color:#f87171;font-size:0.85rem;margin:0 0 0.75rem;"></p>
           <!-- Dimensions -->
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.25rem;">
             <div>
@@ -1188,6 +1199,7 @@
                 Get Exact Quote via Email
               </h4>
               <form id="glassQuoteForm" onsubmit="submitGlassQuote(event)">
+                <p id="glassQuoteFormStatus" role="status" aria-live="polite" style="display:none;font-size:0.85rem;margin:0 0 0.75rem;padding:0.5rem;border-radius:8px;"></p>
                 <div style="margin-bottom: 0.75rem;">
                   <input type="text" id="userName" class="calc-input" placeholder="Your Name *" required style="font-size: 0.9rem;">
                 </div>
@@ -1723,6 +1735,7 @@
   </footer>
 
   <script src="../js/main.js"></script>
+  <script src="../js/email-submitter.js"></script>
   <script src="../js/product-image-gallery.js" defer></script>
   
   <!-- Glass Calculator & FAQ Script -->
@@ -1751,9 +1764,17 @@
       const height = parseFloat(document.getElementById('glassHeight').value);
       const color = document.querySelector('input[name="glassColor"]:checked').value;
 
+      var dimErr = document.getElementById('glassDimError');
       if (!width || !height || width <= 0 || height <= 0) {
-        alert('Please enter valid width and height in feet');
+        if (dimErr) {
+          dimErr.style.display = 'block';
+          dimErr.textContent = 'Please enter valid width and height in feet.';
+        }
         return;
+      }
+      if (dimErr) {
+        dimErr.style.display = 'none';
+        dimErr.textContent = '';
       }
 
       const area = width * height;
@@ -1791,13 +1812,26 @@
 
     function submitGlassQuote(event) {
       event.preventDefault();
-      
+      const statusEl = document.getElementById('glassQuoteFormStatus');
+      const submitBtn = event.target.querySelector('button[type="submit"]');
+      const originalBtnHtml = submitBtn ? submitBtn.innerHTML : '';
+
+      if (!window.EmailSubmitter) {
+        if (statusEl) {
+          statusEl.style.display = 'block';
+          statusEl.style.background = 'rgba(239, 68, 68, 0.12)';
+          statusEl.style.color = '#fecaca';
+          statusEl.style.border = '1px solid rgba(239, 68, 68, 0.35)';
+          statusEl.textContent = 'Email service unavailable. Please call +91 789-5328080.';
+        }
+        return;
+      }
+
       const name = document.getElementById('userName').value;
       const phone = document.getElementById('userPhone').value;
       const email = document.getElementById('userEmail').value;
       const city = document.getElementById('userCity').value || 'Not specified';
-      
-      // Prepare email data
+
       const emailSubject = `Glass Elevation Quote - ${name}`;
       const emailBody = `
 NEW GLASS ELEVATION INQUIRY
@@ -1833,27 +1867,46 @@ Package Includes:
 
 Generated: ${new Date().toLocaleString('en-IN')}
       `;
-      
-      // Send via mailto (for demo - in production use backend API)
-      const mailtoLink = `mailto:info@woodenmax.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-      
-      // Also prepare WhatsApp message for business
-      const whatsappMsg = `New Glass Quote: ${name}, ${phone}, ${calcData.totalArea.toFixed(2)}sqft ${calcData.color}, ₹${calcData.actualPrice.toLocaleString('en-IN')}`;
-      
-      // Open email client
-      window.open(mailtoLink, '_blank');
-      
-      // Show actual price to user
-      document.getElementById('actualArea').textContent = calcData.totalArea.toFixed(2) + ' sqft';
-      document.getElementById('actualColor').textContent = calcData.color;
-      document.getElementById('actualTotal').textContent = '₹' + calcData.actualPrice.toLocaleString('en-IN');
-      
-      // Hide form, show actual price
-      document.getElementById('glassResults').style.display = 'none';
-      document.getElementById('glassActualPrice').style.display = 'block';
-      
-      // Scroll to result
-      document.getElementById('glassActualPrice').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
+      }
+      if (statusEl) {
+        statusEl.style.display = 'none';
+        statusEl.textContent = '';
+      }
+
+      window.EmailSubmitter.submit({
+        subject: emailSubject,
+        message: emailBody,
+        userDetails: { name: name, city: city, mobile: phone, email: email },
+        onSuccess: function () {
+          document.getElementById('actualArea').textContent = calcData.totalArea.toFixed(2) + ' sqft';
+          document.getElementById('actualColor').textContent = calcData.color;
+          document.getElementById('actualTotal').textContent = '₹' + calcData.actualPrice.toLocaleString('en-IN');
+          document.getElementById('glassResults').style.display = 'none';
+          document.getElementById('glassActualPrice').style.display = 'block';
+          document.getElementById('glassActualPrice').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnHtml;
+          }
+        },
+        onError: function () {
+          if (statusEl) {
+            statusEl.style.display = 'block';
+            statusEl.style.background = 'rgba(239, 68, 68, 0.12)';
+            statusEl.style.color = '#fecaca';
+            statusEl.style.border = '1px solid rgba(239, 68, 68, 0.35)';
+            statusEl.textContent = 'Could not send email. Please WhatsApp or call +91 789-5328080.';
+          }
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnHtml;
+          }
+        }
+      });
     }
 
     // FAQ Toggle

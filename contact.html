@@ -611,6 +611,7 @@
         <div class="contact-form-box">
           <h3>Send Us Your Requirements</h3>
           <p class="subtitle">We'll respond within 2 hours</p>
+          <p id="contactFormStatus" role="status" aria-live="polite" style="display:none;font-size:0.9rem;margin:0 0 0.75rem;padding:0.5rem 0.75rem;border-radius:8px;"></p>
           
           <form id="contactForm" onsubmit="submitContactForm(event)">
             <div class="form-row">
@@ -830,6 +831,11 @@ Generated: ${new Date().toLocaleString('en-IN')}`;
         submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
         
+        var statusEl = document.getElementById('contactFormStatus');
+        if (statusEl) {
+          statusEl.style.display = 'none';
+          statusEl.textContent = '';
+        }
         try {
           if (typeof trackContactFormSubmit === 'function') trackContactFormSubmit();
         } catch (e) { /* analytics optional */ }
@@ -844,6 +850,13 @@ Generated: ${new Date().toLocaleString('en-IN')}`;
             leadType: leadType
           },
           onSuccess: () => {
+            if (statusEl) {
+              statusEl.style.display = 'block';
+              statusEl.style.background = 'rgba(16, 185, 129, 0.12)';
+              statusEl.style.color = '#047857';
+              statusEl.style.border = '1px solid rgba(16, 185, 129, 0.35)';
+              statusEl.textContent = 'Enquiry sent. We will email or call you shortly.';
+            }
             submitBtn.textContent = '✓ Sent Successfully!';
             submitBtn.style.background = '#10b981';
             event.target.reset();
@@ -851,14 +864,24 @@ Generated: ${new Date().toLocaleString('en-IN')}`;
               submitBtn.textContent = originalText;
               submitBtn.style.background = '';
               submitBtn.disabled = false;
-            }, 4000);
+              if (statusEl) {
+                statusEl.style.display = 'none';
+                statusEl.textContent = '';
+              }
+            }, 5000);
           },
           onError: (err) => {
             console.error('Contact form email failed:', err);
             submitBtn.textContent = 'Try Again';
             submitBtn.style.background = '#ef4444';
             submitBtn.disabled = false;
-            alert('Email could not be sent. Please WhatsApp or call +91 789-5328080, or try again in a moment.');
+            if (statusEl) {
+              statusEl.style.display = 'block';
+              statusEl.style.background = 'rgba(239, 68, 68, 0.1)';
+              statusEl.style.color = '#b91c1c';
+              statusEl.style.border = '1px solid rgba(239, 68, 68, 0.35)';
+              statusEl.textContent = 'Email could not be sent. WhatsApp or call +91 789-5328080, or try again.';
+            }
             setTimeout(() => {
               submitBtn.textContent = originalText;
               submitBtn.style.background = '';

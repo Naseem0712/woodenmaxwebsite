@@ -9,8 +9,10 @@
   // ──────────────────────────────────────────────
   // CONSTANTS — exact copy from Calculator.tsx
   // ──────────────────────────────────────────────
-  var OUTER_PROFILES = ['12x12','12x38','12x50','16x16','19x19','20x40','25x25','25x38','25x50'];
-  var INNER_RECT_PROFILES = ['12x12','12x25','12x38','12x50','16x16','18x18','19x19','20x40','25x25','25x38','25x50'];
+  /** Rect/square sections — same catalogue for outer frame and inner pipes (rect shape). */
+  var RECT_SQUARE_PROFILES = ['12x12','12x25','12x38','12x50','16x16','18x18','19x19','20x40','25x25','25x38','25x50'];
+  var OUTER_PROFILES = RECT_SQUARE_PROFILES;
+  var INNER_RECT_PROFILES = RECT_SQUARE_PROFILES;
   var INNER_ROUND_PROFILES = ['12','15','18'];
   var INNER_OVAL_PROFILES = ['15x38'];
   var THICKNESSES = [1.2, 1.5, 1.6, 2.0, 2.2];
@@ -115,9 +117,26 @@
   GrillsCalculator.prototype.init = function() {
     this.injectPreviewAndActions();
     this.injectColorSwatches();
+    this.populateOuterProfiles();
     this.bindEvents();
     this.updateInnerProfiles();
     this.calculate();
+  };
+
+  /** Fill outer frame dropdown from RECT_SQUARE_PROFILES (HTML on some pages only listed a subset). */
+  GrillsCalculator.prototype.populateOuterProfiles = function() {
+    var sel = this.el('grill-outer-profile');
+    if (!sel) return;
+    var prev = sel.value;
+    sel.innerHTML = '';
+    OUTER_PROFILES.forEach(function(p) {
+      var opt = document.createElement('option');
+      opt.value = p;
+      opt.textContent = p + 'mm';
+      sel.appendChild(opt);
+    });
+    if (OUTER_PROFILES.indexOf(prev) >= 0) sel.value = prev;
+    else sel.value = '25x25';
   };
 
   GrillsCalculator.prototype.el = function(id) {
@@ -147,19 +166,14 @@
       '<div id="grill-dim-labels" style="display:flex;justify-content:center;gap:1.5rem;margin-top:0.5rem;"></div>';
     priceDisplay.parentNode.insertBefore(wrap, priceDisplay);
 
-    // PDF download button next to CTA
-    var self = this;
+    // PDF is generated only after "Get Exact Price" form submit (see submitInquiry)
     var ctaLink = this.container.querySelector('a[href*="contact"]');
     if (ctaLink && ctaLink.parentNode) {
-      var btn = document.createElement('button');
-      btn.id = 'grill-download-pdf';
-      btn.type = 'button';
-      btn.style.cssText = 'display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#1e293b,#0f172a);color:#e2e8f0;padding:0.85rem 2rem;border-radius:12px;border:1px solid rgba(255,255,255,0.15);font-weight:600;font-size:0.95rem;cursor:pointer;margin-left:0.75rem;transition:all 0.2s;';
-      btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF';
-      btn.addEventListener('click', function(){ self.generatePDF(); });
-      btn.addEventListener('mouseenter', function(){ this.style.borderColor='rgba(34,197,94,0.5)'; this.style.color='#22c55e'; });
-      btn.addEventListener('mouseleave', function(){ this.style.borderColor='rgba(255,255,255,0.15)'; this.style.color='#e2e8f0'; });
-      ctaLink.parentNode.appendChild(btn);
+      var hint = document.createElement('span');
+      hint.id = 'grill-pdf-hint';
+      hint.style.cssText = 'display:inline-block;margin-left:0.75rem;color:#64748b;font-size:0.78rem;max-width:14rem;vertical-align:middle;line-height:1.35;';
+      hint.textContent = 'Full quotation PDF downloads after you submit the form below.';
+      ctaLink.parentNode.appendChild(hint);
     }
   };
 
@@ -619,16 +633,64 @@
   // ──────────────────────────────────────────────
   // PDF — structure from QuotationModal.tsx buildPDF()
   // ──────────────────────────────────────────────
-  GrillsCalculator.prototype.generatePDF = function() {
-    var r = this.lastResults;
-    if (!r) return;
+  GrillsCalculator.prototype._getPdfLineItems = function() {
+    if (this.quotationItems && this.quotationItems.length > 0) {
+      return this.quotationItems.slice();
+    }
+    if (this.lastResults) {
+      var one = this._snapshotItemFromR(this.lastResults);
+      one.id = 0;
+      return [one];
+    }
+    return [];
+  };
+
+  GrillsCalculator.prototype._itemDescPdf = function(it, shortTitle) {
+    var lines = [
+      shortTitle,
+      'Size: ' + it.width + ' \xD7 ' + it.height + ' ' + it.unit,
+      '',
+      'Outer: ' + it.outerProfile + 'mm (' + it.outerThickness + 'mm wall)',
+      'Inner: ' + it.innerProfile + 'mm ' + it.innerShape + ' (' + it.innerThickness + 'mm wall)',
+      'Pattern: ' + (it.pattern.charAt(0).toUpperCase() + it.pattern.slice(1)),
+      'Gaps: ' + it.gapType
+    ];
+    if (it.hasDividers && it.sectionSpaces && it.sectionSpaces.length) {
+      lines.push('Supports: ' + it.sectionSpaces.length + ' sections');
+    }
+    if (it.rodSize > 0) lines.push('Iron Rods: ' + it.rodSize + 'mm');
+    lines.push('Finish: ' + it.coatingFinish + (it.colorName ? ' \u2014 ' + it.colorName : ''));
+    return lines.join('\n');
+  };
+
+  GrillsCalculator.prototype._areaWtPdf = function(it) {
+    var perGrillWt = (it.totalAluWeight || 0) + (it.totalIronWeight || 0);
+    if (it.qty > 1) {
+      return 'Per: ' + it.totalAreaSqFt.toFixed(2) + ' sqft\nTotal: ' + (it.totalAreaSqFt * it.qty).toFixed(2) + ' sqft\n\nPer Wt: ' + perGrillWt.toFixed(2) + ' kg\nTotal Wt: ' + (perGrillWt * it.qty).toFixed(2) + ' kg';
+    }
+    return it.totalAreaSqFt.toFixed(2) + ' sqft\n\nWt: ' + (perGrillWt * it.qty).toFixed(2) + ' kg';
+  };
+
+  GrillsCalculator.prototype.generatePDF = function(opts) {
+    opts = opts || {};
+    var silent = opts.silent === true;
+    var lineItems = this._getPdfLineItems();
+    if (!lineItems.length) {
+      if (!silent) {
+        alert('Add at least one size to the quotation (or calculate once), then submit the form to get the PDF.');
+      }
+      return;
+    }
     var btn = this.container.querySelector('#grill-download-pdf');
-    if (btn) { btn.textContent = 'Generating\u2026'; btn.disabled = true; }
+    if (!silent && btn) { btn.textContent = 'Generating\u2026'; btn.disabled = true; }
     var self = this;
     this._loadJsPDF(function() {
-      try { self._buildPDF(r); }
-      catch(e) { console.error('PDF generation failed:', e); alert('PDF generation failed.'); }
-      if (btn) {
+      try { self._buildPDFFromLines(lineItems); }
+      catch(e) {
+        console.error('PDF generation failed:', e);
+        if (!silent) { alert('PDF generation failed.'); }
+      }
+      if (!silent && btn) {
         btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF';
         btn.disabled = false;
       }
@@ -650,120 +712,170 @@
     document.head.appendChild(s1);
   };
 
-  GrillsCalculator.prototype._buildPDF = function(r) {
+  /** Short product name for PDF (no SEO ₹/sqft noise, avoids header overlap in cells) */
+  GrillsCalculator.prototype._pdfShortTitle = function() {
+    var h1 = document.querySelector('h1');
+    if (h1) {
+      var t = h1.textContent.replace(/\s+/g, ' ').trim();
+      t = t.replace(/₹[\d\s,.+\-/sqft]+/gi, '').replace(/\s*\(\s*20\d{2}\s*\)/g, '').replace(/\s*\|\s*.*$/, '').trim();
+      if (t.length > 85) t = t.slice(0, 82) + '…';
+      if (t.length > 3) return t;
+    }
+    var raw = ((document.title || '') + '').split('|')[0].trim();
+    raw = raw.replace(/₹[\d\s,.+\-/sqft]+/gi, '').replace(/\s*\(\s*20\d{2}\s*\)/g, '').replace(/\s+/g, ' ').trim();
+    if (raw.length > 85) raw = raw.slice(0, 82) + '…';
+    return raw || 'Grill estimate';
+  };
+
+  GrillsCalculator.prototype._buildPDFFromLines = function(lineItems) {
     var jsPDF = window.jspdf.jsPDF;
     var doc = new jsPDF('p', 'pt', 'a4');
     var pw = doc.internal.pageSize.getWidth();
-    var y = 40;
+    var ph = doc.internal.pageSize.getHeight();
+    var shortTitle = this._pdfShortTitle();
+    var refNo = 'EST-' + Math.floor(Math.random() * 10000);
+    var self = this;
+    var y = 44;
 
-    // ── Header — from QuotationModal buildPDF() ──
-    doc.setFontSize(24);
+    doc.setFontSize(15);
     doc.setFont('helvetica', 'bold');
     doc.text('WoodenMax Architectural Elements', 40, y);
-    y += 15;
-    doc.setFontSize(10);
+    doc.setFontSize(12);
+    doc.text('GRILL ESTIMATE', pw - 40, y, { align: 'right' });
+
+    y += 18;
+    doc.setFontSize(8.5);
     doc.setFont('helvetica', 'normal');
-    doc.text('5-6-411/413 Aghapura, Nampally, Hyderabad TS-500001', 40, y);
-    y += 12;
+    var addrLines = doc.splitTextToSize('5-6-411/413 Aghapura, Nampally, Hyderabad TS-500001', 240);
+    doc.text(addrLines, 40, y);
+    var addrH = addrLines.length * 10;
+    doc.text('Date: ' + new Date().toLocaleDateString('en-IN'), pw - 40, y, { align: 'right' });
+    y += Math.max(addrH, 12);
     doc.text('Email: info@woodenmax.in | Web: www.woodenmax.in', 40, y);
+    doc.text('Ref: ' + refNo, pw - 40, y, { align: 'right' });
     y += 12;
     doc.text('GSTIN: 36ARWPA9740L1Z3', 40, y);
-
-    // Title on right — from QuotationModal
-    doc.setFontSize(16);
-    doc.setFont('helvetica', 'bold');
-    doc.text('GRILL ESTIMATE', pw - 40, 50, { align: 'right' });
-    doc.setFontSize(10);
-    doc.setFont('helvetica', 'normal');
-    doc.text('Date: ' + new Date().toLocaleDateString('en-IN'), pw - 40, 65, { align: 'right' });
-    doc.text('Ref: EST-' + Math.floor(Math.random()*10000), pw - 40, 77, { align: 'right' });
-
-    y += 30;
+    y += 14;
+    doc.setFontSize(8);
+    doc.setTextColor(80);
+    doc.text('Lines in this PDF: ' + lineItems.length + ' (unique quotation row' + (lineItems.length === 1 ? '' : 's') + ')', 40, y);
+    doc.setTextColor(0);
+    y += 14;
     doc.setDrawColor(200);
     doc.line(40, y, pw - 40, y);
-    y += 20;
+    y += 16;
 
-    // ── Item table — from QuotationModal autoTable structure ──
-    var pageTitle = (document.title || 'Custom Grill').split('|')[0].trim();
-    var colorName = this.selectedColor ? this.selectedColor.name : '';
-    var description = [
-      'Outer: ' + r.outerProfile + 'mm (' + r.outerThickness + 'mm wall)',
-      'Inner: ' + r.innerProfile + 'mm ' + r.innerShape + ' (' + r.innerThickness + 'mm wall)',
-      'Pattern: ' + r.pattern.charAt(0).toUpperCase() + r.pattern.slice(1),
-      'Gaps: ' + r.gapType
-    ];
-    if (r.hasDividers) description.push('Supports: ' + r.sectionSpaces.length + ' sections');
-    if (r.rodSize > 0) description.push('Iron Rods: ' + r.rodSize + 'mm');
-    description.push('Finish: ' + r.coatingFinish + (colorName ? ' — ' + colorName : ''));
+    var tableBody = [];
+    var idx;
+    for (idx = 0; idx < lineItems.length; idx++) {
+      var row = lineItems[idx];
+      var refLabel = 'G' + ((idx + 1 < 10 ? '0' : '') + (idx + 1));
+      tableBody.push([
+        refLabel,
+        self._itemDescPdf(row, shortTitle),
+        row.qty,
+        self._areaWtPdf(row),
+        'Rs. ' + row.perSqftRate.toFixed(2) + '/sqft',
+        'Rs. ' + Math.round(row.finalSellingPrice).toLocaleString('en-IN')
+      ]);
+    }
 
-    var itemDesc = pageTitle + '\nSize: ' + r.width + 'x' + r.height + ' ' + r.unit + '\n\nSpecs:\n' + description.join('\n');
-    var perGrillWt = r.totalAluWeight + r.totalIronWeight;
-    var areaWtCol = r.qty > 1
-      ? 'Per: '+r.totalAreaSqFt.toFixed(2)+' sqft\nTotal: '+(r.totalAreaSqFt*r.qty).toFixed(2)+' sqft\n\nPer Wt: '+perGrillWt.toFixed(2)+' kg\nTotal Wt: '+(perGrillWt*r.qty).toFixed(2)+' kg'
-      : r.totalAreaSqFt.toFixed(2)+' sqft\n\nWt: '+perGrillWt.toFixed(2)+' kg';
+    var sumSell = 0;
+    var sumWaste = 0;
+    var sumInst = 0;
+    for (idx = 0; idx < lineItems.length; idx++) {
+      sumSell += lineItems[idx].finalSellingPrice;
+      sumWaste += lineItems[idx].wastageCost;
+      sumInst += lineItems[idx].installationCost;
+    }
 
     doc.autoTable({
       startY: y,
       head: [['Ref', 'Description', 'Qty', 'Area & Wt', 'Rate', 'Amount']],
-      body: [['G01', itemDesc, r.qty, areaWtCol, 'Rs. '+r.perSqftRate.toFixed(2)+'/sqft', 'Rs. '+Math.round(r.finalSellingPrice).toLocaleString('en-IN')]],
+      body: tableBody,
       theme: 'grid',
       headStyles: { fillColor: [39, 39, 42] },
-      styles: { fontSize: 9, cellPadding: 5 },
-      columnStyles: { 0:{cellWidth:30}, 1:{cellWidth:140}, 2:{cellWidth:30,halign:'center'}, 3:{cellWidth:80}, 4:{cellWidth:90}, 5:{cellWidth:80,halign:'right'} },
+      styles: { fontSize: 8, cellPadding: 4 },
+      columnStyles: { 0:{cellWidth:28}, 1:{cellWidth:142}, 2:{cellWidth:28,halign:'center'}, 3:{cellWidth:78}, 4:{cellWidth:88}, 5:{cellWidth:78,halign:'right'} },
       margin: { left: 40, right: 40 }
     });
 
-    y = doc.lastAutoTable.finalY + 20;
+    y = doc.lastAutoTable.finalY + 18;
+    if (y > ph - 160) {
+      doc.addPage();
+      y = 48;
+    }
 
-    // ── Totals — from QuotationModal ──
     var totalsX = pw - 200;
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
     doc.text('Sub Total (Grills):', totalsX, y);
-    doc.text('Rs. ' + Math.round(r.finalSellingPrice).toLocaleString('en-IN'), pw - 40, y, { align: 'right' });
+    doc.text('Rs. ' + Math.round(sumSell).toLocaleString('en-IN'), pw - 40, y, { align: 'right' });
     y += 15;
-
-    if (r.wastageCost > 0) {
+    if (sumWaste > 0) {
       doc.text('Wastage Cost:', totalsX, y);
-      doc.text('Rs. ' + Math.round(r.wastageCost).toLocaleString('en-IN'), pw - 40, y, { align: 'right' });
+      doc.text('Rs. ' + Math.round(sumWaste).toLocaleString('en-IN'), pw - 40, y, { align: 'right' });
       y += 15;
     }
-
     doc.text('Installation Cost:', totalsX, y);
-    doc.text('Rs. ' + Math.round(r.installationCost).toLocaleString('en-IN'), pw - 40, y, { align: 'right' });
+    doc.text('Rs. ' + Math.round(sumInst).toLocaleString('en-IN'), pw - 40, y, { align: 'right' });
     y += 15;
 
-    var totalBeforeGST = r.finalSellingPrice + r.wastageCost + r.installationCost;
+    var totalBeforeGST = sumSell + sumWaste + sumInst;
     doc.setFont('helvetica', 'bold');
     doc.text('Total Before Tax:', totalsX, y);
     doc.text('Rs. ' + Math.round(totalBeforeGST).toLocaleString('en-IN'), pw - 40, y, { align: 'right' });
     y += 15;
-
     var gstAmount = totalBeforeGST * 0.18;
     doc.setFont('helvetica', 'normal');
     doc.text('GST (18%):', totalsX, y);
     doc.text('Rs. ' + Math.round(gstAmount).toLocaleString('en-IN'), pw - 40, y, { align: 'right' });
     y += 15;
-
     doc.setFont('helvetica', 'bold');
     doc.text('Grand Total:', totalsX, y);
     doc.text('Rs. ' + Math.round(totalBeforeGST + gstAmount).toLocaleString('en-IN'), pw - 40, y, { align: 'right' });
-    y += 30;
+    y += 22;
+    if (y > ph - 200) {
+      doc.addPage();
+      y = 48;
+    }
 
-    // ── Material required ──
+    var sumOuter = 0;
+    var sumInner = 0;
+    var sumRod = 0;
+    var sumNuts = 0;
+    var sumAluKg = 0;
+    var sumIronKg = 0;
+    var stdSet = {};
+    for (idx = 0; idx < lineItems.length; idx++) {
+      var li = lineItems[idx];
+      sumOuter += li.outerBins || 0;
+      sumInner += li.innerBins || 0;
+      sumRod += li.rodQty || 0;
+      sumNuts += (li.nutsCount || 0) * li.qty;
+      sumAluKg += (li.totalAluWeight || 0) * li.qty;
+      sumIronKg += (li.totalIronWeight || 0) * li.qty;
+      if (li.stdLenInches) stdSet[String(li.stdLenInches)] = true;
+    }
+    var stdKeys = Object.keys(stdSet);
+    var ftNote = stdKeys.length === 1 ? (parseInt(stdKeys[0], 10) === 144 ? '12ft' : '16ft') : '12ft / 16ft (per line)';
+
     doc.setFontSize(11);
-    doc.text('Material Required', 40, y);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Material Required (summed for all lines)', 40, y);
     y += 5;
+    doc.setFont('helvetica', 'normal');
     doc.autoTable({
       startY: y,
       head: [['Material', 'Quantity']],
       body: [
-        ['Outer Frame Pipes', r.outerBins + ' pcs x ' + (r.stdLenInches===144?'12ft':'16ft')],
-        ['Inner Pipes', r.innerBins + ' pcs x ' + (r.stdLenInches===144?'12ft':'16ft')],
-        ['Threaded Rods', r.rodQty > 0 ? r.rodQty + ' rods' : 'None'],
-        ['Nuts', r.nutsCount > 0 ? (r.nutsCount*r.qty) + ' pcs' : 'None'],
-        ['Total Alu Weight', (r.totalAluWeight*r.qty).toFixed(2)+' kg'],
-        ['Total Iron Weight', (r.totalIronWeight*r.qty).toFixed(2)+' kg']
+        ['Note', 'Totals aggregate every quotation line above.'],
+        ['Outer Frame Pipes', sumOuter + ' pcs x ' + ftNote],
+        ['Inner Pipes', sumInner + ' pcs x ' + ftNote],
+        ['Threaded Rods', sumRod > 0 ? sumRod + ' rods' : 'None'],
+        ['Nuts', sumNuts > 0 ? sumNuts + ' pcs' : 'None'],
+        ['Total Alu Weight', sumAluKg.toFixed(2) + ' kg'],
+        ['Total Iron Weight', sumIronKg.toFixed(2) + ' kg']
       ],
       theme: 'striped',
       headStyles: { fillColor: [5, 150, 105], fontSize: 9 },
@@ -772,9 +884,12 @@
       margin: { left: 40, right: 40 }
     });
 
-    y = doc.lastAutoTable.finalY + 20;
+    y = doc.lastAutoTable.finalY + 16;
+    if (y > ph - 220) {
+      doc.addPage();
+      y = 48;
+    }
 
-    // ── Terms — from QuotationModal ──
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
     doc.text('Terms & Conditions:', 40, y);
@@ -784,7 +899,11 @@
     var terms = '1. 50% advance along with PO.\n2. Balance against proforma invoice before dispatch.\n3. Validity: 15 days.';
     var splitTerms = doc.splitTextToSize(terms, pw - 80);
     doc.text(splitTerms, 40, y);
-    y += splitTerms.length * 12 + 10;
+    y += splitTerms.length * 11 + 12;
+    if (y > ph - 200) {
+      doc.addPage();
+      y = 48;
+    }
 
     doc.setFontSize(10);
     doc.setFont('helvetica', 'bold');
@@ -793,68 +912,96 @@
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
     var bank = 'Account Name: WoodenMax Architectural Elements\nAccount Number: 5020092938110\nIFSC Code: HDFC0001996\nBranch: Hyderaguda Hyderabad';
-    var splitBank = doc.splitTextToSize(bank, pw/2 - 60);
+    var splitBank = doc.splitTextToSize(bank, pw - 100);
     doc.text(splitBank, 40, y);
-    y += splitBank.length * 12 + 20;
+    y += splitBank.length * 11 + 18;
 
-    // Signatory
+    if (y > ph - 72) {
+      doc.addPage();
+      y = 48;
+    }
     doc.setFont('helvetica', 'bold');
+    doc.setFontSize(9);
     doc.text('For WoodenMax Architectural Elements', pw - 40, y, { align: 'right' });
     doc.setFont('helvetica', 'normal');
-    doc.text('Authorized Signatory', pw - 40, y + 40, { align: 'right' });
+    doc.text('Authorized Signatory', pw - 40, y + 22, { align: 'right' });
 
-    // ── Design Preview page — from QuotationModal ──
+    var rSvg = this.lastResults;
+    if (!rSvg || !rSvg.wInches) {
+      var lastLi = lineItems[lineItems.length - 1];
+      rSvg = {
+        wInches: lastLi.wInches,
+        hInches: lastLi.hInches,
+        width: lastLi.width,
+        height: lastLi.height,
+        unit: lastLi.unit,
+        outerProfile: lastLi.outerProfile,
+        innerProfile: lastLi.innerProfile,
+        innerShape: lastLi.innerShape,
+        gapType: lastLi.gapType,
+        pattern: lastLi.pattern,
+        qty: lastLi.qty
+      };
+    }
+
     var svgEl = this.container.querySelector('#grill-svg-container svg');
-    if (svgEl) {
+    var fileName = 'WoodenMax_Grill_Quotation_' + lineItems.length + 'L_' + refNo + '.pdf';
+
+    if (svgEl && rSvg && rSvg.wInches && rSvg.hInches) {
       try {
         doc.addPage();
         var svgY = 40;
-        doc.setFontSize(14);
+        doc.setFontSize(13);
         doc.setFont('helvetica', 'bold');
-        doc.text('Design Previews', 40, svgY);
-        svgY += 30;
-        doc.setFontSize(11);
-        doc.text('Design: ' + pageTitle, 40, svgY);
-        svgY += 15;
+        doc.text('Design preview', 40, svgY);
+        svgY += 14;
+        if (lineItems.length > 1) {
+          doc.setFontSize(8);
+          doc.setFont('helvetica', 'italic');
+          doc.text('Figure shows the live calculator preview (last calculated view). All sizes and amounts are on page 1.', 40, svgY);
+          svgY += 12;
+        }
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'normal');
+        var designHead = doc.splitTextToSize(shortTitle, pw - 80);
+        doc.text(designHead, 40, svgY);
+        svgY += designHead.length * 12 + 12;
 
         var svgData = new XMLSerializer().serializeToString(svgEl);
         var canvas = document.createElement('canvas');
         canvas.width = 1200;
-        canvas.height = 1200 * (r.hInches / r.wInches);
+        canvas.height = 1200 * (rSvg.hInches / rSvg.wInches);
         var ctx = canvas.getContext('2d');
         var img = new Image();
         var svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
         var url = URL.createObjectURL(svgBlob);
-
         var docRef = doc;
-        var fileName = 'WoodenMax_Grill_Estimate_' + r.width + 'x' + r.height + r.unit + '.pdf';
 
         img.onload = function() {
           ctx.fillStyle = '#ffffff';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
           ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
           URL.revokeObjectURL(url);
-
           var imgData = canvas.toDataURL('image/png');
           var imgWidth = 160;
-          var imgHeight = 160 * (r.hInches / r.wInches);
-          if (imgHeight > 300) { imgHeight = 300; imgWidth = imgHeight * (r.wInches / r.hInches); }
-
+          var imgHeight = 160 * (rSvg.hInches / rSvg.wInches);
+          if (imgHeight > 300) {
+            imgHeight = 300;
+            imgWidth = imgHeight * (rSvg.wInches / rSvg.hInches);
+          }
           docRef.addImage(imgData, 'PNG', 40, svgY, imgWidth, imgHeight);
-
-          var taglineY = svgY + imgHeight + 15;
+          var taglineY = svgY + imgHeight + 12;
           docRef.setFontSize(8);
-          docRef.setFont('helvetica', 'italic');
-          docRef.text('Outer Frame: ' + r.outerProfile + 'mm | Inner Profile: ' + r.innerProfile + 'mm ' + r.innerShape + ' | Gaps: ' + r.gapType + ' | Pattern: ' + r.pattern, 40, taglineY);
-
-          var listY = svgY + 15;
-          docRef.setFontSize(9);
-          docRef.setFont('helvetica', 'bold');
-          docRef.text('Applied to sizes:', 220, listY);
-          listY += 15;
           docRef.setFont('helvetica', 'normal');
-          docRef.text('\u2022 ' + r.width + 'x' + r.height + ' ' + r.unit + ' (Qty: ' + r.qty + ')', 220, listY);
-
+          var specLine = 'Outer ' + rSvg.outerProfile + 'mm | Inner ' + rSvg.innerProfile + 'mm ' + rSvg.innerShape + ' | Gaps: ' + rSvg.gapType + ' | Pattern: ' + rSvg.pattern;
+          var specLines = docRef.splitTextToSize(specLine, pw - 80);
+          docRef.text(specLines, 40, taglineY);
+          taglineY += specLines.length * 10 + 8;
+          docRef.setFont('helvetica', 'bold');
+          docRef.setFontSize(9);
+          docRef.text('Representative size (preview):', 40, taglineY);
+          docRef.setFont('helvetica', 'normal');
+          docRef.text(rSvg.width + ' \xD7 ' + rSvg.height + ' ' + rSvg.unit + (rSvg.qty ? ' (Qty: ' + rSvg.qty + ')' : ''), 40, taglineY + 12);
           docRef.save(fileName);
         };
         img.onerror = function() {
@@ -862,12 +1009,12 @@
           docRef.save(fileName);
         };
         img.src = url;
-      } catch(e) {
+      } catch (e) {
         console.error('SVG to PDF failed:', e);
-        doc.save('WoodenMax_Grill_Estimate.pdf');
+        doc.save(fileName);
       }
     } else {
-      doc.save('WoodenMax_Grill_Estimate_' + r.width + 'x' + r.height + r.unit + '.pdf');
+      doc.save(fileName);
     }
   };
 
@@ -903,23 +1050,68 @@
     this.quotationItems = [];
   };
 
-  GrillsCalculator.prototype.addToQuotation = function() {
-    var r = this.lastResults;
-    if (!r) return;
-    this._qid++;
-    var item = {
-      id: this._qid,
+  GrillsCalculator.prototype._snapshotItemFromR = function(r) {
+    var colorName = this.selectedColor ? this.selectedColor.name : '';
+    return {
       width: r.width, height: r.height, unit: r.unit, qty: r.qty,
       outerProfile: r.outerProfile, outerThickness: r.outerThickness,
       innerProfile: r.innerProfile, innerShape: r.innerShape, innerThickness: r.innerThickness,
       pattern: r.pattern, gapType: r.gapType, coatingFinish: r.coatingFinish,
-      colorName: this.selectedColor ? this.selectedColor.name : '',
+      colorName: colorName,
       rodSize: r.rodSize, hasDividers: r.hasDividers,
       totalAreaSqFt: r.totalAreaSqFt, grandTotal: r.grandTotal,
       perSqftRate: r.perSqftRate, finalSellingPrice: r.finalSellingPrice,
-      installationCost: r.installationCost, wastageCost: r.wastageCost
+      installationCost: r.installationCost, wastageCost: r.wastageCost,
+      outerBins: r.outerBins, innerBins: r.innerBins, stdLenInches: r.stdLenInches,
+      rodQty: r.rodQty, nutsCount: r.nutsCount,
+      totalAluWeight: r.totalAluWeight, totalIronWeight: r.totalIronWeight,
+      wInches: r.wInches, hInches: r.hInches,
+      sectionSpaces: r.sectionSpaces
     };
-    this.quotationItems.push(item);
+  };
+
+  /** Same design + size + profile → merge qty & amounts (unique lines in PDF) */
+  GrillsCalculator.prototype._fingerprintItem = function(it) {
+    var sec = it.sectionSpaces ? JSON.stringify(it.sectionSpaces) : '';
+    return [it.width, it.height, it.unit, it.outerProfile, it.outerThickness, it.innerProfile, it.innerShape, it.innerThickness, it.pattern, it.gapType, it.coatingFinish, it.colorName || '', it.rodSize, !!it.hasDividers, sec].join('\u00A6');
+  };
+
+  GrillsCalculator.prototype.addToQuotation = function() {
+    var r = this.lastResults;
+    if (!r) return;
+    var snap = this._snapshotItemFromR(r);
+    var fp = this._fingerprintItem(snap);
+    var items = this.quotationItems;
+    for (var i = 0; i < items.length; i++) {
+      if (this._fingerprintItem(items[i]) === fp) {
+        var ex = items[i];
+        ex.qty += snap.qty;
+        ex.grandTotal += snap.grandTotal;
+        ex.finalSellingPrice += snap.finalSellingPrice;
+        ex.wastageCost += snap.wastageCost;
+        ex.installationCost += snap.installationCost;
+        ex.outerBins += snap.outerBins;
+        ex.innerBins += snap.innerBins;
+        ex.rodQty += snap.rodQty;
+        ex.nutsCount += snap.nutsCount;
+        ex.totalAluWeight += snap.totalAluWeight;
+        ex.totalIronWeight += snap.totalIronWeight;
+        this.renderQuotationList();
+        var addBtn = this.container.querySelector('#grill-add-to-quote');
+        if (addBtn) {
+          addBtn.textContent = 'Merged with matching line!';
+          addBtn.style.background = 'linear-gradient(135deg,#2563eb,#1d4ed8)';
+          setTimeout(function() {
+            addBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add Another Size';
+            addBtn.style.background = 'linear-gradient(135deg,#059669,#047857)';
+          }, 1200);
+        }
+        return;
+      }
+    }
+    this._qid++;
+    snap.id = this._qid;
+    this.quotationItems.push(snap);
     this.renderQuotationList();
 
     var addBtn = this.container.querySelector('#grill-add-to-quote');
@@ -1005,6 +1197,7 @@
         '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' +
         'Get Exact Price — Free Quote' +
       '</h4>' +
+      '<p id="grill-inquiry-error" style="display:none;color:#f87171;font-size:0.85rem;margin:0 0 0.75rem;"></p>' +
       '<form id="grill-user-form" onsubmit="return false;">' +
         '<div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">' +
           '<input type="text" id="grill-user-name" placeholder="Your Name *" required style="padding:0.75rem;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#e2e8f0;font-size:0.9rem;">' +
@@ -1029,7 +1222,7 @@
       '<div id="grill-inquiry-success" style="display:none;text-align:center;padding:1.5rem;">' +
         '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" style="margin-bottom:0.75rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>' +
         '<h4 style="color:#22c55e;margin:0 0 0.5rem;">Quote Request Sent!</h4>' +
-        '<p style="color:#94a3b8;font-size:0.9rem;margin:0;">Our team will contact you within 2 hours with an exact price.</p>' +
+        '<p style="color:#94a3b8;font-size:0.9rem;margin:0;">Your quotation PDF should download in a moment. Our team will contact you within 2 hours.</p>' +
       '</div>';
 
     ctaDiv.parentNode.insertBefore(formDiv, ctaDiv.nextSibling);
@@ -1095,8 +1288,14 @@
     var mobile = (this.container.querySelector('#grill-user-mobile') || {}).value || '';
     var email = (this.container.querySelector('#grill-user-email') || {}).value || '';
 
+    var errEl = this.container.querySelector('#grill-inquiry-error');
+    if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+
     if (!name.trim() || !city.trim() || !mobile.trim()) {
-      alert('Please fill Name, City, and Mobile number.');
+      if (errEl) {
+        errEl.style.display = 'block';
+        errEl.textContent = 'Please fill Name, City, and Mobile number.';
+      }
       return;
     }
 
@@ -1106,7 +1305,8 @@
     var body = this._buildEmailBody();
     body += '\n\n--- Customer Details ---\nName: ' + name + '\nCity: ' + city + '\nMobile: ' + mobile + '\nEmail: ' + (email || 'N/A');
 
-    var subject = 'Grill Quote — ' + name + ' — ' + (this.lastResults ? this.lastResults.width + 'x' + this.lastResults.height + this.lastResults.unit : 'Custom');
+    var lineCount = (this.quotationItems && this.quotationItems.length) ? this.quotationItems.length : (this.lastResults ? 1 : 0);
+    var subject = 'Grill Quote — ' + name + ' — ' + lineCount + ' line(s)';
     var userDetails = { name: name, city: city, mobile: mobile, email: email };
     var self = this;
 
@@ -1124,17 +1324,31 @@
   };
 
   GrillsCalculator.prototype._fallbackEmail = function(subject, body, userEmail) {
-    var cc = userEmail ? '&cc=' + encodeURIComponent(userEmail) : '';
-    window.open('mailto:info@woodenmax.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body) + cc);
-    this._showInquirySuccess();
+    var errEl = this.container.querySelector('#grill-inquiry-error');
+    if (errEl) {
+      errEl.style.display = 'block';
+      errEl.textContent = 'Email could not be sent from here. Use the WhatsApp button — your quote text is prepared there.';
+    }
+    var submitBtn = this.container.querySelector('#grill-submit-inquiry');
+    if (submitBtn) {
+      submitBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Get Exact Price';
+      submitBtn.disabled = false;
+    }
   };
 
   GrillsCalculator.prototype._showInquirySuccess = function() {
     var form = this.container.querySelector('#grill-user-form');
     var success = this.container.querySelector('#grill-inquiry-success');
+    var errEl = this.container.querySelector('#grill-inquiry-error');
+    if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
     if (form) form.style.display = 'none';
     if (success) success.style.display = 'block';
     var self = this;
+    try {
+      if (self.lastResults && typeof self.generatePDF === 'function') {
+        setTimeout(function() { self.generatePDF({ silent: true }); }, 400);
+      }
+    } catch (e) { /* ignore */ }
     setTimeout(function() {
       if (form) form.style.display = '';
       if (success) success.style.display = 'none';
