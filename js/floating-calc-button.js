@@ -117,9 +117,56 @@
     let isScrolling = false;
     let scrollTimeout = null;
     let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+    const usePergolaIntersection =
+      calculatorArea &&
+      calculatorArea.id === 'price-calculator-pergola' &&
+      typeof IntersectionObserver !== 'undefined';
+
     function initializeCalculatorVisibility() {
       if (!calculatorArea) return;
+
+      // Pergola / outdoor calculator: hide floating button while section is on screen (stable, no gap glitches)
+      if (usePergolaIntersection) {
+        const io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              const onScreen = entry.isIntersecting && entry.intersectionRatio > 0.06;
+              requestAnimationFrame(function () {
+                if (onScreen) {
+                  button.style.transition =
+                    'opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.45s';
+                  button.style.opacity = '0';
+                  button.style.visibility = 'hidden';
+                  button.style.pointerEvents = 'none';
+                  button.style.transform = 'translateY(12px) scale(0.97)';
+                } else {
+                  button.style.transition =
+                    'opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s';
+                  button.style.opacity = '1';
+                  button.style.visibility = 'visible';
+                  button.style.pointerEvents = 'auto';
+                  button.style.transform = 'translateY(0) scale(1)';
+                }
+              });
+            });
+          },
+          { root: null, rootMargin: '-12px 0px -12px 0px', threshold: [0, 0.02, 0.08, 0.15, 0.35] }
+        );
+        io.observe(calculatorArea);
+        button.addEventListener('click', function (e) {
+          e.preventDefault();
+          isScrolling = true;
+          const rect = calculatorArea.getBoundingClientRect();
+          const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+          const targetPosition = rect.top + scrollTop - 96;
+          window.scrollTo({ top: Math.max(0, targetPosition), behavior: 'smooth' });
+          clearTimeout(scrollTimeout);
+          scrollTimeout = setTimeout(function () {
+            isScrolling = false;
+          }, 900);
+        });
+        return;
+      }
 
       // Function to check if calculator is visible in viewport (with buffer zone)
       function isCalculatorInViewport() {

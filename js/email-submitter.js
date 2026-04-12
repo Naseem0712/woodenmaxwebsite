@@ -1,14 +1,14 @@
 /**
  * Email & WhatsApp Submission Utility
  * Replaces formsubmit.co with Cloudflare Worker / Web3Forms
- * Also sends same quotation via WhatsApp
+ * Optional WhatsApp copy (off by default — set sendWhatsAppCopy: true to enable)
  * Compatible with Cloudflare
  */
 
 window.EmailSubmitter = {
   /**
    * Submit email via Cloudflare Worker or Web3Forms
-   * Also sends same quotation via WhatsApp
+   * Optional WhatsApp copy (off by default — set sendWhatsAppCopy: true to enable)
    * @param {Object} options - Email submission options
    * @param {string} options.subject - Email subject
    * @param {string} options.message - Email body/message
@@ -22,7 +22,8 @@ window.EmailSubmitter = {
       message = '',
       userDetails = {},
       onSuccess = () => {},
-      onError = () => {}
+      onError = () => {},
+      sendWhatsAppCopy = false
     } = options;
 
     // Cloudflare Worker first (same URL site-wide — override with window.EMAIL_WORKER_URL if needed)
@@ -36,8 +37,9 @@ window.EmailSubmitter = {
     // WhatsApp number for business
     const whatsappNumber = window.WHATSAPP_BUSINESS_NUMBER || '917895328080';
 
-    // Send WhatsApp message with same quotation
-    this.sendWhatsApp(message, userDetails, whatsappNumber);
+    if (sendWhatsAppCopy === true || window.EMAIL_SUBMIT_ALSO_WHATSAPP === true) {
+      this.sendWhatsApp(message, userDetails, whatsappNumber);
+    }
 
     // Try Cloudflare Worker first (if configured)
     if (!useWeb3FormsDirect) {

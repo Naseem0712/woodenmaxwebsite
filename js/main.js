@@ -760,36 +760,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // ============================================
-  // CONTACT FORM HANDLING
-  // ============================================
-  const contactForm = document.getElementById('contactForm');
-  
-  if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      // Get form data
-      const formData = new FormData(contactForm);
-      const name = formData.get('name');
-      const phone = formData.get('phone');
-      const product = formData.get('product');
-      const message = formData.get('message');
-      
-      // Create WhatsApp message
-      const whatsappMessage = `Hello WoodenMax!%0A%0AName: ${name}%0APhone: ${phone}%0AProduct Interest: ${product}%0AMessage: ${message}`;
-      
-      // Open WhatsApp
-      window.open(`https://wa.me/917895328080?text=${whatsappMessage}`, '_blank');
-      
-      // Reset form
-      contactForm.reset();
-      
-      // Show success message (optional)
-      alert('Thank you for your enquiry! We will contact you soon.');
-    });
-  }
-  
+  // Contact page uses inline submitContactForm + EmailSubmitter (js/email-submitter.js) — do not attach a second handler here.
+
   // ============================================
   // SMOOTH SCROLL FOR ANCHOR LINKS
   // ============================================
