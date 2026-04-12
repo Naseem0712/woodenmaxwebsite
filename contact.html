@@ -820,22 +820,39 @@
       const message = document.getElementById('message').value || 'No additional details';
       
       const subject = `New Enquiry from ${name} - ${product}`;
-      const body = `NEW ENQUIRY FROM WEBSITE
-========================
-
-Customer Details:
-- Name: ${name}
-- Phone: ${phone}
-- Email: ${email || 'Not provided'}
-- City: ${city || 'Not provided'}
-- I am: ${leadType || 'Not provided'}
-
-Product Interest: ${product}
-
-Project Details:
-${message}
-
-Generated: ${new Date().toLocaleString('en-IN')}`;
+      var body;
+      if (window.EmailSubmitter && typeof window.EmailSubmitter.buildStructuredHtml === 'function') {
+        body = window.EmailSubmitter.buildStructuredHtml('New enquiry — WoodenMax website', [
+          {
+            title: 'Customer',
+            rows: [
+              { label: 'Name', value: name },
+              { label: 'Phone', value: phone },
+              { label: 'Email', value: email || 'Not provided' },
+              { label: 'City', value: city || 'Not provided' },
+              { label: 'I am', value: leadType || 'Not provided' },
+            ],
+          },
+          {
+            title: 'Interest',
+            rows: [{ label: 'Product / topic', value: product }],
+          },
+          {
+            title: 'Project details',
+            rows: [{ label: 'Message', value: message }],
+          },
+        ]);
+      } else {
+        body = [
+          'NEW ENQUIRY FROM WEBSITE',
+          'Name: ' + name,
+          'Phone: ' + phone,
+          'Email: ' + (email || 'Not provided'),
+          'City: ' + (city || 'Not provided'),
+          'Product: ' + product,
+          'Details: ' + message,
+        ].join('\n');
+      }
       
       // Use EmailSubmitter if available, otherwise fallback to mailto
       if (window.EmailSubmitter) {

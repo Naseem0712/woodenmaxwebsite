@@ -764,99 +764,104 @@ document.addEventListener('DOMContentLoaded', function () {
           est = window.__pergolaLastEstimate;
         }
         var userDetails = { name: name, city: city, mobile: mobile, email: email };
-        var emailBody =
-          '\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n' +
-          'NEW QUOTE REQUEST \u2014 Pergola / outdoor roof calculator\n' +
-          '\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n\n' +
-          '\ud83d\udccb USER CONTACT\n' +
-          'Name: ' +
-          name +
-          '\nCity: ' +
-          city +
-          '\nMobile: ' +
-          mobile +
-          '\n' +
-          (email ? 'Email: ' + email + '\n' : '') +
-          '\n' +
-          '\ud83d\udce6 PAGE\n' +
-          (est.pageTitle ? 'Title: ' + est.pageTitle + '\n' : '') +
-          'URL: ' +
-          (est.pageUrl || '') +
-          '\n\n' +
-          '\ud83d\udccf CONFIGURATION\n' +
-          'Pergola line: ' +
-          (est.pergolaLineLabel || est.pergolaLineId || '') +
-          '\nStructure: ' +
-          est.material +
-          '\nFitting: ' +
-          est.fittingMode +
-          '\nSize: ' +
-          est.width +
-          ' ft \u00d7 ' +
-          est.depth +
-          ' ft = ' +
-          est.area +
-          ' sqft\n' +
-          'Powder coating: ' +
-          est.coatingKey +
-          '\n' +
-          'Roof product: ' +
-          est.roofProduct +
-          ' (key: ' +
-          est.roofKey +
-          ')\n\n' +
-          '\ud83d\udcb0 EXACT CALCULATED AMOUNTS (same as on-screen after unlock)\n' +
-          est.materialDetail +
-          ': \u20b9 ' +
-          est.baseTotal.toLocaleString('en-IN') +
-          '\n' +
-          'Roof (' +
-          est.roofProduct +
-          ') @ \u20b9' +
-          est.glazingRate +
-          '/sqft: \u20b9 ' +
-          est.glazingTotal.toLocaleString('en-IN') +
-          '\n' +
-          'Powder coating: \u20b9 ' +
-          est.coatingTotal.toLocaleString('en-IN') +
-          '\n' +
-          (est.pillarCount
-            ? 'Pillars (' +
-              (est.pillarLabel || '') +
-              ' \u00d7 ' +
-              est.pillarCount +
-              '): \u20b9 ' +
-              est.pillarTotal.toLocaleString('en-IN') +
-              '\n'
-            : '') +
-          (est.pergolaLineId === 'retractable_motorized'
-            ? 'Motors / automation (' +
-              (est.motorLabel || '') +
-              '): \u20b9 ' +
-              (est.motorTotal != null ? est.motorTotal : 0).toLocaleString('en-IN') +
-              '\n'
-            : '') +
-          'Estimated total: \u20b9 ' +
-          est.estimatedTotal.toLocaleString('en-IN') +
-          '\n\n' +
-          '\ud83d\udce6 MATERIALS / SHEETS\n' +
-          'Sheet size used: ' +
-          est.sheetW +
-          ' \u00d7 ' +
-          est.sheetH +
-          ' ft\n' +
-          'Sheets required: ' +
-          est.glazingSheets +
-          ' pcs\n' +
-          'Roof wastage: ' +
-          est.glazingWasteSqft +
-          ' sqft\n' +
-          'Frame RFT: ' +
-          est.totalFrameRft.toFixed(1) +
-          ', pieces: ' +
-          est.framePieces +
-          '\n\n' +
-          '\u2014\u2014\nGenerated from WoodenMax pergola price calculator\n';
+        var ES = window.EmailSubmitter;
+        var emailBody;
+        if (ES && typeof ES.buildStructuredHtml === 'function') {
+          var amountRows = [
+            {
+              label: est.materialDetail || 'Structure / frame',
+              value: '\u20b9 ' + est.baseTotal.toLocaleString('en-IN'),
+            },
+            {
+              label: 'Roof (' + est.roofProduct + ') @ \u20b9' + est.glazingRate + '/sqft',
+              value: '\u20b9 ' + est.glazingTotal.toLocaleString('en-IN'),
+            },
+            { label: 'Powder coating', value: '\u20b9 ' + est.coatingTotal.toLocaleString('en-IN') },
+          ];
+          if (est.pillarCount) {
+            amountRows.push({
+              label: 'Pillars (' + (est.pillarLabel || '') + ' \u00d7 ' + est.pillarCount + ')',
+              value: '\u20b9 ' + est.pillarTotal.toLocaleString('en-IN'),
+            });
+          }
+          if (est.pergolaLineId === 'retractable_motorized') {
+            amountRows.push({
+              label: 'Motors / automation (' + (est.motorLabel || '') + ')',
+              value:
+                '\u20b9 ' +
+                (est.motorTotal != null ? est.motorTotal : 0).toLocaleString('en-IN'),
+            });
+          }
+          amountRows.push({
+            label: 'Estimated total',
+            value: '\u20b9 ' + est.estimatedTotal.toLocaleString('en-IN'),
+          });
+          emailBody = ES.buildStructuredHtml('New quote request \u2014 Pergola / outdoor roof calculator', [
+            {
+              title: 'Customer',
+              rows: [
+                { label: 'Name', value: name },
+                { label: 'City', value: city },
+                { label: 'Mobile', value: mobile },
+                { label: 'Email', value: email || 'Not provided' },
+              ],
+            },
+            {
+              title: 'Page',
+              rows: [
+                { label: 'Title', value: est.pageTitle || '\u2014' },
+                { label: 'URL', value: est.pageUrl || '\u2014' },
+              ],
+            },
+            {
+              title: 'Configuration',
+              rows: [
+                { label: 'Pergola line', value: est.pergolaLineLabel || est.pergolaLineId || '' },
+                { label: 'Structure', value: String(est.material) },
+                { label: 'Fitting', value: String(est.fittingMode) },
+                {
+                  label: 'Size',
+                  value:
+                    est.width +
+                    ' ft \u00d7 ' +
+                    est.depth +
+                    ' ft = ' +
+                    est.area +
+                    ' sqft',
+                },
+                { label: 'Powder coating', value: String(est.coatingKey) },
+                {
+                  label: 'Roof product',
+                  value: String(est.roofProduct) + ' (key: ' + String(est.roofKey) + ')',
+                },
+              ],
+            },
+            { title: 'Calculated amounts', rows: amountRows },
+            {
+              title: 'Materials / sheets',
+              rows: [
+                {
+                  label: 'Sheet size',
+                  value: est.sheetW + ' \u00d7 ' + est.sheetH + ' ft',
+                },
+                { label: 'Sheets required', value: String(est.glazingSheets) + ' pcs' },
+                { label: 'Roof wastage', value: String(est.glazingWasteSqft) + ' sqft' },
+                {
+                  label: 'Frame',
+                  value: est.totalFrameRft.toFixed(1) + ' RFT, ' + est.framePieces + ' pcs',
+                },
+              ],
+            },
+          ]);
+        } else {
+          emailBody =
+            'NEW QUOTE REQUEST — Pergola\nName: ' +
+            name +
+            '\nCity: ' +
+            city +
+            '\nTotal: \u20b9 ' +
+            est.estimatedTotal.toLocaleString('en-IN');
+        }
 
         if (window.EmailSubmitter) {
           if (st) st.textContent = 'Sending...';

@@ -31,7 +31,15 @@ export default {
 
       let emailBody = message;
 
-      if (name || city || mobile || email) {
+      const msgTrim = (message || '').trimStart();
+      const messageIsHtml =
+        msgTrim.startsWith('<!DOCTYPE') ||
+        msgTrim.startsWith('<html') ||
+        msgTrim.startsWith('<div') ||
+        msgTrim.startsWith('<table');
+
+      // Plain text: prepend contact block. HTML bodies are already structured (tables); prepending breaks layout and duplicates details.
+      if (!messageIsHtml && (name || city || mobile || email)) {
         emailBody = `Name: ${name}\n`;
         emailBody += `City: ${city}\n`;
         emailBody += `Mobile: ${mobile}\n`;

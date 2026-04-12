@@ -1906,40 +1906,61 @@
       const city = document.getElementById('userCity').value || 'Not specified';
 
       const emailSubject = `Glass Elevation Quote - ${name}`;
-      const emailBody = `
-NEW GLASS ELEVATION INQUIRY
-============================
-
-Customer Details:
-- Name: ${name}
-- Phone: ${phone}
-- Email: ${email}
-- City: ${city}
-
-Project Requirements:
-- Width: ${calcData.width} feet
-- Height: ${calcData.height} feet
-- Total Area: ${calcData.area.toFixed(2)} sqft
-- Area with Material Wastage (calculated from glass sheet cutting): ${calcData.totalArea.toFixed(2)} sqft
-- Glass Color: ${calcData.color}
-
-Pricing:
-- Price Range Shown: ${calcData.priceRange}
-- ACTUAL PRICE: ₹${calcData.actualPrice.toLocaleString('en-IN')}
-- Rate: ₹${RATE}/sqft
-
-Package Includes:
-- 58x58x1.5mm Aluminium Frame
-- 5mm Reflector Toughened Glass
-- Structural Silicon Bonding
-- Double-sided Tape
-- Weatherproof Silicon Grooves
-- GI Brackets (75x75x75x6mm) Hot-Dip Galvanized
-- Anchor Bolts (100x10mm)
-- Professional Installation
-
-Generated: ${new Date().toLocaleString('en-IN')}
-      `;
+      var emailBody;
+      if (window.EmailSubmitter && typeof window.EmailSubmitter.buildStructuredHtml === 'function') {
+        emailBody = window.EmailSubmitter.buildStructuredHtml('New glass elevation inquiry', [
+          {
+            title: 'Customer',
+            rows: [
+              { label: 'Name', value: name },
+              { label: 'Phone', value: phone },
+              { label: 'Email', value: email },
+              { label: 'City', value: city },
+            ],
+          },
+          {
+            title: 'Project size',
+            rows: [
+              { label: 'Width', value: calcData.width + ' ft' },
+              { label: 'Height', value: calcData.height + ' ft' },
+              { label: 'Total area', value: calcData.area.toFixed(2) + ' sqft' },
+              {
+                label: 'Area incl. wastage (sheet cutting)',
+                value: calcData.totalArea.toFixed(2) + ' sqft',
+              },
+              { label: 'Glass colour', value: String(calcData.color) },
+            ],
+          },
+          {
+            title: 'Pricing',
+            rows: [
+              { label: 'Price range (on page)', value: String(calcData.priceRange) },
+              {
+                label: 'Quoted amount',
+                value: '₹' + calcData.actualPrice.toLocaleString('en-IN'),
+              },
+              { label: 'Rate', value: '₹' + RATE + '/sqft' },
+            ],
+          },
+          {
+            title: 'Package includes',
+            rows: [
+              { label: 'Frame', value: '58×58×1.5 mm aluminium' },
+              { label: 'Glass', value: '5 mm reflector toughened' },
+              { label: 'Bonding / sealing', value: 'Structural silicon, double-sided tape, weatherproof grooves' },
+              { label: 'Hardware', value: 'GI brackets 75×75×75×6 mm (HDG), anchor bolts 100×10 mm' },
+              { label: 'Installation', value: 'Professional installation' },
+            ],
+          },
+        ]);
+      } else {
+        emailBody = [
+          'NEW GLASS ELEVATION INQUIRY',
+          'Name: ' + name,
+          'Phone: ' + phone,
+          'Price: ₹' + calcData.actualPrice.toLocaleString('en-IN'),
+        ].join('\n');
+      }
 
       if (submitBtn) {
         submitBtn.disabled = true;

@@ -36,8 +36,8 @@ RewriteCond %{REQUEST_URI} ^/(html|www|public|dist|build)/(.*)$ [NC]
 RewriteRule ^(html|www|public|dist|build)/(.*)$ /$2 [R=301,L]
 
 # Pergola: legacy duplicate URLs → single canonical page (files removed from repo)
-RewriteRule ^products/pergola/motorized-pergola(\.html)?$ /products/pergola/retractable-pergola.html [R=301,L]
-RewriteRule ^products/pergola/louver-pergola(\.html)?$ /products/pergola/profile-pergola.html [R=301,L]
+RewriteRule ^products/pergola/motorized-pergola(\.html)?$ /products/pergola/retractable-pergola [R=301,L]
+RewriteRule ^products/pergola/louver-pergola(\.html)?$ /products/pergola/profile-pergola [R=301,L]
 
 # ============================================
 # URL CLEANUP RULES
@@ -51,12 +51,9 @@ RewriteRule ^(.+?)/$ /$1 [R=301,L]
 RewriteCond %{THE_REQUEST} \s/index\.html(\s|\?) [NC]
 RewriteRule ^index\.html$ / [R=301,L]
 
-# Keep .html in the address bar (sitemap & local dev use explicit .html — do not strip)
-# (Previously redirected *.html → extensionless; removed per site preference.)
-
-# Uppercase .HTML/.HTM → lowercase .html
-RewriteCond %{REQUEST_URI} \.(HTML|HTM)$ [NC]
-RewriteRule ^(.*)\.(HTML|HTM)$ /$1.html [R=301,L]
+# Canonical URLs without .html: /path.html → 301 /path (query string preserved via QSA)
+RewriteCond %{THE_REQUEST} \s/+([^\s?]+)\.html(\?|\s) [NC]
+RewriteRule ^.*$ /%1 [R=301,L,QSA]
 
 # Internally load .html when user opens clean URL (INTERNAL REWRITE)
 # Example: /products/window  ->  /products/window.html
