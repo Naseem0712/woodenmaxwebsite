@@ -776,7 +776,7 @@ class PriceCalculatorBase {
     }
     
     
-    // Email body — HTML tables (readable on phone & desktop)
+    // Email body — plain text (Web3Forms shows message as text, not HTML)
     const matRows = [
       { label: 'Glass type', value: selections.glass },
       { label: 'Coating', value: selections.coating },
@@ -787,8 +787,8 @@ class PriceCalculatorBase {
 
     let emailBody;
     const ES = window.EmailSubmitter;
-    if (ES && typeof ES.buildStructuredHtml === 'function') {
-      emailBody = ES.buildStructuredHtml(
+    if (ES && typeof ES.buildStructuredPlainText === 'function') {
+      emailBody = ES.buildStructuredPlainText(
         `New quote request — ${this.config.name || this.productId}`,
         [
           {
@@ -983,42 +983,9 @@ class PriceCalculatorBase {
     
     const ES = window.EmailSubmitter;
     let emailBody;
-    if (ES && typeof ES.buildStructuredHtml === 'function' && typeof ES.buildGridHtml === 'function') {
-      const headers = [
-        '#',
-        'W × H',
-        'Unit',
-        'Qty',
-        'Area / unit',
-        'Row area',
-        'Glass',
-        'Coating',
-        'Lock',
-      ];
-      if (this.hasMesh) headers.push('Mesh');
-      headers.push('Amount');
-      const gridRows = rowDetails.map((row) => {
-        const r = [
-          String(row.rowNumber),
-          `${row.width} × ${row.height}`,
-          row.unit,
-          String(row.qty),
-          row.area,
-          row.totalArea,
-          row.glass,
-          row.coating,
-          row.lock,
-        ];
-        if (this.hasMesh) r.push(row.mesh);
-        r.push(
-          row.calculatedAmount
-            ? '₹' + row.calculatedAmount.toLocaleString('en-IN')
-            : row.price
-        );
-        return r;
-      });
-      const gridHtml = ES.buildGridHtml(headers, gridRows);
-      emailBody = ES.buildStructuredHtml(
+    if (ES && typeof ES.buildStructuredPlainText === 'function' && typeof ES.buildSizeRowsPlain === 'function') {
+      const lineItemsPlain = ES.buildSizeRowsPlain(rowDetails, this.hasMesh);
+      emailBody = ES.buildStructuredPlainText(
         `New quote request — ${this.config.name || this.productId} (multiple sizes)`,
         [
           {
@@ -1036,7 +1003,7 @@ class PriceCalculatorBase {
           },
           {
             title: 'Sizes & materials',
-            rows: [{ label: 'Line items', valueHtml: gridHtml }],
+            rows: [{ label: 'Line items', value: lineItemsPlain }],
           },
           {
             title: 'Summary',

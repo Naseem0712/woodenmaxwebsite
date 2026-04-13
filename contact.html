@@ -821,8 +821,8 @@
       
       const subject = `New Enquiry from ${name} - ${product}`;
       var body;
-      if (window.EmailSubmitter && typeof window.EmailSubmitter.buildStructuredHtml === 'function') {
-        body = window.EmailSubmitter.buildStructuredHtml('New enquiry — WoodenMax website', [
+      if (window.EmailSubmitter && typeof window.EmailSubmitter.buildStructuredPlainText === 'function') {
+        body = window.EmailSubmitter.buildStructuredPlainText('New enquiry — WoodenMax website', [
           {
             title: 'Customer',
             rows: [

@@ -1,6 +1,36 @@
 // Cloudflare Worker for Email Forwarding
 // Live URL: https://jolly-field-be49.finilexnaseem.workers.dev/
 // Set WEB3FORMS_ACCESS_KEY (and optionally RECIPIENT_EMAIL) in Cloudflare Worker settings.
+// Web3Forms shows `message` as plain text — strip HTML if a client sends markup.
+
+function htmlToPlainText(s) {
+  if (!s || typeof s !== 'string') return '';
+  const t = s.trimStart();
+  if (
+    !t.startsWith('<!DOCTYPE') &&
+    !t.startsWith('<html') &&
+    !t.startsWith('<div') &&
+    !t.startsWith('<table')
+  ) {
+    return s;
+  }
+  return s
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(tr|p|div|table|h[1-6])>/gi, '\n')
+    .replace(/<t[dh][^>]*>/gi, ' ')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
 
 export default {
   async fetch(request, env) {
@@ -29,22 +59,15 @@ export default {
       const mobile = formData.get('Mobile') || formData.get('mobile') || '';
       const email = formData.get('Email') || formData.get('email') || '';
 
-      let emailBody = message;
+      let emailBody = htmlToPlainText(message || '');
 
-      const msgTrim = (message || '').trimStart();
-      const messageIsHtml =
-        msgTrim.startsWith('<!DOCTYPE') ||
-        msgTrim.startsWith('<html') ||
-        msgTrim.startsWith('<div') ||
-        msgTrim.startsWith('<table');
-
-      // Plain text: prepend contact block. HTML bodies are already structured (tables); prepending breaks layout and duplicates details.
-      if (!messageIsHtml && (name || city || mobile || email)) {
-        emailBody = `Name: ${name}\n`;
-        emailBody += `City: ${city}\n`;
-        emailBody += `Mobile: ${mobile}\n`;
-        if (email) emailBody += `Email: ${email}\n`;
-        emailBody += `\n---\n\n${message}`;
+      if (!emailBody.trim() && (name || city || mobile || email)) {
+        const lines = [];
+        if (name) lines.push(`Name: ${name}`);
+        if (city) lines.push(`City: ${city}`);
+        if (mobile) lines.push(`Mobile: ${mobile}`);
+        if (email) lines.push(`Email: ${email}`);
+        emailBody = lines.join('\n');
       }
 
       const accessKey =

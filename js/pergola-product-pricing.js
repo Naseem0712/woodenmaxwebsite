@@ -766,7 +766,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var userDetails = { name: name, city: city, mobile: mobile, email: email };
         var ES = window.EmailSubmitter;
         var emailBody;
-        if (ES && typeof ES.buildStructuredHtml === 'function') {
+        if (ES && typeof ES.buildStructuredPlainText === 'function') {
           var amountRows = [
             {
               label: est.materialDetail || 'Structure / frame',
@@ -796,7 +796,7 @@ document.addEventListener('DOMContentLoaded', function () {
             label: 'Estimated total',
             value: '\u20b9 ' + est.estimatedTotal.toLocaleString('en-IN'),
           });
-          emailBody = ES.buildStructuredHtml('New quote request \u2014 Pergola / outdoor roof calculator', [
+          emailBody = ES.buildStructuredPlainText('New quote request \u2014 Pergola / outdoor roof calculator', [
             {
               title: 'Customer',
               rows: [

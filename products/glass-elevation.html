@@ -1907,8 +1907,8 @@
 
       const emailSubject = `Glass Elevation Quote - ${name}`;
       var emailBody;
-      if (window.EmailSubmitter && typeof window.EmailSubmitter.buildStructuredHtml === 'function') {
-        emailBody = window.EmailSubmitter.buildStructuredHtml('New glass elevation inquiry', [
+      if (window.EmailSubmitter && typeof window.EmailSubmitter.buildStructuredPlainText === 'function') {
+        emailBody = window.EmailSubmitter.buildStructuredPlainText('New glass elevation inquiry', [
           {
             title: 'Customer',
             rows: [
