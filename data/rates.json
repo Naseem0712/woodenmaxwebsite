@@ -1,285 +1,616 @@
 {
-  "base_glass_rail_per_sqft": 1200,
-  "base_pergola_per_sqft": 850,
-  "steel_rate_per_kg": 180,
-  "aluminium_rate_per_sqft": 1050,
-  "iron_rate_per_sqft": 1350,
+  "base_glass_rail_per_sqft": 1380,
+  "base_pergola_per_sqft": 1020,
+  "steel_rate_per_kg": 207,
+  "aluminium_rate_per_sqft": 1207.5,
+  "iron_rate_per_sqft": 1552.5,
   "iron_kg_per_sqft": 4.5,
-  "deco_paint_per_sqft": 350,
+  "deco_paint_per_sqft": 402.5,
   "coating_price": {
-    "wooden": 150,
-    "plain": 80,
-    "textured": 120
+    "wooden": 172.5,
+    "plain": 92,
+    "textured": 138
   },
   "thickness_multiplier": {
-    "2": 1.0,
+    "2": 1,
     "3": 1.08,
     "4": 1.15,
-    "6": 1.0,
+    "6": 1,
     "8": 1.12,
     "10": 1.25
-  }
-,
+  },
   "glass_unit_rates_per_sqft": {
-    "4mm_clr": 95,
-    "5mm_clr": 115,
-    "nr_hd_frosting_per_sqft": 125,
-    "regular_frosting_per_sqft": 35,
-    "back_paint_per_sqft": 150,
-    "toughening_charges_per_sqft": 30,
-    "4mm_color_black_brown_grey": 115,
-    "5mm_color_black_brown_grey": 135,
-    "5mm_fluted_clr": 145,
-    "8mm_clr_fluted": 165,
-    "5mm_fluted_color": 165,
-    "8mm_fluted_color": 185,
-    "6mm_clr": 135,
-    "6mm_color_black_brown_grey": 155,
-    "8mm_clr": 145,
-    "8mm_color_black_brown_grey": 165,
-    "10mm_clr": 165,
-    "10mm_color_black_brown_grey": 185,
-    "12mm_clr": 195,
-    "12mm_color_black_brown_grey": 215
+    "4mm_clr": 109.25,
+    "5mm_clr": 132.25,
+    "nr_hd_frosting_per_sqft": 143.75,
+    "regular_frosting_per_sqft": 40.25,
+    "back_paint_per_sqft": 172.5,
+    "toughening_charges_per_sqft": 34.5,
+    "4mm_color_black_brown_grey": 132.25,
+    "5mm_color_black_brown_grey": 155.25,
+    "5mm_fluted_clr": 166.75,
+    "8mm_clr_fluted": 189.75,
+    "5mm_fluted_color": 189.75,
+    "8mm_fluted_color": 212.75,
+    "6mm_clr": 155.25,
+    "6mm_color_black_brown_grey": 178.25,
+    "8mm_clr": 166.75,
+    "8mm_color_black_brown_grey": 189.75,
+    "10mm_clr": 189.75,
+    "10mm_color_black_brown_grey": 212.75,
+    "12mm_clr": 224.25,
+    "12mm_color_black_brown_grey": 247.25
   },
   "laminated_per_sqft": {
-    "13.52mm_6+1.52+6_clr": 410,
-    "11.52mm_5+1.52+5_clr": 380
+    "13.52mm_6+1.52+6_clr": 471.5,
+    "11.52mm_5+1.52+5_clr": 437
   },
   "dgu_per_sqft": {
-    "24mm_6+12gap+6_clr": 330,
-    "22mm_5+12gap+5_clr": 290
-  }
-,
+    "24mm_6+12gap+6_clr": 379.5,
+    "22mm_5+12gap+5_clr": 333.5
+  },
   "perforated_panels": {
     "ceiling": {
-      "base_per_sqft": 145,
-      "1.2mm_per_sqft": 160,
-      "1.5mm_per_sqft": 190,
-      "design_cnc_per_sqft": 70,
+      "base_per_sqft": 166.75,
+      "1.2mm_per_sqft": 184,
+      "1.5mm_per_sqft": 218.5,
+      "design_cnc_per_sqft": 80.5,
       "coating": {
-        "wooden_powder_per_sqft": 150,
-        "plain_powder_per_sqft": 80,
-        "texture_powder_per_sqft": 120,
+        "wooden_powder_per_sqft": 172.5,
+        "plain_powder_per_sqft": 92,
+        "texture_powder_per_sqft": 138,
         "grade": "AkzoNobel/Zotun (exterior)"
       }
     },
     "elevations": {
-      "2mm_per_sqft": 230,
-      "2.5mm_per_sqft": 260,
-      "3mm_per_sqft": 320,
-      "design_cnc_per_sqft": 80,
+      "2mm_per_sqft": 264.5,
+      "2.5mm_per_sqft": 299,
+      "3mm_per_sqft": 368,
+      "design_cnc_per_sqft": 92,
       "coating_same_as_ceiling": true
     }
-  }
-,
+  },
   "aluminum_sheet": {
     "reference_sheet_8x4_1mm_kg": 8.2,
-    "sheet_size_ft": [8,4],
+    "sheet_size_ft": [
+      8,
+      4
+    ],
     "sqft_per_sheet": 32,
     "kg_per_sqft_per_mm": 0.25625
   },
   "glass_weights": {
     "density_kg_per_m3": 2500,
-    "kg_per_sqft_per_mm": 0.23225806451612903
+    "kg_per_sqft_per_mm": 0.23225806451612904
   },
   "glass_sheet_sizes": {
     "default": [
-      { "w_ft": 8, "h_ft": 4, "sqft": 32 },
-      { "w_ft": 10, "h_ft": 4, "sqft": 40 },
-      { "w_ft": 10, "h_ft": 6, "sqft": 60 },
-      { "w_ft": 8, "h_ft": 10, "sqft": 80 }
+      {
+        "w_ft": 8,
+        "h_ft": 4,
+        "sqft": 32
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 4,
+        "sqft": 40
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 6,
+        "sqft": 60
+      },
+      {
+        "w_ft": 8,
+        "h_ft": 10,
+        "sqft": 80
+      }
     ],
     "fluted": [
-      { "w_ft": 2, "h_ft": 4, "sqft": 8 },
-      { "w_ft": 8, "h_ft": 4, "sqft": 32 },
-      { "w_ft": 8, "h_ft": 10, "sqft": 80 },
-      { "w_ft": 10, "h_ft": 4, "sqft": 40 }
+      {
+        "w_ft": 2,
+        "h_ft": 4,
+        "sqft": 8
+      },
+      {
+        "w_ft": 8,
+        "h_ft": 4,
+        "sqft": 32
+      },
+      {
+        "w_ft": 8,
+        "h_ft": 10,
+        "sqft": 80
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 4,
+        "sqft": 40
+      }
     ],
     "4mm": [
-      { "w_ft": 8, "h_ft": 4, "sqft": 32 },
-      { "w_ft": 10, "h_ft": 4, "sqft": 40 }
+      {
+        "w_ft": 8,
+        "h_ft": 4,
+        "sqft": 32
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 4,
+        "sqft": 40
+      }
     ],
     "5mm": [
-      { "w_ft": 8, "h_ft": 4, "sqft": 32 },
-      { "w_ft": 10, "h_ft": 4, "sqft": 40 }
+      {
+        "w_ft": 8,
+        "h_ft": 4,
+        "sqft": 32
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 4,
+        "sqft": 40
+      }
     ],
     "6mm": [
-      { "w_ft": 8, "h_ft": 4, "sqft": 32 },
-      { "w_ft": 10, "h_ft": 4, "sqft": 40 }
+      {
+        "w_ft": 8,
+        "h_ft": 4,
+        "sqft": 32
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 4,
+        "sqft": 40
+      }
     ],
     "8mm": [
-      { "w_ft": 8, "h_ft": 4, "sqft": 32 },
-      { "w_ft": 10, "h_ft": 4, "sqft": 40 }
+      {
+        "w_ft": 8,
+        "h_ft": 4,
+        "sqft": 32
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 4,
+        "sqft": 40
+      }
     ],
     "10mm": [
-      { "w_ft": 8, "h_ft": 4, "sqft": 32 },
-      { "w_ft": 10, "h_ft": 4, "sqft": 40 },
-      { "w_ft": 10, "h_ft": 6, "sqft": 60 }
+      {
+        "w_ft": 8,
+        "h_ft": 4,
+        "sqft": 32
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 4,
+        "sqft": 40
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 6,
+        "sqft": 60
+      }
     ],
     "12mm": [
-      { "w_ft": 8, "h_ft": 4, "sqft": 32 },
-      { "w_ft": 10, "h_ft": 4, "sqft": 40 },
-      { "w_ft": 10, "h_ft": 6, "sqft": 60 }
+      {
+        "w_ft": 8,
+        "h_ft": 4,
+        "sqft": 32
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 4,
+        "sqft": 40
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 6,
+        "sqft": 60
+      }
     ],
     "polycarbonate": [
-      { "w_ft": 8, "h_ft": 4, "sqft": 32 },
-      { "w_ft": 10, "h_ft": 4, "sqft": 40 }
+      {
+        "w_ft": 8,
+        "h_ft": 4,
+        "sqft": 32
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 4,
+        "sqft": 40
+      }
     ]
   },
   "polycarbonate": {
-    "solid_3mm_per_sqft": 150,
-    "hollow_12mm_per_sqft": 150,
+    "solid_3mm_per_sqft": 180,
+    "hollow_12mm_per_sqft": 180,
     "notes": "Solid 3mm polycarbonate available in plain, brown, grey, diamond finish. Hollow 12mm has shorter life (5-7 years) but better heat resistance."
   },
   "glass_railing": {
     "bottom_rails": [
-      { "size": "175x75mm", "rate_per_rft": 1250, "weight_kg_per_rft": 1.7, "max_height_inch": 48, "max_length_ft": 50 },
-      { "size": "120x75mm", "rate_per_rft": 950, "weight_kg_per_rft": 1.4, "max_height_inch": 48, "max_length_ft": 40 },
-      { "size": "120x45mm", "rate_per_rft": 850, "weight_kg_per_rft": 1.2, "max_height_inch": 42, "max_length_ft": 30 },
-      { "size": "100x35mm", "rate_per_rft": 750, "weight_kg_per_rft": 0.95, "max_height_inch": 30, "max_length_ft": 25 },
-      { "size": "80x50mm",  "rate_per_rft": 650, "weight_kg_per_rft": 0.80, "max_height_inch": 30, "max_length_ft": 25 }
+      {
+        "size": "175x75mm",
+        "rate_per_rft": 1437.5,
+        "weight_kg_per_rft": 1.7,
+        "max_height_inch": 48,
+        "max_length_ft": 50
+      },
+      {
+        "size": "120x75mm",
+        "rate_per_rft": 1092.5,
+        "weight_kg_per_rft": 1.4,
+        "max_height_inch": 48,
+        "max_length_ft": 40
+      },
+      {
+        "size": "120x45mm",
+        "rate_per_rft": 977.5,
+        "weight_kg_per_rft": 1.2,
+        "max_height_inch": 42,
+        "max_length_ft": 30
+      },
+      {
+        "size": "100x35mm",
+        "rate_per_rft": 862.5,
+        "weight_kg_per_rft": 0.95,
+        "max_height_inch": 30,
+        "max_length_ft": 25
+      },
+      {
+        "size": "80x50mm",
+        "rate_per_rft": 747.5,
+        "weight_kg_per_rft": 0.8,
+        "max_height_inch": 30,
+        "max_length_ft": 25
+      }
     ],
     "pillars_ss304": {
       "patti_thickness": "8mm / 6mm",
       "spacing_ft": 3,
       "suitable_for": "balcony, staircase",
       "options": [
-        { "size": "8 inch", "rate_per_pc": 1000 },
-        { "size": "6 inch", "rate_per_pc": 850 },
-        { "size": "4 inch", "rate_per_pc": 550 }
+        {
+          "size": "8 inch",
+          "rate_per_pc": 1150
+        },
+        {
+          "size": "6 inch",
+          "rate_per_pc": 977.5
+        },
+        {
+          "size": "4 inch",
+          "rate_per_pc": 632.5
+        }
       ]
     },
     "studs_ss304": {
       "suitable_for": "balcony / staircase beam face only",
       "options": [
-        { "size": "50x50mm Round", "rate_per_pc": 650 },
-        { "size": "38x50mm Round", "rate_per_pc": 550 }
+        {
+          "size": "50x50mm Round",
+          "rate_per_pc": 747.5
+        },
+        {
+          "size": "38x50mm Round",
+          "rate_per_pc": 632.5
+        }
       ]
     },
     "handrails_aluminium": [
-      { "size": "12x19mm Slim", "rate_per_rft": 170, "weight_kg_per_rft": 0.230 },
-      { "size": "25x25mm Slim", "rate_per_rft": 220, "weight_kg_per_rft": 0.330 },
-      { "size": "38x38mm Sqr/Round", "rate_per_rft": 320, "weight_kg_per_rft": 0.400 },
-      { "size": "50x50mm Sqr/Round", "rate_per_rft": 450, "weight_kg_per_rft": 0.510 }
+      {
+        "size": "12x19mm Slim",
+        "rate_per_rft": 195.5,
+        "weight_kg_per_rft": 0.23
+      },
+      {
+        "size": "25x25mm Slim",
+        "rate_per_rft": 253,
+        "weight_kg_per_rft": 0.33
+      },
+      {
+        "size": "38x38mm Sqr/Round",
+        "rate_per_rft": 368,
+        "weight_kg_per_rft": 0.4
+      },
+      {
+        "size": "50x50mm Sqr/Round",
+        "rate_per_rft": 517.5,
+        "weight_kg_per_rft": 0.51
+      }
     ],
     "notes": "Measurements in running feet (RFT). Pillars every 3 ft. Bottom rail is continuous aluminium profile. All SS hardware is SS 304 grade.",
-    "installation_rate_per_sqft": 180,
+    "installation_rate_per_sqft": 207,
     "fasteners": {
-      "pvc_gitti": { "size": "12×100mm", "rate_per_pc": 30, "chemicals_needed": false },
-      "ss_anchor": { "size": "10×100mm", "rate_per_pc": 40, "chemicals_needed": true, "chemical_bottle_per_15_fasteners": 1, "chemical_bottle_rate": 1500 }
+      "pvc_gitti": {
+        "size": "12×100mm",
+        "rate_per_pc": 34.5,
+        "chemicals_needed": false
+      },
+      "ss_anchor": {
+        "size": "10×100mm",
+        "rate_per_pc": 46,
+        "chemicals_needed": true,
+        "chemical_bottle_per_15_fasteners": 1,
+        "chemical_bottle_rate": 1725
+      }
     }
   },
   "shower_partitions": {
     "frameless": {
-      "glass_options": ["10mm_clr", "10mm_color_black_brown_grey", "12mm_clr", "12mm_color_black_brown_grey"],
+      "glass_options": [
+        "10mm_clr",
+        "10mm_color_black_brown_grey",
+        "12mm_clr",
+        "12mm_color_black_brown_grey"
+      ],
       "default_glass": "10mm_clr",
       "openable_hardware": {
         "description": "2 hinges (wall-to-glass) + 1 shower handle SS 18×6 inches",
         "options": [
-          { "finish": "SS Finish", "rate_per_door": 2500 },
-          { "finish": "Matt Black", "rate_per_door": 3500 }
+          {
+            "finish": "SS Finish",
+            "rate_per_door": 2875
+          },
+          {
+            "finish": "Matt Black",
+            "rate_per_door": 4025
+          }
         ]
       },
       "sliding_hardware": {
         "description": "Top track + handles, without lock",
         "options": [
-          { "finish": "Matt Black", "rate_per_door": 4500 },
-          { "finish": "Regular Gold", "rate_per_door": 4500 },
-          { "finish": "Mill Finish", "rate_per_door": 4500 }
+          {
+            "finish": "Matt Black",
+            "rate_per_door": 5175
+          },
+          {
+            "finish": "Regular Gold",
+            "rate_per_door": 5175
+          },
+          {
+            "finish": "Mill Finish",
+            "rate_per_door": 5175
+          }
         ],
-        "lock_extra_per_door": 1200
+        "lock_extra_per_door": 1380
       }
     },
     "profile_framed": {
-      "glass_options": ["4mm_clr", "4mm_color_black_brown_grey", "5mm_clr", "5mm_color_black_brown_grey", "6mm_clr", "6mm_color_black_brown_grey", "8mm_clr", "8mm_color_black_brown_grey", "5mm_fluted_clr", "8mm_clr_fluted", "5mm_fluted_color", "8mm_fluted_color"],
+      "glass_options": [
+        "4mm_clr",
+        "4mm_color_black_brown_grey",
+        "5mm_clr",
+        "5mm_color_black_brown_grey",
+        "6mm_clr",
+        "6mm_color_black_brown_grey",
+        "8mm_clr",
+        "8mm_color_black_brown_grey",
+        "5mm_fluted_clr",
+        "8mm_clr_fluted",
+        "5mm_fluted_color",
+        "8mm_fluted_color"
+      ],
       "default_glass": "5mm_clr",
       "frame_profiles": [
-        { "size": "15x45mm", "rate_per_sqft": 350 },
-        { "size": "16x35mm", "rate_per_sqft": 350 },
-        { "size": "12x45mm", "rate_per_sqft": 350 },
-        { "size": "12x35mm", "rate_per_sqft": 350 }
+        {
+          "size": "15x45mm",
+          "rate_per_sqft": 402.5
+        },
+        {
+          "size": "16x35mm",
+          "rate_per_sqft": 402.5
+        },
+        {
+          "size": "12x45mm",
+          "rate_per_sqft": 402.5
+        },
+        {
+          "size": "12x35mm",
+          "rate_per_sqft": 402.5
+        }
       ],
       "imported_hardware": {
         "description": "Top track + slim 6-inch D-type handle + wheel set + soft closing",
         "options": [
-          { "finish": "Matt Black", "rate_per_door": 8500 },
-          { "finish": "Mill Finish", "rate_per_door": 8500 },
-          { "finish": "Rose Gold", "rate_per_door": 8500 },
-          { "finish": "Bronze Gold", "rate_per_door": 8500 },
-          { "finish": "Cooper Gold", "rate_per_door": 8500 },
-          { "finish": "Brush Gold", "rate_per_door": 8500 }
+          {
+            "finish": "Matt Black",
+            "rate_per_door": 9775
+          },
+          {
+            "finish": "Mill Finish",
+            "rate_per_door": 9775
+          },
+          {
+            "finish": "Rose Gold",
+            "rate_per_door": 9775
+          },
+          {
+            "finish": "Bronze Gold",
+            "rate_per_door": 9775
+          },
+          {
+            "finish": "Cooper Gold",
+            "rate_per_door": 9775
+          },
+          {
+            "finish": "Brush Gold",
+            "rate_per_door": 9775
+          }
         ],
-        "mortise_lock_extra_per_door": 1800
+        "mortise_lock_extra_per_door": 2070
       },
-      "color_options": ["Matt Black", "Mill Finish", "Rose Gold", "Bronze Gold", "Cooper Gold", "Brush Gold"]
+      "color_options": [
+        "Matt Black",
+        "Mill Finish",
+        "Rose Gold",
+        "Bronze Gold",
+        "Cooper Gold",
+        "Brush Gold"
+      ]
     },
     "coating_options": {
-      "plain": 80,
-      "textured": 120,
-      "wooden": 150,
-      "custom_color": 200,
-      "rose_gold": 450,
-      "cooper_gold": 450,
-      "brush_gold": 450
+      "plain": 92,
+      "textured": 138,
+      "wooden": 172.5,
+      "custom_color": 230,
+      "rose_gold": 517.5,
+      "cooper_gold": 517.5,
+      "brush_gold": 517.5
     },
     "notes": "Imported profiles only. Frame profiles are aluminium. Glass rates from glass_unit_rates_per_sqft. Frosting available at extra charge."
   },
   "louver_profiles": {
     "profiles": [
-      { "size": "25x25mm Sq",  "rate_per_sqft": 370, "weight_kg_per_sqft": 0.480, "gap_mm": 25, "wall_mm": 1.2 },
-      { "size": "25x50mm Rec", "rate_per_sqft": 450, "weight_kg_per_sqft": 0.620, "gap_mm": 25, "wall_mm": 1.2 },
-      { "size": "40x40mm Sq",  "rate_per_sqft": 630, "weight_kg_per_sqft": 0.750, "gap_mm": 40, "wall_mm": 1.2 },
-      { "size": "75x38mm Rec", "rate_per_sqft": 750, "weight_kg_per_sqft": 0.850, "gap_mm": 38, "wall_mm": 1.2 },
-      { "size": "100x50mm Rec","rate_per_sqft": 850, "weight_kg_per_sqft": 1.100, "gap_mm": 50, "wall_mm": 1.2 }
+      {
+        "size": "25x25mm Sq",
+        "rate_per_sqft": 425.5,
+        "weight_kg_per_sqft": 0.48,
+        "gap_mm": 25,
+        "wall_mm": 1.2
+      },
+      {
+        "size": "25x50mm Rec",
+        "rate_per_sqft": 517.5,
+        "weight_kg_per_sqft": 0.62,
+        "gap_mm": 25,
+        "wall_mm": 1.2
+      },
+      {
+        "size": "40x40mm Sq",
+        "rate_per_sqft": 724.5,
+        "weight_kg_per_sqft": 0.75,
+        "gap_mm": 40,
+        "wall_mm": 1.2
+      },
+      {
+        "size": "75x38mm Rec",
+        "rate_per_sqft": 862.5,
+        "weight_kg_per_sqft": 0.85,
+        "gap_mm": 38,
+        "wall_mm": 1.2
+      },
+      {
+        "size": "100x50mm Rec",
+        "rate_per_sqft": 977.5,
+        "weight_kg_per_sqft": 1.1,
+        "gap_mm": 50,
+        "wall_mm": 1.2
+      }
     ],
     "wall_thickness_options": [
-      { "mm": 1.2, "label": "1.2 mm (standard)", "multiplier": 1.0 },
-      { "mm": 1.5, "label": "1.5 mm (+25%)", "multiplier": 1.25 },
-      { "mm": 2.0, "label": "2.0 mm (+67%)", "multiplier": 1.67 }
+      {
+        "mm": 1.2,
+        "label": "1.2 mm (standard)",
+        "multiplier": 1
+      },
+      {
+        "mm": 1.5,
+        "label": "1.5 mm (+25%)",
+        "multiplier": 1.25
+      },
+      {
+        "mm": 2,
+        "label": "2.0 mm (+67%)",
+        "multiplier": 1.67
+      }
     ],
-    "pillar_cost_per_pc": 8500,
+    "pillar_cost_per_pc": 9775,
     "pillar_profile": "100x100mm",
-    "outer_frame_rate_per_sqft": 350,
+    "outer_frame_rate_per_sqft": 402.5,
     "outer_frame_profile": "100x50mm",
     "pattern": "Profiles installed depth-side with gap equal to profile depth. Vertical and horizontal patterns available.",
     "notes": "All profiles are aluminium rectangular/square hollow sections. Wall thickness 1.2mm standard. Profiles + gap = equal spacing pattern for uniform light and air passage."
   },
   "duct_shaft_z_louvers": {
-    "package_rate_per_sqft": { "1.2": 380, "1.5": 475, "2": 635 },
+    "package_rate_per_sqft": {
+      "2": 730.25,
+      "1.2": 437,
+      "1.5": 546.25
+    },
     "z_louver": {
       "size": "75mm",
       "blade_gap_mm": 60,
       "pitch_mm": 135,
-      "weight_kg_per_12ft": { "1.2": 1.7, "1.5": 2.125, "2": 2.84 },
-      "standard_lengths_ft": [12, 16]
+      "weight_kg_per_12ft": {
+        "2": 2.84,
+        "1.2": 1.7,
+        "1.5": 2.125
+      },
+      "standard_lengths_ft": [
+        12,
+        16
+      ]
     },
     "outer_frame": {
       "size": "12×38mm",
       "weight_kg_per_12ft": 1.2,
-      "standard_lengths_ft": [12, 16]
+      "standard_lengths_ft": [
+        12,
+        16
+      ]
     },
     "coating_per_rft": {
-      "plain": 12,
-      "textured": 16,
-      "wooden": 22
+      "plain": 13.8,
+      "textured": 18.4,
+      "wooden": 25.3
     },
-    "wastage_rate_per_kg": 350,
+    "wastage_rate_per_kg": 402.5,
     "notes": "Z louvers for plumbing duct shafts. Horizontal pattern, 45° angle, 60mm gaps. Package includes Z louvers + outer frame. Coating applies to both."
   },
   "duct_shaft_perforated": {
     "sheet_sizes": [
-      { "w_ft": 8, "h_ft": 4, "sqft": 32 },
-      { "w_ft": 10, "h_ft": 4, "sqft": 40 }
+      {
+        "w_ft": 8,
+        "h_ft": 4,
+        "sqft": 32
+      },
+      {
+        "w_ft": 10,
+        "h_ft": 4,
+        "sqft": 40
+      }
     ],
-    "weights_8x4_kg": { "1": 8.25, "1.5": 12.2, "2": 16.5, "2.5": 20.625, "3": 24.75 },
-    "base_per_sqft": { "1": 145, "1.5": 172, "2": 200, "2.5": 285, "3": 385 },
-    "perforation_design_per_sqft": { "1": 35, "1.5": 37, "2": 40, "2.5": 65, "3": 75 },
-    "installation_per_sqft": 110,
-    "coating_per_sqft": { "plain": 25, "textured": 30, "wooden": 45 },
+    "weights_8x4_kg": {
+      "1": 8.25,
+      "1.5": 12.2,
+      "2": 16.5,
+      "2.5": 20.625,
+      "3": 24.75
+    },
+    "base_per_sqft": {
+      "1": 166.75,
+      "2": 230,
+      "3": 442.75,
+      "1.5": 197.8,
+      "2.5": 327.75
+    },
+    "perforation_design_per_sqft": {
+      "1": 40.25,
+      "2": 46,
+      "3": 86.25,
+      "1.5": 42.55,
+      "2.5": 74.75
+    },
+    "installation_per_sqft": 126.5,
+    "coating_per_sqft": {
+      "plain": 28.75,
+      "textured": 34.5,
+      "wooden": 51.75
+    },
     "band_inch_1_1_5mm": 1,
-    "carrier": { "length_ft_per_pc": 10, "weight_kg_per_pc": 4.5, "spacing_ft": 2 },
-    "aluminium_tube": { "length_ft_per_pc": 12, "weight_kg_per_12ft": 1.25, "thickness_mm": 1.2 },
+    "carrier": {
+      "length_ft_per_pc": 10,
+      "weight_kg_per_pc": 4.5,
+      "spacing_ft": 2
+    },
+    "aluminium_tube": {
+      "length_ft_per_pc": 12,
+      "weight_kg_per_12ft": 1.25,
+      "thickness_mm": 1.2
+    },
     "profile_25x38": "25×38×1.2mm aluminium profiles for 2/2.5/3mm mounting",
     "notes": "1, 1.5mm: carrier system, male-female, no silicone. 2+mm: screws, rivets, 25×38 profiles. Coating 15yr exterior warranty."
   },
@@ -289,54 +620,101 @@
       {
         "id": "fixed_aluminium_glass",
         "label": "Fixed aluminium + glass / poly roof",
-        "aluminium_structure_per_sqft": 1050,
-        "iron_structure_per_sqft": 1350
+        "aluminium_structure_per_sqft": 1260,
+        "iron_structure_per_sqft": 1620
       },
       {
         "id": "profile_louver",
         "label": "Profile / louver pergola",
-        "aluminium_structure_per_sqft": 1120,
-        "iron_structure_per_sqft": 1380
+        "aluminium_structure_per_sqft": 1344,
+        "iron_structure_per_sqft": 1656
       },
       {
         "id": "skylight_toplight",
         "label": "Glass skylight / top light",
-        "aluminium_structure_per_sqft": 1000,
-        "iron_structure_per_sqft": 1320
+        "aluminium_structure_per_sqft": 1200,
+        "iron_structure_per_sqft": 1584
       },
       {
         "id": "retractable_motorized",
         "label": "Retractable & motorized (frame + tracks; motors below)",
-        "aluminium_structure_per_sqft": 1220,
-        "iron_structure_per_sqft": 1400
+        "aluminium_structure_per_sqft": 1464,
+        "iron_structure_per_sqft": 1680
       },
       {
         "id": "iron_canopy_heavy",
         "label": "Iron / MS canopy (parking, entrance)",
-        "aluminium_structure_per_sqft": 1080,
-        "iron_structure_per_sqft": 1380
+        "aluminium_structure_per_sqft": 1296,
+        "iron_structure_per_sqft": 1656
       }
     ],
     "pillars": {
       "options": [
-        { "id": "in_grid", "label": "Pillars in main grid only (no add-on line)", "rate_per_pc": 0 },
-        { "id": "alu_80x80", "label": "Aluminium pillar 80×80 mm", "rate_per_pc": 6500 },
-        { "id": "alu_100x100", "label": "Aluminium pillar 100×100 mm", "rate_per_pc": 8500 },
-        { "id": "alu_120x120", "label": "Aluminium pillar 120×120 mm", "rate_per_pc": 11200 },
-        { "id": "ms_5in", "label": "MS pipe pillar 5″ (typ. parking)", "rate_per_pc": 7200 },
-        { "id": "ms_6in", "label": "MS pipe pillar 6″ heavy", "rate_per_pc": 9500 }
+        {
+          "id": "in_grid",
+          "label": "Pillars in main grid only (no add-on line)",
+          "rate_per_pc": 0
+        },
+        {
+          "id": "alu_80x80",
+          "label": "Aluminium pillar 80×80 mm",
+          "rate_per_pc": 7800
+        },
+        {
+          "id": "alu_100x100",
+          "label": "Aluminium pillar 100×100 mm",
+          "rate_per_pc": 10200
+        },
+        {
+          "id": "alu_120x120",
+          "label": "Aluminium pillar 120×120 mm",
+          "rate_per_pc": 13440
+        },
+        {
+          "id": "ms_5in",
+          "label": "MS pipe pillar 5″ (typ. parking)",
+          "rate_per_pc": 8640
+        },
+        {
+          "id": "ms_6in",
+          "label": "MS pipe pillar 6″ heavy",
+          "rate_per_pc": 11400
+        }
       ]
     },
     "motor_automation_retractable": {
       "options": [
-        { "id": "none", "label": "No motor in this estimate (frame + roof only)", "rate_per_sqft": 0, "fixed_addon": 0 },
-        { "id": "basic_tubular", "label": "Basic tubular motor + controls (indicative)", "rate_per_sqft": 260, "fixed_addon": 0 },
-        { "id": "premium_brand", "label": "Premium motor + rain/wind sensors (indicative)", "rate_per_sqft": 380, "fixed_addon": 0 },
-        { "id": "full_bms", "label": "Full automation + BMS tie-in (indicative)", "rate_per_sqft": 420, "fixed_addon": 18000 }
+        {
+          "id": "none",
+          "label": "No motor in this estimate (frame + roof only)",
+          "rate_per_sqft": 0,
+          "fixed_addon": 0
+        },
+        {
+          "id": "motor_500kg",
+          "label": "Basic motor + controls — up to ~500 kg capacity",
+          "rate_per_sqft": 0,
+          "fixed_addon": 48000
+        },
+        {
+          "id": "motor_700kg",
+          "label": "Mid motor + controls — up to ~700 kg capacity",
+          "rate_per_sqft": 0,
+          "fixed_addon": 72000
+        },
+        {
+          "id": "motor_1000kg",
+          "label": "Heavy-duty motor — up to ~1000 kg capacity",
+          "rate_per_sqft": 0,
+          "fixed_addon": 108000
+        },
+        {
+          "id": "motor_2000kg",
+          "label": "Top / industrial — up to ~2000 kg capacity",
+          "rate_per_sqft": 0,
+          "fixed_addon": 180000
+        }
       ]
     }
   }
 }
-
-
-

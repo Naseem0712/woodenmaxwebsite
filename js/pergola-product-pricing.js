@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', function () {
           if (arr[k].id === mid) return arr[k];
         }
         for (var m = 0; m < arr.length; m++) {
-          if (arr[m].id === 'basic_tubular') return arr[m];
+          if (arr[m].id === 'motor_500kg') return arr[m];
         }
         return arr[0] || { id: 'none', label: '\u2014', rate_per_sqft: 0, fixed_addon: 0 };
       }
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
             ui +=
               '<div class="pergola-field-cell pergola-field-cell--roof"><span id="pergola-lbl-motor-package" class="pergola-lbl-type" aria-hidden="true"></span><select id="select-motor-package" style="padding:6px;border:1px solid #ddd;border-radius:6px;width:100%;min-width:12rem;">';
             pergolaCatalog.motor_automation_retractable.options.forEach(function (mo) {
-              var sel = mo.id === 'basic_tubular' ? ' selected' : '';
+              var sel = mo.id === 'motor_500kg' ? ' selected' : '';
               ui +=
                 '<option value="' +
                 String(mo.id).replace(/"/g, '') +
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function () {
           pillarTotal = Math.round(pillarCount * (Number(pillarOpt.rate_per_pc) || 0));
           if (pergolaLineId === 'retractable_motorized') {
             var mEl = document.getElementById('select-motor-package');
-            motorOpt = findMotorOption(mEl ? mEl.value : 'basic_tubular');
+            motorOpt = findMotorOption(mEl ? mEl.value : 'motor_500kg');
             motorTotal = Math.round(
               area * (Number(motorOpt.rate_per_sqft) || 0) + (Number(motorOpt.fixed_addon) || 0)
             );
@@ -544,10 +544,14 @@ document.addEventListener('DOMContentLoaded', function () {
               var motorRateShow = Number(motorOpt.rate_per_sqft) || 0;
               var motorFix = Number(motorOpt.fixed_addon) || 0;
               var motorRateCol =
-                '\u20b9' +
-                motorRateShow.toLocaleString('en-IN') +
-                '/sqft' +
-                (motorFix > 0 ? ' +\u20b9' + motorFix.toLocaleString('en-IN') + ' fixed' : '');
+                motorRateShow > 0
+                  ? '\u20b9' +
+                    motorRateShow.toLocaleString('en-IN') +
+                    '/sqft' +
+                    (motorFix > 0 ? ' +\u20b9' + motorFix.toLocaleString('en-IN') + ' fixed' : '')
+                  : motorFix > 0
+                    ? 'Fixed package \u20b9' + motorFix.toLocaleString('en-IN')
+                    : '\u2014';
               out +=
                 '<tr><td class="pergola-td-item">Motors / automation (' +
                 (motorOpt.label || '') +
