@@ -146,11 +146,9 @@ window.EmailSubmitter = {
     const useWeb3FormsDirect =
       workerEndpoint.includes('YOUR_') || workerEndpoint.includes('woodenmax.in/api');
 
-    const whatsappNumber = window.WHATSAPP_BUSINESS_NUMBER || '917895328080';
-
-    if (sendWhatsAppCopy === true || window.EMAIL_SUBMIT_ALSO_WHATSAPP === true) {
-      this.sendWhatsApp(outboundMessage, userDetails, whatsappNumber);
-    }
+    // WhatsApp copy-on-submit disabled (was causing form submission issues on some devices).
+    // Form now sends email only. Keep the sendWhatsApp method below for backward compatibility
+    // but do not invoke it from the submit flow.
 
     if (!useWeb3FormsDirect) {
       try {
@@ -217,23 +215,9 @@ window.EmailSubmitter = {
     }
   },
 
-  sendWhatsApp(message, userDetails, whatsappNumber) {
-    try {
-      let plain = this.normalizeMessageForEmail(message || '');
-      const whatsappMessage = encodeURIComponent(plain);
-
-      const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
-
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = whatsappUrl;
-      document.body.appendChild(iframe);
-
-      setTimeout(() => {
-        document.body.removeChild(iframe);
-      }, 2000);
-    } catch (error) {
-      /* Don't block user experience if WhatsApp fails */
-    }
+  // Deprecated: no-op. WhatsApp copy-on-submit removed because the hidden-iframe wa.me hack
+  // was interfering with form submission on some mobile browsers. Kept for backward compatibility.
+  sendWhatsApp(_message, _userDetails, _whatsappNumber) {
+    return;
   }
 };

@@ -1115,10 +1115,10 @@ class PriceCalculatorBase {
       form.insertBefore(errEl, form.firstChild);
     }
     if (errEl) {
-      errEl.textContent = 'Email could not be sent. Please try again or reach us on WhatsApp.';
+      errEl.textContent = 'Email could not be sent right now. Please try again or call +91 789-5328080.';
       errEl.style.display = 'block';
     } else {
-      alert('Could not send your quote by email. Please try again or WhatsApp us.');
+      alert('Could not send your quote by email. Please try again or call +91 789-5328080.');
     }
   }
 

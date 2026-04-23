@@ -1178,7 +1178,7 @@
   };
 
   // ──────────────────────────────────────────────
-  // EMAIL INQUIRY + WHATSAPP
+  // EMAIL INQUIRY
   // ──────────────────────────────────────────────
   GrillsCalculator.prototype.injectInquiryForm = function() {
     var ctaDiv = this.container.querySelector('div[style*="text-align: center"]');
@@ -1212,10 +1212,6 @@
             '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' +
             'Get Exact Price' +
           '</button>' +
-          '<button type="button" id="grill-whatsapp-btn" style="padding:0.85rem 1.5rem;background:#25d366;color:#fff;border:none;border-radius:12px;font-weight:600;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;gap:0.5rem;">' +
-            '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.489l4.624-1.467A11.93 11.93 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818c-2.168 0-4.19-.58-5.938-1.592l-.42-.25-4.357 1.143 1.164-4.254-.276-.438A9.79 9.79 0 012.182 12c0-5.42 4.398-9.818 9.818-9.818S21.818 6.58 21.818 12 17.42 21.818 12 21.818z"/></svg>' +
-            'WhatsApp' +
-          '</button>' +
         '</div>' +
         '<p style="color:#64748b;font-size:0.75rem;margin:0.5rem 0 0;text-align:center;">No spam. Your details are sent directly to our team for a personalized quote.</p>' +
       '</form>' +
@@ -1229,9 +1225,6 @@
 
     var form = formDiv.querySelector('#grill-user-form');
     form.addEventListener('submit', function(e) { e.preventDefault(); self.submitInquiry(); });
-
-    var waBtn = formDiv.querySelector('#grill-whatsapp-btn');
-    waBtn.addEventListener('click', function() { self.sendWhatsApp(); });
   };
 
   GrillsCalculator.prototype._buildEmailBody = function() {
@@ -1327,7 +1320,7 @@
     var errEl = this.container.querySelector('#grill-inquiry-error');
     if (errEl) {
       errEl.style.display = 'block';
-      errEl.textContent = 'Email could not be sent from here. Use the WhatsApp button — your quote text is prepared there.';
+      errEl.textContent = 'Could not send email right now. Please call +91 789-5328080 or try again in a moment.';
     }
     var submitBtn = this.container.querySelector('#grill-submit-inquiry');
     if (submitBtn) {
@@ -1360,18 +1353,8 @@
     }, 5000);
   };
 
-  GrillsCalculator.prototype.sendWhatsApp = function() {
-    var body = this._buildEmailBody();
-    var name = (this.container.querySelector('#grill-user-name') || {}).value || '';
-    var city = (this.container.querySelector('#grill-user-city') || {}).value || '';
-    var mobile = (this.container.querySelector('#grill-user-mobile') || {}).value || '';
-    if (name) body += '\n\nName: ' + name;
-    if (city) body += '\nCity: ' + city;
-    if (mobile) body += '\nMobile: ' + mobile;
-    var waNumber = window.WHATSAPP_BUSINESS_NUMBER || '917895328080';
-    var waUrl = 'https://wa.me/' + waNumber + '?text=' + encodeURIComponent(body);
-    window.open(waUrl, '_blank');
-  };
+  // Deprecated: WhatsApp CTA removed from grills calculator.
+  GrillsCalculator.prototype.sendWhatsApp = function() { return; };
 
   // ──────────────────────────────────────────────
   // INIT — updated to include cart + inquiry

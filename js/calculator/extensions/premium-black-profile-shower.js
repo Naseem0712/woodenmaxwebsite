@@ -361,7 +361,7 @@ Generated from Premium Black Profile Shower Calculator
   
   showEmailSubmitFailed(error) {
     console.error('Quote email failed:', error);
-    alert('Could not send email. Please try again or WhatsApp us.');
+    alert('Could not send email. Please try again or call +91 789-5328080.');
   }
 
   showSuccessMessage() {

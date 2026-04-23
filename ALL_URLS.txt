@@ -1,7 +1,8 @@
-# WoodenMax - All Site URLs
+# WoodenMax — Complete Site URL Index
 # Use for indexing check: site:woodenmax.in in Google
 # Reindex: GSC → URL Inspection → Request Indexing
-# Last updated: Feb 2026
+# Submit this list as sitemap supplement or for bulk request indexing
+# Last updated: Apr 2026 (post internal-link optimization)
 
 ## MAIN PAGES (5)
 https://woodenmax.in/
@@ -15,7 +16,7 @@ https://woodenmax.in/aluminium-window-price-calculator
 https://woodenmax.in/glass-elevation-price-calculator
 https://woodenmax.in/calculators
 
-## PRODUCT HUBS (8)
+## PRODUCT HUBS (9)
 https://woodenmax.in/products/aluminium-windows
 https://woodenmax.in/products/telescope-windows
 https://woodenmax.in/products/folding-systems
@@ -24,8 +25,9 @@ https://woodenmax.in/products/shower-partitions
 https://woodenmax.in/products/elevation-cladding
 https://woodenmax.in/products/glass-elevation
 https://woodenmax.in/products/glass-railing
+https://woodenmax.in/products/grills
 
-## ALUMINIUM WINDOWS - Product Pages (9)
+## ALUMINIUM WINDOWS — Product Pages (9)
 https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door
 https://woodenmax.in/products/aluminium-windows/3-track-sliding-window
 https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window
@@ -64,6 +66,21 @@ https://woodenmax.in/products/elevation-cladding/hpl-exterior-cladding
 https://woodenmax.in/products/glass-railing/balcony-glass-railing
 https://woodenmax.in/products/glass-railing/staircase-glass-railing
 
+## GRILLS — Safety Grills & Balustrades (6)
+https://woodenmax.in/products/grills/aluminium-window-grills
+https://woodenmax.in/products/grills/balcony-safety-grills
+https://woodenmax.in/products/grills/iron-safety-grills
+https://woodenmax.in/products/grills/staircase-balustrade-grills
+https://woodenmax.in/products/grills/window-safety-grills
+https://woodenmax.in/products/grills-tools-guide
+
+## PERGOLA — Terrace Roofs & Skylights (5)
+https://woodenmax.in/products/pergola/aluminium-pergola
+https://woodenmax.in/products/pergola/glass-skylight
+https://woodenmax.in/products/pergola/retractable-pergola
+https://woodenmax.in/products/pergola/profile-pergola
+https://woodenmax.in/products/pergola/profile-iron-canopy
+
 ## CITY PAGES (7)
 https://woodenmax.in/city/hyderabad
 https://woodenmax.in/city/bangalore
@@ -73,7 +90,7 @@ https://woodenmax.in/city/lucknow
 https://woodenmax.in/city/mumbai
 https://woodenmax.in/city/pune
 
-## BLOG POSTS (7)
+## BLOG POSTS (8)
 https://woodenmax.in/blog/window-maintenance-tips
 https://woodenmax.in/blog/energy-efficient-windows-guide
 https://woodenmax.in/blog/soundproof-windows-Hyderabad
@@ -81,6 +98,37 @@ https://woodenmax.in/blog/sliding-window-vs-folding-door-comparison
 https://woodenmax.in/blog/aluminium-sliding-glass-door-complete-guide
 https://woodenmax.in/blog/frameless-sliding-doors-interior-partitions
 https://woodenmax.in/blog/complete-woodenmax-products-guide
+https://woodenmax.in/blog/pergola-design-ideas-india
 
 ---
-TOTAL: 59 URLs
+TOTAL: 68 URLs
+
+## SUMMARY BY SECTION
+Main pages               :  5
+Calculator pages         :  3
+Product hubs             :  9
+Aluminium windows subs   :  9
+Telescope windows subs   :  1
+Folding systems subs     :  2
+Metal louvers subs       :  4
+Shower partitions subs   :  5
+Elevation cladding subs  :  2
+Glass railing subs       :  2
+Grills subs              :  6
+Pergola subs             :  5
+City pages               :  7
+Blog posts               :  8
+-----------------------------
+TOTAL                    : 68
+
+## NOTES ON GOOGLE SEARCH CONSOLE INDEXING
+# If GSC shows only ~52 pages indexed, common reasons are:
+# 1. Discovered - currently not indexed → request indexing via URL Inspection tool
+# 2. Crawled - currently not indexed → wait 1-3 weeks; Google re-evaluates
+# 3. Canonical mismatch → ensure .html suffix not present in internal links (DONE)
+# 4. Duplicate / redirect → .htaccess 301s strip .html; internal links now clean (DONE)
+# 5. Low internal link count → every hub/sub now links to 10 product categories (DONE)
+# 6. Sitemap not submitted → sitemap.xml + sitemap-images.xml at /sitemap.xml
+#
+# After push: resubmit sitemap in GSC → Sitemaps → Add new → /sitemap.xml
+# Then use "Request Indexing" for the 16 URLs not yet indexed (the gap between 52 and 68).
