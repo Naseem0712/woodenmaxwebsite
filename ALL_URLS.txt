@@ -27,7 +27,7 @@ https://woodenmax.in/products/glass-elevation
 https://woodenmax.in/products/glass-railing
 https://woodenmax.in/products/grills
 
-## ALUMINIUM WINDOWS — Product Pages (9) + SEO cluster (10)
+## ALUMINIUM WINDOWS — Product (9) + price/calc cluster (10) + system window cluster (10) = 29
 https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door
 https://woodenmax.in/products/aluminium-windows/3-track-sliding-window
 https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window
@@ -37,7 +37,7 @@ https://woodenmax.in/products/aluminium-windows/georgian-grill-casement-door
 https://woodenmax.in/products/aluminium-windows/slim-entrance-glass-door
 https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window
 https://woodenmax.in/products/aluminium-windows/top-hung-casement-window
-## ALUMINIUM WINDOWS — SEO price / calculator / comparison (10)
+## ALUMINIUM — SEO price / calculator / comparison (10)
 https://woodenmax.in/products/aluminium-windows/2-track-aluminium-window-price
 https://woodenmax.in/products/aluminium-windows/4-track-sliding-window-price
 https://woodenmax.in/products/aluminium-windows/aluminium-casement-window-price
@@ -49,7 +49,7 @@ https://woodenmax.in/products/aluminium-windows/best-aluminium-window-for-home
 https://woodenmax.in/products/aluminium-windows/aluminium-window-price-hyderabad
 https://woodenmax.in/products/aluminium-windows/aluminium-window-glass-price-breakdown
 
-## ALUMINIUM WINDOWS — System window cluster (premium SEO) (10)
+## ALUMINIUM — System window cluster (premium SEO) (10)
 https://woodenmax.in/products/aluminium-windows/aluminium-system-window-price
 https://woodenmax.in/products/aluminium-windows/what-is-aluminium-system-window
 https://woodenmax.in/products/aluminium-windows/system-window-vs-normal-window
@@ -124,13 +124,13 @@ https://woodenmax.in/blog/complete-woodenmax-products-guide
 https://woodenmax.in/blog/pergola-design-ideas-india
 
 ---
-TOTAL: 68 URLs
+TOTAL: 88 URLs  (sitemap.xml mein bhi 88 <loc> — same set)
 
 ## SUMMARY BY SECTION
 Main pages               :  5
 Calculator pages         :  3
 Product hubs             :  9
-Aluminium windows subs   :  19
+Aluminium windows subs   : 29  (9 product + 10 price + 10 system)
 Telescope windows subs   :  1
 Folding systems subs     :  2
 Metal louvers subs       :  4
@@ -142,16 +142,17 @@ Pergola subs             :  5
 City pages               :  7
 Blog posts               :  8
 -----------------------------
-TOTAL                    : 78
+TOTAL                    : 88
 
-## NOTES ON GOOGLE SEARCH CONSOLE INDEXING
-# If GSC shows only ~52 pages indexed, common reasons are:
-# 1. Discovered - currently not indexed → request indexing via URL Inspection tool
-# 2. Crawled - currently not indexed → wait 1-3 weeks; Google re-evaluates
-# 3. Canonical mismatch → ensure .html suffix not present in internal links (DONE)
-# 4. Duplicate / redirect → .htaccess 301s strip .html; internal links now clean (DONE)
-# 5. Low internal link count → every hub/sub now links to 10 product categories (DONE)
-# 6. Sitemap not submitted → sitemap.xml + sitemap-images.xml at /sitemap.xml
+## GOOGLE SEARCH CONSOLE — sitemap pe kam kyun dikhta hai?
+# Aapke ~85–90 page waali feeling sahi hai: URL list = 88. GSC alag number dikhata hai.
 #
-# After push: resubmit sitemap in GSC → Sitemaps → Add new → /sitemap.xml
-# Then use "Request Indexing" for the 16 URLs not yet indexed (the gap between 52 and 68).
+# 1) Sitemaps report → "Discovered pages" = sirf is sitemap file se mili URLs (≈88 for /sitemap.xml).
+#    "Indexed" wahan nahi: wo Pages / Performance reports mein alag aata hai.
+# 2) sitemap.xml + sitemap-images.xml dono alag file hain. Images wali mein bhi <loc> hota hai; GSC
+#    unhe duplicate/child treat kar sakta hai — total "page" count confusing lag sakta hai.
+# 3) "Indexed" pages hamesha sitemap se kam ho sakte: duplicate, noindex, canonical, naya crawl wait.
+# 4) Purana cache: deploy ke baad Sitemaps → sitemap resubmit; 2–7 din wait.
+#
+# Check: GSC → Sitemaps → https://woodenmax.in/sitemap.xml → "Success" + discovered count ~88.
+# Agar yahan bhi ~50 dikhe: live server purana sitemap de raha ho (deploy verify karo) ya 404/redirect.
