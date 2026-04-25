@@ -608,6 +608,160 @@
     </image:image>
   </url>
   
+  <!-- Main / blog / calculators / pergola / grills — match sitemap.xml (were missing) -->
+  <url>
+    <loc>https://woodenmax.in/about</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
+      <image:title>WoodenMax About</image:title>
+      <image:caption>Luxury aluminium windows and villa elevation</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/contact</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp</image:loc>
+      <image:title>Contact WoodenMax</image:title>
+      <image:caption>Windows, glass elevation, louvers and facade systems</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/catalog</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+      <image:title>WoodenMax Product Catalog</image:title>
+      <image:caption>Premium aluminium windows and product range</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/blog</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
+      <image:title>WoodenMax Expert Blog</image:title>
+      <image:caption>Aluminium windows guide and home improvement</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/calculators</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/free-aluminium-window-price-calculator.webp</image:loc>
+      <image:title>Aluminium window price calculators</image:title>
+      <image:caption>Instant online price tools</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/blog/complete-woodenmax-products-guide</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</image:loc>
+      <image:title>Complete WoodenMax products guide</image:title>
+      <image:caption>WoodenMax product range overview</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/blog/pergola-design-ideas-india</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</image:loc>
+      <image:title>Pergola design ideas India</image:title>
+      <image:caption>Ceiling louvers and pergola backyard</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/pergola/aluminium-pergola</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-pergola/glass-pergola-manufacturer.webp</image:loc>
+      <image:title>Aluminium glass pergola</image:title>
+      <image:caption>Premium aluminium pergola systems</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/pergola/glass-skylight</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/skylight/automatic-roof-system-manufacturer.webp</image:loc>
+      <image:title>Glass skylight automatic roof</image:title>
+      <image:caption>Skylight and automatic roof system</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/pergola/retractable-pergola</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/retractble-pergola/automatic-pergola.webp</image:loc>
+      <image:title>Retractable automatic pergola</image:title>
+      <image:caption>Retractable premium pergola</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/pergola/profile-pergola</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-pergola/aluminium-pergola-hyderabad.webp</image:loc>
+      <image:title>Profile aluminium pergola</image:title>
+      <image:caption>Profile pergola design India</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/pergola/profile-iron-canopy</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india.webp</image:loc>
+      <image:title>Profile and iron entrance canopy</image:title>
+      <image:caption>Aluminium glass entrance canopy</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/grills</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-window-grill-design-modern.webp</image:loc>
+      <image:title>Grills hub — price compare</image:title>
+      <image:caption>Aluminium and iron safety grills</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/grills/aluminium-window-grills</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-window-grill-design-modern.webp</image:loc>
+      <image:title>Aluminium window grills</image:title>
+      <image:caption>Modern aluminium window grill design</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/grills/balcony-safety-grills</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-child-safety-balcony-grill.webp</image:loc>
+      <image:title>Balcony safety grills</image:title>
+      <image:caption>Aluminium child safety balcony grill</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/grills/window-safety-grills</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/window%20grill%20design.webp</image:loc>
+      <image:title>Window safety grills</image:title>
+      <image:caption>Window safety grill design</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/grills/iron-safety-grills</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium%20grill%20fabricators%20near%20me.webp</image:loc>
+      <image:title>Iron and aluminium safety grills</image:title>
+      <image:caption>Grill fabricators and safety solutions</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/grills/staircase-balustrade-grills</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/safety%20grill%20for%20balcony%20with%20children.webp</image:loc>
+      <image:title>Staircase balustrade safety grills</image:title>
+      <image:caption>Staircase and balustrade safety</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/grills-tools-guide</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium%20balcony%20grill%20price%20per%20sqft.webp</image:loc>
+      <image:title>Grills and tools price guide</image:title>
+      <image:caption>Grill price per sqft reference</image:caption>
+    </image:image>
+  </url>
+  
   <!-- ============================================
        CITY PAGES - IMAGES
        ============================================ -->

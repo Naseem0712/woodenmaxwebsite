@@ -156,3 +156,10 @@ TOTAL                    : 88
 #
 # Check: GSC → Sitemaps → https://woodenmax.in/sitemap.xml → "Success" + discovered count ~88.
 # Agar yahan bhi ~50 dikhe: live server purana sitemap de raha ho (deploy verify karo) ya 404/redirect.
+#
+## Image sitemap (sitemap-images.xml) — "69" vs 2–5 images per page?
+# GSC image sitemap report mein jo number = <loc> page count (image sitemap entries), har page ke andar
+# wale saare <img> tags count NAHI. Pehle 19 pages image sitemap mein missing thi (about, contact, blog,
+# calculators, pergola, grills…) — ab sitemap-images 88 <loc> + ~115 <image:image> blocks.
+# Har HTML page par 2–5 images still normal: sitemap mein usually 1–3 “key” images (hero/OG) list karte
+# hain; Google baaki images HTML crawl se bhi discover kar sakta hai.
