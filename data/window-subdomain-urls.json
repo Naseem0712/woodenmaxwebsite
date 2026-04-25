@@ -33,7 +33,17 @@
     { "slug": "2-track-french-sliding-door", "path": "/products/aluminium-windows/2-track-french-sliding-door" },
     { "slug": "french-door-georgian-bar", "path": "/products/aluminium-windows/french-door-georgian-bar" },
     { "slug": "aluminium-sliding-window", "path": "/products/aluminium-windows/aluminium-sliding-window" },
-    { "slug": "georgian-grill-casement-door", "path": "/products/aluminium-windows/georgian-grill-casement-door" }
+    { "slug": "georgian-grill-casement-door", "path": "/products/aluminium-windows/georgian-grill-casement-door" },
+    { "slug": "2-track-aluminium-window-price", "path": "/products/aluminium-windows/2-track-aluminium-window-price" },
+    { "slug": "4-track-sliding-window-price", "path": "/products/aluminium-windows/4-track-sliding-window-price" },
+    { "slug": "aluminium-casement-window-price", "path": "/products/aluminium-windows/aluminium-casement-window-price" },
+    { "slug": "slim-aluminium-window-price-luxury", "path": "/products/aluminium-windows/slim-aluminium-window-price-luxury" },
+    { "slug": "aluminium-window-price-per-sqft", "path": "/products/aluminium-windows/aluminium-window-price-per-sqft" },
+    { "slug": "aluminium-sliding-window-price-calculator", "path": "/products/aluminium-windows/aluminium-sliding-window-price-calculator" },
+    { "slug": "sliding-vs-casement-window", "path": "/products/aluminium-windows/sliding-vs-casement-window" },
+    { "slug": "best-aluminium-window-for-home", "path": "/products/aluminium-windows/best-aluminium-window-for-home" },
+    { "slug": "aluminium-window-price-hyderabad", "path": "/products/aluminium-windows/aluminium-window-price-hyderabad" },
+    { "slug": "aluminium-window-glass-price-breakdown", "path": "/products/aluminium-windows/aluminium-window-glass-price-breakdown" }
   ],
   "telescopeProducts": [
     { "slug": "telescopic-slim-sliding-door", "path": "/products/telescope-windows/telescopic-slim-sliding-door" }
