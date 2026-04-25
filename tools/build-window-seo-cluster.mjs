@@ -235,7 +235,7 @@ const NAV = `  <nav class="navbar scrolled" id="navbar">
         <button class="carousel-nav next" id="catNext"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg></button>
       </div>
       <a href="../../about" class="nav-link">About</a>
-      <a href="../../contact" class="nav-link">Contact</a>
+      <a href="../../contact.html" class="nav-link">Contact</a>
     </div>
     <div class="nav-cta"><a href="tel:+917895328080"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Call</a></div>
     <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
@@ -260,7 +260,7 @@ const NAV = `  <nav class="navbar scrolled" id="navbar">
         <a href="../grills" class="mobile-cat-item"><span class="mobile-cat-icon">🔒</span><span>Grills</span></a>
       </div>
       <a href="../../about" class="mobile-nav-item">About Us</a>
-      <a href="../../contact" class="mobile-nav-item">Contact Us</a>
+      <a href="../../contact.html" class="mobile-nav-item">Contact Us</a>
       <div class="mobile-menu-footer">
         <a href="tel:+917895328080" class="cta-btn"> Call Now</a>
       </div>
@@ -494,7 +494,7 @@ function footer() {
             <li><a href="../../index">Home</a></li>
             <li><a href="../../catalog">Catalog</a></li>
             <li><a href="../aluminium-windows">Aluminium Windows Hub</a></li>
-            <li><a href="../../contact">Contact</a></li>
+            <li><a href="../../contact.html">Contact</a></li>
           </ul>
         </div>
         <div>
@@ -1006,7 +1006,7 @@ function renderPage(raw) {
   const galleryHtml = p.gallery
     .map(
       (g, i) => `        <figure style="margin:0;">
-          <img src="${g.src}" alt="${g.alt.replace(/"/g, '&quot;')}" width="1200" height="800" ${i === 0 ? 'fetchpriority="high" loading="eager" decoding="async"' : 'loading="lazy" decoding="async"'} style="width:100%;border-radius:10px;border:1px solid #e2e8f0;">
+          <img class="alum-seo-hero-compact" src="${g.src}" alt="${g.alt.replace(/"/g, '&quot;')}" width="720" height="480" ${i === 0 ? 'fetchpriority="high" loading="eager" decoding="async"' : 'loading="lazy" decoding="async"'} style="width:100%;max-width:300px;height:auto;border-radius:10px;border:1px solid #e2e8f0;margin:0 auto;display:block;">
         </figure>`
     )
     .join('\n');
@@ -1085,7 +1085,7 @@ ${preloadImg}  <link rel="stylesheet" href="../../css/styles.css" />
   <script type="application/ld+json">${jsonld(breadcrumbSchema(p.slug, p.breadcrumbLabel))}</script>
   <script type="application/ld+json">${jsonld('{"@context":"https://schema.org","@type":"Organization","@id":"https://woodenmax.in/#org","name":"WoodenMax","url":"https://woodenmax.in","logo":"https://woodenmax.in/images/woodenmax-logo.png","telephone":"+91-78953-28080"}')}</script>
 </head>
-<body>
+<body class="morning-seo-page">
 ${NAV}
 
   <div style="padding: 6rem 0 1rem; background: #F3F4F6;">
@@ -1102,7 +1102,7 @@ ${NAV}
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin:1.25rem 0;">
         <a href="#${p.calcId}" class="btn btn-primary">Calculate Your Window Cost</a>
         <a href="https://wa.me/917895328080?text=${WA_TEXT}" class="btn btn-outline" rel="noopener" target="_blank">Send Size on WhatsApp</a>
-        <a href="../../contact?product=${p.slug}" class="btn btn-outline">Get Exact Price</a>
+        <a href="../../contact.html?product=${p.slug}" class="btn btn-outline">Get Exact Price</a>
       </div>
       ${extraInternalStrip(p.slug)}
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:1.5rem;">

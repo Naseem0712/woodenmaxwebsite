@@ -2,7 +2,7 @@
 # Use for indexing check: site:woodenmax.in in Google
 # Reindex: GSC → URL Inspection → Request Indexing
 # Submit this list as sitemap supplement or for bulk request indexing
-# Last updated: Apr 2026 (post internal-link optimization)
+# Last updated: 2026-04-26 (home 20-guides + sitemap + system window cluster)
 
 ## MAIN PAGES (5)
 https://woodenmax.in/
@@ -48,6 +48,18 @@ https://woodenmax.in/products/aluminium-windows/sliding-vs-casement-window
 https://woodenmax.in/products/aluminium-windows/best-aluminium-window-for-home
 https://woodenmax.in/products/aluminium-windows/aluminium-window-price-hyderabad
 https://woodenmax.in/products/aluminium-windows/aluminium-window-glass-price-breakdown
+
+## ALUMINIUM WINDOWS — System window cluster (premium SEO) (10)
+https://woodenmax.in/products/aluminium-windows/aluminium-system-window-price
+https://woodenmax.in/products/aluminium-windows/what-is-aluminium-system-window
+https://woodenmax.in/products/aluminium-windows/system-window-vs-normal-window
+https://woodenmax.in/products/aluminium-windows/aluminium-system-window-brands-india
+https://woodenmax.in/products/aluminium-windows/system-sliding-window-price
+https://woodenmax.in/products/aluminium-windows/system-casement-window-price
+https://woodenmax.in/products/aluminium-windows/slim-system-window-price
+https://woodenmax.in/products/aluminium-windows/system-window-installation
+https://woodenmax.in/products/aluminium-windows/system-window-glass-options
+https://woodenmax.in/products/aluminium-windows/system-window-for-villa
 
 ## TELESCOPE WINDOWS (1)
 https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door
@@ -118,7 +130,7 @@ TOTAL: 68 URLs
 Main pages               :  5
 Calculator pages         :  3
 Product hubs             :  9
-Aluminium windows subs   :  9
+Aluminium windows subs   :  19
 Telescope windows subs   :  1
 Folding systems subs     :  2
 Metal louvers subs       :  4
@@ -130,7 +142,7 @@ Pergola subs             :  5
 City pages               :  7
 Blog posts               :  8
 -----------------------------
-TOTAL                    : 68
+TOTAL                    : 78
 
 ## NOTES ON GOOGLE SEARCH CONSOLE INDEXING
 # If GSC shows only ~52 pages indexed, common reasons are:

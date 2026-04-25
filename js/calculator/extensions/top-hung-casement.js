@@ -546,14 +546,23 @@ Generated from Live Price Calculator
     }
   }
   
+  const TOP_HUNG_CASEMENT_PRODUCT_IDS = [
+    'top-hung-casement',
+    'system-casement-50mm-euro-guide',
+    'system-casement-52mm-gulf-brands',
+    'system-casement-50mm-euro',
+    'system-casement-52mm-gulf-slim',
+    'system-casement-50mm-euro-villa',
+  ];
+
   // Use helper function to create initCalculator override
   if (typeof createExtensionInitCalculator !== 'undefined') {
-    createExtensionInitCalculator('top-hung-casement', PriceCalculatorTopHungCasement, 'top-hung-casement');
+    createExtensionInitCalculator(TOP_HUNG_CASEMENT_PRODUCT_IDS, PriceCalculatorTopHungCasement, 'top-hung-casement');
   } else {
     // Fallback if helper not loaded
     const originalInitCalculator = window.initCalculator;
     window.initCalculator = async function(productId, containerId = null) {
-      if (productId === 'top-hung-casement') {
+      if (TOP_HUNG_CASEMENT_PRODUCT_IDS.includes(productId)) {
         try {
           if (typeof PriceCalculatorBase === 'undefined' || typeof productManager === 'undefined') {
             console.error('Required dependencies not found');
@@ -568,7 +577,7 @@ Generated from Live Price Calculator
           window[`calculator_${productId}`] = calculator;
           return calculator;
         } catch (error) {
-          console.error(`Error initializing top-hung-casement calculator:`, error);
+          console.error('Error initializing system casement calculator:', error);
           return null;
         }
       } else if (originalInitCalculator) {

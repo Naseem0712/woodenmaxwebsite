@@ -8,11 +8,12 @@
  * Extension Helper Utility
  * Reduces code duplication in calculator extensions
  */
-function createExtensionInitCalculator(productId, CalculatorClass, className) {
+function createExtensionInitCalculator(productIdOrIds, CalculatorClass, className) {
+  const productIds = Array.isArray(productIdOrIds) ? productIdOrIds : [productIdOrIds];
   const originalInitCalculator = window.initCalculator;
-  
+
   window.initCalculator = async function(calcProductId, containerId = null) {
-    if (calcProductId === productId) {
+    if (productIds.includes(calcProductId)) {
       try {
         if (typeof PriceCalculatorBase === 'undefined' || typeof productManager === 'undefined') {
           return null;

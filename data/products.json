@@ -48,6 +48,101 @@
       "description": "Premium 29mm series sections with 1.2mm wall thickness, 29X65mm shutter dimensions, and slim interlock for luxury feel."
     },
     {
+      "id": "system-sliding-30mm",
+      "name": "30mm System Sliding Window (India certified line)",
+      "slug": "system-sliding-30mm-window",
+      "category": "aluminium-windows",
+      "subcategory": "sliding",
+      "status": "active",
+      "rates": {
+        "baseRate": 825,
+        "hardwareCost": 2480,
+        "useGlobalRates": true,
+        "glass": {},
+        "coating": {},
+        "lock": {},
+        "mesh": { "standard": 127 }
+      },
+      "features": ["mesh"],
+      "description": "30mm system sliding series for premium Indian projects: engineered interlock, tandem roller pockets, and gasket paths matched to OEM hardware. Use for system window BOQ where 29–31mm-class depth is specified."
+    },
+    {
+      "id": "system-sliding-31mm",
+      "name": "31mm System Sliding Window",
+      "slug": "system-sliding-31mm-window",
+      "category": "aluminium-windows",
+      "subcategory": "sliding",
+      "status": "active",
+      "rates": {
+        "baseRate": 838,
+        "hardwareCost": 2492,
+        "useGlobalRates": true,
+        "glass": {},
+        "coating": {},
+        "lock": {},
+        "mesh": { "standard": 127 }
+      },
+      "features": ["mesh"],
+      "description": "31mm system sliding line — common upgrade path from economy tracks; same calculator behaviour as 29mm class with project-specific base rate. Pair with 8mm / DGU / laminated choices in the tool."
+    },
+    {
+      "id": "system-sliding-35mm-gulf",
+      "name": "35mm Gulf System Sliding Window",
+      "slug": "system-sliding-35mm-gulf-window",
+      "category": "aluminium-windows",
+      "subcategory": "sliding",
+      "status": "active",
+      "rates": {
+        "baseRate": 858,
+        "hardwareCost": 2510,
+        "useGlobalRates": true,
+        "glass": {},
+        "coating": {},
+        "lock": {},
+        "mesh": { "standard": 127 }
+      },
+      "features": ["mesh"],
+      "description": "35mm Gulf interlock system sliding: deeper section for large panels, coastal and high-wind comfort when specified with the right glass. Rollers, drainage, and mesh options follow system catalogue details."
+    },
+    {
+      "id": "system-sliding-40mm-minimal",
+      "name": "40mm Minimal / Slimline System Sliding",
+      "slug": "system-sliding-40mm-minimal-window",
+      "category": "aluminium-windows",
+      "subcategory": "sliding",
+      "status": "active",
+      "rates": {
+        "baseRate": 878,
+        "hardwareCost": 2535,
+        "useGlobalRates": true,
+        "glass": {},
+        "coating": {},
+        "lock": {},
+        "mesh": { "standard": 127 }
+      },
+      "features": ["mesh"],
+      "description": "40mm minimal-sightline system sliding: luxury villas and design-led elevations where mullion width must stay thin while still carrying DGU weight — hardware and track class scale with the glass schedule."
+    },
+    {
+      "id": "system-sliding-31mm-glass",
+      "name": "31mm System Sliding (glass / IGU focus)",
+      "slug": "system-sliding-31mm-glass-window",
+      "category": "aluminium-windows",
+      "subcategory": "sliding",
+      "status": "active",
+      "rates": {
+        "baseRate": 848,
+        "hardwareCost": 2505,
+        "useGlobalRates": true,
+        "glass": {},
+        "coating": {},
+        "lock": {},
+        "mesh": { "standard": 127 }
+      },
+      "features": ["mesh"],
+      "description": "31mm system sliding product used on glass-options guides: DGU, laminated, and 8–12mm upgrades show clearly in the same stack as 2-track premium lines."
+    },
+    {
       "id": "2track-french",
       "name": "2 Track French Sliding Door",
       "slug": "2-track-french-sliding-door",
@@ -124,6 +219,106 @@
       },
       "features": ["mesh", "grill", "multiPointLock"],
       "description": "40mm casement profile with 6mm clear toughened glass, single point lock (handle type), friction stay. Optional inside aluminium 12mm hollow pipes grills and openable mesh available."
+    },
+    {
+      "id": "system-casement-50mm-euro-guide",
+      "name": "50mm Euro System Casement (explainer / guide stack)",
+      "slug": "system-casement-50mm-euro-guide",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 748,
+        "hardwareCost": 748,
+        "hardwareCostMultiPoint": 1605,
+        "useGlobalRates": true,
+        "glass": { "6mm": 0, "8mm": 0, "10mm": 0, "12mm": 0, "dgu": 0, "laminated": 0 },
+        "grill": { "aluminium12mm": 295 },
+        "mesh": { "openable": 370 },
+        "lock": { "singlePoint": 0, "multiPoint": 0 }
+      },
+      "features": ["mesh", "grill", "multiPointLock"],
+      "description": "50mm Euro-class system casement: long hardware life, smooth operation with quality friction stays; same multipoint rules as our top-hung line when glass steps up. For “what is system window” education pages."
+    },
+    {
+      "id": "system-casement-52mm-gulf-brands",
+      "name": "52mm Gulf System Casement (brands & comparison)",
+      "slug": "system-casement-52mm-gulf-brands",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 762,
+        "hardwareCost": 755,
+        "hardwareCostMultiPoint": 1620,
+        "useGlobalRates": true,
+        "glass": { "6mm": 0, "8mm": 0, "10mm": 0, "12mm": 0, "dgu": 0, "laminated": 0 },
+        "grill": { "aluminium12mm": 295 },
+        "mesh": { "openable": 370 },
+        "lock": { "singlePoint": 0, "multiPoint": 0 }
+      },
+      "features": ["mesh", "grill", "multiPointLock"],
+      "description": "52mm Gulf system casement: robust section for DGU and coastal projects; use when brand-OEM or wind-load needs extra stiffening. Operating feel stays smooth with correct stay rating."
+    },
+    {
+      "id": "system-casement-50mm-euro",
+      "name": "50mm Euro System Casement (standard quote)",
+      "slug": "system-casement-50mm-euro",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 754,
+        "hardwareCost": 751,
+        "hardwareCostMultiPoint": 1617,
+        "useGlobalRates": true,
+        "glass": { "6mm": 0, "8mm": 0, "10mm": 0, "12mm": 0, "dgu": 0, "laminated": 0 },
+        "grill": { "aluminium12mm": 295 },
+        "mesh": { "openable": 370 },
+        "lock": { "singlePoint": 0, "multiPoint": 0 }
+      },
+      "features": ["mesh", "grill", "multiPointLock"],
+      "description": "50mm Euro system casement — primary system-casement price page. Long life, smooth operation; multipoint in tool when 10mm+ or DGU/laminated is selected."
+    },
+    {
+      "id": "system-casement-52mm-gulf-slim",
+      "name": "52mm Gulf System Casement (slim / luxury stack)",
+      "slug": "system-casement-52mm-gulf-slim",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 768,
+        "hardwareCost": 760,
+        "hardwareCostMultiPoint": 1625,
+        "useGlobalRates": true,
+        "glass": { "6mm": 0, "8mm": 0, "10mm": 0, "12mm": 0, "dgu": 0, "laminated": 0 },
+        "grill": { "aluminium12mm": 295 },
+        "mesh": { "openable": 370 },
+        "lock": { "singlePoint": 0, "multiPoint": 0 }
+      },
+      "features": ["mesh", "grill", "multiPointLock"],
+      "description": "52mm Gulf casement for slim-sightline luxury work: laminated and heavy glass packages common; same calculator engine as 50/52 system lines."
+    },
+    {
+      "id": "system-casement-50mm-euro-villa",
+      "name": "50mm Euro System Casement (villa & large vent)",
+      "slug": "system-casement-50mm-euro-villa",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 778,
+        "hardwareCost": 765,
+        "hardwareCostMultiPoint": 1635,
+        "useGlobalRates": true,
+        "glass": { "6mm": 0, "8mm": 0, "10mm": 0, "12mm": 0, "dgu": 0, "laminated": 0 },
+        "grill": { "aluminium12mm": 295 },
+        "mesh": { "openable": 370 },
+        "lock": { "singlePoint": 0, "multiPoint": 0 }
+      },
+      "features": ["mesh", "grill", "multiPointLock"],
+      "description": "50mm Euro for villa and luxury homes: 12mm and DGU on main vents, smooth long-cycle operation, multipoint when the glass schedule requires it."
     },
     {
       "id": "georgian-bar-openable",

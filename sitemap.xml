@@ -10,7 +10,7 @@
        ============================================ -->
   <url>
     <loc>https://woodenmax.in/</loc>
-    <lastmod>2026-04-04</lastmod>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -139,7 +139,7 @@
        ============================================ -->
   <url>
     <loc>https://woodenmax.in/products/aluminium-windows</loc>
-    <lastmod>2026-04-04</lastmod>
+    <lastmod>2026-04-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <image:image>
@@ -371,7 +371,119 @@
     </image:image>
   </url>
   
-  <!-- SEO window cluster: price / calculator / comparison (2026) -->
+  <!-- SEO window cluster: premium system window guides (10) — 2026 -->
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-system-window-price</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Aluminium%20System%20Window%20Price/aluminium-system-window-modern-design.webp</image:loc>
+      <image:title>Aluminium system window price India</image:title>
+      <image:caption>Premium system window modern design</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/what-is-aluminium-system-window</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/What%20is%20System%20Window/system-window-components-breakdown.webp</image:loc>
+      <image:title>What is aluminium system window</image:title>
+      <image:caption>System window components frame glass hardware</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-window-vs-normal-window</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20vs%20Normal%20Window/system-window-vs-normal-window-comparison.webp</image:loc>
+      <image:title>System window vs normal aluminium window</image:title>
+      <image:caption>System vs normal window comparison</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-system-window-brands-india</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20Window%20Brands/aluminium-system-window-brands-india.webp</image:loc>
+      <image:title>Aluminium system window brands India</image:title>
+      <image:caption>Branded system window installation</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-sliding-window-price</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20Sliding%20Window/system-sliding-window-large-opening.webp</image:loc>
+      <image:title>Aluminium system sliding window price</image:title>
+      <image:caption>System sliding window large opening</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-casement-window-price</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20Casement%20Window/system-casement-window-open-style.webp</image:loc>
+      <image:title>Aluminium system casement window price</image:title>
+      <image:caption>System casement window open style</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/slim-system-window-price</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Slim%20System%20Window/slim-system-window-luxury-villa.webp</image:loc>
+      <image:title>Slim system window price luxury</image:title>
+      <image:caption>Slim aluminium system window villa</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-window-installation</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Installation%20Process/system-window-installation-site.webp</image:loc>
+      <image:title>Aluminium system window installation</image:title>
+      <image:caption>System window installation site</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-window-glass-options</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass%20Options/system-window-double-glass-dgu.webp</image:loc>
+      <image:title>System window glass options DGU</image:title>
+      <image:caption>System window double glass DGU section</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-window-for-villa</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/villa%20luxury%20window/system-window-villa-design.webp</image:loc>
+      <image:title>Aluminium system window for villa</image:title>
+      <image:caption>System window villa luxury home design</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- SEO window cluster: price / calculator / comparison (10) — 2026 -->
   <url>
     <loc>https://woodenmax.in/products/aluminium-windows/2-track-aluminium-window-price</loc>
     <lastmod>2026-04-25</lastmod>

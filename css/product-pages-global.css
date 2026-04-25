@@ -1341,3 +1341,33 @@ section[style*="get exact price"] p {
   }
 }
 
+/* System window SEO cluster: fast anchor jumps (fixed header), no smooth-scroll delay */
+body.system-window-seo-page {
+  scroll-behavior: auto;
+}
+body.system-window-seo-page [id] {
+  scroll-margin-top: 5.5rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  body.system-window-seo-page {
+    scroll-behavior: auto;
+  }
+}
+
+/* System window SEO pages: match hub styling; keep hero images visually compact */
+body.system-window-seo-page .system-window-seo-hero__grid {
+  justify-items: center;
+}
+
+/* 20 SEO satellite pages (system window cluster + morning price/calculator cluster): smaller hero imagery */
+body.morning-seo-page .product-detail-hero img.alum-seo-hero-compact,
+body.system-window-seo-page img.alum-seo-hero-compact,
+body.system-window-seo-page .system-window-seo-hero__img {
+  max-width: 300px !important;
+  width: 100%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
