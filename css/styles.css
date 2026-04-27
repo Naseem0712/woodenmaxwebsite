@@ -786,6 +786,10 @@ a {
   pointer-events: none;
 }
 
+.mobile-toggle svg.mobile-nav-close-icon {
+  display: none;
+}
+
 /* Mobile Menu Overlay */
 .mobile-menu {
   position: fixed;

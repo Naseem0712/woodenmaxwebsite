@@ -2,7 +2,7 @@
 # Use for indexing check: site:woodenmax.in in Google
 # Reindex: GSC → URL Inspection → Request Indexing
 # Submit this list as sitemap supplement or for bulk request indexing
-# Last updated: 2026-04-26 (home 20-guides + sitemap + system window cluster)
+# Last updated: 2026-04-28 (shower SEO titles + sitemap image:title/caption sync)
 
 ## MAIN PAGES (5)
 https://woodenmax.in/
@@ -74,12 +74,28 @@ https://woodenmax.in/products/metal-louvers/curved-architectural-louvers
 https://woodenmax.in/products/metal-louvers/louver-canopy-facade
 https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers
 
-## SHOWER PARTITIONS (5)
+## SHOWER PARTITIONS — products (5)
 https://woodenmax.in/products/shower-partitions/black-profile-shower-partition
 https://woodenmax.in/products/shower-partitions/frameless-shower-partition
 https://woodenmax.in/products/shower-partitions/frosted-glass-bathroom-door
 https://woodenmax.in/products/shower-partitions/premium-black-profile-shower
 https://woodenmax.in/products/shower-partitions/slim-frame-shower-partition
+## SHOWER PARTITIONS — SEO articles (15) — canonical short URLs (same as sitemap.xml)
+https://woodenmax.in/glass-shower-partition-price
+https://woodenmax.in/sliding-shower-door-price
+https://woodenmax.in/fixed-glass-shower-panel-price
+https://woodenmax.in/shower-enclosure-price
+https://woodenmax.in/frameless-glass-shower-price
+https://woodenmax.in/bathroom-shower-design-price
+https://woodenmax.in/small-bathroom-shower-design
+https://woodenmax.in/corner-shower-partition-price
+https://woodenmax.in/walk-in-shower-glass-price
+https://woodenmax.in/shower-curtain-vs-glass-partition
+https://woodenmax.in/framed-vs-frameless-shower
+https://woodenmax.in/shower-glass-thickness
+https://woodenmax.in/shower-glass-types
+https://woodenmax.in/shower-installation-cost
+https://woodenmax.in/shower-glass-maintenance
 
 ## ELEVATION CLADDING (2)
 https://woodenmax.in/products/elevation-cladding/hpl-acp-elevation-cladding
@@ -124,7 +140,7 @@ https://woodenmax.in/blog/complete-woodenmax-products-guide
 https://woodenmax.in/blog/pergola-design-ideas-india
 
 ---
-TOTAL: 88 URLs  (sitemap.xml mein bhi 88 <loc> — same set)
+TOTAL: 103 URLs  (sitemap.xml: 103 <loc> — same set)
 
 ## SUMMARY BY SECTION
 Main pages               :  5
@@ -134,7 +150,7 @@ Aluminium windows subs   : 29  (9 product + 10 price + 10 system)
 Telescope windows subs   :  1
 Folding systems subs     :  2
 Metal louvers subs       :  4
-Shower partitions subs   :  5
+Shower partitions subs   : 20  (5 product calculators + 15 canonical articles)
 Elevation cladding subs  :  2
 Glass railing subs       :  2
 Grills subs              :  6
@@ -142,24 +158,22 @@ Pergola subs             :  5
 City pages               :  7
 Blog posts               :  8
 -----------------------------
-TOTAL                    : 88
+TOTAL                    : 103
 
 ## GOOGLE SEARCH CONSOLE — sitemap pe kam kyun dikhta hai?
-# Aapke ~85–90 page waali feeling sahi hai: URL list = 88. GSC alag number dikhata hai.
+# URL list = 103 lines above; GSC “discovered” can differ slightly from <loc> count until recrawl.
 #
-# 1) Sitemaps report → "Discovered pages" = sirf is sitemap file se mili URLs (≈88 for /sitemap.xml).
+# 1) Sitemaps report → "Discovered pages" = is sitemap se mili URLs (≈103 for /sitemap.xml).
 #    "Indexed" wahan nahi: wo Pages / Performance reports mein alag aata hai.
 # 2) sitemap.xml + sitemap-images.xml dono alag file hain. Images wali mein bhi <loc> hota hai; GSC
 #    unhe duplicate/child treat kar sakta hai — total "page" count confusing lag sakta hai.
 # 3) "Indexed" pages hamesha sitemap se kam ho sakte: duplicate, noindex, canonical, naya crawl wait.
 # 4) Purana cache: deploy ke baad Sitemaps → sitemap resubmit; 2–7 din wait.
 #
-# Check: GSC → Sitemaps → https://woodenmax.in/sitemap.xml → "Success" + discovered count ~88.
+# Check: GSC → Sitemaps → https://woodenmax.in/sitemap.xml → "Success" + discovered count ~103.
 # Agar yahan bhi ~50 dikhe: live server purana sitemap de raha ho (deploy verify karo) ya 404/redirect.
 #
-## Image sitemap (sitemap-images.xml) — "69" vs 2–5 images per page?
-# GSC image sitemap report mein jo number = <loc> page count (image sitemap entries), har page ke andar
-# wale saare <img> tags count NAHI. Pehle 19 pages image sitemap mein missing thi (about, contact, blog,
-# calculators, pergola, grills…) — ab sitemap-images 88 <loc> + ~115 <image:image> blocks.
-# Har HTML page par 2–5 images still normal: sitemap mein usually 1–3 “key” images (hero/OG) list karte
-# hain; Google baaki images HTML crawl se bhi discover kar sakta hai.
+## Image sitemaps
+# • sitemap.xml — 103 <loc>; shower cluster 15 URLs include <image:image> (2 per URL) + titles synced to SEO pages.
+# • sitemap-images.xml — 88 <loc> (subset / parallel image index); 15 canonical shower articles are NOT duplicated there.
+# GSC image report counts <loc> in the file you submit, not every <img> on the HTML page.
