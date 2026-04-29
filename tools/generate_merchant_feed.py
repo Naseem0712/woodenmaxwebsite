@@ -19,8 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PRODUCTS_DIR = ROOT / "products"
 DATA_JSON = ROOT / "data" / "products.json"
 SITE_ORIGIN = "https://woodenmax.in"
-# Seller GSTIN (India) — optional feed column `gstin`; Google may ignore (set tax in GMC Business settings).
-GSTIN = "36ARWPA9740L1Z3"
+# Tax / GSTIN: add in Merchant Center → Business settings (not in product feed).
 BRAND = "Woodenmax"
 
 # Google product category IDs (verified against Google taxonomy-with-ids.en-US.txt)
@@ -442,7 +441,6 @@ def main() -> None:
                 "google_product_category": google_product_category_for(rel),
                 "product_type": product_type_for(rel),
                 "category": category_label_for(rel),
-                "gstin": GSTIN,
             }
         )
 
@@ -464,7 +462,6 @@ def main() -> None:
         "google_product_category",
         "product_type",
         "category",
-        "gstin",
     ]
     with out_path.open("w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fieldnames)
