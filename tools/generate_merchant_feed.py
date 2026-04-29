@@ -13,7 +13,7 @@ import html as html_module
 import json
 import re
 from pathlib import Path
-from urllib.parse import urljoin
+from urllib.parse import quote, unquote, urljoin, urlparse, urlunparse
 
 ROOT = Path(__file__).resolve().parent.parent
 PRODUCTS_DIR = ROOT / "products"
@@ -44,6 +44,24 @@ DESC_RE = re.compile(
 )
 DATA_PRODUCT_RE = re.compile(r'data-product=["\']([^"\']+)["\']')
 IMG_SRC_RE = re.compile(r'<img[^>]+src=["\']([^"\']+)["\']', re.I)
+IMG_DATA_SRC_RE = re.compile(
+    r"<img[^>]*?\b(?:data-src|data-lazy-src)=[\"']([^\"']+)[\"']", re.I
+)
+IMG_SRCSET_RE = re.compile(r"<img[^>]*?\bsrcset=[\"']([^\"']+)[\"']", re.I)
+LINK_TAG_RE = re.compile(r"<link\b([^>]+)>", re.I)
+CSS_BG_URL_RE = re.compile(
+    r"background-image\s*:\s*url\(\s*['\"]?([^'\")]+)['\"]?\s*\)", re.I
+)
+# JSON may escape slashes: https:\/\/woodenmax.in\/images\/...
+JSONLD_IMG_ESC_RE = re.compile(
+    r"https:\\/\\/woodenmax\.in\\/images\\/[^\"\\]+",
+    re.I,
+)
+# Allow spaces in paths (many og:image filenames); end at quotes or angle brackets.
+ABS_IMG_RE = re.compile(r'https://woodenmax\.in/images/[^"\'<>]+', re.I)
+
+SCAN_CHARS = 350_000
+EXTRA_IMAGE_CAP = 10
 
 
 def min_numeric_from_rates(rates: dict) -> int | None:
@@ -221,45 +239,112 @@ def abs_img_url(src: str, rel: str) -> str | None:
     return out.split("#")[0]
 
 
-def extract_additional_images(html_path: Path, rel: str, primary: str, limit: int = 10) -> str:
-    """Comma-separated extra image URLs for `additional_image_link` (max 10)."""
-    try:
-        text = html_path.read_text(encoding="utf-8", errors="replace")[:120000]
-    except OSError:
-        return ""
+def dedupe_image_key(url: str) -> str:
+    return url.split("?")[0].rstrip("/").lower()
+
+
+def should_skip_image_url(url: str) -> bool:
+    low = url.lower()
+    if "woodenmax-logo" in low or "/icons/" in low:
+        return True
+    if low.endswith(".svg"):
+        return True
+    if "/images/" not in low:
+        return True
+    return False
+
+
+def normalize_feed_image_url(url: str) -> str:
+    """Percent-encode path so Merchant Center can fetch (spaces, unicode, en-dashes in filenames)."""
+    u = html_module.unescape(url.strip())
+    u = u.rstrip(",.;)")
+    u = u.split("#")[0]
+    if not u.startswith("http"):
+        return u
+    p = urlparse(u)
+    if not p.netloc:
+        return u
+    host = p.netloc.lower()
+    if host.startswith("www.woodenmax.in"):
+        host = "woodenmax.in"
+    scheme = "https" if "woodenmax.in" in host else p.scheme
+    raw_path = unquote(p.path)
+    enc_path = quote(raw_path, safe="/")
+    return urlunparse((scheme, host, enc_path, "", p.query, ""))
+
+
+def resolve_product_image(raw: str, rel: str) -> str | None:
+    raw_st = html_module.unescape(raw.strip()).rstrip(",.;)")
+    if not raw_st or raw_st.startswith("data:"):
+        return None
+    if raw_st.startswith("//"):
+        raw_st = "https:" + raw_st
+    if raw_st.startswith("http://") or raw_st.startswith("https://"):
+        p = urlparse(raw_st)
+        if "woodenmax.in" not in p.netloc.lower():
+            return None
+        out = normalize_feed_image_url(raw_st)
+    else:
+        out_u = abs_img_url(raw_st, rel)
+        if not out_u:
+            return None
+        out = normalize_feed_image_url(out_u)
+    if should_skip_image_url(out):
+        return None
+    return out
+
+
+def collect_product_image_urls(text: str, rel: str) -> list[str]:
+    """Ordered unique on-site product images: visible imgs, srcset, JSON-LD, preload, CSS backgrounds."""
+    blob = text[:SCAN_CHARS]
     seen: set[str] = set()
-    if primary:
-        seen.add(primary.split("?")[0].rstrip("/"))
+    out: list[str] = []
 
-    extras: list[str] = []
-    for m in IMG_SRC_RE.finditer(text):
-        url = abs_img_url(m.group(1), rel)
-        if not url:
+    def push(raw: str) -> None:
+        u = resolve_product_image(raw, rel)
+        if not u:
+            return
+        k = dedupe_image_key(u)
+        if k in seen:
+            return
+        seen.add(k)
+        out.append(u)
+
+    for m in JSONLD_IMG_ESC_RE.finditer(blob):
+        push(m.group(0).replace("\\/", "/"))
+    for m in ABS_IMG_RE.finditer(blob):
+        push(m.group(0))
+    for m in IMG_SRC_RE.finditer(blob):
+        push(m.group(1))
+    for m in IMG_DATA_SRC_RE.finditer(blob):
+        push(m.group(1))
+    for m in IMG_SRCSET_RE.finditer(blob):
+        for part in m.group(1).split(","):
+            tok = part.strip().split()
+            if tok:
+                push(tok[0])
+    for m in LINK_TAG_RE.finditer(blob):
+        inner = m.group(1)
+        if "preload" not in inner.lower():
             continue
-        low = url.lower()
-        if "woodenmax-logo" in low or "/icons/" in low or low.endswith(".svg"):
+        if not re.search(r'\bas\s*=\s*["\']image["\']', inner, re.I):
             continue
-        if "/images/" not in low and "/image" not in low:
-            continue
-        key = url.split("?")[0].rstrip("/")
-        if key in seen:
-            continue
-        seen.add(key)
-        extras.append(url)
-        if len(extras) >= limit:
-            break
-    return ", ".join(extras)
+        hm = re.search(r'\bhref\s*=\s*["\']([^"\']+)["\']', inner, re.I)
+        if hm:
+            push(hm.group(1))
+    for m in CSS_BG_URL_RE.finditer(blob):
+        push(m.group(1))
+    return out
 
 
-def parse_html(path: Path) -> dict:
-    text = path.read_text(encoding="utf-8", errors="replace")
+def parse_html(text: str, stem: str) -> dict:
     head = text[:20000]
     og = OG_IMAGE_RE.search(head)
     image = og.group(1).strip() if og else ""
     if image and image.startswith("/"):
         image = SITE_ORIGIN + image
     tit = TITLE_RE.search(head)
-    title = (tit.group(1).strip() if tit else path.stem.replace("-", " ").title())
+    title = (tit.group(1).strip() if tit else stem.replace("-", " ").title())
     title = re.sub(r"\s+", " ", title)
     d = DESC_RE.search(head)
     desc = (d.group(1).strip() if d else "")[:4900]
@@ -285,7 +370,9 @@ def main() -> None:
         fid = path.stem
         if len(fid) > 50:
             fid = hashlib.sha256(link.encode("utf-8")).hexdigest()[:16]
-        meta = parse_html(path)
+        text = path.read_text(encoding="utf-8", errors="replace")
+        meta = parse_html(text, path.stem)
+        img_candidates = collect_product_image_urls(text, rel)
         price_val = lookup.get(meta["data_product"]) or lookup.get(path.stem)
         if price_val is None:
             price_val = lookup.get(path.stem)
@@ -313,11 +400,28 @@ def main() -> None:
                 f"{suffix.strip()}"
             )
 
-        image = meta["image"]
-        if not image:
-            image = f"{SITE_ORIGIN}/images/woodenmax-logo.png"
+        logo_fallback = normalize_feed_image_url(f"{SITE_ORIGIN}/images/woodenmax-logo.png")
+        og_raw = (meta["image"] or "").strip()
+        if og_raw.startswith("/"):
+            og_raw = SITE_ORIGIN + og_raw
+        primary_og = normalize_feed_image_url(og_raw) if og_raw else ""
+        if primary_og and should_skip_image_url(primary_og):
+            primary_og = ""
 
-        additional = extract_additional_images(path, rel, image)
+        if primary_og and "woodenmax-logo" not in primary_og.lower():
+            image = primary_og
+        elif img_candidates:
+            image = img_candidates[0]
+        else:
+            image = logo_fallback
+
+        pk = dedupe_image_key(image)
+        extras = [
+            u
+            for u in img_candidates
+            if dedupe_image_key(u) != pk
+        ][:EXTRA_IMAGE_CAP]
+        additional = ", ".join(extras)
 
         # sale_price: only when you run a promotion — leave empty so GMC uses `price` as regular price.
         sale_price = ""
