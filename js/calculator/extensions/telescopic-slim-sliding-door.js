@@ -219,9 +219,9 @@ Selections:
 - Color: ${colorNames[selections.color] || selections.color}
 
 Calculated Amounts:
-- Hardware Cost (${selections.panelConfig}): ₹${Math.round(hardwareCost).toLocaleString('en-IN')}
-- Cost per door: ₹${Math.round(perDoorCost).toLocaleString('en-IN')}
-- Total cost: ₹${Math.round(subtotal).toLocaleString('en-IN')}
+- Hardware Cost (${selections.panelConfig}): ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(hardwareCost)) : '\u20B9' + Math.round(hardwareCost).toLocaleString('en-IN')}
+- Cost per door: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(perDoorCost)) : '\u20B9' + Math.round(perDoorCost).toLocaleString('en-IN')}
+- Total cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(subtotal)) : '\u20B9' + Math.round(subtotal).toLocaleString('en-IN')}
 
 Contact Details:
 - Name: ${userDetails.name}

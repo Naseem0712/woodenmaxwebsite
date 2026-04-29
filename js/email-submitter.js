@@ -107,8 +107,10 @@ window.EmailSubmitter = {
       if (hasMesh) parts.push('  Mesh         : ' + row.mesh);
       parts.push(
         '  Amount       : ' +
-          (row.calculatedAmount
-            ? '₹' + row.calculatedAmount.toLocaleString('en-IN')
+          (row.calculatedAmount != null
+            ? typeof window.formatPriceFromINR === 'function'
+              ? window.formatPriceFromINR(row.calculatedAmount)
+              : '\u20B9' + row.calculatedAmount.toLocaleString('en-IN')
             : row.price)
       );
       parts.push('');

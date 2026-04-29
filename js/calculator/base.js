@@ -500,9 +500,14 @@ class PriceCalculatorBase {
   }
   
   displayResults(perWindowCost, perWindowPlus20, perWindowMinus20, subtotal, totalPlus20, totalMinus20, areaSqft = 0) {
-    const formatCurrency = (amount) => {
-      return '₹' + Math.round(amount).toLocaleString('en-IN');
-    };
+    const formatCurrency = (amount) =>
+      typeof window.formatPriceFromINR === 'function'
+        ? window.formatPriceFromINR(amount)
+        : '\u20B9' + Math.round(amount).toLocaleString('en-IN');
+    const formatCurrencyRange = (lo, hi) =>
+      typeof window.formatPriceRangeFromINR === 'function'
+        ? window.formatPriceRangeFromINR(lo, hi)
+        : formatCurrency(lo) + ' - ' + formatCurrency(hi);
     
     // Store actual amounts for email (the ones shown to user)
     this.lastCalculatedAmounts = {
@@ -554,13 +559,13 @@ class PriceCalculatorBase {
         // Show range
         const perWindowEl = document.getElementById('calc-result-per-window');
         if (perWindowEl) {
-          perWindowEl.textContent = formatCurrency(perWindowMinus20) + ' - ' + formatCurrency(perWindowPlus20);
+          perWindowEl.textContent = formatCurrencyRange(perWindowMinus20, perWindowPlus20);
           perWindowEl.parentElement.style.display = 'flex';
         }
         
         const totalEl = document.getElementById('calc-result-total');
         if (totalEl) {
-          totalEl.textContent = formatCurrency(totalMinus20) + ' - ' + formatCurrency(totalPlus20);
+          totalEl.textContent = formatCurrencyRange(totalMinus20, totalPlus20);
           totalEl.parentElement.style.display = 'flex';
         }
         
@@ -818,10 +823,20 @@ class PriceCalculatorBase {
           {
             title: 'Calculated price',
             rows: [
-              { label: 'Per window', value: `₹${finalPerWindow.toLocaleString('en-IN')}` },
+              {
+                label: 'Per window',
+                value:
+                  typeof window.formatPriceFromINR === 'function'
+                    ? window.formatPriceFromINR(Math.round(finalPerWindow))
+                    : '\u20B9' + finalPerWindow.toLocaleString('en-IN'),
+              },
               {
                 label: 'Total',
-                value: `₹${finalTotal.toLocaleString('en-IN')} (${selections.numberOfWindows} window(s))`,
+                value:
+                  (typeof window.formatPriceFromINR === 'function'
+                    ? window.formatPriceFromINR(Math.round(finalTotal))
+                    : '\u20B9' + finalTotal.toLocaleString('en-IN')) +
+                  ` (${selections.numberOfWindows} window(s))`,
               },
             ],
           },
@@ -835,7 +850,15 @@ class PriceCalculatorBase {
         `Mobile: ${userDetails.mobile || 'Not provided'}`,
         `Email: ${userDetails.email || 'Not provided'}`,
         `Dimensions: ${selections.width} × ${selections.height} ${selections.unit}`,
-        `Total: ₹${finalPerWindow.toLocaleString('en-IN')} per window; ₹${finalTotal.toLocaleString('en-IN')} total`,
+        `Total: ${
+          typeof window.formatPriceFromINR === 'function'
+            ? window.formatPriceFromINR(Math.round(finalPerWindow))
+            : '\u20B9' + finalPerWindow.toLocaleString('en-IN')
+        } per window; ${
+          typeof window.formatPriceFromINR === 'function'
+            ? window.formatPriceFromINR(Math.round(finalTotal))
+            : '\u20B9' + finalTotal.toLocaleString('en-IN')
+        } total`,
       ].join('\n');
     }
 
@@ -954,28 +977,42 @@ class PriceCalculatorBase {
     if (this.lastCalculatedAmounts && this.lastCalculatedAmounts.subtotal > 0) {
       totalCalculatedAmount = Math.round(this.lastCalculatedAmounts.subtotal);
     } else {
-      // Try to extract from display text
-      const match = totalPriceText.match(/₹[\d,]+/);
-      if (match) {
-        totalCalculatedAmount = parseInt(match[0].replace(/[₹,]/g, '')) || 0;
-      }
+      try {
+        const match = totalPriceText.match(/[\d,]+/g);
+        if (match && match.length) {
+          const last = match[match.length - 1];
+          totalCalculatedAmount = parseInt(last.replace(/,/g, ''), 10) || 0;
+        }
+      } catch (e) {}
     }
-    
+
     // Calculate per-row amounts from displayed prices
     rows.forEach((row, index) => {
       const amountDisplay = row.querySelector('.row-amount-text');
       if (amountDisplay && rowDetails[index]) {
-        const priceText = amountDisplay.textContent || '₹0';
-        // Extract numeric value from price text
-        const priceMatch = priceText.match(/₹[\d,]+/);
-        if (priceMatch) {
-          const priceValue = parseInt(priceMatch[0].replace(/[₹,]/g, '')) || 0;
-          rowDetails[index].calculatedAmount = priceValue;
+        const inrAttr = amountDisplay.getAttribute('data-wm-inr-total');
+        if (inrAttr != null && inrAttr !== '') {
+          rowDetails[index].calculatedAmount = parseInt(inrAttr, 10) || 0;
         } else {
-          rowDetails[index].calculatedAmount = 0;
+          const priceText = amountDisplay.textContent || '₹0';
+          const priceMatch = priceText.match(/[\d,]+/);
+          if (priceMatch) {
+            const priceValue = parseInt(priceMatch[0].replace(/,/g, ''), 10) || 0;
+            rowDetails[index].calculatedAmount = priceValue;
+          } else {
+            rowDetails[index].calculatedAmount = 0;
+          }
         }
       }
     });
+
+    if (!totalCalculatedAmount && rowDetails.length) {
+      var sumInr = 0;
+      rowDetails.forEach(function (rd) {
+        if (rd.calculatedAmount) sumInr += rd.calculatedAmount;
+      });
+      if (sumInr > 0) totalCalculatedAmount = sumInr;
+    }
     
     const ES = window.EmailSubmitter;
     let emailBody;

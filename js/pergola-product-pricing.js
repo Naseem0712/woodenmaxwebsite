@@ -21,7 +21,15 @@ document.addEventListener('DOMContentLoaded', function () {
     var x = Number(n) || 0;
     return { lo: Math.round(x * 0.8), hi: Math.round(x * 1.2) };
   }
+  function fmtInr(n) {
+    var x = Math.round(Number(n) || 0);
+    if (typeof window.formatPriceFromINR === 'function') return window.formatPriceFromINR(x);
+    return '\u20b9 ' + x.toLocaleString('en-IN');
+  }
   function fmtRange(r) {
+    if (typeof window.formatPriceRangeFromINR === 'function') {
+      return window.formatPriceRangeFromINR(r.lo, r.hi);
+    }
     return '\u20B9 ' + r.lo.toLocaleString('en-IN') + ' \u2013 \u20B9 ' + r.hi.toLocaleString('en-IN');
   }
 
@@ -463,19 +471,19 @@ document.addEventListener('DOMContentLoaded', function () {
               '<tr><td class="pergola-td-item">' +
               materialDetail +
               '</td><td class="pergola-td-num">' +
-              baseTotal.toLocaleString('en-IN') +
+              fmtInr(baseTotal) +
               '</td></tr>';
             out +=
               '<tr><td class="pergola-td-item">' +
               roofLabel +
               '</td><td class="pergola-td-num">' +
-              glazingTotal.toLocaleString('en-IN') +
+              fmtInr(glazingTotal) +
               '</td></tr>';
             out +=
               '<tr><td class="pergola-td-item">Powder coating (' +
               (coatingKey || 'standard') +
               ')</td><td class="pergola-td-num">' +
-              coatingTotal.toLocaleString('en-IN') +
+              fmtInr(coatingTotal) +
               '</td></tr>';
             if (pergolaCatalog && pillarCount > 0) {
               out +=
@@ -484,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 ' \u00d7 ' +
                 pillarCount +
                 ')</td><td class="pergola-td-num">' +
-                pillarTotal.toLocaleString('en-IN') +
+                fmtInr(pillarTotal) +
                 '</td></tr>';
             }
             if (pergolaLineId === 'retractable_motorized' && pergolaCatalog) {
@@ -492,12 +500,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 '<tr><td class="pergola-td-item">Motors / automation (' +
                 (motorOpt.label || '') +
                 ')</td><td class="pergola-td-num">' +
-                motorTotal.toLocaleString('en-IN') +
+                fmtInr(motorTotal) +
                 '</td></tr>';
             }
             out +=
               '<tr><td class="pergola-td-item" style="font-weight:700;">Estimated total</td><td class="pergola-td-num" style="font-weight:700;">' +
-              estimatedTotal.toLocaleString('en-IN') +
+              fmtInr(estimatedTotal) +
               '</td></tr>';
             out += '</tbody></table></div>';
           } else {
@@ -510,7 +518,7 @@ document.addEventListener('DOMContentLoaded', function () {
               '</td><td class="pergola-td-num">' +
               (material === 'aluminium' ? aluminiumRate : ironRatePerSqft) +
               '</td><td class="pergola-td-num">' +
-              baseTotal.toLocaleString('en-IN') +
+              fmtInr(baseTotal) +
               '</td></tr>';
             out +=
               '<tr><td class="pergola-td-item">' +
@@ -518,7 +526,7 @@ document.addEventListener('DOMContentLoaded', function () {
               '</td><td class="pergola-td-num">' +
               glazingRate +
               '</td><td class="pergola-td-num">' +
-              glazingTotal.toLocaleString('en-IN') +
+              fmtInr(glazingTotal) +
               '</td></tr>';
             out +=
               '<tr><td class="pergola-td-item">Powder coating (' +
@@ -526,7 +534,7 @@ document.addEventListener('DOMContentLoaded', function () {
               ')</td><td class="pergola-td-num">' +
               coatingAdd +
               '</td><td class="pergola-td-num">' +
-              coatingTotal.toLocaleString('en-IN') +
+              fmtInr(coatingTotal) +
               '</td></tr>';
             if (pergolaCatalog && pillarCount > 0) {
               out +=
@@ -534,10 +542,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 (pillarOpt.label || '') +
                 ' \u00d7 ' +
                 pillarCount +
-                ')</td><td class="pergola-td-num">\u20b9' +
-                (Number(pillarOpt.rate_per_pc) || 0).toLocaleString('en-IN') +
+                ')</td><td class="pergola-td-num">' +
+                fmtInr(Number(pillarOpt.rate_per_pc) || 0) +
                 '/pc</td><td class="pergola-td-num">' +
-                pillarTotal.toLocaleString('en-IN') +
+                fmtInr(pillarTotal) +
                 '</td></tr>';
             }
             if (pergolaLineId === 'retractable_motorized' && pergolaCatalog) {
@@ -545,12 +553,11 @@ document.addEventListener('DOMContentLoaded', function () {
               var motorFix = Number(motorOpt.fixed_addon) || 0;
               var motorRateCol =
                 motorRateShow > 0
-                  ? '\u20b9' +
-                    motorRateShow.toLocaleString('en-IN') +
+                  ? fmtInr(motorRateShow) +
                     '/sqft' +
-                    (motorFix > 0 ? ' +\u20b9' + motorFix.toLocaleString('en-IN') + ' fixed' : '')
+                    (motorFix > 0 ? ' +' + fmtInr(motorFix) + ' fixed' : '')
                   : motorFix > 0
-                    ? 'Fixed package \u20b9' + motorFix.toLocaleString('en-IN')
+                    ? 'Fixed package ' + fmtInr(motorFix)
                     : '\u2014';
               out +=
                 '<tr><td class="pergola-td-item">Motors / automation (' +
@@ -558,12 +565,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 ')</td><td class="pergola-td-num">' +
                 motorRateCol +
                 '</td><td class="pergola-td-num">' +
-                motorTotal.toLocaleString('en-IN') +
+                fmtInr(motorTotal) +
                 '</td></tr>';
             }
             out +=
               '<tr><td class="pergola-td-item" style="font-weight:700;">Estimated total</td><td class="pergola-td-num">\u2014</td><td class="pergola-td-num" style="font-weight:700;">' +
-              estimatedTotal.toLocaleString('en-IN') +
+              fmtInr(estimatedTotal) +
               '</td></tr>';
             out += '</tbody></table></div>';
           }
@@ -621,8 +628,7 @@ document.addEventListener('DOMContentLoaded', function () {
               '</td><td class="pergola-td-num">' +
               glazingWeightTotal.toLocaleString('en-IN') +
               '</td><td class="pergola-td-num">' +
-              '\u20B9\u00a0' +
-              glazingTotal.toLocaleString('en-IN') +
+              fmtInr(glazingTotal) +
               '</td></tr>';
             weightHtml +=
               '<tr><td class="pergola-td-item">' +
@@ -631,19 +637,19 @@ document.addEventListener('DOMContentLoaded', function () {
               metalKgPerSqftUsed.toFixed(3) +
               '</td><td class="pergola-td-num">' +
               metalWeightTotal.toLocaleString('en-IN') +
-              '</td><td class="pergola-td-num">\u20B9\u00a0' +
-              metalAmount.toLocaleString('en-IN') +
+              '</td><td class="pergola-td-num">' +
+              fmtInr(metalAmount) +
               '</td></tr>';
             if (assemblyAmount > 0)
               weightHtml +=
-                '<tr><td class="pergola-td-item">Assembly / labour</td><td class="pergola-td-num">\u2014</td><td class="pergola-td-num">\u2014</td><td class="pergola-td-num">\u20B9\u00a0' +
-                assemblyAmount.toLocaleString('en-IN') +
+                '<tr><td class="pergola-td-item">Assembly / labour</td><td class="pergola-td-num">\u2014</td><td class="pergola-td-num">\u2014</td><td class="pergola-td-num">' +
+                fmtInr(assemblyAmount) +
                 '</td></tr>';
             weightHtml +=
               '<tr><td class="pergola-td-item" style="font-weight:700;">Total</td><td class="pergola-td-num">\u2014</td><td class="pergola-td-num" style="font-weight:700;">' +
               overallWeight.toLocaleString('en-IN') +
-              '</td><td class="pergola-td-num" style="font-weight:700;">\u20B9\u00a0' +
-              estimatedTotal.toLocaleString('en-IN') +
+              '</td><td class="pergola-td-num" style="font-weight:700;">' +
+              fmtInr(estimatedTotal) +
               '</td></tr>';
             weightHtml += '</tbody></table></div>';
 
@@ -743,6 +749,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       });
 
+      window.wmRefreshPergolaPricingDisplay = renderPricing;
+
       pricingRoot.addEventListener('click', function (ev) {
         if (!ev.target || ev.target.id !== 'pergola-inquiry-submit') return;
         var nameEl = document.getElementById('pergola-user-name');
@@ -774,31 +782,29 @@ document.addEventListener('DOMContentLoaded', function () {
           var amountRows = [
             {
               label: est.materialDetail || 'Structure / frame',
-              value: '\u20b9 ' + est.baseTotal.toLocaleString('en-IN'),
+              value: fmtInr(est.baseTotal),
             },
             {
-              label: 'Roof (' + est.roofProduct + ') @ \u20b9' + est.glazingRate + '/sqft',
-              value: '\u20b9 ' + est.glazingTotal.toLocaleString('en-IN'),
+              label: 'Roof (' + est.roofProduct + ') @ ' + fmtInr(est.glazingRate) + '/sqft',
+              value: fmtInr(est.glazingTotal),
             },
-            { label: 'Powder coating', value: '\u20b9 ' + est.coatingTotal.toLocaleString('en-IN') },
+            { label: 'Powder coating', value: fmtInr(est.coatingTotal) },
           ];
           if (est.pillarCount) {
             amountRows.push({
               label: 'Pillars (' + (est.pillarLabel || '') + ' \u00d7 ' + est.pillarCount + ')',
-              value: '\u20b9 ' + est.pillarTotal.toLocaleString('en-IN'),
+              value: fmtInr(est.pillarTotal),
             });
           }
           if (est.pergolaLineId === 'retractable_motorized') {
             amountRows.push({
               label: 'Motors / automation (' + (est.motorLabel || '') + ')',
-              value:
-                '\u20b9 ' +
-                (est.motorTotal != null ? est.motorTotal : 0).toLocaleString('en-IN'),
+              value: fmtInr(est.motorTotal != null ? est.motorTotal : 0),
             });
           }
           amountRows.push({
             label: 'Estimated total',
-            value: '\u20b9 ' + est.estimatedTotal.toLocaleString('en-IN'),
+            value: fmtInr(est.estimatedTotal),
           });
           emailBody = ES.buildStructuredPlainText('New quote request \u2014 Pergola / outdoor roof calculator', [
             {
@@ -863,8 +869,8 @@ document.addEventListener('DOMContentLoaded', function () {
             name +
             '\nCity: ' +
             city +
-            '\nTotal: \u20b9 ' +
-            est.estimatedTotal.toLocaleString('en-IN');
+            '\nTotal: ' +
+            fmtInr(est.estimatedTotal);
         }
 
         if (window.EmailSubmitter) {
@@ -1030,7 +1036,7 @@ document.addEventListener('DOMContentLoaded', function () {
           var html = '<h4>Example totals \u2014 12ft \u00d7 12ft (144 sqft) with 12 mm toughened glass</h4>';
           html += '<table class="price-table"><thead><tr><th>Scenario</th><th class="rate">Total (\u20b9)</th></tr></thead><tbody>';
           rows.forEach(function (r) {
-            html += '<tr><td>' + r.title + '</td><td class="rate">\u20b9 ' + r.total.toLocaleString('en-IN') + '</td></tr>';
+            html += '<tr><td>' + r.title + '</td><td class="rate">' + fmtInr(r.total) + '</td></tr>';
           });
           html += '</tbody></table>';
           exampleRoot.innerHTML = html;

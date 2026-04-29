@@ -321,7 +321,14 @@ class FramelessShowerCalculator {
   }
   
   displayResults(totalCost) {
-    const formatCurrency = (amount) => '₹' + Math.round(amount).toLocaleString('en-IN');
+    const formatCurrency = (amount) =>
+      typeof window.formatPriceFromINR === 'function'
+        ? window.formatPriceFromINR(amount)
+        : '\u20B9' + Math.round(amount).toLocaleString('en-IN');
+    const formatRange = (lo, hi) =>
+      typeof window.formatPriceRangeFromINR === 'function'
+        ? window.formatPriceRangeFromINR(lo, hi)
+        : formatCurrency(lo) + ' - ' + formatCurrency(hi);
     const showActual = this.userDetailsSubmitted;
     
     // Only show total package cost (no breakdown)
@@ -330,7 +337,7 @@ class FramelessShowerCalculator {
       if (showActual) {
         totalEl.textContent = formatCurrency(totalCost);
       } else {
-        totalEl.textContent = totalCost > 0 ? formatCurrency(totalCost * 0.85) + ' - ' + formatCurrency(totalCost * 1.15) : '₹0';
+        totalEl.textContent = totalCost > 0 ? formatRange(totalCost * 0.85, totalCost * 1.15) : formatCurrency(0);
       }
     }
   }
@@ -416,7 +423,7 @@ Hardware Selection:
 - Finish: ${finishNames[hardwareFinish]}
 - Door Configuration: ${doorCount} ${doorType === 'sliding' ? 'sliding' : ''} door${doorCount > 1 ? 's' : ''}
 
-Total Package Cost: ₹${Math.round(amounts.totalCost).toLocaleString('en-IN')}
+Total Package Cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(amounts.totalCost)) : '\u20B9' + Math.round(amounts.totalCost).toLocaleString('en-IN')}
 
 ---
 Generated from Frameless Shower Calculator

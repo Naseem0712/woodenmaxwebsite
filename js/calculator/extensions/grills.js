@@ -100,7 +100,10 @@
     return bins.length;
   }
 
-  function fmtINR(n) { return '\u20B9' + Math.round(n).toLocaleString('en-IN'); }
+  function fmtINR(n) {
+    if (typeof window.formatPriceFromINR === 'function') return window.formatPriceFromINR(n);
+    return '\u20B9' + Math.round(n).toLocaleString('en-IN');
+  }
 
   // ──────────────────────────────────────────────
   // CALCULATOR CLASS

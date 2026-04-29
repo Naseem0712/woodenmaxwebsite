@@ -635,11 +635,17 @@ class GlassRailingCalculator {
   }
   
   formatCurrency(amount) {
-    return `₹${Math.round(amount).toLocaleString('en-IN')}`;
+    if (typeof window.formatPriceFromINR === 'function') {
+      return window.formatPriceFromINR(amount);
+    }
+    return '\u20B9' + Math.round(amount).toLocaleString('en-IN');
   }
-  
+
   formatRange(min, max) {
-    return `${this.formatCurrency(min)} - ${this.formatCurrency(max)}`;
+    if (typeof window.formatPriceRangeFromINR === 'function') {
+      return window.formatPriceRangeFromINR(min, max);
+    }
+    return this.formatCurrency(min) + ' - ' + this.formatCurrency(max);
   }
   
   formatAmount(amount) {
@@ -870,28 +876,28 @@ ${handrail?.material === 'aluminium' ? `• Handrail Finish: ${handrailFinish}` 
 
 💰 PACKAGE RATE:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Package Rate per RFT: ₹${packageRatePerRft.toFixed(2)} per rft
-• Package Rate per RMT: ₹${(packageRatePerRft * this.FEET_PER_METER).toFixed(2)} per rmt
+• Package Rate per RFT: ${this.formatCurrency(packageRatePerRft)} per rft
+• Package Rate per RMT: ${this.formatCurrency(packageRatePerRft * this.FEET_PER_METER)} per rmt
 
 💵 COST BREAKDOWN (Total):
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Glass Cost: ₹${Math.round(amounts.glassCost || 0).toLocaleString('en-IN')}
+• Glass Cost: ${this.formatCurrency(Math.round(amounts.glassCost || 0))}
 ${bottomProfile ? (() => {
   if (pillarBracketQty > 0) {
-    return `• Bottom Profile Cost (Pillar/Bracket): ₹${Math.round(amounts.bottomProfileCost || 0).toLocaleString('en-IN')} (${pillarBracketQty} pcs)`;
+    return `• Bottom Profile Cost (Pillar/Bracket): ${this.formatCurrency(Math.round(amounts.bottomProfileCost || 0))} (${pillarBracketQty} pcs)`;
   } else if (studQty > 0) {
-    return `• Bottom Profile Cost (Stud): ₹${Math.round(amounts.bottomProfileCost || 0).toLocaleString('en-IN')} (${studQty} pcs)`;
+    return `• Bottom Profile Cost (Stud): ${this.formatCurrency(Math.round(amounts.bottomProfileCost || 0))} (${studQty} pcs)`;
   } else {
-    return `• Bottom Profile Cost: ₹${Math.round(amounts.bottomProfileCost || 0).toLocaleString('en-IN')}`;
+    return `• Bottom Profile Cost: ${this.formatCurrency(Math.round(amounts.bottomProfileCost || 0))}`;
   }
 })() : '• Bottom Profile Cost: Not selected'}
-• Handrail Cost: ₹${Math.round(amounts.handrailCost || 0).toLocaleString('en-IN')}
-• Hardware Package: ₹${Math.round(amounts.hardwareCost || 0).toLocaleString('en-IN')}
-• Anchor Bolts: ₹${Math.round(amounts.anchorBoltCost || 0).toLocaleString('en-IN')}
-• Installation: ₹${Math.round(amounts.installationCost || 0).toLocaleString('en-IN')}
+• Handrail Cost: ${this.formatCurrency(Math.round(amounts.handrailCost || 0))}
+• Hardware Package: ${this.formatCurrency(Math.round(amounts.hardwareCost || 0))}
+• Anchor Bolts: ${this.formatCurrency(Math.round(amounts.anchorBoltCost || 0))}
+• Installation: ${this.formatCurrency(Math.round(amounts.installationCost || 0))}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• TOTAL ESTIMATED COST: ₹${Math.round(amounts.totalCost || 0).toLocaleString('en-IN')}
+• TOTAL ESTIMATED COST: ${this.formatCurrency(Math.round(amounts.totalCost || 0))}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 📝 NOTES:

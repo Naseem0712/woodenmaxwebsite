@@ -212,7 +212,14 @@ class LouverCanopyCalculator {
   }
   
   displayResults(mainCost, wastageCost, totalCost, cuttingPlan) {
-    const formatCurrency = (amount) => '₹' + Math.round(amount).toLocaleString('en-IN');
+    const formatCurrency = (amount) =>
+      typeof window.formatPriceFromINR === 'function'
+        ? window.formatPriceFromINR(amount)
+        : '\u20B9' + Math.round(amount).toLocaleString('en-IN');
+    const formatRange = (lo, hi) =>
+      typeof window.formatPriceRangeFromINR === 'function'
+        ? window.formatPriceRangeFromINR(lo, hi)
+        : formatCurrency(lo) + ' - ' + formatCurrency(hi);
     const showActual = this.userDetailsSubmitted;
     
     const mainCostEl = document.getElementById('calc-result-main');
@@ -220,7 +227,7 @@ class LouverCanopyCalculator {
       if (showActual) {
         mainCostEl.textContent = formatCurrency(mainCost);
       } else {
-        mainCostEl.textContent = formatCurrency(mainCost * 0.8) + ' - ' + formatCurrency(mainCost * 1.2);
+        mainCostEl.textContent = formatRange(mainCost * 0.8, mainCost * 1.2);
       }
     }
     
@@ -229,7 +236,7 @@ class LouverCanopyCalculator {
       if (showActual) {
         wastageEl.textContent = formatCurrency(wastageCost);
       } else {
-        wastageEl.textContent = wastageCost > 0 ? formatCurrency(wastageCost * 0.8) + ' - ' + formatCurrency(wastageCost * 1.2) : '₹0';
+        wastageEl.textContent = wastageCost > 0 ? formatRange(wastageCost * 0.8, wastageCost * 1.2) : formatCurrency(0);
       }
     }
     
@@ -238,7 +245,7 @@ class LouverCanopyCalculator {
       if (showActual) {
         totalEl.textContent = formatCurrency(totalCost);
       } else {
-        totalEl.textContent = formatCurrency(totalCost * 0.8) + ' - ' + formatCurrency(totalCost * 1.2);
+        totalEl.textContent = formatRange(totalCost * 0.8, totalCost * 1.2);
       }
     }
     
@@ -328,9 +335,9 @@ Cutting Plan:
 - Wastage: ${amounts.wastageDetails?.wastage?.toFixed(1) || '0'}ft
 
 Cost Breakdown:
-- Canopy Panel Cost: ₹${Math.round(amounts.mainCost).toLocaleString('en-IN')}
-- Profile Wastage Cost: ₹${Math.round(amounts.wastageCost).toLocaleString('en-IN')}
-- Total Cost: ₹${Math.round(amounts.totalCost).toLocaleString('en-IN')}
+- Canopy Panel Cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(amounts.mainCost)) : '\u20B9' + Math.round(amounts.mainCost).toLocaleString('en-IN')}
+- Profile Wastage Cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(amounts.wastageCost)) : '\u20B9' + Math.round(amounts.wastageCost).toLocaleString('en-IN')}
+- Total Cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(amounts.totalCost)) : '\u20B9' + Math.round(amounts.totalCost).toLocaleString('en-IN')}
 
 ---
 Generated from Louver Canopy Price Calculator

@@ -119,18 +119,25 @@
     }
     
     displayResults(perUnitMin, perUnitMax, totalMin, totalMax, perUnit, total, count) {
-      const formatCurrency = (num) => '₹' + Math.round(num).toLocaleString('en-IN');
-      
+      const formatCurrency = (num) =>
+        typeof window.formatPriceFromINR === 'function'
+          ? window.formatPriceFromINR(num)
+          : '\u20B9' + Math.round(num).toLocaleString('en-IN');
+      const formatRange = (lo, hi) =>
+        typeof window.formatPriceRangeFromINR === 'function'
+          ? window.formatPriceRangeFromINR(lo, hi)
+          : formatCurrency(lo) + ' - ' + formatCurrency(hi);
+
       // Per unit range
       const perUnitResult = document.getElementById('calc-result-per-window');
       if (perUnitResult) {
-        perUnitResult.textContent = `${formatCurrency(perUnitMin)} - ${formatCurrency(perUnitMax)}`;
+        perUnitResult.textContent = formatRange(perUnitMin, perUnitMax);
       }
-      
+
       // Total range
       const totalResult = document.getElementById('calc-result-total');
       if (totalResult) {
-        totalResult.textContent = `${formatCurrency(totalMin)} - ${formatCurrency(totalMax)}`;
+        totalResult.textContent = formatRange(totalMin, totalMax);
       }
       
       // Update labels
@@ -180,8 +187,8 @@ Specifications:
 - Color: ${selections.color}
 
 Calculated Amounts:
-- Cost per unit: ₹${Math.round(perUnitCost).toLocaleString('en-IN')}
-- Total cost: ₹${Math.round(totalCost).toLocaleString('en-IN')}
+- Cost per unit: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(perUnitCost)) : '\u20B9' + Math.round(perUnitCost).toLocaleString('en-IN')}
+- Total cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(totalCost)) : '\u20B9' + Math.round(totalCost).toLocaleString('en-IN')}
 
 Contact Details:
 - Name: ${userDetails.name}

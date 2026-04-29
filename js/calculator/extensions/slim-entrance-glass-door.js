@@ -376,8 +376,8 @@ Selected Options:
 - Security Mesh: ${selections.mesh}
 
 Calculated Amount:
-- Per Door: ₹${finalPerWindow.toLocaleString('en-IN')}
-- Total Cost: ₹${finalTotal.toLocaleString('en-IN')}
+- Per Door: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(finalPerWindow)) : '\u20B9' + finalPerWindow.toLocaleString('en-IN')}
+- Total Cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(finalTotal)) : '\u20B9' + finalTotal.toLocaleString('en-IN')}
 
 ---
 Generated from Live Price Calculator

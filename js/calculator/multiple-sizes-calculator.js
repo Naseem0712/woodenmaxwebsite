@@ -18,6 +18,15 @@
   
   // Track if we're in auto-apply mode (when adding new row)
   let isAutoApplying = false;
+
+  function fmtInr(n) {
+    if (typeof window.formatPriceFromINR === 'function') return window.formatPriceFromINR(n);
+    return '\u20B9' + Math.round(Number(n) || 0).toLocaleString('en-IN');
+  }
+  function fmtRangeInr(lo, hi) {
+    if (typeof window.formatPriceRangeFromINR === 'function') return window.formatPriceRangeFromINR(lo, hi);
+    return fmtInr(lo) + ' \u2013 ' + fmtInr(hi);
+  }
   
   // Get current global selections
   function getCurrentSelections() {
@@ -316,7 +325,8 @@
     }
     
     if (width <= 0 || height <= 0) {
-      amountDisplay.textContent = '₹0';
+      amountDisplay.textContent = fmtInr(0);
+      amountDisplay.removeAttribute('data-wm-inr-total');
       return;
     }
     
@@ -329,14 +339,16 @@
     const rowCost = calculateRowCost(areaSqft, qty, glassOption, coatingOption, lockOption, hasMesh);
     
     if (rowCost <= 0) {
-      amountDisplay.textContent = '₹0';
+      amountDisplay.textContent = fmtInr(0);
+      amountDisplay.removeAttribute('data-wm-inr-total');
       return;
     }
-    
+
     // Display amount
     const rangeLow = Math.round(rowCost * 0.8);
     const rangeHigh = Math.round(rowCost * 1.2);
-    amountDisplay.textContent = `₹${rangeLow.toLocaleString('en-IN')} - ₹${rangeHigh.toLocaleString('en-IN')}`;
+    amountDisplay.setAttribute('data-wm-inr-total', String(Math.round(rowCost)));
+    amountDisplay.textContent = fmtRangeInr(rangeLow, rangeHigh);
   }
   
   function recalculateAll() {
@@ -466,7 +478,7 @@
       const rangeHigh = Math.round(totalCost * 1.2);
       
       if (totalDisplay) {
-        totalDisplay.textContent = `₹${rangeLow.toLocaleString('en-IN')} - ₹${rangeHigh.toLocaleString('en-IN')}`;
+        totalDisplay.textContent = fmtRangeInr(rangeLow, rangeHigh);
       }
       
       // Hide per window display (not needed when qty is in each row)
@@ -475,7 +487,7 @@
       }
     } else {
       if (totalDisplay) {
-        totalDisplay.textContent = '₹0 - ₹0';
+        totalDisplay.textContent = fmtRangeInr(0, 0);
       }
       if (perWindowDisplay) {
         perWindowDisplay.parentElement.style.display = 'none';
@@ -541,7 +553,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
       </button>
       <div class="row-amount" style="grid-column: 1 / -1; text-align: right; padding-top: 0.5rem; border-top: 1px solid rgba(59, 130, 246, 0.2); margin-top: 0.5rem;">
-        <span class="row-amount-text">₹0</span>
+        <span class="row-amount-text">${fmtInr(0)}</span>
       </div>
     `;
     
@@ -831,6 +843,8 @@
     }
   }
   
+  window.wmRecalculateAllSizeRows = recalculateAll;
+
   startInit();
 })();
 

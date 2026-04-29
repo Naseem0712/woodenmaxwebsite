@@ -337,8 +337,8 @@ Selections:
 - Color: ${colorNames[selections.color] || selections.color}
 
 Calculated Amounts:
-- Cost per panel: ₹${Math.round(perWindowCost).toLocaleString('en-IN')}
-- Total cost: ₹${Math.round(subtotal).toLocaleString('en-IN')}
+- Cost per panel: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(perWindowCost)) : '\u20B9' + Math.round(perWindowCost).toLocaleString('en-IN')}
+- Total cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(subtotal)) : '\u20B9' + Math.round(subtotal).toLocaleString('en-IN')}
 
 Contact Details:
 - Name: ${userDetails.name}

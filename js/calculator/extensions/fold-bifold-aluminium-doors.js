@@ -120,18 +120,25 @@
     }
     
     displayResults(perDoorMin, perDoorMax, totalMin, totalMax, perDoor, total, count) {
-      const formatCurrency = (num) => '₹' + Math.round(num).toLocaleString('en-IN');
-      
+      const formatCurrency = (num) =>
+        typeof window.formatPriceFromINR === 'function'
+          ? window.formatPriceFromINR(num)
+          : '\u20B9' + Math.round(num).toLocaleString('en-IN');
+      const formatRange = (lo, hi) =>
+        typeof window.formatPriceRangeFromINR === 'function'
+          ? window.formatPriceRangeFromINR(lo, hi)
+          : formatCurrency(lo) + ' - ' + formatCurrency(hi);
+
       // Per door range
       const perDoorResult = document.getElementById('calc-result-per-window');
       if (perDoorResult) {
-        perDoorResult.textContent = `${formatCurrency(perDoorMin)} - ${formatCurrency(perDoorMax)}`;
+        perDoorResult.textContent = formatRange(perDoorMin, perDoorMax);
       }
-      
+
       // Total range
       const totalResult = document.getElementById('calc-result-total');
       if (totalResult) {
-        totalResult.textContent = `${formatCurrency(totalMin)} - ${formatCurrency(totalMax)}`;
+        totalResult.textContent = formatRange(totalMin, totalMax);
       }
       
       // Update labels
@@ -181,8 +188,8 @@ Door Specifications:
 - Glass: ${selections.glass}
 
 Calculated Amounts:
-- Cost per door: ₹${Math.round(perDoorCost).toLocaleString('en-IN')}
-- Total cost: ₹${Math.round(totalCost).toLocaleString('en-IN')}
+- Cost per door: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(perDoorCost)) : '\u20B9' + Math.round(perDoorCost).toLocaleString('en-IN')}
+- Total cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(totalCost)) : '\u20B9' + Math.round(totalCost).toLocaleString('en-IN')}
 
 Contact Details:
 - Name: ${userDetails.name}

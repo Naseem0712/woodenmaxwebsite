@@ -32,7 +32,7 @@
    ============================================ */
 .product-detail-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -299,7 +299,7 @@
 }
 
 .faq-item.active .faq-answer {
-  max-height: 500px;
+  max-height: min(2000px, 85vh);
 }
 
 .faq-answer-content {

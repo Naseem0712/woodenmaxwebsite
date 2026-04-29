@@ -9,7 +9,13 @@
   }
 
   function fmt(n) {
-    return '₹' + Math.round(n).toLocaleString('en-IN');
+    if (typeof window.formatPriceFromINR === 'function') return window.formatPriceFromINR(n);
+    return '\u20B9' + Math.round(n).toLocaleString('en-IN');
+  }
+
+  function fmtBand(lo, hi) {
+    if (typeof window.formatPriceRangeFromINR === 'function') return window.formatPriceRangeFromINR(lo, hi);
+    return fmt(lo) + ' \u2013 ' + fmt(hi);
   }
 
   function bind(root) {
@@ -34,9 +40,7 @@
         'Approx. glass area <strong>' +
         sq.toFixed(2) +
         ' sq.ft</strong> × selected band → about <strong>' +
-        fmt(lo) +
-        ' – ' +
-        fmt(hi) +
+        fmtBand(lo, hi) +
         '</strong> (indicative only; hardware, profile, site work &amp; GST extra).';
     }
 

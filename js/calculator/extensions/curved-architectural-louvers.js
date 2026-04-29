@@ -234,8 +234,15 @@ class CurvedLouversCalculator {
   }
   
   displayResults(mainCost, wastageCost, totalCost, cuttingPlan, wastageDetails) {
-    const formatCurrency = (amount) => '₹' + Math.round(amount).toLocaleString('en-IN');
-    
+    const formatCurrency = (amount) =>
+      typeof window.formatPriceFromINR === 'function'
+        ? window.formatPriceFromINR(amount)
+        : '\u20B9' + Math.round(amount).toLocaleString('en-IN');
+    const formatRange = (lo, hi) =>
+      typeof window.formatPriceRangeFromINR === 'function'
+        ? window.formatPriceRangeFromINR(lo, hi)
+        : formatCurrency(lo) + ' - ' + formatCurrency(hi);
+
     const showActual = this.userDetailsSubmitted;
     
     const mainCostEl = document.getElementById('calc-result-main');
@@ -245,7 +252,7 @@ class CurvedLouversCalculator {
       } else {
         const low = mainCost * 0.8;
         const high = mainCost * 1.2;
-        mainCostEl.textContent = formatCurrency(low) + ' - ' + formatCurrency(high);
+        mainCostEl.textContent = formatRange(low, high);
       }
     }
     
@@ -256,7 +263,7 @@ class CurvedLouversCalculator {
       } else {
         const low = wastageCost * 0.8;
         const high = wastageCost * 1.2;
-        wastageEl.textContent = wastageCost > 0 ? formatCurrency(low) + ' - ' + formatCurrency(high) : '₹0';
+        wastageEl.textContent = wastageCost > 0 ? formatRange(low, high) : formatCurrency(0);
       }
     }
     
@@ -267,7 +274,7 @@ class CurvedLouversCalculator {
       } else {
         const low = totalCost * 0.8;
         const high = totalCost * 1.2;
-        totalEl.textContent = formatCurrency(low) + ' - ' + formatCurrency(high);
+        totalEl.textContent = formatRange(low, high);
       }
     }
     
@@ -359,9 +366,9 @@ Cutting Plan:
 - Wastage: ${amounts.wastageDetails?.totalWastage?.toFixed(1) || '0'}ft (incl. 10% extra)
 
 Cost Breakdown:
-- Louver Panel Cost: ₹${Math.round(amounts.mainCost).toLocaleString('en-IN')}
-- Profile Wastage Cost: ₹${Math.round(amounts.wastageCost).toLocaleString('en-IN')}
-- Total Cost: ₹${Math.round(amounts.totalCost).toLocaleString('en-IN')}
+- Louver Panel Cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(amounts.mainCost)) : '\u20B9' + Math.round(amounts.mainCost).toLocaleString('en-IN')}
+- Profile Wastage Cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(amounts.wastageCost)) : '\u20B9' + Math.round(amounts.wastageCost).toLocaleString('en-IN')}
+- Total Cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(amounts.totalCost)) : '\u20B9' + Math.round(amounts.totalCost).toLocaleString('en-IN')}
 
 ---
 Generated from Curved Louvers Price Calculator

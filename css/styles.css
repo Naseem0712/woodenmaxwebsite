@@ -166,10 +166,12 @@ a {
 
 /* --- Utility Classes --- */
 .container {
-  max-width: 1280px;
+  max-width: min(1280px, 95vw);
   margin: 0 auto;
   padding: 0 1rem;
   width: 100%;
+  box-sizing: border-box;
+  min-width: 0;
 }
 
 @media (min-width: 640px) {

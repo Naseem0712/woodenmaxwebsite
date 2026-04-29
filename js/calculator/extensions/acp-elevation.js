@@ -262,7 +262,17 @@ class ACPElevationCalculator extends PriceCalculatorBase {
   }
   
   formatCurrency(amount) {
-    return '₹' + Math.round(amount).toLocaleString('en-IN');
+    if (typeof window.formatPriceFromINR === 'function') {
+      return window.formatPriceFromINR(amount);
+    }
+    return '\u20B9' + Math.round(amount).toLocaleString('en-IN');
+  }
+
+  formatCurrencyRange(lo, hi) {
+    if (typeof window.formatPriceRangeFromINR === 'function') {
+      return window.formatPriceRangeFromINR(lo, hi);
+    }
+    return this.formatCurrency(lo) + ' - ' + this.formatCurrency(hi);
   }
   
   getSelectedProjectType() {
@@ -453,12 +463,13 @@ class ACPElevationCalculator extends PriceCalculatorBase {
     // Price range display (before form submission) - FORCE update
     if (priceRangeEl) {
       if (totalCost > 0 && priceLow > 0 && priceHigh > 0) {
-        const priceText = `${this.formatCurrency(priceLow)} - ${this.formatCurrency(priceHigh)}`;
+        const priceText = this.formatCurrencyRange(priceLow, priceHigh);
         priceRangeEl.textContent = priceText;
         priceRangeEl.innerText = priceText;
       } else {
-        priceRangeEl.textContent = '₹0 - ₹0';
-        priceRangeEl.innerText = '₹0 - ₹0';
+        const z = this.formatCurrencyRange(0, 0);
+        priceRangeEl.textContent = z;
+        priceRangeEl.innerText = z;
       }
     }
   }

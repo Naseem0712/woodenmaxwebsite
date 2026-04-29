@@ -225,8 +225,8 @@ Selected Options:
 - Color: ${selections.color}
 
 Calculated Amount:
-- Per Window: ₹${Math.round(perWindowCost).toLocaleString('en-IN')}
-- Total Cost: ₹${Math.round(totalCost).toLocaleString('en-IN')}
+- Per Window: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(perWindowCost)) : '\u20B9' + Math.round(perWindowCost).toLocaleString('en-IN')}
+- Total Cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(totalCost)) : '\u20B9' + Math.round(totalCost).toLocaleString('en-IN')}
 
 ---
 Generated from Live Price Calculator
