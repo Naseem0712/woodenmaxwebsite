@@ -611,13 +611,8 @@ class PriceCalculatorBase {
       }
       
       const userDetails = { name, city, mobile, email: email || '', leadType: leadType || '' };
-      
-      // Track form submission
-      if (typeof trackCalculatorFormSubmit === 'function') {
-        const hasPrice = this.lastCalculatedAmounts && this.lastCalculatedAmounts.subtotal > 0;
-        trackCalculatorFormSubmit('quote_request', hasPrice);
-      }
-      
+
+      // generate_lead is fired only after email API succeeds — see submitEmailForm() onSuccess
       this.submitUserDetails(userDetails);
       
       return false;
@@ -1048,6 +1043,10 @@ class PriceCalculatorBase {
         message: emailBody,
         userDetails: userDetails,
         onSuccess: () => {
+          if (typeof trackCalculatorFormSubmit === 'function') {
+            const hasPrice = this.lastCalculatedAmounts && this.lastCalculatedAmounts.subtotal > 0;
+            trackCalculatorFormSubmit('quote_request', hasPrice);
+          }
           this.showSuccessMessage();
         },
         onError: (error) => {
@@ -1081,6 +1080,10 @@ class PriceCalculatorBase {
       .then(response => response.json())
       .then(data => {
         if (data.success) {
+          if (typeof trackCalculatorFormSubmit === 'function') {
+            const hasPrice = this.lastCalculatedAmounts && this.lastCalculatedAmounts.subtotal > 0;
+            trackCalculatorFormSubmit('quote_request', hasPrice);
+          }
           this.showSuccessMessage();
         } else {
           throw new Error(data.message || 'Failed to send email');

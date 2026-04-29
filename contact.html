@@ -744,8 +744,8 @@
             <li><a href="catalog">Catalog</a></li>
             <li><a href="about">About Us</a></li>
             <li><a href="contact.html">Contact Us</a></li>
+            <li><a href="return-policy.html">Return Policy</a></li>
           </ul>
-        </div>
         <div>
           <h3 class="footer-title">Contact Us</h3>
           <div class="contact-item"><span>+91 789-5328080</span></div>
@@ -867,9 +867,6 @@
           statusEl.style.display = 'none';
           statusEl.textContent = '';
         }
-        try {
-          if (typeof trackContactFormSubmit === 'function') trackContactFormSubmit();
-        } catch (e) { /* analytics optional */ }
         window.EmailSubmitter.submit({
           subject: subject,
           message: body,
@@ -881,6 +878,9 @@
             leadType: leadType
           },
           onSuccess: () => {
+            try {
+              if (typeof trackContactFormSubmit === 'function') trackContactFormSubmit();
+            } catch (e) { /* analytics optional */ }
             if (statusEl) {
               statusEl.style.display = 'block';
               statusEl.style.background = 'rgba(16, 185, 129, 0.12)';

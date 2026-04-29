@@ -70,15 +70,10 @@
     if (totalEngagementTime > 0) {
       const engagementSeconds = Math.round(totalEngagementTime / 1000);
       
-      // Send custom event for engagement time
+      // Custom engagement only — do not send extra page_view here (inflates GA4 page views & Realtime event counts)
       gtag('event', 'engagement_time', {
         'engagement_time_msec': totalEngagementTime,
         'value': engagementSeconds
-      });
-
-      // Also update page_view with engagement time
-      gtag('event', 'page_view', {
-        'engagement_time_msec': totalEngagementTime
       });
     }
   }
@@ -177,15 +172,12 @@
   // Track contact form submission (for mail count)
   window.trackContactFormSubmit = function() {
     if (typeof gtag === 'undefined') return;
+    // Single conversion event per successful send (count in GA4 as generate_lead only; avoid double-counting with form_submit)
     gtag('event', 'generate_lead', {
       'event_category': 'Lead',
       'event_label': 'Contact Form',
       'method': 'contact_form',
       'value': 1
-    });
-    gtag('event', 'form_submit', {
-      'event_category': 'Form',
-      'event_label': 'Contact Form Submit'
     });
   };
 

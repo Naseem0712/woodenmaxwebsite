@@ -858,45 +858,43 @@
       if (quoteForm) {
         quoteForm.addEventListener('submit', function(e) {
           e.preventDefault();
+          var submitBtn = quoteForm.querySelector('button[type="submit"], input[type="submit"]');
           
-          const name = document.getElementById('quote-name').value;
-          const city = document.getElementById('quote-city').value;
-          const date = document.getElementById('quote-date').value;
-          const mobile = document.getElementById('quote-mobile').value;
-          
-          // Get calculator results if available
-          let calcResults = '';
-          const resPrice = document.getElementById('resPrice');
-          if (resPrice && resPrice.textContent !== '-') {
-            calcResults = resPrice.textContent;
+          var name = document.getElementById('quote-name').value;
+          var city = document.getElementById('quote-city').value;
+          var date = document.getElementById('quote-date').value;
+          var mobile = document.getElementById('quote-mobile').value;
+
+          function showSuccessBanner() {
+            quoteForm.innerHTML = '<div style="text-align: center; padding: 2rem; color: #86efac;"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><h3 style="color: #86efac; margin-bottom: 0.5rem;">Quote Request Submitted!</h3><p style="color: #94a3b8;">Our team will email you a detailed itemised quote within 2 hours.</p></div>';
           }
           
-          // Prepare email body
-          const emailBody = `Instant Quote Request - Glass Elevation
-
-Name: ${name}
-City: ${city}
-Required Date: ${date}
-Mobile: ${mobile}
-Calculated Price: ${calcResults || 'Not calculated'}
-
-Please send detailed quote.`;
+          var calcResults = '';
+          var resPrice = document.getElementById('resPrice');
+          if (resPrice && resPrice.textContent !== '-') calcResults = resPrice.textContent;
           
-          // Send via EmailSubmitter if available
-          if (typeof EmailSubmitter !== 'undefined') {
-            const emailSubmitter = new EmailSubmitter();
-            emailSubmitter.submit({
-              name: name,
-              city: city,
-              mobile: mobile,
-              email: '',
-              product: 'Glass Elevation',
-              message: emailBody
+          var emailBody = ['Instant Quote Request - Glass Elevation', '', 'Name: ' + name, 'City: ' + city, 'Required Date: ' + date, 'Mobile: ' + mobile, 'Calculated Price: ' + (calcResults || 'Not calculated'), '', 'Please send detailed quote.'].join('\n');
+          
+          if (window.EmailSubmitter && typeof window.EmailSubmitter.submit === 'function') {
+            if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending...'; }
+            window.EmailSubmitter.submit({
+              subject: 'Instant Quote — Glass Elevation (calculator page)',
+              message: emailBody,
+              userDetails: { name: name, city: city, mobile: mobile, email: '' },
+              onSuccess: function () {
+                if (typeof trackCalculatorFormSubmit === 'function') {
+                  trackCalculatorFormSubmit('instant_quote_form', !!calcResults);
+                }
+                showSuccessBanner();
+              },
+              onError: function () {
+                if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = submitBtn.dataset.originalLabel || 'Submit'; }
+                alert('Quote could not be sent from this browser. Please call +91 789-5328080 or try again.');
+              }
             });
+          } else {
+            alert('Form could not send. Please call +91 789-5328080.');
           }
-          
-          // Show success message
-          quoteForm.innerHTML = '<div style="text-align: center; padding: 2rem; color: #86efac;"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 1rem;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><h3 style="color: #86efac; margin-bottom: 0.5rem;">Quote Request Submitted!</h3><p style="color: #94a3b8;">Our team will email you a detailed itemised quote within 2 hours.</p></div>';
         });
       }
     });
