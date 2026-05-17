@@ -388,6 +388,281 @@
     return data;
   }
 
+  /**
+   * Capture the live calculator on this page (if any) as a single
+   * virtual quote item.  Marked with `_virtual:true` so the email
+   * formatter labels it "live calc snapshot, not yet added to cart".
+   */
+  function snapshotLiveCalc () {
+    var price = readPrice();
+    if (!price) return null;
+    var meta = readProductMeta();
+    return {
+      id: uid(),
+      productKey:  meta.key,
+      productName: meta.name,
+      specs:       readSpecs(),
+      area:        readArea(),
+      amount:      price,
+      range:       parsePriceRange(price),
+      ts:          Date.now(),
+      _virtual:    true
+    };
+  }
+
+  /**
+   * Returns the array of "quote items" representing what the lead is
+   * asking for.  Behaviour depends on intent:
+   *
+   *   intent = 'export-pdf'
+   *     → user is in the cart sheet → use the full cart (multi-page,
+   *       multi-item).  Falls back to live calc if cart is empty (which
+   *       shouldn't happen because the button is hidden, but be safe).
+   *
+   *   intent = 'exact' (the default)
+   *     → user clicked "Get Exact" next to the live price → they want
+   *       the price for THIS configuration.  Use the live calc state as
+   *       the primary item; append cart items afterwards as additional
+   *       context so the sales rep sees the whole project.
+   */
+  function snapshotItems (intent) {
+    var cart = readCart();
+    var live = snapshotLiveCalc();
+
+    if (intent === 'export-pdf') {
+      if (cart.length) return cart;
+      return live ? [live] : [];
+    }
+
+    // intent === 'exact'
+    if (live && cart.length) {
+      // De-dup: drop cart entries that perfectly match the live snapshot
+      // (same product key + specs + area), otherwise stack live first.
+      var sig = function (it) {
+        return [it.productKey, it.area, (it.specs || []).join('|')].join('::');
+      };
+      var liveSig = sig(live);
+      var extras = cart.filter(function (it) { return sig(it) !== liveSig; });
+      return [live].concat(extras);
+    }
+    if (live)        return [live];
+    if (cart.length) return cart;
+    return [];
+  }
+
+  /**
+   * Build a plain-text email body listing every item the lead asked
+   * about, with sizes / glass / coating / lock / mesh etc.
+   *
+   * Uses window.EmailSubmitter.buildStructuredPlainText when available
+   * (consistent with the legacy contact forms); falls back to a hand-
+   * rolled formatter so this still works if email-submitter.js fails
+   * to load.
+   */
+  function buildLeadEmailBody (lead, items, intent) {
+    var pageUrl = (typeof location !== 'undefined') ? location.href : '';
+    var pageTitle = (typeof document !== 'undefined' && document.title) ? document.title : '';
+
+    var subtotalMid = 0;
+    var totalRange  = { min: 0, max: 0 };
+    items.forEach(function (it) {
+      var r = it.range || parsePriceRange(it.amount);
+      subtotalMid    += midpoint(it);
+      totalRange.min += r.min;
+      totalRange.max += r.max;
+    });
+    var gstMid        = Math.round(subtotalMid * 0.18);
+    var grandMid      = subtotalMid + gstMid;
+    var freeTransport = subtotalMid >= 1500000;
+
+    if (window.EmailSubmitter &&
+        typeof window.EmailSubmitter.buildStructuredPlainText === 'function') {
+      var sections = [];
+
+      sections.push({
+        title: 'Request type',
+        rows: [
+          { label: 'Intent',          value: intent === 'export-pdf'
+                                              ? 'Quote PDF download'
+                                              : 'Get-Exact-Price enquiry' },
+          { label: 'Source page',     value: pageTitle || pageUrl || '—' },
+          { label: 'Page URL',        value: pageUrl || '—' },
+          { label: 'Items submitted', value: items.length + ' configuration' + (items.length === 1 ? '' : 's') }
+        ]
+      });
+
+      sections.push({
+        title: 'Lead details',
+        rows: [
+          { label: 'Name',    value: lead.name   || '—' },
+          { label: 'Mobile',  value: lead.mobile || '—' },
+          { label: 'City',    value: lead.city   || '—' },
+          { label: 'Email',   value: lead.email  || '—' },
+          { label: 'Role',    value: lead.role   || '—' }
+        ]
+      });
+
+      items.forEach(function (it, idx) {
+        var r = it.range || parsePriceRange(it.amount);
+        var rows = [
+          { label: 'Product',  value: it.productName || '—' },
+          { label: 'Area',     value: it.area        || '—' }
+        ];
+        (it.specs || []).forEach(function (s, i) {
+          rows.push({ label: 'Spec ' + (i + 1), value: s });
+        });
+        rows.push({ label: 'Live estimate', value: it.amount });
+        rows.push({ label: 'Range (basic)', value: fmtINR(r.min) + ' – ' + fmtINR(r.max) });
+        rows.push({ label: 'Midpoint',      value: fmtINR(midpoint(it)) });
+        sections.push({
+          title: 'Item #' + (idx + 1) + (it._virtual ? '  (live calc snapshot, not yet added to cart)' : ''),
+          rows: rows
+        });
+      });
+
+      sections.push({
+        title: 'Totals',
+        rows: [
+          { label: 'Subtotal (mid, basic)',      value: fmtINR(subtotalMid) },
+          { label: 'Estimate range (basic)',     value: fmtINR(totalRange.min) + ' – ' + fmtINR(totalRange.max) },
+          { label: 'GST @ 18% (always extra)',   value: '+ ' + fmtINR(gstMid) },
+          { label: 'Transportation',             value: freeTransport
+                                                          ? 'FREE  (≥ ₹15 L within 1,000 km of Hyderabad)'
+                                                          : 'Extra at actuals  (order < ₹15 L or > 1,000 km)' },
+          { label: 'Grand total (mid, incl GST)', value: fmtINR(grandMid) }
+        ]
+      });
+
+      sections.push({
+        title: 'Notes',
+        rows: [
+          { label: 'Validity', value: '30 days from this email' },
+          { label: 'Disclaimer', value: 'Indicative ₹/sq.ft from live WoodenMax calculator. Final BOQ after free physical site verification.' }
+        ]
+      });
+
+      var title = intent === 'export-pdf'
+        ? 'WoodenMax — Quote PDF Request'
+        : 'WoodenMax — Get-Exact-Price Enquiry';
+
+      return window.EmailSubmitter.buildStructuredPlainText(title, sections);
+    }
+
+    // Fallback if EmailSubmitter helper is unavailable
+    var L = [];
+    L.push('WoodenMax — ' + (intent === 'export-pdf' ? 'Quote PDF Request' : 'Get-Exact-Price Enquiry'));
+    L.push('================================================');
+    L.push('Lead: ' + (lead.name || '—') + ' · ' + (lead.mobile || '—') + ' · ' + (lead.city || '—'));
+    if (lead.email) L.push('Email: ' + lead.email);
+    if (lead.role)  L.push('Role:  ' + lead.role);
+    L.push('Source: ' + (pageTitle || pageUrl || '—'));
+    L.push('URL:    ' + (pageUrl || '—'));
+    L.push('');
+    items.forEach(function (it, idx) {
+      var r = it.range || parsePriceRange(it.amount);
+      L.push('--- Item #' + (idx + 1) + ' --------------------------------');
+      L.push('  Product : ' + (it.productName || '—'));
+      L.push('  Area    : ' + (it.area || '—'));
+      (it.specs || []).forEach(function (s, i) { L.push('  Spec ' + (i + 1) + '  : ' + s); });
+      L.push('  Amount  : ' + it.amount);
+      L.push('  Range   : ' + fmtINR(r.min) + ' – ' + fmtINR(r.max));
+      L.push('  Mid     : ' + fmtINR(midpoint(it)));
+      L.push('');
+    });
+    L.push('Subtotal (mid)         : ' + fmtINR(subtotalMid));
+    L.push('Estimate range (basic) : ' + fmtINR(totalRange.min) + ' – ' + fmtINR(totalRange.max));
+    L.push('GST @ 18% (extra)      : + ' + fmtINR(gstMid));
+    L.push('Transportation         : ' + (freeTransport ? 'FREE' : 'Extra at actuals'));
+    L.push('Grand total (mid+GST)  : ' + fmtINR(grandMid));
+    return L.join('\n');
+  }
+
+  /**
+   * Submit the lead + cart snapshot via EmailSubmitter.  Returns a
+   * Promise that resolves whether or not the email succeeded — we
+   * never want to block the PDF print on a transport failure.
+   */
+  function sendLeadEmail (lead, items, intent) {
+    return new Promise(function (resolve) {
+      if (!window.EmailSubmitter || typeof window.EmailSubmitter.submit !== 'function') {
+        resolve({ ok: false, reason: 'EmailSubmitter unavailable' });
+        return;
+      }
+      if (!items || !items.length) {
+        resolve({ ok: false, reason: 'No items to quote' });
+        return;
+      }
+
+      var subject = intent === 'export-pdf'
+        ? 'New Quote PDF Request · ' + (lead.name || 'Lead') + ' · ' + (lead.city || '—')
+        : 'Get-Exact-Price Enquiry · ' + (lead.name || 'Lead') + ' · ' + (lead.city || '—');
+
+      var body = buildLeadEmailBody(lead, items, intent);
+
+      // GA4 funnel event
+      try {
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'wm_lead_submit', {
+            wm_intent: intent,
+            wm_items: items.length,
+            wm_has_email: lead.email ? 1 : 0
+          });
+        }
+      } catch (e) {}
+
+      window.EmailSubmitter.submit({
+        subject: subject,
+        message: body,
+        userDetails: {
+          name:   lead.name || '',
+          email:  lead.email || '',
+          city:   lead.city || '',
+          mobile: lead.mobile || ''
+        },
+        ccEmail: lead.email || '',
+        onSuccess: function () { resolve({ ok: true }); },
+        onError:   function (err) { resolve({ ok: false, reason: (err && err.message) || 'Submit failed' }); }
+      });
+
+      // Safety: don't let a slow/hung transport block the PDF print for
+      // more than 4s.  EmailSubmitter usually resolves in <1s.
+      setTimeout(function () { resolve({ ok: false, reason: 'timeout' }); }, 4000);
+    });
+  }
+
+  /**
+   * Show a tiny non-blocking toast in the corner.  Used to confirm
+   * that the BOQ email actually went out (or didn't).
+   */
+  function showToast (kind, html) {
+    var id = 'wmCalcToast';
+    var prev = document.getElementById(id);
+    if (prev) prev.remove();
+
+    var t = document.createElement('div');
+    t.id = id;
+    t.setAttribute('role', 'status');
+    t.setAttribute('aria-live', 'polite');
+    t.style.cssText = [
+      'position:fixed', 'left:50%', 'top:24px', 'transform:translateX(-50%)',
+      'z-index:10001', 'max-width:92vw',
+      'background:' + (kind === 'success' ? '#065F46' : kind === 'warn' ? '#9A3412' : '#0F172A'),
+      'color:#fff', 'padding:11px 16px', 'border-radius:10px',
+      'box-shadow:0 10px 32px rgba(0,0,0,.28)',
+      'font:600 13px/1.4 -apple-system,Segoe UI,Roboto,sans-serif',
+      'display:flex', 'gap:10px', 'align-items:center',
+      'opacity:0', 'transition:opacity .25s ease'
+    ].join(';');
+    t.innerHTML =
+      (kind === 'success'
+        ? '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>'
+        : '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"/></svg>') +
+      '<div>' + html + '</div>';
+    document.body.appendChild(t);
+    requestAnimationFrame(function () { t.style.opacity = '1'; });
+    setTimeout(function () { t.style.opacity = '0'; setTimeout(function(){ t.remove(); }, 300); }, 4200);
+  }
+
   function showExactPriceInline (lead) {
     var calc = getCalcContainer();
     if (!calc) return;
@@ -678,7 +953,18 @@
     var submit = $('#calcFormSubmit');
     if (submit) submit.classList.add('is-loading');
 
-    setTimeout(function () { // mimic round-trip
+    // Capture exactly what the lead is asking for — for "Export PDF"
+    // we use the full cart; for "Get Exact" we lead with the live
+    // calc state on this page and append other cart entries as context.
+    var items = snapshotItems(intent);
+
+    // Fire the email in the background.  We deliberately don't make
+    // the user wait — the PDF / exact-price reveal proceeds as soon as
+    // the email round-trips OR after the 4-second safety timeout,
+    // whichever comes first.
+    var emailPromise = sendLeadEmail(lead, items, intent);
+
+    emailPromise.then(function (result) {
       if (submit) submit.classList.remove('is-loading');
       closeForm();
 
@@ -690,7 +976,23 @@
         // intent === 'exact'
         showExactPriceInline(lead);
       }
-    }, 350);
+
+      if (result && result.ok) {
+        showToast(
+          'success',
+          'Quote details emailed to <strong>info@woodenmax.com</strong>' +
+            (lead.email ? ' with a copy to <strong>' + escapeHtml(lead.email) + '</strong>' : '') +
+            '. Our team will reach you on <strong>' + escapeHtml(lead.mobile || '—') + '</strong> within 2 working hours.'
+        );
+      } else {
+        var reason = (result && result.reason) ? result.reason : 'unknown';
+        showToast(
+          'warn',
+          'Network hiccup — we saved your quote locally but couldn\'t email it (' + escapeHtml(reason) + '). ' +
+          'Please WhatsApp / call <strong>+91 78953 28080</strong> with screenshot, we\'ll match the price.'
+        );
+      }
+    });
   }
 
   // ---------- Add-to-Cart button feedback ----------

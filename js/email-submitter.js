@@ -135,6 +135,7 @@ window.EmailSubmitter = {
       subject = 'New Quote Request',
       message = '',
       userDetails = {},
+      ccEmail = '',                    // optional: send a copy to the lead
       onSuccess = () => {},
       onError = () => {},
       sendWhatsAppCopy = false
@@ -161,6 +162,7 @@ window.EmailSubmitter = {
         formData.append('Email', userDetails.email || '');
         formData.append('City', userDetails.city || '');
         formData.append('Mobile', userDetails.mobile || '');
+        if (ccEmail) formData.append('CC', ccEmail);
 
         const response = await fetch(workerEndpoint, {
           method: 'POST',
@@ -193,6 +195,12 @@ window.EmailSubmitter = {
           to_email: 'info@woodenmax.com',
           message: outboundMessage
         };
+        if (ccEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+/.test(ccEmail)) {
+          emailData.cc = ccEmail;
+        }
+        if (userDetails.email) {
+          emailData.reply_to = userDetails.email;
+        }
 
         const response = await fetch('https://api.web3forms.com/submit', {
           method: 'POST',

@@ -58,6 +58,10 @@ export default {
       const city = formData.get('City') || formData.get('city') || '';
       const mobile = formData.get('Mobile') || formData.get('mobile') || '';
       const email = formData.get('Email') || formData.get('email') || '';
+      // Optional CC — used to send a copy of the BOQ to the lead's own
+      // mailbox when they share their email on the form.  Comma-separated
+      // list of additional recipients.
+      const ccEmail = (formData.get('CC') || formData.get('cc_email') || '').toString().trim();
 
       let emailBody = htmlToPlainText(message || '');
 
@@ -74,19 +78,32 @@ export default {
         env.WEB3FORMS_ACCESS_KEY || 'fd9946a6-03dd-4f6f-bad8-c430f7c6d351';
       const recipientEmail = env.RECIPIENT_EMAIL || 'info@woodenmax.com';
 
+      const payload = {
+        access_key: accessKey,
+        subject: subject,
+        from_name: name || 'WoodenMax Website',
+        from_email: email || 'noreply@woodenmax.in',
+        to_email: recipientEmail,
+        message: emailBody,
+      };
+      // Web3Forms supports a comma-separated `cc` field — add only when
+      // the lead provided a syntactically plausible email so we never
+      // try to CC obviously bad addresses.
+      if (ccEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+/.test(ccEmail)) {
+        payload.cc = ccEmail;
+      }
+      // Make the lead's own email the natural Reply-To when present so
+      // a sales rep can reply directly from their inbox.
+      if (email) {
+        payload.reply_to = email;
+      }
+
       const web3formsResponse = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          access_key: accessKey,
-          subject: subject,
-          from_name: name || 'WoodenMax Website',
-          from_email: email || 'noreply@woodenmax.in',
-          to_email: recipientEmail,
-          message: emailBody,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const result = await web3formsResponse.json();
