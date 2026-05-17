@@ -749,7 +749,7 @@
     y += 18;
     doc.setFontSize(8.5);
     doc.setFont('helvetica', 'normal');
-    var addrLines = doc.splitTextToSize('5-6-411/413 Aghapura, Nampally, Hyderabad TS-500001', 240);
+    var addrLines = doc.splitTextToSize('5-6-411/413 Aaghapura, Nampally, Hyderabad TS-500001', 240);
     doc.text(addrLines, 40, y);
     var addrH = addrLines.length * 10;
     doc.text('Date: ' + new Date().toLocaleDateString('en-IN'), pw - 40, y, { align: 'right' });

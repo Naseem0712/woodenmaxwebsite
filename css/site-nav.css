@@ -1,0 +1,275 @@
+/*!
+ * css/site-nav.css — styles for the unified WoodenMax navbar (js/site-nav.js).
+ * Replaces every legacy `.navbar` style.  Load order: AFTER `styles.css`.
+ */
+
+/* Hide the legacy navbar instantly so we never see a flash of two nav-bars during boot. */
+nav.navbar:not(.wm-navbar),
+header.site-header { display: none !important; }
+
+/* Top-level container */
+.wm-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  font-family: 'Inter', system-ui, -apple-system, Segoe UI, sans-serif;
+  backdrop-filter: saturate(180%) blur(8px);
+  -webkit-backdrop-filter: saturate(180%) blur(8px);
+}
+body.wm-nav-open { overflow: hidden; }
+
+.wm-navbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 1rem;
+  min-height: 64px;
+}
+
+/* ---------- Logo ---------- */
+.wm-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+  color: #0F172A;
+  flex: 0 0 auto;
+}
+.wm-logo img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+.wm-logo-text {
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+}
+
+/* ---------- Category carousel ---------- */
+.wm-cats-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 0.5rem;
+}
+.wm-cat-arrow {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  background: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  border-radius: 999px;
+  color: #334155;
+  cursor: pointer;
+  transition: background 0.15s ease, opacity 0.15s ease;
+}
+.wm-cat-arrow:hover    { background: #E2E8F0; }
+.wm-cat-arrow:disabled { opacity: 0.35; cursor: default; }
+
+.wm-cats {
+  flex: 1 1 auto;
+  display: flex;
+  gap: 0.3rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 0.2rem 0.4rem;
+  margin: 0 0.3rem;
+  scroll-snap-type: x proximity;
+}
+.wm-cats::-webkit-scrollbar { display: none; }
+
+.cat-item {
+  flex: 0 0 auto;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  color: #475569;
+  background: transparent;
+  font-size: 0.86rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  scroll-snap-align: center;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.cat-item:hover {
+  background: #EFF6FF;
+  color: #1E40AF;
+}
+.cat-item.active {
+  background: linear-gradient(135deg, #1E40AF, #1E3A8A);
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.35);
+}
+
+/* ---------- Right-side utility links ---------- */
+.wm-utility {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 0 0 auto;
+}
+.wm-utility .nav-link,
+.wm-utility .nav-link-secondary {
+  padding: 0.45rem 0.7rem;
+  border-radius: 8px;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.wm-utility a:hover {
+  background: #F1F5F9;
+  color: #0F172A;
+}
+
+/* ---------- CTA ---------- */
+.wm-cta {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.95rem;
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  color: #FFFFFF !important;
+  font-weight: 700;
+  font-size: 0.86rem;
+  border-radius: 999px;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+.wm-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.55);
+}
+
+/* ---------- Burger ---------- */
+.wm-burger {
+  display: none;
+  background: transparent;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #0F172A;
+  flex: 0 0 auto;
+}
+
+/* ---------- Mobile menu ---------- */
+.wm-mobile-menu {
+  position: fixed;
+  inset: 64px 0 0 0;
+  background: #FFFFFF;
+  z-index: 999;
+  overflow-y: auto;
+  padding: 1rem 1.25rem 6rem;
+  border-top: 1px solid #E5E7EB;
+}
+.wm-mobile-section { margin-bottom: 1.5rem; }
+.wm-mobile-heading {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94A3B8;
+  font-weight: 700;
+  padding: 0.5rem 0.25rem;
+  border-bottom: 1px solid #F1F5F9;
+  margin-bottom: 0.5rem;
+}
+.wm-mobile-link {
+  display: block;
+  padding: 0.85rem 0.75rem;
+  border-radius: 10px;
+  color: #0F172A;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border-bottom: 1px solid #F8FAFC;
+}
+.wm-mobile-link:hover     { background: #F1F5F9; }
+.wm-mobile-link.is-active {
+  background: linear-gradient(135deg, #1E40AF, #1E3A8A);
+  color: #FFFFFF;
+}
+.wm-mobile-cta {
+  display: block;
+  text-align: center;
+  margin-top: 1.25rem;
+  background: linear-gradient(135deg, #F59E0B, #D97706);
+  color: #FFFFFF !important;
+  padding: 1rem;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.4);
+}
+.wm-mobile-call {
+  display: block;
+  text-align: center;
+  margin-top: 0.75rem;
+  padding: 0.85rem;
+  color: #1E40AF;
+  font-weight: 700;
+  text-decoration: none;
+  border: 2px solid #1E40AF;
+  border-radius: 12px;
+}
+
+/* ---------- Reserve space so sticky nav doesn't cover hero ---------- */
+.has-wm-navbar { padding-top: 0 !important; }
+
+/* ============================================================
+   Responsive
+============================================================ */
+@media (max-width: 1180px) {
+  .wm-utility .nav-link-secondary[href*="reviews"] { display: none; }
+}
+@media (max-width: 1024px) {
+  .wm-utility .nav-link-secondary[href*="blog"]    { display: none; }
+  .wm-navbar-inner { padding: 0.5rem 0.75rem; gap: 0.5rem; }
+  .wm-cats-wrap { margin: 0 0.25rem; }
+}
+@media (max-width: 900px) {
+  .wm-utility,
+  .wm-cta { display: none; }
+  .wm-burger { display: flex; }
+  .wm-navbar-inner { gap: 0.5rem; }
+  .wm-cats-wrap   { flex: 1 1 auto; }
+}
+@media (max-width: 640px) {
+  .wm-logo-text { display: none; }
+  .wm-cat-arrow { width: 28px; height: 28px; }
+  .cat-item     { padding: 0.4rem 0.7rem; font-size: 0.8rem; }
+  .wm-navbar-inner { min-height: 60px; }
+  .wm-mobile-menu { top: 60px; }
+}
+
+/* ============================================================
+   Make sure old hero / page-header rules don't push the navbar
+   off-screen on legacy pages.
+============================================================ */
+body > nav.navbar:not(.wm-navbar) ~ section.product-detail-hero { padding-top: 0 !important; }
+body.has-wm-navbar > section.product-detail-hero,
+body.has-wm-navbar > header.page-header,
+body.has-wm-navbar > section[class*="hero"]:first-of-type {
+  padding-top: 2.5rem;
+}

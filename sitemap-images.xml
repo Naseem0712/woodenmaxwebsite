@@ -1,934 +1,2188 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  
-  <!-- ============================================
-       HOMEPAGE IMAGES
-       ============================================ -->
-  <url>
-    <loc>https://woodenmax.in/</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
-      <image:title>WoodenMax Logo</image:title>
-      <image:caption>WoodenMax Premium Window Systems</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/hero/architectural-louvers-slim-frame-windows-structure-glazing-hpl-exterior.webp</image:loc>
-      <image:title>Architectural Louvers and Slim Frame Windows</image:title>
-      <image:caption>Premium architectural louvers with slim frame windows and HPL exterior cladding</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/hero/hpl-acp-sheet-facade-calading.webp</image:loc>
-      <image:title>HPL ACP Sheet Facade Cladding</image:title>
-      <image:caption>Modern HPL and ACP sheet facade cladding for building elevation</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/hero/modern-elevation-louvers-slim-window-structure-glazing-hpl-cladding.webp</image:loc>
-      <image:title>Modern Elevation with Louvers and Slim Windows</image:title>
-      <image:caption>Contemporary building elevation featuring metal louvers, slim profile windows and HPL cladding</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp</image:loc>
-      <image:title>Premium Front Elevation with Louvers and Glass Windows</image:title>
-      <image:caption>Luxury villa front elevation with metal louvers, slim glass windows and HPL facade</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp</image:loc>
-      <image:title>Villa Front Elevation Premium Design</image:title>
-      <image:caption>Premium villa front elevation design with louvers, slim profile glazing and HPL cladding</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- ============================================
-       PRODUCT CATEGORY PAGES - IMAGES
-       ============================================ -->
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
-      <image:title>3 Track Aluminium Sliding Window with Mesh</image:title>
-      <image:caption>Premium 3 track aluminium sliding window system with integrated mesh for ventilation</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
-      <image:title>Luxury Aluminium Elevation Windows and Doors</image:title>
-      <image:caption>Premium aluminium windows and doors for luxury villa elevation</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/telescope-windows</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</image:loc>
-      <image:title>Telescopic Slim Profile Soft Close Fluted Glass Kitchen Partition</image:title>
-      <image:caption>Premium telescopic sliding door with soft-close mechanism and fluted glass for kitchen partitions</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/folding-systems</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/folding-systems/fold-and-sliding-window-imported-profiles.webp</image:loc>
-      <image:title>Fold and Sliding Window Imported Profiles</image:title>
-      <image:caption>Premium imported profiles for fold and sliding window systems</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</image:loc>
-      <image:title>Folding Aluminium Balcony Door with Toughened Glass</image:title>
-      <image:caption>Premium folding aluminium balcony door system with toughened safety glass</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/metal-louvers</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
-      <image:title>Wooden Finish Aluminium Louvers Elevation</image:title>
-      <image:caption>Premium aluminium louvers with wooden finish texture for building elevation</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp</image:loc>
-      <image:title>Architectural Curved Aluminium Louvers Facade</image:title>
-      <image:caption>Curved architectural aluminium louvers for modern building facade design</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</image:loc>
-      <image:title>Aluminium Ceiling Louvers Pergola Backyard</image:title>
-      <image:caption>Premium aluminium ceiling louvers and pergola systems for backyard and outdoor spaces</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</image:loc>
-      <image:title>Aluminium Louver Canopy Elevation Facade</image:title>
-      <image:caption>Modern aluminium louver canopy system for building elevation and facade</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/shower-partitions</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
-      <image:title>Frameless Shower Glass Door Openable Sliding</image:title>
-      <image:caption>Premium frameless shower glass door with openable sliding mechanism</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</image:loc>
-      <image:title>Black Profile Shower Glass Partition</image:title>
-      <image:caption>Modern black profile shower glass partition for luxury bathrooms</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
-      <image:title>Premium Black Profile Bathroom Shower Glass Sliding Soft Close Door</image:title>
-      <image:caption>Premium black profile bathroom shower glass door with soft-close sliding mechanism</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
-      <image:title>Frosted Glass Bathroom Door Aluminium Frame Openable</image:title>
-      <image:caption>Premium frosted glass bathroom door with aluminium frame and openable design</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
-      <image:title>Slim Gold Profile Fluted Shower Glass Partition</image:title>
-      <image:caption>Luxury slim gold profile fluted shower glass partition for premium bathrooms</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/elevation-cladding</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</image:loc>
-      <image:title>HPL ACP Elevation House Cladding</image:title>
-      <image:caption>Modern HPL and ACP elevation cladding for residential buildings</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-exterior-cladding-natural-finish.webp</image:loc>
-      <image:title>HPL Exterior Cladding Natural Finish</image:title>
-      <image:caption>Premium HPL exterior cladding with natural wood finish texture</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-sheet-facade-calading.webp</image:loc>
-      <image:title>HPL ACP Sheet Facade Cladding</image:title>
-      <image:caption>Premium HPL and ACP sheet facade cladding for modern building elevation</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/elevation-cladding/IMG_6436 (Small).JPG</image:loc>
-      <image:title>HPL Elevation Cladding Design</image:title>
-      <image:caption>Premium HPL elevation cladding design for residential and commercial buildings</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/glass-elevation</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/structural-glazing-building-elevation.webp</image:loc>
-      <image:title>Structural Glazing Building Elevation</image:title>
-      <image:caption>Premium structural glazing system for modern building elevation and facade</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-curtain-wall-glass-elevatio.webp</image:loc>
-      <image:title>Aluminium Curtain Wall Glass Elevation</image:title>
-      <image:caption>Premium aluminium curtain wall system with glass elevation for commercial buildings</image:caption>
-    </image:image>
-  </url>
-
-  <url>
-    <loc>https://woodenmax.in/products/glass-railing</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</image:loc>
-      <image:title>Luxury Balcony Glass Railing</image:title>
-      <image:caption>Premium balcony glass railing system with slim profile and clear glass</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</image:loc>
-      <image:title>Luxury Staircase Glass Railing</image:title>
-      <image:caption>Luxury staircase glass railing system with slim profile and clear glass</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- ============================================
-       GLASS RAILING PRODUCT PAGES - IMAGES
-       ============================================ -->
-  <url>
-    <loc>https://woodenmax.in/products/glass-railing/balcony-glass-railing</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</image:loc>
-      <image:title>Balcony Glass Railing System</image:title>
-      <image:caption>Luxury balcony glass railing with slim profile and clear glass panels</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/modern-balcony-glass-railing.webp</image:loc>
-      <image:title>Modern Balcony Glass Railing</image:title>
-      <image:caption>Modern balcony glass railing with slim aluminium base rail</image:caption>
-    </image:image>
-  </url>
-
-  <url>
-    <loc>https://woodenmax.in/products/glass-railing/staircase-glass-railing</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</image:loc>
-      <image:title>Staircase Glass Railing System</image:title>
-      <image:caption>Luxury staircase glass railing system with slim profile</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/interior-glass-staircase-railing.webp</image:loc>
-      <image:title>Interior Staircase Glass Railing</image:title>
-      <image:caption>Interior staircase glass railing with slim aluminium profile</image:caption>
-    </image:image>
-  </url>
-
-  <!-- ============================================
-       ALUMINIUM WINDOWS PRODUCT PAGES - IMAGES
-       ============================================ -->
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
-      <image:title>2 Track Aluminium French Sliding Door Window</image:title>
-      <image:caption>Premium 2 track aluminium French sliding door and window system</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/3-track-sliding-window</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
-      <image:title>3 Track Aluminium Sliding Window with Mesh</image:title>
-      <image:caption>Premium 3 track aluminium sliding window with integrated mesh for ventilation</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
-      <image:title>Aluminium Sliding Window</image:title>
-      <image:caption>Premium aluminium sliding window system for modern homes</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/french-door-georgian-bar</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</image:loc>
-      <image:title>French Aluminium Door with Georgian Bar</image:title>
-      <image:caption>Premium French aluminium door with Georgian bar design for classic elegance</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/full-elevation-villa-facade</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
-      <image:title>Luxury Aluminium Elevation Windows and Doors Villa</image:title>
-      <image:caption>Premium full elevation aluminium windows and doors for luxury villa facade</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/georgian-grill-casement-door</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</image:loc>
-      <image:title>Aluminium Casement Door with Georgian Grill</image:title>
-      <image:caption>Premium aluminium casement door with Georgian grill design for security and style</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/slim-entrance-glass-door</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
-      <image:title>Slim Entrance Aluminium Glass Door</image:title>
-      <image:caption>Premium slim profile aluminium glass door for modern entrance design</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
-      <image:title>Slimline Aluminium Window Elite</image:title>
-      <image:caption>Premium slimline aluminium casement window with black powder coating and Saint-Gobain glass</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/top-hung-casement-window</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
-      <image:title>Top Hung Aluminium Casement Window</image:title>
-      <image:caption>Premium top hung aluminium casement window for ventilation and modern design</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- Premium system window SEO guides (10) -->
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-system-window-price</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/Aluminium%20System%20Window%20Price/aluminium-system-window-modern-design.webp</image:loc>
-      <image:title>Aluminium system window price India</image:title>
-      <image:caption>Premium system window modern design</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/what-is-aluminium-system-window</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/What%20is%20System%20Window/system-window-components-breakdown.webp</image:loc>
-      <image:title>What is aluminium system window</image:title>
-      <image:caption>System window components breakdown</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/system-window-vs-normal-window</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/System%20vs%20Normal%20Window/system-window-vs-normal-window-comparison.webp</image:loc>
-      <image:title>System vs normal aluminium window</image:title>
-      <image:caption>System window vs normal window comparison</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-system-window-brands-india</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/System%20Window%20Brands/aluminium-system-window-brands-india.webp</image:loc>
-      <image:title>Aluminium system window brands India</image:title>
-      <image:caption>Best aluminium system window brands in India</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/system-sliding-window-price</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/System%20Sliding%20Window/system-sliding-window-large-opening.webp</image:loc>
-      <image:title>Aluminium system sliding window price</image:title>
-      <image:caption>System sliding window large opening</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/system-casement-window-price</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/System%20Casement%20Window/system-casement-window-open-style.webp</image:loc>
-      <image:title>Aluminium system casement window price</image:title>
-      <image:caption>System casement window open style</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/slim-system-window-price</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/Slim%20System%20Window/slim-system-window-luxury-villa.webp</image:loc>
-      <image:title>Slim system window price luxury</image:title>
-      <image:caption>Slim system window luxury villa</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/system-window-installation</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/Installation%20Process/system-window-installation-site.webp</image:loc>
-      <image:title>Aluminium system window installation</image:title>
-      <image:caption>System window installation on site</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/system-window-glass-options</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/Glass%20Options/system-window-double-glass-dgu.webp</image:loc>
-      <image:title>System window glass options DGU</image:title>
-      <image:caption>System window double glass DGU</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/system-window-for-villa</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/villa%20luxury%20window/system-window-villa-design.webp</image:loc>
-      <image:title>Aluminium system window for villa</image:title>
-      <image:caption>System window villa luxury design</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/2-track-aluminium-window-price</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home.webp</image:loc>
-      <image:title>2 track aluminium window price</image:title>
-      <image:caption>2 track aluminium sliding window modern home</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/4-track-sliding-window-price</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/4%20Track%20Sliding%20Window/4-track-aluminium-sliding-window-wide-opening.webp</image:loc>
-      <image:title>4 track sliding window price</image:title>
-      <image:caption>4 track aluminium sliding window wide opening</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-casement-window-price</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/Casement%20Window/modern-casement-window-home.webp</image:loc>
-      <image:title>Aluminium casement window price</image:title>
-      <image:caption>Modern casement window home elevation</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/slim-aluminium-window-price-luxury</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/slim%20aluminium%20window/slim-aluminium-window-luxury-villa.webp</image:loc>
-      <image:title>Slim aluminium window luxury</image:title>
-      <image:caption>Slim aluminium window luxury villa</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-per-sqft</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/Window%20Price%20Per%20Sqft/sliding-window-price-range-india.webp</image:loc>
-      <image:title>Aluminium window price per sqft</image:title>
-      <image:caption>Sliding window price range India</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window-price-calculator</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/Window%20Calculator%20Page/aluminium-window-size-calculator-tool.webp</image:loc>
-      <image:title>Aluminium sliding window price calculator</image:title>
-      <image:caption>Aluminium window size calculator tool</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/sliding-vs-casement-window</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/Sliding%20vs%20Casement/sliding-vs-casement-window-comparison.webp</image:loc>
-      <image:title>Sliding vs casement window</image:title>
-      <image:caption>Sliding vs casement window comparison</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/best-aluminium-window-for-home</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/Best%20Window%20for%20Home/living-room-window-design-aluminium.webp</image:loc>
-      <image:title>Best aluminium window for home</image:title>
-      <image:caption>Living room aluminium window design</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-hyderabad</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/City%20Price%20Page/window-project-site-installation.webp</image:loc>
-      <image:title>Aluminium window price Hyderabad</image:title>
-      <image:caption>Aluminium window installation site</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-glass-price-breakdown</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/Glass%20Price%20Breakdown/double-glass-dgu-window-section.webp</image:loc>
-      <image:title>Aluminium window glass price breakdown</image:title>
-      <image:caption>Double glass DGU window section</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- ============================================
-       TELESCOPE WINDOWS PRODUCT PAGES - IMAGES
-       ============================================ -->
-  <url>
-    <loc>https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</image:loc>
-      <image:title>Telescopic Slim Profile Soft Close Fluted Glass Kitchen Partition</image:title>
-      <image:caption>Premium telescopic sliding door with soft-close mechanism and fluted glass for kitchen partitions</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- ============================================
-       FOLDING SYSTEMS PRODUCT PAGES - IMAGES
-       ============================================ -->
-  <url>
-    <loc>https://woodenmax.in/products/folding-systems/fold-bifold-aluminium-doors</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</image:loc>
-      <image:title>Folding Aluminium Balcony Door with Toughened Glass</image:title>
-      <image:caption>Premium folding aluminium balcony door system with toughened safety glass</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/folding-systems/fold-sliding-window-system</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/folding-systems/fold-and-sliding-window-imported-profiles.webp</image:loc>
-      <image:title>Fold and Sliding Window Imported Profiles</image:title>
-      <image:caption>Premium imported profiles for fold and sliding window systems</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- ============================================
-       METAL LOUVERS PRODUCT PAGES - IMAGES
-       ============================================ -->
-  <url>
-    <loc>https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
-      <image:title>Wooden Finish Aluminium Louvers Elevation</image:title>
-      <image:caption>Premium aluminium louvers with wooden finish texture for building elevation</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/metal-louvers/curved-architectural-louvers</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp</image:loc>
-      <image:title>Architectural Curved Aluminium Louvers Facade</image:title>
-      <image:caption>Curved architectural aluminium louvers for modern building facade design</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/metal-louvers/ceiling-pergola-louvers</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</image:loc>
-      <image:title>Aluminium Ceiling Louvers Pergola Backyard</image:title>
-      <image:caption>Premium aluminium ceiling louvers and pergola systems for backyard and outdoor spaces</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/metal-louvers/louver-canopy-facade</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</image:loc>
-      <image:title>Aluminium Louver Canopy Elevation Facade</image:title>
-      <image:caption>Modern aluminium louver canopy system for building elevation and facade</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- ============================================
-       SHOWER PARTITIONS PRODUCT PAGES - IMAGES
-       ============================================ -->
-  <url>
-    <loc>https://woodenmax.in/products/shower-partitions/frameless-shower-partition</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
-      <image:title>Frameless Shower Glass Door Openable Sliding</image:title>
-      <image:caption>Premium frameless shower glass door with openable sliding mechanism</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/shower-partitions/premium-black-profile-shower</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
-      <image:title>Premium Black Profile Bathroom Shower Glass Sliding Soft Close Door</image:title>
-      <image:caption>Premium black profile bathroom shower glass door with soft-close sliding mechanism</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/shower-partitions/black-profile-shower-partition</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</image:loc>
-      <image:title>Black Profile Shower Glass Partition</image:title>
-      <image:caption>Modern black profile shower glass partition for luxury bathrooms</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/shower-partitions/frosted-glass-bathroom-door</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
-      <image:title>Frosted Glass Bathroom Door Aluminium Frame Openable</image:title>
-      <image:caption>Premium frosted glass bathroom door with aluminium frame and openable design</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/shower-partitions/slim-frame-shower-partition</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
-      <image:title>Slim Gold Profile Fluted Shower Glass Partition</image:title>
-      <image:caption>Luxury slim gold profile fluted shower glass partition for premium bathrooms</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- ============================================
-       ELEVATION CLADDING PRODUCT PAGES - IMAGES
-       ============================================ -->
-  <url>
-    <loc>https://woodenmax.in/products/elevation-cladding/hpl-exterior-cladding</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-exterior-cladding-natural-finish.webp</image:loc>
-      <image:title>HPL Exterior Cladding Natural Finish</image:title>
-      <image:caption>Premium HPL exterior cladding with natural wood finish texture</image:caption>
-    </image:image>
-  </url>
-  
-  <url>
-    <loc>https://woodenmax.in/products/elevation-cladding/hpl-acp-elevation-cladding</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</image:loc>
-      <image:title>HPL ACP Elevation House Cladding</image:title>
-      <image:caption>Modern HPL and ACP elevation cladding for residential buildings</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-sheet-facade-calading.webp</image:loc>
-      <image:title>HPL ACP Sheet Facade Cladding</image:title>
-      <image:caption>Premium HPL and ACP sheet facade cladding for modern building elevation</image:caption>
-    </image:image>
-  </url>
-  
-  <!-- Main / blog / calculators / pergola / grills — match sitemap.xml (were missing) -->
   <url>
     <loc>https://woodenmax.in/about</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
-      <image:title>WoodenMax About</image:title>
-      <image:caption>Luxury aluminium windows and villa elevation</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/contact</loc>
+    <loc>https://woodenmax.in/about/case-study-commercial-tower-mumbai</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp</image:loc>
-      <image:title>Contact WoodenMax</image:title>
-      <image:caption>Windows, glass elevation, louvers and facade systems</image:caption>
+      <image:loc>https://woodenmax.in/images/eeat/case-tower-mum-hero.webp</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/catalog</loc>
+    <loc>https://woodenmax.in/about/case-study-luxury-bungalow-delhi</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
-      <image:title>WoodenMax Product Catalog</image:title>
-      <image:caption>Premium aluminium windows and product range</image:caption>
+      <image:loc>https://woodenmax.in/images/eeat/case-delhi-bungalow-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/about/case-study-makobrew-jubilee-hills</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/eeat/case-makobrew-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/about/case-study-villa-hyderabad</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/eeat/case-villa-hyd-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/about/certifications-iso-qualicoat</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/eeat/certifications-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/about/factory-tour-hyderabad</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/eeat/factory-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/about/founder-story-woodenmax</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/eeat/founder-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/about/manufacturing-process</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/eeat/manufacturing-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/about/material-sourcing-india</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/eeat/sourcing-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/about/quality-testing-process</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/eeat/qc-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/about/team-leadership</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/eeat/team-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/aluminium-window-price-calculator</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/free-aluminium-window-price-calculator.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/aluminium-window-price-calculator.webp</image:loc>
     </image:image>
   </url>
   <url>
     <loc>https://woodenmax.in/blog</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
-      <image:title>WoodenMax Expert Blog</image:title>
-      <image:caption>Aluminium windows guide and home improvement</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Aluminium%20Sliding%20Glass%20Door%20for%20Balcony.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Frameless%20Sliding%20Glass%20Door%20for%20Interior%20Partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/structural-glazing-building-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/calculators</loc>
+    <loc>https://woodenmax.in/blog/aluminium-sliding-glass-door-complete-guide</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/free-aluminium-window-price-calculator.webp</image:loc>
-      <image:title>Aluminium window price calculators</image:title>
-      <image:caption>Instant online price tools</image:caption>
+      <image:loc>https://woodenmax.in/blog/Aluminium%20Sliding%20Glass%20Door%20for%20Balcony.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Aluminium Sliding Glass Door for Balcony.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Balcony Sliding Glass Door with Clear View.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Aluminium System Windows for Indian Homes.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Frameless Patch Fitting Glass Door – Premium Look.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Frameless Sliding Glass Door for Interior Partition.webp</image:loc>
     </image:image>
   </url>
   <url>
     <loc>https://woodenmax.in/blog/complete-woodenmax-products-guide</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</image:loc>
-      <image:title>Complete WoodenMax products guide</image:title>
-      <image:caption>WoodenMax product range overview</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/blog/energy-efficient-windows-guide</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/blog/frameless-sliding-doors-interior-partitions</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Frameless%20Sliding%20Glass%20Door%20for%20Interior%20Partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Frameless Sliding Glass Door for Interior Partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Frameless Patch Fitting Glass Door – Premium Look.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Balcony Sliding Glass Door with Clear View.webp</image:loc>
     </image:image>
   </url>
   <url>
     <loc>https://woodenmax.in/blog/pergola-design-ideas-india</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</image:loc>
-      <image:title>Pergola design ideas India</image:title>
-      <image:caption>Ceiling louvers and pergola backyard</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/pergola/aluminium-pergola</loc>
+    <loc>https://woodenmax.in/blog/sliding-window-vs-folding-door-comparison</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-pergola/glass-pergola-manufacturer.webp</image:loc>
-      <image:title>Aluminium glass pergola</image:title>
-      <image:caption>Premium aluminium pergola systems</image:caption>
+      <image:loc>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/pergola/glass-skylight</loc>
+    <loc>https://woodenmax.in/blog/soundproof-windows-Hyderabad</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/skylight/automatic-roof-system-manufacturer.webp</image:loc>
-      <image:title>Glass skylight automatic roof</image:title>
-      <image:caption>Skylight and automatic roof system</image:caption>
+      <image:loc>https://woodenmax.in/images/products/soundproof-window/double-glazed-sound-proof-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/soundproof-window/single-glazed-soundproof-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/soundproof-window/noise-reduction-single-glass-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/soundproof-window/sound-proof-window-single-glass.webp</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/pergola/retractable-pergola</loc>
+    <loc>https://woodenmax.in/blog/window-maintenance-tips</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/retractble-pergola/automatic-pergola.webp</image:loc>
-      <image:title>Retractable automatic pergola</image:title>
-      <image:caption>Retractable premium pergola</image:caption>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/Sliding-window-cleaning.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/blog/opnable-window-maintenance.webp</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/pergola/profile-pergola</loc>
+    <loc>https://woodenmax.in/calculators</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/profile-pergola/aluminium-pergola-hyderabad.webp</image:loc>
-      <image:title>Profile aluminium pergola</image:title>
-      <image:caption>Profile pergola design India</image:caption>
+      <image:loc>https://woodenmax.in/free-aluminium-window-price-calculator.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/pergola/profile-iron-canopy</loc>
+    <loc>https://woodenmax.in/catalog</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india.webp</image:loc>
-      <image:title>Profile and iron entrance canopy</image:title>
-      <image:caption>Aluminium glass entrance canopy</image:caption>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/structural-glazing-building-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/grills</loc>
+    <loc>https://woodenmax.in/city/bangalore</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-window-grill-design-modern.webp</image:loc>
-      <image:title>Grills hub — price compare</image:title>
-      <image:caption>Aluminium and iron safety grills</image:caption>
+      <image:loc>https://woodenmax.in/images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/grills/aluminium-window-grills</loc>
+    <loc>https://woodenmax.in/city/delhi</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-window-grill-design-modern.webp</image:loc>
-      <image:title>Aluminium window grills</image:title>
-      <image:caption>Modern aluminium window grill design</image:caption>
+      <image:loc>https://woodenmax.in/images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/grills/balcony-safety-grills</loc>
+    <loc>https://woodenmax.in/city/hyderabad</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-child-safety-balcony-grill.webp</image:loc>
-      <image:title>Balcony safety grills</image:title>
-      <image:caption>Aluminium child safety balcony grill</image:caption>
+      <image:loc>https://woodenmax.in/images/hero/architectural-louvers-slim-frame-windows-structure-glazing-hpl-exterior.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/grills/window-safety-grills</loc>
+    <loc>https://woodenmax.in/city/jaipur</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/Grills/window%20grill%20design.webp</image:loc>
-      <image:title>Window safety grills</image:title>
-      <image:caption>Window safety grill design</image:caption>
+      <image:loc>https://woodenmax.in/images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/grills/iron-safety-grills</loc>
+    <loc>https://woodenmax.in/city/lucknow</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/Grills/aluminium%20grill%20fabricators%20near%20me.webp</image:loc>
-      <image:title>Iron and aluminium safety grills</image:title>
-      <image:caption>Grill fabricators and safety solutions</image:caption>
+      <image:loc>https://woodenmax.in/images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/grills/staircase-balustrade-grills</loc>
+    <loc>https://woodenmax.in/city/mumbai</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/Grills/safety%20grill%20for%20balcony%20with%20children.webp</image:loc>
-      <image:title>Staircase balustrade safety grills</image:title>
-      <image:caption>Staircase and balustrade safety</image:caption>
+      <image:loc>https://woodenmax.in/images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/city/pune</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/contact</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/glass-elevation-price-calculator</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/glass-elevation-price-calculator.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/structural-glazing-building-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/hero/hpl-acp-sheet-facade-calading.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/hero/architectural-louvers-slim-frame-windows-structure-glazing-hpl-exterior.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/hero/modern-elevation-louvers-slim-window-structure-glazing-hpl-cladding.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/policies/cancellation-refund-policy</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/policies/gst-transport-policy</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/policies/installation-policy</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/policies/privacy-policy</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/policies/warranty-policy</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slim%20aluminium%20window/slim-profile-window-modern-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Aluminium%20System%20Window%20Price/aluminium-system-window-modern-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/What%20is%20System%20Window/system-window-components-breakdown.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20vs%20Normal%20Window/system-window-vs-normal-window-comparison.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20Window%20Brands/aluminium-system-window-brands-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20Sliding%20Window/system-sliding-window-large-opening.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20Casement%20Window/system-casement-window-open-style.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Slim%20System%20Window/slim-system-window-luxury-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Installation%20Process/system-window-installation-site.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass%20Options/system-window-double-glass-dgu.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/villa%20luxury%20window/system-window-villa-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/4%20Track%20Sliding%20Window/4-track-aluminium-sliding-window-wide-opening.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Casement%20Window/modern-casement-window-home.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slim%20aluminium%20window/slim-aluminium-window-luxury-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Window%20Price%20Per%20Sqft/sliding-window-price-range-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Window%20Calculator%20Page/aluminium-window-size-calculator-tool.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Sliding%20vs%20Casement/sliding-vs-casement-window-comparison.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Best%20Window%20for%20Home/living-room-window-design-aluminium.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/2-track-aluminium-window-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2 Track Aluminium Window/budget-aluminium-window-2-track-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2 Track Aluminium Window/2-track-window-frame-glass-detail.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2track hardwares pic/2track-sliding-window-inside.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2track hardwares pic/Aluminium-sliding-window-outside.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2track hardwares pic/handle-sliding-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2track hardwares pic/mortise-window-lock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2track hardwares pic/touch-type-lock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/2track hardwares pic/touch-type-window-lock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/3-track-sliding-window</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/3track-sliding-window/inside-sliding-window-maximum-opning.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/3track-sliding-window/outside-sliding-window-with-mess.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/3track-sliding-window/tranding-sliding-window-handle-lock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/3track-sliding-window/small-luxury-type-sliding-window-lock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/3track-sliding-window/touch-type-lock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/3track-sliding-window/touch-type-window-lock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/4-track-sliding-window-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/4%20Track%20Sliding%20Window/4-track-aluminium-sliding-window-wide-opening.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/4 Track Sliding Window/4-track-aluminium-sliding-window-wide-opening.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/4 Track Sliding Window/4-track-window-design-living-room.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/4 Track Sliding Window/multi-track-aluminium-window-system.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-casement-window-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Casement%20Window/modern-casement-window-home.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Casement Window/modern-casement-window-home.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Casement Window/aluminium-casement-window-open-style.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Casement Window/casement-window-side-hinged-design.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window-price-calculator</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Window%20Calculator%20Page/aluminium-window-size-calculator-tool.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Window Calculator Page/aluminium-window-size-calculator-tool.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Window Calculator Page/calculate-sliding-window-cost-online.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-window-pic/sliding-window-with-mosqutonett.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-window-pic/balcony-sliding-window-slim-interlock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-window-pic/handle-sliding-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-window-pic/luxuty-slim-handle-lock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-window-pic/touch-type-window-lock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-system-window-brands-india</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20Window%20Brands/aluminium-system-window-brands-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System Window Brands/aluminium-system-window-brands-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System Window Brands/premium-window-brand-installation.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-system-window-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Aluminium%20System%20Window%20Price/aluminium-system-window-modern-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Aluminium System Window Price/aluminium-system-window-modern-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Aluminium System Window Price/system-window-frame-detail-premium.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-glass-price-breakdown</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass%20Price%20Breakdown/double-glass-dgu-window-section.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass Price Breakdown/double-glass-dgu-window-section.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass Price Breakdown/aluminium-window-glass-types.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-bangalore</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/bangalore-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-chandigarh</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/chandigarh-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-delhi</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/delhi-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-hyderabad</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/City%20Price%20Page/window-project-site-installation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/City Price Page/best-aluminium-window-for-home-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/City Price Page/window-project-site-installation.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-mumbai</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/mumbai-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-per-sqft</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Window%20Price%20Per%20Sqft/sliding-window-price-range-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Window Price Per Sqft/sliding-window-price-range-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Window Price Per Sqft/aluminium-window-price-comparison-chart.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-pune</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/pune-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-vijayawada</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/vijayawada-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-visakhapatnam</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/visakhapatnam-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-warangal</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/warangal-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/best-aluminium-window-for-home</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Best%20Window%20for%20Home/living-room-window-design-aluminium.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Best Window for Home/living-room-window-design-aluminium.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Best Window for Home/window-cost-per-sqft-visual-guide.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/french-door-georgian-bar</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/outside-georgian-bar-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/french-doors-lock-handle.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/doors-invisible-lock-latch.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/slim-aluminium-profile-door-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/Minimalist Black Aluminium System Window Design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/Custom-Made Aluminium System Window Installation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/full-elevation-villa-facade</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/full-elevation-facade-pic/elavation-glass-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/full-elevation-facade-pic/elevation-window-glass-facades.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/full-elevation-facade-pic/glazing-glass-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/full-elevation-facade-pic/villas-glass-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/georgian-grill-casement-door</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/outside-georgian-bar-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/slim-aluminium-profile-door-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/french-doors-lock-handle.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/doors-invisible-lock-latch.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/Minimalist Black Aluminium System Window Design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/french-door-georgian-bar-pic/Custom-Made Aluminium System Window Installation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/sliding-vs-casement-window</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Sliding%20vs%20Casement/sliding-vs-casement-window-comparison.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Sliding vs Casement/sliding-vs-casement-window-comparison.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Sliding vs Casement/casement-and-sliding-window-side-by-side.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/slim-aluminium-window-price-luxury</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slim%20aluminium%20window/slim-aluminium-window-luxury-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slim aluminium window/slim-aluminium-window-luxury-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slim aluminium window/minimal-slim-window-frame-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slim aluminium window/slim-profile-window-modern-elevation.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/slim-entrance-glass-door</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slimline-glass-doors-pic/aluminium-glass-doors-minimal-profiles.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slimline-glass-doors-pic/entrance-glass-door-with-modern-design-mortice-lock.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slimline-glass-doors-pic/Heavy-Duty-System-Window-Frame-with-Toughened-Glass-elevation-doors.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slimline-glass-doors-pic/slim-profile-backyard-doors.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slimline-glass-doors-pic/top-tranding-luxury-design-balcony-glass-doors.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/slim-system-window-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Slim%20System%20Window/slim-system-window-luxury-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Slim System Window/slim-system-window-luxury-villa.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Slim System Window/minimal-slim-window-frame-profile.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slimline-profile-window-pic/woodenmax-profiles-windows-glass-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slimline-profile-window-pic/High-Quality Entrance Glass Wall – Clear View Design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slimline-profile-window-pic/Clear Glass Hinged Door – Stylish Entrance Design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slimline-profile-window-pic/Modern Entrance Glass Panel for Home Entry.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/slimline-profile-window-pic/slim_security_glass_window_white_canopy_hpl_cladding_lucknow.JPG</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-casement-window-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20Casement%20Window/system-casement-window-open-style.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System Casement Window/system-casement-window-open-style.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System Casement Window/premium-casement-window-hinge-detail.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-sliding-window-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20Sliding%20Window/system-sliding-window-large-opening.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System Sliding Window/system-sliding-window-large-opening.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System Sliding Window/system-sliding-window-large-sliding-opening.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-window-for-villa</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/villa%20luxury%20window/system-window-villa-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/villa luxury window/system-window-villa-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/villa luxury window/premium-window-large-glass-view.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-window-glass-options</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass%20Options/system-window-double-glass-dgu.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass Options/system-window-double-glass-dgu.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass Options/riple-glass-window-section.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-window-installation</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Installation%20Process/system-window-installation-site.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Installation Process/system-window-installation-site.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Installation Process/window-installation-frame-fixing.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/system-window-vs-normal-window</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System%20vs%20Normal%20Window/system-window-vs-normal-window-comparison.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System vs Normal Window/system-window-vs-normal-window-comparison.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/System vs Normal Window/premium-vs-regular-window-difference.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/top-hung-casement-window</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/top-hung-casment-window-pic/top-hung-aluminium-casement-window-lucknow.JPG</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/top-hung-casment-window-pic/kitchen-casments-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/top-hung-casment-window-pic/backyard-opnable-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/top-hung-casment-window-pic/aluminium-profile-corner-window-fix.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/top-hung-casment-window-pic/aluminium-profile-door-modern-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/top-hung-casment-window-pic/woodenmax-profiles-windows-glass-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/aluminium-windows/what-is-aluminium-system-window</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/What%20is%20System%20Window/what-is-aluminium-system-window-diagram.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/What is System Window/what-is-aluminium-system-window-diagram.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/What is System Window/system-window-components-breakdown.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/elevation-cladding</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-exterior-cladding-elevation.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-exterior-cladding-natural-finish.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/elevation-cladding/hpl-acp-elevation-cladding</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/acp-sheets-pic/acp-elevation-cladding-aluminium-composite-panel-for-commercial-buildings.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/acp-sheets-pic/hotel-exterior-hpl-acp-cladding.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/acp-sheets-pic/hpl-exterior-cladding-premium-wood-finish.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/acp-sheets-pic/premium-hpl-acp-cladding-for-commercial-building.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-exterior-cladding-natural-finish.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/structural-glazing-building-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/elevation-cladding/hpl-exterior-cladding</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/hpl-sheet-pic/hpl-acp-exterior-cladding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/hpl-sheet-pic/bungalow-hpl-acp-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/hpl-sheet-pic/wood-texture-hpl-acp-cladding.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/hpl-sheet-pic/walnut-finish-hpl-acp-exterior-panels.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/hpl-sheet-pic/balcony-hpl-acp-wall-cladding.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/hpl-sheet-pic/best-hpl-acp-cladding-manufacturer-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/structural-glazing-building-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-exterior-cladding-natural-finish.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/folding-systems</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/folding-systems/fold-and-sliding-window-imported-profiles.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/folding-systems/fold-bifold-aluminium-doors</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-&amp;-befold-pic/fold-bifold-aluminium-glass-door-balcony-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-&amp;-befold-pic/aluminium-bifold-glass-door-for-balcony-opening.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-&amp;-befold-pic/folding-glass-door-aluminium-frame-interior-partition-system.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-&amp;-befold-pic/living-room-folding-glass-door-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-&amp;-befold-pic/outdoor-indoor-folding-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-&amp;-befold-pic/slim-profile-aluminium-bifold-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/folding-systems/fold-sliding-window-system</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-sliding-window-pic/garden-access-bifold-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-sliding-window-pic/showroom-front-aluminium-bifold-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-sliding-window-pic/terrace-folding-aluminium-glass-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-sliding-window-pic/whatsapp-image-2025-12-30-at-7-19-23-pm-2.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-&amp;-befold-pic/fold-bifold-aluminium-glass-door-balcony-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-elevation</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glazing/architectural-glass-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glazing/curtain-wall-glazing-system.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glazing/structural-glazing-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glazing/elevation-glass-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glazing/commercial-glazing-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glazing/aluminium-curtain-wall-glass-elevatio.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-elevation/glass-elevation-price-bangalore</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/bangalore-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-elevation/glass-elevation-price-chandigarh</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/chandigarh-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-elevation/glass-elevation-price-delhi</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/delhi-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-elevation/glass-elevation-price-mumbai</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/mumbai-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-elevation/glass-elevation-price-pune</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/pune-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-elevation/glass-elevation-price-vijayawada</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/vijayawada-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-elevation/glass-elevation-price-visakhapatnam</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/visakhapatnam-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-elevation/glass-elevation-price-warangal</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/cities/warangal-hero.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-railing</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-railing/balcony-glass-railing</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing-2.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/modern-balcony-glass-railing.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/architectural-glass-railing-system.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/glass-railing-terrace-with-profile.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/outdoor-glass-railing-staicase-balcony-with-profile.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/glass-stair-railing-staicase-ramp-with-aluminium-profile.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/glass-railing/staircase-glass-railing</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/interior-glass-staircase-railing.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/glass-stair-railing-with-aluminium-profile.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/outdoor-glass-railing-with-profile.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/staircase-glass-railing/minimal-glass-railing-balcony-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
     </image:image>
   </url>
   <url>
     <loc>https://woodenmax.in/products/grills-tools-guide</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Grills/aluminium%20balcony%20grill%20price%20per%20sqft.webp</image:loc>
-      <image:title>Grills and tools price guide</image:title>
-      <image:caption>Grill price per sqft reference</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
-  
-  <!-- ============================================
-       CITY PAGES - IMAGES
-       ============================================ -->
   <url>
-    <loc>https://woodenmax.in/city/hyderabad</loc>
+    <loc>https://woodenmax.in/products/grills</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/hero/architectural-louvers-slim-frame-windows-structure-glazing-hpl-exterior.webp</image:loc>
-      <image:title>Hyderabad Aluminium Windows and Facades</image:title>
-      <image:caption>Premium aluminium windows and facade solutions in Hyderabad</image:caption>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-window-grill-design-modern.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-child-safety-balcony-grill.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/window grill design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium grill fabricators near me.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/safety grill for balcony with children.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium balcony grill price per sqft.webp</image:loc>
     </image:image>
   </url>
-  
   <url>
-    <loc>https://woodenmax.in/city/bangalore</loc>
+    <loc>https://woodenmax.in/products/grills/aluminium-window-grills</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp</image:loc>
-      <image:title>Bangalore Villa Windows and Facades</image:title>
-      <image:caption>Luxury villa window systems and facade solutions in Bangalore</image:caption>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-window-grill-design-modern.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
-  
   <url>
-    <loc>https://woodenmax.in/city/delhi</loc>
+    <loc>https://woodenmax.in/products/grills/balcony-safety-grills</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp</image:loc>
-      <image:title>Delhi Aluminium Windows and Elevation</image:title>
-      <image:caption>Premium window systems and building elevation solutions in Delhi NCR</image:caption>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium-child-safety-balcony-grill.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
-  
   <url>
-    <loc>https://woodenmax.in/city/mumbai</loc>
+    <loc>https://woodenmax.in/products/grills/iron-safety-grills</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/hero/modern-elevation-louvers-slim-window-structure-glazing-hpl-cladding.webp</image:loc>
-      <image:title>Mumbai Modern Elevation Windows</image:title>
-      <image:caption>Modern building elevation with windows and facade solutions in Mumbai</image:caption>
+      <image:loc>https://woodenmax.in/images/products/Grills/aluminium grill fabricators near me.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
-  
   <url>
-    <loc>https://woodenmax.in/city/pune</loc>
+    <loc>https://woodenmax.in/products/grills/staircase-balustrade-grills</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/hero/hpl-acp-sheet-facade-calading.webp</image:loc>
-      <image:title>Pune HPL ACP Facade Cladding</image:title>
-      <image:caption>Premium HPL and ACP facade cladding solutions in Pune</image:caption>
+      <image:loc>https://woodenmax.in/images/products/Grills/safety grill for balcony with children.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
-  
   <url>
-    <loc>https://woodenmax.in/city/jaipur</loc>
+    <loc>https://woodenmax.in/products/grills/window-safety-grills</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp</image:loc>
-      <image:title>Jaipur Premium Windows and Elevation</image:title>
-      <image:caption>Premium window systems and building elevation solutions in Jaipur</image:caption>
+      <image:loc>https://woodenmax.in/images/products/Grills/window grill design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
-  
   <url>
-    <loc>https://woodenmax.in/city/lucknow</loc>
+    <loc>https://woodenmax.in/products/metal-louvers</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp</image:loc>
-      <image:title>Lucknow Villa Windows and Facades</image:title>
-      <image:caption>Luxury villa window systems and facade solutions in Lucknow</image:caption>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-pergola/glass-pergola-manufacturer.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-pergola/aluminium-pergola-hyderabad.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/skylight/automatic-roof-system-manufacturer.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/retractble-pergola/automatic-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india.webp</image:loc>
     </image:image>
   </url>
-
-  <!-- ============================================
-       BLOG POSTS - IMAGES
-       ============================================ -->
   <url>
-    <loc>https://woodenmax.in/blog/window-maintenance-tips</loc>
+    <loc>https://woodenmax.in/products/metal-louvers/ceiling-pergola-louvers</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/blog/Sliding-window-cleaning.webp</image:loc>
-      <image:title>Sliding Window Cleaning - Proper Window Maintenance Techniques</image:title>
-      <image:caption>Professional window cleaning and maintenance tips for aluminium sliding windows</image:caption>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</image:loc>
     </image:image>
     <image:image>
-      <image:loc>https://woodenmax.in/blog/opnable-window-maintenance.webp</image:loc>
-      <image:title>Openable Window Maintenance - Lubricating and Maintaining Window Hardware</image:title>
-      <image:caption>Maintaining and lubricating openable windows for optimal performance</image:caption>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
-
   <url>
-    <loc>https://woodenmax.in/blog/energy-efficient-windows-guide</loc>
+    <loc>https://woodenmax.in/products/metal-louvers/curved-architectural-louvers</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
-      <image:title>Energy Efficient Aluminium Windows</image:title>
-      <image:caption>Energy efficient aluminium windows with double glazed units for reduced electricity bills</image:caption>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
-
   <url>
-    <loc>https://woodenmax.in/blog/soundproof-windows-Hyderabad</loc>
+    <loc>https://woodenmax.in/products/metal-louvers/louver-canopy-facade</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/aluminium_sliding_window_dgu_glass.JPG</image:loc>
-      <image:title>Soundproof Windows for Hyderabad, Delhi, Bangalore, Pune, Jaipur</image:title>
-      <image:caption>Soundproof aluminium windows with acoustic glass for peaceful living in Indian cities</image:caption>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
-
   <url>
-    <loc>https://woodenmax.in/blog/sliding-window-vs-folding-door-comparison</loc>
+    <loc>https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</image:loc>
-      <image:title>3 Track Aluminium Sliding Window - Maximum Opening Space Comparison</image:title>
-      <image:caption>Sliding windows vs folding doors - complete comparison guide for maximum opening space</image:caption>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
     </image:image>
     <image:image>
-      <image:loc>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</image:loc>
-      <image:title>Folding Aluminium Balcony Door - Maximum Opening Space</image:title>
-      <image:caption>Folding aluminium balcony doors with 95% opening space for seamless indoor-outdoor living</image:caption>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
   </url>
-
   <url>
-    <loc>https://woodenmax.in/blog/aluminium-sliding-glass-door-complete-guide</loc>
+    <loc>https://woodenmax.in/products/pergola/aluminium-pergola</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/blog/Aluminium%20Sliding%20Glass%20Door%20for%20Balcony.webp</image:loc>
-      <image:title>Aluminium Sliding Glass Door for Balcony - Premium Installation</image:title>
-      <image:caption>Premium aluminium sliding glass doors for balconies - complete expert guide 2026</image:caption>
+      <image:loc>https://woodenmax.in/images/products/aluminium-pergola/glass-pergola-manufacturer.webp</image:loc>
     </image:image>
     <image:image>
-      <image:loc>https://woodenmax.in/blog/Balcony%20Sliding%20Glass%20Door%20with%20Clear%20View.webp</image:loc>
-      <image:title>Balcony Sliding Glass Door with Clear View - Maximum Opening Space</image:title>
-      <image:caption>Balcony sliding glass doors with clear view and maximum opening space for modern homes</image:caption>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
     </image:image>
     <image:image>
-      <image:loc>https://woodenmax.in/blog/Aluminium%20System%20Windows%20for%20Indian%20Homes.webp</image:loc>
-      <image:title>Aluminium System Windows for Indian Homes - Modern Design Solutions</image:title>
-      <image:caption>Modern aluminium system windows designed specifically for Indian homes and climate</image:caption>
+      <image:loc>https://woodenmax.in/images/products/aluminium-pergola/luxury-wood-glass-roof-pergola-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-pergola/luxury-wooden-glass-terrace-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-pergola/modern-outdoor-glass-structure.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-pergola/motorized-glass-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-pergola/terrece-luxury-glass-pergola.webp</image:loc>
     </image:image>
   </url>
-
   <url>
-    <loc>https://woodenmax.in/blog/frameless-sliding-doors-interior-partitions</loc>
+    <loc>https://woodenmax.in/products/pergola/glass-skylight</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/blog/Frameless%20Sliding%20Glass%20Door%20for%20Interior%20Partition.webp</image:loc>
-      <image:title>Frameless Sliding Glass Door for Interior Partition - Modern Design</image:title>
-      <image:caption>Frameless sliding glass doors for modern interior partitions and room dividers</image:caption>
+      <image:loc>https://woodenmax.in/images/products/skylight/automatic-roof-system-manufacturer.webp</image:loc>
     </image:image>
     <image:image>
-      <image:loc>https://woodenmax.in/blog/Frameless%20Patch%20Fitting%20Glass%20Door%20–%20Premium%20Look.webp</image:loc>
-      <image:title>Frameless Patch Fitting Glass Door - Premium Look and Design</image:title>
-      <image:caption>Premium frameless patch fitting glass doors with invisible hardware for luxury interiors</image:caption>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/skylight/automatic-skylight-system.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/skylight/skylight-installation-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/skylight/skylight-roof-hyderabad.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/skylight/skylight-roof-system.webp</image:loc>
     </image:image>
   </url>
-
-  <!-- ============================================
-       PRICE CALCULATOR PAGES - IMAGES
-       ============================================ -->
   <url>
-    <loc>https://woodenmax.in/aluminium-window-price-calculator</loc>
+    <loc>https://woodenmax.in/products/pergola/profile-iron-canopy</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/aluminium-window-price-calculator.webp</image:loc>
-      <image:title>Aluminium Window Price Calculator - Free Online Calculator Tool</image:title>
-      <image:caption>Free online aluminium window price calculator - Calculate sliding and casement window prices instantly</image:caption>
+      <image:loc>https://woodenmax.in/images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-and-iron-canopy/iron-pergola-terrece-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-and-iron-canopy/luxury-wooden-car-parking-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-and-iron-canopy/modern-aluminium-polycarbonate-coffy-bar-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-and-iron-canopy/rooftop-pergola-canopy-structure.webp</image:loc>
     </image:image>
   </url>
-
   <url>
-    <loc>https://woodenmax.in/glass-elevation-price-calculator</loc>
+    <loc>https://woodenmax.in/products/pergola/profile-pergola</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/glass-elevation-price-calculator.webp</image:loc>
-      <image:title>Glass Elevation Price Calculator - Free Online Calculator Tool</image:title>
-      <image:caption>Free online glass elevation price calculator - Calculate curtain wall and structural glazing prices instantly</image:caption>
+      <image:loc>https://woodenmax.in/images/products/profile-pergola/aluminium-pergola-hyderabad.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-pergola/best-pergola-company-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-pergola/custom-aluminium-louvers-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-pergola/decorative-iron-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-pergola/iron-pergola-installation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/profile-pergola/modern-outdoor-garden-pergola-design.webp</image:loc>
     </image:image>
   </url>
-
+  <url>
+    <loc>https://woodenmax.in/products/pergola/retractable-pergola</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/retractble-pergola/automatic-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/retractble-pergola/folding-pergola-system.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/retractble-pergola/motorized-rooftop-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/retractble-pergola/sliding-roof-pergola.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/retractble-pergola/villa-pergola-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/retractble-pergola/waterproof-retractable-pergola.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/bathroom-shower-design-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Shower%20Design%20Page/modern-bathroom-shower-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Shower%20Design%20Page/luxury-bathroom-shower-glass.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/black-profile-shower-partition</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/corner-shower-partition-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Corner%20Shower%20Partition/corner-glass-shower-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Corner%20Shower%20Partition/corner-shower-glass-fitting.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/fixed-glass-shower-panel-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Fixed%20Glass%20Shower%20Panel/fixed-glass-shower-panel-bathroom.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Fixed%20Glass%20Shower%20Panel/frameless-fixed-shower-glass.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/framed-vs-frameless-shower</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Framed%20vs%20Frameless/framed-vs-frameless-shower.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Framed%20vs%20Frameless/shower-frame-vs-no-frame.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/frameless-glass-shower-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Frameless%20Shower/frameless-glass-shower-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Frameless%20Shower/minimal-shower-glass-pane.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/frameless-shower-partition</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/frosted-glass-bathroom-door</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/glass-shower-partition-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass%20Shower%20Partition%20Price/glass-shower-partition-modern-bathroom.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass%20Shower%20Partition%20Price/frameless-shower-partition-glass.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/premium-black-profile-shower</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/shower-curtain-vs-glass-partition</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Curtain%20vs%20Glass/shower-curtain-vs-glass.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Curtain%20vs%20Glass/bathroom-partition-difference.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/shower-enclosure-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Shower%20Enclosure/glass-shower-enclosure-bathroom.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Shower%20Enclosure/corner-shower-enclosure-design.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/shower-glass-maintenance</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Maintenance/shower-glass-cleaning.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Maintenance/bathroom-glass-maintenance.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/shower-glass-thickness</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass%20Thickness/shower-glass-thickness-chart.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass%20Thickness/glass-thickness-section-view.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/shower-glass-types</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass%20Types/shower-glass-types-comparison.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Glass%20Types/bathroom-glass-options.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/shower-installation-cost</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Installation%20Cost/shower-glass-installation-site.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Installation%20Cost/bathroom-shower-installation-work.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/sliding-shower-door-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Sliding%20Shower%20Door/sliding-glass-shower-door-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Sliding%20Shower%20Door/shower-door-track-system-detail.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/slim-frame-shower-partition</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/small-bathroom-shower-design</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Small%20Bathroom%20Shower/small-bathroom-glass-shower.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Small%20Bathroom%20Shower/compact-shower-partition-design.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/shower-partitions/walk-in-shower-glass-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Walk-in%20Shower/walk-in-shower-glass-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/Walk-in%20Shower/open-shower-area-glass.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/telescope-windows</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/telescope-windows/aluminium-telescopic-sliding-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/telescope-windows/large-opening-telescopic-sliding-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/telescope-windows/multi-panel-telescopic-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/telescope-windows/synchro-sliding-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-&amp;-befold-pic/fold-bifold-aluminium-glass-door-balcony-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/return-policy</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
 </urlset>

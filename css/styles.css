@@ -165,21 +165,29 @@ a {
 }
 
 /* --- Utility Classes --- */
+/* Container width — tuned for ~90% screen usage across all breakpoints
+   so wide desktops don't show empty rails of whitespace.
+   Mobile:  94vw   |  Tablet: 92vw  |  Desktop: 90vw, cap 1720px
+*/
 .container {
-  max-width: min(1280px, 95vw);
+  max-width: 1720px;
+  width: 94vw;
   margin: 0 auto;
   padding: 0 1rem;
-  width: 100%;
   box-sizing: border-box;
   min-width: 0;
 }
 
 @media (min-width: 640px) {
-  .container { padding: 0 1.5rem; }
+  .container { padding: 0 1.25rem; width: 92vw; }
 }
 
 @media (min-width: 1024px) {
-  .container { padding: 0 2rem; }
+  .container { padding: 0 1.5rem; width: 90vw; }
+}
+
+@media (min-width: 1920px) {
+  .container { width: 88vw; }
 }
 
 /* Responsive text */

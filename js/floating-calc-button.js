@@ -168,32 +168,32 @@
         return;
       }
 
-      // Function to check if calculator is visible in viewport (with buffer zone)
+      // Function to check if calculator is visible in viewport (strict — no buffer)
+      // Owner requirement: FAB should hide ONLY when the user is in front of the
+      // calculator, not 200px before they reach it. The new IntersectionObserver
+      // in js/calculator-mobile-ux.js handles this with even finer control;
+      // when it sets data-strict-hide we back off entirely.
       function isCalculatorInViewport() {
         if (!calculatorArea) return false;
-        
+        if (button.hasAttribute('data-strict-hide')) {
+          // strict observer is in control — never report true so we don't fight it
+          return false;
+        }
+
         try {
           const rect = calculatorArea.getBoundingClientRect();
           const windowHeight = window.innerHeight || document.documentElement.clientHeight;
           const windowWidth = window.innerWidth || document.documentElement.clientWidth;
-          
-          // Check if calculator element exists and has dimensions
+
           if (rect.width === 0 && rect.height === 0) return false;
-          
-          // Add buffer zone (200px) - button hides when calculator is near viewport
-          // This creates a smooth transition zone
-          const bufferZone = 200;
-          
-          // Check if calculator is in viewport (with buffer)
-          // Calculator is "in viewport" if:
-          // 1. Top of calculator is above bottom of viewport (with buffer)
-          // 2. Bottom of calculator is below top of viewport (with buffer)
-          // 3. Horizontally visible
+
+          // Zero buffer — hide only when calc actually intersects the viewport
+          const bufferZone = 0;
+
           const isTopInView = rect.top < (windowHeight + bufferZone);
           const isBottomInView = rect.bottom > (-bufferZone);
           const isHorizontallyVisible = rect.left < windowWidth && rect.right > 0;
-          
-          // Calculator is visible if any significant part is in viewport
+
           return isTopInView && isBottomInView && isHorizontallyVisible;
         } catch (e) {
           return false;

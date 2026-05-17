@@ -4,9 +4,27 @@
    ============================================ */
 
 /**
- * Geo + FX display pricing (runs synchronously here). India: unchanged INR.
- * Elsewhere: Indian base × live FX × regional premium (US/UK +45% on FX = ~30–60% band midpoint).
- * Duplicated in js/currency-localization.js — keep both in sync when editing premiums or API URLs.
+ * Geo + FX display pricing.  India = unchanged INR.
+ *
+ * Outside India we apply two stacked factors to the Indian base price
+ * before showing it in the visitor's currency:
+ *
+ *     local_price = INR × FX(INR→currency) × pppMultiplier(country)
+ *
+ * The PPP multiplier is the "local-market reality" factor and reflects
+ * higher labour cost, import duty, freight, dealer margin and prevailing
+ * sale rates for architectural-aluminium products in that country —
+ * NOT the consumer-price-index PPP per se.  Sources: World Bank ICP /
+ * Numbeo cost-of-living-index / industry priced-quote benchmarks for
+ * aluminium-window installations cross-referenced against our own
+ * inbound enquiries from the GCC, US, UK and SEA.
+ *
+ * To override at runtime (for QA / live demos):
+ *   ?wmPricingCountry=US           → force country code
+ *   ?wmPricingPpp=2.5              → force PPP multiplier directly
+ *
+ * The CSV-style table below is the single source of truth.  Edit numbers
+ * here, deploy, and every calculator across the site reflows.
  */
 (function (global) {
   'use strict';
@@ -14,7 +32,7 @@
   if (global.__wmPricingModuleLoaded) return;
   global.__wmPricingModuleLoaded = true;
 
-  var CACHE_KEY = 'wm_pricing_ctx_v2';
+  var CACHE_KEY = 'wm_pricing_ctx_v3';   // bumped — old cache had old premium
   var TTL_MS = 12 * 60 * 60 * 1000;
   var FX_URL = 'https://open.er-api.com/v6/latest/INR';
   var GEO_URL = 'https://ipapi.co/json/';
@@ -24,16 +42,77 @@
     LV: 1, LT: 1, LU: 1, MT: 1, NL: 1, PT: 1, SK: 1, SI: 1, ES: 1, HR: 1
   };
 
-  /** Extra % on top of FX (high-inflation markets). US/UK: ~30–60% band → 45% midpoint. */
+  // ------------------------------------------------------------------
+  // Per-country PPP / local-market multiplier.
+  //
+  //   1.0  =  India base (no uplift)
+  //   2.0  =  product/install would sell ~2× the INR price after FX
+  //   3.5  =  ~3.5× (e.g. UK / Switzerland — very high labour + duty)
+  //
+  // Anything not listed falls through to DEFAULT_PPP below.
+  // ------------------------------------------------------------------
+  var PPP = {
+    IN: 1.0,
+    // South Asia — small premium, parity of cost-of-living
+    NP: 1.1, BD: 1.1, LK: 1.1, PK: 1.1, BT: 1.1, MV: 1.4,
+    // North America
+    US: 3.0, CA: 2.8, MX: 2.0,
+    // United Kingdom + Ireland (handled via EUROZONE table too)
+    GB: 3.5, IE: 3.5,
+    // Western / Northern Europe
+    DE: 3.2, FR: 3.2, NL: 3.2, BE: 3.0, LU: 3.5,
+    IT: 3.0, ES: 2.8, PT: 2.7, GR: 2.4, AT: 3.2, FI: 3.3,
+    CH: 4.0, SE: 3.5, NO: 3.7, DK: 3.5, IS: 3.8,
+    // Eastern Europe
+    PL: 2.2, CZ: 2.4, HU: 2.2, RO: 2.0, BG: 2.0, HR: 2.3, SK: 2.3, SI: 2.6,
+    EE: 2.5, LV: 2.3, LT: 2.3,
+    RU: 1.8, UA: 1.6, BY: 1.5,
+    // GCC + Middle East
+    AE: 2.5, SA: 2.3, QA: 2.6, KW: 2.7, OM: 2.4, BH: 2.5,
+    IL: 3.5, JO: 1.9, LB: 1.8, TR: 1.7, IR: 1.4, IQ: 1.4,
+    // East / South-East Asia
+    SG: 3.0, HK: 2.8, JP: 2.6, KR: 2.5, TW: 2.4, CN: 2.0,
+    MY: 2.0, TH: 1.8, ID: 1.6, PH: 1.7, VN: 1.5, KH: 1.4, MM: 1.4, LA: 1.4,
+    // Oceania
+    AU: 3.0, NZ: 3.0, FJ: 1.8,
+    // Africa
+    ZA: 1.8, NG: 1.6, KE: 1.5, TZ: 1.5, UG: 1.5, ET: 1.5, GH: 1.6, RW: 1.5,
+    EG: 1.5, MA: 1.6, TN: 1.5, DZ: 1.5, LY: 1.6,
+    // Latin America
+    BR: 1.8, AR: 1.5, CL: 1.9, CO: 1.7, PE: 1.7, UY: 2.0, EC: 1.6,
+    // CIS + others
+    KZ: 1.7, UZ: 1.4, AZ: 1.5, GE: 1.5, AM: 1.5
+  };
+  var DEFAULT_PPP = 2.0;  // safe midpoint for unlisted countries
+
+  /**
+   * Returns the cost-of-living / local-market multiplier for a given
+   * ISO-2 country code.  Always >= 1.0.
+   *
+   * The legacy `premium` semantics  (local = INR × FX × (1 + premium))
+   * are preserved — we simply return `multiplier - 1`.
+   */
   function premiumForCountry(code) {
-    if (!code || String(code).toUpperCase() === 'IN') return 0;
+    if (!code) return 0;
     var c = String(code).toUpperCase();
-    if (c === 'US' || c === 'GB') return 0.45;
-    if (EUROZONE[c]) return 0.2;
-    if (c === 'SA') return 0.125;
-    if (c === 'KW') return 0.165;
-    if (c === 'AE' || c === 'QA' || c === 'BH' || c === 'OM') return 0.12;
-    return 0.1;
+    if (c === 'IN') return 0;
+    var m = PPP[c];
+    if (m == null) m = DEFAULT_PPP;
+    return m - 1;
+  }
+
+  /**
+   * Resolve an explicit `?wmPricingPpp=X.Y` URL override (for QA).
+   * Returns null if absent or invalid.
+   */
+  function pricingPppOverride() {
+    try {
+      var m = location.search.match(/(?:^|[?&])wmPricingPpp=([0-9]+(?:\.[0-9]+)?)(?:&|$)/);
+      if (!m) return null;
+      var v = parseFloat(m[1]);
+      if (isFinite(v) && v >= 0.5 && v <= 10) return v;
+    } catch (e) {}
+    return null;
   }
 
   function targetCurrency(countryCode, geoCurrency) {
@@ -108,11 +187,68 @@
             wm_country: state.countryCode,
             wm_currency: state.currency,
             wm_premium: state.premium,
+            wm_ppp: state.pppMultiplier,
             wm_url_test: state.pricingTestOverride ? 1 : 0
           });
         }
       } catch (e) {}
+      try { showLocalisedPricingBadge(state); } catch (e2) {}
     }
+  }
+
+  /**
+   * Visible (but unobtrusive) badge that explains why prices look
+   * different from our Indian rates.  Only renders on foreign visits.
+   * Saves the user's "dismissed" state per-session.
+   */
+  function showLocalisedPricingBadge(state) {
+    if (typeof document === 'undefined') return;
+    if (document.getElementById('wmLocPriceBadge')) return;
+    try {
+      if (sessionStorage.getItem('wm_locprice_dismissed') === '1') return;
+    } catch (e) {}
+
+    var cc   = state.countryCode || '';
+    var cur  = state.currency || 'USD';
+    var mult = (state.pppMultiplier || 1).toFixed(2);
+
+    var css =
+      '#wmLocPriceBadge{position:fixed;left:12px;bottom:12px;z-index:9998;' +
+      'background:#0F172A;color:#fff;font:500 12px/1.35 -apple-system,Segoe UI,Roboto,sans-serif;' +
+      'padding:10px 14px 10px 12px;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.22);' +
+      'max-width:320px;display:flex;gap:10px;align-items:flex-start}' +
+      '#wmLocPriceBadge .wmlpb-dot{flex:0 0 8px;width:8px;height:8px;border-radius:50%;' +
+      'background:#10B981;margin-top:6px;box-shadow:0 0 0 4px rgba(16,185,129,.18)}' +
+      '#wmLocPriceBadge .wmlpb-x{margin-left:6px;background:transparent;color:#94A3B8;border:0;' +
+      'cursor:pointer;font:600 16px/1 sans-serif;align-self:flex-start;padding:2px 6px}' +
+      '#wmLocPriceBadge .wmlpb-x:hover{color:#fff}' +
+      '#wmLocPriceBadge b{color:#FBBF24}' +
+      '@media(max-width:520px){#wmLocPriceBadge{left:8px;right:8px;bottom:84px;max-width:none}}';
+    var style = document.createElement('style');
+    style.id = 'wmLocPriceBadgeCss';
+    style.appendChild(document.createTextNode(css));
+    (document.head || document.documentElement).appendChild(style);
+
+    var bar = document.createElement('div');
+    bar.id   = 'wmLocPriceBadge';
+    bar.setAttribute('role', 'status');
+    bar.setAttribute('aria-live', 'polite');
+    bar.innerHTML =
+      '<span class="wmlpb-dot" aria-hidden="true"></span>' +
+      '<div>' +
+        'Showing prices localised for <b>' + cc + '</b> in <b>' + cur + '</b>.<br>' +
+        '<span style="color:#94A3B8">Indian base × live FX × ' + mult + '× local-market factor. ' +
+        '<a href="?wmPricingCountry=IN" style="color:#60A5FA">View India base</a></span>' +
+      '</div>' +
+      '<button class="wmlpb-x" type="button" aria-label="Dismiss localised pricing notice">&times;</button>';
+
+    bar.querySelector('.wmlpb-x').addEventListener('click', function () {
+      bar.remove();
+      try { sessionStorage.setItem('wm_locprice_dismissed', '1'); } catch (e) {}
+    });
+
+    if (document.body) document.body.appendChild(bar);
+    else document.addEventListener('DOMContentLoaded', function(){ document.body.appendChild(bar); }, { once:true });
   }
 
   function domesticState() {
@@ -152,13 +288,17 @@
       currency = 'USD';
       rate = rates['USD'];
     }
+    var pppOverride = pricingPppOverride();
+    var premium = pppOverride != null ? (pppOverride - 1) : premiumForCountry(cc);
     return {
       foreign: true,
-      premium: premiumForCountry(cc),
+      premium: premium,
+      pppMultiplier: 1 + premium,
       currency: currency,
       countryCode: cc,
       locale: localeFor(cc, currency),
-      rates: rates
+      rates: rates,
+      pricingTestOverride: pppOverride != null
     };
   }
 
@@ -196,11 +336,22 @@
     refreshCalculators();
   }
 
+  /**
+   * Safe wrapper around `fetch` that:
+   *   - swallows all errors silently (CORS, 429, offline, abort)
+   *   - returns `null` instead of throwing
+   * This is intentional because we use it for non-critical enrichment
+   * (IP geo + FX rates).  Failure must never spam the console — the
+   * caller falls back to India / INR.
+   */
   function fetchJson(url) {
-    return fetch(url, { credentials: 'omit' }).then(function (res) {
-      if (!res.ok) throw new Error('http');
-      return res.json();
-    });
+    try {
+      return fetch(url, { credentials: 'omit', mode: 'cors' })
+        .then(function (res) { return res && res.ok ? res.json() : null; })
+        .catch(function () { return null; });
+    } catch (e) {
+      return Promise.resolve(null);
+    }
   }
 
   /** Live test: add ?wmPricingCountry=US or GB (ISO2). Skips session cache so IP mismatch na ho. */
@@ -224,8 +375,8 @@
 
     Promise.all([fetchJson(GEO_URL), fetchJson(FX_URL)])
       .then(function (pair) {
-        var geo = pair[0];
-        var fx = pair[1];
+        var geo   = pair && pair[0];
+        var fx    = pair && pair[1];
         var rates = fx && fx.rates;
         if (!rates) {
           if (!cached) {
@@ -379,11 +530,17 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // ============================================
   // NAVBAR SCROLL EFFECT (Optimized with RAF)
+  // ------------------------------------------------------------------
+  // Legacy: looked for #navbar.  The unified site-nav.js now uses
+  // #wmNavbar; we look for either, and bail silently if neither exists
+  // (e.g. cluster / EEAT / policy pages that rely entirely on
+  // js/site-nav.js).
   // ============================================
-  const navbar = document.getElementById('navbar');
+  const navbar = document.getElementById('wmNavbar') || document.getElementById('navbar');
   let ticking = false;
-  
+
   function handleNavbarScroll() {
+    if (!navbar) { ticking = false; return; }
     if (window.scrollY > 20) {
       navbar.classList.add('scrolled');
     } else {
@@ -391,16 +548,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     ticking = false;
   }
-  
+
   function onScroll() {
+    if (!navbar) return;
     if (!ticking) {
       requestAnimationFrame(handleNavbarScroll);
       ticking = true;
     }
   }
-  
-  window.addEventListener('scroll', onScroll, { passive: true });
-  handleNavbarScroll(); // Check on load
+
+  if (navbar) {
+    window.addEventListener('scroll', onScroll, { passive: true });
+    handleNavbarScroll();
+  }
   
   // ============================================
   // CATEGORY CAROUSEL IN HEADER (Infinite Wheel)

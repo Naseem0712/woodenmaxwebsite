@@ -149,24 +149,24 @@ document.addEventListener('DOMContentLoaded', function () {
         var ui = '';
         ui += '<div class="pricing-ui controls pergola-controls-row">';
         ui +=
-          '<div class="pergola-field-cell"><span id="pergola-lbl-material" class="pergola-lbl-type" aria-hidden="true"></span><select id="select-material" style="padding:6px;border:1px solid #ddd;border-radius:6px;min-width:7rem;"><option value="aluminium">Aluminium</option><option value="iron">Iron</option></select></div>';
+          '<div class="pergola-field-cell"><select id="select-material" style="padding:6px;border:1px solid #ddd;border-radius:6px;min-width:7rem;"><option value="aluminium">Aluminium</option><option value="iron">Iron</option></select></div>';
         ui +=
-          '<div class="pergola-field-cell"><span id="pergola-lbl-width" class="pergola-lbl-type" aria-hidden="true"></span><input id="input-width" type="number" min="1" value="15" autocomplete="off" style="width:100%;max-width:96px;padding:6px;border:1px solid #ddd;border-radius:6px;"></div>';
+          '<div class="pergola-field-cell"><input id="input-width" type="number" min="1" value="15" autocomplete="off" style="width:100%;max-width:96px;padding:6px;border:1px solid #ddd;border-radius:6px;"></div>';
         ui +=
-          '<div class="pergola-field-cell"><span id="pergola-lbl-depth" class="pergola-lbl-type" aria-hidden="true"></span><input id="input-depth" type="number" min="1" value="12" autocomplete="off" style="width:100%;max-width:96px;padding:6px;border:1px solid #ddd;border-radius:6px;"></div>';
+          '<div class="pergola-field-cell"><input id="input-depth" type="number" min="1" value="12" autocomplete="off" style="width:100%;max-width:96px;padding:6px;border:1px solid #ddd;border-radius:6px;"></div>';
         ui +=
-          '<div class="pergola-field-cell"><span id="pergola-lbl-framelen" class="pergola-lbl-type" aria-hidden="true"></span><input id="input-frameLen" type="number" min="10" max="24" value="13" style="width:100%;max-width:96px;padding:6px;border:1px solid #ddd;border-radius:6px;" title="Standard aluminium/iron member length"></div>';
+          '<div class="pergola-field-cell"><input id="input-frameLen" type="number" min="10" max="24" value="13" style="width:100%;max-width:96px;padding:6px;border:1px solid #ddd;border-radius:6px;" title="Standard aluminium/iron member length"></div>';
         ui +=
-          '<div class="pergola-field-cell"><span id="pergola-lbl-coating" class="pergola-lbl-type" aria-hidden="true"></span><select id="select-coating" style="padding:6px;border:1px solid #ddd;border-radius:6px;min-width:7rem;">';
+          '<div class="pergola-field-cell"><select id="select-coating" style="padding:6px;border:1px solid #ddd;border-radius:6px;min-width:7rem;">';
         ui += '<option value="">Standard</option>';
         Object.keys(coatingOptions).forEach(function (c) {
           ui += '<option value="' + c + '">' + c.replace(/_/g, ' ') + '</option>';
         });
         ui += '</select></div>';
         ui +=
-          '<div id="label-fitting" class="pergola-field-cell"><span id="pergola-lbl-fitting" class="pergola-lbl-type" aria-hidden="true"></span><select id="select-fitting" style="padding:6px;border:1px solid #ddd;border-radius:6px;min-width:11rem;"><option value="system">System fitting (nuts & bolts)</option><option value="welding">On-site welding</option></select></div>';
+          '<div id="label-fitting" class="pergola-field-cell"><select id="select-fitting" style="padding:6px;border:1px solid #ddd;border-radius:6px;min-width:11rem;"><option value="system">System fitting (nuts & bolts)</option><option value="welding">On-site welding</option></select></div>';
         ui +=
-          '<div class="pergola-field-cell pergola-field-cell--roof"><span id="pergola-lbl-roof" class="pergola-lbl-type" aria-hidden="true"></span><select id="select-glazing" style="padding:6px;border:1px solid #ddd;border-radius:6px;width:100%;" title="Glass or polycarbonate roof">';
+          '<div class="pergola-field-cell pergola-field-cell--roof"><select id="select-glazing" style="padding:6px;border:1px solid #ddd;border-radius:6px;width:100%;" title="Glass or polycarbonate roof">';
         options.forEach(function (o, idx) {
           ui += '<option value="' + idx + '">' + o.label + '</option>';
         });
@@ -176,13 +176,13 @@ document.addEventListener('DOMContentLoaded', function () {
           ui +=
             '<div class="pricing-ui controls pergola-controls-row" style="margin-top:10px;padding-top:10px;border-top:1px solid #e2e8f0;">';
           ui +=
-            '<div class="pergola-field-cell pergola-field-cell--roof"><span id="pergola-lbl-pillar-type" class="pergola-lbl-type" aria-hidden="true"></span><select id="select-pillar-type" style="padding:6px;border:1px solid #ddd;border-radius:6px;width:100%;min-width:12rem;">';
+            '<div class="pergola-field-cell pergola-field-cell--roof"><select id="select-pillar-type" style="padding:6px;border:1px solid #ddd;border-radius:6px;width:100%;min-width:12rem;">';
           pergolaCatalog.pillars.options.forEach(function (po) {
             ui += '<option value="' + String(po.id).replace(/"/g, '') + '">' + String(po.label || po.id).replace(/</g, '') + '</option>';
           });
           ui += '</select></div>';
           ui +=
-            '<div class="pergola-field-cell"><span id="pergola-lbl-pillar-count" class="pergola-lbl-type" aria-hidden="true"></span><input id="input-pillar-count" type="number" min="0" max="48" value="0" autocomplete="off" style="width:100%;max-width:96px;padding:6px;border:1px solid #ddd;border-radius:6px;" title="Number of pillars at listed rate (e.g. corners + intermediates)"></div>';
+            '<div class="pergola-field-cell"><input id="input-pillar-count" type="number" min="0" max="48" value="0" autocomplete="off" style="width:100%;max-width:96px;padding:6px;border:1px solid #ddd;border-radius:6px;" title="Number of pillars at listed rate (e.g. corners + intermediates)"></div>';
           if (
             pergolaLineId === 'retractable_motorized' &&
             pergolaCatalog.motor_automation_retractable &&
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
             pergolaCatalog.motor_automation_retractable.options.length
           ) {
             ui +=
-              '<div class="pergola-field-cell pergola-field-cell--roof"><span id="pergola-lbl-motor-package" class="pergola-lbl-type" aria-hidden="true"></span><select id="select-motor-package" style="padding:6px;border:1px solid #ddd;border-radius:6px;width:100%;min-width:12rem;">';
+              '<div class="pergola-field-cell pergola-field-cell--roof"><select id="select-motor-package" style="padding:6px;border:1px solid #ddd;border-radius:6px;width:100%;min-width:12rem;">';
             pergolaCatalog.motor_automation_retractable.options.forEach(function (mo) {
               var sel = mo.id === 'motor_500kg' ? ' selected' : '';
               ui +=

@@ -1,7 +1,7 @@
 # ============================================
 # Robots.txt - WoodenMax Architectural Elements
 # Optimized for Google, Bing & AI Crawlers
-# Last Updated: 2026-01-27
+# Last Updated: 2026-05-18
 # ============================================
 
 # Default rules for all crawlers
@@ -12,7 +12,13 @@ Allow: /products/*/
 Allow: /city/
 Allow: /blog/
 Allow: /blog/*
+Allow: /about/
+Allow: /about/*
+Allow: /policies/
+Allow: /policies/*
 Disallow: /admin/
+Disallow: /tools/
+Disallow: /_grills-source/
 Disallow: /private/
 Disallow: /*.json$
 Disallow: /debug
@@ -114,6 +120,15 @@ Allow: /products/
 # ============================================
 Sitemap: https://woodenmax.in/sitemap.xml
 Sitemap: https://woodenmax.in/sitemap-images.xml
+
+# ============================================
+# AI / LLM discovery (llmstxt.org draft standard)
+# ChatGPT, Claude, Perplexity, Gemini Search,
+# You.com, Phind etc. look here for a curated
+# index of the site at a glance.
+# ============================================
+# llms-summary: https://woodenmax.in/llms.txt
+# llms-full:    https://woodenmax.in/llms-full.txt
 
 # Product feed for Google Merchant Center (store/marketplace)
 # Submit at: https://merchantcenter.google.com

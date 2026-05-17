@@ -1,0 +1,1535 @@
+/**
+ * Calculator Mobile UX — v2
+ *
+ * Patterns introduced for the WoodenMax site redesign. Drop-in:
+ * include this file after `calculator-global.css` on any product
+ * page that has a `.price-calculator-container` and the new UX
+ * elements appear automatically.
+ *
+ *   1. EEAT manufacturer trust strip (above the calculator)
+ *   2. Sticky bottom 3-segment bar: Live Price · Get Exact · Cart
+ *   3. Bottom-sheet "Quote Cart" — multi-item, persisted
+ *   4. PDF / Get-Exact form modal — single gated lead form,
+ *      shared by both flows ("show exact" + "export PDF")
+ *   5. Print stylesheet — branded WoodenMax PDF via window.print()
+ *   6. Compact mobile calculator container
+ *
+ * v2 changes from v1 (per owner feedback):
+ *   - Removed the in-page Hero CTA banner (the existing FAB already
+ *     handles discovery on 72+ pages — no duplicate signage).
+ *   - Sticky bar now exposes a Cart icon + the Get-Exact CTA.
+ *   - Bottom sheet became a multi-item Cart, not a single breakdown.
+ *   - Lead form is gated: it appears only inside the form modal,
+ *     opened from "Save & Export PDF" or "Get Exact Price".
+ */
+
+/* ============================================
+   1. EEAT MANUFACTURER TRUST STRIP
+   ============================================ */
+.eeat-block {
+  background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+  border-top: 1px solid #E5E7EB;
+  border-bottom: 1px solid #E5E7EB;
+  padding: 1.25rem 0;
+}
+
+.eeat-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.eeat-strip-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.eeat-strip-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px -6px rgba(30, 64, 175, 0.18);
+}
+
+.eeat-strip-icon {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1E40AF, #3B82F6);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+}
+
+.eeat-strip-item > div { min-width: 0; }
+
+.eeat-strip-item strong {
+  display: block;
+  font-size: 0.92rem;
+  color: #0F172A;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.eeat-strip-item small {
+  display: block;
+  font-size: 0.76rem;
+  color: #475569;
+  margin-top: 0.15rem;
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .eeat-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+}
+@media (max-width: 520px) {
+  .eeat-strip { grid-template-columns: 1fr; }
+  .eeat-strip-item { padding: 0.55rem 0.75rem; }
+}
+
+/* Compact trust bar — directly below the 4 EEAT cards.
+   Knocks out the three biggest objections to clicking "Get Exact". */
+.eeat-trust-bar {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 1.25rem;
+  padding: 0.65rem 1rem;
+  background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
+  border: 1px solid #BBF7D0;
+  border-radius: 12px;
+  font-size: 0.82rem;
+  color: #064E3B;
+  line-height: 1.4;
+}
+.eeat-trust-bar span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+.eeat-trust-bar svg {
+  flex-shrink: 0;
+  color: #047857;
+}
+.eeat-trust-bar strong { color: #065F46; font-weight: 700; }
+.eeat-trust-bar em { font-style: normal; color: #047857; font-weight: 500; opacity: 0.9; font-size: 0.95em; }
+@media (max-width: 640px) {
+  .eeat-trust-bar { font-size: 0.76rem; gap: 0.4rem 0.85rem; padding: 0.55rem 0.75rem; }
+  .eeat-trust-bar span { font-size: 0.76rem; white-space: normal; }
+}
+
+/* ============================================
+   2. STICKY BOTTOM 3-SEGMENT BAR
+   (Live price · Get-Exact CTA · Cart)
+   ============================================ */
+.calc-sticky-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 950;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 -8px 24px -8px rgba(15, 23, 42, 0.18);
+  padding: 0.6rem 0.85rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+  transform: translateY(110%);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+  opacity: 0;
+  pointer-events: none;
+  display: none;
+}
+
+.calc-sticky-bar.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.calc-sticky-bar-content {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.calc-sticky-info {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.calc-sticky-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #64748B;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.calc-sticky-label::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22C55E;
+  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  animation: calc-pulse 1.8s ease-out infinite;
+}
+
+@keyframes calc-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(34, 197, 94, 0.55); }
+  70%  { box-shadow: 0 0 0 9px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0   rgba(34, 197, 94, 0); }
+}
+
+.calc-sticky-price {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.calc-sticky-price.is-placeholder {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #475569;
+  letter-spacing: 0;
+}
+
+/* Get Exact — shown only when price > 0 */
+.calc-sticky-exact {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.6rem 0.95rem;
+  background: linear-gradient(135deg, #1E40AF, #2563EB);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px -4px rgba(30, 64, 175, 0.55);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.calc-sticky-exact:hover,
+.calc-sticky-exact:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px -4px rgba(30, 64, 175, 0.6);
+  outline: none;
+}
+
+.calc-sticky-exact:active { transform: translateY(0); }
+
+.calc-sticky-exact[hidden] { display: none !important; }
+
+/* Cart toggle button */
+.calc-sticky-cart {
+  flex-shrink: 0;
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  background: #0F172A;
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px -4px rgba(15, 23, 42, 0.5);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.calc-sticky-cart:hover { background: #1E293B; transform: translateY(-1px); }
+.calc-sticky-cart:active { transform: translateY(0); }
+
+.calc-sticky-cart-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #F59E0B;
+  color: #0F172A;
+  font-size: 0.7rem;
+  font-weight: 800;
+  line-height: 20px;
+  text-align: center;
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.4);
+  transform: scale(0);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.calc-sticky-cart-count.is-active { transform: scale(1); }
+
+@media (max-width: 768px) {
+  .calc-sticky-bar { display: block; }
+  body.has-calc-sticky-bar { padding-bottom: 82px; }
+}
+
+/* On wider screens we still show the bar (compact) so desktop visitors
+   also get the cart + get-exact affordances. Bar sits inside a centered
+   container width with rounded edges. */
+@media (min-width: 769px) {
+  .calc-sticky-bar {
+    display: block;
+    left: 50%;
+    right: auto;
+    bottom: 1.25rem;
+    transform: translate(-50%, 130%);
+    width: min(720px, calc(100% - 3rem));
+    border-radius: 16px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+  }
+  .calc-sticky-bar.is-visible { transform: translate(-50%, 0); }
+  body.has-calc-sticky-bar { padding-bottom: 0; }
+}
+
+/* ============================================
+   3. BOTTOM SHEET — "QUOTE CART"
+   ============================================ */
+.calc-bottom-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 960;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.calc-bottom-sheet.is-open {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.calc-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.calc-bottom-sheet.is-open .calc-sheet-backdrop { opacity: 1; }
+
+.calc-sheet-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 88vh;
+  background: #FFFFFF;
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -20px 60px -10px rgba(15, 23, 42, 0.45);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.calc-bottom-sheet.is-open .calc-sheet-panel { transform: translateY(0); }
+
+@media (min-width: 769px) {
+  .calc-sheet-panel {
+    left: 50%;
+    right: auto;
+    bottom: 50%;
+    width: min(560px, calc(100% - 3rem));
+    max-height: 80vh;
+    border-radius: 18px;
+    transform: translate(-50%, calc(50% + 30px));
+  }
+  .calc-bottom-sheet.is-open .calc-sheet-panel {
+    transform: translate(-50%, 50%);
+  }
+}
+
+.calc-sheet-grabber {
+  width: 42px;
+  height: 4px;
+  border-radius: 4px;
+  background: #CBD5E1;
+  margin: 10px auto 6px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 769px) {
+  .calc-sheet-grabber { display: none; }
+}
+
+.calc-sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1.25rem 0.75rem;
+  border-bottom: 1px solid #E5E7EB;
+  flex-shrink: 0;
+}
+
+.calc-sheet-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0F172A;
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+}
+
+.calc-sheet-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.calc-sheet-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  background: #F8FAFC;
+  color: #475569;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s ease;
+}
+
+.calc-sheet-close:hover {
+  background: #E2E8F0;
+  color: #0F172A;
+}
+
+.calc-sheet-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 1rem 1.25rem 1.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Cart item card */
+.cart-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "title  amount"
+    "specs  amount"
+    "actions actions";
+  gap: 0.3rem 0.75rem;
+  padding: 0.85rem 1rem;
+  background: #F8FAFC;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  margin-bottom: 0.65rem;
+}
+
+.cart-item-title {
+  grid-area: title;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0F172A;
+  line-height: 1.25;
+}
+
+.cart-item-amount {
+  grid-area: amount;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #1E40AF;
+  white-space: nowrap;
+  align-self: center;
+}
+
+.cart-item-specs {
+  grid-area: specs;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.2rem;
+}
+
+.cart-item-specs span {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 999px;
+  color: #475569;
+  font-weight: 600;
+  letter-spacing: 0.15px;
+}
+
+.cart-item-actions {
+  grid-area: actions;
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+  padding-top: 0.55rem;
+  border-top: 1px dashed #E5E7EB;
+}
+
+.cart-item-actions button {
+  background: none;
+  border: none;
+  color: #DC2626;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+
+.cart-item-actions button:hover { background: #FEE2E2; }
+
+/* Empty cart state */
+.cart-empty {
+  text-align: center;
+  padding: 2rem 1rem 1.5rem;
+  color: #64748B;
+}
+
+.cart-empty svg { color: #CBD5E1; margin-bottom: 0.5rem; }
+
+.cart-empty strong { display: block; color: #0F172A; font-size: 1rem; margin-bottom: 0.25rem; }
+
+.cart-empty p { margin: 0; font-size: 0.88rem; line-height: 1.5; }
+
+/* Grand total + CTAs */
+.cart-total-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.75rem;
+  padding: 0.75rem 0;
+  border-top: 2px solid #1E40AF;
+  border-bottom: 1px dashed #E5E7EB;
+}
+
+.cart-total-label {
+  font-size: 0.95rem;
+  color: #0F172A;
+  font-weight: 700;
+}
+
+.cart-total-value {
+  font-size: 1.3rem;
+  color: #1E40AF;
+  font-weight: 800;
+}
+
+.cart-cta-stack {
+  display: flex;
+  gap: 0.55rem;
+  margin-top: 1rem;
+}
+
+.cart-cta-stack > * {
+  flex: 1;
+  padding: 0.85rem 0.95rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cart-cta-primary {
+  background: linear-gradient(135deg, #1E40AF, #2563EB);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px -4px rgba(30, 64, 175, 0.55);
+}
+
+.cart-cta-secondary {
+  background: #F1F5F9;
+  color: #0F172A;
+  border: 1px solid #E5E7EB !important;
+}
+
+.cart-cta-primary:hover,
+.cart-cta-secondary:hover { transform: translateY(-1px); }
+
+.cart-cta-primary[disabled],
+.cart-cta-secondary[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cart-foot-note {
+  margin-top: 0.65rem;
+  font-size: 0.76rem;
+  color: #64748B;
+  text-align: center;
+  line-height: 1.45;
+}
+.cart-foot-note a {
+  color: #1E40AF;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px dashed #93C5FD;
+}
+.cart-foot-note a:hover { color: #1E3A8A; border-bottom-style: solid; }
+
+/* GST + Transport policy block inside cart sheet */
+.cart-policy-block {
+  margin: 0.75rem 0 1rem;
+  padding: 0.85rem 1rem;
+  background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+}
+.cart-policy-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  padding: 0.3rem 0;
+  border-bottom: 1px dashed #E2E8F0;
+}
+.cart-policy-row:last-of-type { border-bottom: none; }
+.cart-policy-key {
+  color: #475569;
+  font-weight: 500;
+}
+.cart-policy-key em {
+  font-style: normal;
+  font-size: 0.75rem;
+  color: #B45309;
+  font-weight: 600;
+}
+.cart-policy-val {
+  font-weight: 700;
+  color: #0F172A;
+  white-space: nowrap;
+}
+.cart-policy-val.is-free  { color: #047857; display: inline-flex; align-items: center; }
+.cart-policy-val.is-extra { color: #B45309; }
+.cart-policy-note {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  color: #475569;
+  line-height: 1.5;
+  padding: 0.5rem 0.65rem;
+  background: #FFFFFF;
+  border-radius: 8px;
+  border-left: 3px solid #1E40AF;
+}
+.cart-policy-note strong { color: #0F172A; }
+
+/* ============================================
+   4. ADD-TO-CART BUTTON (inside calculator)
+   ============================================ */
+.calc-action-row {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #FEF3C7 0%, #FFEDD5 100%);
+  border: 1px solid #FCD34D;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.calc-add-cart-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.5rem;
+  background: linear-gradient(135deg, #F59E0B, #EA580C);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px -4px rgba(234, 88, 12, 0.55);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  letter-spacing: 0.2px;
+}
+
+.calc-add-cart-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px -4px rgba(234, 88, 12, 0.65);
+}
+
+.calc-add-cart-btn:active { transform: translateY(0); }
+
+.calc-add-cart-btn.is-success {
+  background: linear-gradient(135deg, #16A34A, #15803D);
+  box-shadow: 0 4px 14px -4px rgba(22, 163, 74, 0.5);
+}
+
+.calc-action-note {
+  margin: 0.6rem 0 0;
+  font-size: 0.82rem;
+  color: #92400E;
+  font-weight: 500;
+}
+
+/* ============================================
+   5. FORM MODAL — gated PDF / Get-Exact form
+   ============================================ */
+.calc-form-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 970;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.calc-form-modal.is-open {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.calc-form-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.calc-form-modal.is-open .calc-form-backdrop { opacity: 1; }
+
+.calc-form-panel {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(520px, calc(100% - 2rem));
+  max-height: 92vh;
+  background: #FFFFFF;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px -10px rgba(15, 23, 42, 0.45);
+  transform: translate(-50%, -45%);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.calc-form-modal.is-open .calc-form-panel {
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+.calc-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.25rem 0.9rem;
+  border-bottom: 1px solid #E5E7EB;
+  flex-shrink: 0;
+}
+
+.calc-form-header h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.calc-form-close {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid #E5E7EB;
+  background: #F8FAFC;
+  color: #475569;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s ease;
+}
+
+.calc-form-close:hover { background: #E2E8F0; color: #0F172A; }
+
+.calc-form-body {
+  padding: 1rem 1.25rem 1.25rem;
+  overflow-y: auto;
+}
+
+.calc-form-intro {
+  margin: 0 0 1rem;
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.calc-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+
+.calc-form-row { display: flex; flex-direction: column; gap: 0.3rem; }
+.calc-form-row-full { grid-column: 1 / -1; }
+
+.calc-form-row label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #0F172A;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+
+.calc-form-row label em {
+  color: #DC2626;
+  font-style: normal;
+  margin-left: 2px;
+}
+
+.calc-form-row label small {
+  color: #64748B;
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  margin-left: 4px;
+}
+
+.calc-form-row input,
+.calc-form-row select {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  color: #0F172A;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.calc-form-row input:focus,
+.calc-form-row select:focus {
+  outline: none;
+  border-color: #1E40AF;
+  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.12);
+}
+
+.calc-form-submit {
+  width: 100%;
+  margin-top: 1.1rem;
+  padding: 0.95rem 1rem;
+  background: linear-gradient(135deg, #1E40AF, #2563EB);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 16px -6px rgba(30, 64, 175, 0.6);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.calc-form-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px -6px rgba(30, 64, 175, 0.6);
+}
+
+.calc-form-submit.is-loading {
+  background: #94A3B8;
+  cursor: progress;
+}
+
+.calc-form-trust {
+  margin: 0.8rem 0 0;
+  font-size: 0.74rem;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: center;
+}
+
+@media (max-width: 520px) {
+  .calc-form-grid { grid-template-columns: 1fr; }
+  .calc-form-header h3 { font-size: 1.05rem; }
+}
+
+/* ============================================
+   6. ENHANCED FAB — sit above sticky bar
+   ============================================ */
+@media (max-width: 768px) {
+  .floating-calc-button {
+    bottom: calc(82px + env(safe-area-inset-bottom, 0px) + 0.5rem) !important;
+    right: 1rem !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .floating-calc-button {
+    bottom: calc(1.25rem + 60px) !important;
+    right: 2rem !important;
+  }
+}
+
+/* ============================================
+   7. COMPACT MOBILE CALCULATOR
+   ============================================ */
+@media (max-width: 640px) {
+  .price-calculator-container {
+    padding: 1rem 0.85rem 1.25rem !important;
+    border-radius: 12px !important;
+  }
+  .price-calculator-container .calc-header {
+    padding: 0.85rem 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+  .price-calculator-container .calc-header h2,
+  .price-calculator-container .calc-header h3 {
+    font-size: 1.15rem !important;
+  }
+  .price-calculator-container .calc-group {
+    margin-bottom: 1rem !important;
+  }
+  .price-calculator-container .calc-group label {
+    font-size: 0.78rem !important;
+    margin-bottom: 0.45rem !important;
+    letter-spacing: 0.4px !important;
+  }
+  .price-calculator-container .calc-input,
+  .price-calculator-container .calc-select {
+    padding: 0.75rem 0.9rem !important;
+    font-size: 0.95rem !important;
+  }
+  .price-calculator-container .calc-size-row {
+    padding: 0.75rem !important;
+    gap: 0.5rem !important;
+  }
+  body.has-calc-sticky-bar .price-calculator-container .calc-price-display {
+    display: none;
+  }
+}
+
+/* Scroll-margin so anchor jumps land below sticky navbar. */
+.price-calculator-container,
+[id^="price-calculator"] {
+  scroll-margin-top: 96px;
+}
+
+/* ============================================
+   9. SITE-WIDE DESIGN OVERRIDES (light theme)
+   ============================================
+   Several existing product pages have a dark "Related Products"
+   strip (#1a1a1a) and a dark final-CTA section ("Want a Secure /
+   Want a Luxury / Get Free Quote") that clash with the standard
+   light page background. These overrides force them into the
+   standard light theme without touching individual HTML files.
+
+   Owner request: light theme everywhere, only the calculator's
+   Get-Exact button is the conversion CTA — no parallel "Get Free
+   Quote / Contact / WhatsApp" CTAs.
+   ============================================ */
+
+/* 9a. Related Products section — force light theme.
+   Targets the dark section that wraps a .related-products grid. */
+section:has(> .container > .related-products),
+section:has(> .container > * > .related-products) {
+  background: #F8FAFC !important;
+}
+section:has(> .container > .related-products) h2,
+section:has(> .container > * > .related-products) h2 {
+  color: #0F172A !important;
+}
+section:has(> .container > .related-products) > .container > p,
+section:has(> .container > * > .related-products) > .container > p {
+  color: #475569 !important;
+}
+.related-products { background: transparent !important; }
+
+.related-product-card {
+  background: #FFFFFF !important;
+  border: 1px solid #E5E7EB !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05) !important;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+.related-product-card:hover {
+  border-color: #1E40AF !important;
+  box-shadow: 0 8px 20px -6px rgba(30, 64, 175, 0.18) !important;
+  transform: translateY(-3px) !important;
+}
+.related-product-card h4 { color: #0F172A !important; }
+.related-product-card p,
+.related-product-card .related-product-card-content p { color: #475569 !important; }
+
+/* 9b. Final "Want a … / Book Free Site Visit / Get Free Quote"
+   CTA section — hidden by JS, but also force-light here in case
+   JS is disabled, so the page never shows dark blocks. */
+.site-final-cta-deprecated { display: none !important; }
+
+/* 9c. Hide any leftover Contact / WhatsApp body-level buttons.
+   These selectors are intentionally tight: nav, navbar, mobile menu
+   and footer are excluded so legitimate navigation links remain. */
+body a[href*="wa.me"],
+body a[href*="whatsapp.com"],
+body a[href*="api.whatsapp"] {
+  /* default: hidden, JS un-hides nav/footer instances if needed */
+  display: none !important;
+}
+.navbar a[href*="wa.me"],
+.navbar a[href*="whatsapp.com"],
+.nav-menu a[href*="wa.me"],
+.mobile-menu a[href*="wa.me"],
+footer a[href*="wa.me"],
+.footer a[href*="wa.me"] {
+  display: inline-flex !important;
+}
+
+/* 9d. Make sure dark inline-style sections never break the light
+   theme that wraps related-products / final CTA. */
+section[style*="background: #1a1a1a"]:has(.related-products),
+section[style*="background:#1a1a1a"]:has(.related-products),
+section[style*="background: #0f0f0f"]:has(.related-products),
+section[style*="background:#0f0f0f"]:has(.related-products) {
+  background: #F8FAFC !important;
+}
+
+/* 9e. Pricing-info box inside calculator: kill any dark variants. */
+.price-calculator-container .calc-info-box {
+  background: #F8FAFC !important;
+  border: 1px solid #E5E7EB !important;
+  color: #0F172A !important;
+}
+.price-calculator-container .calc-info-box p { color: #475569 !important; }
+
+/* ============================================
+   8. PRINT STYLESHEET — invoice-grade branded quote
+   ============================================
+   Produces a professional A4 quote document when the user clicks
+   "Save & Export PDF" (form submit → JS builds the print stage →
+   window.print() → user saves as PDF).
+*/
+.calc-print-stage {
+  position: absolute;
+  left: -99999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+@media print {
+  /* Hide everything except the print stage. */
+  body > *:not(.calc-print-stage) { display: none !important; }
+  .calc-print-stage {
+    position: static !important;
+    left: auto !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
+  @page {
+    margin: 14mm 12mm;
+    size: A4 portrait;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #0F172A !important;
+    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    font-size: 9.5pt;
+    line-height: 1.45;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ---------- Document frame ---------- */
+  .pdf-doc {
+    max-width: 100%;
+    color: #0F172A;
+    position: relative;
+  }
+
+  /* Subtle brand stripe along the top edge */
+  .pdf-doc::before {
+    content: '';
+    display: block;
+    height: 5pt;
+    background: linear-gradient(90deg, #1E40AF 0%, #1E40AF 60%, #F59E0B 60%, #F59E0B 100%);
+    margin-bottom: 12pt;
+    border-radius: 1pt;
+  }
+
+  /* ---------- Header band ---------- */
+  .pdf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 10pt;
+    border-bottom: 1.5pt solid #1E40AF;
+    margin-bottom: 14pt;
+  }
+
+  .pdf-brand-block {
+    display: flex;
+    align-items: center;
+    gap: 10pt;
+    max-width: 62%;
+  }
+
+  .pdf-brand-mark {
+    width: 46pt;
+    height: 46pt;
+    border-radius: 9pt;
+    background: linear-gradient(135deg, #1E40AF, #2563EB);
+    color: #FFFFFF;
+    display: grid;
+    place-items: center;
+    font-size: 16pt;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    font-family: 'Playfair Display', 'Times New Roman', serif !important;
+    box-shadow: 0 2pt 6pt rgba(30, 64, 175, 0.25);
+  }
+
+  .pdf-brand-text strong {
+    display: block;
+    font-size: 17pt;
+    color: #0F172A;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    font-family: 'Playfair Display', 'Times New Roman', serif !important;
+  }
+
+  .pdf-brand-text .pdf-tagline {
+    display: block;
+    color: #475569;
+    font-size: 8.5pt;
+    margin-top: 2pt;
+    font-weight: 500;
+  }
+
+  .pdf-brand-text .pdf-addr {
+    display: block;
+    color: #475569;
+    font-size: 8pt;
+    margin-top: 4pt;
+    line-height: 1.4;
+  }
+
+  /* Meta block (Quote #, Date, Valid till, GSTIN) */
+  .pdf-meta-block {
+    text-align: right;
+    min-width: 38%;
+    font-size: 8.5pt;
+  }
+
+  .pdf-meta-doctype {
+    display: inline-block;
+    padding: 2pt 8pt;
+    background: #1E40AF;
+    color: #FFFFFF;
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 0.6pt;
+    text-transform: uppercase;
+    border-radius: 3pt;
+    margin-bottom: 6pt;
+  }
+
+  .pdf-meta-table {
+    display: inline-block;
+    text-align: left;
+    font-size: 8.5pt;
+    line-height: 1.55;
+  }
+
+  .pdf-meta-table .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10pt;
+  }
+
+  .pdf-meta-table .label {
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.3pt;
+    font-size: 7.5pt;
+    font-weight: 600;
+  }
+
+  .pdf-meta-table .value { color: #0F172A; font-weight: 700; }
+
+  /* ---------- Customer & site address ---------- */
+  .pdf-parties {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10pt;
+    margin: 0 0 14pt;
+  }
+
+  .pdf-party {
+    padding: 8pt 10pt;
+    background: #F8FAFC;
+    border: 0.5pt solid #E5E7EB;
+    border-left: 2.5pt solid #1E40AF;
+    border-radius: 4pt;
+  }
+
+  .pdf-party h2 {
+    font-size: 7.5pt;
+    color: #1E40AF;
+    margin: 0 0 4pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    font-weight: 700;
+  }
+
+  .pdf-party-row { font-size: 9pt; line-height: 1.5; }
+  .pdf-party-row span.k { color: #64748B; }
+  .pdf-party-row span.v { color: #0F172A; font-weight: 600; }
+
+  /* ---------- Section heading ---------- */
+  .pdf-section-title {
+    font-size: 9.5pt;
+    color: #FFFFFF;
+    background: #0F172A;
+    padding: 4pt 9pt;
+    margin: 14pt 0 0;
+    text-transform: uppercase;
+    letter-spacing: 0.6pt;
+    font-weight: 700;
+    border-radius: 3pt 3pt 0 0;
+  }
+
+  /* ---------- Itemised quote table ---------- */
+  .pdf-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 10pt;
+    border: 0.5pt solid #E5E7EB;
+  }
+
+  .pdf-table th,
+  .pdf-table td {
+    text-align: left;
+    padding: 6pt 8pt;
+    border-bottom: 0.5pt solid #E5E7EB;
+    font-size: 8.5pt;
+    vertical-align: top;
+  }
+
+  .pdf-table th {
+    background: #1E40AF;
+    color: #FFFFFF;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 7.5pt;
+    letter-spacing: 0.4pt;
+    padding-top: 5pt;
+    padding-bottom: 5pt;
+  }
+
+  .pdf-table tbody tr:nth-child(even) td { background: #F8FAFC; }
+
+  .pdf-table td.is-numeric,
+  .pdf-table th.is-numeric { text-align: right; white-space: nowrap; }
+  .pdf-table td.is-center,
+  .pdf-table th.is-center { text-align: center; }
+
+  .pdf-row-title {
+    font-weight: 700;
+    color: #0F172A;
+    font-size: 9pt;
+  }
+
+  .pdf-specs {
+    color: #475569;
+    font-size: 7.8pt;
+    line-height: 1.4;
+    margin-top: 2pt;
+  }
+
+  /* ---------- Totals block ---------- */
+  .pdf-totals {
+    margin: 0 0 14pt;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .pdf-totals-table {
+    width: 60%;
+    border-collapse: collapse;
+    font-size: 9pt;
+  }
+
+  .pdf-totals-table td {
+    padding: 4pt 8pt;
+    border-bottom: 0.5pt dashed #E5E7EB;
+  }
+
+  .pdf-totals-table .label {
+    color: #475569;
+    text-align: right;
+  }
+
+  .pdf-totals-table .value {
+    color: #0F172A;
+    text-align: right;
+    font-weight: 700;
+    white-space: nowrap;
+    min-width: 100pt;
+  }
+
+  .pdf-totals-table tr.grand td {
+    border-bottom: none;
+    border-top: 1.5pt solid #1E40AF;
+    padding-top: 6pt;
+  }
+
+  .pdf-totals-table tr.grand .label {
+    color: #0F172A;
+    font-size: 10pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4pt;
+  }
+
+  .pdf-totals-table tr.grand .value {
+    color: #1E40AF;
+    font-size: 12pt;
+    font-weight: 800;
+  }
+
+  .pdf-amount-words {
+    font-size: 8.5pt;
+    color: #475569;
+    padding: 6pt 10pt;
+    background: #FEF3C7;
+    border-left: 2.5pt solid #F59E0B;
+    border-radius: 3pt;
+    margin-bottom: 10pt;
+  }
+
+  .pdf-amount-words strong { color: #0F172A; }
+
+  /* GST + Transport policy notice (always visible above T&C) */
+  .pdf-policy-notice {
+    margin: 0 0 14pt;
+    padding: 8pt 10pt;
+    border: 0.5pt solid #BBF7D0;
+    background: #ECFDF5;
+    border-radius: 4pt;
+    font-size: 8.5pt;
+    color: #0F172A;
+    line-height: 1.5;
+  }
+  .pdf-policy-row { margin-bottom: 3pt; }
+  .pdf-policy-row:last-child { margin-bottom: 0; }
+  .pdf-policy-row strong { color: #0F172A; }
+
+  /* ---------- Terms / Bank / Signatures ---------- */
+  .pdf-grid-2 {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 10pt;
+    margin-top: 8pt;
+  }
+
+  .pdf-card {
+    border: 0.5pt solid #E5E7EB;
+    border-radius: 4pt;
+    padding: 8pt 10pt;
+    background: #FFFFFF;
+  }
+
+  .pdf-card h3 {
+    font-size: 8pt;
+    color: #1E40AF;
+    margin: 0 0 5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    font-weight: 700;
+    border-bottom: 0.5pt solid #E5E7EB;
+    padding-bottom: 3pt;
+  }
+
+  .pdf-terms-list {
+    margin: 0;
+    padding: 0 0 0 12pt;
+    font-size: 8pt;
+    color: #334155;
+    line-height: 1.55;
+  }
+
+  .pdf-terms-list li { margin-bottom: 2pt; }
+
+  .pdf-bank-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 8pt;
+    padding: 1.5pt 0;
+    border-bottom: 0.3pt dotted #E5E7EB;
+  }
+
+  .pdf-bank-row:last-child { border-bottom: none; }
+
+  .pdf-bank-row .k { color: #64748B; font-weight: 500; }
+  .pdf-bank-row .v { color: #0F172A; font-weight: 600; }
+
+  /* Signatures */
+  .pdf-signatures {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10pt;
+    margin-top: 18pt;
+  }
+
+  .pdf-sign-box {
+    border-top: 1pt solid #0F172A;
+    padding-top: 4pt;
+    font-size: 8pt;
+    color: #475569;
+    min-height: 36pt;
+  }
+
+  .pdf-sign-box strong {
+    display: block;
+    color: #0F172A;
+    font-size: 9pt;
+    margin-bottom: 1pt;
+  }
+
+  /* ---------- EEAT trust strip ---------- */
+  .pdf-eeat {
+    margin-top: 12pt;
+    padding: 8pt 10pt;
+    background: #EFF6FF;
+    border: 0.5pt solid #DBEAFE;
+    border-left: 2.5pt solid #1E40AF;
+    border-radius: 3pt;
+  }
+
+  .pdf-eeat-title {
+    font-size: 8pt;
+    color: #1E40AF;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5pt;
+    margin: 0 0 5pt;
+  }
+
+  .pdf-eeat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6pt;
+  }
+
+  .pdf-eeat-item {
+    font-size: 7.8pt;
+    line-height: 1.35;
+  }
+
+  .pdf-eeat-item strong {
+    display: block;
+    color: #0F172A;
+    font-size: 8.2pt;
+    margin-bottom: 1pt;
+  }
+
+  .pdf-eeat-item span { color: #475569; }
+
+  /* ---------- Foot rule + page-end address ---------- */
+  .pdf-foot {
+    margin-top: 12pt;
+    padding-top: 8pt;
+    border-top: 0.5pt solid #E5E7EB;
+    font-size: 7.5pt;
+    color: #64748B;
+    line-height: 1.5;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 10pt;
+    align-items: center;
+  }
+
+  .pdf-foot .left   { text-align: left; }
+  .pdf-foot .center { text-align: center; font-weight: 600; color: #1E40AF; letter-spacing: 0.3pt; text-transform: uppercase; font-size: 7pt; }
+  .pdf-foot .right  { text-align: right; }
+  .pdf-foot strong  { color: #0F172A; }
+
+  /* Avoid awkward page breaks */
+  .pdf-table, .pdf-totals, .pdf-grid-2, .pdf-signatures, .pdf-eeat { page-break-inside: avoid; }
+}
+
+/* ============================================
+   10. SITE-WIDE WIDTH DEFENSE — no empty space at wide viewports
+   ============================================
+   Many legacy hero/intro/CTA sections were authored with inline
+   max-width: 700px / 800px / 900px / 1100px which leave large
+   whitespace on >= 1440px screens. This block relaxes those caps
+   only when the section is wide enough to benefit (>= 1024px).
+*/
+@media (min-width: 1024px) {
+  /* Inline narrow text columns (intro, hero p, CTA p) — relax to readable wide. */
+  section [style*="max-width: 700px"],
+  section [style*="max-width: 800px"],
+  section [style*="max-width: 900px"]:not(.seo-faq-item):not(.faq-item) {
+    max-width: 1080px !important;
+  }
+  section [style*="max-width: 1100px"],
+  section [style*="max-width: 1200px"] {
+    max-width: 1320px !important;
+  }
+
+  /* Anything inside a .container that uses its own max-width
+     shouldn't exceed the container itself. */
+  .container > [style*="max-width"] { width: 100%; }
+}
+
+/* Ensure no horizontal scroll on any screen due to over-wide children. */
+html, body { overflow-x: hidden; }
+
+/* Calculator container should always sit inside the responsive container. */
+.price-calculator-container {
+  max-width: 100% !important;
+  width: 100% !important;
+}
