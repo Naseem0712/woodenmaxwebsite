@@ -1,6 +1,27 @@
 """
-Generate products-feed.csv for Google Merchant Center from all products/**/*.html
-and pricing hints from data/products.json + data-product attributes.
+Generate products-feed.csv for Google Merchant Center.
+
+Source of truth for price (in order):
+  1.  Per-product override in PRICE_OVERRIDES below (when title says one
+      thing but a slightly different rate is the canonical starting MRP).
+  2.  Price band parsed from the <title>: "₹350-450/sqft" → 350,
+      "₹22K-99K" → 22000, "₹950+/sqft" → 950.
+  3.  Same regex against <meta description>.
+  4.  data/products.json `rates.baseRate` (matched by id or slug).
+  5.  Per-category fallback (LAST resort — flag in stderr).
+
+This avoids the previous bug where the whole grill folder shared
+the `200.00 INR` default, all pergolas shared `1500.00 INR`, etc.
+
+Other fixes vs. previous version:
+  - Titles are truncated at the nearest ` | ` / ` — ` boundary before
+    150 chars, never mid-word with `...`.
+  - `| Woodenmax` is only appended when not already present.
+  - Adds GMC-recommended fields: identifier_exists, shipping,
+    custom_label_0, custom_label_1, custom_label_2.
+  - Deduplicates by `title` (case-insensitive) — second occurrence is
+    dropped with a stderr warning so editorial conflicts surface.
+  - Outputs `id` from page slug, kept stable so GMC re-uses click data.
 
 Outputs fields suitable for scheduled fetch URL (e.g. https://woodenmax.in/products-feed.csv).
 Google taxonomy: https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt
@@ -12,8 +33,17 @@ import hashlib
 import html as html_module
 import json
 import re
+import sys
 from pathlib import Path
 from urllib.parse import quote, unquote, urljoin, urlparse, urlunparse
+
+# Force UTF-8 stdout so ₹ / ⚠ / em-dashes in our progress logs survive
+# Windows cp1252 consoles.
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+except (AttributeError, OSError):
+    pass
 
 ROOT = Path(__file__).resolve().parent.parent
 PRODUCTS_DIR = ROOT / "products"
@@ -21,6 +51,67 @@ DATA_JSON = ROOT / "data" / "products.json"
 SITE_ORIGIN = "https://woodenmax.in"
 # Tax / GSTIN: add in Merchant Center → Business settings (not in product feed).
 BRAND = "Woodenmax"
+
+# ----------------------------------------------------------------------
+# Per-product price overrides (₹/sqft or ₹/piece).  Only fill in when
+# the title-parsed minimum is wrong (e.g. the canonical sell price
+# differs from the rate band in the meta description).  Most pages do
+# NOT need an entry here — title parsing handles them.
+# ----------------------------------------------------------------------
+PRICE_OVERRIDES: dict[str, int] = {
+    # slug -> starting INR price
+    # (intentionally empty — populate only on editorial demand)
+}
+
+# ----------------------------------------------------------------------
+# Pages that look like products on the website but are actually
+# guides / comparisons / calculators / info-style content.  Google
+# Merchant Center will disapprove these as "non-product content",
+# so we keep them on the site (great for SEO) but exclude from the feed.
+#
+# Match is performed on the page slug (filename without .html).
+# ----------------------------------------------------------------------
+SKIP_FROM_FEED_PATTERNS = [
+    re.compile(r"-price-calculator$"),
+    re.compile(r"-price-breakdown$"),
+    re.compile(r"-price-per-sqft$"),
+    re.compile(r"-vs-"),                 # comparisons
+    re.compile(r"^what-is-"),
+    re.compile(r"^best-.*-for-home$"),
+    re.compile(r"-maintenance$"),
+    re.compile(r"-thickness$"),
+    re.compile(r"-types$"),
+    re.compile(r"-glass-options$"),
+    re.compile(r"-tools-guide$"),
+    re.compile(r"-brands-india$"),
+    re.compile(r"-design-price$"),       # design idea articles
+    re.compile(r"^small-.*-design$"),
+    re.compile(r"-installation$"),       # installation cost / process pages
+    re.compile(r"-installation-cost$"),
+]
+SKIP_FROM_FEED_EXACT = {
+    # explicit one-offs that don't fit a clean pattern
+    "shower-curtain-vs-glass-partition",
+    "corner-shower-partition-price",
+    "fixed-glass-shower-panel-price",
+    "frameless-glass-shower-price",
+    "glass-shower-partition-price",
+    "shower-enclosure-price",
+    "sliding-shower-door-price",
+    "walk-in-shower-glass-price",
+    "system-window-for-villa",
+    "full-elevation-villa-facade",
+}
+
+
+def should_skip_for_feed(slug: str) -> bool:
+    """True if the page is an info / guide / calculator (not a product)."""
+    if slug in SKIP_FROM_FEED_EXACT:
+        return True
+    for pat in SKIP_FROM_FEED_PATTERNS:
+        if pat.search(slug):
+            return True
+    return False
 
 # Google product category IDs (verified against Google taxonomy-with-ids.en-US.txt)
 GPC_WINDOWS = "124"  # Hardware > Building Materials > Windows
@@ -127,23 +218,143 @@ def load_price_lookup() -> dict[str, int]:
 
 
 def default_price_for_path(rel: str) -> int:
+    """Last-resort starting price per category, aligned to live hub minimums."""
     stem = rel.replace(".html", "")
     first = stem.split("/")[0]
     if first.startswith("grills"):
-        return 200
+        return 200      # iron-safety-grill ₹200-300 is cheapest grill
     defaults = {
-        "aluminium-windows": 578,
-        "telescope-windows": 1447,
-        "folding-systems": 2024,
-        "metal-louvers": 520,
-        "shower-partitions": 405,
-        "elevation-cladding": 312,
-        "glass-elevation": 800,
-        "glass-railing": 289,
-        "grills": 200,
-        "pergola": 1500,
+        "aluminium-windows":  550,     # hub: ₹550-2250
+        "telescope-windows":  1650,    # hub: ₹1650-2250
+        "folding-systems":    1550,    # hub: ₹1550-2850
+        "metal-louvers":      520,     # wooden-finish base
+        "shower-partitions":  440,     # hub: ₹440-1320
+        "elevation-cladding": 312,     # 3mm ACP base
+        "glass-elevation":    800,     # hub: ₹800-1200
+        "glass-railing":      1850,    # balcony glass railing ₹1850/rft min
+        "grills":             200,
+        "pergola":            1500,
     }
     return defaults.get(first, 550)
+
+
+# ----------------------------------------------------------------------
+# Price extraction from title / meta-description
+# ----------------------------------------------------------------------
+
+# Matches: ₹350-450, ₹350–450, ₹350—450, ₹1,200-1,400, ₹1850-2250
+_PRICE_RANGE_RE = re.compile(
+    r"₹\s*([\d,]+)\s*[-–—]\s*₹?\s*([\d,]+)"
+)
+# Matches: ₹22K-99K, ₹22,000-99,000  (k/K means thousands)
+_PRICE_RANGE_K_RE = re.compile(
+    r"₹\s*(\d+)\s*K\s*[-–—]\s*₹?\s*(\d+)\s*K",
+    re.I,
+)
+# Matches: ₹950+, ₹1500+ , ₹132+/sqft  → start from that number
+_PRICE_PLUS_RE = re.compile(r"₹\s*([\d,]+)\s*\+")
+# Matches: ₹554/sqft, ₹601/sqft  (single fixed value)
+_PRICE_FIXED_RE = re.compile(
+    r"₹\s*([\d,]+)\s*/\s*(?:sqft|rft|sft|sq\.?\s*ft)",
+    re.I,
+)
+# Matches: 1,80,000–2,10,000 (Indian comma format ranges)
+_PRICE_BIG_RANGE_RE = re.compile(
+    r"₹\s*([\d,]{5,})\s*[-–—]\s*₹?\s*([\d,]{5,})"
+)
+
+
+def _to_int(s: str) -> int | None:
+    try:
+        return int(s.replace(",", "").strip())
+    except (ValueError, AttributeError):
+        return None
+
+
+def extract_price_from_text(text: str) -> int | None:
+    """Return the lowest INR figure mentioned as a starting/from price.
+
+    Prefers small range bands first (₹350-450/sqft), then K-bands,
+    then fixed (₹554/sqft), then '+' open bands, then large project
+    ranges.  This biases toward the per-sqft figure that Google Shopping
+    expects rather than a 6-figure total.
+    """
+    candidates: list[int] = []
+
+    for m in _PRICE_RANGE_RE.finditer(text):
+        lo = _to_int(m.group(1))
+        if lo is not None and 50 <= lo <= 50_000:
+            candidates.append(lo)
+    for m in _PRICE_RANGE_K_RE.finditer(text):
+        lo = _to_int(m.group(1))
+        if lo is not None:
+            candidates.append(lo * 1000)
+    for m in _PRICE_FIXED_RE.finditer(text):
+        v = _to_int(m.group(1))
+        if v is not None and 50 <= v <= 50_000:
+            candidates.append(v)
+    for m in _PRICE_PLUS_RE.finditer(text):
+        v = _to_int(m.group(1))
+        if v is not None and 50 <= v <= 50_000:
+            candidates.append(v)
+    if not candidates:
+        for m in _PRICE_BIG_RANGE_RE.finditer(text):
+            lo = _to_int(m.group(1))
+            if lo is not None and lo >= 10_000:
+                candidates.append(lo)
+
+    return min(candidates) if candidates else None
+
+
+# ----------------------------------------------------------------------
+# Title cleanup
+# ----------------------------------------------------------------------
+
+_MAX_TITLE = 150          # GMC hard cap is 150
+_SOFT_TITLE = 140         # leave breathing room for `| Woodenmax`
+_SEPARATORS = (" | ", " — ", " – ", " - ", " · ")
+
+
+def clean_title(raw: str) -> str:
+    """Sanitise an HTML <title> for the Merchant feed.
+
+    - Collapses whitespace.
+    - Removes redundant `( … )` aliases when title is already long.
+    - Truncates at the last clause boundary (` | `, ` — `, …) BEFORE the
+      soft cap so we never break mid-word with `...`.
+    - Appends ` | Woodenmax` only when brand isn't already present.
+    """
+    t = html_module.unescape(raw or "").strip()
+    t = re.sub(r"\s+", " ", t)
+
+    if len(t) > _SOFT_TITLE:
+        # Drop parenthetical aliases if they push us over
+        t_alt = re.sub(r"\s*\([^)]*\)", "", t).strip()
+        if 30 < len(t_alt) <= _SOFT_TITLE:
+            t = t_alt
+
+    if len(t) > _MAX_TITLE:
+        best_cut = -1
+        for sep in _SEPARATORS:
+            idx = t.rfind(sep, 0, _SOFT_TITLE)
+            if idx > best_cut:
+                best_cut = idx
+        if best_cut > 30:
+            t = t[:best_cut].rstrip()
+        else:
+            # No good clause break — cut at last word boundary
+            cut = t.rfind(" ", 0, _SOFT_TITLE)
+            if cut > 30:
+                t = t[:cut].rstrip()
+            else:
+                t = t[:_SOFT_TITLE].rstrip()
+
+    if "woodenmax" not in t.lower():
+        joined = f"{t} | {BRAND}"
+        if len(joined) <= _MAX_TITLE:
+            t = joined
+
+    return t[:_MAX_TITLE]
 
 
 def folder_key(rel: str) -> str:
@@ -352,11 +563,105 @@ def parse_html(text: str, stem: str) -> dict:
     return {"title": title, "description": desc, "image": image, "data_product": data_product}
 
 
+def _xml_escape(s: str) -> str:
+    return (
+        str(s)
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace('"', "&quot;")
+        .replace("'", "&apos;")
+    )
+
+
+def write_xml_feed(rows: list[dict]) -> None:
+    """Write products-feed.xml (Atom + Google Merchant namespace) from the same rows."""
+    from datetime import datetime, timezone
+
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    out: list[str] = [
+        '<?xml version="1.0" encoding="UTF-8"?>',
+        '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:g="http://base.google.com/ns/1.0">',
+        '  <title>WoodenMax Products — Aluminium Windows, Glass Facades, Pergolas & More</title>',
+        f'  <link href="{SITE_ORIGIN}"/>',
+        f'  <link href="{SITE_ORIGIN}/products-feed.xml" rel="self"/>',
+        f'  <updated>{now}</updated>',
+    ]
+    for r in rows:
+        out.append("  <entry>")
+        out.append(f'    <g:id>{_xml_escape(r["id"])}</g:id>')
+        out.append(f'    <g:title>{_xml_escape(r["title"])}</g:title>')
+        out.append(f'    <g:description>{_xml_escape(r["description"])}</g:description>')
+        out.append(f'    <g:link>{_xml_escape(r["link"])}</g:link>')
+        out.append(f'    <g:image_link>{_xml_escape(r["image_link"])}</g:image_link>')
+        if r.get("additional_image_link"):
+            for img in [u.strip() for u in r["additional_image_link"].split(",") if u.strip()][:10]:
+                out.append(f'    <g:additional_image_link>{_xml_escape(img)}</g:additional_image_link>')
+        out.append(f'    <g:price>{_xml_escape(r["price"])}</g:price>')
+        out.append(f'    <g:availability>{_xml_escape(r["availability"])}</g:availability>')
+        out.append(f'    <g:condition>{_xml_escape(r["condition"])}</g:condition>')
+        out.append(f'    <g:brand>{_xml_escape(r["brand"])}</g:brand>')
+        out.append(f'    <g:identifier_exists>{_xml_escape(r["identifier_exists"])}</g:identifier_exists>')
+        out.append(f'    <g:google_product_category>{_xml_escape(r["google_product_category"])}</g:google_product_category>')
+        out.append(f'    <g:product_type>{_xml_escape(r["product_type"])}</g:product_type>')
+        out.append(f'    <g:shipping>')
+        out.append(f'      <g:country>IN</g:country>')
+        out.append(f'      <g:service>Standard</g:service>')
+        out.append(f'      <g:price>0.00 INR</g:price>')
+        out.append(f'    </g:shipping>')
+        for i in range(5):
+            key = f"custom_label_{i}"
+            val = r.get(key, "")
+            if val:
+                out.append(f'    <g:{key}>{_xml_escape(val)}</g:{key}>')
+        out.append("  </entry>")
+    out.append("</feed>")
+    out.append("")
+    (ROOT / "products-feed.xml").write_text("\n".join(out), encoding="utf-8")
+
+
+def _resolve_price(
+    *,
+    slug: str,
+    data_product: str,
+    title: str,
+    description: str,
+    rel: str,
+    lookup: dict[str, int],
+    log: list[str],
+) -> tuple[int, str]:
+    """Return (price, source) for a product page.
+
+    Source is one of: 'override', 'title', 'desc', 'json', 'fallback'.
+    """
+    if slug in PRICE_OVERRIDES:
+        return PRICE_OVERRIDES[slug], "override"
+
+    p_title = extract_price_from_text(title)
+    if p_title is not None:
+        return p_title, "title"
+
+    p_desc = extract_price_from_text(description)
+    if p_desc is not None:
+        return p_desc, "desc"
+
+    p_json = lookup.get(data_product) or lookup.get(slug)
+    if p_json is not None:
+        return p_json, "json"
+
+    log.append(f"⚠ fallback price for {rel} (no ₹ in title/desc, not in products.json)")
+    return default_price_for_path(rel), "fallback"
+
+
 def main() -> None:
     lookup = load_price_lookup()
     rows: list[dict] = []
     seen_link: set[str] = set()
+    seen_title: dict[str, str] = {}   # title_lower → first slug
+    fallback_log: list[str] = []
+    price_source_counts: dict[str, int] = {}
 
+    skipped_info_pages: list[str] = []
     html_files = sorted(PRODUCTS_DIR.rglob("*.html"))
     for path in html_files:
         rel = path.relative_to(PRODUCTS_DIR).as_posix()
@@ -366,39 +671,57 @@ def main() -> None:
             continue
         seen_link.add(link)
 
+        if should_skip_for_feed(path.stem):
+            skipped_info_pages.append(rel)
+            continue
+
         fid = path.stem
         if len(fid) > 50:
             fid = hashlib.sha256(link.encode("utf-8")).hexdigest()[:16]
         text = path.read_text(encoding="utf-8", errors="replace")
         meta = parse_html(text, path.stem)
-        img_candidates = collect_product_image_urls(text, rel)
-        price_val = lookup.get(meta["data_product"]) or lookup.get(path.stem)
-        if price_val is None:
-            price_val = lookup.get(path.stem)
-        if price_val is None:
-            price_val = default_price_for_path(rel)
 
-        title = html_module.unescape(meta["title"])
-        if "woodenmax" not in title.lower():
-            if len(title) > 120:
-                title = title[:117] + "..."
-            title = f"{title} | {BRAND}"
-        if len(title) > 150:
-            title = title[:147] + "..."
+        title = clean_title(meta["title"])
 
-        desc = html_module.unescape(meta["description"])
-        suffix = (
-            f" Indicative ₹/sq.ft from {BRAND} live calculators "
-            "(taxes per final quote). Final BOQ after site verification."
-        )
-        if desc:
-            desc = desc + suffix
+        raw_desc = html_module.unescape(meta["description"] or "").strip()
+        raw_desc = re.sub(r"\s+", " ", raw_desc)
+        # Avoid double Woodenmax suffix if description already names us
+        if "woodenmax" in raw_desc.lower() and "calculator" in raw_desc.lower():
+            desc = raw_desc
         else:
-            desc = (
-                f"Premium architectural product by {BRAND} — online ₹/sq.ft calculator on this page. "
-                f"{suffix.strip()}"
+            suffix = (
+                f"Indicative ₹/sq.ft from {BRAND} live calculators "
+                "(taxes per final quote). Final BOQ after site verification."
             )
+            desc = f"{raw_desc} {suffix}".strip() if raw_desc else (
+                f"Premium architectural product by {BRAND} — live ₹/sq.ft calculator on this page. "
+                f"{suffix}"
+            )
+        desc = desc[:4990]
 
+        price_val, price_src = _resolve_price(
+            slug=path.stem,
+            data_product=meta["data_product"],
+            title=title,
+            description=desc,
+            rel=rel,
+            lookup=lookup,
+            log=fallback_log,
+        )
+        price_source_counts[price_src] = price_source_counts.get(price_src, 0) + 1
+
+        # ---------- duplicate-title check ----------
+        norm_t = title.lower()
+        if norm_t in seen_title:
+            print(
+                f"⚠ duplicate title (kept first): '{title[:80]}…'  "
+                f"first={seen_title[norm_t]}  dropped={path.stem}",
+                file=sys.stderr,
+            )
+            continue
+        seen_title[norm_t] = path.stem
+
+        img_candidates = collect_product_image_urls(text, rel)
         logo_fallback = normalize_feed_image_url(f"{SITE_ORIGIN}/images/woodenmax-logo.png")
         og_raw = (meta["image"] or "").strip()
         if og_raw.startswith("/"):
@@ -415,15 +738,24 @@ def main() -> None:
             image = logo_fallback
 
         pk = dedupe_image_key(image)
-        extras = [
-            u
-            for u in img_candidates
-            if dedupe_image_key(u) != pk
-        ][:EXTRA_IMAGE_CAP]
+        extras = [u for u in img_candidates if dedupe_image_key(u) != pk][:EXTRA_IMAGE_CAP]
         additional = ", ".join(extras)
 
-        # sale_price: only when you run a promotion — leave empty so GMC uses `price` as regular price.
-        sale_price = ""
+        cat_key = folder_key(rel)
+        # custom_label_0 = top silo (for Shopping ad-group segmentation)
+        # custom_label_1 = price band  (Budget / Mid / Premium / Luxury)
+        # custom_label_2 = unit       (sqft / rft / piece / project)
+        if price_val < 400:
+            band = "budget"
+        elif price_val < 1000:
+            band = "mid"
+        elif price_val < 2200:
+            band = "premium"
+        else:
+            band = "luxury"
+        unit = "rft" if cat_key == "glass-railing" else (
+            "project" if cat_key == "pergola" and price_val > 5000 else "sqft"
+        )
 
         rows.append(
             {
@@ -435,16 +767,28 @@ def main() -> None:
                 "additional_image_link": additional,
                 "availability": "in stock",
                 "price": f"{float(price_val):.2f} INR",
-                "sale_price": sale_price,
+                "sale_price": "",        # only set during a real promo
                 "condition": "new",
                 "brand": BRAND,
+                "gtin": "",              # custom-fabricated — no UPC
+                "mpn": "",
+                "identifier_exists": "no",
                 "google_product_category": google_product_category_for(rel),
                 "product_type": product_type_for(rel),
                 "category": category_label_for(rel),
+                "shipping": "IN::Standard:0.00 INR",   # delivered free PAN-India for qualifying orders
+                "shipping_weight": "",
+                "custom_label_0": cat_key,
+                "custom_label_1": band,
+                "custom_label_2": unit,
+                "custom_label_3": "live-calculator",
+                "custom_label_4": "2026",
             }
         )
 
     rows.sort(key=lambda r: (r["product_type"], r["id"]))
+
+    write_xml_feed(rows)
 
     out_path = ROOT / "products-feed.csv"
     fieldnames = [
@@ -459,9 +803,19 @@ def main() -> None:
         "sale_price",
         "condition",
         "brand",
+        "gtin",
+        "mpn",
+        "identifier_exists",
         "google_product_category",
         "product_type",
         "category",
+        "shipping",
+        "shipping_weight",
+        "custom_label_0",
+        "custom_label_1",
+        "custom_label_2",
+        "custom_label_3",
+        "custom_label_4",
     ]
     with out_path.open("w", encoding="utf-8", newline="") as f:
         w = csv.DictWriter(f, fieldnames=fieldnames)
@@ -469,6 +823,19 @@ def main() -> None:
         w.writerows(rows)
 
     print(f"Wrote {len(rows)} rows to {out_path.relative_to(ROOT)}")
+    print("Price source distribution:")
+    for src in ("override", "title", "desc", "json", "fallback"):
+        n = price_source_counts.get(src, 0)
+        print(f"  {src:<9} : {n}")
+    if fallback_log:
+        print("\nFallback-priced pages (consider adding ₹ in title or PRICE_OVERRIDES):")
+        for line in fallback_log:
+            print(" ", line)
+    if skipped_info_pages:
+        print(f"\nExcluded {len(skipped_info_pages)} info / guide / comparison pages "
+              "(kept on site, not in Merchant feed):")
+        for p in skipped_info_pages:
+            print(f"  - {p}")
 
 
 if __name__ == "__main__":

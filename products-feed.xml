@@ -1,321 +1,1870 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:g="http://base.google.com/ns/1.0">
-  <title>WoodenMax Products - Aluminium Windows, Glass Railing, Shower Partitions</title>
+  <title>WoodenMax Products — Aluminium Windows, Glass Facades, Pergolas & More</title>
   <link href="https://woodenmax.in"/>
   <link href="https://woodenmax.in/products-feed.xml" rel="self"/>
-  <updated>2026-02-27T00:00:00Z</updated>
-  
-  <!-- Glass Railing -->
-  <entry>
-    <g:id>balcony-glass-railing</g:id>
-    <g:title>Balcony Glass Railing System | Slim Profile | WoodenMax</g:title>
-    <g:description>Complete guide to balcony glass railing systems. SS304 brackets, aluminium profiles, laminated/toughened glass. Nut-bolt assembly. Includes price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/glass-railing/balcony-glass-railing</g:link>
-    <g:image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</g:image_link>
-    <g:price>18000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Glass Railing</g:product_type>
-  </entry>
-  <entry>
-    <g:id>staircase-glass-railing</g:id>
-    <g:title>Staircase Glass Railing System | WoodenMax</g:title>
-    <g:description>Staircase glass railing systems with SS304 brackets, aluminium profiles, laminated/toughened glass. 20% glass wastage. Price calculator. Residential, duplexes, luxury interiors.</g:description>
-    <g:link>https://woodenmax.in/products/glass-railing/staircase-glass-railing</g:link>
-    <g:image_link>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</g:image_link>
-    <g:price>20000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Glass Railing</g:product_type>
-  </entry>
-  
-  <!-- Aluminium Windows -->
-  <entry>
-    <g:id>2-track-french-sliding-door</g:id>
-    <g:title>2 Track French Sliding Door | Aluminium | WoodenMax</g:title>
-    <g:description>2 track aluminium French sliding door. Premium profiles, Saint-Gobain glass. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door</g:link>
-    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</g:image_link>
-    <g:price>25000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Aluminium Windows</g:product_type>
-  </entry>
-  <entry>
-    <g:id>3-track-sliding-window</g:id>
-    <g:title>3 Track Aluminium Sliding Window | Mesh Option | WoodenMax</g:title>
-    <g:description>3 track aluminium sliding window with mesh. 27MM Domal series. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/aluminium-windows/3-track-sliding-window</g:link>
-    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:image_link>
-    <g:price>22000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Aluminium Windows</g:product_type>
-  </entry>
-  <entry>
-    <g:id>aluminium-sliding-window</g:id>
-    <g:title>Aluminium Sliding Window | Premium | WoodenMax</g:title>
-    <g:description>Premium aluminium sliding window. Hindalco profiles, Saint-Gobain glass. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window</g:link>
-    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:image_link>
-    <g:price>25000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Aluminium Windows</g:product_type>
-  </entry>
-  <entry>
-    <g:id>french-door-georgian-bar</g:id>
-    <g:title>French Door Georgian Bar | Aluminium | WoodenMax</g:title>
-    <g:description>Aluminium French door with Georgian bar design. Premium profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/aluminium-windows/french-door-georgian-bar</g:link>
-    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</g:image_link>
-    <g:price>35000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Aluminium Windows</g:product_type>
-  </entry>
-  <entry>
-    <g:id>full-elevation-villa-facade</g:id>
-    <g:title>Full Elevation Villa Facade | Aluminium Windows Doors</g:title>
-    <g:description>Luxury aluminium elevation windows and doors for villa facade. Premium profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/aluminium-windows/full-elevation-villa-facade</g:link>
-    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</g:image_link>
-    <g:price>80000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Aluminium Windows</g:product_type>
-  </entry>
-  <entry>
-    <g:id>georgian-grill-casement-door</g:id>
-    <g:title>Georgian Grill Casement Door | Aluminium | WoodenMax</g:title>
-    <g:description>Aluminium casement door with Georgian grill. Premium profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/aluminium-windows/georgian-grill-casement-door</g:link>
-    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</g:image_link>
-    <g:price>32000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Aluminium Windows</g:product_type>
-  </entry>
-  <entry>
-    <g:id>slim-entrance-glass-door</g:id>
-    <g:title>Slim Entrance Glass Door | Aluminium | WoodenMax</g:title>
-    <g:description>Slim profile aluminium glass door for entrance. Premium profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/aluminium-windows/slim-entrance-glass-door</g:link>
-    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</g:image_link>
-    <g:price>45000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Aluminium Windows</g:product_type>
-  </entry>
-  <entry>
-    <g:id>slimline-aluminium-window</g:id>
-    <g:title>Slimline Aluminium Window | Casement | WoodenMax</g:title>
-    <g:description>Slimline aluminium casement window. Premium profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window</g:link>
-    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:image_link>
-    <g:price>22000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Aluminium Windows</g:product_type>
-  </entry>
-  <entry>
-    <g:id>top-hung-casement-window</g:id>
-    <g:title>Top Hung Casement Window | Aluminium | WoodenMax</g:title>
-    <g:description>Top hung casement window aluminium. Multipoint locking. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/aluminium-windows/top-hung-casement-window</g:link>
-    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:image_link>
-    <g:price>25000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Aluminium Windows</g:product_type>
-  </entry>
-  
-  <!-- Telescope Windows -->
-  <entry>
-    <g:id>telescopic-slim-sliding-door</g:id>
-    <g:title>Telescopic Slim Profile Sliding Door | Kitchen Partition | Soft Close</g:title>
-    <g:description>Telescopic slim sliding door with soft-close for kitchen, living room. 1+1, 2+1, 3+1, 4+1 panels. Live price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door</g:link>
-    <g:image_link>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</g:image_link>
-    <g:price>20000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Telescope Windows</g:product_type>
-  </entry>
-  
-  <!-- Folding Systems -->
-  <entry>
-    <g:id>fold-bifold-aluminium-doors</g:id>
-    <g:title>Fold and Bi-Fold Aluminium Glass Doors | Balcony | WoodenMax</g:title>
-    <g:description>Bi-fold aluminium glass doors with 95% opening. 50mm and 52mm profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/folding-systems/fold-bifold-aluminium-doors</g:link>
-    <g:image_link>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</g:image_link>
-    <g:price>28000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Folding Systems</g:product_type>
-  </entry>
-  <entry>
-    <g:id>fold-sliding-window-system</g:id>
-    <g:title>Fold and Sliding Window System | Slim Aluminium | WoodenMax</g:title>
-    <g:description>Fold sliding window system for gates, entrance doors. 2-door configuration. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/folding-systems/fold-sliding-window-system</g:link>
-    <g:image_link>https://woodenmax.in/images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles.webp</g:image_link>
-    <g:price>35000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Folding Systems</g:product_type>
-  </entry>
-  
-  <!-- Metal Louvers -->
-  <entry>
-    <g:id>wooden-finish-aluminium-louvers</g:id>
-    <g:title>Wooden Finish Aluminium Louvers | Natural Wood Look | WoodenMax</g:title>
-    <g:description>Wooden finish aluminium louvers. 100x50x1.2MM 6063-T6 profiles. UV-proof, termite-free. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers</g:link>
-    <g:image_link>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</g:image_link>
-    <g:price>7000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Metal Louvers</g:product_type>
-  </entry>
-  <entry>
-    <g:id>curved-architectural-louvers</g:id>
-    <g:title>Architectural Curved Aluminium Louvers | Sleek 60x40MM | WoodenMax</g:title>
-    <g:description>Curved architectural aluminium louvers for facades. 60x40x1.2MM profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/metal-louvers/curved-architectural-louvers</g:link>
-    <g:image_link>https://woodenmax.in/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp</g:image_link>
-    <g:price>8000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Metal Louvers</g:product_type>
-  </entry>
-  <entry>
-    <g:id>ceiling-pergola-louvers</g:id>
-    <g:title>Ceiling Aluminium Louvers Pergola | Outdoor Backyard | WoodenMax</g:title>
-    <g:description>Ceiling aluminium louvers pergola for backyard, terrace, poolside. 25x75MM profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/metal-louvers/ceiling-pergola-louvers</g:link>
-    <g:image_link>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</g:image_link>
-    <g:price>7500 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Metal Louvers</g:product_type>
-  </entry>
-  <entry>
-    <g:id>louver-canopy-facade</g:id>
-    <g:title>Aluminium Louver Canopy Sunshade | Entry Gate Facade | WoodenMax</g:title>
-    <g:description>Aluminium louver canopy for entry gate and facade. Sunshade design. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/metal-louvers/louver-canopy-facade</g:link>
-    <g:image_link>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</g:image_link>
-    <g:price>8500 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Metal Louvers</g:product_type>
-  </entry>
-  
-  <!-- Shower Partitions -->
-  <entry>
-    <g:id>frameless-shower-partition</g:id>
-    <g:title>Frameless Shower Glass Door | Bathroom Shower Partition | WoodenMax</g:title>
-    <g:description>Frameless shower glass door. Openable sliding. 8-10mm toughened glass. Imported hardware. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/shower-partitions/frameless-shower-partition</g:link>
-    <g:image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:image_link>
-    <g:price>6000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Shower Partitions</g:product_type>
-  </entry>
-  <entry>
-    <g:id>premium-black-profile-shower</g:id>
-    <g:title>Premium Black Profile Shower Glass Door | Bathroom | WoodenMax</g:title>
-    <g:description>Premium black profile shower glass door. Soft-close sliding. Imported hardware. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
-    <g:link>https://woodenmax.in/products/shower-partitions/premium-black-profile-shower</g:link>
-    <g:image_link>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</g:image_link>
-    <g:price>10000 INR</g:price>
-    <g:availability>in stock</g:availability>
-    <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Shower Partitions</g:product_type>
-  </entry>
+  <updated>2026-05-17T22:45:31Z</updated>
   <entry>
     <g:id>black-profile-shower-partition</g:id>
-    <g:title>Black Profile Shower Glass Door | Bathroom Shower Partition | WoodenMax</g:title>
-    <g:description>Black profile shower glass door. Sliding shower door. Soft-close. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:title>Black Profile Soft-Close Sliding Shower Door Price ₹660–1320/sqft 2026 | Designer Matte-Black Sliding Shower Partition — Live Calculator | Woodenmax</g:title>
+    <g:description>Black profile soft-close sliding shower door — designer matte-black sliding shower partition priced ₹660–₹1,320/sqft. 10mm toughened glass, soft-close roller system rated 50,000 cycles, 16x45 imported aluminium. Black / Gold / Rose Gold / Mill finish. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
     <g:link>https://woodenmax.in/products/shower-partitions/black-profile-shower-partition</g:link>
     <g:image_link>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</g:image_link>
-    <g:price>10000 INR</g:price>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</g:additional_image_link>
+    <g:price>660.00 INR</g:price>
     <g:availability>in stock</g:availability>
     <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Shower Partitions</g:product_type>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>1779</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Bathroom &gt; Shower Partitions</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>shower-partitions</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>frameless-shower-partition</g:id>
+    <g:title>Luxury Frameless Shower Enclosure — Walk-in Frameless Shower Glass Door Price ₹440–1320/sqft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>Luxury frameless shower enclosure &amp; walk-in frameless shower glass door priced ₹440–₹1,320/sqft. 10mm toughened glass, hinged or sliding, L-corner &amp; straight configurations. Hotel-grade imported hinges / clamps / handles. Live calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/shower-partitions/frameless-shower-partition</g:link>
+    <g:image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</g:additional_image_link>
+    <g:price>440.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>1779</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Bathroom &gt; Shower Partitions</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>shower-partitions</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
   </entry>
   <entry>
     <g:id>frosted-glass-bathroom-door</g:id>
-    <g:title>Frosted Glass Bathroom Door | Fold Slide Door | WoodenMax</g:title>
-    <g:description>Frosted glass fold and slide bathroom door. 95% opening. Imported slim profiles. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:title>Fold &amp; Slide Frosted Glass Bathroom Door — Space-Saving Frosted Glass Shower Partition Price ₹22K–99K 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>Fold &amp; slide frosted glass bathroom door — space-saving frosted glass shower partition priced ₹22,000–₹99,000. 95% opening, 8mm toughened frosted privacy glass, compact aluminium frame. Ideal for city &amp; apartment bathrooms. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
     <g:link>https://woodenmax.in/products/shower-partitions/frosted-glass-bathroom-door</g:link>
     <g:image_link>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</g:image_link>
-    <g:price>20000 INR</g:price>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</g:additional_image_link>
+    <g:price>22000.00 INR</g:price>
     <g:availability>in stock</g:availability>
     <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Shower Partitions</g:product_type>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>1779</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Bathroom &gt; Shower Partitions</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>shower-partitions</g:custom_label_0>
+    <g:custom_label_1>luxury</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>premium-black-profile-shower</g:id>
+    <g:title>Premium Black Profile Openable Shower — Designer Matte-Black Hinged Shower Partition ₹660–1320/sqft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>Premium black profile openable shower — designer matte-black hinged shower partition priced ₹660–₹1,320/sqft. 10mm toughened glass, imported 16x45 / 16x35 slim aluminium profiles, towel handle &amp; 3-pc hinges. Matt black, gold, rose-gold, mill finish. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/shower-partitions/premium-black-profile-shower</g:link>
+    <g:image_link>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</g:additional_image_link>
+    <g:price>660.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>1779</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Bathroom &gt; Shower Partitions</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>shower-partitions</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>shower-partitions</g:id>
+    <g:title>Bathroom Shower Partitions &amp; Luxury Frameless Shower Glass Enclosures Price ₹440–1320/sqft 2026 | Live Calculator — Hub | Woodenmax</g:title>
+    <g:description>Bathroom shower partitions &amp; luxury frameless shower glass enclosures — price ₹440–1320/sqft. Compare frameless walk-in shower, hinged shower partitions, soft-close sliding shower, black profile shower doors, slim gold-frame fluted shower &amp; fold-and-slide frosted glass bathroom doors. 8–10mm toughened glass, hotel-grade imported hardware. Live ₹ calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/shower-partitions</g:link>
+    <g:image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</g:additional_image_link>
+    <g:price>440.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>1779</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Bathroom &gt; Shower Partitions</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>shower-partitions</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
   </entry>
   <entry>
     <g:id>slim-frame-shower-partition</g:id>
-    <g:title>Gold Profile Shower Glass Door | Slim Frame | WoodenMax</g:title>
-    <g:description>Gold profile slim frame shower partition. Fluted glass. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:title>Slim Gold-Frame Fluted Shower Partition — Designer Fluted Glass Gold Shower Enclosure Price ₹935–1320/sqft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>Slim gold-frame fluted shower partition — designer fluted glass gold shower enclosure priced ₹935–₹1,320/sqft. 8–10mm toughened fluted / clear glass, slim brass-gold profile, hinged or sliding. Mediterranean-luxury bathroom style. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
     <g:link>https://woodenmax.in/products/shower-partitions/slim-frame-shower-partition</g:link>
     <g:image_link>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</g:image_link>
-    <g:price>13000 INR</g:price>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</g:additional_image_link>
+    <g:price>935.00 INR</g:price>
     <g:availability>in stock</g:availability>
     <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Shower Partitions</g:product_type>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>1779</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Bathroom &gt; Shower Partitions</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>shower-partitions</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
   </entry>
-  
-  <!-- Elevation Cladding -->
+  <entry>
+    <g:id>elevation-cladding</g:id>
+    <g:title>Elevation Cladding — HPL Exterior Cladding &amp; ACP Elevation Panels Price ₹132+/sqft 2026 | Facade Calculator | Woodenmax</g:title>
+    <g:description>Elevation cladding India 2026 — HPL exterior cladding ₹341–₹537/sqft, ACP elevation panels ₹312–₹601/sqft, HPL + ACP combo facades priced live. FunderMax / Greenlam HPL, PVDF ACP, FR Grade B for Railways / Airports / Govt projects. Live facade calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/elevation-cladding</g:link>
+    <g:image_link>https://woodenmax.in/images/products/elevation-cladding/hpl-exterior-cladding-elevation.jpg</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/elevation-cladding/hpl-exterior-cladding-natural-finish.webp</g:additional_image_link>
+    <g:price>132.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>503775</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Cladding &amp; Facade</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>elevation-cladding</g:custom_label_0>
+    <g:custom_label_1>budget</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
   <entry>
     <g:id>hpl-acp-elevation-cladding</g:id>
-    <g:title>ACP HPL Elevation Cladding | Commercial Buildings | WoodenMax</g:title>
-    <g:description>ACP and HPL elevation cladding. PVDF coating, grooving system. Waterproof, UV-resistant. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:title>HPL + ACP Elevation Cladding Combo — PVDF ACP Facade &amp; HPL Ceiling Panels Price ₹312–₹601/sqft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>HPL + ACP elevation cladding combo — PVDF ACP facade panels (3mm ₹312 / 4mm ₹359 / 6mm ₹451) + wooden HPL ceilings / beam covers / balcony soffits. FR Grade B 4mm ACP ₹601/sqft for Railways, Airports &amp; Govt projects. 4x4 grid aluminium framework, concealed fixing, 15–25 year life. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
     <g:link>https://woodenmax.in/products/elevation-cladding/hpl-acp-elevation-cladding</g:link>
     <g:image_link>https://woodenmax.in/images/products/acp-sheets-pic/acp-elevation-cladding-aluminium-composite-panel-for-commercial-buildings.webp</g:image_link>
-    <g:price>5000 INR</g:price>
+    <g:additional_image_link>https://woodenmax.in/images/products/acp-sheets-pic/hotel-exterior-hpl-acp-cladding.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/acp-sheets-pic/hpl-exterior-cladding-premium-wood-finish.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/acp-sheets-pic/premium-hpl-acp-cladding-for-commercial-building.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/elevation-cladding/hpl-exterior-cladding-natural-finish.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/structural-glazing-building-elevation.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</g:additional_image_link>
+    <g:price>312.00 INR</g:price>
     <g:availability>in stock</g:availability>
     <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Elevation Cladding</g:product_type>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>503775</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Cladding &amp; Facade</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>elevation-cladding</g:custom_label_0>
+    <g:custom_label_1>budget</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
   </entry>
   <entry>
     <g:id>hpl-exterior-cladding</g:id>
-    <g:title>HPL Exterior Cladding | Luxury Villas | WoodenMax</g:title>
-    <g:description>HPL exterior cladding for luxury villas. Premium wood texture. Waterproof, UV-resistant. Price calculator. Hyderabad, Delhi, Bangalore.</g:description>
+    <g:title>HPL Exterior Cladding — FunderMax / Greenlam Wooden HPL Facade Panels Price ₹341–₹727/sqft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>HPL exterior cladding — FunderMax / Greenlam / Newmika wooden HPL facade panels priced ₹341–₹727/sqft (incl. installation). 6mm thickness, 30+ wood &amp; plain colors, 50x25mm aluminium framework, powder-coated fasteners, 15–25 year life. For villas, resorts, offices, cafés, gates &amp; ceilings. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
     <g:link>https://woodenmax.in/products/elevation-cladding/hpl-exterior-cladding</g:link>
     <g:image_link>https://woodenmax.in/images/products/hpl-sheet-pic/hpl-acp-exterior-cladding-india.webp</g:image_link>
-    <g:price>5000 INR</g:price>
+    <g:additional_image_link>https://woodenmax.in/images/products/hpl-sheet-pic/bungalow-hpl-acp-facade.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/hpl-sheet-pic/wood-texture-hpl-acp-cladding.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/hpl-sheet-pic/walnut-finish-hpl-acp-exterior-panels.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/hpl-sheet-pic/balcony-hpl-acp-wall-cladding.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/hpl-sheet-pic/best-hpl-acp-cladding-manufacturer-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/elevation-cladding/hpl-exterior-cladding-natural-finish.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/structural-glazing-building-elevation.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</g:additional_image_link>
+    <g:price>341.00 INR</g:price>
     <g:availability>in stock</g:availability>
     <g:condition>new</g:condition>
-    <g:brand>WoodenMax</g:brand>
-    <g:product_type>Elevation Cladding</g:product_type>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>503775</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Cladding &amp; Facade</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>elevation-cladding</g:custom_label_0>
+    <g:custom_label_1>budget</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>fold-bifold-aluminium-doors</g:id>
+    <g:title>Bi-Fold Door ( Folding Sliding Window System ) Price ₹1750-2850/sqft 2026 | Free Calculator | Woodenmax</g:title>
+    <g:description>Bi-fold aluminium glass door price ₹1750-2850/sqft. 50-52mm slim profiles, 95% opening space. Balcony, partition. Live price calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/folding-systems/fold-bifold-aluminium-doors</g:link>
+    <g:image_link>https://woodenmax.in/images/products/fold-%26-befold-pic/fold-bifold-aluminium-glass-door-balcony-india.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-%26befold-pic/fold-bifold-aluminium-glass-door-balcony-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-%26-befold-pic/aluminium-bifold-glass-door-for-balcony-opening.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-%26-befold-pic/folding-glass-door-aluminium-frame-interior-partition-system.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-%26-befold-pic/living-room-folding-glass-door-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-%26-befold-pic/outdoor-indoor-folding-aluminium-glass-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-%26-befold-pic/slim-profile-aluminium-bifold-glass-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</g:additional_image_link>
+    <g:price>1750.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>4634</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Doors</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>folding-systems</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>fold-sliding-window-system</g:id>
+    <g:title>Fold &amp; Slide Window ( Collapsible Window ) Price ₹1550-2150/sqft 2026 | Free Calculator | Woodenmax</g:title>
+    <g:description>Fold &amp; sliding collapsible window system price ₹1550-2150/sqft. Imported slim profiles, mortice lock. Gates, entrance, windows. Price calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/folding-systems/fold-sliding-window-system</g:link>
+    <g:image_link>https://woodenmax.in/images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-sliding-window-pic/garden-access-bifold-aluminium-glass-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-sliding-window-pic/showroom-front-aluminium-bifold-glass-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-sliding-window-pic/terrace-folding-aluminium-glass-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-sliding-window-pic/whatsapp-image-2025-12-30-at-7-19-23-pm-2.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-%26-befold-pic/fold-bifold-aluminium-glass-door-balcony-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</g:additional_image_link>
+    <g:price>1550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>4634</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Doors</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>folding-systems</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>folding-systems</g:id>
+    <g:title>Folding Door Price ₹1550-2850/sqft (2026) | Instant Quote | Woodenmax</g:title>
+    <g:description>Folding door price ₹1550-2850/sqft. Bi-fold slim ₹1750-2850, fold &amp; slide collapsible ₹1550-2150. 50-52mm aluminium profiles, 95% opening. Live calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/folding-systems</g:link>
+    <g:image_link>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/folding-systems/fold-and-sliding-window-imported-profiles.webp</g:additional_image_link>
+    <g:price>1550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>4634</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Doors</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>folding-systems</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>telescope-windows</g:id>
+    <g:title>Telescopic Door ( Kitchen Partition Door ) Price ₹1650-2250/sqft 2026 | Price Calculator | Woodenmax</g:title>
+    <g:description>Telescopic sliding door price ₹1650-2250/sqft. Kitchen partition, hall divider, soft-close. 1+1 to 4+1 panels. Live calculator for quotes. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/telescope-windows</g:link>
+    <g:image_link>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/categories/telescope-windows.webp</g:additional_image_link>
+    <g:price>1650.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>4634</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Doors</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>telescope-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>telescopic-slim-sliding-door</g:id>
+    <g:title>Telescopic Slim Sliding Door Price ₹950+/sqft 2026 | Style Door &amp; Instant Quote | Woodenmax</g:title>
+    <g:description>Telescopic slim sliding door (glass style door / instant door type quote) from ₹1650/sqft. Soft-close, fluted or clear glass, kitchen &amp; hall partition. 1+1 to 4+1 panels. Live calculator — instant price. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door</g:link>
+    <g:image_link>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/telescope-windows/aluminium-telescopic-sliding-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/telescope-windows/large-opening-telescopic-sliding-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/telescope-windows/multi-panel-telescopic-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/telescope-windows/synchro-sliding-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-%26-befold-pic/fold-bifold-aluminium-glass-door-balcony-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:additional_image_link>
+    <g:price>950.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>4634</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Doors</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>telescope-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>ceiling-pergola-louvers</g:id>
+    <g:title>Ceiling Louvers &amp; Rafters — Aluminium Ceiling Rafters Pergola Price ₹554/sqft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>Ceiling louvers &amp; rafters — 25x75mm aluminium ceiling rafters pergola priced ₹554/sqft. Resort-feel outdoor ceiling louvers for backyard, terrace, poolside, farmhouse and porch soffits. Powder-coat / PVDF / wooden texture. Live ₹ calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/metal-louvers/ceiling-pergola-louvers</g:link>
+    <g:image_link>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</g:image_link>
+    <g:price>554.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>503775</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Facade Louvers</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>metal-louvers</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>curved-architectural-louvers</g:id>
+    <g:title>Architectural Louvers — Sleek Curved Facade Aluminium Louvers Price ₹570/sqft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>Architectural aluminium louvers — sleek 60x40mm curved facade louvers priced ₹570/sqft. Custom-cut, bent &amp; profiled for signature elevations, entry arches and award-winning facades. PVDF / powder-coat / anodised. Live ₹ calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/metal-louvers/curved-architectural-louvers</g:link>
+    <g:image_link>https://woodenmax.in/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp</g:image_link>
+    <g:price>570.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>503775</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Facade Louvers</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>metal-louvers</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>louver-canopy-facade</g:id>
+    <g:title>Duct Shaft Louvers &amp; Canopy Louvers — Aluminium Louver Canopy / Duct Shaft Screening Price ₹601/sqft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>Duct shaft louvers &amp; aluminium louver canopy — 50x50mm 6063-T6 louvers priced ₹601/sqft. Engineered duct shaft screening, AHU louvers, entry canopy, gate canopy &amp; balcony facade sunshade. PVDF / powder-coat / anodised. Live ₹ calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/metal-louvers/louver-canopy-facade</g:link>
+    <g:image_link>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</g:image_link>
+    <g:price>601.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>503775</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Facade Louvers</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>metal-louvers</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>metal-louvers</g:id>
+    <g:title>Architectural Aluminium Louvers &amp; Rafters India (2026) | Elevation, Ceiling, Duct Shaft, Canopy Louvers — Price Hub | Woodenmax</g:title>
+    <g:description>Architectural aluminium louvers &amp; rafters India 2026 — elevation louvers/rafters, ceiling louvers &amp; rafters, duct shaft louvers and canopy sunshades in one hub. Compare reference rates per piece &amp; per sqft; live calculators on each product page. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/metal-louvers</g:link>
+    <g:image_link>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-pergola/glass-pergola-manufacturer.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-pergola/aluminium-pergola-hyderabad.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/skylight/automatic-roof-system-manufacturer.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/retractble-pergola/automatic-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india.webp</g:additional_image_link>
+    <g:price>520.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>503775</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Facade Louvers</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>metal-louvers</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>wooden-finish-aluminium-louvers</g:id>
+    <g:title>Wooden Finish Aluminium Rafters &amp; Elevation Louvers Price ₹520/sqft 2026 | Termite-Free Wood Look — Live Calculator | Woodenmax</g:title>
+    <g:description>Wooden finish aluminium rafters (elevation rafters / wood-look elevation louvers) priced at ₹520/sqft. 100x50x1.2mm 6063-T6 profile with UV-stable wood-texture coating — termite-free replacement for timber rafters on villa facades, balconies and parapets. Live ₹ calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers</g:link>
+    <g:image_link>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</g:image_link>
+    <g:price>520.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>503775</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Facade Louvers</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>metal-louvers</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-elevation</g:id>
+    <g:title>Glass Elevation ( Structural Glazing ) Price ₹800-1200/sqft 2026 | Instant Quote | Woodenmax</g:title>
+    <g:description>Glass elevation price ₹800-1200/sqft. Curtain wall, structural glazing, spider glazing. Reflector glass facade. Free price calculator. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-elevation</g:link>
+    <g:image_link>https://woodenmax.in/images/products/Glazing/architectural-glass-elevation.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Glazing/curtain-wall-glazing-system.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Glazing/structural-glazing-facade.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Glazing/elevation-glass-facade.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Glazing/commercial-glazing-facade.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Glazing/aluminium-curtain-wall-glass-elevatio.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/structural-glazing-building-elevation.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</g:additional_image_link>
+    <g:price>800.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Facade &amp; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-elevation</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-elevation-price-bangalore</g:id>
+    <g:title>Glass Elevation Price in Bengaluru 2026 | ₹850-3400/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Bengaluru from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-elevation/glass-elevation-price-bangalore</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/bangalore-hero.webp</g:image_link>
+    <g:price>850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Facade &amp; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-elevation</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-elevation-price-chandigarh</g:id>
+    <g:title>Glass Elevation Price in Chandigarh 2026 | ₹850-3400/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Chandigarh from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Transparent transport pricing. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-elevation/glass-elevation-price-chandigarh</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/chandigarh-hero.webp</g:image_link>
+    <g:price>850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Facade &amp; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-elevation</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-elevation-price-delhi</g:id>
+    <g:title>Glass Elevation Price in Delhi NCR 2026 | ₹850-3400/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Delhi NCR from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Transparent transport pricing. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-elevation/glass-elevation-price-delhi</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/delhi-hero.webp</g:image_link>
+    <g:price>850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Facade &amp; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-elevation</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-elevation-price-mumbai</g:id>
+    <g:title>Glass Elevation Price in Mumbai 2026 | ₹850-3400/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Mumbai from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-elevation/glass-elevation-price-mumbai</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/mumbai-hero.webp</g:image_link>
+    <g:price>850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Facade &amp; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-elevation</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-elevation-price-pune</g:id>
+    <g:title>Glass Elevation Price in Pune 2026 | ₹850-3400/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Pune from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-elevation/glass-elevation-price-pune</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/pune-hero.webp</g:image_link>
+    <g:price>850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Facade &amp; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-elevation</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-elevation-price-vijayawada</g:id>
+    <g:title>Glass Elevation Price in Vijayawada 2026 | ₹850-3400/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Vijayawada from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-elevation/glass-elevation-price-vijayawada</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/vijayawada-hero.webp</g:image_link>
+    <g:price>850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Facade &amp; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-elevation</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-elevation-price-visakhapatnam</g:id>
+    <g:title>Glass Elevation Price in Visakhapatnam 2026 | ₹850-3400/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Visakhapatnam from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-elevation/glass-elevation-price-visakhapatnam</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/visakhapatnam-hero.webp</g:image_link>
+    <g:price>850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Facade &amp; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-elevation</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-elevation-price-warangal</g:id>
+    <g:title>Glass Elevation Price in Warangal 2026 | ₹850-3400/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Warangal from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-elevation/glass-elevation-price-warangal</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/warangal-hero.webp</g:image_link>
+    <g:price>850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Facade &amp; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-elevation</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>balcony-glass-railing</g:id>
+    <g:title>Balcony Frameless Glass Railing — U-Channel / Base-Rail Balcony Glass Balustrade ₹1,850–2,850/rft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>Balcony frameless glass railing — U-channel / base-rail balcony glass balustrade priced ₹1,850–₹2,850 per running foot (rft). 12mm toughened or laminated 5+5 / 6+6 glass, 80x40 / 100x45 / 121x45 aluminium profiles, SS304 brackets &amp; wooden / SS handrails. Terrace, deck, Juliet balcony &amp; pool-deck systems. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-railing/balcony-glass-railing</g:link>
+    <g:image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing-2.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/modern-balcony-glass-railing.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/architectural-glass-railing-system.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/glass-railing-terrace-with-profile.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/outdoor-glass-railing-staicase-balcony-with-profile.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/glass-stair-railing-staicase-ramp-with-aluminium-profile.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:price>1850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>499949</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Railings</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-railing</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>rft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-railing</g:id>
+    <g:title>Frameless Glass Railing Systems — Balcony ₹1850–2850/rft &amp; Staircase ₹2450–3350/rft India 2026 | Live Calculator — Hub | Woodenmax</g:title>
+    <g:description>Frameless glass railing systems — balcony glass railing ₹1,850–₹2,850/rft and staircase glass railing ₹2,450–₹3,350/rft. Slim U-channel &amp; base-rail profiles, SS304 brackets, 12mm toughened or laminated 6+6 glass, aluminium / wooden / SS handrails. Live calculator for instant quote. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-railing</g:link>
+    <g:image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</g:additional_image_link>
+    <g:price>1850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>499949</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Railings</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-railing</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>rft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>staircase-glass-railing</g:id>
+    <g:title>Staircase Frameless Glass Railing — Stud / Pillar / Spigot Glass Staircase Balustrade ₹2,450–3,350/rft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>Staircase frameless glass railing — stud / pillar / spigot glass staircase balustrade priced ₹2,450–₹3,350 per running foot (rft). Laminated 5+5 / 6+6 or 12mm toughened glass, wooden / SS / aluminium handrails, SS304 hardware. Indoor, outdoor, curved &amp; luxury villa staircases. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/glass-railing/staircase-glass-railing</g:link>
+    <g:image_link>https://woodenmax.in/images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/staircase-glass-railing/interior-glass-staircase-railing.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/staircase-glass-railing/glass-stair-railing-with-aluminium-profile.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/staircase-glass-railing/outdoor-glass-railing-with-profile.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/staircase-glass-railing/minimal-glass-railing-balcony-design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:price>2450.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>499949</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Glass Railings</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>glass-railing</g:custom_label_0>
+    <g:custom_label_1>luxury</g:custom_label_1>
+    <g:custom_label_2>rft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-window-grills</g:id>
+    <g:title>Aluminium Window Grill ( Safety Grill ) Price ₹350-450/sqft 2026 | Instant Quote | Woodenmax</g:title>
+    <g:description>Aluminium window grill price ₹350-450/sqft. Rust-proof, lightweight, customizable designs. Live calculator for instant quotes. 2026 rates India. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/grills/aluminium-window-grills</g:link>
+    <g:image_link>https://woodenmax.in/images/products/Grills/aluminium-window-grill-design-modern.webp</g:image_link>
+    <g:price>350.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>502973</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Safety Grills</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>grills</g:custom_label_0>
+    <g:custom_label_1>budget</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>balcony-safety-grills</g:id>
+    <g:title>Balcony Safety Grill ( Balcony Grill Design ) Price ₹400-550/sqft 2026 | Live Calculator | Woodenmax</g:title>
+    <g:description>Balcony safety grill price ₹400-550/sqft. Child-safe, pet-safe aluminium grills for high-rise balconies. Live calculator for instant quotes. 2026 rates. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/grills/balcony-safety-grills</g:link>
+    <g:image_link>https://woodenmax.in/images/products/Grills/aluminium-child-safety-balcony-grill.webp</g:image_link>
+    <g:price>400.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>502973</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Safety Grills</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>grills</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>grills</g:id>
+    <g:title>Aluminium &amp; Iron Grill Price ₹200-600/sqft (2026) | Compare 5 Types | Woodenmax</g:title>
+    <g:description>Aluminium grill price ₹200-600/sqft. Compare 5 types: window grills, balcony safety, iron, staircase. Live calculator for instant quotes. 2026 rates. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/grills</g:link>
+    <g:image_link>https://woodenmax.in/images/products/Grills/aluminium-window-grill-design-modern.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Grills/aluminium-child-safety-balcony-grill.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Grills/window%20grill%20design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Grills/aluminium%20grill%20fabricators%20near%20me.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Grills/safety%20grill%20for%20balcony%20with%20children.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Grills/aluminium%20balcony%20grill%20price%20per%20sqft.webp</g:additional_image_link>
+    <g:price>200.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>502973</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Safety Grills</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>grills</g:custom_label_0>
+    <g:custom_label_1>budget</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>iron-safety-grills</g:id>
+    <g:title>Iron Grill ( Iron Window Grill ) Price ₹200-300/sqft 2026 | Instant Quote | Woodenmax</g:title>
+    <g:description>Iron grill price ₹200-300/sqft. Traditional iron safety grills with ornamental designs. Budget-friendly, high strength. Live calculator. 2026 rates India. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/grills/iron-safety-grills</g:link>
+    <g:image_link>https://woodenmax.in/images/products/Grills/aluminium%20grill%20fabricators%20near%20me.webp</g:image_link>
+    <g:price>200.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>502973</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Safety Grills</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>grills</g:custom_label_0>
+    <g:custom_label_1>budget</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>staircase-balustrade-grills</g:id>
+    <g:title>Staircase Grill ( Staircase Railing ) Price ₹450-600/sqft 2026 | Price Calculator | Woodenmax</g:title>
+    <g:description>Staircase balustrade grill price ₹450-600/sqft. Premium aluminium balustrades for staircases and ramps. Elegant designs, maximum safety. Live calculator. 2026. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/grills/staircase-balustrade-grills</g:link>
+    <g:image_link>https://woodenmax.in/images/products/Grills/safety%20grill%20for%20balcony%20with%20children.webp</g:image_link>
+    <g:price>450.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>502973</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Safety Grills</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>grills</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>window-safety-grills</g:id>
+    <g:title>Window Safety Grill ( Aluminium Grill ) Price ₹300-400/sqft 2026 | Price Calculator | Woodenmax</g:title>
+    <g:description>Window safety grill price ₹300-400/sqft. Heavy-duty aluminium grills for ground floor security. Thick profiles, reinforced joints. Live calculator. 2026 rates. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/grills/window-safety-grills</g:link>
+    <g:image_link>https://woodenmax.in/images/products/Grills/window%20grill%20design.webp</g:image_link>
+    <g:price>300.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>502973</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Safety Grills</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>grills</g:custom_label_0>
+    <g:custom_label_1>budget</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>2-track-aluminium-window-price</g:id>
+    <g:title>2 Track Aluminium Window Price ₹1200–1400/sqft (2026) + Calculator | WoodenMax</g:title>
+    <g:description>2 track aluminium sliding window price India 2026. ₹/sqft range, live size calculator, glass &amp; hardware breakdown. Compare tracks &amp; get quote. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/2-track-aluminium-window-price</g:link>
+    <g:image_link>https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/budget-aluminium-window-2-track-design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-window-frame-glass-detail.webp</g:additional_image_link>
+    <g:price>1200.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>2-track-french-sliding-door</g:id>
+    <g:title>2 Track Aluminium Sliding Door ( Sliding Window ) ₹1850-2250/sqft 2026 Price | Woodenmax</g:title>
+    <g:description>2 track aluminium sliding door price ₹1850-2250/sqft. Glass arch panel, imported hardware, 10-year warranty. Live calculator for instant quote. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/2track%20hardwares%20pic/2track-sliding-window-inside.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/2track%20hardwares%20pic/Aluminium-sliding-window-outside.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/2track%20hardwares%20pic/handle-sliding-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/2track%20hardwares%20pic/mortise-window-lock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/2track%20hardwares%20pic/touch-type-lock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/2track%20hardwares%20pic/touch-type-window-lock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:additional_image_link>
+    <g:price>1850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>3-track-sliding-window</g:id>
+    <g:title>Aluminium 3 Track Sliding Window with Mesh ( 27mm Series ) ₹550-950/sqft 2026 Price | Woodenmax</g:title>
+    <g:description>Aluminium 3 track sliding window with mesh price ₹550-950/sqft (2 track ₹550-850, 3 track with mesh ₹650-950). 27mm Domal aluminium series, live price calculator. India Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/3-track-sliding-window</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/3track-sliding-window/inside-sliding-window-maximum-opning.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/3track-sliding-window/outside-sliding-window-with-mess.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/3track-sliding-window/tranding-sliding-window-handle-lock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/3track-sliding-window/small-luxury-type-sliding-window-lock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/3track-sliding-window/touch-type-lock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/3track-sliding-window/touch-type-window-lock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</g:additional_image_link>
+    <g:price>550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>4-track-sliding-window-price</g:id>
+    <g:title>4 Track Aluminium Sliding Window Price ₹650–1200/sqft (2026) | Calculator | Woodenmax</g:title>
+    <g:description>4 track aluminium sliding window price guide India. Multi-panel sliding cost, mesh options, live Domal-series calculator — upgrade path to premium 29mm. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/4-track-sliding-window-price</g:link>
+    <g:image_link>https://woodenmax.in/images/products/4%20Track%20Sliding%20Window/4-track-aluminium-sliding-window-wide-opening.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/4%20Track%20Sliding%20Window/4-track-window-design-living-room.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/4%20Track%20Sliding%20Window/multi-track-aluminium-window-system.webp</g:additional_image_link>
+    <g:price>650.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-casement-window-price</g:id>
+    <g:title>Aluminium Casement Window Price ₹750–1050/sqft (2026) + Calculator | WoodenMax</g:title>
+    <g:description>Aluminium casement window price India — outward opening, mesh &amp; multipoint options. Live calculator, cost breakdown, vs sliding comparison. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-casement-window-price</g:link>
+    <g:image_link>https://woodenmax.in/images/products/Casement%20Window/modern-casement-window-home.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Casement%20Window/aluminium-casement-window-open-style.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Casement%20Window/casement-window-side-hinged-design.webp</g:additional_image_link>
+    <g:price>750.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-sliding-window</g:id>
+    <g:title>Aluminium Sliding Window ( Premium 2 Track Window ) ₹1200-1400/sqft 2026 | Instant Quote | Woodenmax</g:title>
+    <g:description>Premium 29mm 2-track aluminium sliding window — live sqft calculator, ₹1200–1400/sqft India reference, mesh &amp; DGU options, imported hardware. English specs &amp; instant budget estimate. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-window-pic/sliding-window-with-mosqutonett.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-window-pic/balcony-sliding-window-slim-interlock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-window-pic/handle-sliding-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-window-pic/luxuty-slim-handle-lock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-window-pic/touch-type-window-lock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</g:additional_image_link>
+    <g:price>1200.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-system-window-price</g:id>
+    <g:title>Aluminium System Window Price ₹1180–2680/sqft (2026) | WoodenMax</g:title>
+    <g:description>Aluminium system window price in India 2026: brand-grade profiles, DGU options, and realistic ₹/sqft bands for premium facades. Live 30mm system sliding calculator + expert quote. Certified system window packages in India for this topic are often planned between ₹1180 and ₹2680 per sq.ft (2026, b… Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-system-window-price</g:link>
+    <g:image_link>https://woodenmax.in/images/products/Aluminium%20System%20Window%20Price/aluminium-system-window-modern-design.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Aluminium%20System%20Window%20Price/system-window-frame-detail-premium.webp</g:additional_image_link>
+    <g:price>1180.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-window-price-bangalore</g:id>
+    <g:title>Aluminium Window Price in Bengaluru 2026 | ₹550-2250/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Bengaluru from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-bangalore</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/bangalore-hero.webp</g:image_link>
+    <g:price>550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-window-price-chandigarh</g:id>
+    <g:title>Aluminium Window Price in Chandigarh 2026 | ₹550-2250/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Chandigarh from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Transparent transport pricing. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-chandigarh</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/chandigarh-hero.webp</g:image_link>
+    <g:price>550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-window-price-delhi</g:id>
+    <g:title>Aluminium Window Price in Delhi NCR 2026 | ₹550-2250/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Delhi NCR from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Transparent transport pricing. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-delhi</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/delhi-hero.webp</g:image_link>
+    <g:price>550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-window-price-hyderabad</g:id>
+    <g:title>Aluminium Window Price in Hyderabad (2026) ₹/sqft + Calculator | WoodenMax</g:title>
+    <g:description>Aluminium window price in Hyderabad — local intent guide, typical ₹/sqft bands, installation notes, and live calculator. Template you can copy for other cities. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-hyderabad</g:link>
+    <g:image_link>https://woodenmax.in/images/products/City%20Price%20Page/window-project-site-installation.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/City%20Price%20Page/best-aluminium-window-for-home-design.webp</g:additional_image_link>
+    <g:price>869.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-window-price-mumbai</g:id>
+    <g:title>Aluminium Window Price in Mumbai 2026 | ₹550-2250/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Mumbai from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-mumbai</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/mumbai-hero.webp</g:image_link>
+    <g:price>550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-window-price-pune</g:id>
+    <g:title>Aluminium Window Price in Pune 2026 | ₹550-2250/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Pune from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-pune</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/pune-hero.webp</g:image_link>
+    <g:price>550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-window-price-vijayawada</g:id>
+    <g:title>Aluminium Window Price in Vijayawada 2026 | ₹550-2250/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Vijayawada from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-vijayawada</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/vijayawada-hero.webp</g:image_link>
+    <g:price>550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-window-price-visakhapatnam</g:id>
+    <g:title>Aluminium Window Price in Visakhapatnam 2026 | ₹550-2250/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Visakhapatnam from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-visakhapatnam</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/visakhapatnam-hero.webp</g:image_link>
+    <g:price>550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-window-price-warangal</g:id>
+    <g:title>Aluminium Window Price in Warangal 2026 | ₹550-2250/sqft | WoodenMax</g:title>
+    <g:description>Live aluminium window price in Warangal from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/aluminium-window-price-warangal</g:link>
+    <g:image_link>https://woodenmax.in/images/cities/warangal-hero.webp</g:image_link>
+    <g:price>550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-windows</g:id>
+    <g:title>Aluminium Window Price ₹550-2250/sqft (2026) | Compare 9 Types | Woodenmax</g:title>
+    <g:description>Aluminium window price ₹550-2250/sqft. Compare 9 types: sliding, casement, French door, slim entrance. Live calculator for instant quotes. 2026 rates. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slim%20aluminium%20window/slim-profile-window-modern-elevation.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Aluminium%20System%20Window%20Price/aluminium-system-window-modern-design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/What%20is%20System%20Window/system-window-components-breakdown.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/System%20vs%20Normal%20Window/system-window-vs-normal-window-comparison.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/System%20Window%20Brands/aluminium-system-window-brands-india.webp</g:additional_image_link>
+    <g:price>550.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>french-door-georgian-bar</g:id>
+    <g:title>Luxury Aluminium French Door for Balcony &amp; Entrance ₹1850-2250/sqft 2026 | Instant Quote | Woodenmax</g:title>
+    <g:description>Luxury aluminium french door price ₹1850-2250/sqft. Openable glass door for balcony, living room &amp; villa entrance; toughened glass, slim profile. Available with Georgian bar styling. Live calculator for instant quote. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/french-door-georgian-bar</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/outside-georgian-bar-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/french-doors-lock-handle.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/doors-invisible-lock-latch.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/slim-aluminium-profile-door-design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/Minimalist%20Black%20Aluminium%20System%20Window%20Design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/Custom-Made%20Aluminium%20System%20Window%20Installation.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</g:additional_image_link>
+    <g:price>1850.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>georgian-grill-casement-door</g:id>
+    <g:title>Luxury Aluminium Casement Door for Balcony &amp; Entrance ₹1350-1850/sqft 2026 Price | Woodenmax</g:title>
+    <g:description>Luxury aluminium casement door price ₹1350-1850/sqft. Openable aluminium door for balcony, entrance and kitchen; 40mm profile, multipoint lock, toughened glass. Available with Georgian grill styling. Live price calculator included. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/georgian-grill-casement-door</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/outside-georgian-bar-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/slim-aluminium-profile-door-design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/french-doors-lock-handle.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/doors-invisible-lock-latch.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/Minimalist%20Black%20Aluminium%20System%20Window%20Design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/french-door-georgian-bar-pic/Custom-Made%20Aluminium%20System%20Window%20Installation.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</g:additional_image_link>
+    <g:price>1350.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>slim-aluminium-window-price-luxury</g:id>
+    <g:title>Slim Aluminium Window Price ₹900–1500/sqft (2026) Luxury Series | WoodenMax</g:title>
+    <g:description>Slim aluminium window price for luxury homes &amp; villas. Minimal sightlines, premium coatings, calculator-based estimate and cost breakdown. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/slim-aluminium-window-price-luxury</g:link>
+    <g:image_link>https://woodenmax.in/images/products/slim%20aluminium%20window/slim-aluminium-window-luxury-villa.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slim%20aluminium%20window/minimal-slim-window-frame-design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slim%20aluminium%20window/slim-profile-window-modern-elevation.webp</g:additional_image_link>
+    <g:price>900.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>slim-entrance-glass-door</g:id>
+    <g:title>Slim Entrance Glass Door ( Window ) ₹1350-1850/sqft 2026 Price | Woodenmax</g:title>
+    <g:description>Slim entrance glass door price ₹1350-1850/sqft. 40mm ultra-thin profile, 8mm toughened glass. Live calculator for instant cost estimate. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/slim-entrance-glass-door</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slimline-glass-doors-pic/aluminium-glass-doors-minimal-profiles.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slimline-glass-doors-pic/entrance-glass-door-with-modern-design-mortice-lock.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slimline-glass-doors-pic/Heavy-Duty-System-Window-Frame-with-Toughened-Glass-elevation-doors.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slimline-glass-doors-pic/slim-profile-backyard-doors.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slimline-glass-doors-pic/top-tranding-luxury-design-balcony-glass-doors.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:price>1350.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>slim-system-window-price</g:id>
+    <g:title>Slim System Window Price ₹1350–3000/sqft (2026) | WoodenMax</g:title>
+    <g:description>Slim system aluminium window price: minimal sight lines, 2026 India ₹/sqft for luxury villas, and premium casement-based calculator. Compare vs standard 29mm stacks. Certified system window packages in India for this topic are often planned between ₹1350 and ₹3000 per sq.ft (2026, before GST). Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/slim-system-window-price</g:link>
+    <g:image_link>https://woodenmax.in/images/products/Slim%20System%20Window/slim-system-window-luxury-villa.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/Slim%20System%20Window/minimal-slim-window-frame-profile.webp</g:additional_image_link>
+    <g:price>1350.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>slimline-aluminium-window</g:id>
+    <g:title>Slimline Aluminium Window ( Slim Profile Window ) ₹900-1400/sqft 2026 | Price Calculator | Woodenmax</g:title>
+    <g:description>Slimline aluminium window price ₹900-1400/sqft. Black powder coating, Hindalco profiles, Saint-Gobain glass. Get a quote via enquiry form on this page. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slimline-profile-window-pic/woodenmax-profiles-windows-glass-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slimline-profile-window-pic/High-Quality%20Entrance%20Glass%20Wall%20%E2%80%93%20Clear%20View%20Design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slimline-profile-window-pic/Clear%20Glass%20Hinged%20Door%20%E2%80%93%20Stylish%20Entrance%20Design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slimline-profile-window-pic/Modern%20Entrance%20Glass%20Panel%20for%20Home%20Entry.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/slimline-profile-window-pic/slim_security_glass_window_white_canopy_hpl_cladding_lucknow.JPG</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</g:additional_image_link>
+    <g:price>900.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>system-casement-window-price</g:id>
+    <g:title>System Casement Window Price ₹1280–2920/sqft (2026) | WoodenMax</g:title>
+    <g:description>Aluminium system casement window price in India: hinges, multipoint, wind load, and 2026 ₹/sqft ranges. Live premium casement calculator for vent-heavy facades. Certified system window packages in India for this topic are often planned between ₹1280 and ₹2920 per sq.ft (2026, before GST). Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/system-casement-window-price</g:link>
+    <g:image_link>https://woodenmax.in/images/products/System%20Casement%20Window/system-casement-window-open-style.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/System%20Casement%20Window/premium-casement-window-hinge-detail.webp</g:additional_image_link>
+    <g:price>1280.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>system-sliding-window-price</g:id>
+    <g:title>System Sliding Window Price ₹1200–2780/sqft (2026) | WoodenMax</g:title>
+    <g:description>System sliding window price in India 2026: large openings, track hardware, and realistic ₹/sqft for premium 29mm class. Live sliding calculator and quote path. Certified system window packages in India for this topic are often planned between ₹1200 and ₹2780 per sq.ft (2026, before GST). Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/system-sliding-window-price</g:link>
+    <g:image_link>https://woodenmax.in/images/products/System%20Sliding%20Window/system-sliding-window-large-opening.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/System%20Sliding%20Window/system-sliding-window-large-sliding-opening.webp</g:additional_image_link>
+    <g:price>1200.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>top-hung-casement-window</g:id>
+    <g:title>Aluminium Top Hung Casement Window ( Openable Window ) ₹750-1050/sqft 2026 Price | Woodenmax</g:title>
+    <g:description>Top hung casement window price ₹750-1050/sqft. 40mm outward opening, multipoint lock, mesh option. Live calculator for instant quote. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/aluminium-windows/top-hung-casement-window</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-windows/top-hung-aluminium-casement-window.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/top-hung-casment-window-pic/top-hung-aluminium-casement-window-lucknow.JPG</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/top-hung-casment-window-pic/kitchen-casments-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/top-hung-casment-window-pic/backyard-opnable-window.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/top-hung-casment-window-pic/aluminium-profile-corner-window-fix.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/top-hung-casment-window-pic/aluminium-profile-door-modern-design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/top-hung-casment-window-pic/woodenmax-profiles-windows-glass-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp</g:additional_image_link>
+    <g:price>750.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>124</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Building Materials &gt; Windows</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>aluminium-windows</g:custom_label_0>
+    <g:custom_label_1>mid</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>aluminium-pergola</g:id>
+    <g:title>Aluminium Pergola Price per Sq Ft in India (2026) | Powder Coated Glass-Roof Terrace Structure | WoodenMax</g:title>
+    <g:description>Aluminium pergola price India 2026 — 10x12 ft ₹1,80,000–₹2,10,000; 15x15 ft ₹3,35,000–₹3,95,000; 20x20 ft ₹6,00,000–₹7,00,000. 6063-T6 glass-roof terrace pergola with toughened/laminated glass, polycarbonate option &amp; powder coating. Live calculator for exact BOQ. Hyderabad, Delhi, Bangalore &amp; pan-India. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/pergola/aluminium-pergola</g:link>
+    <g:image_link>https://woodenmax.in/images/products/aluminium-pergola/glass-pergola-manufacturer.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-pergola/luxury-wood-glass-roof-pergola-design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-pergola/luxury-wooden-glass-terrace-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-pergola/modern-outdoor-glass-structure.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-pergola/motorized-glass-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/aluminium-pergola/terrece-luxury-glass-pergola.webp</g:additional_image_link>
+    <g:price>180000.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>703</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Outdoor Living &gt; Pergolas</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>pergola</g:custom_label_0>
+    <g:custom_label_1>luxury</g:custom_label_1>
+    <g:custom_label_2>project</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>glass-skylight</g:id>
+    <g:title>Glass Roof Pergola Price in India (2026) | Toughened &amp; Laminated Glass Pergola Structure | WoodenMax</g:title>
+    <g:description>Glass skylight pergola price India 2026 — 10x12 ft ₹2,40,000–₹2,90,000; 15x15 ft ₹4,50,000–₹5,40,000; 20x20 ft ₹8,00,000–₹9,65,000. Toughened &amp; laminated 6+6 glass skylight &amp; atrium roof, aluminium kerb, EPDM seals. Live ₹/sqft calculator for structure + glazing. Hyderabad, Delhi, Bangalore, pan-India. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/pergola/glass-skylight</g:link>
+    <g:image_link>https://woodenmax.in/images/products/skylight/automatic-roof-system-manufacturer.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/skylight/automatic-skylight-system.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/skylight/skylight-installation-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/skylight/skylight-roof-hyderabad.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/skylight/skylight-roof-system.webp</g:additional_image_link>
+    <g:price>240000.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>703</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Outdoor Living &gt; Pergolas</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>pergola</g:custom_label_0>
+    <g:custom_label_1>luxury</g:custom_label_1>
+    <g:custom_label_2>project</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>profile-iron-canopy</g:id>
+    <g:title>Iron Pergola &amp; Heavy Canopy Price per Sq Ft (2026) | Steel &amp; Aluminium Entrance | WoodenMax</g:title>
+    <g:description>Iron pergola &amp; canopy price in India: MS/steel and aluminium structures for entrance, parking, rooftop. Glass or polycarbonate roof from live calculator. Hyderabad, Delhi, pan-India. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/pergola/profile-iron-canopy</g:link>
+    <g:image_link>https://woodenmax.in/images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-and-iron-canopy/iron-pergola-terrece-design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-and-iron-canopy/luxury-wooden-car-parking-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-and-iron-canopy/modern-aluminium-polycarbonate-coffy-bar-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-and-iron-canopy/rooftop-pergola-canopy-structure.webp</g:additional_image_link>
+    <g:price>1500.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>703</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Outdoor Living &gt; Pergolas</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>pergola</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>profile-pergola</g:id>
+    <g:title>Terrace Pergola Price per Sq Ft in India (2026) | Aluminium Louver Profile Pergola | WoodenMax</g:title>
+    <g:description>Terrace pergola price &amp; design: aluminium profile louver pergola with glass or polycarbonate roof, powder coating. Live ₹/sqft calculator. Cafés, villas, modern terrace pergola India. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/pergola/profile-pergola</g:link>
+    <g:image_link>https://woodenmax.in/images/products/profile-pergola/aluminium-pergola-hyderabad.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-pergola/best-pergola-company-india.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-pergola/custom-aluminium-louvers-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-pergola/decorative-iron-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-pergola/iron-pergola-installation.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/profile-pergola/modern-outdoor-garden-pergola-design.webp</g:additional_image_link>
+    <g:price>1500.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>703</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Outdoor Living &gt; Pergolas</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>pergola</g:custom_label_0>
+    <g:custom_label_1>premium</g:custom_label_1>
+    <g:custom_label_2>sqft</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
+  </entry>
+  <entry>
+    <g:id>retractable-pergola</g:id>
+    <g:title>Motorized Pergola Roof Price in India (2026) | Retractable Sliding Aluminium Automatic System | WoodenMax</g:title>
+    <g:description>Retractable motorized pergola price in India 2026 — 10x12 ft ₹3,50,000–₹4,50,000; 15x15 ft ₹6,55,000–₹8,45,000; 20x20 ft ₹11,65,000–₹15,00,000. Aluminium sliding louvered roof, BLDC motor drive, rain &amp; wind sensors, powder coating. Live calculator for exact BOQ by size. Indicative ₹/sq.ft from Woodenmax live calculators (taxes per final quote). Final BOQ after site verification.</g:description>
+    <g:link>https://woodenmax.in/products/pergola/retractable-pergola</g:link>
+    <g:image_link>https://woodenmax.in/images/products/retractble-pergola/automatic-pergola.webp</g:image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/retractble-pergola/folding-pergola-system.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/retractble-pergola/motorized-rooftop-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/retractble-pergola/sliding-roof-pergola.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/retractble-pergola/villa-pergola-design.webp</g:additional_image_link>
+    <g:additional_image_link>https://woodenmax.in/images/products/retractble-pergola/waterproof-retractable-pergola.webp</g:additional_image_link>
+    <g:price>350000.00 INR</g:price>
+    <g:availability>in stock</g:availability>
+    <g:condition>new</g:condition>
+    <g:brand>Woodenmax</g:brand>
+    <g:identifier_exists>no</g:identifier_exists>
+    <g:google_product_category>703</g:google_product_category>
+    <g:product_type>Home &amp; Garden &gt; Outdoor Living &gt; Pergolas</g:product_type>
+    <g:shipping>
+      <g:country>IN</g:country>
+      <g:service>Standard</g:service>
+      <g:price>0.00 INR</g:price>
+    </g:shipping>
+    <g:custom_label_0>pergola</g:custom_label_0>
+    <g:custom_label_1>luxury</g:custom_label_1>
+    <g:custom_label_2>project</g:custom_label_2>
+    <g:custom_label_3>live-calculator</g:custom_label_3>
+    <g:custom_label_4>2026</g:custom_label_4>
   </entry>
 </feed>
