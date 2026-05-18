@@ -3,10 +3,24 @@ module.exports.pageConfig = {
   silo: 'eeat',
   out:  'about/team-leadership.html',
   canonical: '/about/team-leadership',
-  title: 'WoodenMax Team & Leadership | Engineers, Project Managers, Service Network',
-  description: 'Meet the WoodenMax leadership team and the engineering, fabrication, design and service network behind 1,000+ premium projects across 14 Indian cities.',
-  ogImage: 'https://woodenmax.in/images/eeat/team-hero.webp',
+  title: 'WoodenMax Team & Leadership | Naseem Ahmad + 60-person Crew',
+  description: 'Meet the WoodenMax leadership team led by founder Naseem Ahmad — 60 people across factory, engineering, fabrication, design, sales and a 14-city service network behind 1,000+ premium projects.',
+  ogImage: 'https://woodenmax.in/images/Founder-Naseem.webp',
   schemaType: 'AboutPage',
+  // Real-named-author signal (founder is also the author/spokesperson)
+  person: {
+    name:        'Naseem Ahmad',
+    givenName:   'Naseem',
+    familyName:  'Ahmad',
+    jobTitle:    'Founder &amp; Managing Partner, WoodenMax Architectural Elements',
+    description: 'Founder of WoodenMax Architectural Elements. Leads a 60-person team across the Hyderabad factory, multi-city field-service network and the design + sales bench.',
+    image:       '/images/Founder-Naseem.webp',
+    url:         'https://woodenmax.in/about/founder-story-woodenmax',
+    worksFor: {
+      name: 'WoodenMax Architectural Elements',
+      url:  'https://woodenmax.in'
+    }
+  },
   breadcrumb: [
     { label: 'Home',  href: '/' },
     { label: 'About', href: '/about/' },
@@ -14,11 +28,12 @@ module.exports.pageConfig = {
   ],
   h1: 'Team &amp; leadership',
   hero: {
-    sub: 'A 60-person team across factory, design, sales and field service. Average tenure 6.4 years. This is the human layer behind your window.',
+    sub: 'A 60-person team across factory, design, sales and field service — led by founder Naseem Ahmad since 2014. Average tenure 6.4 years. This is the human layer behind your window.',
     image: {
-      src: '../images/eeat/team-hero.webp',
-      alt: 'WoodenMax team on factory floor — placeholder',
-      real: true,
+      src: '../images/Founder-Naseem.webp',
+      alt: 'Naseem Ahmad — Founder of WoodenMax Architectural Elements, leading a 60-person team',
+      caption: 'Naseem Ahmad · Founder &amp; Managing Partner · WoodenMax Architectural Elements',
+      credit:  'Wider team photoshoot scheduled for July 2026',
       w: 1200, h: 750
     },
     points: [
@@ -32,16 +47,26 @@ module.exports.pageConfig = {
     {
       heading: 'Leadership',
       cards: [
-        { icon: 'F', title: 'Founder &amp; CEO', body: 'Mechanical engineer turned entrepreneur. 12 years in aluminium fabrication. Personally signs off on every B2B project &gt; ₹15 L.' },
-        { icon: 'O', title: 'Head of Operations', body: 'Joined 2016. Runs the factory, the QC lab, vendor management and capacity planning. Owns the 18–25 day SLA.' },
-        { icon: 'E', title: 'Head of Engineering', body: 'Joined 2017. Owns shop drawings, system development, wind-load qualification, and the materials database.' },
+        {
+          photo: {
+            src: '../images/Founder-Naseem.webp',
+            alt: 'Naseem Ahmad — Founder of WoodenMax Architectural Elements',
+            w: 480, h: 480
+          },
+          title:    'Naseem Ahmad',
+          subtitle: 'Founder &amp; Managing Partner',
+          body:    '12+ years hands-on in aluminium fabrication. Started WoodenMax in 2014 from a 2,400 sq ft shed in Madinaguda, Hyderabad. Personally signs off on every B2B project &gt; ₹15 L and reads every escalation email within 24 hours.',
+          meta:    '<a href="../about/founder-story-woodenmax">Read the full founder story &rarr;</a>'
+        },
+        { icon: 'O', title: 'Head of Operations',                   body: 'Joined 2016. Runs the factory, the QC lab, vendor management and capacity planning. Owns the 18–25 day SLA.' },
+        { icon: 'E', title: 'Head of Engineering',                  body: 'Joined 2017. Owns shop drawings, system development, wind-load qualification, and the materials database.' },
         { icon: 'S', title: 'Head of Sales &amp; Customer Success', body: 'Joined 2019. Owns inbound enquiry conversion, B2B account management, and CSAT.' },
-        { icon: 'X', title: 'Head of Service', body: 'Joined 2018. Runs the multi-city engineer network, AMC contracts, and the warranty-claim resolution SLA.' }
+        { icon: 'X', title: 'Head of Service',                      body: 'Joined 2018. Runs the multi-city engineer network, AMC contracts, and the warranty-claim resolution SLA.' }
       ],
       callout: {
         tone: 'info',
-        title: 'Real photos coming after photoshoot',
-        body: 'We are scheduling a professional shoot for July 2026. Until then, the leadership cards above are placeholders. You can request a 30-minute introduction call with any team member — write to <a href="mailto:info@woodenmax.com">info@woodenmax.com</a>.'
+        title: 'Want to talk directly to the team?',
+        body: 'For the founder, write to <a href="mailto:info@woodenmax.com">info@woodenmax.com</a> with subject "Friday call" + your number (Fridays 4–6 PM IST). For any department head, request a 30-minute introduction call via the same address.'
       }
     },
     {

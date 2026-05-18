@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -81,8 +81,15 @@
     "alternateName": "WoodenMax Architectural Elements",
     "url": "https://woodenmax.in",
     "logo": "https://woodenmax.in/images/woodenmax-logo.png",
-    "description": "Premium window and facade systems manufacturer in Hyderabad, Delhi, Bangalore, Pune, Jaipur. 15+ years experience, 500+ projects, 10-year warranty.",
-    "foundingDate": "2010",
+    "description": "Premium window and facade systems manufacturer in Hyderabad, Delhi, Bangalore, Pune, Jaipur. Founded 2014 by Naseem Ahmad. 1,000+ projects, 10-year warranty.",
+    "foundingDate": "2014",
+    "founder": {
+      "@type": "Person",
+      "name": "Naseem Ahmad",
+      "jobTitle": "Founder & Managing Partner",
+      "image": "https://woodenmax.in/images/Founder-Naseem.webp",
+      "url": "https://woodenmax.in/about/founder-story-woodenmax"
+    },
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "5-6-411/413, Aaghapura, Nampally",
@@ -446,8 +453,8 @@
   <link rel="preload" href="images/woodenmax-logo.png" as="image" />
   
   <!-- Fonts with optimized loading (async) -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet"></noscript>
   
   <!-- Critical CSS (Inline for faster render) -->
   <style>
@@ -481,6 +488,17 @@
   .btn-outline{background:transparent;color:#1E40AF;border:2px solid #1E40AF}
   .section-label{color:#1E40AF;letter-spacing:0.2em;text-transform:uppercase;font-size:0.875rem;margin-bottom:0.5rem;display:block}
   .section-title{font-size:2rem;margin-bottom:1rem;font-family:var(--font-serif);color:#0F172A}
+  .founder-strip{padding:3.25rem 0;background:linear-gradient(180deg,#FFFCF4 0%,#FFFAF0 100%);border-top:1px solid rgba(184,137,61,.18);border-bottom:1px solid rgba(184,137,61,.18)}
+  .founder-strip-inner{display:grid;grid-template-columns:1fr;gap:1.5rem;align-items:center;text-align:center}
+  .founder-strip-photo{display:inline-block;width:128px;height:128px;border-radius:50%;overflow:hidden;border:4px solid #FFFFFF;box-shadow:0 10px 28px rgba(15,23,42,.18),0 0 0 2px rgba(184,137,61,.55);margin:0 auto;background:#F1F5F9;text-decoration:none}
+  .founder-strip-photo img{width:100%;height:100%;object-fit:cover;object-position:center 22%;display:block}
+  .founder-strip-eyebrow{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#B8893D;margin-bottom:.5rem}
+  .founder-strip-quote{font-family:'Cormorant Garamond','Playfair Display',Georgia,serif;font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.55;color:#0F172A;font-style:italic;margin:.25rem 0 1rem;max-width:780px;margin-left:auto;margin-right:auto}
+  .founder-strip-sig{display:flex;flex-direction:column;gap:.18rem;font-size:.85rem;color:#475569;margin-bottom:.85rem}
+  .founder-strip-sig strong{font-size:1rem;color:#0F172A;font-weight:700;letter-spacing:.01em}
+  .founder-strip-link{display:inline-flex;align-items:center;gap:.4rem;color:#B8893D;font-weight:600;font-size:.88rem;text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s ease}
+  .founder-strip-link:hover{border-bottom-color:#B8893D}
+  @media (min-width:768px){.founder-strip-inner{grid-template-columns:160px 1fr;gap:2.4rem;text-align:left}.founder-strip-photo{margin:0;width:160px;height:160px}.founder-strip-sig{flex-direction:row;gap:.5rem;align-items:center}.founder-strip-quote{margin-left:0}}
   .about-section{padding:6rem 0;background:#F8F9FA}
   .about-grid{display:grid;grid-template-columns:1fr;gap:4rem;align-items:center}
   .about-text{color:#222222;font-size:1.125rem;line-height:1.75;margin-bottom:1.5rem}
@@ -861,6 +879,37 @@
               </div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FROM THE FOUNDER — EEAT TRUST STRIP
+       Real human author signal · linked to founder story
+       ============================================ -->
+  <section class="founder-strip" aria-label="From the founder">
+    <div class="container">
+      <div class="founder-strip-inner">
+        <a href="about/founder-story-woodenmax" class="founder-strip-photo" aria-label="Read the WoodenMax founder story">
+          <img src="images/Founder-Naseem.webp"
+               alt="Naseem Ahmad — Founder of WoodenMax Architectural Elements, photographed at the Hyderabad factory"
+               width="160" height="160" loading="lazy" decoding="async">
+        </a>
+        <div class="founder-strip-body">
+          <span class="founder-strip-eyebrow">From the founder</span>
+          <p class="founder-strip-quote">
+            &ldquo;Every quote you see on this site is a real engineering number — not a guess.
+            Since 2014 I have personally signed off on every B2B project above &#8377;15&#160;L
+            and read every escalation email myself within 24 hours.&rdquo;
+          </p>
+          <div class="founder-strip-sig">
+            <strong>Naseem Ahmad</strong>
+            <span>Founder &amp; Managing Partner &middot; WoodenMax Architectural Elements</span>
+          </div>
+          <a class="founder-strip-link" href="about/founder-story-woodenmax">Read the full founder story
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
         </div>
       </div>
     </div>

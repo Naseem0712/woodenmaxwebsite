@@ -434,7 +434,15 @@
       'url': BRAND.url,
       'logo': BRAND.logo,
       'foundingDate': '2014',
-      'founder': { '@type': 'Person', 'name': 'WoodenMax founder' },
+      'founder': {
+        '@type': 'Person',
+        '@id':  BRAND.url + '/about/founder-story-woodenmax#person',
+        'name': 'Naseem Ahmad',
+        'jobTitle': 'Founder & Managing Partner',
+        'image': BRAND.url + '/images/Founder-Naseem.webp',
+        'url':   BRAND.url + '/about/founder-story-woodenmax',
+        'sameAs': [ BRAND.url + '/about/founder-story-woodenmax' ]
+      },
       'numberOfEmployees': { '@type': 'QuantitativeValue', 'value': 60 },
       'slogan': 'Premium architectural aluminium — transparent price, German hardware, 10-year warranty',
       'contactPoint': [

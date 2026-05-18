@@ -3,32 +3,89 @@ module.exports.pageConfig = {
   silo: 'eeat',
   out:  'about/founder-story-woodenmax.html',
   canonical: '/about/founder-story-woodenmax',
-  title: 'Why WoodenMax Exists | Founder Story | The 2014 Origin',
-  description: 'The founding story of WoodenMax — how a 2014 frustration with sub-par aluminium fabrication in Hyderabad turned into a 28,000 sq ft factory serving 14 cities and 1,000+ premium projects.',
-  ogImage: 'https://woodenmax.in/images/eeat/founder-hero.webp',
+  title: 'Naseem Ahmad — Founder of WoodenMax | The 2014 Origin Story',
+  description: 'Meet Naseem Ahmad, founder of WoodenMax Architectural Elements. How a 2014 frustration with sub-par aluminium fabrication in Hyderabad turned into a factory serving 14 cities, 1,000+ premium projects and 10–12 live sites at any given time.',
+  ogImage: 'https://woodenmax.in/images/Founder-Naseem.webp',
   schemaType: 'AboutPage',
+  // Real-named-author signal for Google EEAT — emitted as a separate
+  // Person JSON-LD block and inlined into the Article author field.
+  person: {
+    name:        'Naseem Ahmad',
+    givenName:   'Naseem',
+    familyName:  'Ahmad',
+    jobTitle:    'Founder, WoodenMax Architectural Elements',
+    description: 'Founder of WoodenMax Architectural Elements — a Hyderabad-based architectural-aluminium manufacturer specialising in slim-profile system windows, structural glazing, shower partitions, pergolas and elevation cladding. 12+ years hands-on aluminium fabrication; personally signs off on every B2B project above ₹15 L.',
+    image:       '/images/Founder-Naseem.webp',
+    url:         'https://woodenmax.in/about/founder-story-woodenmax',
+    worksFor: {
+      name: 'WoodenMax Architectural Elements',
+      url:  'https://woodenmax.in'
+    },
+    knowsAbout: [
+      'Architectural Aluminium Fabrication',
+      'System Windows',
+      'Structural Glazing',
+      'Powder Coating (Qualicoat)',
+      'CNC Manufacturing',
+      'Facade Engineering',
+      'Frameless Shower Partitions',
+      'Aluminium Pergolas',
+      'HPL & ACP Elevation Cladding',
+      'Glass Railings'
+    ],
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress:    '5-6-411/413, Aaghapura',
+      addressLocality:  'Nampally, Hyderabad',
+      addressRegion:    'Telangana',
+      postalCode:       '500001',
+      addressCountry:   'IN'
+    },
+    nationality: 'Indian'
+  },
   breadcrumb: [
     { label: 'Home',  href: '/' },
     { label: 'About', href: '/about/' },
     { label: 'Founder story' }
   ],
-  h1: 'The origin of WoodenMax',
+  h1: 'Naseem Ahmad — The origin of WoodenMax',
   hero: {
-    sub: 'Founded in 2014. 1,000+ premium projects shipped. 14 cities served. Zero outsourced fabrication. This is why.',
+    sub: 'Founded in 2014 by Naseem Ahmad in Hyderabad. 1,000+ premium projects shipped. 14 cities served. Zero outsourced fabrication. This is the story.',
     image: {
-      src: '../images/eeat/founder-hero.webp',
-      alt: 'WoodenMax founder portrait — placeholder for real photo',
-      real: true,
+      src: '../images/Founder-Naseem.webp',
+      alt: 'Naseem Ahmad — Founder of WoodenMax Architectural Elements, photographed at the Hyderabad factory floor',
+      caption: 'Naseem Ahmad · Founder · WoodenMax Architectural Elements · Hyderabad',
+      credit:  'Photographed at our 28,000 sq ft Hyderabad facility, 2025',
       w: 1200, h: 750
     },
     points: [
-      'Founded <strong>2014</strong> in Hyderabad',
-      '<strong>1,000+ premium projects</strong> across India',
-      '<strong>14 cities served</strong>, factory in Hyderabad',
+      'Founded <strong>2014</strong> in Hyderabad by <strong>Naseem Ahmad</strong>',
+      '<strong>1,000+ premium projects</strong> personally signed off',
+      '<strong>14 cities served</strong>, single Hyderabad factory',
       '<strong>10&ndash;12 live projects</strong> handled at any given time'
     ]
   },
   sections: [
+    {
+      heading: 'About Naseem Ahmad',
+      cards: [
+        {
+          photo: {
+            src: '../images/Founder-Naseem.webp',
+            alt: 'Portrait of Naseem Ahmad — Founder of WoodenMax Architectural Elements',
+            w: 480, h: 480
+          },
+          title:    'Naseem Ahmad',
+          subtitle: 'Founder &amp; Managing Partner · WoodenMax Architectural Elements',
+          body:
+            '12+ years hands-on in architectural aluminium fabrication. Started WoodenMax in 2014 from a 2,400 sq ft shed in Madinaguda, Hyderabad. Today personally signs off on every B2B project above &#8377;15&#160;L and reads every escalation email within 24&#160;hours.',
+          meta:
+            '<strong>Based in:</strong> Hyderabad, Telangana &middot; ' +
+            '<strong>Reachable on:</strong> <a href="mailto:info@woodenmax.com">info@woodenmax.com</a> &middot; ' +
+            '<strong>Friday calls:</strong> 4&ndash;6&#160;PM&#160;IST (subject "Friday call")'
+        }
+      ]
+    },
     {
       heading: 'The frustration that started it',
       body:

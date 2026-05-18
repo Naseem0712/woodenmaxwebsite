@@ -107,7 +107,72 @@ function renderFaqJsonLd (faqs) {
   });
 }
 
+function renderPersonJsonLd (person, originUrl) {
+  if (!person) return null;
+  // EEAT — real named human authorship signal for Google.  Used on
+  // founder-story, team-leadership and any blog post authored by a
+  // named individual.
+  var img = person.image || '';
+  if (img && img.indexOf('http') !== 0) {
+    img = originUrl + '/' + img.replace(/^\//, '');
+  }
+  var json = {
+    '@context': 'https://schema.org',
+    '@type':    'Person',
+    'name':     person.name,
+    'givenName':  person.givenName  || (person.name ? person.name.split(' ')[0] : undefined),
+    'familyName': person.familyName || (person.name ? person.name.split(' ').slice(1).join(' ') : undefined),
+    'jobTitle': person.jobTitle,
+    'description': person.description,
+    'image': img || undefined,
+    'worksFor': person.worksFor ? {
+      '@type': 'Organization',
+      'name':  typeof person.worksFor === 'string' ? person.worksFor : person.worksFor.name,
+      'url':   (typeof person.worksFor === 'object' && person.worksFor.url) || originUrl
+    } : undefined,
+    'url': person.url || (originUrl + '/about/founder-story-woodenmax'),
+    'sameAs':     person.sameAs     || undefined,
+    'knowsAbout': person.knowsAbout || undefined,
+    'alumniOf':   person.alumniOf   || undefined,
+    'birthPlace': person.birthPlace || undefined,
+    'nationality': person.nationality || undefined,
+    'address': person.address || undefined
+  };
+  Object.keys(json).forEach(function (k) {
+    if (json[k] == null || json[k] === '') delete json[k];
+  });
+  return JSON.stringify(json);
+}
+
 function renderArticleJsonLd (cfg, originUrl) {
+  // Use the named author (if provided) — stronger EEAT than a faceless
+  // org byline.  Falls back to the organisation otherwise.
+  var author;
+  if (cfg.person && cfg.person.name) {
+    var pImg = cfg.person.image || '';
+    if (pImg && pImg.indexOf('http') !== 0) {
+      pImg = originUrl + '/' + pImg.replace(/^\//, '');
+    }
+    author = {
+      '@type':    'Person',
+      'name':     cfg.person.name,
+      'jobTitle': cfg.person.jobTitle,
+      'url':      cfg.person.url || (originUrl + '/about/founder-story-woodenmax'),
+      'image':    pImg || undefined,
+      'worksFor': {
+        '@type': 'Organization',
+        'name': 'WoodenMax',
+        'url':  'https://woodenmax.in'
+      }
+    };
+    Object.keys(author).forEach(function (k) { if (author[k] == null) delete author[k]; });
+  } else {
+    author = {
+      '@type': 'Organization',
+      'name': 'WoodenMax',
+      'url': 'https://woodenmax.in'
+    };
+  }
   return JSON.stringify({
     '@context': 'https://schema.org',
     '@type': cfg.schemaType || 'Article',
@@ -116,11 +181,7 @@ function renderArticleJsonLd (cfg, originUrl) {
     'image': cfg.ogImage,
     'datePublished': cfg.datePublished || '2026-05-18',
     'dateModified': cfg.lastUpdated || new Date().toISOString().split('T')[0],
-    'author': {
-      '@type': 'Organization',
-      'name': 'WoodenMax',
-      'url': 'https://woodenmax.in'
-    },
+    'author': author,
     'publisher': {
       '@type': 'Organization',
       'name': 'WoodenMax',
@@ -172,10 +233,27 @@ function renderSection (s) {
   if (s.cards) {
     html += '<div class="cluster-cards">' +
             s.cards.map(function (c) {
-              return '<div class="cluster-card">' +
-                       (c.icon ? '<div class="cluster-card-icon">' + c.icon + '</div>' : '') +
-                       (c.title ? '<h3>' + esc(c.title) + '</h3>' : '') +
-                       (c.body  ? '<p>'  + c.body          + '</p>' : '') +
+              var head = '';
+              if (c.photo) {
+                // EEAT — real human photo instead of an alphabet icon
+                var src = c.photo.src || c.photo;
+                var alt = c.photo.alt || (c.title || '') + ' photo';
+                var w   = c.photo.w   || 320;
+                var h   = c.photo.h   || 320;
+                head = '<div class="cluster-card-photo">' +
+                         '<img src="' + esc(src) + '" alt="' + esc(alt) +
+                         '" width="' + w + '" height="' + h +
+                         '" loading="lazy" decoding="async">' +
+                       '</div>';
+              } else if (c.icon) {
+                head = '<div class="cluster-card-icon">' + c.icon + '</div>';
+              }
+              return '<div class="cluster-card' + (c.photo ? ' cluster-card-has-photo' : '') + '">' +
+                       head +
+                       (c.title    ? '<h3>'      + esc(c.title)    + '</h3>'      : '') +
+                       (c.subtitle ? '<div class="cluster-card-subtitle">' + esc(c.subtitle) + '</div>' : '') +
+                       (c.body     ? '<p>'       + c.body          + '</p>'       : '') +
+                       (c.meta     ? '<div class="cluster-card-meta">' + c.meta + '</div>' : '') +
                      '</div>';
             }).join('') +
             '</div>';
@@ -244,6 +322,7 @@ function renderPage (cfg, outRelPath) {
   const crumbJson = renderBreadcrumbJsonLd(cfg.breadcrumb, originUrl, canonical);
   const faqJson   = renderFaqJsonLd(cfg.faqs);
   const articleJson = renderArticleJsonLd(cfg, originUrl);
+  const personJson  = renderPersonJsonLd(cfg.person, originUrl);
 
   const sectionsHtml = (cfg.sections || []).map(renderSection).join('\n');
   const faqHtml = renderFaqHtml(cfg.faqs);
@@ -289,6 +368,7 @@ function renderPage (cfg, outRelPath) {
 '  <script type="application/ld+json">' + crumbJson + '</script>\n' +
 '  <script type="application/ld+json">' + articleJson + '</script>\n' +
 (faqJson ? '  <script type="application/ld+json">' + faqJson + '</script>\n' : '') +
+(personJson ? '  <script type="application/ld+json">' + personJson + '</script>\n' : '') +
 
 '</head>\n' +
 '<body class="cluster-page silo-' + esc(cfg.silo || 'misc') + '">\n' +
@@ -310,7 +390,28 @@ function renderPage (cfg, outRelPath) {
   '      </div>\n' +
   '    </div>\n' +
   '    ' + (cfg.hero && cfg.hero.image
-        ? '<div class="cluster-hero-media"><img src="' + esc(cfg.hero.image.src) + '" alt="' + esc(cfg.hero.image.alt) + '" width="' + (cfg.hero.image.w || 1200) + '" height="' + (cfg.hero.image.h || 750) + '"' + (cfg.hero.image.real ? ' data-real-needed="true"' : '') + '></div>'
+        ? (function () {
+            var im = cfg.hero.image;
+            // Semantics:
+            //   placeholder:true  → we still need to shoot a real photo
+            //                       (renders data-real-needed for the QC pass)
+            //   real:true / default → this IS the real photo (no flag)
+            // (legacy: configs still using `real:true` to mean "need real"
+            //  must migrate to `placeholder:true` — flagged below.)
+            var needsReal = im.placeholder === true;
+            var imgTag = '<img src="' + esc(im.src) + '" alt="' + esc(im.alt) +
+                         '" width="' + (im.w || 1200) + '" height="' + (im.h || 750) +
+                         '"' + (needsReal ? ' data-real-needed="true"' : '') + '>';
+            var captionTag = '';
+            if (im.caption || im.credit) {
+              captionTag = '<figcaption class="cluster-hero-caption">' +
+                            (im.caption ? '<span class="cluster-hero-caption-text">' + esc(im.caption) + '</span>' : '') +
+                            (im.credit  ? '<span class="cluster-hero-caption-credit">' + esc(im.credit)  + '</span>' : '') +
+                          '</figcaption>';
+              return '<div class="cluster-hero-media"><figure class="cluster-hero-figure">' + imgTag + captionTag + '</figure></div>';
+            }
+            return '<div class="cluster-hero-media">' + imgTag + '</div>';
+          })()
         : '<div class="cluster-hero-media cluster-hero-gfx">' + (cfg.hero && cfg.hero.gfx ? cfg.hero.gfx : '') + '</div>') + '\n' +
   '  </div>\n' +
   '</header>\n' +

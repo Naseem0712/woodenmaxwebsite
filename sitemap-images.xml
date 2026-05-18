@@ -2,7 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
+    <loc>https://woodenmax.in/</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/Founder-Naseem.webp</image:loc>
+      <image:title>Naseem Ahmad — Founder of WoodenMax Architectural Elements</image:title>
+      <image:caption>Founder Naseem Ahmad started WoodenMax in 2014 from a 2,400 sq ft shed in Hyderabad. Today the company runs a 28,000 sq ft factory serving 14 cities.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://woodenmax.in/about</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/Founder-Naseem.webp</image:loc>
+      <image:title>Naseem Ahmad — Founder of WoodenMax Architectural Elements</image:title>
+      <image:caption>Meet Naseem Ahmad, founder of WoodenMax — 12+ years in architectural aluminium, personally signs off every B2B project above ₹15 L.</image:caption>
+    </image:image>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
     </image:image>
@@ -49,7 +65,9 @@
   <url>
     <loc>https://woodenmax.in/about/founder-story-woodenmax</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/eeat/founder-hero.webp</image:loc>
+      <image:loc>https://woodenmax.in/images/Founder-Naseem.webp</image:loc>
+      <image:title>Naseem Ahmad — Founder of WoodenMax Architectural Elements</image:title>
+      <image:caption>Naseem Ahmad, founder of WoodenMax Architectural Elements, photographed at the Hyderabad factory floor (2025).</image:caption>
     </image:image>
   </url>
   <url>
@@ -73,7 +91,9 @@
   <url>
     <loc>https://woodenmax.in/about/team-leadership</loc>
     <image:image>
-      <image:loc>https://woodenmax.in/images/eeat/team-hero.webp</image:loc>
+      <image:loc>https://woodenmax.in/images/Founder-Naseem.webp</image:loc>
+      <image:title>Naseem Ahmad — Founder &amp; Managing Partner of WoodenMax</image:title>
+      <image:caption>Founder Naseem Ahmad leading a 60-person WoodenMax team across factory, design, sales and 14-city service network.</image:caption>
     </image:image>
   </url>
   <url>

@@ -928,6 +928,18 @@
             '<div class="pdf-eeat-item"><strong>Premium Systems</strong><span>Genuine 1.5–2.0 mm profiles, 5–13.52 mm DGU/lami glass, German hardware &amp; EPDM seals.</span></div>' +
             '<div class="pdf-eeat-item"><strong>Warranty &amp; Service</strong><span>10-yr profile, 5-yr hardware, 2-yr gasket warranty with pan-India service network.</span></div>' +
           '</div>' +
+          // Real-human accountability line — printed on every quote so
+          // the lead knows there is a named owner standing behind the
+          // numbers above.  The avatar is the same Founder-Naseem.webp
+          // used across the website (SEO + EEAT consistency).
+          '<div class="pdf-eeat-founder">' +
+            '<img class="pdf-eeat-founder-photo" src="/images/Founder-Naseem.webp" alt="Naseem Ahmad — Founder of WoodenMax" width="46" height="46">' +
+            '<div class="pdf-eeat-founder-text">' +
+              '<strong>Personally backed by Naseem Ahmad</strong>' +
+              '<span>Founder &amp; Managing Partner · WoodenMax Architectural Elements · Hyderabad · 2014</span>' +
+              '<em>Friday calls 4–6 PM IST · info@woodenmax.com · +91 78953 28080</em>' +
+            '</div>' +
+          '</div>' +
         '</div>' +
 
         // === Foot ===
