@@ -1073,7 +1073,7 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
   body {
     background: #FFFFFF !important;
     color: #0F172A !important;
-    font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
     font-size: 9.5pt;
     line-height: 1.45;
     -webkit-print-color-adjust: exact;
@@ -1125,7 +1125,7 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
     font-size: 16pt;
     font-weight: 800;
     letter-spacing: -0.02em;
-    font-family: 'Playfair Display', 'Times New Roman', serif !important;
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
     box-shadow: 0 2pt 6pt rgba(30, 64, 175, 0.25);
   }
 
@@ -1136,7 +1136,7 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
     font-weight: 700;
     letter-spacing: -0.01em;
     line-height: 1.05;
-    font-family: 'Playfair Display', 'Times New Roman', serif !important;
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
   }
 
   .pdf-brand-text .pdf-tagline {

@@ -9,7 +9,7 @@
    ============================================ */
 .product-detail-hero {
   padding: 8rem 0 3rem;
-  background: #FFFFFF;
+  background: linear-gradient(180deg, #fbf8f1 0%, #ffffff 100%);
 }
 
 /* Grills product heroes: “Why / Specs” — stack on narrow screens to avoid cramped overlap. */
@@ -105,10 +105,10 @@
 
 .option-btn:hover,
 .option-btn.active {
-  background: #1E40AF;
-  border-color: #1E40AF;
-  color: #FFFFFF;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  background: #0a0e17;
+  border-color: #b8893d;
+  color: #f3e9d2;
+  box-shadow: 0 2px 8px rgba(15,23,36,0.08);
 }
 
 /* ============================================
@@ -134,12 +134,12 @@
 }
 
 .feature-item:hover {
-  border-color: #1E40AF;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-color: #b8893d;
+  box-shadow: 0 6px 18px rgba(15,23,36,0.04);
 }
 
 .feature-item svg {
-  color: #1E40AF !important;
+  color: #8a6321 !important;
   transition: color 0.3s ease;
   flex-shrink: 0;
   width: 16px;
@@ -147,7 +147,7 @@
 }
 
 .feature-item:hover svg {
-  color: #1E3A8A;
+  color: #b8893d;
 }
 
 .feature-item strong {
@@ -247,8 +247,8 @@
 }
 
 .faq-item:hover {
-  border-color: #1E40AF;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-color: #b8893d;
+  box-shadow: 0 6px 18px rgba(15,23,36,0.04);
 }
 
 .faq-question {
@@ -264,16 +264,16 @@
 }
 
 .faq-question:hover {
-  background: #F8F9FA;
-  color: #1E40AF;
+  background: #fbf8f1;
+  color: #8a6321;
 }
 
 .faq-toggle {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: #F8F9FA;
-  border: 1px solid #1E40AF;
+  background: #fbf8f1;
+  border: 1px solid #b8893d;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -284,7 +284,7 @@
 .faq-toggle svg {
   width: 12px;
   height: 12px;
-  color: #1E40AF;
+  color: #b8893d;
   transition: transform 0.3s ease;
 }
 
@@ -547,7 +547,7 @@ section[style*="background: #0a0a0a"] a,
 section[style*="background:#0a0a0a"] a,
 section[style*="background: #1a1a1a"] a,
 section[style*="background:#1a1a1a"] a {
-  color: #1E40AF !important;
+  color: #8a6321 !important;
   text-decoration: underline !important;
 }
 
@@ -685,9 +685,9 @@ div[style*="background: #F3F4F6"] [style*="color:#b0b0b0"] {
 }
 
 .specs-table th {
-  background: #F8F9FA !important;
-  color: #1E40AF !important;
-  border-bottom: 1px solid #E5E7EB !important;
+  background: #fbf8f1 !important;
+  color: #0a0e17 !important;
+  border-bottom: 1px solid rgba(184,137,61,0.18) !important;
 }
 
 .specs-table td {
@@ -788,8 +788,8 @@ section[style*="get exact price"] p {
 
 .related-product-card:hover {
   transform: translateY(-5px);
-  border-color: #1E40AF;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: #b8893d;
+  box-shadow: 0 10px 30px rgba(15,23,36,0.05);
 }
 
 .related-product-card img {
@@ -934,7 +934,7 @@ section[style*="get exact price"] p {
   content: "✔";
   position: absolute;
   left: 0;
-  color: #1E40AF;
+  color: #b8893d;
   font-weight: bold;
 }
 
@@ -972,7 +972,7 @@ section[style*="get exact price"] p {
   content: "✔";
   position: absolute;
   left: 0;
-  color: #1E40AF;
+  color: #b8893d;
   font-weight: bold;
 }
 
@@ -1175,14 +1175,14 @@ section[style*="get exact price"] p {
     font-size: 0.9rem;
     min-width: 160px;
     max-width: 180px;
-    background: #1E40AF !important;
-    border: 1px solid #1E40AF !important;
+    background: #0a0e17 !important;
+    border: 1px solid rgba(184,137,61,0.25) !important;
   }
   
   .floating-calc-button svg {
     width: 18px;
     height: 18px;
-    stroke: #FFFFFF !important;
+    stroke: #f3e9d2 !important;
   }
   
   .floating-calc-button-text {
@@ -1190,7 +1190,7 @@ section[style*="get exact price"] p {
     max-width: 130px;
     font-size: 0.9rem !important;
     font-weight: 700 !important;
-    color: #FFFFFF !important;
+    color: #f3e9d2 !important;
   }
 }
 
@@ -1202,14 +1202,14 @@ section[style*="get exact price"] p {
     font-size: 0.85rem;
     min-width: 140px;
     max-width: 160px;
-    background: #1E40AF !important;
-    border: 1px solid #1E40AF !important;
+    background: #0a0e17 !important;
+    border: 1px solid rgba(184,137,61,0.25) !important;
   }
   
   .floating-calc-button svg {
     width: 16px;
     height: 16px;
-    stroke: #FFFFFF !important;
+    stroke: #f3e9d2 !important;
   }
   
   .floating-calc-button-text {
@@ -1217,7 +1217,7 @@ section[style*="get exact price"] p {
     max-width: 120px;
     font-size: 0.85rem !important;
     font-weight: 700 !important;
-    color: #FFFFFF !important;
+    color: #f3e9d2 !important;
   }
 }
 
@@ -1395,12 +1395,12 @@ body.morning-seo-page .seo-breadcrumb-sep {
 }
 
 body.morning-seo-page .seo-breadcrumb-current {
-  color: #1e40af;
+  color: #8a6321;
   font-weight: 600;
 }
 
 body.morning-seo-page .seo-page-h1 {
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   font-size: 2.25rem;
   color: #0f172a;
   margin: 0.5rem 0;
@@ -1443,7 +1443,7 @@ body.morning-seo-page .seo-cluster-links {
 }
 
 body.morning-seo-page .seo-cluster-links a {
-  color: #1d4ed8;
+  color: #8a6321;
   font-weight: 500;
 }
 
@@ -1580,7 +1580,7 @@ body.morning-seo-page .seo-faq-item {
 body.morning-seo-page .seo-faq-item h3 {
   margin: 0 0 0.5rem;
   font-size: 1.05rem;
-  color: #1e3a8a;
+  color: #0a0e17;
 }
 
 body.morning-seo-page .seo-faq-item p {
@@ -1594,7 +1594,7 @@ body.morning-seo-page .seo-faq-footer {
 }
 
 body.morning-seo-page .seo-faq-footer a {
-  color: #1d4ed8;
+  color: #8a6321;
   font-weight: 600;
 }
 
@@ -1645,7 +1645,7 @@ body.morning-seo-page table.shower-seo-compare-table tbody tr:last-child {
 }
 
 body.morning-seo-page table.shower-seo-compare-table a {
-  color: #1d4ed8;
+  color: #8a6321;
   font-weight: 500;
 }
 
@@ -1656,7 +1656,7 @@ body.morning-seo-page .shower-seo-compare-foot {
 }
 
 body.morning-seo-page .shower-seo-compare-foot a {
-  color: #1d4ed8;
+  color: #8a6321;
   font-weight: 500;
 }
 
@@ -1714,7 +1714,7 @@ body.morning-seo-page .seo-cluster-hub-lead {
 }
 
 body.morning-seo-page .seo-cluster-hub-lead a {
-  color: #1d4ed8;
+  color: #8a6321;
   font-weight: 600;
 }
 
@@ -1739,7 +1739,7 @@ body.morning-seo-page .seo-related-products-list {
 }
 
 body.morning-seo-page .seo-related-products-list a {
-  color: #1d4ed8;
+  color: #8a6321;
   font-weight: 500;
 }
 
@@ -1749,6 +1749,6 @@ body.morning-seo-page .seo-related-hub {
 }
 
 body.morning-seo-page .seo-related-hub a {
-  color: #1d4ed8;
+  color: #8a6321;
 }
 

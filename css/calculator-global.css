@@ -54,7 +54,7 @@
 }
 
 .price-calculator-container:hover {
-  border-color: #1E40AF;
+  border-color: #0a0e17;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
@@ -73,7 +73,7 @@
 }
 
 .calc-header svg {
-  color: #1E40AF;
+  color: #0a0e17;
   flex-shrink: 0;
 }
 
@@ -107,7 +107,7 @@
 .calc-group label svg {
   width: 18px;
   height: 18px;
-  color: #1E40AF;
+  color: #0a0e17;
   opacity: 0.8;
   flex-shrink: 0;
 }
@@ -132,7 +132,7 @@
 .calc-input:focus,
 .calc-select:focus {
   outline: none;
-  border-color: #1E40AF;
+  border-color: #0a0e17;
   background: #FFFFFF;
   box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
@@ -140,7 +140,7 @@
 
 .calc-input:hover,
 .calc-select:hover {
-  border-color: #1E40AF;
+  border-color: #0a0e17;
   background: #FFFFFF;
 }
 
@@ -202,7 +202,7 @@
 }
 
 .calc-size-row:hover {
-  border-color: #1E40AF;
+  border-color: #0a0e17;
   background: #F3F4F6;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
@@ -248,7 +248,7 @@
 .calc-size-height:focus,
 .calc-size-qty:focus {
   outline: none;
-  border-color: #1E40AF;
+  border-color: #0a0e17;
   background: #FFFFFF;
   box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transform: translateY(-1px);
@@ -257,7 +257,7 @@
 .calc-size-width:hover,
 .calc-size-height:hover,
 .calc-size-qty:hover {
-  border-color: #1E40AF;
+  border-color: #0a0e17;
   background: #FFFFFF;
 }
 
@@ -302,7 +302,7 @@
 }
 
 .row-amount-text {
-  color: #1E40AF;
+  color: #0a0e17;
   font-size: 1.1rem;
   font-weight: 700;
 }
@@ -327,7 +327,7 @@
   margin-top: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.5px;
-  color: #1E40AF;
+  color: #0a0e17;
 }
 
 /* ============================================
@@ -335,7 +335,7 @@
    ============================================ */
 .calc-price-display {
   background: #F8F9FA;
-  border: 1px solid #1E40AF;
+  border: 1px solid #0a0e17;
   border-radius: 8px; /* Slightly sharp */
   padding: 2rem;
   margin-top: 2rem;
@@ -390,13 +390,13 @@
 }
 
 .calc-price-value {
-  color: #1E40AF;
+  color: #0a0e17;
   font-size: 1.35rem;
   font-weight: 700;
 }
 
 .calc-grand-total {
-  color: #1E40AF !important;
+  color: #0a0e17 !important;
   font-size: 2rem !important;
   font-weight: 800 !important;
 }
@@ -428,7 +428,7 @@
 
 .calc-user-form input:focus {
   outline: none;
-  border-color: #1E40AF;
+  border-color: #0a0e17;
   background: #FFFFFF;
   box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
 }
@@ -452,13 +452,13 @@
 
 .calc-user-form select:focus {
   outline: none;
-  border-color: #1E40AF;
+  border-color: #0a0e17;
 }
 
 .calc-submit-btn {
   width: 100%;
   padding: 0.875rem 1.5rem;
-  background: #1E40AF !important;
+  background: #0a0e17 !important;
   border: none !important;
   border-radius: 8px; /* Slightly sharp */
   color: #FFFFFF !important;
@@ -474,7 +474,7 @@
 .calc-submit-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
-  background: #1E3A8A !important;
+  background: #131a28 !important;
   color: #FFFFFF !important;
 }
 
@@ -523,7 +523,7 @@
 }
 
 .calc-info-box strong {
-  color: #1E40AF;
+  color: #0a0e17;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -563,14 +563,14 @@
 
 .calc-checkbox-group:hover {
   background: #F3F4F6;
-  border-color: #1E40AF;
+  border-color: #0a0e17;
 }
 
 .calc-checkbox-group input[type="checkbox"] {
   width: 20px;
   height: 20px;
   cursor: pointer;
-  accent-color: #1E40AF;
+  accent-color: #0a0e17;
   flex-shrink: 0;
 }
 
@@ -585,7 +585,7 @@
 }
 
 .calc-checkbox-group input[type="checkbox"]:checked + label {
-  color: #1E40AF;
+  color: #0a0e17;
 }
 
 /* ============================================

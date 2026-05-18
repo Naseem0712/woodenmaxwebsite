@@ -307,7 +307,7 @@
   max-width: 920px;
 }
 .cluster-callout strong { display: block; margin-bottom: 0.3rem; font-size: 0.95rem; }
-.cluster-callout-info    { background: #EFF6FF; border-color: #BFDBFE; color: #1E3A8A; }
+.cluster-callout-info    { background: #fbf8f1; border-color: rgba(184,137,61,0.25); color: #0a0e17; }
 .cluster-callout-success { background: #ECFDF5; border-color: #6EE7B7; color: #065F46; }
 .cluster-callout-warning { background: #FEF3C7; border-color: #FCD34D; color: #92400E; }
 .cluster-callout-danger  { background: #FEF2F2; border-color: #FCA5A5; color: #991B1B; }
