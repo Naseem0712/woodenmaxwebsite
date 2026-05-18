@@ -443,7 +443,17 @@
         'url':   BRAND.url + '/about/founder-story-woodenmax',
         'sameAs': [ BRAND.url + '/about/founder-story-woodenmax' ]
       },
-      'numberOfEmployees': { '@type': 'QuantitativeValue', 'value': 60 },
+      // Hyderabad core crew is ~60.  Including the long-running
+      // partner-led project crews in NCR, Mumbai, Bengaluru, Pune &
+      // Jaipur, the end-to-end team on a live WoodenMax project is
+      // ~120 people — we publish the higher figure here because that's
+      // what a customer interacts with on-ground.
+      'numberOfEmployees': {
+        '@type': 'QuantitativeValue',
+        'minValue': 60,
+        'maxValue': 120,
+        'unitText': 'people (Hyderabad core + all-India project crews)'
+      },
       'slogan': 'Premium architectural aluminium — transparent price, German hardware, 10-year warranty',
       'contactPoint': [
         {

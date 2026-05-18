@@ -3,8 +3,8 @@ module.exports.pageConfig = {
   silo: 'eeat',
   out:  'about/team-leadership.html',
   canonical: '/about/team-leadership',
-  title: 'WoodenMax Team & Leadership | Naseem Ahmad + 60-person Crew',
-  description: 'Meet the WoodenMax leadership team led by founder Naseem Ahmad — 60 people across factory, engineering, fabrication, design, sales and a 14-city service network behind 1,000+ premium projects.',
+  title: 'WoodenMax Team & Leadership | Naseem Ahmad + 60-person Hyderabad Crew + ~120 All-India',
+  description: 'Meet the WoodenMax team led by founder Naseem Ahmad (26 years in aluminium, hardware & custom architectural work). 60 people in Hyderabad workshops + project sites, plus ~60 partner-led crews across India — about 120 people end-to-end on a live WoodenMax project at any given time.',
   ogImage: 'https://woodenmax.in/images/Founder-Naseem.webp',
   schemaType: 'AboutPage',
   // Real-named-author signal (founder is also the author/spokesperson)
@@ -13,7 +13,7 @@ module.exports.pageConfig = {
     givenName:   'Naseem',
     familyName:  'Ahmad',
     jobTitle:    'Founder &amp; Managing Partner, WoodenMax Architectural Elements',
-    description: 'Founder of WoodenMax Architectural Elements. Leads a 60-person team across the Hyderabad factory, multi-city field-service network and the design + sales bench.',
+    description: 'Founder of WoodenMax Architectural Elements. 26 years hands-on in aluminium, hardware and customised architectural work. Leads a 60-person Hyderabad crew and a further ~60-person partner-led network across India (~120 people end-to-end on live WoodenMax projects).',
     image:       '/images/Founder-Naseem.webp',
     url:         'https://woodenmax.in/about/founder-story-woodenmax',
     worksFor: {
@@ -28,19 +28,19 @@ module.exports.pageConfig = {
   ],
   h1: 'Team &amp; leadership',
   hero: {
-    sub: 'A 60-person team across factory, design, sales and field service — led by founder Naseem Ahmad since 2014. Average tenure 6.4 years. This is the human layer behind your window.',
+    sub: '60 people in Hyderabad across our own workshops and live project sites, plus a partner-led network of ~60 more across India — roughly 120 people end-to-end on a live WoodenMax project at any given time. Led by founder Naseem Ahmad (26 years in the aluminium &amp; hardware trade).',
     image: {
       src: '../images/Founder-Naseem.webp',
-      alt: 'Naseem Ahmad — Founder of WoodenMax Architectural Elements, leading a 60-person team',
+      alt: 'Naseem Ahmad — Founder of WoodenMax Architectural Elements, leading a 60-person Hyderabad crew and ~120-person all-India project network',
       caption: 'Naseem Ahmad · Founder &amp; Managing Partner · WoodenMax Architectural Elements',
       credit:  'Wider team photoshoot scheduled for July 2026',
       w: 1200, h: 750
     },
     points: [
-      '<strong>60</strong> people on payroll (factory + service network)',
-      '<strong>14</strong> trained installation crews on contract',
-      'Average team tenure <strong>6.4 years</strong>',
-      'Engineering team avg. tenure <strong>9 years</strong>'
+      '<strong>~60 people</strong> in Hyderabad (workshops + project sites)',
+      '<strong>~60 more</strong> across India via long-running partner crews',
+      '<strong>~120 people</strong> end-to-end on a typical live WoodenMax project',
+      '<strong>10&ndash;12 live projects</strong> running in parallel across the country'
     ]
   },
   sections: [
@@ -55,7 +55,7 @@ module.exports.pageConfig = {
           },
           title:    'Naseem Ahmad',
           subtitle: 'Founder &amp; Managing Partner',
-          body:    '12+ years hands-on in aluminium fabrication. Started WoodenMax in 2014 from a 2,400 sq ft shed in Madinaguda, Hyderabad. Personally signs off on every B2B project &gt; ₹15 L and reads every escalation email within 24 hours.',
+          body:    '<strong>26 years</strong> hands-on in aluminium, hardware engineering and customised architectural work. Started as an apprentice in NCR in 2000, worked through master-fabricator workshops and larger firms, and founded WoodenMax in Hyderabad in 2014. Originally from NCR, operates from Hyderabad. Personally signs off on every B2B project &gt; ₹15 L and reads every escalation email within 24 hours.',
           meta:    '<a href="../about/founder-story-woodenmax">Read the full founder story &rarr;</a>'
         },
         { icon: 'O', title: 'Head of Operations',                   body: 'Joined 2016. Runs the factory, the QC lab, vendor management and capacity planning. Owns the 18–25 day SLA.' },
@@ -68,6 +68,20 @@ module.exports.pageConfig = {
         title: 'Want to talk directly to the team?',
         body: 'For the founder, write to <a href="mailto:info@woodenmax.com">info@woodenmax.com</a> with subject "Friday call" + your number (Fridays 4–6 PM IST). For any department head, request a 30-minute introduction call via the same address.'
       }
+    },
+    {
+      heading: 'How the 60 + ~60 split works',
+      body:
+        '<p>Two layers — both run end-to-end by WoodenMax:</p>' +
+        '<div class="cluster-table-wrap"><table class="cluster-table">' +
+          '<thead><tr><th>Layer</th><th>Where</th><th>People</th><th>What they do</th></tr></thead>' +
+          '<tbody>' +
+            '<tr><td><strong>Layer 1 &mdash; WoodenMax core</strong></td><td>Hyderabad (workshops + live project sites)</td><td>~60</td><td>Fabrication, powder-coating, glazing, hardware fitment, QC, project supervision, design + sales</td></tr>' +
+            '<tr><td><strong>Layer 2 &mdash; long-running partner crews</strong></td><td>NCR, Mumbai, Bengaluru, Pune, Jaipur + other project cities</td><td>~60</td><td>On-site installation, site civil interface, finishing trades &mdash; CLRA-licensed crews we have worked with for 4&ndash;9 years; PF / ESI / WC routed via us</td></tr>' +
+            '<tr><td colspan="2" style="text-align:right"><strong>Total people on a live WoodenMax project at any time</strong></td><td><strong>~120</strong></td><td>Coordinated by the WoodenMax PMO</td></tr>' +
+          '</tbody>' +
+        '</table></div>' +
+        '<p>The numbers below break down the <strong>~60-person Hyderabad core</strong>.</p>'
     },
     {
       heading: 'Engineering &amp; design — 12 people',
@@ -131,7 +145,9 @@ module.exports.pageConfig = {
     { q: 'Who do I escalate to if my project is going wrong?',
       a: 'First — your account manager. If unresolved in 48 hours — write to <a href="mailto:info@woodenmax.com">info@woodenmax.com</a> with subject "Escalation — &lt;Quote No&gt;". The founder personally reads every escalation within 24 hours.' },
     { q: 'Are your installation crews on payroll?',
-      a: 'Service engineers and supervisors are W2. Installation crews (4–6 people per crew) are independent contractors under CLRA-licensed agreements, with workmen\'s compensation, ESI and PF cover routed via us. They have been with us 4–9 years on average.' },
+      a: 'In Hyderabad, our core fabrication, QC, glazing and supervision crew (~60 people) is on our books. Across our other project cities (NCR, Mumbai, Bengaluru, Pune, Jaipur, etc.), the on-site installation crews (~60 more people) are long-running partner teams under CLRA-licensed agreements, with workmen\'s compensation, ESI and PF cover routed via us. We have worked with the same partner leads for 4&ndash;9 years on average.' },
+    { q: 'So how many people in total are on a live WoodenMax project?',
+      a: 'About <strong>120 people</strong> end-to-end — ~60 from our Hyderabad core (fabrication, coating, glazing, QC, design, project supervision) plus ~60 from long-running partner crews on the project sites in the destination cities. All coordinated through the WoodenMax Project Management Office.' },
     { q: 'Do you hire?',
       a: 'Always — engineering, production, and field service. Send a CV to <a href="mailto:info@woodenmax.com">info@woodenmax.com</a> (subject "Careers"). We respond to every CV within 7 days even when there is no open role.' }
   ],

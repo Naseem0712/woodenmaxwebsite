@@ -1491,7 +1491,9 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
     height: 46pt;
     border-radius: 50%;
     object-fit: cover;
-    object-position: center 22%;
+    /* Founder portrait (1420x1776) — bias upward so the face stays
+     * fully visible inside the small circular crop on the PDF.  */
+    object-position: center 12%;
     border: 1pt solid #FFFFFF;
     box-shadow: 0 0 0 1pt #0a0e17;
   }

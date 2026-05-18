@@ -98,13 +98,24 @@
   border-radius: 14px;
   box-shadow: 0 12px 32px rgba(15, 23, 42, 0.15);
   object-fit: cover;
+  /* When a portrait photo is rendered in a landscape hero, keep the
+   * head at the top of the visible area instead of cropping the
+   * forehead.  Safe for landscape images too — it just biases the
+   * focal point a little upward.  */
+  object-position: center top;
 }
 .cluster-hero-figure {
   margin: 0;
 }
 .cluster-hero-figure img {
   width: 100%;
+  /* Let portrait founder/team photos breathe instead of getting
+   * crammed into a 1200x750 landscape box.  Max-height keeps the
+   * hero from dominating the viewport.  */
   height: auto;
+  max-height: 560px;
+  object-fit: contain;
+  background: #FAF6EC;
   display: block;
 }
 .cluster-hero-caption {
@@ -250,7 +261,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 22%;
+  /* Founder portrait is taller than wide (1420x1776).  Pull the crop
+   * window up so the head is fully visible inside the circle.  */
+  object-position: center 12%;
   display: block;
 }
 .cluster-card-has-photo {
