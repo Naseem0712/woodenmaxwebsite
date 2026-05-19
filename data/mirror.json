@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "currency": "INR",
+    "gstPercent": 18,
+    "source": "Synced with data/rates.json → mirror_profiles. Edit rates.json or this file, then rebuild.",
+    "lastUpdated": "2026-05"
+  },
+  "profilePerFoot": {
+    "plain": { "min": 450, "max": 580, "label": "Plain silver anodized" },
+    "black": { "min": 520, "max": 650, "label": "Matt black powder coat" },
+    "gold": { "min": 580, "max": 720, "label": "Gold powder coat" },
+    "wood": { "min": 650, "max": 820, "label": "Wooden finish texture" },
+    "ledSingle": { "min": 720, "max": 980, "label": "LED backlit single strip" },
+    "ledDouble": { "min": 980, "max": 1280, "label": "LED backlit double strip" },
+    "ledRgb": { "min": 1180, "max": 1450, "label": "LED RGB profile" },
+    "ledPremium": { "min": 1280, "max": 1650, "label": "Premium LED profile" },
+    "ledUltra": { "min": 1450, "max": 1850, "label": "Ultra premium LED profile" }
+  },
+  "unitProducts": {
+    "touchSensorMirror": { "min": 8500, "max": 18000, "label": "Touch sensor mirror (per piece)" },
+    "motionSensorMirror": { "min": 9200, "max": 22000, "label": "Motion sensor mirror (per piece)" }
+  },
+  "hardware": {
+    "touch5AUpgrade": 250,
+    "driver7AUpgrade": 350,
+    "driver10AUpgrade": 450,
+    "packingPerPiece": 500
+  },
+  "calculators": {
+    "half-round": { "v120": 950, "v220Extra": 100 },
+    "round-touch": { "v120": 650, "v220": 750 },
+    "round-slim": { "v120": 750, "v220": 850, "slimPremiumPerSqft": 100 },
+    "square-touch": { "v120": 650, "v220": 750 },
+    "wooden-round": { "v120": 1350, "v220Extra": 100, "woodenCoat": true },
+    "rect-led": { "v120": 850, "v220": 950 },
+    "backlit-touch": { "v120": 850, "v220": 950 },
+    "bevel-modular": { "bevel": 850, "profileAdd": 250, "ledV120": 120, "ledV220": 200 },
+    "custom-rect-led": { "v120": 1750, "v220Extra": 150, "minWidth": 2, "maxHeight": 7 },
+    "imported-motion": { "v120": 1050, "v220": 1150, "packing": 500 },
+    "luxury-glass": {
+      "v120": 1850,
+      "v220Extra": 100,
+      "wastage": 1.5,
+      "touchPc": 850,
+      "motionPerGlass": 1220,
+      "defaultGlassCount": 2
+    }
+  },
+  "pageCalculator": {
+    "led-mirror-profile-price": "half-round",
+    "led-mirror-profile-delhi": "half-round",
+    "touch-sensor-mirror-profile": "round-touch",
+    "round-mirror-profile": "round-slim",
+    "rectangular-mirror-profile": "square-touch",
+    "wardrobe-mirror-profile": "wooden-round",
+    "led-bathroom-mirror-profile": "rect-led",
+    "backlit-mirror-profile-price": "backlit-touch",
+    "mirror-profile-price-per-foot": "bevel-modular",
+    "custom-mirror-profile": "custom-rect-led",
+    "aluminium-mirror-frame-designs": "imported-motion",
+    "motion-sensor-mirror-profile": "luxury-glass"
+  }
+}

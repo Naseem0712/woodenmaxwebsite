@@ -2,28 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://woodenmax.in/</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/Founder-Naseem.webp</image:loc>
-      <image:title>Naseem Ahmad — Founder of WoodenMax Architectural Elements</image:title>
-      <image:caption>Founder Naseem Ahmad started WoodenMax in 2014 from a 2,400 sq ft shed in Hyderabad. Today the company runs a 28,000 sq ft factory serving 14 cities.</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
-    </image:image>
-  </url>
-  <url>
     <loc>https://woodenmax.in/about</loc>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/Founder-Naseem.webp</image:loc>
-      <image:title>Naseem Ahmad — Founder of WoodenMax Architectural Elements</image:title>
-      <image:caption>Meet Naseem Ahmad, founder of WoodenMax — 26 years in aluminium, hardware &amp; custom architectural work. Personally signs off every B2B project above ₹15 L.</image:caption>
-    </image:image>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/Founder-Naseem.webp</image:loc>
     </image:image>
   </url>
   <url>
@@ -66,8 +53,6 @@
     <loc>https://woodenmax.in/about/founder-story-woodenmax</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/Founder-Naseem.webp</image:loc>
-      <image:title>Naseem Ahmad — Founder of WoodenMax Architectural Elements</image:title>
-      <image:caption>Naseem Ahmad, founder of WoodenMax Architectural Elements, photographed at the Hyderabad factory floor (2025).</image:caption>
     </image:image>
   </url>
   <url>
@@ -92,8 +77,6 @@
     <loc>https://woodenmax.in/about/team-leadership</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/Founder-Naseem.webp</image:loc>
-      <image:title>Naseem Ahmad — Founder &amp; Managing Partner of WoodenMax</image:title>
-      <image:caption>Founder Naseem Ahmad leading a 60-person WoodenMax team across factory, design, sales and 14-city service network.</image:caption>
     </image:image>
   </url>
   <url>
@@ -285,6 +268,9 @@
       <image:loc>https://woodenmax.in/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp</image:loc>
     </image:image>
     <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/led-aluminium-mirror-profile-bathroom-price-india.webp</image:loc>
+    </image:image>
+    <image:image>
       <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
     </image:image>
     <image:image>
@@ -420,10 +406,16 @@
       <image:loc>https://woodenmax.in/images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp</image:loc>
     </image:image>
     <image:image>
+      <image:loc>https://woodenmax.in/images/Founder-Naseem.webp</image:loc>
+    </image:image>
+    <image:image>
       <image:loc>https://woodenmax.in/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/touch-sensor-led-mirror-bathroom-india.webp</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
@@ -444,6 +436,9 @@
       <image:loc>https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</image:loc>
     </image:image>
     <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/round-led-mirror-profile-bathroom-design.webp</image:loc>
+    </image:image>
+    <image:image>
       <image:loc>https://woodenmax.in/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp</image:loc>
     </image:image>
     <image:image>
@@ -454,15 +449,6 @@
     </image:image>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/shower-partitions/black-profile-shower-glass-partition.webp</image:loc>
-    </image:image>
-    <image:image>
-      <image:loc>https://woodenmax.in/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp</image:loc>
     </image:image>
   </url>
   <url>
@@ -1702,12 +1688,42 @@
     </image:image>
   </url>
   <url>
+    <loc>https://woodenmax.in/products/metal-louvers/aluminium-facade-louver-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-facade-louver-75x38mm-wooden-finish-delhi.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/aluminium-louver-design-building</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/commercial-building-aluminium-louver-installation.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/aluminium-louvre-100x50mm-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/elevation-louvers-rafters-3d.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/aluminium-louvre-75x38mm-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-75x38mm-profile-close-up.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://woodenmax.in/products/metal-louvers/ceiling-pergola-louvers</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/commercial-building-louvers</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/commercial-building-aluminium-louver-installation.webp</image:loc>
     </image:image>
   </url>
   <url>
@@ -1720,6 +1736,51 @@
     </image:image>
   </url>
   <url>
+    <loc>https://woodenmax.in/products/metal-louvers/fixed-vs-motorized-louver</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-curved-architectural-design.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/index</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-facade-louver-75x38mm-wooden-finish-delhi.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/fixed-aluminium-luxury-louver-ventilation-panel.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-curved-architectural-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/Aluminium-elevation-twisted-louvers.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/black-powder-coat-aluminium-louver-facade.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/commercial-building-aluminium-louver-installation.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-installation-ncr-project.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/residential-aluminium-facade-louver-hyderabad.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louver-building-exterior.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-75x38mm-profile-close-up.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/elevation-louvers-rafters-3d.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://woodenmax.in/products/metal-louvers/louver-canopy-facade</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp</image:loc>
@@ -1729,12 +1790,189 @@
     </image:image>
   </url>
   <url>
+    <loc>https://woodenmax.in/products/metal-louvers/louver-installation-guide</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-installation-ncr-project.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/louver-price-delhi</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/aluminium-louver-installation-ncr-project.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/louver-price-hyderabad</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/residential-aluminium-facade-louver-hyderabad.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/louver-price-jaipur</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louver-building-exterior.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/louver-vs-acp-cladding</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/motorized-louver-price-india</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/Aluminium-elevation-twisted-louvers.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/perforated-aluminium-panel-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/black-powder-coat-aluminium-louver-facade.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/metal-louvers/ventilation-louver-price-per-sqft</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/metal-louvers/fixed-aluminium-luxury-louver-ventilation-panel.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://woodenmax.in/images/woodenmax-logo.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/aluminium-mirror-frame-designs</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/matt-black-aluminium-mirror-frame-profile.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/backlit-mirror-profile-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/backlit-led-mirror-profile-bedroom-design.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/custom-mirror-profile</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/custom-shape-led-mirror-profile-design.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/index</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/led-aluminium-mirror-profile-bathroom-price-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/double-strip-led-mirror-profile-premium.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/aluminium-mirror-frame-profile-gold-finish.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/touch-sensor-led-mirror-bathroom-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/motion-sensor-mirror-auto-on-bathroom.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/led-bathroom-mirror-waterproof-profile.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/wooden-finish-mirror-profile-wardrobe-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/backlit-led-mirror-profile-bedroom-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/round-led-mirror-profile-bathroom-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/rectangular-backlit-mirror-profile-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/aluminium-mirror-profile-price-per-foot-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/custom-shape-led-mirror-profile-design.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/matt-black-aluminium-mirror-frame-profile.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/led-mirror-profile-installation-hyderabad.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/led-bathroom-mirror-profile</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/led-bathroom-mirror-waterproof-profile.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/led-mirror-profile-delhi</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/led-mirror-profile-installation-hyderabad.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/led-mirror-profile-hyderabad</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/led-mirror-profile-installation-hyderabad.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/led-mirror-profile-price</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/double-strip-led-mirror-profile-premium.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/mirror-profile-price-per-foot</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/aluminium-mirror-profile-price-per-foot-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/mirror-profile-without-led</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/aluminium-mirror-frame-profile-gold-finish.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/motion-sensor-mirror-profile</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/motion-sensor-mirror-auto-on-bathroom.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/rectangular-mirror-profile</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/rectangular-backlit-mirror-profile-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/round-mirror-profile</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/round-led-mirror-profile-bathroom-design.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/touch-sensor-mirror-profile</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/touch-sensor-led-mirror-bathroom-india.webp</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://woodenmax.in/products/mirror-profiles/wardrobe-mirror-profile</loc>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/mirror-profiles/wooden-finish-mirror-profile-wardrobe-design.webp</image:loc>
     </image:image>
   </url>
   <url>

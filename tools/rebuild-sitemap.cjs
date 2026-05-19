@@ -20,7 +20,8 @@ const BASE = 'https://woodenmax.in';
 const SKIP_FILES = new Set([
   'calculator-design-preview.html',
   '_grills-source/index.html',
-  '404.html'
+  '404.html',
+  'api/calculate/index.html'
 ]);
 const SKIP_DIRS = new Set(['node_modules', '.git', 'tools', 'mcps', 'agent-transcripts', 'terminals', '_grills-source']);
 
@@ -52,6 +53,7 @@ function priorityFor (rel) {
   if (/^policies\//.test(rel)) return '0.65';                              // policies
   if (/^blog\//.test(rel))     return '0.6';
   if (/calculator/.test(rel))  return '0.85';
+  if (/^api\//.test(rel))      return '0.8';
   return '0.5';
 }
 
@@ -108,6 +110,11 @@ function main () {
     .filter(o => !SKIP_FILES.has(o.rel))
     .sort((a, b) => a.rel.localeCompare(b.rel));
 
+  const extraSitemapUrls = [
+    { loc: BASE + '/api/calculate', priority: '0.8', changefreq: 'monthly' },
+    { loc: BASE + '/llms.txt', priority: '0.6', changefreq: 'monthly' },
+  ];
+
   // --------- sitemap.xml ---------
   const urlNodes = files.map(o => (
     '  <url>\n' +
@@ -116,7 +123,16 @@ function main () {
     '    <changefreq>' + changefreqFor(o.rel) + '</changefreq>\n' +
     '    <priority>' + priorityFor(o.rel) + '</priority>\n' +
     '  </url>'
-  )).join('\n');
+  )).concat(extraSitemapUrls.map(function (u) {
+    return (
+      '  <url>\n' +
+      '    <loc>' + escapeXml(u.loc) + '</loc>\n' +
+      '    <lastmod>' + new Date().toISOString().split('T')[0] + '</lastmod>\n' +
+      '    <changefreq>' + u.changefreq + '</changefreq>\n' +
+      '    <priority>' + u.priority + '</priority>\n' +
+      '  </url>'
+    );
+  })).join('\n');
 
   const sitemap =
     '<?xml version="1.0" encoding="UTF-8"?>\n' +
@@ -154,6 +170,23 @@ function main () {
 
   console.log('✓ sitemap.xml         ' + files.length + ' URLs');
   console.log('✓ sitemap-images.xml  ' + withImages   + ' URLs with images');
+
+  // ALL_URLS.txt — flat list for GSC bulk indexing
+  const extraUrls = [
+    BASE + '/api/calculate',
+    BASE + '/tools/woodenmax-widget.js',
+    BASE + '/llms.txt',
+    BASE + '/data/pricing-engine.js',
+  ];
+  const allUrls = files.map(function (o) { return urlFor(o.abs); }).concat(extraUrls);
+  const unique = [...new Set(allUrls)].sort();
+  const allUrlsTxt =
+    '# WoodenMax — Complete Site URL Index (auto-generated)\n' +
+    '# Last run: ' + new Date().toISOString().split('T')[0] + '\n' +
+    '# Total URLs: ' + unique.length + '\n\n' +
+    unique.map(function (u) { return u; }).join('\n') + '\n';
+  fs.writeFileSync(path.join(ROOT, 'ALL_URLS.txt'), allUrlsTxt, 'utf8');
+  console.log('✓ ALL_URLS.txt         ' + unique.length + ' URLs');
 
   // Always keep llms.txt / llms-full.txt in lockstep with the sitemap.
   try {

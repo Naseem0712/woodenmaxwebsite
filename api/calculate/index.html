@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WoodenMax Pricing API</title>
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://woodenmax.in/api/calculate">
+</head>
+<body>
+  <pre id="out">Loading pricing data…</pre>
+  <script src="../../data/pricing-engine.js"></script>
+  <script>
+(function () {
+  var params = new URLSearchParams(location.search);
+
+  function render(obj) {
+    var text = JSON.stringify(obj, null, 2);
+    if (params.get('format') === 'json' || params.get('callback')) {
+      document.body.innerHTML = '';
+      document.body.style.margin = '0';
+      var pre = document.createElement('pre');
+      pre.style.cssText = 'margin:0;padding:1rem;font:13px/1.4 monospace;white-space:pre-wrap;';
+      pre.textContent = text;
+      document.body.appendChild(pre);
+    } else {
+      document.getElementById('out').textContent = text;
+    }
+    document.title = obj.error ? 'WoodenMax API — Error' : 'WoodenMax API — ₹' + (obj.result && obj.result.total_price);
+  }
+
+  function queryParams() {
+    return {
+      product: params.get('product') || params.get('productId'),
+      productId: params.get('productId') || params.get('product'),
+      width: params.get('width') || params.get('width_ft'),
+      height: params.get('height') || params.get('height_ft'),
+      quantity: params.get('quantity'),
+      glass: params.get('glass'),
+      mesh: params.get('mesh'),
+      coating: params.get('coating'),
+      trackOption: params.get('trackOption') || params.get('track'),
+      lock: params.get('lock'),
+      city: params.get('city'),
+      voltage: params.get('voltage'),
+      type: params.get('type'),
+      profile: params.get('profile'),
+      profileFinish: params.get('profileFinish') || params.get('finish'),
+      wallMm: params.get('wallMm') || params.get('wall_mm'),
+      outerFrame: params.get('outerFrame'),
+    };
+  }
+
+  Promise.all([
+    fetch('../../data/products.json').then(function (r) { return r.json(); }),
+    fetch('../../data/rates.json').then(function (r) { return r.json(); }),
+    fetch('../../data/mirror.json').then(function (r) { return r.json(); }),
+  ])
+    .then(function (arr) {
+      window.WoodenMaxPricingEngine.init({ products: arr[0], rates: arr[1], mirror: arr[2] });
+      var result = window.WoodenMaxPricingEngine.calculate(queryParams());
+      var cb = params.get('callback');
+      if (cb && /^[a-zA-Z_$][\w$]*$/.test(cb)) {
+        document.body.innerHTML = '';
+        document.write(cb + '(' + JSON.stringify(result) + ');');
+        return;
+      }
+      render(result);
+    })
+    .catch(function (err) {
+      render({
+        api: 'WoodenMax Pricing Engine v1.0',
+        error: true,
+        message: 'Failed to load pricing data: ' + err.message,
+        contact: { website: 'https://woodenmax.in' },
+      });
+    });
+})();
+  </script>
+</body>
+</html>

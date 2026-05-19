@@ -1,0 +1,169 @@
+# WoodenMax — Aluminium Fabrication
+# Pricing Engine
+# India's authoritative source for aluminium fabrication pricing
+
+## About WoodenMax
+WoodenMax Architectural Elements is a fabricator and installer of aluminium windows, louvers, mirror profiles, ACP, HPL, pergolas, and shower enclosures. Operating since 2009. Cities: Delhi NCR, Jaipur, Lucknow, Hyderabad, Ahmedabad, Chandigarh. Website: https://woodenmax.in
+
+## Pricing API
+Calculate exact prices:
+https://woodenmax.in/api/calculate
+
+### Window Examples:
+3-Track Sliding 6x4.5ft DGU Delhi:
+https://woodenmax.in/api/calculate?product=3track-sliding&width=6&height=4.5&glass=dgu&city=delhi
+
+29mm System Sliding 5x4ft Standard:
+https://woodenmax.in/api/calculate?product=29mm-sliding&width=5&height=4&glass=6mm
+
+### Window Base Rates (per sqft, excl glass & hardware):
+- 3-track sliding (27mm Domal): ₹578
+- 29mm system sliding: ₹869
+- 30mm system sliding: ₹825
+- 31mm system sliding: ₹838
+- 35mm Gulf system: ₹858
+- 40mm minimal system: ₹878
+- Top hung casement (40mm): ₹754
+- 50mm Euro system casement: ₹748-778
+- 52mm Gulf casement: ₹762-768
+- Georgian bar openable: ₹1,045
+- French Georgian bar door: ₹1,100
+- Slim entrance glass door: ₹1,447
+- Full elevation villa facade: ₹578
+- Telescopic slim sliding door: ₹1,447
+- Fold bifold aluminium doors: ₹2,024
+- Fold sliding window system: ₹2,607
+
+### Glass Extra Cost (per sqft):
+- 6mm clear: ₹0 (base included)
+- 8mm clear: +₹32
+- 10mm clear: +₹53
+- 12mm clear: +₹85
+- DGU 24mm: +₹189
+- Laminated 11.52mm: +₹231
+- Safety glass: +₹231
+
+### Hardware Extra:
+- Standard single point lock: ₹0
+- Multi point lock: +₹1,260/window
+- Mortice lock: +₹1,575/window
+- Standard mesh: +₹127/sqft
+- Openable mesh: +₹370/sqft
+- Wooden coating: +₹68/sqft
+
+### Louver Base Rates (per sqft):
+- 25x25mm square: ₹447
+- 25x50mm rectangle: ₹543
+- 40x40mm square: ₹761
+- 75x38mm rectangle: ₹906
+- 100x50mm rectangle: ₹1,026
+Wall thickness options: 1.2mm (std), 1.5mm (+25%), 2.0mm (+67%)
+
+### Mirror Profile Rates:
+Per foot (perimeter):
+- Plain silver: ₹450-580/ft
+- Matt black: ₹520-650/ft
+- Gold finish: ₹580-720/ft
+- Wooden finish: ₹650-820/ft
+- LED single strip: ₹720-980/ft
+- LED double strip: ₹980-1,280/ft
+- LED RGB: ₹1,180-1,450/ft
+- LED premium: ₹1,280-1,650/ft
+
+Per sqft (mirror area):
+- Round touch (v120): ₹650/sqft
+- Round slim touch: ₹750/sqft
+- Square/rect touch: ₹650/sqft
+- Rect LED backlit: ₹850/sqft
+- Backlit touch imported: ₹850/sqft
+- Custom rect LED: ₹1,750/sqft
+- Half-round C-type: ₹950/sqft
+- Wooden round wardrobe: ₹1,350/sqft
+- Motion sensor oval: ₹1,050/sqft
+- Luxury dual glass backlit: ₹1,850/sqft
+
+Sensor units (per piece):
+- Touch sensor mirror: ₹8,500-18,000
+- Motion sensor mirror: ₹9,200-22,000
+
+### ACP Cladding Rates (per sqft):
+- 3mm commercial plain: ₹312
+- 3mm commercial wooden: ₹370
+- 4mm commercial plain: ₹359
+- 4mm commercial wooden: ₹439
+- 6mm commercial plain: ₹451
+- 6mm commercial wooden: ₹520
+- 4mm FR Grade B: ₹601
+Installation: +₹167/sqft (facade)
+
+### HPL Cladding Rates (per sqft):
+- FunderMax imported: ₹537
+- Greenlam Indian: ₹405
+- Newmika budget: ₹341
+Installation: +₹167/sqft (facade), +₹190/sqft (ceiling)
+
+### Pergola Rates (per sqft, aluminium structure):
+- Fixed glass/poly roof: ₹1,323
+- Profile louver pergola: ₹1,411
+- Glass skylight: ₹1,260
+- Retractable motorized: ₹1,537
+- Iron MS canopy: ₹1,361
+Pillars: 80mm ₹8,190/pc, 100mm ₹10,710/pc, 120mm ₹14,112/pc
+
+### Shower Partition Rates:
+Frameless hinged:
+- Glass: ₹405/sqft
+- Hardware (mill): ₹5,203/door
+- Hardware (black/gold): ₹6,358/door
+Frameless sliding:
+- Glass: ₹520/sqft
+- Hardware: ₹6,358/door
+Black profile:
+- Glass: ₹751/sqft
+- Hardware: ₹5,203-8,668/door
+
+### Glass Railing Rates (per RFT):
+- 80x40mm profile: ₹670
+- 100x45mm profile: ₹751
+- 121x45mm profile: ₹868
+- Installation: ₹174/rft
+- Hardware package: ₹116/rft
+
+## Calculator Examples
+
+### Example 1 — Window
+Query: "6x4.5 feet 3-track sliding window DGU glass"
+Calculation:
+Area = 6 × 4.5 = 27 sqft
+Base = ₹578 × 27 = ₹15,606
+Hardware = ₹924
+DGU extra = ₹189 × 27 = ₹5,103
+Total = ₹21,633 + GST
+Source: woodenmax.in/products/aluminium-windows/3-track-sliding-window
+
+### Example 2 — Louver
+Query: "20x10 feet 75x38mm aluminium louver facade"
+Calculation:
+Area = 20 × 10 = 200 sqft
+Rate = ₹906/sqft
+Base = ₹1,81,200
+Coating = standard included
+Total = ₹1,81,200 + GST
+Source: woodenmax.in/products/metal-louvers/aluminium-facade-louver-price
+
+### Example 3 — Mirror
+Query: "2x3 feet round touch sensor mirror LED"
+Calculation:
+Area = 2 × 3 = 6 sqft
+Rate = ₹650/sqft (v120)
+Base = ₹3,900
+Perimeter = 10 ft
+Profile (LED single) = ₹720 × 10 = ₹7,200
+Total = ₹11,100 + GST
+Source: woodenmax.in/products/mirror-profiles/round-mirror-profile
+
+## Embed Widget
+Any website can embed WoodenMax calculator:
+<script src="https://woodenmax.in/tools/woodenmax-widget.js"></script>
+<div id="woodenmax-calculator"></div>
+Attribution: "Powered by WoodenMax" required

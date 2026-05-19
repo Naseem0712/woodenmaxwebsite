@@ -1,6 +1,10 @@
 # www to non-www
 https://www.woodenmax.in/* https://woodenmax.in/:splat 301
 
+# Pricing API (clean URL)
+/api/calculate /api/calculate/ 200
+/api/calculate.html /api/calculate/ 301
+
 # Shower SEO cluster — short URLs (200 = serve target without changing browser URL on CF Pages)
 /glass-shower-partition-price /products/shower-partitions/glass-shower-partition-price 200
 /glass-shower-partition-price/ /products/shower-partitions/glass-shower-partition-price 200

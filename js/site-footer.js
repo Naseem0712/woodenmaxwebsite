@@ -63,6 +63,7 @@
         { label: 'Folding Systems',    href: 'products/folding-systems.html'     },
         { label: 'Pergola',            href: 'products/pergola/aluminium-pergola.html' },
         { label: 'Metal Louvers',      href: 'products/metal-louvers.html'       },
+        { label: 'Mirror Profiles',    href: 'products/mirror-profiles/'         },
         { label: 'Shower Partitions',  href: 'products/shower-partitions.html'   },
         { label: 'Elevation Cladding', href: 'products/elevation-cladding.html'  },
         { label: 'Glass Elevation',    href: 'products/glass-elevation.html'     },

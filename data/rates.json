@@ -81,7 +81,7 @@
   },
   "glass_weights": {
     "density_kg_per_m3": 2625,
-    "kg_per_sqft_per_mm": 0.24386796874184348
+    "kg_per_sqft_per_mm": 0.2438679687418435
   },
   "glass_sheet_sizes": {
     "default": [
@@ -575,10 +575,10 @@
     ],
     "weights_8x4_kg": {
       "1": 8.6625,
-      "1.5": 12.81,
       "2": 17.325,
-      "2.5": 21.65625,
-      "3": 25.9875
+      "3": 25.9875,
+      "1.5": 12.81,
+      "2.5": 21.65625
     },
     "base_per_sqft": {
       "1": 175.0875,
@@ -715,6 +715,173 @@
           "fixed_addon": 189000
         }
       ]
+    }
+  },
+  "mirror_profiles": {
+    "meta": {
+      "currency": "INR",
+      "gstPercent": 18,
+      "notes": "Edit rates here — run: node tools/build-catalog-seo-pages.cjs --mirror"
+    },
+    "profilePerFoot": {
+      "plain": {
+        "min": 450,
+        "max": 580,
+        "label": "Plain silver anodized"
+      },
+      "black": {
+        "min": 520,
+        "max": 650,
+        "label": "Matt black powder coat"
+      },
+      "gold": {
+        "min": 580,
+        "max": 720,
+        "label": "Gold powder coat"
+      },
+      "wood": {
+        "min": 650,
+        "max": 820,
+        "label": "Wooden finish texture"
+      },
+      "ledSingle": {
+        "min": 720,
+        "max": 980,
+        "label": "LED backlit single strip"
+      },
+      "ledDouble": {
+        "min": 980,
+        "max": 1280,
+        "label": "LED backlit double strip"
+      },
+      "ledRgb": {
+        "min": 1180,
+        "max": 1450,
+        "label": "LED RGB profile"
+      },
+      "ledPremium": {
+        "min": 1280,
+        "max": 1650,
+        "label": "Premium LED profile"
+      },
+      "ledUltra": {
+        "min": 1450,
+        "max": 1850,
+        "label": "Ultra premium LED profile"
+      }
+    },
+    "unitProducts": {
+      "touchSensorMirror": {
+        "min": 8500,
+        "max": 18000,
+        "label": "Touch sensor mirror (per piece)"
+      },
+      "motionSensorMirror": {
+        "min": 9200,
+        "max": 22000,
+        "label": "Motion sensor mirror (per piece)"
+      }
+    },
+    "hardware": {
+      "touch3A": {
+        "included": true,
+        "label": "3A capacitive touch (standard)"
+      },
+      "touch5AUpgrade": 250,
+      "driver5A": {
+        "included": true,
+        "label": "5A LED driver (standard)"
+      },
+      "driver7AUpgrade": 350,
+      "driver10AUpgrade": 450,
+      "packingPerPiece": 500,
+      "warrantyYears": {
+        "electronics": 1,
+        "profileManufacturing": 10
+      },
+      "dispatchWorkingDays": 7
+    },
+    "calculators": {
+      "half-round": {
+        "v120": 950,
+        "v220Extra": 100,
+        "description": "C-type / D-type half-round LED mirror (bounding box sq.ft)"
+      },
+      "round-touch": {
+        "v120": 650,
+        "v220": 750,
+        "description": "Standard round touch LED mirror"
+      },
+      "round-slim": {
+        "v120": 750,
+        "v220": 850,
+        "slimPremiumPerSqft": 100,
+        "description": "Slim profile round touch (+₹100/sq.ft vs standard round)"
+      },
+      "square-touch": {
+        "v120": 650,
+        "v220": 750,
+        "description": "Rectangular / square touch — same rates as round touch"
+      },
+      "wooden-round": {
+        "v120": 1350,
+        "v220Extra": 100,
+        "woodenCoat": true,
+        "description": "Wooden texture powder coat round touch wardrobe mirror"
+      },
+      "rect-led": {
+        "v120": 850,
+        "v220": 950,
+        "description": "Large rectangle LED bathroom backlit mirror"
+      },
+      "backlit-touch": {
+        "v120": 850,
+        "v220": 950,
+        "description": "Rectangle touch backlit imported profile mirror"
+      },
+      "bevel-modular": {
+        "bevel": 850,
+        "profileAdd": 250,
+        "ledV120": 120,
+        "ledV220": 200,
+        "description": "Custom beveled glass with optional profile and LED add-ons"
+      },
+      "custom-rect-led": {
+        "v120": 1750,
+        "v220Extra": 150,
+        "minWidth": 2,
+        "maxHeight": 7,
+        "description": "Custom height mirror up to 7 ft"
+      },
+      "imported-motion": {
+        "v120": 1050,
+        "v220": 1150,
+        "packing": 500,
+        "description": "Black oval imported profile with motion sensor"
+      },
+      "luxury-glass": {
+        "v120": 1850,
+        "v220Extra": 100,
+        "wastage": 1.5,
+        "touchPc": 850,
+        "motionPerGlass": 1220,
+        "defaultGlassCount": 2,
+        "description": "Dual glass luxury backlit — profile-free, bevelled"
+      }
+    },
+    "pageCalculator": {
+      "led-mirror-profile-price": "half-round",
+      "led-mirror-profile-delhi": "half-round",
+      "touch-sensor-mirror-profile": "round-touch",
+      "round-mirror-profile": "round-slim",
+      "rectangular-mirror-profile": "square-touch",
+      "wardrobe-mirror-profile": "wooden-round",
+      "led-bathroom-mirror-profile": "rect-led",
+      "backlit-mirror-profile-price": "backlit-touch",
+      "mirror-profile-price-per-foot": "bevel-modular",
+      "custom-mirror-profile": "custom-rect-led",
+      "aluminium-mirror-frame-designs": "imported-motion",
+      "motion-sensor-mirror-profile": "luxury-glass"
     }
   }
 }

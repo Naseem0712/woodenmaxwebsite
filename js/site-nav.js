@@ -31,6 +31,7 @@
     { slug: 'folding-systems',    label: 'Folding',    href: 'products/folding-systems.html'   },
     { slug: 'pergola',            label: 'Pergola',    href: 'products/pergola/aluminium-pergola.html' },
     { slug: 'metal-louvers',      label: 'Louvers',    href: 'products/metal-louvers.html'     },
+    { slug: 'mirror-profiles',    label: 'Mirrors',    href: 'products/mirror-profiles/'       },
     { slug: 'shower-partitions',  label: 'Shower',     href: 'products/shower-partitions.html' },
     { slug: 'elevation-cladding', label: 'Elevation',  href: 'products/elevation-cladding.html'},
     { slug: 'glass-elevation',    label: 'Glass',      href: 'products/glass-elevation.html'   },

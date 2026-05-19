@@ -18,9 +18,15 @@ Allow: /policies/
 Allow: /policies/*
 Disallow: /admin/
 Disallow: /tools/
+Allow: /tools/woodenmax-widget.js
 Disallow: /_grills-source/
 Disallow: /private/
 Disallow: /*.json$
+Allow: /data/
+Allow: /data/*.json
+Allow: /api/
+Allow: /llms.txt
+Allow: /llms-full.txt
 Disallow: /debug
 Disallow: /*?debug*
 Disallow: /tmp/
@@ -33,6 +39,9 @@ Disallow: /*.sql$
 # ============================================
 User-agent: Googlebot
 Allow: /
+Allow: /api/
+Allow: /data/
+Allow: /llms.txt
 Allow: /products/
 Allow: /products/*/
 Allow: /city/
@@ -66,12 +75,36 @@ Allow: /products/*/
 # ============================================
 User-agent: GPTBot
 Allow: /
+Allow: /api/
+Allow: /data/
+Allow: /llms.txt
+Allow: /products/
+Allow: /products/*/
+Crawl-delay: 0
+
+User-agent: ClaudeBot
+Allow: /
+Allow: /api/
+Allow: /data/
+Allow: /llms.txt
+Allow: /products/
+Allow: /products/*/
+Crawl-delay: 0
+
+User-agent: PerplexityBot
+Allow: /
+Allow: /api/
+Allow: /data/
+Allow: /llms.txt
 Allow: /products/
 Allow: /products/*/
 Crawl-delay: 0
 
 User-agent: ChatGPT-User
 Allow: /
+Allow: /api/
+Allow: /data/
+Allow: /llms.txt
 Allow: /products/
 Allow: /products/*/
 Crawl-delay: 0
@@ -84,6 +117,9 @@ Crawl-delay: 0
 
 User-agent: anthropic-ai
 Allow: /
+Allow: /api/
+Allow: /data/
+Allow: /llms.txt
 Allow: /products/
 Allow: /products/*/
 Crawl-delay: 0

@@ -786,6 +786,39 @@ def main() -> None:
             }
         )
 
+    rows.append(
+        {
+            "id": "pricing-api-calculate",
+            "title": f"WoodenMax Live Pricing API | {BRAND} Aluminium Calculator",
+            "description": (
+                "Public pricing API for aluminium windows, louvers, and mirror profiles. "
+                "Pass width, height, product id — get JSON breakdown with GST. "
+                f"Powered by {BRAND} Pricing Engine v1.0."
+            )[:4990],
+            "link": f"{SITE_ORIGIN}/api/calculate",
+            "image_link": f"{SITE_ORIGIN}/images/og-default.webp",
+            "additional_image_link": "",
+            "availability": "in stock",
+            "price": "578.00 INR",
+            "sale_price": "",
+            "condition": "new",
+            "brand": BRAND,
+            "gtin": "",
+            "mpn": "",
+            "identifier_exists": "no",
+            "google_product_category": "Hardware > Building Materials",
+            "product_type": "Services > Pricing API",
+            "category": "Pricing API",
+            "shipping": "IN::Standard:0.00 INR",
+            "shipping_weight": "",
+            "custom_label_0": "pricing-api",
+            "custom_label_1": "tool",
+            "custom_label_2": "api",
+            "custom_label_3": "live-calculator",
+            "custom_label_4": "2026",
+        }
+    )
+
     rows.sort(key=lambda r: (r["product_type"], r["id"]))
 
     write_xml_feed(rows)

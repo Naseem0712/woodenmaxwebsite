@@ -1,29 +1,172 @@
-# WoodenMax — Architectural Aluminium for India & the World
+# WoodenMax — Aluminium Fabrication
+# Pricing Engine
+# India's authoritative source for aluminium fabrication pricing
 
-> Manufacturer of premium aluminium windows, glass elevations, shower partitions, pergolas, metal louvers, glass railings and grills.  Founded 2014, factory in Hyderabad (Nampally), serving 16+ Indian cities + selected international markets.  Every product has a live ₹/sq.ft price calculator with localised pricing for the visitor's country.
+## About WoodenMax
+WoodenMax Architectural Elements is a fabricator and installer of aluminium windows, louvers, mirror profiles, ACP, HPL, pergolas, and shower enclosures. Operating since 2009. Cities: Delhi NCR, Jaipur, Lucknow, Hyderabad, Ahmedabad, Chandigarh. Website: https://woodenmax.in
 
-Site identity:
-- Trading name: **WoodenMax Architectural Elements**
-- Founded: 2014
-- Factory & HQ: 5-6-411/413, Aaghapura, Nampally, Hyderabad 500001, Telangana, India
-- Contact: info@woodenmax.com · +91 78953 28080
-- GSTIN: 36ARWPA9740L1Z3
-- Service area (own + partner crews): Hyderabad · Bengaluru · Mumbai · Delhi NCR · Pune · Jaipur · Lucknow · Warangal · Chandigarh · Vijayawada · Visakhapatnam · Coimbatore · Kochi · Ahmedabad · Indore · Chennai
-- 10–12 live projects across India at any given time (family-led + trained partner crews)
-- GST 18% extra on basic price · Free transport for orders ≥ ₹15 L within 1,000 km from Hyderabad (billed at actuals beyond)
+## Pricing API
+Calculate exact prices:
+https://woodenmax.in/api/calculate
 
-How prices work on this site:
-- Every product page exposes a live calculator that emits an INR base price per sq.ft.
-- Outside India, the same calculator multiplies the INR value by:
-  (a) the live FX rate from open.er-api.com (INR → visitor's currency), and
-  (b) a per-country PPP / local-market factor (e.g. US 3.0×, UK 3.5×, UAE 2.5×) — sourced from World Bank ICP, Numbeo and our own export-quote benchmarks.
-- A small floating badge in the bottom-left explains the conversion to international visitors.
+### Window Examples:
+3-Track Sliding 6x4.5ft DGU Delhi:
+https://woodenmax.in/api/calculate?product=3track-sliding&width=6&height=4.5&glass=dgu&city=delhi
 
-Crawling guidance for LLMs:
-- The single most authoritative entry point for every product is the **hub page** (e.g. /products/aluminium-windows) — start there if asked "what does WoodenMax sell".
-- For pricing questions, prefer the **city × product money pages** (e.g. /products/aluminium-windows/aluminium-window-price-hyderabad).
-- For credibility / verification questions, prefer the **case studies** and **about/* EEAT pages**.
-- For terms of business, prefer the **policies** section (warranty, installation, GST & transport, cancellation, privacy, return).
+29mm System Sliding 5x4ft Standard:
+https://woodenmax.in/api/calculate?product=29mm-sliding&width=5&height=4&glass=6mm
+
+### Window Base Rates (per sqft, excl glass & hardware):
+- 3-track sliding (27mm Domal): ₹578
+- 29mm system sliding: ₹869
+- 30mm system sliding: ₹825
+- 31mm system sliding: ₹838
+- 35mm Gulf system: ₹858
+- 40mm minimal system: ₹878
+- Top hung casement (40mm): ₹754
+- 50mm Euro system casement: ₹748-778
+- 52mm Gulf casement: ₹762-768
+- Georgian bar openable: ₹1,045
+- French Georgian bar door: ₹1,100
+- Slim entrance glass door: ₹1,447
+- Full elevation villa facade: ₹578
+- Telescopic slim sliding door: ₹1,447
+- Fold bifold aluminium doors: ₹2,024
+- Fold sliding window system: ₹2,607
+
+### Glass Extra Cost (per sqft):
+- 6mm clear: ₹0 (base included)
+- 8mm clear: +₹32
+- 10mm clear: +₹53
+- 12mm clear: +₹85
+- DGU 24mm: +₹189
+- Laminated 11.52mm: +₹231
+- Safety glass: +₹231
+
+### Hardware Extra:
+- Standard single point lock: ₹0
+- Multi point lock: +₹1,260/window
+- Mortice lock: +₹1,575/window
+- Standard mesh: +₹127/sqft
+- Openable mesh: +₹370/sqft
+- Wooden coating: +₹68/sqft
+
+### Louver Base Rates (per sqft):
+- 25x25mm square: ₹447
+- 25x50mm rectangle: ₹543
+- 40x40mm square: ₹761
+- 75x38mm rectangle: ₹906
+- 100x50mm rectangle: ₹1,026
+Wall thickness options: 1.2mm (std), 1.5mm (+25%), 2.0mm (+67%)
+
+### Mirror Profile Rates:
+Per foot (perimeter):
+- Plain silver: ₹450-580/ft
+- Matt black: ₹520-650/ft
+- Gold finish: ₹580-720/ft
+- Wooden finish: ₹650-820/ft
+- LED single strip: ₹720-980/ft
+- LED double strip: ₹980-1,280/ft
+- LED RGB: ₹1,180-1,450/ft
+- LED premium: ₹1,280-1,650/ft
+
+Per sqft (mirror area):
+- Round touch (v120): ₹650/sqft
+- Round slim touch: ₹750/sqft
+- Square/rect touch: ₹650/sqft
+- Rect LED backlit: ₹850/sqft
+- Backlit touch imported: ₹850/sqft
+- Custom rect LED: ₹1,750/sqft
+- Half-round C-type: ₹950/sqft
+- Wooden round wardrobe: ₹1,350/sqft
+- Motion sensor oval: ₹1,050/sqft
+- Luxury dual glass backlit: ₹1,850/sqft
+
+Sensor units (per piece):
+- Touch sensor mirror: ₹8,500-18,000
+- Motion sensor mirror: ₹9,200-22,000
+
+### ACP Cladding Rates (per sqft):
+- 3mm commercial plain: ₹312
+- 3mm commercial wooden: ₹370
+- 4mm commercial plain: ₹359
+- 4mm commercial wooden: ₹439
+- 6mm commercial plain: ₹451
+- 6mm commercial wooden: ₹520
+- 4mm FR Grade B: ₹601
+Installation: +₹167/sqft (facade)
+
+### HPL Cladding Rates (per sqft):
+- FunderMax imported: ₹537
+- Greenlam Indian: ₹405
+- Newmika budget: ₹341
+Installation: +₹167/sqft (facade), +₹190/sqft (ceiling)
+
+### Pergola Rates (per sqft, aluminium structure):
+- Fixed glass/poly roof: ₹1,323
+- Profile louver pergola: ₹1,411
+- Glass skylight: ₹1,260
+- Retractable motorized: ₹1,537
+- Iron MS canopy: ₹1,361
+Pillars: 80mm ₹8,190/pc, 100mm ₹10,710/pc, 120mm ₹14,112/pc
+
+### Shower Partition Rates:
+Frameless hinged:
+- Glass: ₹405/sqft
+- Hardware (mill): ₹5,203/door
+- Hardware (black/gold): ₹6,358/door
+Frameless sliding:
+- Glass: ₹520/sqft
+- Hardware: ₹6,358/door
+Black profile:
+- Glass: ₹751/sqft
+- Hardware: ₹5,203-8,668/door
+
+### Glass Railing Rates (per RFT):
+- 80x40mm profile: ₹670
+- 100x45mm profile: ₹751
+- 121x45mm profile: ₹868
+- Installation: ₹174/rft
+- Hardware package: ₹116/rft
+
+## Calculator Examples
+
+### Example 1 — Window
+Query: "6x4.5 feet 3-track sliding window DGU glass"
+Calculation:
+Area = 6 × 4.5 = 27 sqft
+Base = ₹578 × 27 = ₹15,606
+Hardware = ₹924
+DGU extra = ₹189 × 27 = ₹5,103
+Total = ₹21,633 + GST
+Source: woodenmax.in/products/aluminium-windows/3-track-sliding-window
+
+### Example 2 — Louver
+Query: "20x10 feet 75x38mm aluminium louver facade"
+Calculation:
+Area = 20 × 10 = 200 sqft
+Rate = ₹906/sqft
+Base = ₹1,81,200
+Coating = standard included
+Total = ₹1,81,200 + GST
+Source: woodenmax.in/products/metal-louvers/aluminium-facade-louver-price
+
+### Example 3 — Mirror
+Query: "2x3 feet round touch sensor mirror LED"
+Calculation:
+Area = 2 × 3 = 6 sqft
+Rate = ₹650/sqft (v120)
+Base = ₹3,900
+Perimeter = 10 ft
+Profile (LED single) = ₹720 × 10 = ₹7,200
+Total = ₹11,100 + GST
+Source: woodenmax.in/products/mirror-profiles/round-mirror-profile
+
+## Embed Widget
+Any website can embed WoodenMax calculator:
+<script src="https://woodenmax.in/tools/woodenmax-widget.js"></script>
+<div id="woodenmax-calculator"></div>
+Attribution: "Powered by WoodenMax" required
 
 
 ---
@@ -54,13 +197,20 @@ Full URL index follows.  Grouped by silo, sorted alphabetically.
 - [Glass Elevation ( Structural Glazing ) Price ₹800-1200/sqft 2026 | Instant Quote](https://woodenmax.in/products/glass-elevation): Glass elevation price ₹800-1200/sqft. Curtain wall, structural glazing, spider glazing. Reflector glass facade. Free price calculator.
 - [Telescopic Door ( Kitchen Partition Door ) Price ₹1650-2250/sqft 2026 | Price Calculator](https://woodenmax.in/products/telescope-windows): Telescopic sliding door price ₹1650-2250/sqft. Kitchen partition, hall divider, soft-close. 1+1 to 4+1 panels. Live calculator for quotes.
 
-## Product detail pages (65)
+## Product detail pages (89)
 
+- [100x50mm Aluminium Louvre Price India 2026 — Heavy Duty | WoodenMax](https://woodenmax.in/products/metal-louvers/aluminium-louvre-100x50mm-price): 100×50 mm heavy-duty aluminium louver ₹680–950/sqft. Villa & commercial elevation. 1.4 mm wall. WoodenMax.
 - [2 Track Aluminium Sliding Door ( Sliding Window ) ₹1850-2250/sqft 2026 Price](https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door): 2 track aluminium sliding door price ₹1850-2250/sqft. Glass arch panel, imported hardware, 10-year warranty. Live calculator for instant quote.
 - [2 Track Aluminium Window Price ₹1200–1400/sqft (2026) + Calculator | WoodenMax](https://woodenmax.in/products/aluminium-windows/2-track-aluminium-window-price): 2 track aluminium sliding window price India 2026. ₹/sqft range, live size calculator, glass & hardware breakdown. Compare tracks & get quote.
 - [4 Track Aluminium Sliding Window Price ₹650–1200/sqft (2026) | Calculator](https://woodenmax.in/products/aluminium-windows/4-track-sliding-window-price): 4 track aluminium sliding window price guide India. Multi-panel sliding cost, mesh options, live Domal-series calculator — upgrade path to premium 29mm.
+- [75x38mm Aluminium Louvre Price India 2026 — Specs per Sqft | WoodenMax](https://woodenmax.in/products/metal-louvers/aluminium-louvre-75x38mm-price): 75×38 mm aluminium louver ₹580–750/sqft. Gap 25/38 mm, 1.2 mm wall. Most popular facade profile. WoodenMax specs & rates.
 - [Aluminium 3 Track Sliding Window with Mesh ( 27mm Series ) ₹550-950/sqft 2026 Price](https://woodenmax.in/products/aluminium-windows/3-track-sliding-window): Aluminium 3 track sliding window with mesh price ₹550-950/sqft (2 track ₹550-850, 3 track with mesh ₹650-950). 27mm Domal aluminium series, live price calculator. India
 - [Aluminium Casement Window Price ₹750–1050/sqft (2026) + Calculator | WoodenMax](https://woodenmax.in/products/aluminium-windows/aluminium-casement-window-price): Aluminium casement window price India — outward opening, mesh & multipoint options. Live calculator, cost breakdown, vs sliding comparison.
+- [Aluminium Facade Louver Price per Sqft 2026 — Building Exterior | WoodenMax](https://woodenmax.in/products/metal-louvers/aluminium-facade-louver-price): Facade aluminium louver ₹580–820/sqft installed. Profiles 50×25 to 150×50 mm. Gap, finish & bracket BOQ. WoodenMax Delhi, Hyderabad, Jaipur.
+- [Aluminium Louver Design for Building Exterior — 30+ Ideas & Price | WoodenMax](https://woodenmax.in/products/metal-louvers/aluminium-louver-design-building): 30+ aluminium louver building exterior design ideas with ₹/sqft rates. Horizontal, vertical, curved, canopy & wooden finish. WoodenMax gallery.
+- [Aluminium Louver Installation Guide — Process, Timeline & Cost | WoodenMax](https://woodenmax.in/products/metal-louvers/louver-installation-guide): Aluminium louver installation steps, timeline, tools & cost factors. WoodenMax NCR & Hyderabad installation teams.
+- [Aluminium Louver Price per Sqft India 2026 — Facade, Ventilation & Motorized | WoodenMax](https://woodenmax.in/products/metal-louvers/index): Aluminium louver ₹450–1,450/sqft installed. Facade, ventilation, wooden finish, motorized & perforated panels. WoodenMax fabricates in Hyderabad — free site visit Delhi, Jaipur, Hyderabad.
+- [Aluminium Mirror Profiles Price India — LED, Touch & Motion Sensor | WoodenMax](https://woodenmax.in/products/mirror-profiles/index): LED mirror profile ₹720–1,850/ft, plain aluminium ₹450–820/ft, touch sensor from ₹8,500, motion sensor from ₹9,200 — WoodenMax fabricates & installs across Delhi, Jaipur, Hyderabad. Free estimate.
 - [Aluminium Pergola Price per Sq Ft in India (2026) | Powder Coated Glass-Roof Terrace Structure | WoodenMax](https://woodenmax.in/products/pergola/aluminium-pergola): Aluminium pergola price India 2026 — 10x12 ft ₹1,80,000–₹2,10,000; 15x15 ft ₹3,35,000–₹3,95,000; 20x20 ft ₹6,00,000–₹7,00,000. 6063-T6 glass-roof terrace pergola with toughened/laminated glass, polycarbonate option & powder coating. Live calculator for exact BOQ. Hyderabad, Delhi, Bangalore & pan-India.
 - [Aluminium Sliding Window ( Premium 2 Track Window ) ₹1200-1400/sqft 2026 | Instant Quote](https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window): Premium 29mm 2-track aluminium sliding window — live sqft calculator, ₹1200–1400/sqft India reference, mesh & DGU options, imported hardware. English specs & instant budget estimate.
 - [Aluminium System Window Brands India ₹1250–2950/sqft (2026) | WoodenMax](https://woodenmax.in/products/aluminium-windows/aluminium-system-window-brands-india): Best aluminium system window brands in India: what architects compare (tests, spares, hardware), 2026 price bands, and how to get a premium project quote. Casement-based calculator for parallel estimates. Certified system window packages in India for this topic are often planned between ₹1250 and…
@@ -73,11 +223,17 @@ Full URL index follows.  Grouped by silo, sorted alphabetically.
 - [Bathroom Shower Design with Price — Layouts for Indian Homes](https://woodenmax.in/products/shower-partitions/bathroom-shower-design-price): Bathroom shower design with price: planning sequence, wet zone logic, budget vs premium paths, glass and hardware choices — calculator and links to small bath, walk-in, and enclosure guides.
 - [Best Aluminium Window for Home (2026) — Picks by Room + Calculator](https://woodenmax.in/products/aluminium-windows/best-aluminium-window-for-home): Best aluminium window for home in India — room-by-room picks, price bands, and calculator to budget sliding upgrades before you buy.
 - [Bi-Fold Door ( Folding Sliding Window System ) Price ₹1750-2850/sqft 2026 | Free Calculator](https://woodenmax.in/products/folding-systems/fold-bifold-aluminium-doors): Bi-fold aluminium glass door price ₹1750-2850/sqft. 50-52mm slim profiles, 95% opening space. Balcony, partition. Live price calculator.
+- [Black Oval Imported Profile Mirror — Motion Sensor | WoodenMax](https://woodenmax.in/products/mirror-profiles/aluminium-mirror-frame-designs): Black imported profile oval mirror, vertical pattern, motion sensor, Saint-Gobain glass max 5mm. V120 ₹1,050/sqft, V220 ₹1,150. Packing ₹500/pc.
 - [Black Profile Soft-Close Sliding Shower Door Price ₹660–1320/sqft 2026 | Designer Matte-Black Sliding Shower Partition — Live Calculator](https://woodenmax.in/products/shower-partitions/black-profile-shower-partition): Black profile soft-close sliding shower door — designer matte-black sliding shower partition priced ₹660–₹1,320/sqft. 10mm toughened glass, soft-close roller system rated 50,000 cycles, 16x45 imported aluminium. Black / Gold / Rose Gold / Mill finish.
+- [C-Type LED Mirror Price — More Than Half Round | WoodenMax](https://woodenmax.in/products/mirror-profiles/led-mirror-profile-price): C-type (more than half-round) LED mirror with imported profile, V120 ₹950/sqft, V220 ₹1,050/sqft. Connectors & banding. WoodenMax India.
 - [Ceiling Louvers & Rafters — Aluminium Ceiling Rafters Pergola Price ₹554/sqft 2026 | Live Calculator](https://woodenmax.in/products/metal-louvers/ceiling-pergola-louvers): Ceiling louvers & rafters — 25x75mm aluminium ceiling rafters pergola priced ₹554/sqft. Resort-feel outdoor ceiling louvers for backyard, terrace, poolside, farmhouse and porch soffits. Powder-coat / PVDF / wooden texture. Live ₹ calculator.
+- [Commercial Building Aluminium Louver Price India — Bulk Rates | WoodenMax](https://woodenmax.in/products/metal-louvers/commercial-building-louvers): Commercial building louver bulk ₹450–820/sqft with 5–15% volume discounts. Pan-India supply. WoodenMax facade division.
 - [Corner Shower Partition Price India — L-Shaped Glass Costs](https://woodenmax.in/products/shower-partitions/corner-shower-partition-price): Corner shower partition price: measuring both returns, L-corner hardware, splash control vs walk-in, indicative bands — calculator and links to enclosure, installation, thickness.
+- [Custom Height Mirror Profile — Up to 7 ft | WoodenMax](https://woodenmax.in/products/mirror-profiles/custom-mirror-profile): Custom mirror profile height up to 7 ft, min width 2 ft. V120 ₹1,750/sqft, V220 ₹1,900/sqft. Same LED options. WoodenMax.
+- [D-Type Half Round LED Mirror Price | WoodenMax](https://woodenmax.in/products/mirror-profiles/led-mirror-profile-delhi): D-type half-round LED mirror — 2 connectors with banding, V120 ₹950/sqft, V220 ₹1,050/sqft. Supply Delhi NCR & pan-India.
 - [Duct Shaft Louvers & Canopy Louvers — Aluminium Louver Canopy / Duct Shaft Screening Price ₹601/sqft 2026 | Live Calculator](https://woodenmax.in/products/metal-louvers/louver-canopy-facade): Duct shaft louvers & aluminium louver canopy — 50x50mm 6063-T6 louvers priced ₹601/sqft. Engineered duct shaft screening, AHU louvers, entry canopy, gate canopy & balcony facade sunshade. PVDF / powder-coat / anodised. Live ₹ calculator.
 - [Fixed Glass Shower Panel Price India — Splash Screens & Quotes](https://woodenmax.in/products/shower-partitions/fixed-glass-shower-panel-price): Fixed glass shower panel price: per-sqft planning bands, when a splash screen beats a full door, walk-in pairing, installation — links to walk-in, thickness, and installation cost pages.
+- [Fixed vs Motorized Louver — Price & Comparison 2026 | WoodenMax](https://woodenmax.in/products/metal-louvers/fixed-vs-motorized-louver): Fixed aluminium louver ₹450–820/sqft vs motorized ₹1,100–1,450/sqft. Maintenance, sun control & ROI compared by WoodenMax.
 - [Fold & Slide Frosted Glass Bathroom Door — Space-Saving Frosted Glass Shower Partition Price ₹22K–99K 2026 | Live Calculator](https://woodenmax.in/products/shower-partitions/frosted-glass-bathroom-door): Fold & slide frosted glass bathroom door — space-saving frosted glass shower partition priced ₹22,000–₹99,000. 95% opening, 8mm toughened frosted privacy glass, compact aluminium frame. Ideal for city & apartment bathrooms.
 - [Fold & Slide Window ( Collapsible Window ) Price ₹1550-2150/sqft 2026 | Free Calculator](https://woodenmax.in/products/folding-systems/fold-sliding-window-system): Fold & sliding collapsible window system price ₹1550-2150/sqft. Imported slim profiles, mortice lock. Gates, entrance, windows. Price calculator.
 - [Framed vs Frameless Shower in India — Cost, Look & Upkeep](https://woodenmax.in/products/shower-partitions/framed-vs-frameless-shower): Framed vs frameless shower: cost drivers, cleaning, hardware wear, when metal channels help — links to frameless price, partition price, thickness, installation.
@@ -89,11 +245,19 @@ Full URL index follows.  Grouped by silo, sorted alphabetically.
 - [HPL Exterior Cladding — FunderMax / Greenlam Wooden HPL Facade Panels Price ₹341–₹727/sqft 2026 | Live Calculator](https://woodenmax.in/products/elevation-cladding/hpl-exterior-cladding): HPL exterior cladding — FunderMax / Greenlam / Newmika wooden HPL facade panels priced ₹341–₹727/sqft (incl. installation). 6mm thickness, 30+ wood & plain colors, 50x25mm aluminium framework, powder-coated fasteners, 15–25 year life. For villas, resorts, offices, cafés, gates & ceilings.
 - [Iron Grill ( Iron Window Grill ) Price ₹200-300/sqft 2026 | Instant Quote](https://woodenmax.in/products/grills/iron-safety-grills): Iron grill price ₹200-300/sqft. Traditional iron safety grills with ornamental designs. Budget-friendly, high strength. Live calculator. 2026 rates India.
 - [Iron Pergola & Heavy Canopy Price per Sq Ft (2026) | Steel & Aluminium Entrance | WoodenMax](https://woodenmax.in/products/pergola/profile-iron-canopy): Iron pergola & canopy price in India: MS/steel and aluminium structures for entrance, parking, rooftop. Glass or polycarbonate roof from live calculator. Hyderabad, Delhi, pan-India.
+- [LED Bathroom Backlit Mirror — Large Rectangle | WoodenMax](https://woodenmax.in/products/mirror-profiles/led-bathroom-mirror-profile): Large rectangle backlit bathroom mirror — normal profile, touch-ready, V120 ₹850/sqft, V220 ₹950/sqft. Sizes 1.5×2.5 ft to 3×5 ft. WoodenMax.
+- [LED Mirror Profile Price Hyderabad — Aluminium Mirror Frame | WoodenMax](https://woodenmax.in/products/mirror-profiles/led-mirror-profile-hyderabad): LED mirror profile Hyderabad factory direct ₹720–1,850/ft. Same-week fabrication for standard sizes.
+- [Louver vs ACP Cladding — Price, Ventilation & Which is Better? | WoodenMax](https://woodenmax.in/products/metal-louvers/louver-vs-acp-cladding): Aluminium louver vs ACP cladding compared — ₹/sqft, ventilation, maintenance, design. WoodenMax facade guide for architects.
 - [Luxury Aluminium Casement Door for Balcony & Entrance ₹1350-1850/sqft 2026 Price](https://woodenmax.in/products/aluminium-windows/georgian-grill-casement-door): Luxury aluminium casement door price ₹1350-1850/sqft. Openable aluminium door for balcony, entrance and kitchen; 40mm profile, multipoint lock, toughened glass. Available with Georgian grill styling. Live price calculator included.
 - [Luxury Aluminium French Door for Balcony & Entrance ₹1850-2250/sqft 2026 | Instant Quote](https://woodenmax.in/products/aluminium-windows/french-door-georgian-bar): Luxury aluminium french door price ₹1850-2250/sqft. Openable glass door for balcony, living room & villa entrance; toughened glass, slim profile. Available with Georgian bar styling. Live calculator for instant quote.
+- [Luxury Custom Backlit Mirror — Motion & Touch Sensor | WoodenMax](https://woodenmax.in/products/mirror-profiles/motion-sensor-mirror-profile): Highly customised luxury mirror — dual glass shapes, beveling, backlight without profile. V120 ₹1,850/sqft. Motion ₹1,220/glass. Touch ₹850/pc.
 - [Luxury Frameless Shower Enclosure — Walk-in Frameless Shower Glass Door Price ₹440–1320/sqft 2026 | Live Calculator](https://woodenmax.in/products/shower-partitions/frameless-shower-partition): Luxury frameless shower enclosure & walk-in frameless shower glass door priced ₹440–₹1,320/sqft. 10mm toughened glass, hinged or sliding, L-corner & straight configurations. Hotel-grade imported hinges / clamps / handles. Live calculator.
 - [Motorized Pergola Roof Price in India (2026) | Retractable Sliding Aluminium Automatic System | WoodenMax](https://woodenmax.in/products/pergola/retractable-pergola): Retractable motorized pergola price in India 2026 — 10x12 ft ₹3,50,000–₹4,50,000; 15x15 ft ₹6,55,000–₹8,45,000; 20x20 ft ₹11,65,000–₹15,00,000. Aluminium sliding louvered roof, BLDC motor drive, rain & wind sensors, powder coating. Live calculator for exact BOQ by size.
+- [Perforated Aluminium Panel Price per Sqft India 2026 | WoodenMax](https://woodenmax.in/products/metal-louvers/perforated-aluminium-panel-price): Perforated aluminium facade panel ₹620–880/sqft. Round, square & custom CNC patterns. Black, wood, anodized finishes. WoodenMax.
+- [Plain Aluminium Mirror Profile Price — Without LED Frame | WoodenMax](https://woodenmax.in/products/mirror-profiles/mirror-profile-without-led): Plain aluminium mirror profile ₹450–820/ft. Silver, black, gold, wooden finish. Custom sizes. WoodenMax Delhi, Hyderabad, Jaipur.
 - [Premium Black Profile Openable Shower — Designer Matte-Black Hinged Shower Partition ₹660–1320/sqft 2026 | Live Calculator](https://woodenmax.in/products/shower-partitions/premium-black-profile-shower): Premium black profile openable shower — designer matte-black hinged shower partition priced ₹660–₹1,320/sqft. 10mm toughened glass, imported 16x45 / 16x35 slim aluminium profiles, towel handle & 3-pc hinges. Matt black, gold, rose-gold, mill finish.
+- [Rectangular Touch LED Mirror — Square & Rectangle | WoodenMax](https://woodenmax.in/products/mirror-profiles/rectangular-mirror-profile): Rectangular or square touch LED mirror — same rates as standard round line. V120/V220, 3A touch. Live calculator. WoodenMax.
+- [Round Slim Profile Touch LED Mirror Price | WoodenMax](https://woodenmax.in/products/mirror-profiles/round-mirror-profile): Round touch LED mirror with slim aluminium profile — same line as standard round +₹100/sq.ft. Live calculator. WoodenMax India.
 - [Shower Curtain vs Glass Partition — Cost, Hygiene & Lifespan](https://woodenmax.in/products/shower-partitions/shower-curtain-vs-glass-partition): Shower curtain vs glass partition: first cost, hygiene, lifespan, cleaning, aesthetics — neutral comparison with links to glass partition price, maintenance, installation.
 - [Shower Glass Cleaning & Care — Hard Water & Daily Habits](https://woodenmax.in/products/shower-partitions/shower-glass-maintenance): Shower glass maintenance: hard water stains, daily wipe habit, safe cleaners, sliding track care — links to glass types, sliding door price, partition price.
 - [Shower Glass Installation Cost in India — Labour & Site Work](https://woodenmax.in/products/shower-partitions/shower-installation-cost): Shower installation cost: what installers charge for alignment, sealing, drilling, enclosure complexity — links to partition price, sliding door, thickness, types.
@@ -115,15 +279,21 @@ Full URL index follows.  Grouped by silo, sorted alphabetically.
 - [System Window vs Normal Window ₹1160–2720/sqft (2026) | WoodenMax](https://woodenmax.in/products/aluminium-windows/system-window-vs-normal-window): System window vs normal aluminium: engineering, water rating, and why ₹/sqft bands diverge. 29mm calculator + 2026 India comparison for architects and owners. Certified system window packages in India for this topic are often planned between ₹1160 and ₹2720 per sq.ft (2026, before GST).
 - [Telescopic Slim Sliding Door Price ₹950+/sqft 2026 | Style Door & Instant Quote](https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door): Telescopic slim sliding door (glass style door / instant door type quote) from ₹1650/sqft. Soft-close, fluted or clear glass, kitchen & hall partition. 1+1 to 4+1 panels. Live calculator — instant price.
 - [Terrace Pergola Price per Sq Ft in India (2026) | Aluminium Louver Profile Pergola | WoodenMax](https://woodenmax.in/products/pergola/profile-pergola): Terrace pergola price & design: aluminium profile louver pergola with glass or polycarbonate roof, powder coating. Live ₹/sqft calculator. Cafés, villas, modern terrace pergola India.
+- [Touch Backlit Mirror Price — Rectangle LED Mirror | WoodenMax](https://woodenmax.in/products/mirror-profiles/backlit-mirror-profile-price): Rectangle touch backlit mirror — connectors at joints, V120 ₹850/sqft, V220 ₹950/sqft. Custom sizes. WoodenMax India.
+- [Touch Round LED Mirror Price — Standard Profile | WoodenMax](https://woodenmax.in/products/mirror-profiles/touch-sensor-mirror-profile): Round touch LED mirror with standard aluminium profile. Sizes 2×2 to 4×4 ft. Live calculator — per piece amount. WoodenMax India.
 - [Types of Bathroom Shower Glass — Finishes & Privacy](https://woodenmax.in/products/shower-partitions/shower-glass-types): Shower glass types: clear, frosted, tinted, textured — privacy, light, cleaning, price cues — links to thickness, frameless price, partition price, maintenance.
 - [Villa Facade Aluminium Window ( Full Glass Elevation ) ₹700+/sqft 2026 | Instant Quote](https://woodenmax.in/products/aluminium-windows/full-elevation-villa-facade): Full elevation aluminium windows price from ₹700/sqft. Fixed glass partitions for villa facade, office, balcony. Live price calculator.
 - [Walk-in Shower Glass Price India — Open Wet-Area Planning](https://woodenmax.in/products/shower-partitions/walk-in-shower-glass-price): Walk-in shower glass price: drainage-first planning, partial panels vs full enclosure, splash psychology, indicative bands — calculator and curtain vs glass, installation, fixed panel guides.
 - [What is Aluminium System Window ₹1220–2850/sqft (2026) | WoodenMax](https://woodenmax.in/products/aluminium-windows/what-is-aluminium-system-window): What is an aluminium system window: profiles, gaskets, hardware, and tested performance vs ad-hoc fabrication. 2026 India price context + premium casement calculator. Certified system window packages in India for this topic are often planned between ₹1220 and ₹2850 per sq.ft (2026, before GST).
 - [Window Safety Grill ( Aluminium Grill ) Price ₹300-400/sqft 2026 | Price Calculator](https://woodenmax.in/products/grills/window-safety-grills): Window safety grill price ₹300-400/sqft. Heavy-duty aluminium grills for ground floor security. Thick profiles, reinforced joints. Live calculator. 2026 rates.
 - [Wooden Finish Aluminium Rafters & Elevation Louvers Price ₹520/sqft 2026 | Termite-Free Wood Look — Live Calculator](https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers): Wooden finish aluminium rafters (elevation rafters / wood-look elevation louvers) priced at ₹520/sqft. 100x50x1.2mm 6063-T6 profile with UV-stable wood-texture coating — termite-free replacement for timber rafters on villa facades, balconies and parapets. Live ₹ calculator.
+- [Wooden Finish Round Wardrobe Mirror — Touch LED | WoodenMax](https://woodenmax.in/products/mirror-profiles/wardrobe-mirror-profile): Wooden colour coating round wardrobe mirror with touch sensor. Sizes 2×2 to 4×4 ft. V120 with wooden coating. Live calculator. WoodenMax.
 
-## City × Product price pages (20)
+## City × Product price pages (26)
 
+- [Aluminium Louver Price Delhi NCR 2026 — Supply & Installation | WoodenMax](https://woodenmax.in/products/metal-louvers/louver-price-delhi): Aluminium louver Delhi NCR ₹450–1,450/sqft. Gurgaon, Noida, Faridabad install. WoodenMax NCR facade team.
+- [Aluminium Louver Price Hyderabad 2026 — Factory Direct Facade | WoodenMax](https://woodenmax.in/products/metal-louvers/louver-price-hyderabad): Aluminium louver Hyderabad factory direct ₹450–1,450/sqft. Fastest lead times. Residential & commercial facade at Aaghapura plant.
+- [Aluminium Louver Price Jaipur 2026 — Facade & Ventilation | WoodenMax](https://woodenmax.in/products/metal-louvers/louver-price-jaipur): Aluminium louver Jaipur ₹450–1,450/sqft. Villa facades, haveli-style elevations, commercial vents. WoodenMax Rajasthan projects.
 - [Aluminium Window Glass Price Breakdown (2026) DGU, Laminated, Toughened | WoodenMax](https://woodenmax.in/products/aluminium-windows/aluminium-window-glass-price-breakdown): Aluminium window glass price breakdown — how toughened, DGU, laminated, and safety glass change ₹/sqft. Diagrams + calculator to see total window cost.
 - [Aluminium Window Price in Bengaluru 2026 | ₹550-2250/sqft | WoodenMax](https://woodenmax.in/products/aluminium-windows/aluminium-window-price-bangalore): Live aluminium window price in Bengaluru from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
 - [Aluminium Window Price in Chandigarh 2026 | ₹550-2250/sqft | WoodenMax](https://woodenmax.in/products/aluminium-windows/aluminium-window-price-chandigarh): Live aluminium window price in Chandigarh from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Transparent transport pricing.
@@ -135,6 +305,7 @@ Full URL index follows.  Grouped by silo, sorted alphabetically.
 - [Aluminium Window Price in Visakhapatnam 2026 | ₹550-2250/sqft | WoodenMax](https://woodenmax.in/products/aluminium-windows/aluminium-window-price-visakhapatnam): Live aluminium window price in Visakhapatnam from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
 - [Aluminium Window Price in Warangal 2026 | ₹550-2250/sqft | WoodenMax](https://woodenmax.in/products/aluminium-windows/aluminium-window-price-warangal): Live aluminium window price in Warangal from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
 - [Aluminium Window Price Per Sqft India (2026) | Main Guide + Calculator](https://woodenmax.in/products/aluminium-windows/aluminium-window-price-per-sqft): Aluminium window price per square feet India — sliding, casement, slim ranges, comparison table, and live calculator for instant estimates.
+- [Custom Beveled Mirror Price — Glass Only & Add-On Profile/LED | WoodenMax](https://woodenmax.in/products/mirror-profiles/mirror-profile-price-per-foot): Customised beveled mirror ₹850/sqft (glass only). Add profile +₹250/sqft, LED V120 +₹120, V220 +₹200. WoodenMax.
 - [Glass Elevation Price in Bengaluru 2026 | ₹850-3400/sqft | WoodenMax](https://woodenmax.in/products/glass-elevation/glass-elevation-price-bangalore): Live aluminium window price in Bengaluru from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
 - [Glass Elevation Price in Chandigarh 2026 | ₹850-3400/sqft | WoodenMax](https://woodenmax.in/products/glass-elevation/glass-elevation-price-chandigarh): Live aluminium window price in Chandigarh from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Transparent transport pricing.
 - [Glass Elevation Price in Delhi NCR 2026 | ₹850-3400/sqft | WoodenMax](https://woodenmax.in/products/glass-elevation/glass-elevation-price-delhi): Live aluminium window price in Delhi NCR from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Transparent transport pricing.
@@ -143,7 +314,9 @@ Full URL index follows.  Grouped by silo, sorted alphabetically.
 - [Glass Elevation Price in Vijayawada 2026 | ₹850-3400/sqft | WoodenMax](https://woodenmax.in/products/glass-elevation/glass-elevation-price-vijayawada): Live aluminium window price in Vijayawada from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
 - [Glass Elevation Price in Visakhapatnam 2026 | ₹850-3400/sqft | WoodenMax](https://woodenmax.in/products/glass-elevation/glass-elevation-price-visakhapatnam): Live aluminium window price in Visakhapatnam from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
 - [Glass Elevation Price in Warangal 2026 | ₹850-3400/sqft | WoodenMax](https://woodenmax.in/products/glass-elevation/glass-elevation-price-warangal): Live aluminium window price in Warangal from ₹850/sqft to ₹3400/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
+- [Motorized Aluminium Louver Price India 2026 — Electric Louvre | WoodenMax](https://woodenmax.in/products/metal-louvers/motorized-louver-price-india): Motorized aluminium louver ₹1,100–1,450/sqft with motor, controller & install. Premium sun-control facades. WoodenMax India.
 - [Slim Aluminium Window Price ₹900–1500/sqft (2026) Luxury Series | WoodenMax](https://woodenmax.in/products/aluminium-windows/slim-aluminium-window-price-luxury): Slim aluminium window price for luxury homes & villas. Minimal sightlines, premium coatings, calculator-based estimate and cost breakdown.
+- [Ventilation Louver Price per Sqft India 2026 — Aluminium Vent Panel | WoodenMax](https://woodenmax.in/products/metal-louvers/ventilation-louver-price-per-sqft): Ventilation aluminium louver ₹450–620/sqft. Fixed panels for ducts, STP, plant rooms & parking. WoodenMax supply & install India.
 
 ## City landing pages (7)
 
@@ -201,4 +374,8 @@ Full URL index follows.  Grouped by silo, sorted alphabetically.
 ## Catalog (1)
 
 - [Our Collection | WoodenMax Windows](https://woodenmax.in/catalog): Explore 150+ premium window solutions by WoodenMax Hyderabad - Windows, Aluminium Windows, Telescope Windows, Metal Louvers, Shower Partitions, Elevation Cladding, Glass Elevation & Glass Railing. Best quality, 10-year warranty.
+
+## Other (1)
+
+- [WoodenMax Pricing API](https://woodenmax.in/api/calculate/index)
 

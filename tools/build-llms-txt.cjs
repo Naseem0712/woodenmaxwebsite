@@ -143,7 +143,9 @@ const SILO_ORDER = [
  * 3.  Build outputs                                                   *
  * ------------------------------------------------------------------ */
 
-const HEADER_SHORT = `# WoodenMax — Architectural Aluminium for India & the World
+const PRICING_HEADER_PATH = path.join(__dirname, 'page-data', 'llms-pricing-header.txt');
+
+const HEADER_SHORT_LEGACY = `# WoodenMax — Architectural Aluminium for India & the World
 
 > Manufacturer of premium aluminium windows, glass elevations, shower partitions, pergolas, metal louvers, glass railings and grills.  Founded 2014, factory in Hyderabad (Nampally), serving 16+ Indian cities + selected international markets.  Every product has a live ₹/sq.ft price calculator with localised pricing for the visitor's country.
 
@@ -172,10 +174,17 @@ Crawling guidance for LLMs:
 
 `;
 
-const HEADER_FULL = HEADER_SHORT + `\n---\n\nFull URL index follows.  Grouped by silo, sorted alphabetically.\n\n`;
+function loadPricingHeader() {
+  try {
+    if (fs.existsSync(PRICING_HEADER_PATH)) {
+      return fs.readFileSync(PRICING_HEADER_PATH, 'utf8').trim() + '\n\n';
+    }
+  } catch (e) { /* ignore */ }
+  return HEADER_SHORT_LEGACY;
+}
 
 function buildShort(buckets) {
-  let out = HEADER_SHORT;
+  let out = loadPricingHeader();
   for (const silo of SILO_ORDER) {
     const items = buckets[silo];
     if (!items || items.length === 0) continue;
@@ -205,7 +214,7 @@ function buildShort(buckets) {
 }
 
 function buildFull(buckets) {
-  let out = HEADER_FULL;
+  let out = loadPricingHeader() + `\n---\n\nFull URL index follows.  Grouped by silo, sorted alphabetically.\n\n`;
   for (const silo of SILO_ORDER) {
     const items = buckets[silo];
     if (!items || items.length === 0) continue;

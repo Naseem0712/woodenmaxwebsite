@@ -1,0 +1,300 @@
+/* Catalog SEO pages — mirror profiles & metal louvers price cluster */
+.catalog-calc-section {
+  padding: 1.75rem 0 2rem;
+  background: linear-gradient(180deg, #FFFCF4 0%, #FFFFFF 100%);
+  border-bottom: 1px solid rgba(184, 137, 61, 0.2);
+}
+.catalog-calc-section .cluster-h2 { margin-bottom: 0.35rem; }
+.catalog-calc-intro {
+  color: #475569;
+  font-size: 0.92rem;
+  margin: 0 0 1.1rem;
+  max-width: 720px;
+}
+.catalog-calc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  max-width: 920px;
+}
+@media (min-width: 640px) {
+  .catalog-calc-grid {
+    grid-template-columns: 1fr 1fr 1fr auto;
+    align-items: end;
+  }
+}
+.catalog-calc-field label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0F172A;
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.catalog-calc-field input,
+.catalog-calc-field select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fff;
+}
+.catalog-calc-submit {
+  padding: 0.7rem 1.25rem;
+  background: #0F172A;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  width: 100%;
+}
+.catalog-calc-submit:hover { background: #1E293B; }
+.catalog-calc-result {
+  margin-top: 1rem;
+  padding: 1rem 1.15rem;
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  max-width: 520px;
+  display: none;
+}
+.catalog-calc-result.is-visible { display: block; }
+.catalog-calc-result strong {
+  font-size: 1.35rem;
+  color: #0F172A;
+}
+.catalog-calc-result p {
+  margin: 0.35rem 0 0;
+  font-size: 0.88rem;
+  color: #475569;
+}
+.catalog-wa-row {
+  margin-top: 0.85rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+.catalog-wa-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  background: #25D366;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  border-radius: 8px;
+  text-decoration: none;
+}
+.catalog-wa-btn:hover { filter: brightness(1.05); color: #fff; }
+.catalog-hub-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+@media (min-width: 540px) {
+  .catalog-hub-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 900px) {
+  .catalog-hub-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.catalog-hub-card {
+  display: block;
+  background: #fff;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.catalog-hub-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+}
+.catalog-hub-card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  display: block;
+}
+.catalog-hub-card-body {
+  padding: 0.85rem 1rem;
+}
+.catalog-hub-card-body strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #0F172A;
+  margin-bottom: 0.25rem;
+}
+.catalog-hub-card-body span {
+  font-size: 0.8rem;
+  color: #64748B;
+}
+
+.catalog-calc-grid-mirror {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .catalog-calc-grid-mirror {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 900px) {
+  .catalog-calc-grid-mirror {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+.catalog-calc-field-full {
+  grid-column: 1 / -1;
+}
+.catalog-calc-extras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  align-items: center;
+}
+.catalog-calc-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.88rem;
+  color: #334155;
+  cursor: pointer;
+}
+.catalog-calc-check input {
+  width: auto;
+}
+.catalog-calc-result small {
+  display: block;
+  margin-top: 0.5rem;
+  color: #64748B;
+}
+.catalog-hero-product-img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(15, 23, 42, 0.12);
+}
+
+.catalog-calc-hardware-summary {
+  margin-top: 1.25rem;
+}
+.catalog-hw-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 0.75rem;
+}
+.catalog-hw-mini {
+  font-size: 0.88rem;
+}
+.catalog-calc-inquiry {
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+.catalog-inq-title {
+  font-size: 1.05rem;
+  margin: 0 0 1rem;
+  color: #0f172a;
+}
+.catalog-inq-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .catalog-inq-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.catalog-inq-status {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0.75rem 0 0;
+}
+.catalog-calc-result.is-visible {
+  display: block;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #fffbeb;
+  border: 1px solid rgba(184, 137, 61, 0.35);
+  border-radius: 10px;
+}
+
+.cluster-eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #8a6321;
+  margin: 0 0 0.5rem;
+}
+.cluster-h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 1.5rem 0 0.75rem;
+}
+.cluster-h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #334155;
+  margin: 1.25rem 0 0.5rem;
+}
+.cluster-prose {
+  color: #475569;
+  line-height: 1.7;
+  font-size: 1rem;
+}
+.cluster-prose p { margin: 0 0 1rem; }
+.cluster-prose a { color: #8a6321; font-weight: 500; }
+.cluster-section-alt { background: #f8fafc; }
+.cluster-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+.cluster-cta-secondary {
+  display: inline-block;
+  padding: 0.65rem 1.25rem;
+  border: 1px solid rgba(184, 137, 61, 0.45);
+  border-radius: 8px;
+  color: #8a6321;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.cluster-cta-secondary:hover {
+  background: rgba(184, 137, 61, 0.08);
+}
+.catalog-calc-note,
+.catalog-calc-source {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0.5rem 0 0;
+}
+.catalog-calc-source {
+  font-size: 0.8rem;
+  opacity: 0.9;
+}
+.whatsapp-btn,
+.catalog-wa-btn.whatsapp-btn {
+  background: #25d366;
+  color: #fff;
+  border: 0;
+}
+.whatsapp-btn:hover,
+.catalog-wa-btn.whatsapp-btn:hover {
+  background: #1da851;
+}
