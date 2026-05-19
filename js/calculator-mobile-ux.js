@@ -1334,13 +1334,22 @@
    * the calculator container, but only on pages that don't already
    * carry an `.eeat-block` (e.g. the demo page).
    */
+  function isMirrorContext () {
+    if (document.body.classList.contains('silo-mirror-profiles')) return true;
+    return /\/products\/mirror-profiles\//i.test(location.pathname || '');
+  }
+
   function injectEeatBlock () {
     if (document.querySelector('.eeat-block')) return;
+    if (document.body.classList.contains('catalog-seo-page') && document.body.classList.contains('silo-mirror-profiles')) {
+      return;
+    }
     var calc = getCalcContainer();
     if (!calc) return;
     var section = calc.closest('section') || calc.parentElement;
     if (!section || !section.parentElement) return;
 
+    var mirrorCtx = isMirrorContext();
     var wrap = document.createElement('section');
     wrap.className = 'eeat-block';
     wrap.setAttribute('data-eeat-injected', '1');
@@ -1371,14 +1380,14 @@
         // Compact trust-bar below the 4 cards — converts CTR by hitting
         // free-visit / speed / pricing-transparency / social-proof objections.
         '<div class="eeat-trust-bar" role="note">' +
-          '<span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> <strong>Free</strong> site visit \u2014 within <strong>48 hrs</strong></span>' +
+          (mirrorCtx ? '' : '<span class="eeat-trust-sitevisit"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> <strong>Free</strong> site visit \u2014 within <strong>48 hrs</strong></span>') +
           '<span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 11 3 3 11 3"/><line x1="3" y1="3" x2="11" y2="11"/><polyline points="21 13 21 21 13 21"/><line x1="21" y1="21" x2="13" y2="13"/></svg> <strong>GST 18%</strong> extra, transparently shown</span>' +
           '<span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> <strong>Free transport</strong> on \u20b915L+ orders <em>(\u2264 1,000 km from HYD)</em></span>' +
           '<span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <strong>4.8/5</strong> from 500+ clients</span>' +
         '</div>' +
       '</div>';
 
-    section.parentElement.insertBefore(wrap, section);
+    section.insertAdjacentElement('afterend', wrap);
   }
 
   function eeatCard (svgHtml, title, sub) {

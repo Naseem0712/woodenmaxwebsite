@@ -32,7 +32,22 @@ const MIRROR_POLICY_FAQ = [
   { q: 'Is GST included in the calculator?', a: 'Calculator amounts are <strong>ex-GST</strong>. GST 18% is added on the invoice.' },
 ];
 
-const MIRROR_CALC_INTRO = 'Select size, qty, LED, touch and driver — the per-piece amount updates live. Submit the form for a formal quote (GST, packing and transit confirmed by email).';
+const MIRROR_CALC_INTRO = 'Select size, qty, profile colour, mirror glass brand, LED, touch and driver — the per-piece amount updates live. Submit the form or WhatsApp for a formal quote (GST, packing and transit confirmed separately).';
+
+const MIRROR_PROFILE_COLORS = [
+  { id: 'matt-black', label: 'Matt Black', premium: false, fill: '#232323' },
+  { id: 'matt-grey', label: 'Matt Grey', premium: false, fill: '#8a9199' },
+  { id: 'matt-gold', label: 'Matt Gold', premium: false, fill: '#d4af37' },
+  { id: 'brush-gold', label: 'Brush Gold', premium: true, fill: '#b8860b' },
+  { id: 'rose-gold', label: 'Rose Gold', premium: true, fill: '#c9957a' },
+];
+
+const MIRROR_PREMIUM_COLOR_PER_SQFT = 45;
+
+const MIRROR_GLASS_BRANDS = [
+  { id: 'saint-gobain', label: 'Saint Gobain' },
+  { id: 'gold-plus', label: 'Gold Plus' },
+];
 
 const MIRROR_EEAT = {
   heading: 'Why designers trust WoodenMax for mirror profiles',
@@ -74,6 +89,9 @@ module.exports = {
   MIRROR_LED_COMPARISON,
   MIRROR_POLICY_FAQ,
   MIRROR_CALC_INTRO,
+  MIRROR_PROFILE_COLORS,
+  MIRROR_PREMIUM_COLOR_PER_SQFT,
+  MIRROR_GLASS_BRANDS,
   MIRROR_EEAT,
   MIRROR_LUXURY_NOTE,
   MIRROR_RATE_COMPARISON,

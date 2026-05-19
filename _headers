@@ -1,0 +1,42 @@
+# WoodenMax — Cloudflare Pages custom headers
+# https://developers.cloudflare.com/pages/configuration/headers/
+# One file at site root (publish directory). Path rules use leading /.
+
+# Pricing API (HTML + JSON responses)
+/api/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: Content-Type
+  X-Robots-Tag: index, follow
+
+/api/calculate
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: Content-Type
+  Content-Type: text/html; charset=utf-8
+
+/api/calculate/
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: Content-Type
+  Content-Type: text/html; charset=utf-8
+
+# Public pricing data (widget + API engine fetch)
+/data/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: Content-Type
+  Cache-Control: public, max-age=3600
+
+/data/*.json
+  Access-Control-Allow-Origin: *
+  Content-Type: application/json; charset=utf-8
+
+/data/pricing-engine.js
+  Access-Control-Allow-Origin: *
+  Content-Type: application/javascript; charset=utf-8
+
+# Embeddable calculator widget
+/tools/woodenmax-widget.js
+  Access-Control-Allow-Origin: *
+  Content-Type: application/javascript; charset=utf-8

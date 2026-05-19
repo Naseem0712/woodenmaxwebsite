@@ -12,6 +12,7 @@ const ORIGIN = 'https://woodenmax.in';
 
 const mirrorManifest = require('./page-data/catalog/mirror-profiles-pages');
 const louverManifest = require('./page-data/catalog/metal-louvers-seo-pages');
+const mirrorShared = require('./page-data/catalog/_mirror-shared');
 
 function esc(s) {
   return String(s == null ? '' : s)
@@ -127,6 +128,61 @@ function renderTable(tbl) {
   );
 }
 
+function renderColorSwatchSvg(color) {
+  var id = color.id;
+  var fill = color.fill;
+  if (id === 'brush-gold') {
+    return (
+      '<svg class="catalog-color-swatch" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">' +
+      '<defs><linearGradient id="sw-brush-gold" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0%" stop-color="#e8c872"/><stop offset="45%" stop-color="#b8860b"/><stop offset="100%" stop-color="#8b6914"/>' +
+      '</linearGradient></defs>' +
+      '<rect width="20" height="20" rx="3" fill="url(#sw-brush-gold)" stroke="#9a7b2f" stroke-width="0.6"/></svg>'
+    );
+  }
+  if (id === 'rose-gold') {
+    return (
+      '<svg class="catalog-color-swatch" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">' +
+      '<rect width="20" height="20" rx="3" fill="' + fill + '" stroke="#a67c6d" stroke-width="0.6"/>' +
+      '<rect x="3" y="3" width="14" height="14" rx="2" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="0.5"/></svg>'
+    );
+  }
+  return (
+    '<svg class="catalog-color-swatch" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">' +
+    '<rect width="20" height="20" rx="3" fill="' + fill + '" stroke="rgba(0,0,0,.18)" stroke-width="0.6"/></svg>'
+  );
+}
+
+function renderMirrorColorPicker() {
+  var colors = mirrorShared.MIRROR_PROFILE_COLORS;
+  var premium = mirrorShared.MIRROR_PREMIUM_COLOR_PER_SQFT;
+  return (
+    '<div class="catalog-calc-field catalog-calc-field-full"><label>Profile colour</label>' +
+    '<div class="catalog-color-picker" role="radiogroup" aria-label="Profile colour">' +
+    colors.map(function (col, i) {
+      var prem = col.premium ? ' <span class="catalog-color-premium">+₹' + premium + '/sq.ft</span>' : '';
+      return (
+        '<label class="catalog-color-option">' +
+        '<input type="radio" name="catalogCalcColor" value="' + esc(col.id) + '"' + (i === 0 ? ' checked' : '') + '>' +
+        renderColorSwatchSvg(col) +
+        '<span class="catalog-color-label">' + esc(col.label) + prem + '</span></label>'
+      );
+    }).join('') +
+    '</div></div>'
+  );
+}
+
+function renderMirrorGlassBrand() {
+  var brands = mirrorShared.MIRROR_GLASS_BRANDS;
+  return (
+    '<div class="catalog-calc-field"><label>Mirror glass</label><select id="catalogCalcGlassBrand">' +
+    brands.map(function (b) {
+      return '<option value="' + esc(b.id) + '">' + esc(b.label) + '</option>';
+    }).join('') +
+    '</select><small class="catalog-field-hint">Same rate — select brand for your BOQ</small></div>'
+  );
+}
+
 function renderMirrorCalc(cfg, prefix) {
   var mode = cfg.calcMode;
   var c = cfg.calcConfig || {};
@@ -135,18 +191,19 @@ function renderMirrorCalc(cfg, prefix) {
     presets.map(function (sz) {
       return '<option value="' + sz[0] + ',' + sz[1] + '">' + sz[0] + ' × ' + sz[1] + ' ft</option>';
     }).join('');
-  var extras = '';
-  if (mode === 'imported-motion') {
-    extras = '<label class="catalog-calc-check"><input type="checkbox" id="catalogCalcPacking" checked> Include packing</label>';
-  }
+  var packingLine =
+    '<label class="catalog-calc-check"><input type="checkbox" id="catalogCalcPacking"' +
+    (mode === 'imported-motion' ? ' checked' : '') +
+    '> Add export packing (approx ₹500/piece)</label>';
+  var extras = packingLine;
   if (mode === 'bevel-modular') {
-    extras =
+    extras +=
       '<label class="catalog-calc-check"><input type="checkbox" id="catalogCalcProfile"> Add imported profile</label>' +
       '<label class="catalog-calc-check"><input type="checkbox" id="catalogCalcLedV120"> Add LED V120</label>' +
       '<label class="catalog-calc-check"><input type="checkbox" id="catalogCalcLedV220"> Add LED V220</label>';
   }
   if (mode === 'luxury-glass') {
-    extras =
+    extras +=
       '<div class="catalog-calc-field"><label>Glass pieces</label><input type="number" id="catalogCalcGlassCount" min="1" max="6" value="' + (c.defaultGlassCount || 2) + '"></div>' +
       '<div class="catalog-calc-field"><label>Sensor type</label><select id="catalogCalcSensor">' +
       '<option value="none">Backlight only</option><option value="motion">Motion sensor</option><option value="touch">Touch sensor</option></select></div>';
@@ -162,12 +219,14 @@ function renderMirrorCalc(cfg, prefix) {
     '<div class="catalog-calc-field"><label>Width (ft)</label><input type="number" id="catalogCalcWidth" min="0.5" step="0.5" value="' + (c.defaultW || 2) + '"></div>' +
     '<div class="catalog-calc-field"><label>Height (ft)</label><input type="number" id="catalogCalcHeight" min="0.5" step="0.5" value="' + (c.defaultH || 3) + '"></div>' +
     '<div class="catalog-calc-field"><label>Qty (pieces)</label><input type="number" id="catalogCalcQty" min="1" max="99" value="1"></div>' +
+    renderMirrorGlassBrand() +
+    renderMirrorColorPicker() +
     (mode === 'bevel-modular' ? '' : '<div class="catalog-calc-field"><label>LED strip</label><select id="catalogCalcLed"><option value="v120">V120</option><option value="v220">V220</option></select></div>') +
     (mode === 'bevel-modular' || mode === 'luxury-glass' ? '' : '<div class="catalog-calc-field"><label>Touch sensor</label><select id="catalogCalcTouchAmp"><option value="3">3A (standard)</option><option value="5">5A upgrade</option></select></div><div class="catalog-calc-field"><label>LED driver</label><select id="catalogCalcDriver"><option value="5">5A (standard)</option><option value="7">7A upgrade</option><option value="10">10A upgrade</option></select></div>') +
     (extras ? '<div class="catalog-calc-extras catalog-calc-field-full">' + extras + '</div>' : '') +
     '</div>' +
     '<div class="catalog-calc-result" id="catalogCalcResult"><p class="catalog-calc-placeholder">Enter size to see amount per piece.</p></div>' +
-    '<p class="note catalog-calc-note">*GST 18% extra | Transport charges extra | Final price after site visit</p>' +
+    '<p class="note catalog-calc-note">*GST 18% extra | Transport charges extra | Final price confirmed on formal quote</p>' +
     '<p class="source catalog-calc-source">Calculated by WoodenMax Pricing Engine v1.0 | woodenmax.in</p>' +
     '<div class="catalog-calc-hardware-summary" id="catalogCalcHwSummary"></div>' +
     '<div class="catalog-calc-inquiry" id="catalogCalcInquiry"><h3 class="catalog-inq-title">Request formal quote</h3>' +
@@ -180,7 +239,6 @@ function renderMirrorCalc(cfg, prefix) {
     '<p class="catalog-inq-status" id="catalogInqStatus" role="status"></p></div>' +
     '<div class="catalog-wa-row">' +
     '<a class="catalog-wa-btn whatsapp-btn" id="catalogCalcWa" href="https://wa.me/917895328080" target="_blank" rel="noopener">Get exact quote on WhatsApp &rarr;</a>' +
-    '<a class="cluster-cta-link" href="' + prefix + 'contact.html?intent=mirror-quote">Site visit &rarr;</a>' +
     '</div></div></section>'
   );
 }
@@ -392,7 +450,7 @@ crumb + '\n' +
 '<header class="cluster-hero">\n  <div class="container cluster-hero-grid">\n' +
 '    <div class="cluster-hero-text">\n      <h1>' + esc(cfg.h1) + '</h1>\n' +
 (cfg.heroSub ? '      <p class="cluster-hero-sub">' + esc(cfg.heroSub) + '</p>\n' : '') +
-'      <div class="cluster-hero-cta"><a href="' + prefix + 'contact.html?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote" class="cluster-cta-primary">Book free site visit &rarr;</a></div>\n' +
+'      <div class="cluster-hero-cta">' + (cfg.silo === 'mirror-profiles' ? '<a href="' + prefix + 'contact.html?intent=mirror-quote" class="cluster-cta-primary">Get mirror quote &rarr;</a>' : '<a href="' + prefix + 'contact.html?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote" class="cluster-cta-primary">Book free site visit &rarr;</a>') + '</div>\n' +
 '    </div>\n    <div class="cluster-hero-media"><figure class="cluster-hero-figure">' +
 '<img class="catalog-hero-product-img" src="' + esc(imgSrc) + '" alt="' + esc(imgAlt) + '" width="800" height="600" loading="lazy" decoding="async">' +
 (cfg.imageCaption ? '<figcaption class="cluster-hero-caption"><span class="cluster-hero-caption-text">' + esc(cfg.imageCaption) + '</span></figcaption>' : '') +
@@ -400,8 +458,8 @@ crumb + '\n' +
 calc + '\n' +
 sections + eeat + calcProducts + hub + faq + related +
 '<section class="cluster-final-cta"><div class="container"><h2>Ready for a locked PDF quote?</h2>' +
-'<p>WoodenMax visits free within 48 hours in Hyderabad, Delhi NCR &amp; Jaipur. GST 18% extra on all rates.</p>' +
-'<a href="' + prefix + 'contact.html?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote&amp;source=' + esc(cfg.slug) + '" class="cluster-cta-primary">Book free site visit &rarr;</a></div></section>\n' +
+'<p>' + (cfg.silo === 'mirror-profiles' ? 'Submit calculator details for a formal mirror BOQ. GST 18% extra. Dispatch in 7 working days after confirmation.' : 'WoodenMax visits free within 48 hours in Hyderabad, Delhi NCR &amp; Jaipur. GST 18% extra on all rates.') + '</p>' +
+(cfg.silo === 'mirror-profiles' ? '<a href="' + prefix + 'contact.html?intent=mirror-quote&amp;source=' + esc(cfg.slug) + '" class="cluster-cta-primary">Request formal quote &rarr;</a>' : '<a href="' + prefix + 'contact.html?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote&amp;source=' + esc(cfg.slug) + '" class="cluster-cta-primary">Book free site visit &rarr;</a>') + '</div></section>\n' +
 '  <script src="' + prefix + 'js/site-nav.js" defer></script>\n' +
 '  <script src="' + prefix + 'js/site-footer.js" defer></script>\n' +
 (cfg.calcMode ? '  <script src="' + prefix + 'js/mirror-rates-data.js" defer></script>\n' : '') +
@@ -430,7 +488,11 @@ function writeMirrorRatesJs() {
   if (!data) throw new Error('rates.json missing mirror_profiles section');
   var outPath = path.join(ROOT, 'js', 'mirror-rates-data.js');
   var body = '/* Auto-generated from data/rates.json → mirror_profiles — run: node tools/build-catalog-seo-pages.cjs */\n' +
-    'window.WM_MIRROR_RATES=' + JSON.stringify({ hardware: data.hardware, calculators: data.calculators }) + ';\n';
+    'window.WM_MIRROR_RATES=' + JSON.stringify({
+      hardware: data.hardware,
+      calculators: data.calculators,
+      profileColors: data.profileColors,
+    }) + ';\n';
   fs.writeFileSync(outPath, body, 'utf8');
   console.log('  ✓ js/mirror-rates-data.js (from rates.json → mirror_profiles)');
 }

@@ -723,6 +723,17 @@
       "gstPercent": 18,
       "notes": "Edit rates here — run: node tools/build-catalog-seo-pages.cjs --mirror"
     },
+    "profileColors": {
+      "premiumPerSqft": 45,
+      "premiumIds": ["rose-gold", "brush-gold"],
+      "labels": {
+        "matt-black": "Matt Black",
+        "matt-grey": "Matt Grey",
+        "matt-gold": "Matt Gold",
+        "brush-gold": "Brush Gold",
+        "rose-gold": "Rose Gold"
+      }
+    },
     "profilePerFoot": {
       "plain": {
         "min": 450,

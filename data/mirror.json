@@ -20,6 +20,17 @@
     "touchSensorMirror": { "min": 8500, "max": 18000, "label": "Touch sensor mirror (per piece)" },
     "motionSensorMirror": { "min": 9200, "max": 22000, "label": "Motion sensor mirror (per piece)" }
   },
+  "profileColors": {
+    "premiumPerSqft": 45,
+    "premiumIds": ["rose-gold", "brush-gold"],
+    "labels": {
+      "matt-black": "Matt Black",
+      "matt-grey": "Matt Grey",
+      "matt-gold": "Matt Gold",
+      "brush-gold": "Brush Gold",
+      "rose-gold": "Rose Gold"
+    }
+  },
   "hardware": {
     "touch5AUpgrade": 250,
     "driver7AUpgrade": 350,

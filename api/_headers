@@ -1,11 +1,23 @@
-/*
+# Mirror of /_headers rules for /api/* — deploy uses root _headers only.
+# This file is valid Cloudflare Pages syntax (not JSON/YAML).
+# If your editor flags lines, set file association to "Plain Text".
+#
+# Active rules live in: ../_headers
+
+/api/*
+  Access-Control-Allow-Origin: *
+  Access-Control-Allow-Methods: GET, OPTIONS
+  Access-Control-Allow-Headers: Content-Type
+  X-Robots-Tag: index, follow
+
+/api/calculate
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
   Access-Control-Allow-Headers: Content-Type
   Content-Type: text/html; charset=utf-8
-  X-Robots-Tag: index, follow
 
-/calculate
+/api/calculate/
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
   Access-Control-Allow-Headers: Content-Type
+  Content-Type: text/html; charset=utf-8

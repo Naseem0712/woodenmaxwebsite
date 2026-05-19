@@ -5,7 +5,19 @@
   'use strict';
 
   var WA = '917895328080';
-  var HW = (typeof window !== 'undefined' && window.WM_MIRROR_RATES && window.WM_MIRROR_RATES.hardware) || {};
+  var RATES = (typeof window !== 'undefined' && window.WM_MIRROR_RATES) || {};
+  var HW = RATES.hardware || {};
+  var COLOR_CFG = RATES.profileColors || {};
+  var PREMIUM_COLOR_PER_SQFT = COLOR_CFG.premiumPerSqft || 45;
+  var PREMIUM_COLOR_IDS = COLOR_CFG.premiumIds || ['rose-gold', 'brush-gold'];
+  var COLOR_LABELS = COLOR_CFG.labels || {
+    'matt-black': 'Matt Black',
+    'matt-grey': 'Matt Grey',
+    'matt-gold': 'Matt Gold',
+    'brush-gold': 'Brush Gold',
+    'rose-gold': 'Rose Gold',
+  };
+  var GLASS_LABELS = { 'saint-gobain': 'Saint Gobain', 'gold-plus': 'Gold Plus' };
   var TOUCH_5A = HW.touch5AUpgrade || 250;
   var DRIVER_7A = HW.driver7AUpgrade || 350;
   var DRIVER_10A = HW.driver10AUpgrade || 450;
@@ -42,81 +54,121 @@
     return cfg.v120 || 0;
   }
 
+  function getSelectedColor() {
+    var el = document.querySelector('input[name="catalogCalcColor"]:checked');
+    return el ? el.value : 'matt-black';
+  }
+
+  function colorLabel(id) {
+    return COLOR_LABELS[id] || id;
+  }
+
+  function isPremiumColor(id) {
+    return PREMIUM_COLOR_IDS.indexOf(id) !== -1;
+  }
+
+  function getGlassBrand() {
+    var el = document.getElementById('catalogCalcGlassBrand');
+    return el ? el.value : 'saint-gobain';
+  }
+
+  function glassBrandLabel(id) {
+    return GLASS_LABELS[id] || id;
+  }
+
   function hardwareAddons(opts, cfg, mode) {
     var add = 0;
     var list = [];
+    var packingAmt = 0;
     if (mode !== 'bevel-modular' && mode !== 'luxury-glass') {
-      list.push('Touch sensor ' + (opts.touchAmp === '5' ? '5A' : '3A (standard)'));
+      list.push('Touch sensor ' + (opts.touchAmp === '5' ? '5A (+₹' + TOUCH_5A + ')' : '3A (standard)'));
       if (opts.touchAmp === '5') add += TOUCH_5A;
-      list.push('LED driver ' + opts.driver + 'A' + (opts.driver === '5' ? ' (standard)' : ''));
+      list.push('LED driver ' + opts.driver + 'A' + (opts.driver === '5' ? ' (standard)' : opts.driver === '7' ? ' (+₹' + DRIVER_7A + ')' : ' (+₹' + DRIVER_10A + ')'));
       if (opts.driver === '7') add += DRIVER_7A;
       if (opts.driver === '10') add += DRIVER_10A;
     }
     if (opts.packing) {
-      add += cfg.packing || HW.packingPerPiece || 500;
-      list.push('Packing');
+      packingAmt = cfg.packing || HW.packingPerPiece || 500;
+      add += packingAmt;
+      list.push('Export packing — ' + fmt(packingAmt) + '/pc');
     }
-    return { add: add, list: list };
+    list.push('Profile colour — ' + colorLabel(opts.color));
+    if (opts.colorPremium > 0) {
+      list.push('Premium colour — +' + fmt(opts.colorPremium) + ' (' + PREMIUM_COLOR_PER_SQFT + '/sq.ft)');
+    }
+    list.push('Mirror glass — ' + glassBrandLabel(opts.glassBrand));
+    return { add: add, list: list, packingAmt: packingAmt };
   }
 
   function calcBase(mode, cfg, dims, opts) {
     var sqft = dims.sqft;
     var led = opts.led;
     var base = 0;
+    var ratePerSqft = 0;
 
     if (mode === 'round-touch' || mode === 'square-touch') {
-      base = sqft * ledRate(cfg, led);
+      ratePerSqft = ledRate(cfg, led);
+      base = sqft * ratePerSqft;
     } else if (mode === 'round-slim') {
-      base = sqft * ledRate(cfg, led);
+      ratePerSqft = ledRate(cfg, led);
+      base = sqft * ratePerSqft;
     } else if (mode === 'wooden-round') {
-      base = sqft * ledRate(cfg, led);
+      ratePerSqft = ledRate(cfg, led);
+      base = sqft * ratePerSqft;
     } else if (mode === 'imported-motion') {
-      base = sqft * ledRate(cfg, led);
+      ratePerSqft = ledRate(cfg, led);
+      base = sqft * ratePerSqft;
     } else if (mode === 'rect-led' || mode === 'backlit-touch') {
-      base = sqft * ledRate(cfg, led);
+      ratePerSqft = ledRate(cfg, led);
+      base = sqft * ratePerSqft;
     } else if (mode === 'custom-rect-led') {
       if (dims.w < (cfg.minWidth || 2)) return { error: 'Minimum width ' + (cfg.minWidth || 2) + ' ft.' };
       if (dims.h > (cfg.maxHeight || 7)) return { error: 'Maximum height ' + (cfg.maxHeight || 7) + ' ft.' };
-      base = sqft * ledRate(cfg, led);
+      ratePerSqft = ledRate(cfg, led);
+      base = sqft * ratePerSqft;
     } else if (mode === 'half-round') {
-      base = sqft * ledRate(cfg, led);
+      ratePerSqft = ledRate(cfg, led);
+      base = sqft * ratePerSqft;
     } else if (mode === 'bevel-modular') {
-      base = sqft * (cfg.bevel || 850);
+      ratePerSqft = cfg.bevel || 850;
+      base = sqft * ratePerSqft;
       if (opts.profile) base += sqft * (cfg.profileAdd || 250);
       if (opts.ledV120) base += sqft * (cfg.ledV120 || 120);
       if (opts.ledV220) base += sqft * (cfg.ledV220 || 200);
     } else if (mode === 'luxury-glass') {
       var bill = sqft * (cfg.wastage || 1.5);
-      base = bill * ledRate(cfg, led);
+      ratePerSqft = ledRate(cfg, led);
+      base = bill * ratePerSqft;
       if (opts.sensor === 'touch') base += cfg.touchPc || 850;
       if (opts.sensor === 'motion') {
-        var g = opts.glassCount || 2;
-        base += g * (cfg.motionPerGlass || 1220);
+        var gc = opts.glassCount || 2;
+        base += gc * (cfg.motionPerGlass || 1220);
       }
     } else {
       return null;
     }
-    return { base: base, sqft: sqft };
+
+    var colorPremium = isPremiumColor(opts.color) ? sqft * PREMIUM_COLOR_PER_SQFT : 0;
+    base += colorPremium;
+
+    return { base: base, sqft: sqft, ratePerSqft: ratePerSqft, colorPremium: colorPremium };
   }
 
-  function buildHardwareTable(opts, mode, cfg) {
+  function buildHardwareTable(opts, mode) {
     var rows = [
-      ['Mirror glass', dimsLabel(opts), '—'],
+      ['Mirror glass', glassBrandLabel(opts.glassBrand) + ' · ' + opts.w + '×' + opts.h + ' ft', '—'],
+      ['Profile colour', colorLabel(opts.color) + (opts.colorPremium ? ' (premium)' : ''), '—'],
       ['LED strip', opts.led ? opts.led.toUpperCase() : 'V120', '1 yr'],
     ];
-    if (mode !== 'bevel-modular') {
+    if (mode !== 'bevel-modular' && mode !== 'luxury-glass') {
       rows.push(['Touch sensor', opts.touchAmp === '5' ? '5A' : '3A', '1 yr']);
       rows.push(['LED driver', opts.driver + 'A', '1 yr']);
     }
-    if (opts.packing) rows.push(['Export packing', 'Per piece', '—']);
+    if (opts.packing) rows.push(['Export packing', fmt(opts.packingAmt || HW.packingPerPiece || 500) + '/pc', '—']);
     if (mode === 'luxury-glass' && opts.sensor === 'motion') {
       rows.push(['Motion sensor', (opts.glassCount || 2) + ' glass', '1 yr']);
     }
     return rows;
-  }
-
-  function dimsLabel(opts) {
-    return opts.w + '×' + opts.h + ' ft';
   }
 
   function renderHwTable(rows) {
@@ -129,6 +181,7 @@
 
   function collectOpts(root) {
     var ledEl = document.getElementById('catalogCalcLed');
+    var color = getSelectedColor();
     return {
       led: ledEl ? ledEl.value : 'v120',
       touchAmp: document.getElementById('catalogCalcTouchAmp') ? document.getElementById('catalogCalcTouchAmp').value : '3',
@@ -139,7 +192,41 @@
       ledV220: document.getElementById('catalogCalcLedV220') ? document.getElementById('catalogCalcLedV220').checked : false,
       sensor: document.getElementById('catalogCalcSensor') ? document.getElementById('catalogCalcSensor').value : 'none',
       glassCount: document.getElementById('catalogCalcGlassCount') ? parseInt(document.getElementById('catalogCalcGlassCount').value, 10) || 2 : 2,
+      color: color,
+      glassBrand: getGlassBrand(),
     };
+  }
+
+  function buildInquiryMessage(snap, name, phone, email, city, notes) {
+    var o = snap.opts;
+    var lines = [
+      'Mirror profile inquiry — ' + snap.pageTitle,
+      'Page: woodenmax.in/products/mirror-profiles/' + (snap.slug || ''),
+      '',
+      'Size: ' + snap.dims.w + ' × ' + snap.dims.h + ' ft (' + snap.dims.sqft.toFixed(2) + ' sq.ft)',
+      'Qty: ' + snap.qty + ' piece(s)',
+      'Rate (LED/base): ₹' + Math.round(snap.ratePerSqft || 0) + '/sq.ft',
+      'Profile colour: ' + colorLabel(o.color) + (o.colorPremium ? ' (+₹' + PREMIUM_COLOR_PER_SQFT + '/sq.ft premium)' : ''),
+      'Mirror glass: ' + glassBrandLabel(o.glassBrand),
+      'LED: ' + (o.led || 'v120').toUpperCase(),
+    ];
+    if (snap.mode !== 'bevel-modular' && snap.mode !== 'luxury-glass') {
+      lines.push('Touch sensor: ' + (o.touchAmp === '5' ? '5A upgrade' : '3A standard'));
+      lines.push('LED driver: ' + o.driver + 'A');
+    }
+    if (o.packing) lines.push('Packing: Yes — ' + fmt(snap.packingAmt || HW.packingPerPiece || 500) + '/pc');
+    else lines.push('Packing: No');
+    lines.push('');
+    lines.push('Hardware: ' + (snap.hardwareList || []).join('; '));
+    lines.push('Per piece (calc): ' + fmt(snap.perPiece));
+    lines.push('Order total (calc): ' + fmt(snap.orderTotal));
+    lines.push('');
+    lines.push('Name: ' + (name || '—'));
+    lines.push('Mobile: ' + phone);
+    lines.push('Email: ' + (email || '—'));
+    lines.push('City: ' + (city || '—'));
+    if (notes) lines.push('Notes: ' + notes);
+    return lines.join('\n');
   }
 
   function runCalc(root) {
@@ -173,7 +260,9 @@
       return;
     }
 
+    opts.colorPremium = out.colorPremium;
     var hw = hardwareAddons(opts, cfg, mode);
+    opts.colorPremium = out.colorPremium;
     var perPiece = Math.round(out.base + hw.add);
     var orderTotal = perPiece * qty;
 
@@ -181,11 +270,12 @@
     result.innerHTML =
       '<strong>Per piece: ' + fmt(perPiece) + '</strong>' +
       (qty > 1 ? '<p>Order total (' + qty + ' pcs): <strong>' + fmt(orderTotal) + '</strong></p>' : '') +
-      '<p>Size ' + dims.w + '×' + dims.h + ' ft · LED ' + (opts.led || 'v120').toUpperCase() +
-      ' · Qty ' + qty + '. GST, packing &amp; transit extra.</p>';
+      '<p>Size ' + dims.w + '×' + dims.h + ' ft · ' + colorLabel(opts.color) +
+      ' · ' + glassBrandLabel(opts.glassBrand) + ' · LED ' + (opts.led || 'v120').toUpperCase() +
+      ' · Qty ' + qty + '. GST &amp; transit extra.</p>';
 
     if (hwBox) {
-      var rows = buildHardwareTable(opts, mode, cfg);
+      var rows = buildHardwareTable(opts, mode);
       hwBox.innerHTML = '<h3 class="catalog-hw-title">Your hardware list</h3>' + renderHwTable(rows);
     }
 
@@ -198,13 +288,18 @@
       perPiece: perPiece,
       orderTotal: orderTotal,
       mode: mode,
+      ratePerSqft: out.ratePerSqft,
+      packingAmt: hw.packingAmt,
+      hardwareList: hw.list,
     };
 
     if (waLink) {
+      var name = (document.getElementById('catalogInqName') || {}).value || '';
+      var phone = (document.getElementById('catalogInqPhone') || {}).value || '';
+      var email = (document.getElementById('catalogInqEmail') || {}).value || '';
+      var city = (document.getElementById('catalogInqCity') || {}).value || '';
       waLink.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(
-        'Mirror quote: ' + root._lastCalc.pageTitle + '\n' +
-        dims.w + 'x' + dims.h + ' ft x' + qty + ' pcs\n' +
-        'Per piece: ' + fmt(perPiece) + '\nTotal: ' + fmt(orderTotal)
+        buildInquiryMessage(root._lastCalc, name, phone, email, city, '')
       );
     }
   }
@@ -212,12 +307,20 @@
   function bindLive(root) {
     var ids = ['catalogCalcWidth', 'catalogCalcHeight', 'catalogCalcQty', 'catalogCalcLed',
       'catalogCalcTouchAmp', 'catalogCalcDriver', 'catalogCalcPacking', 'catalogCalcProfile',
-      'catalogCalcLedV120', 'catalogCalcLedV220', 'catalogCalcSensor', 'catalogCalcGlassCount', 'catalogCalcPreset'];
+      'catalogCalcLedV120', 'catalogCalcLedV220', 'catalogCalcSensor', 'catalogCalcGlassCount',
+      'catalogCalcPreset', 'catalogCalcGlassBrand'];
     ids.forEach(function (id) {
       var el = document.getElementById(id);
       if (!el) return;
       el.addEventListener('change', function () { runCalc(root); });
       el.addEventListener('input', function () { runCalc(root); });
+    });
+    document.querySelectorAll('input[name="catalogCalcColor"]').forEach(function (el) {
+      el.addEventListener('change', function () { runCalc(root); });
+    });
+    ['catalogInqName', 'catalogInqPhone', 'catalogInqEmail', 'catalogInqCity'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', function () { runCalc(root); });
     });
     var preset = document.getElementById('catalogCalcPreset');
     var wEl = document.getElementById('catalogCalcWidth');
@@ -252,20 +355,7 @@
       return;
     }
 
-    var o = snap.opts;
-    var msg = [
-      'Mirror profile inquiry — ' + snap.pageTitle,
-      'Page: ' + (snap.slug || ''),
-      'Size: ' + snap.dims.w + ' × ' + snap.dims.h + ' ft',
-      'Qty: ' + snap.qty,
-      'LED: ' + (o.led || '').toUpperCase(),
-      'Touch: ' + (o.touchAmp === '5' ? '5A' : '3A'),
-      'Driver: ' + o.driver + 'A',
-      'Per piece (calc): ' + fmt(snap.perPiece),
-      'Order total (calc): ' + fmt(snap.orderTotal),
-      'City: ' + city,
-      'Notes: ' + notes,
-    ].join('\n');
+    var msg = buildInquiryMessage(snap, name, phone, email, city, notes);
 
     if (window.EmailSubmitter) {
       window.EmailSubmitter.submit({
@@ -281,7 +371,8 @@
           if (status) status.textContent = 'Thank you — we will email/WhatsApp your formal quote within 24 hours.';
         },
         onError: function () {
-          if (status) status.textContent = 'Could not send — please WhatsApp us or call +91 78953 28080.';
+          if (status) status.textContent = 'Could not send — opening WhatsApp with your quote details.';
+          window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(msg), '_blank');
         },
       });
     } else {
