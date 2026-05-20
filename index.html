@@ -37,16 +37,18 @@
   <meta name="twitter:site" content="@woodenmax" />
   <meta name="twitter:creator" content="@woodenmax" />
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H3574PEDBK"></script>
+  <!-- Google Analytics — load after first paint (better LCP/TTI) -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-H3574PEDBK', {
-      'engagement_time_msec': 0,
-      'session_engaged': true
-    });
+    window.addEventListener('load', function () {
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-H3574PEDBK';
+      document.head.appendChild(s);
+      gtag('config', 'G-H3574PEDBK', { engagement_time_msec: 0, session_engaged: true });
+    }, { once: true });
   </script>
   <script defer src="js/analytics.js"></script>
 
@@ -449,8 +451,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   
   <!-- Preload Critical Resources (LCP Image First) -->
-  <link rel="preload" href="images/products/structural-glazing-building-elevation.webp" as="image" fetchpriority="high" />
-  <link fetchpriority="high" rel="preload" href="images/woodenmax-logo.webp" as="image" />
+  <link rel="preload" href="images/products/structural-glazing-building-elevation.webp" as="image" type="image/webp" fetchpriority="high" />
   
   <!-- Fonts with optimized loading (async) -->
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;">
@@ -468,7 +469,9 @@
   .navbar-content{display:flex;align-items:center;justify-content:space-between;padding:1rem;max-width:1280px;margin:0 auto;width:100%;height:80px}
   .navbar-logo{display:flex;align-items:center;gap:0.75rem;margin-right:auto;z-index:101}
   .navbar-logo img{width:40px;height:40px;object-fit:contain}
-  .hero-slider{position:relative;height:100vh;min-height:600px;width:100%;overflow:hidden;background:var(--obsidian);contain:layout style paint;content-visibility:auto}
+  .wm-nav-skel{position:sticky;top:0;z-index:1000;min-height:64px;background:rgba(6,10,15,.92);border-bottom:1px solid rgba(255,255,255,.04)}
+  nav.navbar,.mobile-menu,#mobileMenu,footer:not(.wm-footer){display:none!important}
+  .hero-slider{position:relative;height:100vh;min-height:600px;width:100%;overflow:hidden;background:#0a0e17;contain:layout style paint}
   .slide{position:absolute;inset:0;opacity:0;z-index:0;transition:opacity 1s ease-in-out}
   .slide.active{opacity:1;z-index:10}
   .slide-image-container{position:absolute;inset:0;overflow:hidden;contain:layout style paint;will-change:contents}
@@ -478,8 +481,8 @@
   .slide-content{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:1rem;padding-top:100px}
   .slide-content-inner{max-width:1024px;margin:0 auto}
   .slide-subtitle{display:inline-block;color:var(--gold-400);letter-spacing:0.3em;text-transform:uppercase;font-size:0.875rem;margin-bottom:1.5rem}
-  .slide-title{font-size:3rem;color:#0F172A;margin-bottom:2rem;line-height:1.1}
-  .slide-description{color:#222222;font-size:1.125rem;margin-bottom:2.5rem;font-weight:400;max-width:672px;margin:0 auto 2.5rem;line-height:1.75}
+  .slide-title{font-size:3rem;color:#0F172A;margin-bottom:2rem;line-height:1.1;min-height:2.6em}
+  .slide-description{color:#222222;font-size:1.125rem;margin-bottom:2.5rem;font-weight:400;max-width:672px;margin:0 auto 2.5rem;line-height:1.75;min-height:4.2em}
   .slide-buttons{display:flex;flex-direction:column;gap:1.5rem;justify-content:center}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:0.5rem;padding:1rem 2rem;font-size:0.875rem;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;border-radius:2px;transition:all 0.3s ease;cursor:pointer;border:none}
   .btn-primary{background-color:#0a0e17;color:#f3e9d2;box-shadow:0 6px 18px rgba(15,23,36,0.08)}
@@ -528,140 +531,13 @@
   <noscript><link rel="stylesheet" href="css/styles.css"></noscript>
   
   <!-- Lucide Icons removed - Using inline SVG icons for better performance and privacy -->
-  <link rel="preload" href="css/site-nav.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="css/site-nav.css"></noscript>
+  <link rel="stylesheet" href="css/site-nav.css">
   <link rel="preload" href="css/site-footer.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="css/site-footer.css"></noscript>
 </head>
 <body>
   
-  <!-- ============================================
-       NAVBAR
-       ============================================ -->
-  <nav class="navbar" id="navbar">
-    <div class="container">
-      <div class="navbar-content">
-        
-        <!-- Logo -->
-        <a href="index" class="navbar-logo">
-          <div class="logo-icon">
-            <img loading="eager" decoding="async" src="images/woodenmax-logo.webp" alt="WoodenMax Logo" width="40" height="40">
-          </div>
-          <div class="logo-text">
-            <span class="brand">WoodenMax</span>
-            <span class="tagline">Reshaping spaces</span>
-          </div>
-        </a>
-
-        <!-- Desktop Menu with Category Carousel -->
-        <div class="nav-menu">
-          <a href="index" class="nav-link">Home</a>
-          
-          <!-- Category Carousel -->
-          <div class="category-carousel-wrapper">
-            <button class="carousel-nav prev" id="catPrev" aria-label="Previous Category">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
-            </button>
-            <div class="category-carousel" id="categoryCarousel">
-              <a href="products/aluminium-windows" class="cat-item" data-index="0">Aluminium</a>
-              <a href="products/telescope-windows" class="cat-item" data-index="2">Telescope</a>
-              <a href="products/folding-systems" class="cat-item" data-index="3">Folding</a>
-              <a href="products/metal-louvers" class="cat-item" data-index="4">Louvers</a>
-              <a href="products/mirror-profiles/" class="cat-item" data-index="4b">Mirrors</a>
-              <a href="products/shower-partitions" class="cat-item" data-index="5">Shower</a>
-              <a href="products/elevation-cladding" class="cat-item" data-index="6">Elevation</a>
-              <a href="products/glass-elevation" class="cat-item" data-index="7">Glass</a>
-              <a href="products/glass-railing" class="cat-item" data-index="8">Railing</a>
-              <a href="products/grills" class="cat-item" data-index="9">Grills</a>
-            </div>
-            <button class="carousel-nav next" id="catNext" aria-label="Next Category">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
-            </button>
-          </div>
-
-          <a href="about" class="nav-link">About</a>
-          <a href="contact" class="nav-link">Contact</a>
-        </div>
-
-        <!-- CTA Button -->
-        <div class="nav-cta">
-          <a href="contact" aria-label="Contact WoodenMax">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-            Call Now
-          </a>
-        </div>
-
-        <!-- Mobile Toggle -->
-        <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="menuIcon"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="closeIcon" style="display:none;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-        </button>
-
-      </div>
-    </div>
-  </nav>
-
-  <!-- Mobile Menu -->
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-bg top-right"></div>
-    <div class="mobile-menu-bg bottom-left"></div>
-    
-    <div class="mobile-menu-content">
-      <a href="index" class="mobile-nav-item">Home</a>
-      
-      <!-- Category Grid for Mobile -->
-      <div class="mobile-category-label">Our Products</div>
-      <div class="mobile-category-grid">
-        <a href="products/aluminium-windows" class="mobile-cat-item">
-          <span class="mobile-cat-icon">🏠</span>
-          <span>Aluminium</span>
-        </a>
-        <a href="products/telescope-windows" class="mobile-cat-item">
-          <span class="mobile-cat-icon">🚪</span>
-          <span>Telescope</span>
-        </a>
-        <a href="products/folding-systems" class="mobile-cat-item">
-          <span class="mobile-cat-icon">📐</span>
-          <span>Folding</span>
-        </a>
-        <a href="products/metal-louvers" class="mobile-cat-item">
-          <span class="mobile-cat-icon">🎚️</span>
-          <span>Louvers</span>
-        </a>
-        <a href="products/shower-partitions" class="mobile-cat-item">
-          <span class="mobile-cat-icon">🚿</span>
-          <span>Shower</span>
-        </a>
-        <a href="products/elevation-cladding" class="mobile-cat-item">
-          <span class="mobile-cat-icon">🏗️</span>
-          <span>Elevation</span>
-        </a>
-        <a href="products/glass-elevation" class="mobile-cat-item">
-          <span class="mobile-cat-icon">✨</span>
-          <span>Glass</span>
-        </a>
-        <a href="products/glass-railing" class="mobile-cat-item">
-          <span class="mobile-cat-icon">🛡️</span>
-          <span>Railing</span>
-        </a>
-        <a href="products/grills" class="mobile-cat-item">
-          <span class="mobile-cat-icon">🔒</span>
-          <span>Grills</span>
-        </a>
-      </div>
-      
-      <a href="about" class="mobile-nav-item">About Us</a>
-      <a href="contact" class="mobile-nav-item">Contact Us</a>
-      
-      <div class="mobile-menu-footer">
-        <a href="contact" class="cta-btn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-          Call Now
-        </a>
-        <p class="copyright">&copy; 2026 WoodenMax Architectural elements</p>
-      </div>
-    </div>
-  </div>
+  <div id="wmNavSkel" class="wm-nav-skel" aria-hidden="true"></div>
 
   <!-- ============================================
        HERO SLIDER
@@ -692,7 +568,7 @@
     <!-- Slide 2 - Villa Front Elevation -->
     <div class="slide" data-index="1">
       <div class="slide-image-container">
-        <img loading="eager" fetchpriority="high" src="images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp" alt="Premium villa front elevation with louvers slim profile glazing and HPL design" class="slide-image" width="1920" height="800" decoding="async">
+        <img loading="lazy" src="images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp" alt="Premium villa front elevation with louvers slim profile glazing and HPL design" class="slide-image" width="1920" height="800" decoding="async">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -714,7 +590,7 @@
     <!-- Slide 3 - ACP Elevation -->
     <div class="slide" data-index="2">
       <div class="slide-image-container">
-        <img loading="eager" fetchpriority="high" src="images/hero/hpl-acp-sheet-facade-calading.webp" alt="ACP HPL sheet facade cladding for modern building elevation" class="slide-image" width="1920" height="800" decoding="async">
+        <img loading="lazy" src="images/hero/hpl-acp-sheet-facade-calading.webp" alt="ACP HPL sheet facade cladding for modern building elevation" class="slide-image" width="1920" height="800" decoding="async">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -736,7 +612,7 @@
     <!-- Slide 4 - Architectural Louvers -->
     <div class="slide" data-index="3">
       <div class="slide-image-container">
-        <img loading="eager" fetchpriority="high" src="images/hero/architectural-louvers-slim-frame-windows-structure-glazing-hpl-exterior.webp" alt="Architectural louvers with slim frame windows structure glazing and HPL exterior" class="slide-image" width="1920" height="800" decoding="async">
+        <img loading="lazy" src="images/hero/architectural-louvers-slim-frame-windows-structure-glazing-hpl-exterior.webp" alt="Architectural louvers with slim frame windows structure glazing and HPL exterior" class="slide-image" width="1920" height="800" decoding="async">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -755,7 +631,7 @@
     <!-- Slide 5 - Glass Railing Balcony -->
     <div class="slide" data-index="4">
       <div class="slide-image-container">
-        <img loading="eager" fetchpriority="high" src="images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp" alt="Premium Balcony Glass Railing System with Slim Aluminium Profiles" class="slide-image" width="1920" height="800" decoding="async">
+        <img loading="lazy" src="images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp" alt="Premium Balcony Glass Railing System with Slim Aluminium Profiles" class="slide-image" width="1920" height="800" decoding="async">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -777,7 +653,7 @@
     <!-- Slide 6 - Glass Railing Staircase -->
     <div class="slide" data-index="5">
       <div class="slide-image-container">
-        <img loading="eager" fetchpriority="high" src="images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp" alt="Luxury Frameless Glass Staircase Railing System" class="slide-image" width="1920" height="800" decoding="async">
+        <img loading="lazy" src="images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp" alt="Luxury Frameless Glass Staircase Railing System" class="slide-image" width="1920" height="800" decoding="async">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -799,7 +675,7 @@
     <!-- Slide 7 - Complete Solutions -->
     <div class="slide" data-index="6">
       <div class="slide-image-container">
-        <img loading="eager" fetchpriority="high" src="images/hero/modern-elevation-louvers-slim-window-structure-glazing-hpl-cladding.webp" alt="Modern elevation with louvers slim windows structural glazing HPL cladding" class="slide-image" width="1920" height="800" decoding="async">
+        <img loading="lazy" src="images/hero/modern-elevation-louvers-slim-window-structure-glazing-hpl-cladding.webp" alt="Modern elevation with louvers slim windows structural glazing HPL cladding" class="slide-image" width="1920" height="800" decoding="async">
         <div class="slide-overlay"></div>
       </div>
       <div class="slide-content">
@@ -894,7 +770,7 @@
     <div class="container">
       <div class="founder-strip-inner">
         <a href="about/founder-story-woodenmax" class="founder-strip-photo" aria-label="Read the WoodenMax founder story">
-          <img loading="eager" fetchpriority="high" src="images/Founder-Naseem.webp"
+          <img loading="lazy" decoding="async" src="images/Founder-Naseem.webp"
                alt="Naseem Ahmad — Founder of WoodenMax Architectural Elements, photographed at the Hyderabad factory"
                width="160" height="160" decoding="async">
         </a>
@@ -1384,179 +1260,7 @@
     </div>
   </section>
 
-  <!-- ============================================
-       FOOTER
-       ============================================ -->
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        
-        <!-- Brand Info -->
-        <div>
-          <div class="footer-brand">
-            <div class="footer-brand-icon">
-              <img loading="eager" decoding="async" src="images/woodenmax-logo.webp" alt="WoodenMax Logo">
-            </div>
-            <span class="footer-brand-text">WoodenMax</span>
-          </div>
-          <p class="footer-description">
-            Elevating architectural aesthetics with premium window systems. We blend innovation with luxury to create timeless views for your spaces.
-          </p>
-          <div class="social-links">
-            <a href="https://www.facebook.com" target="_blank" class="social-link" aria-label="Facebook">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </a>
-            <a href="https://www.instagram.com" target="_blank" class="social-link" aria-label="Instagram">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-            </a>
-            <a href="https://twitter.com" target="_blank" class="social-link" aria-label="Twitter">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-            </a>
-          </div>
-        </div>
-
-        <!-- Quick Links -->
-        <div>
-          <h3 class="footer-title">Quick Links</h3>
-          <ul class="footer-links">
-            <li>
-              <a href="index">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="catalog">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Catalog
-              </a>
-            </li>
-            <li>
-              <a href="about">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                About Us
-              </a>
-            </li>
-            <li>
-              <a href="contact">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Contact Us
-              </a>
-            </li>
-            <li>
-              <a href="blog">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Blog
-              </a>
-            </li>
-            <li>
-              <a href="calculators">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Price Calculators
-              </a>
-            </li>
-            <li>
-              <a href="return-policy">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Return Policy
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Product Categories for Internal Linking -->
-        <div>
-          <h3 class="footer-title">Our Products</h3>
-          <p style="color: #94a3b8; font-size: 0.875rem; line-height: 1.6; margin-bottom: 1rem;">Explore our full range of premium aluminium windows, folding systems, glass elevations, and shower partitions — designed for luxury homes and commercial spaces.</p>
-          <p style="color: #94a3b8; font-size: 0.8125rem; line-height: 1.55; margin-bottom: 1rem; padding: 0.65rem 0.75rem; background: rgba(30, 64, 175, 0.12); border-radius: 0.5rem; border: 1px solid rgba(212, 175, 55, 0.2);">
-            <strong style="color: #e2e8f0;">Windows &amp; grills hub</strong> — same paths on
-            <a href="https://window.woodenmax.in/" target="_blank" rel="noopener">window.woodenmax.in</a>
-            (aluminium, telescope, grills). All categories: <a href="https://woodenmax.in/">woodenmax.in</a>.
-          </p>
-          <ul class="footer-links">
-            <li>
-              <a href="products/aluminium-windows">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Premium Aluminium Windows
-              </a>
-            </li>
-            <li>
-              <a href="products/telescope-windows">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Telescopic Sliding Doors
-              </a>
-            </li>
-            <li>
-              <a href="products/folding-systems">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Bi-Fold & Folding Systems
-              </a>
-            </li>
-            <li>
-              <a href="products/metal-louvers">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Architectural Metal Louvers
-              </a>
-            </li>
-            <li>
-              <a href="products/shower-partitions">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Premium Shower Partitions
-              </a>
-            </li>
-            <li>
-              <a href="products/elevation-cladding">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                HPL & ACP Elevation Cladding
-              </a>
-            </li>
-            <li>
-              <a href="products/glass-elevation">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Glass Elevation & Curtain Wall
-              </a>
-            </li>
-            <li>
-              <a href="products/grills">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Safety Grills & Balustrades
-              </a>
-            </li>
-            <li>
-              <a href="products/pergola/aluminium-pergola#price-calculator-pergola">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Pergola calculator
-              </a>
-            </li>
-            <li>
-              <a href="products/pergola/aluminium-pergola">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                Aluminium pergola &amp; outdoor roofs
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Contact Info -->
-        <div>
-          <h3 class="footer-title">Contact Us</h3>
-          <div class="contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
-            <span>5-6-411/413, Aaghapura, Nampally, Hyderabad, Telangana 500001</span>
-          </div>
-          <div class="contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            <span>Please use the contact form to reach us</span>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="footer-bottom">
-        <p>&copy; 2026 WoodenMax Architectural elements. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+  <!-- Footer: js/site-footer.js -->
 
   <!-- Optional: URL helpers for window.woodenmax.in ↔ main site -->
   <script src="js/window-site-urls.js" defer></script>

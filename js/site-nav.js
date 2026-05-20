@@ -235,6 +235,9 @@
     if (document.getElementById('wmNavbar')) return; // safety
     purgeLegacyNav();
 
+    var skel = document.getElementById('wmNavSkel');
+    if (skel && skel.parentNode) skel.parentNode.removeChild(skel);
+
     var holder = document.createElement('div');
     holder.innerHTML = buildHtml();
     var nav = holder.firstChild;

@@ -364,6 +364,15 @@
     }
   }
 
+  function isHomePage() {
+    try {
+      var p = (location.pathname || '/').replace(/\\/g, '/').replace(/\/+$/, '');
+      return !p || p === '/index' || p === '/index.html';
+    } catch (e) {
+      return false;
+    }
+  }
+
   function run() {
     var urlOverride = pricingCountryOverride();
     var cached = urlOverride ? null : loadCached();
@@ -412,7 +421,19 @@
       });
   }
 
-  run();
+  function scheduleRun() {
+    if (!isHomePage()) {
+      run();
+      return;
+    }
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(run, { timeout: 4000 });
+    } else {
+      setTimeout(run, 2500);
+    }
+  }
+
+  scheduleRun();
 })(typeof window !== 'undefined' ? window : this);
 
 // Utility function to normalize URLs by removing project folder name
@@ -976,6 +997,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let isAnimating = false;
     // autoPlayInterval removed - using requestAnimationFrame instead
     
+    function warmSlideImage(idx) {
+      var slide = slides[idx];
+      if (!slide) return;
+      var img = slide.querySelector('.slide-image');
+      if (!img || img.getAttribute('data-wm-warmed') === '1') return;
+      img.setAttribute('data-wm-warmed', '1');
+      if (img.loading === 'lazy') img.loading = 'eager';
+      if (img.decode) img.decode().catch(function () {});
+    }
+
     function goToSlide(index) {
       if (isAnimating) return;
       isAnimating = true;
@@ -990,6 +1021,8 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Add active class to current slide and dot
       currentSlide = index;
+      warmSlideImage(currentSlide);
+      warmSlideImage((currentSlide + 1) % slides.length);
       slides[currentSlide].classList.add('active');
       dots[currentSlide].classList.add('active');
       
@@ -1024,6 +1057,9 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     }
     
+    warmSlideImage(0);
+    warmSlideImage(1);
+
     // Dot click events
     dots.forEach(function(dot, index) {
       dot.addEventListener('click', function() {
