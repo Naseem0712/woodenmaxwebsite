@@ -599,17 +599,6 @@
 
       var body = buildLeadEmailBody(lead, items, intent);
 
-      // GA4 funnel event
-      try {
-        if (typeof window.gtag === 'function') {
-          window.gtag('event', 'wm_lead_submit', {
-            wm_intent: intent,
-            wm_items: items.length,
-            wm_has_email: lead.email ? 1 : 0
-          });
-        }
-      } catch (e) {}
-
       window.EmailSubmitter.submit({
         subject: subject,
         message: body,
@@ -620,7 +609,14 @@
           mobile: lead.mobile || ''
         },
         ccEmail: lead.email || '',
-        onSuccess: function () { resolve({ ok: true }); },
+        onSuccess: function () {
+          try {
+            if (typeof window.trackMobileLeadSubmit === 'function') {
+              window.trackMobileLeadSubmit(intent, items.length);
+            }
+          } catch (e) { /* optional */ }
+          resolve({ ok: true });
+        },
         onError:   function (err) { resolve({ ok: false, reason: (err && err.message) || 'Submit failed' }); }
       });
 

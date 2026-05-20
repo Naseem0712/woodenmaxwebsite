@@ -359,8 +359,26 @@
       display: block;
       color: #475569;
       font-size: 0.9rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.35rem;
       font-weight: 500;
+    }
+
+    .form-hint {
+      display: block;
+      color: #94a3b8;
+      font-size: 0.78rem;
+      margin-top: 0.35rem;
+      line-height: 1.4;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #9ca3af;
+      opacity: 1;
+    }
+
+    .form-group select option[value=""] {
+      color: #6b7280;
     }
     
     .form-group input,
@@ -563,10 +581,22 @@
           Have a project in mind? Get in touch with our experts for free consultation, site visits, and customized quotes. We respond within 2 hours!
         </p>
         
-        <!-- Quick Contact Buttons -->
+        <!-- Quick Contact -->
         <div class="quick-contact">
-          <p style="color: #94a3b8; font-size: 0.95rem;">Please fill out the form below to contact us. We'll respond within 2 hours.</p>
+          <a href="tel:+917895328080" class="quick-btn call" data-track="contact_call">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72"/></svg>
+            Call +91 789-5328080
+          </a>
+          <a href="https://wa.me/917895328080?text=Hi%20WoodenMax%2C%20I%20need%20a%20free%20site%20visit%20quote." class="quick-btn whatsapp" target="_blank" rel="noopener" data-track="contact_whatsapp">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.625.846 5.059 2.284 7.034L.789 23.492a.75.75 0 0 0 .918.918l4.458-1.495A11.96 11.96 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.714 9.714 0 0 1-4.978-1.367l-.357-.214-3.975 1.33 1.33-3.975-.214-.357A9.714 9.714 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+            WhatsApp
+          </a>
+          <a href="mailto:info@woodenmax.com" class="quick-btn email" data-track="contact_email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            Email us
+          </a>
         </div>
+        <p id="contactHeroHint" style="color: #64748b; font-size: 0.95rem; max-width: 520px; margin: 0 auto;">Fill the form below — we respond within 2 hours (Mon–Sat, 9 AM–7 PM).</p>
       </div>
     </div>
   </section>
@@ -635,37 +665,41 @@
         
         <!-- Right: Form -->
         <div class="contact-form-box">
-          <h3>Send Us Your Requirements</h3>
-          <p class="subtitle">We'll respond within 2 hours</p>
+          <h3 id="contactFormTitle">Send Us Your Requirements</h3>
+          <p class="subtitle" id="contactFormSubtitle">We'll respond within 2 hours</p>
           <p id="contactFormStatus" role="status" aria-live="polite" style="display:none;font-size:0.9rem;margin:0 0 0.75rem;padding:0.5rem 0.75rem;border-radius:8px;"></p>
           
-          <form id="contactForm" onsubmit="submitContactForm(event)">
+          <form id="contactForm" onsubmit="submitContactForm(event)" novalidate>
             <div class="form-row">
               <div class="form-group">
                 <label for="name">Full Name *</label>
-                <input type="text" id="name" name="name" placeholder="Your name" required>
+                <input type="text" id="name" name="name" autocomplete="name" placeholder="e.g. Rahul Sharma" required>
+                <span class="form-hint">As on your ID / billing name</span>
               </div>
               <div class="form-group">
                 <label for="phone">Phone Number *</label>
-                <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" required>
+                <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="e.g. 98765 43210 (10 digits)" pattern="[0-9+\s\-]{10,15}" required>
+                <span class="form-hint">WhatsApp number preferred — we call or message here</span>
               </div>
             </div>
             
             <div class="form-row">
               <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="your@email.com">
+                <input type="email" id="email" name="email" autocomplete="email" placeholder="e.g. you@gmail.com (optional)">
+                <span class="form-hint">Optional — for sending itemised quote PDF</span>
               </div>
               <div class="form-group">
-                <label for="city">City / Location</label>
-                <input type="text" id="city" name="city" placeholder="Your city">
+                <label for="city">City / Site Location *</label>
+                <input type="text" id="city" name="city" autocomplete="address-level2" placeholder="e.g. Hyderabad, Gachibowli" required>
+                <span class="form-hint">City + area / landmark for site visit routing</span>
               </div>
             </div>
             
             <div class="form-group">
               <label for="leadType">I am a *</label>
               <select id="leadType" name="leadType" required>
-                <option value="">Select your profile...</option>
+                <option value="" disabled selected>Select — Home owner, architect, builder…</option>
                 <option value="Home Owner">Home Owner</option>
                 <option value="Project Engineer">Project Engineer</option>
                 <option value="Architect">Architect</option>
@@ -677,27 +711,48 @@
             <div class="form-group">
               <label for="product">Product Interest *</label>
               <select id="product" name="product" required>
-                <option value="">Select a product...</option>
-                <option value="Aluminium Windows">Aluminium Windows & Doors</option>
+                <option value="" disabled selected>Select product — windows, glass, louvers…</option>
+                <option value="Aluminium Windows">Aluminium Windows &amp; Doors</option>
                 <option value="Telescope Windows">Telescope Windows</option>
                 <option value="Folding Systems">Folding Systems</option>
                 <option value="Metal Louvers">Metal Louvers</option>
                 <option value="Shower Partitions">Shower Partitions</option>
                 <option value="HPL Cladding">HPL / ACP Cladding</option>
                 <option value="Glass Elevation">Glass Elevation / Curtain Wall</option>
-                <option value="Terrace Pergola">Terrace pergola / skylight (metal louvers line)</option>
+                <option value="Glass Railing">Glass Railing</option>
+                <option value="Grills">Safety Grills</option>
+                <option value="Terrace Pergola">Terrace Pergola / Skylight</option>
+                <option value="Mirror Profiles">LED Mirror Profiles</option>
                 <option value="Multiple Products">Multiple Products</option>
               </select>
             </div>
-            
-            <div class="form-group">
-              <label for="message">Project Details</label>
-              <textarea id="message" name="message" rows="4" placeholder="Tell us about your project - dimensions, location, any specific requirements..."></textarea>
+
+            <div class="form-row" id="siteVisitFields" style="display:none;">
+              <div class="form-group">
+                <label for="visitDate">Preferred visit date</label>
+                <input type="date" id="visitDate" name="visitDate" placeholder="Pick a date">
+                <span class="form-hint">Optional — we confirm slot by phone</span>
+              </div>
+              <div class="form-group">
+                <label for="visitTime">Preferred time</label>
+                <select id="visitTime" name="visitTime">
+                  <option value="">Select time slot…</option>
+                  <option value="Morning (9 AM – 12 PM)">Morning (9 AM – 12 PM)</option>
+                  <option value="Afternoon (12 PM – 4 PM)">Afternoon (12 PM – 4 PM)</option>
+                  <option value="Evening (4 PM – 7 PM)">Evening (4 PM – 7 PM)</option>
+                </select>
+              </div>
             </div>
             
-            <button type="submit" class="submit-btn">
+            <div class="form-group">
+              <label for="message" id="messageLabel">Project Details</label>
+              <textarea id="message" name="message" rows="4" placeholder="Example: 3 balcony windows 6×4 ft, sliding, powder coat black — need site measurement this week."></textarea>
+              <span class="form-hint" id="messageHint">Sizes (ft/m), floor, photos link, timeline — helps us prepare before the call</span>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="contactSubmitBtn">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 0.5rem;"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-              Send Enquiry
+              <span id="contactSubmitLabel">Send Enquiry</span>
             </button>
           </form>
         </div>
@@ -773,67 +828,146 @@
   <script defer src="js/main.js"></script>
   
   <script>
-    // Handle query parameters for canonical URL
+    // Query params: product prefill, site-visit intent (from "Book free site visit" CTAs)
     (function() {
-      // Ensure canonical always points to clean URL without query parameters
       const canonicalLink = document.getElementById('canonical-link');
-      if (canonicalLink) {
-        canonicalLink.setAttribute('href', 'https://woodenmax.in/contact');
-      }
-      
-      // Handle product query parameter to pre-fill form
+      if (canonicalLink) canonicalLink.setAttribute('href', 'https://woodenmax.in/contact');
+
       const urlParams = new URLSearchParams(window.location.search);
-      const productParam = urlParams.get('product');
-      
-      if (productParam && document.getElementById('product')) {
-        // Map URL product slugs to form values
-        const productMap = {
-          'slim-entrance-glass-door': 'Aluminium Windows',
-          'french-door-georgian-bar': 'Aluminium Windows',
-          'frameless-shower-partition': 'Shower Partitions',
-          'top-hung-casement-window': 'Aluminium Windows',
-          'slimline-aluminium-window': 'Aluminium Windows',
-          'acp-elevation-cladding': 'HPL Cladding',
-          'hpl-exterior-cladding': 'HPL Cladding'
-        };
-        
-        const productValue = productMap[productParam] || productParam;
-        const productSelect = document.getElementById('product');
-        
-        // Try to find matching option
-        for (let option of productSelect.options) {
-          if (option.value.toLowerCase().includes(productValue.toLowerCase()) || 
-              productValue.toLowerCase().includes(option.value.toLowerCase())) {
-            productSelect.value = option.value;
-            break;
+      const productParam = (urlParams.get('product') || '').toLowerCase();
+      const intent = (urlParams.get('intent') || '').toLowerCase();
+      const source = urlParams.get('source') || '';
+      const cityParam = urlParams.get('city') || '';
+
+      const productMap = {
+        'slim-entrance-glass-door': 'Aluminium Windows',
+        'french-door-georgian-bar': 'Aluminium Windows',
+        'frameless-shower-partition': 'Shower Partitions',
+        'top-hung-casement-window': 'Aluminium Windows',
+        'slimline-aluminium-window': 'Aluminium Windows',
+        'acp-elevation-cladding': 'HPL Cladding',
+        'hpl-exterior-cladding': 'HPL Cladding',
+        'fold-sliding-window-system': 'Folding Systems',
+        'glass-elevation': 'Glass Elevation',
+        'glass-railing': 'Glass Railing',
+        'balcony-glass-railing': 'Glass Railing',
+        'metal-louvers': 'Metal Louvers',
+        'louver-quote': 'Metal Louvers',
+        'pergola': 'Terrace Pergola',
+        'aluminium-pergola': 'Terrace Pergola',
+        'grills': 'Grills',
+        'mirror-quote': 'Mirror Profiles'
+      };
+
+      const productSelect = document.getElementById('product');
+      if (productParam && productSelect) {
+        const mapped = productMap[productParam];
+        if (mapped) {
+          productSelect.value = mapped;
+        } else {
+          for (const opt of productSelect.options) {
+            if (opt.value && (opt.value.toLowerCase().includes(productParam) || productParam.includes(opt.value.toLowerCase().slice(0, 8)))) {
+              productSelect.value = opt.value;
+              break;
+            }
           }
         }
-        
-        // If no match found, set a default based on category
-        if (!productSelect.value && productParam) {
-          if (productParam.includes('shower') || productParam.includes('partition')) {
-            productSelect.value = 'Shower Partitions';
-          } else if (productParam.includes('cladding') || productParam.includes('acp') || productParam.includes('hpl')) {
-            productSelect.value = 'HPL Cladding';
-          } else if (productParam.includes('window') || productParam.includes('door')) {
-            productSelect.value = 'Aluminium Windows';
+        if (!productSelect.value) {
+          if (/shower|partition/.test(productParam)) productSelect.value = 'Shower Partitions';
+          else if (/cladding|acp|hpl|elevation/.test(productParam)) productSelect.value = /glass/.test(productParam) ? 'Glass Elevation' : 'HPL Cladding';
+          else if (/louver|pergola/.test(productParam)) productSelect.value = /pergola/.test(productParam) ? 'Terrace Pergola' : 'Metal Louvers';
+          else if (/railing|grill|mirror|window|door|fold|telescope/.test(productParam)) {
+            if (/railing/.test(productParam)) productSelect.value = 'Glass Railing';
+            else if (/grill/.test(productParam)) productSelect.value = 'Grills';
+            else if (/mirror/.test(productParam)) productSelect.value = 'Mirror Profiles';
+            else if (/fold/.test(productParam)) productSelect.value = 'Folding Systems';
+            else if (/telescope/.test(productParam)) productSelect.value = 'Telescope Windows';
+            else productSelect.value = 'Aluminium Windows';
           }
         }
       }
+
+      const cityInput = document.getElementById('city');
+      if (cityParam && cityInput && !cityInput.value) {
+        const cityNames = { hyderabad: 'Hyderabad', bangalore: 'Bangalore', bengaluru: 'Bangalore', mumbai: 'Mumbai', delhi: 'Delhi NCR', pune: 'Pune', chennai: 'Chennai', jaipur: 'Jaipur', kolkata: 'Kolkata', lucknow: 'Lucknow' };
+        cityInput.value = cityNames[cityParam.toLowerCase()] || cityParam.replace(/-/g, ' ');
+      }
+
+      const isSiteVisit = intent === 'site-visit' || intent === 'site_visit' || /site-visit|site visit/i.test(source);
+      if (isSiteVisit) {
+        const title = document.getElementById('contactFormTitle');
+        const sub = document.getElementById('contactFormSubtitle');
+        const heroHint = document.getElementById('contactHeroHint');
+        const visitBlock = document.getElementById('siteVisitFields');
+        const msg = document.getElementById('message');
+        const msgLabel = document.getElementById('messageLabel');
+        const submitLabel = document.getElementById('contactSubmitLabel');
+        if (title) title.textContent = 'Book Your Free Site Visit';
+        if (sub) sub.textContent = 'Share site address & preferred slot — we confirm by phone within 2 hours';
+        if (heroHint) heroHint.textContent = 'Free measurement visit (Hyderabad & major cities). No obligation quote after site check.';
+        if (visitBlock) visitBlock.style.display = '';
+        if (msgLabel) msgLabel.textContent = 'Site address & work scope';
+        if (msg && !msg.value) {
+          msg.placeholder = 'Full site address, building type (villa/apt/commercial), work needed (e.g. 4 windows + balcony railing), best call time…';
+        }
+        if (submitLabel) submitLabel.textContent = 'Request Free Site Visit';
+        const leadType = document.getElementById('leadType');
+        if (leadType && !leadType.value) leadType.value = 'Home Owner';
+        const heroTitle = document.querySelector('.contact-title');
+        if (heroTitle) heroTitle.innerHTML = 'Book Your Free<br><span>Site Visit</span>';
+        const formInfoH2 = document.querySelector('.form-info h2');
+        if (formInfoH2) formInfoH2.textContent = 'Schedule measurement at your site';
+      }
+
+      try {
+        if (typeof trackContactPageContext === 'function') {
+          trackContactPageContext(intent || 'general', source);
+        }
+      } catch (e) { /* analytics optional */ }
+
+      document.querySelectorAll('[data-track]').forEach(function (el) {
+        el.addEventListener('click', function () {
+          try {
+            if (typeof gtag === 'function') {
+              gtag('event', 'contact_channel_click', {
+                event_category: 'Contact',
+                event_label: el.getAttribute('data-track'),
+                non_interaction: false
+              });
+            }
+          } catch (err) { /* ignore */ }
+        });
+      });
     })();
     
     function submitContactForm(event) {
       event.preventDefault();
       
-      const name = document.getElementById('name').value;
-      const phone = document.getElementById('phone').value;
-      const email = document.getElementById('email').value || '';
-      const city = document.getElementById('city').value || '';
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const email = document.getElementById('email').value.trim() || '';
+      const city = document.getElementById('city').value.trim() || '';
       const leadType = document.getElementById('leadType').value || '';
       const product = document.getElementById('product').value;
-      const message = document.getElementById('message').value || 'No additional details';
-      
-      const subject = `New Enquiry from ${name} - ${product}`;
+      const visitDate = document.getElementById('visitDate') ? document.getElementById('visitDate').value : '';
+      const visitTime = document.getElementById('visitTime') ? document.getElementById('visitTime').value : '';
+      let message = document.getElementById('message').value.trim() || 'No additional details';
+      if (visitDate || visitTime) {
+        message = (visitDate ? 'Preferred date: ' + visitDate + '\n' : '') +
+          (visitTime ? 'Preferred time: ' + visitTime + '\n' : '') + message;
+      }
+
+      if (!name || !phone || !city || !leadType || !product) {
+        alert('Please fill all required fields (name, phone, city, profile, product).');
+        return;
+      }
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const intent = urlParams.get('intent') || 'general';
+      const isSiteVisit = intent === 'site-visit' || intent === 'site_visit';
+      const subject = isSiteVisit
+        ? `Site visit request — ${name} — ${product}`
+        : `New Enquiry from ${name} - ${product}`;
       var body;
       if (window.EmailSubmitter && typeof window.EmailSubmitter.buildStructuredPlainText === 'function') {
         body = window.EmailSubmitter.buildStructuredPlainText('New enquiry — WoodenMax website', [
@@ -892,7 +1026,14 @@
           },
           onSuccess: () => {
             try {
-              if (typeof trackContactFormSubmit === 'function') trackContactFormSubmit();
+              if (typeof trackContactFormSubmit === 'function') {
+                const p = new URLSearchParams(window.location.search);
+                trackContactFormSubmit({
+                  wm_intent: p.get('intent') || 'general',
+                  wm_source: p.get('source') || 'contact_page',
+                  wm_product: product
+                });
+              }
             } catch (e) { /* analytics optional */ }
             if (statusEl) {
               statusEl.style.display = 'block';

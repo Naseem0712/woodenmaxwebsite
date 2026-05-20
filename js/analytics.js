@@ -1,219 +1,177 @@
 /**
- * Google Analytics Enhanced Tracking
- * Tracks engagement time and calculator interactions
+ * Google Analytics — WoodenMax
+ * One generate_lead per successful form/email only; debounced calculator noise.
  */
-
-(function() {
+(function () {
   'use strict';
 
-  // Check if gtag is available
-  if (typeof gtag === 'undefined') {
-    return;
+  if (typeof gtag === 'undefined') return;
+
+  var lastLeadKey = '';
+  var lastLeadAt = 0;
+  var debounceTimers = {};
+
+  function debounce(key, fn, ms) {
+    if (debounceTimers[key]) clearTimeout(debounceTimers[key]);
+    debounceTimers[key] = setTimeout(fn, ms);
   }
 
-  // Enhanced Engagement Time Tracking
-  let engagementStartTime = Date.now();
-  let lastActiveTime = Date.now();
-  let totalEngagementTime = 0;
-  let isPageVisible = true;
-  let engagementTimer = null;
+  /** Single GA4 conversion event — deduped within 5s for same method+path */
+  function trackLeadConversion(method, extra) {
+    var pagePath = typeof window !== 'undefined' && window.location ? window.location.pathname : '';
+    var dedupeKey = (method || 'unknown') + '|' + pagePath;
+    var now = Date.now();
+    if (dedupeKey === lastLeadKey && now - lastLeadAt < 5000) return;
+    lastLeadKey = dedupeKey;
+    lastLeadAt = now;
 
-  // Track page visibility
-  document.addEventListener('visibilitychange', function() {
-    if (document.hidden) {
-      // Page hidden - save engagement time
-      if (isPageVisible) {
-        totalEngagementTime += (Date.now() - lastActiveTime);
-        isPageVisible = false;
-      }
-    } else {
-      // Page visible - resume tracking
-      lastActiveTime = Date.now();
-      isPageVisible = true;
-    }
-  });
-
-  // Track user activity (scroll, click, keypress, etc.)
-  const activityEvents = ['scroll', 'click', 'keydown', 'mousemove', 'touchstart'];
-  let activityTimeout = null;
-
-  function updateActivity() {
-    if (isPageVisible) {
-      const now = Date.now();
-      totalEngagementTime += (now - lastActiveTime);
-      lastActiveTime = now;
-    }
-    
-    // Clear existing timeout
-    if (activityTimeout) {
-      clearTimeout(activityTimeout);
-    }
-    
-    // Set timeout to send engagement time after 30 seconds of inactivity
-    activityTimeout = setTimeout(() => {
-      sendEngagementTime();
-    }, 30000);
-  }
-
-  // Add activity listeners
-  activityEvents.forEach(event => {
-    document.addEventListener(event, updateActivity, { passive: true });
-  });
-
-  // Send engagement time to GA
-  function sendEngagementTime() {
-    if (isPageVisible) {
-      totalEngagementTime += (Date.now() - lastActiveTime);
-      lastActiveTime = Date.now();
-    }
-
-    if (totalEngagementTime > 0) {
-      const engagementSeconds = Math.round(totalEngagementTime / 1000);
-      
-      // Custom engagement only — do not send extra page_view here (inflates GA4 page views & Realtime event counts)
-      gtag('event', 'engagement_time', {
-        'engagement_time_msec': totalEngagementTime,
-        'value': engagementSeconds
+    var params = {
+      method: method || 'unknown',
+      event_category: 'Lead',
+      page_path: pagePath,
+      value: 1
+    };
+    if (extra && typeof extra === 'object') {
+      Object.keys(extra).forEach(function (k) {
+        params[k] = extra[k];
       });
     }
+    gtag('event', 'generate_lead', params);
   }
 
-  // Send engagement time on page unload
-  window.addEventListener('beforeunload', function() {
-    sendEngagementTime();
-  });
-  
-  // Also use pagehide for better mobile support
-  window.addEventListener('pagehide', function() {
-    sendEngagementTime();
-  });
+  window.trackLeadConversion = trackLeadConversion;
 
-  // Send engagement time every 60 seconds while active
-  setInterval(function() {
-    if (isPageVisible && document.hasFocus()) {
-      sendEngagementTime();
+  // --- Light engagement (no periodic spam; GA4 already measures engagement) ---
+  var totalEngagementMs = 0;
+  var lastActiveAt = Date.now();
+  var pageVisible = true;
+  var engagementSent = false;
+
+  function tickEngagement() {
+    if (pageVisible) totalEngagementMs += Date.now() - lastActiveAt;
+    lastActiveAt = Date.now();
+  }
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) {
+      if (pageVisible) tickEngagement();
+      pageVisible = false;
+    } else {
+      lastActiveAt = Date.now();
+      pageVisible = true;
     }
-  }, 60000);
+  });
 
-  // Calculator Event Tracking Functions
-  window.trackCalculatorEvent = function(eventName, eventParams) {
-    if (typeof gtag === 'undefined') return;
+  ['scroll', 'click', 'keydown', 'touchstart'].forEach(function (ev) {
+    document.addEventListener(ev, function () {
+      if (!pageVisible) return;
+      tickEngagement();
+    }, { passive: true });
+  });
 
-    const defaultParams = {
-      'event_category': 'Calculator',
-      'event_label': eventName,
-      'non_interaction': false
+  function sendEngagementOnce() {
+    if (engagementSent) return;
+    tickEngagement();
+    if (totalEngagementMs < 10000) return;
+    engagementSent = true;
+    gtag('event', 'engagement_time', {
+      engagement_time_msec: totalEngagementMs,
+      non_interaction: true
+    });
+  }
+
+  window.addEventListener('pagehide', sendEngagementOnce);
+  window.addEventListener('beforeunload', sendEngagementOnce);
+
+  // --- Calculator helpers ---
+  window.trackCalculatorEvent = function (eventName, eventParams) {
+    var defaultParams = {
+      event_category: 'Calculator',
+      non_interaction: true
     };
-
-    gtag('event', eventName, {
-      ...defaultParams,
-      ...eventParams
-    });
+    gtag('event', eventName, Object.assign({}, defaultParams, eventParams || {}));
   };
 
-  // Track calculator size changes
-  window.trackCalculatorSize = function(width, height, unit, quantity) {
-    trackCalculatorEvent('calculator_size_change', {
-      'event_category': 'Calculator',
-      'event_label': 'Size Input',
-      'width': width,
-      'height': height,
-      'unit': unit,
-      'quantity': quantity,
-      'area_sqft': calculateArea(width, height, unit) * quantity
-    });
+  window.trackCalculatorSize = function (width, height, unit, quantity) {
+    debounce('calc_size', function () {
+      trackCalculatorEvent('calculator_size_change', {
+        event_label: 'Size Input',
+        width: width,
+        height: height,
+        unit: unit,
+        quantity: quantity
+      });
+    }, 4000);
   };
 
-  // Track material selections
-  window.trackCalculatorMaterial = function(materialType, materialValue) {
-    trackCalculatorEvent('calculator_material_selection', {
-      'event_category': 'Calculator',
-      'event_label': 'Material Selection',
-      'material_type': materialType,
-      'material_value': materialValue
-    });
+  window.trackCalculatorMaterial = function (materialType, materialValue) {
+    debounce('calc_mat_' + materialType, function () {
+      trackCalculatorEvent('calculator_material_selection', {
+        event_label: 'Material Selection',
+        material_type: materialType,
+        material_value: materialValue
+      });
+    }, 3000);
   };
 
-  // Track calculator calculation
-  window.trackCalculatorCalculation = function(totalCost, totalArea, selections) {
-    trackCalculatorEvent('calculator_calculation', {
-      'event_category': 'Calculator',
-      'event_label': 'Price Calculated',
-      'total_cost': totalCost,
-      'total_area': totalArea,
-      'glass_type': selections?.glass || 'unknown',
-      'coating_type': selections?.coating || 'unknown',
-      'lock_type': selections?.lock || 'unknown',
-      'has_mesh': selections?.mesh || false,
-      'value': Math.round(totalCost)
-    });
+  window.trackCalculatorCalculation = function (totalCost, totalArea, selections) {
+    debounce('calc_run', function () {
+      trackCalculatorEvent('calculator_calculation', {
+        event_label: 'Price Calculated',
+        total_cost: totalCost,
+        total_area: totalArea,
+        glass_type: (selections && selections.glass) || 'unknown',
+        coating_type: (selections && selections.coating) || 'unknown',
+        lock_type: (selections && selections.lock) || 'unknown',
+        has_mesh: (selections && selections.mesh) || false,
+        value: Math.round(totalCost || 0)
+      });
+    }, 8000);
   };
 
-  // Track form submission (GA4 generate_lead for conversion tracking)
-  window.trackCalculatorFormSubmit = function(formType, hasPrice) {
-    const pagePath = typeof window !== 'undefined' && window.location ? window.location.pathname : '';
-    trackCalculatorEvent('calculator_form_submit', {
-      'event_category': 'Calculator',
-      'event_label': 'Form Submitted',
-      'form_type': formType,
-      'has_price': hasPrice,
-      'value': hasPrice ? 1 : 0,
-      'page_path': pagePath
+  /** After email API success only — one custom + one generate_lead */
+  window.trackCalculatorFormSubmit = function (formType, hasPrice) {
+    trackCalculatorEvent('calculator_quote_submit', {
+      event_label: 'Form Submitted',
+      form_type: formType,
+      has_price: !!hasPrice,
+      non_interaction: false
     });
-    // GA4 recommended: generate_lead for conversion counting
-    gtag('event', 'generate_lead', {
-      'event_category': 'Lead',
-      'event_label': 'Calculator Quote',
-      'method': formType,
-      'value': hasPrice ? 1 : 0
-    });
+    trackLeadConversion(formType || 'calculator_quote', { has_price: hasPrice ? 1 : 0 });
   };
 
-  // Track contact form submission (for mail count)
-  window.trackContactFormSubmit = function() {
-    if (typeof gtag === 'undefined') return;
-    // Single conversion event per successful send (count in GA4 as generate_lead only; avoid double-counting with form_submit)
-    gtag('event', 'generate_lead', {
-      'event_category': 'Lead',
-      'event_label': 'Contact Form',
-      'method': 'contact_form',
-      'value': 1
-    });
+  window.trackContactFormSubmit = function (extra) {
+    trackLeadConversion('contact_form', extra || {});
   };
 
-  // Helper function to calculate area
-  function calculateArea(width, height, unit) {
-    if (!width || !height) return 0;
-    
-    let areaSqft = 0;
-    if (unit === 'ft') {
-      areaSqft = width * height;
-    } else if (unit === 'inch') {
-      areaSqft = (width * height) / 144;
-    } else if (unit === 'mm') {
-      areaSqft = (width * height) / 92903.04;
-    } else if (unit === 'cm') {
-      areaSqft = (width * height) / 929.0304;
-    } else if (unit === 'm') {
-      areaSqft = (width * height) * 10.764;
-    }
-    
-    return areaSqft;
-  }
-
-  // Track calculator page view
-  window.trackCalculatorPageView = function(productId, productName) {
-    if (typeof gtag === 'undefined') return;
-
+  window.trackCalculatorPageView = function (productId, productName) {
     gtag('event', 'calculator_view', {
-      'event_category': 'Calculator',
-      'event_label': 'Calculator Page View',
-      'product_id': productId,
-      'product_name': productName
+      event_category: 'Calculator',
+      event_label: 'Calculator Opened',
+      product_id: productId,
+      product_name: productName,
+      non_interaction: true
     });
   };
 
-  // Initialize engagement tracking
-  updateActivity();
-})();
+  /** Mobile quote cart / PDF gate — success only */
+  window.trackMobileLeadSubmit = function (intent, itemCount) {
+    trackCalculatorEvent('calculator_mobile_submit', {
+      wm_intent: intent,
+      wm_items: itemCount,
+      non_interaction: false
+    });
+    trackLeadConversion(intent === 'export-pdf' ? 'calc_pdf_quote' : 'calc_exact_price', {
+      wm_items: itemCount
+    });
+  };
 
+  window.trackContactPageContext = function (intent, source) {
+    gtag('event', 'contact_page_view', {
+      event_category: 'Contact',
+      wm_intent: intent || 'general',
+      wm_source: source || 'direct',
+      non_interaction: true
+    });
+  };
+})();
