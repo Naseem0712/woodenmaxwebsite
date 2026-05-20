@@ -5,7 +5,7 @@ module.exports.pageConfig = {
   canonical: '/policies/installation-policy',
   title: 'WoodenMax Installation Policy 2026 | Scope, Site-Readiness, Handover',
   description: 'Complete installation policy for every WoodenMax order — what we install, what site readiness we need from you, dust-free protocol, civil-work scope, snag-free handover and 2-year workmanship warranty.',
-  ogImage: 'https://woodenmax.in/images/woodenmax-logo.png',
+  ogImage: 'https://woodenmax.in/images/woodenmax-logo.webp',
   schemaType: 'Article',
   breadcrumb: [
     { label: 'Home',     href: '/' },

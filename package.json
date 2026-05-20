@@ -1,0 +1,13 @@
+{
+  "name": "woodenmax-live",
+  "private": true,
+  "description": "WoodenMax static site build tools",
+  "scripts": {
+    "optimize:speed": "node tools/optimize-speed.cjs",
+    "optimize:speed:dry": "node tools/optimize-speed.cjs --dry",
+    "fix:head": "node tools/fix-head-assets.cjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.5"
+  }
+}

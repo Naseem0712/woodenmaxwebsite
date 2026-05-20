@@ -5,7 +5,7 @@ module.exports.pageConfig = {
   canonical: '/policies/warranty-policy',
   title: 'WoodenMax Warranty Policy 2026 | 10-Year Profile, 5-Year Hardware, 2-Year Gasket',
   description: 'Official WoodenMax warranty policy — 10 years on aluminium profile, 5 years on hardware, 2 years on EPDM gaskets, lifetime free technical support. Read scope, exclusions and claim process.',
-  ogImage: 'https://woodenmax.in/images/woodenmax-logo.png',
+  ogImage: 'https://woodenmax.in/images/woodenmax-logo.webp',
   schemaType: 'Article',
   breadcrumb: [
     { label: 'Home',     href: '/' },

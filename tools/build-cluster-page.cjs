@@ -188,7 +188,7 @@ function renderArticleJsonLd (cfg, originUrl) {
       'url': 'https://woodenmax.in',
       'logo': {
         '@type': 'ImageObject',
-        'url': 'https://woodenmax.in/images/woodenmax-logo.png'
+        'url': 'https://woodenmax.in/images/woodenmax-logo.webp'
       }
     },
     'mainEntityOfPage': originUrl + '/' + cfg.canonical.replace(/^\//, '')

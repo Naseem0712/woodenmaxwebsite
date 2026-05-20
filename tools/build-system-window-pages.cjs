@@ -702,7 +702,7 @@ function buildPage(p) {
     <div class="container">
       <div class="navbar-content">
         <a href="../../index" class="navbar-logo">
-          <div class="logo-icon"><img src="../../images/woodenmax-logo.png" alt="WoodenMax Logo" ></div>
+          <div class="logo-icon"><img src="../../images/woodenmax-logo.webp" alt="WoodenMax Logo" ></div>
     </a>
     <div class="nav-menu">
       <a href="../../index" class="nav-link">Home</a>
@@ -932,7 +932,7 @@ function buildPage(p) {
       <div class="footer-grid">
         <div>
           <div class="footer-brand">
-            <div class="footer-brand-icon"><img src="../../images/woodenmax-logo.png" alt="WoodenMax Logo" ></div>
+            <div class="footer-brand-icon"><img src="../../images/woodenmax-logo.webp" alt="WoodenMax Logo" ></div>
           </div>
           <p class="footer-description">Aluminium system window guides and calculators — WoodenMax India.</p>
         </div>

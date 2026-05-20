@@ -5,7 +5,7 @@ module.exports.pageConfig = {
   canonical: '/policies/cancellation-refund-policy',
   title: 'WoodenMax Cancellation & Refund Policy 2026 | Order, Site-Visit, Production Stage',
   description: 'Transparent cancellation and refund policy for WoodenMax orders — covers free site visits, signed quotes, advance, production-in-progress, dispatched and installed stages, with timelines for refund.',
-  ogImage: 'https://woodenmax.in/images/woodenmax-logo.png',
+  ogImage: 'https://woodenmax.in/images/woodenmax-logo.webp',
   schemaType: 'Article',
   breadcrumb: [
     { label: 'Home',     href: '/' },

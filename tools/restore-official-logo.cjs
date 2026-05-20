@@ -5,7 +5,7 @@
  * Revert the temporary SVG-fallback paths back to the official PNG logo
  * that the brand owner has placed in /images/.
  *
- *   images/wm-logo.svg     →  images/woodenmax-logo.png
+ *   images/wm-logo.svg     →  images/woodenmax-logo.webp
  *   images/wm-favicon.svg  →  images/favicon.png
  *
  * Relative prefixes (../, ../../) are preserved.
@@ -29,7 +29,7 @@ const SKIP_FILES = new Set([
 ]);
 
 const RULES = [
-  [/images\/wm-logo\.svg/g,    'images/woodenmax-logo.png'],
+  [/images\/wm-logo\.svg/g,    'images/woodenmax-logo.webp'],
   [/images\/wm-favicon\.svg/g, 'images/favicon.png'],
 ];
 

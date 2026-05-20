@@ -13,19 +13,19 @@
   "categories": ["business", "shopping", "lifestyle", "utilities"],
   "icons": [
     {
-      "src": "/images/woodenmax-logo.png",
+      "src": "/images/woodenmax-logo.webp",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/images/woodenmax-logo.png",
+      "src": "/images/woodenmax-logo.webp",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "/images/woodenmax-logo.png",
+      "src": "/images/woodenmax-logo.webp",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
@@ -42,21 +42,21 @@
       "short_name": "Window Calc",
       "description": "Instant ₹/sq.ft estimate for premium aluminium windows",
       "url": "/aluminium-window-price-calculator",
-      "icons": [{ "src": "/images/woodenmax-logo.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [{ "src": "/images/woodenmax-logo.webp", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Glass Elevation Calculator",
       "short_name": "Elevation Calc",
       "description": "Calculate glass elevation cost per sq.ft",
       "url": "/glass-elevation-price-calculator",
-      "icons": [{ "src": "/images/woodenmax-logo.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [{ "src": "/images/woodenmax-logo.webp", "sizes": "192x192", "type": "image/png" }]
     },
     {
       "name": "Browse Products",
       "short_name": "Products",
       "description": "All aluminium products in one place",
       "url": "/products/aluminium-windows",
-      "icons": [{ "src": "/images/woodenmax-logo.png", "sizes": "192x192", "type": "image/png" }]
+      "icons": [{ "src": "/images/woodenmax-logo.webp", "sizes": "192x192", "type": "image/png" }]
     }
   ]
 }

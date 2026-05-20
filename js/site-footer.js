@@ -20,7 +20,7 @@
   var BRAND = {
     name:    'WoodenMax',
     legal:   'WoodenMax Architectural Elements',
-    logo:    'images/woodenmax-logo.png',
+    logo:    'images/woodenmax-logo.webp',
     tagline: 'Premium architectural aluminium — manufactured in our own 28,000 sq ft Hyderabad facility. Free site visits, transparent pricing, 10-year warranty.',
     phone:       '+91 78953 28080',
     phoneDigits: '917895328080',

@@ -215,7 +215,7 @@ const NAV = `  <nav class="navbar scrolled" id="navbar">
     <div class="container">
       <div class="navbar-content">
         <a href="../../index" class="navbar-logo">
-          <div class="logo-icon"><img src="../../images/woodenmax-logo.png" alt="WoodenMax Logo" ></div>
+          <div class="logo-icon"><img src="../../images/woodenmax-logo.webp" alt="WoodenMax Logo" ></div>
     </a>
     <div class="nav-menu">
       <a href="../../index" class="nav-link">Home</a>
@@ -484,7 +484,7 @@ function footer() {
       <div class="footer-grid">
         <div>
           <div class="footer-brand">
-            <div class="footer-brand-icon"><img src="../../images/woodenmax-logo.png" alt="WoodenMax Logo" ></div>
+            <div class="footer-brand-icon"><img src="../../images/woodenmax-logo.webp" alt="WoodenMax Logo" ></div>
           </div>
           <p class="footer-description">Aluminium window price tools — WoodenMax India.</p>
         </div>
@@ -1083,7 +1083,7 @@ ${preloadImg}  <link rel="stylesheet" href="../../css/styles.css" />
   <script type="application/ld+json">${jsonld(serviceCalcSchema(p, canonical))}</script>
   <script type="application/ld+json">${jsonld(faqSchema(faqs))}</script>
   <script type="application/ld+json">${jsonld(breadcrumbSchema(p.slug, p.breadcrumbLabel))}</script>
-  <script type="application/ld+json">${jsonld('{"@context":"https://schema.org","@type":"Organization","@id":"https://woodenmax.in/#org","name":"WoodenMax","url":"https://woodenmax.in","logo":"https://woodenmax.in/images/woodenmax-logo.png","telephone":"+91-78953-28080"}')}</script>
+  <script type="application/ld+json">${jsonld('{"@context":"https://schema.org","@type":"Organization","@id":"https://woodenmax.in/#org","name":"WoodenMax","url":"https://woodenmax.in","logo":"https://woodenmax.in/images/woodenmax-logo.webp","telephone":"+91-78953-28080"}')}</script>
 </head>
 <body class="morning-seo-page">
 ${NAV}

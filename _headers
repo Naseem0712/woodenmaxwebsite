@@ -40,3 +40,13 @@
 /tools/woodenmax-widget.js
   Access-Control-Allow-Origin: *
   Content-Type: application/javascript; charset=utf-8
+
+# Static assets — long cache + WebP
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/css/*
+  Cache-Control: public, max-age=604800
+
+/js/*
+  Cache-Control: public, max-age=604800

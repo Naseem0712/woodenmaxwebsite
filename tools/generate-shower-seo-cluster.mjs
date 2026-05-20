@@ -256,7 +256,7 @@ function organizationSchemaJson() {
     url: 'https://woodenmax.in',
     logo: {
       '@type': 'ImageObject',
-      url: 'https://woodenmax.in/images/woodenmax-logo.png',
+      url: 'https://woodenmax.in/images/woodenmax-logo.webp',
     },
   });
 }
@@ -539,7 +539,7 @@ function buildPage(p) {
     <div class="container">
       <div class="navbar-content">
         <a href="${ASSET}index" class="navbar-logo">
-          <div class="logo-icon"><img src="${ASSET}images/woodenmax-logo.png" alt="Site logo" ></div>
+          <div class="logo-icon"><img src="${ASSET}images/woodenmax-logo.webp" alt="Site logo" ></div>
         </a>
         <div class="nav-menu">
           <a href="${ASSET}index" class="nav-link">Home</a>
@@ -643,7 +643,7 @@ function buildPage(p) {
       <div class="footer-grid">
         <div>
           <div class="footer-brand">
-            <div class="footer-brand-icon"><img src="${ASSET}images/woodenmax-logo.png" alt="Logo" ></div>
+            <div class="footer-brand-icon"><img src="${ASSET}images/woodenmax-logo.webp" alt="Logo" ></div>
           </div>
           <p class="footer-description">Neutral shower glass price &amp; design articles (India).</p>
         </div>

@@ -33,7 +33,7 @@
     name: 'WoodenMax',
     legalName: 'WoodenMax Architectural Elements',
     url: 'https://woodenmax.in',
-    logo: 'https://woodenmax.in/images/woodenmax-logo.png',
+    logo: 'https://woodenmax.in/images/woodenmax-logo.webp',
     phone: '+91-78953-28080',
     email: 'info@woodenmax.com',
     gstin: '36ARWPA9740L1Z3',
@@ -278,7 +278,7 @@
     }
 
     // Favicon — the brand has placed the official PNG at /favicon.png
-    // and /images/woodenmax-logo.png.  We inject a clean set of
+    // and /images/woodenmax-logo.webp.  We inject a clean set of
     // <link rel="icon"> tags if the page doesn't already carry them.
     var hasIcon  = !!document.querySelector('link[rel*="icon" i]');
     if (!hasIcon) {
@@ -369,7 +369,7 @@
     var highPrice = priceMatch ? priceMatch[2].replace(/,/g, '') : null;
 
     var imgEl = document.querySelector('meta[property="og:image"]');
-    var imgUrl = imgEl ? imgEl.getAttribute('content') : (BRAND.url + '/images/woodenmax-logo.png');
+    var imgUrl = imgEl ? imgEl.getAttribute('content') : (BRAND.url + '/images/woodenmax-logo.webp');
 
     var product = {
       '@context': 'https://schema.org',

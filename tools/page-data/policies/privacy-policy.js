@@ -5,7 +5,7 @@ module.exports.pageConfig = {
   canonical: '/policies/privacy-policy',
   title: 'WoodenMax Privacy Policy 2026 | What Data We Collect, How We Use It',
   description: 'Plain-language privacy policy — exactly what personal data WoodenMax collects on calculators, quote forms and PDFs; how long we keep it; who we share it with; and how to delete your data under India\'s DPDP Act.',
-  ogImage: 'https://woodenmax.in/images/woodenmax-logo.png',
+  ogImage: 'https://woodenmax.in/images/woodenmax-logo.webp',
   schemaType: 'Article',
   breadcrumb: [
     { label: 'Home',     href: '/' },

@@ -8,7 +8,7 @@
  * the image request, so we must keep the static src valid.
  *
  * Replacements (case-sensitive, idempotent):
- *   images/woodenmax-logo.png         →  images/wm-logo.svg
+ *   images/woodenmax-logo.webp         →  images/wm-logo.svg
  *   images/logo.webp                  →  images/wm-logo.svg
  *
  * Relative prefixes (../, ../../) are preserved automatically because
