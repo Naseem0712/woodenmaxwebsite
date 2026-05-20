@@ -21,7 +21,7 @@
   var BRAND_LOGO   = 'images/woodenmax-logo.webp';
   var BRAND_NAME   = 'WoodenMax';
   var BRAND_PHONE  = '+91 78953 28080';
-  var BRAND_HREF_CONTACT = 'contact.html';
+  var BRAND_HREF_CONTACT = 'contact';
 
   // Each category links to its hub. Cluster href uses .html so it works on plain
   // hosting and on local file:// without any rewrite.

@@ -16,6 +16,11 @@ Allow: /about/
 Allow: /about/*
 Allow: /policies/
 Allow: /policies/*
+# SEO: block duplicate / technical URLs
+Disallow: /cdn-cgi/
+Disallow: /contact?
+Disallow: /contact.html?
+Disallow: /search?
 Disallow: /admin/
 Disallow: /tools/
 Allow: /tools/woodenmax-widget.js

@@ -5,7 +5,8 @@
   "scripts": {
     "optimize:speed": "node tools/optimize-speed.cjs",
     "optimize:speed:dry": "node tools/optimize-speed.cjs --dry",
-    "fix:head": "node tools/fix-head-assets.cjs"
+    "fix:head": "node tools/fix-head-assets.cjs",
+    "fix:seo-urls": "node tools/fix-seo-urls.cjs"
   },
   "devDependencies": {
     "sharp": "^0.33.5"
