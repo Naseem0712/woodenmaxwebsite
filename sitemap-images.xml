@@ -379,9 +379,6 @@
       <image:loc>https://woodenmax.in/images/products/structural-glazing-building-elevation.webp</image:loc>
     </image:image>
     <image:image>
-      <image:loc>https://woodenmax.in/images/woodenmax-logo.webp</image:loc>
-    </image:image>
-    <image:image>
       <image:loc>https://woodenmax.in/images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp</image:loc>
     </image:image>
     <image:image>
@@ -449,6 +446,9 @@
     </image:image>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://woodenmax.in/images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp</image:loc>
     </image:image>
   </url>
   <url>
@@ -1742,7 +1742,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/metal-louvers/index</loc>
+    <loc>https://woodenmax.in/products/metal-louvers/</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india.webp</image:loc>
     </image:image>
@@ -1865,7 +1865,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/mirror-profiles/index</loc>
+    <loc>https://woodenmax.in/products/mirror-profiles/</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/mirror-profiles/led-aluminium-mirror-profile-bathroom-price-india.webp</image:loc>
     </image:image>
@@ -2111,7 +2111,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/bathroom-shower-design-price</loc>
+    <loc>https://woodenmax.in/bathroom-shower-design-price</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Shower%20Design%20Page/modern-bathroom-shower-design.webp</image:loc>
     </image:image>
@@ -2144,7 +2144,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/corner-shower-partition-price</loc>
+    <loc>https://woodenmax.in/corner-shower-partition-price</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Corner%20Shower%20Partition/corner-glass-shower-partition.webp</image:loc>
     </image:image>
@@ -2156,7 +2156,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/fixed-glass-shower-panel-price</loc>
+    <loc>https://woodenmax.in/fixed-glass-shower-panel-price</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Fixed%20Glass%20Shower%20Panel/fixed-glass-shower-panel-bathroom.webp</image:loc>
     </image:image>
@@ -2168,7 +2168,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/framed-vs-frameless-shower</loc>
+    <loc>https://woodenmax.in/framed-vs-frameless-shower</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Framed%20vs%20Frameless/framed-vs-frameless-shower.webp</image:loc>
     </image:image>
@@ -2180,7 +2180,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/frameless-glass-shower-price</loc>
+    <loc>https://woodenmax.in/frameless-glass-shower-price</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Frameless%20Shower/frameless-glass-shower-design.webp</image:loc>
     </image:image>
@@ -2234,7 +2234,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/glass-shower-partition-price</loc>
+    <loc>https://woodenmax.in/glass-shower-partition-price</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Glass%20Shower%20Partition%20Price/glass-shower-partition-modern-bathroom.webp</image:loc>
     </image:image>
@@ -2267,7 +2267,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/shower-curtain-vs-glass-partition</loc>
+    <loc>https://woodenmax.in/shower-curtain-vs-glass-partition</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Curtain%20vs%20Glass/shower-curtain-vs-glass.webp</image:loc>
     </image:image>
@@ -2279,7 +2279,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/shower-enclosure-price</loc>
+    <loc>https://woodenmax.in/shower-enclosure-price</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Shower%20Enclosure/glass-shower-enclosure-bathroom.webp</image:loc>
     </image:image>
@@ -2291,7 +2291,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/shower-glass-maintenance</loc>
+    <loc>https://woodenmax.in/shower-glass-maintenance</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Maintenance/shower-glass-cleaning.webp</image:loc>
     </image:image>
@@ -2303,7 +2303,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/shower-glass-thickness</loc>
+    <loc>https://woodenmax.in/shower-glass-thickness</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Glass%20Thickness/shower-glass-thickness-chart.webp</image:loc>
     </image:image>
@@ -2315,7 +2315,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/shower-glass-types</loc>
+    <loc>https://woodenmax.in/shower-glass-types</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Glass%20Types/shower-glass-types-comparison.webp</image:loc>
     </image:image>
@@ -2327,7 +2327,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/shower-installation-cost</loc>
+    <loc>https://woodenmax.in/shower-installation-cost</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Installation%20Cost/shower-glass-installation-site.webp</image:loc>
     </image:image>
@@ -2339,7 +2339,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/sliding-shower-door-price</loc>
+    <loc>https://woodenmax.in/sliding-shower-door-price</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Sliding%20Shower%20Door/sliding-glass-shower-door-design.webp</image:loc>
     </image:image>
@@ -2372,7 +2372,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/small-bathroom-shower-design</loc>
+    <loc>https://woodenmax.in/small-bathroom-shower-design</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Small%20Bathroom%20Shower/small-bathroom-glass-shower.webp</image:loc>
     </image:image>
@@ -2384,7 +2384,7 @@
     </image:image>
   </url>
   <url>
-    <loc>https://woodenmax.in/products/shower-partitions/walk-in-shower-glass-price</loc>
+    <loc>https://woodenmax.in/walk-in-shower-glass-price</loc>
     <image:image>
       <image:loc>https://woodenmax.in/images/products/Walk-in%20Shower/walk-in-shower-glass-design.webp</image:loc>
     </image:image>

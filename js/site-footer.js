@@ -58,43 +58,43 @@
     {
       heading: 'Products',
       links: [
-        { label: 'Aluminium Windows',  href: 'products/aluminium-windows.html'   },
-        { label: 'Telescope Windows',  href: 'products/telescope-windows.html'   },
-        { label: 'Folding Systems',    href: 'products/folding-systems.html'     },
-        { label: 'Pergola',            href: 'products/pergola/aluminium-pergola.html' },
-        { label: 'Metal Louvers',      href: 'products/metal-louvers.html'       },
+        { label: 'Aluminium Windows',  href: 'products/aluminium-windows'   },
+        { label: 'Telescope Windows',  href: 'products/telescope-windows'   },
+        { label: 'Folding Systems',    href: 'products/folding-systems'     },
+        { label: 'Pergola',            href: 'products/pergola/aluminium-pergola' },
+        { label: 'Metal Louvers',      href: 'products/metal-louvers'       },
         { label: 'Mirror Profiles',    href: 'products/mirror-profiles/'         },
-        { label: 'Shower Partitions',  href: 'products/shower-partitions.html'   },
-        { label: 'Elevation Cladding', href: 'products/elevation-cladding.html'  },
-        { label: 'Glass Elevation',    href: 'products/glass-elevation.html'     },
-        { label: 'Glass Railing',      href: 'products/glass-railing.html'       },
-        { label: 'Grills',             href: 'products/grills.html'              }
+        { label: 'Shower Partitions',  href: 'products/shower-partitions'   },
+        { label: 'Elevation Cladding', href: 'products/elevation-cladding'  },
+        { label: 'Glass Elevation',    href: 'products/glass-elevation'     },
+        { label: 'Glass Railing',      href: 'products/glass-railing'       },
+        { label: 'Grills',             href: 'products/grills'              }
       ]
     },
     {
       heading: 'Resources',
       links: [
-        { label: 'About WoodenMax',         href: 'about.html'                                 },
-        { label: 'Factory Tour',            href: 'about/factory-tour-hyderabad.html'          },
-        { label: 'Manufacturing Process',   href: 'about/manufacturing-process.html'           },
-        { label: 'Quality &amp; Testing',   href: 'about/quality-testing-process.html'         },
-        { label: 'Certifications',          href: 'about/certifications-iso-qualicoat.html'    },
-        { label: 'Case Study — Makobrew',   href: 'about/case-study-makobrew-jubilee-hills.html' },
-        { label: 'Case Study — Hyderabad',  href: 'about/case-study-villa-hyderabad.html'      },
-        { label: 'Calculators',             href: 'calculators.html'                           },
-        { label: 'Blog',                    href: 'blog.html'                                  },
-        { label: 'Catalog',                 href: 'catalog.html'                               }
+        { label: 'About WoodenMax',         href: 'about'                                 },
+        { label: 'Factory Tour',            href: 'about/factory-tour-hyderabad'          },
+        { label: 'Manufacturing Process',   href: 'about/manufacturing-process'           },
+        { label: 'Quality &amp; Testing',   href: 'about/quality-testing-process'         },
+        { label: 'Certifications',          href: 'about/certifications-iso-qualicoat'    },
+        { label: 'Case Study — Makobrew',   href: 'about/case-study-makobrew-jubilee-hills' },
+        { label: 'Case Study — Hyderabad',  href: 'about/case-study-villa-hyderabad'      },
+        { label: 'Calculators',             href: 'calculators'                           },
+        { label: 'Blog',                    href: 'blog'                                  },
+        { label: 'Catalog',                 href: 'catalog'                               }
       ]
     },
     {
       heading: 'Policies',
       links: [
-        { label: 'Warranty Policy',                   href: 'policies/warranty-policy.html'              },
-        { label: 'Installation Policy',               href: 'policies/installation-policy.html'          },
-        { label: 'GST &amp; Transport',               href: 'policies/gst-transport-policy.html'         },
-        { label: 'Cancellation &amp; Refund',         href: 'policies/cancellation-refund-policy.html'   },
-        { label: 'Privacy Policy',                    href: 'policies/privacy-policy.html'               },
-        { label: 'Return Policy',                     href: 'return-policy.html'                         }
+        { label: 'Warranty Policy',                   href: 'policies/warranty-policy'              },
+        { label: 'Installation Policy',               href: 'policies/installation-policy'          },
+        { label: 'GST &amp; Transport',               href: 'policies/gst-transport-policy'         },
+        { label: 'Cancellation &amp; Refund',         href: 'policies/cancellation-refund-policy'   },
+        { label: 'Privacy Policy',                    href: 'policies/privacy-policy'               },
+        { label: 'Return Policy',                     href: 'return-policy'                         }
       ]
     },
     {
@@ -104,13 +104,13 @@
   ];
 
   var CITIES = [
-    { label: 'Hyderabad',     href: 'city/hyderabad.html'  },
-    { label: 'Bengaluru',     href: 'city/bangalore.html'  },
-    { label: 'Mumbai',        href: 'city/mumbai.html'     },
-    { label: 'Delhi NCR',     href: 'city/delhi.html'      },
-    { label: 'Pune',          href: 'city/pune.html'       },
-    { label: 'Jaipur',        href: 'city/jaipur.html'     },
-    { label: 'Lucknow',       href: 'city/lucknow.html'    }
+    { label: 'Hyderabad',     href: 'city/hyderabad'  },
+    { label: 'Bengaluru',     href: 'city/bangalore'  },
+    { label: 'Mumbai',        href: 'city/mumbai'     },
+    { label: 'Delhi NCR',     href: 'city/delhi'      },
+    { label: 'Pune',          href: 'city/pune'       },
+    { label: 'Jaipur',        href: 'city/jaipur'     },
+    { label: 'Lucknow',       href: 'city/lucknow'    }
   ];
 
   // EEAT trust pills shown in the brand column.
@@ -159,7 +159,7 @@
   function buildBrandColumn () {
     return (
       '<div class="wmf-col wmf-brand">' +
-        '<a class="wmf-logo" href="' + abs('index.html') + '" aria-label="' + BRAND.name + ' home">' +
+        '<a class="wmf-logo" href="' + abs('index') + '" aria-label="' + BRAND.name + ' home">' +
           '<img src="' + abs(BRAND.logo) + '" alt="' + BRAND.name + ' logo" width="44" height="44" loading="lazy" decoding="async">' +
           '<span class="wmf-logo-text">' + BRAND.name + '</span>' +
         '</a>' +

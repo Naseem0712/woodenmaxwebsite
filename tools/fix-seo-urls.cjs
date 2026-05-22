@@ -100,6 +100,25 @@ function mergeRedirects(newRules) {
   if (!DRY) fs.writeFileSync(file, content.trimEnd() + block, 'utf8');
 }
 
+/** Strip .html from href: '…' constants in site-nav.js / site-footer.js (not matched by href= regex). */
+function fixJsHrefConstants(text) {
+  let n = 0;
+  const next = text.replace(/href:\s*(['"])([^'"]+)\1/g, (full, q, href) => {
+    if (/^(https?:|mailto:|tel:|#|javascript:)/i.test(href)) return full;
+    if (!/\.html/i.test(href)) return full;
+    const fixed = href
+      .replace(/index\.html(?=[?#]|$)/gi, 'index')
+      .replace(/\.html(?=[?#]|$)/gi, () => {
+        n++;
+        return '';
+      });
+    if (fixed === href) return full;
+    return `href: ${q}${fixed}${q}`;
+  });
+  stats.hrefFixes += n;
+  return next;
+}
+
 function fixInternalLinks(text) {
   let n = 0;
   const next = text.replace(/href=(["'])([^"']+)\1/gi, (full, q, href) => {
@@ -128,7 +147,10 @@ function patchFiles() {
     const rel = path.relative(ROOT, abs);
     if (SKIP_HTML.has(rel)) continue;
     let text = fs.readFileSync(abs, 'utf8');
-    const next = fixInternalLinks(text);
+    let next = fixInternalLinks(text);
+    if (/site-(nav|footer)\.js$/i.test(rel)) {
+      next = fixJsHrefConstants(next);
+    }
     if (next !== text) {
       stats.filesPatched++;
       if (!DRY) fs.writeFileSync(abs, next, 'utf8');

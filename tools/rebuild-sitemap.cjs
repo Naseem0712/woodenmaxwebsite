@@ -43,6 +43,24 @@ function urlFor (htmlAbs) {
   return BASE + '/' + rel.replace(/\.html$/, '');
 }
 
+/** Prefer each page's <link rel="canonical"> so sitemap matches live SEO (e.g. short shower URLs). */
+function locFor (htmlAbs) {
+  try {
+    const html = fs.readFileSync(htmlAbs, 'utf8');
+    const m =
+      html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i) ||
+      html.match(/<link[^>]+href=["']([^"']+)["'][^>]+rel=["']canonical["']/i);
+    if (m && m[1]) {
+      const href = m[1].trim();
+      if (href.startsWith(BASE)) return href;
+      if (href.startsWith('http://woodenmax.in')) {
+        return BASE + href.slice('http://woodenmax.in'.length);
+      }
+    }
+  } catch (e) { /* fall through */ }
+  return urlFor(htmlAbs);
+}
+
 function priorityFor (rel) {
   if (rel === 'index.html') return '1.0';
   if (/^products\/[^/]+\.html$/.test(rel)) return '0.9';                  // product hubs
@@ -106,9 +124,22 @@ function escapeXml (s) {
 
 function main () {
   const files = listHtml(ROOT)
-    .map(f => ({ abs: f, rel: path.relative(ROOT, f).split(path.sep).join('/') }))
+    .map(f => ({
+      abs: f,
+      rel: path.relative(ROOT, f).split(path.sep).join('/'),
+      loc: locFor(f),
+    }))
     .filter(o => !SKIP_FILES.has(o.rel))
     .sort((a, b) => a.rel.localeCompare(b.rel));
+
+  // One <loc> per canonical URL (shower cluster: file path ≠ canonical short URL).
+  const seenLoc = new Set();
+  const deduped = [];
+  for (const o of files) {
+    if (seenLoc.has(o.loc)) continue;
+    seenLoc.add(o.loc);
+    deduped.push(o);
+  }
 
   const extraSitemapUrls = [
     { loc: BASE + '/api/calculate', priority: '0.8', changefreq: 'monthly' },
@@ -116,9 +147,9 @@ function main () {
   ];
 
   // --------- sitemap.xml ---------
-  const urlNodes = files.map(o => (
+  const urlNodes = deduped.map(o => (
     '  <url>\n' +
-    '    <loc>' + escapeXml(urlFor(o.abs)) + '</loc>\n' +
+    '    <loc>' + escapeXml(o.loc) + '</loc>\n' +
     '    <lastmod>' + isoDate(o.abs) + '</lastmod>\n' +
     '    <changefreq>' + changefreqFor(o.rel) + '</changefreq>\n' +
     '    <priority>' + priorityFor(o.rel) + '</priority>\n' +
@@ -144,13 +175,13 @@ function main () {
 
   // --------- sitemap-images.xml ---------
   let withImages = 0;
-  const imageNodes = files.map(o => {
+  const imageNodes = deduped.map(o => {
     const imgs = discoverImages(o.abs);
     if (!imgs.length) return null;
     withImages++;
     return (
       '  <url>\n' +
-      '    <loc>' + escapeXml(urlFor(o.abs)) + '</loc>\n' +
+      '    <loc>' + escapeXml(o.loc) + '</loc>\n' +
       imgs.map(i =>
         '    <image:image>\n' +
         '      <image:loc>' + escapeXml(i) + '</image:loc>\n' +
@@ -168,7 +199,7 @@ function main () {
     '</urlset>\n';
   fs.writeFileSync(path.join(ROOT, 'sitemap-images.xml'), sitemapImg, 'utf8');
 
-  console.log('✓ sitemap.xml         ' + files.length + ' URLs');
+  console.log('✓ sitemap.xml         ' + deduped.length + ' URLs' + (deduped.length < files.length ? ' (' + (files.length - deduped.length) + ' dup canonicals skipped)' : ''));
   console.log('✓ sitemap-images.xml  ' + withImages   + ' URLs with images');
 
   // ALL_URLS.txt — flat list for GSC bulk indexing
@@ -178,7 +209,7 @@ function main () {
     BASE + '/llms.txt',
     BASE + '/data/pricing-engine.js',
   ];
-  const allUrls = files.map(function (o) { return urlFor(o.abs); }).concat(extraUrls);
+  const allUrls = deduped.map(function (o) { return o.loc; }).concat(extraUrls);
   const unique = [...new Set(allUrls)].sort();
   const allUrlsTxt =
     '# WoodenMax — Complete Site URL Index (auto-generated)\n' +

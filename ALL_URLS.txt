@@ -1,5 +1,5 @@
 # WoodenMax — Complete Site URL Index (auto-generated)
-# Last run: 2026-05-19
+# Last run: 2026-05-22
 # Total URLs: 170
 
 https://woodenmax.in/
@@ -17,6 +17,7 @@ https://woodenmax.in/about/quality-testing-process
 https://woodenmax.in/about/team-leadership
 https://woodenmax.in/aluminium-window-price-calculator
 https://woodenmax.in/api/calculate
+https://woodenmax.in/bathroom-shower-design-price
 https://woodenmax.in/blog
 https://woodenmax.in/blog/aluminium-sliding-glass-door-complete-guide
 https://woodenmax.in/blog/complete-woodenmax-products-guide
@@ -36,8 +37,13 @@ https://woodenmax.in/city/lucknow
 https://woodenmax.in/city/mumbai
 https://woodenmax.in/city/pune
 https://woodenmax.in/contact
+https://woodenmax.in/corner-shower-partition-price
 https://woodenmax.in/data/pricing-engine.js
+https://woodenmax.in/fixed-glass-shower-panel-price
+https://woodenmax.in/framed-vs-frameless-shower
+https://woodenmax.in/frameless-glass-shower-price
 https://woodenmax.in/glass-elevation-price-calculator
+https://woodenmax.in/glass-shower-partition-price
 https://woodenmax.in/llms.txt
 https://woodenmax.in/policies/cancellation-refund-policy
 https://woodenmax.in/policies/gst-transport-policy
@@ -108,6 +114,7 @@ https://woodenmax.in/products/grills/iron-safety-grills
 https://woodenmax.in/products/grills/staircase-balustrade-grills
 https://woodenmax.in/products/grills/window-safety-grills
 https://woodenmax.in/products/metal-louvers
+https://woodenmax.in/products/metal-louvers/
 https://woodenmax.in/products/metal-louvers/aluminium-facade-louver-price
 https://woodenmax.in/products/metal-louvers/aluminium-louver-design-building
 https://woodenmax.in/products/metal-louvers/aluminium-louvre-100x50mm-price
@@ -116,7 +123,6 @@ https://woodenmax.in/products/metal-louvers/ceiling-pergola-louvers
 https://woodenmax.in/products/metal-louvers/commercial-building-louvers
 https://woodenmax.in/products/metal-louvers/curved-architectural-louvers
 https://woodenmax.in/products/metal-louvers/fixed-vs-motorized-louver
-https://woodenmax.in/products/metal-louvers/index
 https://woodenmax.in/products/metal-louvers/louver-canopy-facade
 https://woodenmax.in/products/metal-louvers/louver-installation-guide
 https://woodenmax.in/products/metal-louvers/louver-price-delhi
@@ -127,10 +133,10 @@ https://woodenmax.in/products/metal-louvers/motorized-louver-price-india
 https://woodenmax.in/products/metal-louvers/perforated-aluminium-panel-price
 https://woodenmax.in/products/metal-louvers/ventilation-louver-price-per-sqft
 https://woodenmax.in/products/metal-louvers/wooden-finish-aluminium-louvers
+https://woodenmax.in/products/mirror-profiles/
 https://woodenmax.in/products/mirror-profiles/aluminium-mirror-frame-designs
 https://woodenmax.in/products/mirror-profiles/backlit-mirror-profile-price
 https://woodenmax.in/products/mirror-profiles/custom-mirror-profile
-https://woodenmax.in/products/mirror-profiles/index
 https://woodenmax.in/products/mirror-profiles/led-bathroom-mirror-profile
 https://woodenmax.in/products/mirror-profiles/led-mirror-profile-delhi
 https://woodenmax.in/products/mirror-profiles/led-mirror-profile-hyderabad
@@ -148,27 +154,21 @@ https://woodenmax.in/products/pergola/profile-iron-canopy
 https://woodenmax.in/products/pergola/profile-pergola
 https://woodenmax.in/products/pergola/retractable-pergola
 https://woodenmax.in/products/shower-partitions
-https://woodenmax.in/products/shower-partitions/bathroom-shower-design-price
 https://woodenmax.in/products/shower-partitions/black-profile-shower-partition
-https://woodenmax.in/products/shower-partitions/corner-shower-partition-price
-https://woodenmax.in/products/shower-partitions/fixed-glass-shower-panel-price
-https://woodenmax.in/products/shower-partitions/framed-vs-frameless-shower
-https://woodenmax.in/products/shower-partitions/frameless-glass-shower-price
 https://woodenmax.in/products/shower-partitions/frameless-shower-partition
 https://woodenmax.in/products/shower-partitions/frosted-glass-bathroom-door
-https://woodenmax.in/products/shower-partitions/glass-shower-partition-price
 https://woodenmax.in/products/shower-partitions/premium-black-profile-shower
-https://woodenmax.in/products/shower-partitions/shower-curtain-vs-glass-partition
-https://woodenmax.in/products/shower-partitions/shower-enclosure-price
-https://woodenmax.in/products/shower-partitions/shower-glass-maintenance
-https://woodenmax.in/products/shower-partitions/shower-glass-thickness
-https://woodenmax.in/products/shower-partitions/shower-glass-types
-https://woodenmax.in/products/shower-partitions/shower-installation-cost
-https://woodenmax.in/products/shower-partitions/sliding-shower-door-price
 https://woodenmax.in/products/shower-partitions/slim-frame-shower-partition
-https://woodenmax.in/products/shower-partitions/small-bathroom-shower-design
-https://woodenmax.in/products/shower-partitions/walk-in-shower-glass-price
 https://woodenmax.in/products/telescope-windows
 https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door
 https://woodenmax.in/return-policy
+https://woodenmax.in/shower-curtain-vs-glass-partition
+https://woodenmax.in/shower-enclosure-price
+https://woodenmax.in/shower-glass-maintenance
+https://woodenmax.in/shower-glass-thickness
+https://woodenmax.in/shower-glass-types
+https://woodenmax.in/shower-installation-cost
+https://woodenmax.in/sliding-shower-door-price
+https://woodenmax.in/small-bathroom-shower-design
 https://woodenmax.in/tools/woodenmax-widget.js
+https://woodenmax.in/walk-in-shower-glass-price

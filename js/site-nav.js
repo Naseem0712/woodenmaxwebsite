@@ -23,28 +23,27 @@
   var BRAND_PHONE  = '+91 78953 28080';
   var BRAND_HREF_CONTACT = 'contact';
 
-  // Each category links to its hub. Cluster href uses .html so it works on plain
-  // hosting and on local file:// without any rewrite.
+  // Each category links to its hub (clean URLs; _redirects handles legacy .html).
   var CATEGORIES = [
-    { slug: 'aluminium-windows',  label: 'Aluminium',  href: 'products/aluminium-windows.html' },
-    { slug: 'telescope-windows',  label: 'Telescope',  href: 'products/telescope-windows.html' },
-    { slug: 'folding-systems',    label: 'Folding',    href: 'products/folding-systems.html'   },
-    { slug: 'pergola',            label: 'Pergola',    href: 'products/pergola/aluminium-pergola.html' },
-    { slug: 'metal-louvers',      label: 'Louvers',    href: 'products/metal-louvers.html'     },
+    { slug: 'aluminium-windows',  label: 'Aluminium',  href: 'products/aluminium-windows' },
+    { slug: 'telescope-windows',  label: 'Telescope',  href: 'products/telescope-windows' },
+    { slug: 'folding-systems',    label: 'Folding',    href: 'products/folding-systems'   },
+    { slug: 'pergola',            label: 'Pergola',    href: 'products/pergola/aluminium-pergola' },
+    { slug: 'metal-louvers',      label: 'Louvers',    href: 'products/metal-louvers'     },
     { slug: 'mirror-profiles',    label: 'Mirrors',    href: 'products/mirror-profiles/'       },
-    { slug: 'shower-partitions',  label: 'Shower',     href: 'products/shower-partitions.html' },
-    { slug: 'elevation-cladding', label: 'Elevation',  href: 'products/elevation-cladding.html'},
-    { slug: 'glass-elevation',    label: 'Glass',      href: 'products/glass-elevation.html'   },
-    { slug: 'glass-railing',      label: 'Railing',    href: 'products/glass-railing.html'     },
-    { slug: 'grills',             label: 'Grills',     href: 'products/grills.html'            }
+    { slug: 'shower-partitions',  label: 'Shower',     href: 'products/shower-partitions' },
+    { slug: 'elevation-cladding', label: 'Elevation',  href: 'products/elevation-cladding'},
+    { slug: 'glass-elevation',    label: 'Glass',      href: 'products/glass-elevation'   },
+    { slug: 'glass-railing',      label: 'Railing',    href: 'products/glass-railing'     },
+    { slug: 'grills',             label: 'Grills',     href: 'products/grills'            }
   ];
 
   // Right-side utility links — same on every page.
   var UTILITY = [
-    { label: 'Calculators', href: 'calculators.html',                  cls: 'nav-link-secondary' },
-    { label: 'Blog',        href: 'blog.html',                         cls: 'nav-link-secondary' },
-    { label: 'About',       href: 'about.html',                        cls: 'nav-link-secondary' },
-    { label: 'Case studies',href: 'about/case-study-makobrew-jubilee-hills.html', cls: 'nav-link-secondary' }
+    { label: 'Calculators', href: 'calculators',                  cls: 'nav-link-secondary' },
+    { label: 'Blog',        href: 'blog',                         cls: 'nav-link-secondary' },
+    { label: 'About',       href: 'about',                        cls: 'nav-link-secondary' },
+    { label: 'Case studies',href: 'about/case-study-makobrew-jubilee-hills', cls: 'nav-link-secondary' }
   ];
 
   // ----------------------------------------------------------------------
@@ -99,7 +98,7 @@
     return (
       '<nav class="wm-navbar" id="wmNavbar" role="navigation" aria-label="Main navigation">' +
         '<div class="wm-navbar-inner container">' +
-          '<a class="wm-logo" href="' + abs('index.html') + '" aria-label="' + BRAND_NAME + ' — home">' +
+          '<a class="wm-logo" href="' + abs('index') + '" aria-label="' + BRAND_NAME + ' — home">' +
             '<img src="' + abs(BRAND_LOGO) + '" alt="' + BRAND_NAME + ' logo" width="36" height="36" loading="eager" decoding="async">' +
             '<span class="wm-logo-text">' + BRAND_NAME + '</span>' +
           '</a>' +
@@ -140,8 +139,8 @@
             UTILITY.map(function (u) {
               return '<a class="wm-mobile-link" href="' + abs(u.href) + '">' + u.label + '</a>';
             }).join('') +
-            '<a class="wm-mobile-link" href="' + abs('policies/warranty-policy.html') + '">Warranty</a>' +
-            '<a class="wm-mobile-link" href="' + abs('policies/gst-transport-policy.html') + '">GST &amp; Transport</a>' +
+            '<a class="wm-mobile-link" href="' + abs('policies/warranty-policy') + '">Warranty</a>' +
+            '<a class="wm-mobile-link" href="' + abs('policies/gst-transport-policy') + '">GST &amp; Transport</a>' +
           '</div>' +
           '<a class="wm-mobile-cta" href="' + abs(BRAND_HREF_CONTACT) + '?intent=site-visit&amp;source=nav-mobile">Get free quote &rarr;</a>' +
           '<a class="wm-mobile-call" href="tel:+917895328080">' + BRAND_PHONE + '</a>' +
