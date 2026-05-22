@@ -27,6 +27,21 @@ function relPrefix(outRel) {
   return depth <= 0 ? '' : '../'.repeat(depth);
 }
 
+/** GA4 + analytics bundle — same as product hub pages. */
+function renderGa4Head(prefix) {
+  return (
+    '  <!-- Google tag (gtag.js) -->\n' +
+    '  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H3574PEDBK"></script>\n' +
+    '  <script>\n' +
+    '    window.dataLayer = window.dataLayer || [];\n' +
+    '    function gtag(){dataLayer.push(arguments);}\n' +
+    '    gtag(\'js\', new Date());\n' +
+    '    gtag(\'config\', \'G-H3574PEDBK\', { engagement_time_msec: 0, session_engaged: true });\n' +
+    '  </script>\n' +
+    '  <script defer src="' + prefix + 'js/analytics.js"></script>\n'
+  );
+}
+
 function breadcrumbHtml(crumbs, prefix) {
   return (
     '<nav class="cluster-breadcrumb" aria-label="Breadcrumb"><div class="container">' +
@@ -238,7 +253,7 @@ function renderMirrorCalc(cfg, prefix) {
     '<button type="button" class="catalog-calc-submit catalog-inq-submit" id="catalogInqSubmit">Send inquiry</button>' +
     '<p class="catalog-inq-status" id="catalogInqStatus" role="status"></p></div>' +
     '<div class="catalog-wa-row">' +
-    '<a class="catalog-wa-btn whatsapp-btn" id="catalogCalcWa" href="https://wa.me/917895328080" target="_blank" rel="noopener">Get exact quote on WhatsApp &rarr;</a>' +
+    '<a class="catalog-wa-btn whatsapp-btn" id="catalogCalcWa" href="https://wa.me/917895328080" target="_blank" rel="noopener" data-ga-event="wm_whatsapp_click">Get exact quote on WhatsApp &rarr;</a>' +
     '</div></div></section>'
   );
 }
@@ -273,8 +288,8 @@ function renderCalc(cfg, prefix) {
     '<p class="note catalog-calc-note">*GST 18% extra | Transport charges extra | Final price after site visit</p>' +
     '<p class="source catalog-calc-source">Calculated by WoodenMax Pricing Engine v1.0 | woodenmax.in</p>' +
     '<div class="catalog-wa-row">' +
-    '<a class="catalog-wa-btn whatsapp-btn" id="catalogCalcWa" href="https://wa.me/917895328080" target="_blank" rel="noopener">Get exact quote on WhatsApp &rarr;</a>' +
-    '<a class="cluster-cta-link" href="' + prefix + 'contact.html?intent=' + intent + '-quote">Book site visit &rarr;</a>' +
+    '<a class="catalog-wa-btn whatsapp-btn" id="catalogCalcWa" href="https://wa.me/917895328080" target="_blank" rel="noopener" data-ga-event="wm_whatsapp_click">Get exact quote on WhatsApp &rarr;</a>' +
+    '<a class="cluster-cta-link" href="' + prefix + 'contact?intent=' + intent + '-quote" data-ga-event="wm_cta_click">Book site visit &rarr;</a>' +
     '</div></div></section>'
   );
 }
@@ -361,7 +376,7 @@ function renderHub(cfg, prefix) {
     '<section class="cluster-section"><div class="container"><h2 class="cluster-h2">Browse all pages</h2>' +
     '<div class="catalog-hub-grid">' +
     (cfg.hubLinks || []).map(function (l) {
-      var href = l.slug + '.html';
+      var href = l.slug;
       return '<a href="' + href + '" class="catalog-hub-card">' +
         '<img src="' + prefix + imgBase + l.img + '" alt="' + esc(l.title) + '" width="400" height="160" loading="lazy">' +
         '<div class="catalog-hub-card-body"><strong>' + esc(l.title) + '</strong><span>' + esc(l.desc) + '</span></div></a>';
@@ -413,6 +428,7 @@ function renderPage(cfg) {
 
   return (
 '<!DOCTYPE html>\n<html lang="en">\n<head>\n' +
+renderGa4Head(prefix) +
 '  <meta charset="UTF-8" />\n' +
 '  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />\n' +
 '  <title>' + esc(cfg.title) + '</title>\n' +
@@ -450,7 +466,7 @@ crumb + '\n' +
 '<header class="cluster-hero">\n  <div class="container cluster-hero-grid">\n' +
 '    <div class="cluster-hero-text">\n      <h1>' + esc(cfg.h1) + '</h1>\n' +
 (cfg.heroSub ? '      <p class="cluster-hero-sub">' + esc(cfg.heroSub) + '</p>\n' : '') +
-'      <div class="cluster-hero-cta">' + (cfg.silo === 'mirror-profiles' ? '<a href="' + prefix + 'contact.html?intent=mirror-quote" class="cluster-cta-primary">Get mirror quote &rarr;</a>' : '<a href="' + prefix + 'contact.html?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote" class="cluster-cta-primary">Book free site visit &rarr;</a>') + '</div>\n' +
+'      <div class="cluster-hero-cta">' + (cfg.silo === 'mirror-profiles' ? '<a href="' + prefix + 'contact?intent=mirror-quote" class="cluster-cta-primary" data-ga-event="wm_cta_click">Get mirror quote &rarr;</a>' : '<a href="' + prefix + 'contact?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote" class="cluster-cta-primary" data-ga-event="wm_cta_click">Book free site visit &rarr;</a>') + '</div>\n' +
 '    </div>\n    <div class="cluster-hero-media"><figure class="cluster-hero-figure">' +
 '<img class="catalog-hero-product-img" src="' + esc(imgSrc) + '" alt="' + esc(imgAlt) + '" width="800" height="600" loading="lazy" decoding="async">' +
 (cfg.imageCaption ? '<figcaption class="cluster-hero-caption"><span class="cluster-hero-caption-text">' + esc(cfg.imageCaption) + '</span></figcaption>' : '') +
@@ -459,12 +475,13 @@ calc + '\n' +
 sections + eeat + calcProducts + hub + faq + related +
 '<section class="cluster-final-cta"><div class="container"><h2>Ready for a locked PDF quote?</h2>' +
 '<p>' + (cfg.silo === 'mirror-profiles' ? 'Submit calculator details for a formal mirror BOQ. GST 18% extra. Dispatch in 7 working days after confirmation.' : 'WoodenMax visits free within 48 hours in Hyderabad, Delhi NCR &amp; Jaipur. GST 18% extra on all rates.') + '</p>' +
-(cfg.silo === 'mirror-profiles' ? '<a href="' + prefix + 'contact.html?intent=mirror-quote&amp;source=' + esc(cfg.slug) + '" class="cluster-cta-primary">Request formal quote &rarr;</a>' : '<a href="' + prefix + 'contact.html?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote&amp;source=' + esc(cfg.slug) + '" class="cluster-cta-primary">Book free site visit &rarr;</a>') + '</div></section>\n' +
+(cfg.silo === 'mirror-profiles' ? '<a href="' + prefix + 'contact?intent=mirror-quote&amp;source=' + esc(cfg.slug) + '" class="cluster-cta-primary" data-ga-event="wm_cta_click">Request formal quote &rarr;</a>' : '<a href="' + prefix + 'contact?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote&amp;source=' + esc(cfg.slug) + '" class="cluster-cta-primary" data-ga-event="wm_cta_click">Book free site visit &rarr;</a>') + '</div></section>\n' +
 '  <script src="' + prefix + 'js/site-nav.js" defer></script>\n' +
 '  <script src="' + prefix + 'js/site-footer.js" defer></script>\n' +
 (cfg.calcMode ? '  <script src="' + prefix + 'js/mirror-rates-data.js" defer></script>\n' : '') +
 (cfg.calcMode ? '  <script src="' + prefix + 'js/email-submitter.js" defer></script>\n' : '') +
 '  <script src="' + prefix + 'js/catalog-quick-calc.js" defer></script>\n' +
+'  <script defer src="' + prefix + 'js/analytics-events.js"></script>\n' +
 '  <script src="' + prefix + 'js/seo-enhancer.js" defer></script>\n' +
 '</body>\n</html>\n'
   );

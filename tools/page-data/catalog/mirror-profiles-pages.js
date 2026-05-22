@@ -150,8 +150,8 @@ const pages = [
         heading: 'Why WoodenMax for mirror profiles',
         body: '<p>We fabricate the aluminium frame, integrate LED drivers, powder-coat finishes and deliver ready-to-install mirror sets. Every rate on this hub is indicative — final BOQ after free site measurement. GST 18% always extra.</p>',
         subsections: [
-          { h3: 'Luxury & standard under one roof', body: '<p>From <a href="mirror-profile-without-led.html">plain frames</a> to <a href="motion-sensor-mirror-profile.html">dual-glass luxury mirrors</a> — same factory QC and warranty policy.</p>' },
-          { h3: 'City supply', body: '<p>Factory Hyderabad · install teams <a href="led-mirror-profile-delhi.html">Delhi NCR</a> · <a href="led-mirror-profile-hyderabad.html">Hyderabad</a> · Jaipur projects.</p>' },
+          { h3: 'Luxury & standard under one roof', body: '<p>From <a href="mirror-profile-without-led">plain frames</a> to <a href="motion-sensor-mirror-profile">dual-glass luxury mirrors</a> — same factory QC and warranty policy.</p>' },
+          { h3: 'City supply', body: '<p>Factory Hyderabad · install teams <a href="led-mirror-profile-delhi">Delhi NCR</a> · <a href="led-mirror-profile-hyderabad">Hyderabad</a> · Jaipur projects.</p>' },
         ],
       },
     ],
@@ -599,7 +599,7 @@ const MIRROR_LINK_MAP = {
   ],
   'wardrobe-mirror-profile': [
     { href: '/products/mirror-profiles/touch-sensor-mirror-profile', title: 'Standard round touch', desc: 'Non-wooden coat' },
-    { href: '/products/metal-louvers/wooden-finish-aluminium-louvers.html', title: 'Wooden facade louvers', desc: 'Match elevation' },
+    { href: '/products/metal-louvers/wooden-finish-aluminium-louvers', title: 'Wooden facade louvers', desc: 'Match elevation' },
   ],
   'mirror-profile-price-per-foot': [
     { href: '/products/mirror-profiles/custom-mirror-profile', title: 'Custom height LED', desc: 'Up to 7 ft' },
@@ -607,7 +607,7 @@ const MIRROR_LINK_MAP = {
   ],
   'led-mirror-profile-delhi': [
     { href: '/products/mirror-profiles/led-mirror-profile-hyderabad', title: 'Hyderabad factory', desc: 'Fabrication' },
-    { href: '/city/delhi.html', title: 'Delhi city page', desc: 'All products' },
+    { href: '/city/delhi', title: 'Delhi city page', desc: 'All products' },
   ],
   'led-mirror-profile-hyderabad': [
     { href: '/about/factory-tour-hyderabad', title: 'Factory tour', desc: 'See production' },
@@ -624,8 +624,9 @@ pages.forEach(function (pg) {
     { href: '/products/mirror-profiles/touch-sensor-mirror-profile', title: 'Round touch mirror', desc: 'Live calculator' },
     { href: '/products/mirror-profiles/motion-sensor-mirror-profile', title: 'Luxury motion mirror', desc: 'Dual glass' },
     { href: '/products/mirror-profiles/mirror-profile-price-per-foot', title: 'Bevel modular', desc: 'Glass + add-ons' },
-    { href: '/products/aluminium-windows.html', title: 'Aluminium windows', desc: 'Match bath suite' },
-    { href: '/contact.html?intent=mirror-quote', title: 'Formal quote', desc: 'Free site visit' },
+    { href: '/products/aluminium-windows', title: 'Aluminium windows', desc: 'Match bath suite' },
+    { href: '/products/aluminium-windows/what-is-aluminium-system-window', title: 'System window guide', desc: 'Villa bath suites' },
+    { href: '/contact?intent=mirror-quote', title: 'Formal quote', desc: 'Free site visit' },
   ]).filter(function (l, i, arr) {
     var dup = arr.findIndex(function (x) { return x.href === l.href; }) !== i;
     var self = l.href.indexOf('/' + pg.slug) !== -1;

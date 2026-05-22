@@ -302,6 +302,10 @@
         buildInquiryMessage(root._lastCalc, name, phone, email, city, '')
       );
     }
+
+    if (root.getAttribute('data-calc-mode')) {
+      trackCatalogCalcRun(root, root._lastCalc);
+    }
   }
 
   function bindLive(root) {
@@ -369,6 +373,11 @@
         },
         onSuccess: function () {
           if (status) status.textContent = 'Thank you — we will email/WhatsApp your formal quote within 24 hours.';
+          try {
+            if (typeof window.trackCalculatorFormSubmit === 'function') {
+              window.trackCalculatorFormSubmit('mirror_catalog', !!(snap && snap.orderTotal));
+            }
+          } catch (e) { /* optional */ }
         },
         onError: function () {
           if (status) status.textContent = 'Could not send — opening WhatsApp with your quote details.';
@@ -380,8 +389,36 @@
     }
   }
 
+  function trackCatalogCalcRun(root, snap) {
+    try {
+      if (typeof window.trackCalculatorCalculation === 'function' && snap) {
+        window.trackCalculatorCalculation(snap.orderTotal || snap.perPiece, snap.dims ? snap.dims.w * snap.dims.h : 0, {
+          glass: snap.opts && snap.opts.glassBrand,
+          coating: snap.opts && snap.opts.color,
+          lock: snap.mode || 'mirror',
+          mesh: false
+        });
+      } else if (typeof gtag === 'function') {
+        gtag('event', 'calculator_calculation', {
+          event_category: 'Calculator',
+          event_label: root.getAttribute('data-page-slug') || 'mirror_catalog',
+          total_cost: snap ? snap.orderTotal || snap.perPiece : 0,
+          non_interaction: true
+        });
+      }
+    } catch (e) { /* optional */ }
+  }
+
   function initMirror(root) {
     bindLive(root);
+    try {
+      if (typeof window.trackCalculatorPageView === 'function') {
+        window.trackCalculatorPageView(
+          root.getAttribute('data-page-slug') || 'mirror',
+          root.getAttribute('data-page-title') || document.title
+        );
+      }
+    } catch (e) { /* optional */ }
     var btn = document.getElementById('catalogInqSubmit');
     if (btn) btn.addEventListener('click', function () { submitInquiry(root); });
   }
