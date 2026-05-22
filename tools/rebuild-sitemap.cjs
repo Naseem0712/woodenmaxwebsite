@@ -24,6 +24,7 @@ const SKIP_FILES = new Set([
   'api/calculate/index.html'
 ]);
 const SKIP_DIRS = new Set(['node_modules', '.git', 'tools', 'mcps', 'agent-transcripts', 'terminals', '_grills-source']);
+const SKIP_REL_PREFIXES = ['admin/', 'private/'];
 
 function listHtml (dir, out = []) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -51,14 +52,33 @@ function locFor (htmlAbs) {
       html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i) ||
       html.match(/<link[^>]+href=["']([^"']+)["'][^>]+rel=["']canonical["']/i);
     if (m && m[1]) {
-      const href = m[1].trim();
-      if (href.startsWith(BASE)) return href;
+      const href = m[1].trim().split('?')[0].split('#')[0];
+      if (href.startsWith(BASE)) return normalizeLoc(href);
       if (href.startsWith('http://woodenmax.in')) {
-        return BASE + href.slice('http://woodenmax.in'.length);
+        return normalizeLoc(BASE + href.slice('http://woodenmax.in'.length));
       }
     }
   } catch (e) { /* fall through */ }
-  return urlFor(htmlAbs);
+  return normalizeLoc(urlFor(htmlAbs));
+}
+
+/** Drop /index suffix; keep distinct hub URLs (e.g. metal-louvers vs metal-louvers/). */
+function normalizeLoc (loc) {
+  if (/\/index$/.test(loc)) {
+    const base = loc.replace(/\/index$/, '');
+    return base.endsWith('/') ? base : base + '/';
+  }
+  return loc;
+}
+
+function isIndexable (htmlAbs, rel) {
+  if (SKIP_REL_PREFIXES.some((p) => rel.startsWith(p))) return false;
+  try {
+    const html = fs.readFileSync(htmlAbs, 'utf8');
+    const robots = html.match(/<meta[^>]+name=["']robots["'][^>]+content=["']([^"']+)["']/i);
+    if (robots && /noindex/i.test(robots[1])) return false;
+  } catch (e) { /* keep */ }
+  return true;
 }
 
 function priorityFor (rel) {
@@ -129,7 +149,7 @@ function main () {
       rel: path.relative(ROOT, f).split(path.sep).join('/'),
       loc: locFor(f),
     }))
-    .filter(o => !SKIP_FILES.has(o.rel))
+    .filter(o => !SKIP_FILES.has(o.rel) && isIndexable(o.abs, o.rel))
     .sort((a, b) => a.rel.localeCompare(b.rel));
 
   // One <loc> per canonical URL (shower cluster: file path ≠ canonical short URL).
@@ -199,7 +219,8 @@ function main () {
     '</urlset>\n';
   fs.writeFileSync(path.join(ROOT, 'sitemap-images.xml'), sitemapImg, 'utf8');
 
-  console.log('✓ sitemap.xml         ' + deduped.length + ' URLs' + (deduped.length < files.length ? ' (' + (files.length - deduped.length) + ' dup canonicals skipped)' : ''));
+  const totalLoc = deduped.length + extraSitemapUrls.length;
+  console.log('✓ sitemap.xml         ' + totalLoc + ' URLs (' + deduped.length + ' pages + ' + extraSitemapUrls.length + ' extras)' + (deduped.length < files.length ? '; ' + (files.length - deduped.length) + ' dup canonicals skipped' : ''));
   console.log('✓ sitemap-images.xml  ' + withImages   + ' URLs with images');
 
   // ALL_URLS.txt — flat list for GSC bulk indexing
