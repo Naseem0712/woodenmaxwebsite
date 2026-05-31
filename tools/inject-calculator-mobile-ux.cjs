@@ -28,8 +28,9 @@ const SKIP = new Set([
   'calculator-design-preview.html',
 ]);
 
-const CSS_FILE = 'css/calculator-mobile-ux.css';
-const JS_FILE  = 'js/calculator-mobile-ux.js';
+const WM_ASSET_V = process.env.WM_ASSET_V || '20260531';
+const CSS_FILE = 'css/calculator-mobile-ux.css?v=' + WM_ASSET_V;
+const JS_FILE  = 'js/calculator-mobile-ux.js?v=' + WM_ASSET_V;
 
 const MARKER_REGEX = /price-calculator-container|id=["']product-pricing-root["']|data-grill-calculator/i;
 
@@ -53,9 +54,13 @@ function relPathPrefix (htmlFileAbs) {
   return '../'.repeat(depth);
 }
 
+function assetAlreadyInHtml (html, basePath) {
+  return new RegExp(basePath.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(\\?v=[^"\'\\s>]*)?', 'i').test(html);
+}
+
 function injectCss (html, hrefRel) {
   const linkTag = `  <link rel="stylesheet" href="${hrefRel}">`;
-  if (html.includes(hrefRel)) return { html, changed: false, reason: 'css already present' };
+  if (assetAlreadyInHtml(html, 'css/calculator-mobile-ux.css')) return { html, changed: false, reason: 'css already present' };
 
   // Prefer to insert right after calculator-global.css line.
   const calcGlobalRegex = /(<link\s+[^>]*href=["'][^"']*calculator-global\.css["'][^>]*>)/i;
@@ -80,7 +85,7 @@ function injectCss (html, hrefRel) {
 
 function injectJs (html, srcRel) {
   const scriptTag = `  <script src="${srcRel}" defer></script>`;
-  if (html.includes(srcRel)) return { html, changed: false, reason: 'js already present' };
+  if (assetAlreadyInHtml(html, 'js/calculator-mobile-ux.js')) return { html, changed: false, reason: 'js already present' };
 
   // Prefer to insert right after floating-calc-button.js line.
   const fabRegex = /(<script\s+[^>]*src=["'][^"']*floating-calc-button\.js["'][^>]*>\s*<\/script>)/i;

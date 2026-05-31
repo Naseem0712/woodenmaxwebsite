@@ -48,5 +48,15 @@
 /css/*
   Cache-Control: public, max-age=604800
 
+# Cart + Razorpay UI — short cache so deploys show up (Google / CDN were serving 7-day-old JS)
+/js/calculator-mobile-ux.js
+  Cache-Control: public, max-age=300, must-revalidate
+/js/razorpay-checkout.js
+  Cache-Control: public, max-age=300, must-revalidate
+/js/site-footer.js
+  Cache-Control: public, max-age=300, must-revalidate
+/css/calculator-mobile-ux.css
+  Cache-Control: public, max-age=300, must-revalidate
+
 /js/*
   Cache-Control: public, max-age=604800

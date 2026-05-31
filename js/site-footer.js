@@ -14,6 +14,9 @@
 (function () {
   'use strict';
 
+  /** Bump after deploy so CDN/browser fetch new cart + payment JS (see _headers). */
+  var WM_ASSET_V = '20260531';
+
   // ----------------------------------------------------------------------
   //  1. Canonical content (single source of truth)
   // ----------------------------------------------------------------------
@@ -334,7 +337,7 @@
     if (!document.querySelector('link[href*="calculator-mobile-ux.css"]')) {
       var link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = PREFIX + 'css/calculator-mobile-ux.css';
+      link.href = PREFIX + 'css/calculator-mobile-ux.css?v=' + WM_ASSET_V;
       document.head.appendChild(link);
     }
 
@@ -350,7 +353,7 @@
 
     function afterRzp () {
       if (needUx) {
-        loadScript(PREFIX + 'js/calculator-mobile-ux.js', function () {
+        loadScript(PREFIX + 'js/calculator-mobile-ux.js?v=' + WM_ASSET_V, function () {
           window.__wmQuoteCartAssetsLoading = false;
         });
       } else {
@@ -359,7 +362,7 @@
     }
 
     if (needRzp) {
-      loadScript(PREFIX + 'js/razorpay-checkout.js', afterRzp);
+      loadScript(PREFIX + 'js/razorpay-checkout.js?v=' + WM_ASSET_V, afterRzp);
     } else {
       afterRzp();
     }
