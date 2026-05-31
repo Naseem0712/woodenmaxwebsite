@@ -21,7 +21,7 @@
     name:    'WoodenMax',
     legal:   'WoodenMax Architectural Elements',
     logo:    'images/woodenmax-logo.webp',
-    tagline: 'Premium architectural aluminium — manufactured in our own 28,000 sq ft Hyderabad facility. Free site visits, transparent pricing, 10-year warranty.',
+    tagline: 'Premium architectural aluminium — manufactured in our own 28,000 sq ft Hyderabad facility. Site visits, transparent pricing, 10-year warranty.',
     phone:       '+91 78953 28080',
     phoneDigits: '917895328080',
     email:       'info@woodenmax.com',
@@ -212,7 +212,7 @@
           '</li>' +
         '</ul>' +
         '<a class="wmf-cta" href="' + abs('contact') + '?intent=site-visit&amp;source=footer">' +
-          'Book free site visit' +
+          'Book site visit' +
           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' +
         '</a>' +
       '</div>'
@@ -317,6 +317,54 @@
   // ----------------------------------------------------------------------
   //  6. Boot
   // ----------------------------------------------------------------------
+  function ensureQuoteCartAssets () {
+    if (window.__wmQuoteCartAssetsLoading) return;
+
+    var hasUxOnPage = Boolean(document.querySelector('script[src*="calculator-mobile-ux.js"]'));
+    var hasRzpOnPage = Boolean(document.querySelector('script[src*="razorpay-checkout.js"]'));
+    var needUx = !hasUxOnPage && !window.WoodenMaxQuote;
+    var needRzp = !window.WoodenMaxRazorpay && !hasRzpOnPage;
+
+    /* Calculator HTML pages include UX script but not razorpay — old guard skipped payment entirely */
+    if (hasUxOnPage && !window.WoodenMaxRazorpay && !hasRzpOnPage) needRzp = true;
+
+    if (!needUx && !needRzp) return;
+    if (window.WoodenMaxRazorpay && (hasUxOnPage || window.WoodenMaxQuote)) return;
+
+    if (!document.querySelector('link[href*="calculator-mobile-ux.css"]')) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = PREFIX + 'css/calculator-mobile-ux.css';
+      document.head.appendChild(link);
+    }
+
+    window.__wmQuoteCartAssetsLoading = true;
+
+    function loadScript (src, cb) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.defer = true;
+      s.onload = s.onerror = cb;
+      document.body.appendChild(s);
+    }
+
+    function afterRzp () {
+      if (needUx) {
+        loadScript(PREFIX + 'js/calculator-mobile-ux.js', function () {
+          window.__wmQuoteCartAssetsLoading = false;
+        });
+      } else {
+        window.__wmQuoteCartAssetsLoading = false;
+      }
+    }
+
+    if (needRzp) {
+      loadScript(PREFIX + 'js/razorpay-checkout.js', afterRzp);
+    } else {
+      afterRzp();
+    }
+  }
+
   function init () {
     purgeLegacyFooter();
 
@@ -325,6 +373,7 @@
     var footer = holder.firstChild;
     document.body.appendChild(footer);
     wireNewsletter(footer);
+    ensureQuoteCartAssets();
   }
 
   if (document.readyState === 'loading') {

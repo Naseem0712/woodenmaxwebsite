@@ -249,6 +249,24 @@
 
 .calc-sticky-exact[hidden] { display: none !important; }
 
+.calc-sticky-add {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.6rem 0.85rem;
+  background: linear-gradient(135deg, #b8893d, #EA580C);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.calc-sticky-add[hidden] { display: none !important; }
+.calc-sticky-add:hover { transform: translateY(-1px); }
+
 /* Cart toggle button */
 .calc-sticky-cart {
   flex-shrink: 0;
@@ -573,6 +591,121 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+.cart-cta-book {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  background: linear-gradient(135deg, #047857 0%, #059669 100%);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
+}
+
+.cart-cta-book:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(5, 150, 105, 0.4);
+}
+
+.cart-cta-book--alt {
+  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+  box-shadow: 0 4px 14px rgba(20, 184, 166, 0.3);
+}
+
+.calc-pay-choice-block {
+  margin: 0 0 0.85rem;
+  padding: 0.75rem 0.85rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+}
+
+.calc-pay-choice-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #166534;
+}
+
+.calc-pay-choice-opt {
+  display: block;
+  margin: 0.35rem 0;
+  font-size: 0.84rem;
+  line-height: 1.35;
+  color: #334155;
+  cursor: pointer;
+}
+
+.calc-pay-choice-opt input {
+  margin-right: 0.4rem;
+}
+
+.calc-pay-help {
+  margin: 0 0 0.85rem;
+  padding: 0.7rem 0.85rem;
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: #78350f;
+}
+
+.calc-pay-help ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.calc-pay-help li {
+  margin: 0.2rem 0;
+}
+
+.calc-pay-help code {
+  font-size: 0.78rem;
+  background: #fef3c7;
+  padding: 0.1rem 0.25rem;
+  border-radius: 4px;
+}
+
+.calc-pay-help--live {
+  background: #ecfdf5;
+  border-color: #6ee7b7;
+  color: #065f46;
+}
+
+.calc-pay-help--live .calc-pay-help-mode {
+  color: #047857;
+}
+
+.calc-pay-help--live code {
+  background: #d1fae5;
+}
+
+.calc-pay-help-note {
+  margin: 0.25rem 0 0.35rem;
+  font-size: 0.78rem;
+}
+
+.wm-payment-receipt-stage {
+  display: none;
+}
+
+.wm-receipt-doc .wm-receipt-timeline {
+  margin: 0.5rem 0 1rem;
+  padding-left: 1.2rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #334155;
+}
+
+/* Payment receipt prints via iframe (printHtmlInIframe) — avoids conflict with #calcPrintStage rules below */
+
 .cart-cta-primary {
   background: linear-gradient(135deg, #0a0e17, #2563EB);
   color: #FFFFFF;
@@ -703,6 +836,83 @@
   font-size: 0.82rem;
   color: #92400E;
   font-weight: 500;
+}
+
+.cart-item-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+.cart-item-cat {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #64748B;
+  background: #F1F5F9;
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+.cart-item-area {
+  font-size: 0.82rem;
+  color: #334155;
+  margin: 0.35rem 0 0.5rem;
+}
+.cart-item-details {
+  margin: 0.5rem 0 0;
+  padding: 0.65rem 0.75rem;
+  background: #F8FAFC;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+}
+.cart-detail-row {
+  display: grid;
+  grid-template-columns: minmax(88px, 38%) 1fr;
+  gap: 0.35rem 0.65rem;
+  font-size: 0.78rem;
+  padding: 0.2rem 0;
+  border-bottom: 1px dashed #E2E8F0;
+}
+.cart-detail-row:last-child { border-bottom: none; }
+.cart-detail-row dt {
+  margin: 0;
+  font-weight: 600;
+  color: #64748B;
+}
+.cart-detail-row dd {
+  margin: 0;
+  color: #0F172A;
+  font-weight: 500;
+}
+.cart-share-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
+.cart-share-wa,
+.cart-share-email {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.75rem 0.65rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+.cart-share-wa {
+  background: #25D366;
+  color: #fff;
+}
+.cart-share-email {
+  background: #0F172A;
+  color: #fff;
 }
 
 /* ============================================
@@ -909,40 +1119,230 @@
 }
 
 /* ============================================
-   7. COMPACT MOBILE CALCULATOR
+   7. MOBILE CALCULATOR — fit-to-screen layout
+   (phones + narrow tablets; desktop ≥769px unchanged)
    ============================================ */
-@media (max-width: 640px) {
-  .price-calculator-container {
-    padding: 1rem 0.85rem 1.25rem !important;
-    border-radius: 12px !important;
+@media (max-width: 768px) {
+  section:has(.price-calculator-container) {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
   }
-  .price-calculator-container .calc-header {
-    padding: 0.85rem 1rem !important;
+
+  section:has(.price-calculator-container) > .container {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    max-width: 100%;
+  }
+
+  .price-calculator-container {
+    padding: 1rem 0.75rem 1.25rem !important;
+    border-radius: 12px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow-x: hidden;
+    box-sizing: border-box;
+  }
+
+  /* Trust strip above calculator header */
+  .price-calculator-container > div[style*="text-align: center"] {
+    padding: 0.6rem 0.5rem !important;
     margin-bottom: 1rem !important;
   }
+
+  .price-calculator-container > div[style*="text-align: center"] p {
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .price-calculator-container .calc-header {
+    padding: 0.75rem 0.85rem !important;
+    margin-bottom: 1rem !important;
+    flex-wrap: wrap;
+    gap: 0.5rem !important;
+  }
+
+  .price-calculator-container .calc-header svg {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
   .price-calculator-container .calc-header h2,
   .price-calculator-container .calc-header h3 {
-    font-size: 1.15rem !important;
+    font-size: 1.1rem !important;
+    line-height: 1.25 !important;
   }
+
   .price-calculator-container .calc-group {
     margin-bottom: 1rem !important;
+    min-width: 0;
   }
+
   .price-calculator-container .calc-group label {
     font-size: 0.78rem !important;
     margin-bottom: 0.45rem !important;
-    letter-spacing: 0.4px !important;
+    letter-spacing: 0.35px !important;
   }
+
   .price-calculator-container .calc-input,
+  .price-calculator-container .calc-select,
+  .price-calculator-container .calc-user-form input,
+  .price-calculator-container .calc-user-form select {
+    padding: 0.75rem 0.85rem !important;
+    font-size: 16px !important;
+    min-height: 44px !important;
+    max-width: 100% !important;
+  }
+
   .price-calculator-container .calc-select {
-    padding: 0.75rem 0.9rem !important;
-    font-size: 0.95rem !important;
+    padding-right: 2.5rem !important;
   }
+
+  /* Size rows: 2×2 grid instead of 4 cramped columns */
   .price-calculator-container .calc-size-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-areas:
+      "width height"
+      "qty remove"
+      "amount amount" !important;
+    gap: 0.5rem 0.65rem !important;
     padding: 0.75rem !important;
-    gap: 0.5rem !important;
+    align-items: end !important;
+    min-width: 0;
   }
+
+  .price-calculator-container .calc-size-row > div {
+    min-width: 0;
+  }
+
+  .price-calculator-container .calc-size-row > div:nth-child(1) { grid-area: width; }
+  .price-calculator-container .calc-size-row > div:nth-child(2) { grid-area: height; }
+  .price-calculator-container .calc-size-row > div:nth-child(3) { grid-area: qty; }
+
+  .price-calculator-container .calc-size-row > .remove-size-btn {
+    grid-area: remove;
+    justify-self: end;
+    align-self: end;
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .price-calculator-container .calc-size-row > .row-amount {
+    grid-area: amount;
+    text-align: right;
+    padding-top: 0.5rem !important;
+    margin-top: 0.35rem !important;
+  }
+
+  .price-calculator-container .calc-size-width,
+  .price-calculator-container .calc-size-height,
+  .price-calculator-container .calc-size-qty {
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 0.65rem 0.75rem !important;
+    font-size: 16px !important;
+  }
+
+  .price-calculator-container .calc-size-row .size-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .price-calculator-container #calc-area-display {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box;
+    font-size: 0.88rem !important;
+    padding: 0.6rem 0.75rem !important;
+    margin-top: 0.65rem !important;
+  }
+
+  .price-calculator-container .calc-checkbox-group {
+    flex-wrap: wrap;
+    gap: 0.5rem !important;
+    padding: 0.65rem 0.75rem !important;
+  }
+
+  .price-calculator-container .calc-checkbox-group label {
+    font-size: 0.85rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .price-calculator-container .calc-price-display {
+    padding: 1rem 0.85rem !important;
+    margin-top: 1.25rem !important;
+  }
+
+  .price-calculator-container .calc-price-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.3rem !important;
+    padding: 0.75rem 0 !important;
+  }
+
+  .price-calculator-container .calc-price-row:hover {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .price-calculator-container .calc-price-label {
+    font-size: 0.82rem !important;
+    line-height: 1.35 !important;
+    max-width: 100% !important;
+  }
+
+  .price-calculator-container .calc-price-value {
+    font-size: 1.2rem !important;
+    word-break: break-word !important;
+    width: 100% !important;
+  }
+
+  .price-calculator-container .calc-user-form {
+    padding: 1rem 0.85rem !important;
+    margin-top: 1.25rem !important;
+  }
+
+  .price-calculator-container .calc-user-form h4 {
+    font-size: 1rem !important;
+  }
+
+  .price-calculator-container .calc-info-box {
+    padding: 1rem 0.85rem !important;
+    margin-top: 1.25rem !important;
+    font-size: 0.82rem !important;
+  }
+
+  .price-calculator-container .calc-action-row {
+    padding: 1rem 0.85rem !important;
+    margin-top: 1rem !important;
+  }
+
+  .price-calculator-container .calc-add-cart-btn {
+    width: 100%;
+    padding: 0.85rem 1rem !important;
+    font-size: 0.92rem !important;
+  }
+
+  .price-calculator-container button[id^="calc-add-size-btn"],
+  .price-calculator-container button[id^="calc-sync-selections-btn"] {
+    font-size: 0.85rem !important;
+    padding: 0.7rem 0.75rem !important;
+  }
+
+  /* Sticky bar shows live price — hide duplicate in-page total on phones */
   body.has-calc-sticky-bar .price-calculator-container .calc-price-display {
     display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  .price-calculator-container {
+    padding: 0.85rem 0.6rem 1rem !important;
+  }
+
+  .price-calculator-container .calc-header h2,
+  .price-calculator-container .calc-header h3 {
+    font-size: 1rem !important;
   }
 }
 
@@ -1045,28 +1445,51 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
    window.print() → user saves as PDF).
 */
 .calc-print-stage {
-  position: absolute;
-  left: -99999px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+  display: none !important;
 }
 
 @media print {
-  /* Hide everything except the print stage. */
-  body > *:not(.calc-print-stage) { display: none !important; }
+  /* Only #calcPrintStage is a direct child of body (see ensurePrintStage). */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  body > *:not(#calcPrintStage):not(#wmPaymentReceiptStage) {
+    display: none !important;
+  }
+
+  #wmPaymentReceiptStage {
+    display: block !important;
+    position: static !important;
+  }
+
+  #wmPaymentReceiptStage .wm-receipt-doc {
+    padding: 12mm;
+    font-size: 10pt;
+  }
+
+  #calcPrintStage,
   .calc-print-stage {
     position: static !important;
     left: auto !important;
+    top: auto !important;
     width: auto !important;
     height: auto !important;
+    min-height: 0 !important;
     overflow: visible !important;
     display: block !important;
+    visibility: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    page-break-before: avoid !important;
+    break-before: avoid-page !important;
   }
 
   @page {
-    margin: 14mm 12mm;
+    margin: 10mm 10mm 12mm 10mm;
     size: A4 portrait;
   }
 
@@ -1074,8 +1497,8 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
     background: #FFFFFF !important;
     color: #0F172A !important;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
-    font-size: 9.5pt;
-    line-height: 1.45;
+    font-size: 9pt;
+    line-height: 1.4;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -1085,15 +1508,30 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
     max-width: 100%;
     color: #0F172A;
     position: relative;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pdf-block {
+    margin: 0;
+    padding: 0;
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
+  .pdf-block--legal,
+  .pdf-block--closing {
+    page-break-before: auto;
+    break-before: auto;
   }
 
   /* Subtle brand stripe along the top edge */
   .pdf-doc::before {
     content: '';
     display: block;
-    height: 5pt;
+    height: 4pt;
     background: linear-gradient(90deg, #0a0e17 0%, #0a0e17 60%, #b8893d 60%, #b8893d 100%);
-    margin-bottom: 12pt;
+    margin-bottom: 8pt;
     border-radius: 1pt;
   }
 
@@ -1102,9 +1540,11 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding-bottom: 10pt;
-    border-bottom: 1.5pt solid #0a0e17;
-    margin-bottom: 14pt;
+    padding-bottom: 8pt;
+    border-bottom: 0.5pt solid #0F172A;
+    margin-bottom: 10pt;
+    page-break-after: avoid;
+    break-after: avoid-page;
   }
 
   .pdf-brand-block {
@@ -1115,18 +1555,26 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
   }
 
   .pdf-brand-mark {
+    flex-shrink: 0;
     width: 46pt;
     height: 46pt;
     border-radius: 9pt;
-    background: linear-gradient(135deg, #0a0e17, #2563EB);
-    color: #FFFFFF;
-    display: grid;
-    place-items: center;
-    font-size: 16pt;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
-    box-shadow: 0 2pt 6pt rgba(30, 64, 175, 0.25);
+    overflow: hidden;
+    background: #FFFFFF;
+    border: 0.5pt solid #E2E8F0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2pt 6pt rgba(15, 23, 42, 0.1);
+  }
+
+  .pdf-brand-logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
   .pdf-brand-text strong {
@@ -1202,16 +1650,18 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
   .pdf-parties {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10pt;
-    margin: 0 0 14pt;
+    gap: 8pt;
+    margin: 0 0 10pt;
+    page-break-after: avoid;
+    break-after: avoid-page;
   }
 
   .pdf-party {
     padding: 8pt 10pt;
-    background: #F8FAFC;
-    border: 0.5pt solid #E5E7EB;
-    border-left: 2.5pt solid #0a0e17;
-    border-radius: 4pt;
+    background: #FFFFFF;
+    border: 0.25pt solid #CBD5E1;
+    border-left: 1pt solid #0F172A;
+    border-radius: 3pt;
   }
 
   .pdf-party h2 {
@@ -1229,46 +1679,68 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
 
   /* ---------- Section heading ---------- */
   .pdf-section-title {
-    font-size: 9.5pt;
-    color: #FFFFFF;
-    background: #0F172A;
-    padding: 4pt 9pt;
-    margin: 14pt 0 0;
+    font-size: 9pt;
+    color: #0F172A;
+    background: #FFFFFF;
+    padding: 4pt 0 3pt;
+    margin: 8pt 0 0;
     text-transform: uppercase;
-    letter-spacing: 0.6pt;
+    letter-spacing: 0.5pt;
     font-weight: 700;
-    border-radius: 3pt 3pt 0 0;
+    border: none;
+    border-bottom: 0.5pt solid #0F172A;
+    border-radius: 0;
+    page-break-after: avoid;
+    break-after: avoid-page;
   }
 
   /* ---------- Itemised quote table ---------- */
   .pdf-table {
     width: 100%;
     border-collapse: collapse;
-    margin: 0 0 10pt;
-    border: 0.5pt solid #E5E7EB;
+    margin: 0 0 8pt;
+    border: 0.25pt solid #CBD5E1;
+    page-break-inside: auto;
+    break-inside: auto;
+    background: #FFFFFF;
+  }
+
+  .pdf-table thead {
+    display: table-header-group;
+  }
+
+  .pdf-table tbody tr {
+    page-break-inside: avoid;
+    break-inside: avoid-page;
   }
 
   .pdf-table th,
   .pdf-table td {
     text-align: left;
-    padding: 6pt 8pt;
-    border-bottom: 0.5pt solid #E5E7EB;
+    padding: 5pt 7pt;
+    border-bottom: 0.25pt solid #E2E8F0;
     font-size: 8.5pt;
     vertical-align: top;
+    background: #FFFFFF;
+    color: #0F172A;
   }
 
   .pdf-table th {
-    background: #0a0e17;
-    color: #FFFFFF;
+    background: #FFFFFF;
+    color: #0F172A;
     font-weight: 700;
     text-transform: uppercase;
     font-size: 7.5pt;
-    letter-spacing: 0.4pt;
-    padding-top: 5pt;
-    padding-bottom: 5pt;
+    letter-spacing: 0.35pt;
+    padding-top: 4pt;
+    padding-bottom: 4pt;
+    border-bottom: 0.5pt solid #0F172A;
   }
 
-  .pdf-table tbody tr:nth-child(even) td { background: #F8FAFC; }
+  .pdf-table tbody tr:nth-child(even) td,
+  .pdf-table tbody tr:nth-child(odd) td {
+    background: #FFFFFF;
+  }
 
   .pdf-table td.is-numeric,
   .pdf-table th.is-numeric { text-align: right; white-space: nowrap; }
@@ -1286,6 +1758,46 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
     font-size: 7.8pt;
     line-height: 1.4;
     margin-top: 2pt;
+  }
+
+  .pdf-row-cat {
+    font-size: 7pt;
+    font-weight: 600;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 1pt;
+  }
+
+  .pdf-spec-line {
+    font-size: 7.8pt;
+    color: #334155;
+    margin-top: 3pt;
+  }
+
+  .pdf-spec-mini {
+    width: 100%;
+    margin-top: 4pt;
+    border-collapse: collapse;
+    font-size: 7.5pt;
+  }
+
+  .pdf-spec-mini td {
+    padding: 1.5pt 3pt;
+    vertical-align: top;
+    border-bottom: 0.2pt solid #E2E8F0;
+    background: #FFFFFF;
+  }
+
+  .pdf-spec-mini .pdf-spec-k {
+    width: 38%;
+    font-weight: 600;
+    color: #64748B;
+  }
+
+  .pdf-spec-mini .pdf-spec-v {
+    color: #0F172A;
+    font-weight: 500;
   }
 
   /* ---------- Totals block ---------- */
@@ -1321,7 +1833,7 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
 
   .pdf-totals-table tr.grand td {
     border-bottom: none;
-    border-top: 1.5pt solid #0a0e17;
+    border-top: 0.5pt solid #0F172A;
     padding-top: 6pt;
   }
 
@@ -1342,10 +1854,11 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
   .pdf-amount-words {
     font-size: 8.5pt;
     color: #475569;
-    padding: 6pt 10pt;
-    background: #FEF3C7;
-    border-left: 2.5pt solid #b8893d;
-    border-radius: 3pt;
+    padding: 5pt 8pt;
+    background: #FFFFFF;
+    border: 0.25pt solid #CBD5E1;
+    border-left: 1pt solid #0F172A;
+    border-radius: 2pt;
     margin-bottom: 10pt;
   }
 
@@ -1354,10 +1867,10 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
   /* GST + Transport policy notice (always visible above T&C) */
   .pdf-policy-notice {
     margin: 0 0 14pt;
-    padding: 8pt 10pt;
-    border: 0.5pt solid #BBF7D0;
-    background: #ECFDF5;
-    border-radius: 4pt;
+    padding: 6pt 8pt;
+    border: 0.25pt solid #CBD5E1;
+    background: #FFFFFF;
+    border-radius: 2pt;
     font-size: 8.5pt;
     color: #0F172A;
     line-height: 1.5;
@@ -1375,8 +1888,8 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
   }
 
   .pdf-card {
-    border: 0.5pt solid #E5E7EB;
-    border-radius: 4pt;
+    border: 0.25pt solid #CBD5E1;
+    border-radius: 3pt;
     padding: 8pt 10pt;
     background: #FFFFFF;
   }
@@ -1424,7 +1937,7 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
   }
 
   .pdf-sign-box {
-    border-top: 1pt solid #0F172A;
+    border-top: 0.5pt solid #0F172A;
     padding-top: 4pt;
     font-size: 8pt;
     color: #475569;
@@ -1442,9 +1955,9 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
   .pdf-eeat {
     margin-top: 12pt;
     padding: 8pt 10pt;
-    background: #EFF6FF;
-    border: 0.5pt solid #DBEAFE;
-    border-left: 2.5pt solid #0a0e17;
+    background: #FFFFFF;
+    border: 0.25pt solid #CBD5E1;
+    border-left: 1pt solid #0F172A;
     border-radius: 3pt;
   }
 
@@ -1491,11 +2004,9 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
     height: 46pt;
     border-radius: 50%;
     object-fit: cover;
-    /* Founder portrait (1420x1776) — bias upward so the face stays
-     * fully visible inside the small circular crop on the PDF.  */
-    object-position: center 12%;
-    border: 1pt solid #FFFFFF;
-    box-shadow: 0 0 0 1pt #0a0e17;
+    object-position: center 42%;
+    border: 0.5pt solid #CBD5E1;
+    box-shadow: none;
   }
   .pdf-eeat-founder-text strong {
     display: block;
@@ -1521,7 +2032,7 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
   .pdf-foot {
     margin-top: 12pt;
     padding-top: 8pt;
-    border-top: 0.5pt solid #E5E7EB;
+    border-top: 0.25pt solid #CBD5E1;
     font-size: 7.5pt;
     color: #64748B;
     line-height: 1.5;
@@ -1536,8 +2047,49 @@ section[style*="background:#0f0f0f"]:has(.related-products) {
   .pdf-foot .right  { text-align: right; }
   .pdf-foot strong  { color: #0F172A; }
 
-  /* Avoid awkward page breaks */
-  .pdf-table, .pdf-totals, .pdf-grid-2, .pdf-signatures, .pdf-eeat { page-break-inside: avoid; }
+  /* Pagination: let long sections flow; keep small groups together */
+  .pdf-totals,
+  .pdf-policy-notice,
+  .pdf-amount-words {
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+  }
+
+  .pdf-totals-table tr.grand {
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+  }
+
+  .pdf-grid-2,
+  .pdf-card,
+  .pdf-eeat,
+  .pdf-eeat-grid {
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
+  .pdf-signatures {
+    page-break-inside: avoid;
+    break-inside: avoid-page;
+  }
+
+  .pdf-terms-list {
+    font-size: 7.2pt;
+    line-height: 1.35;
+    margin: 0;
+    padding-left: 12pt;
+  }
+
+  .pdf-terms-list li {
+    margin-bottom: 2pt;
+  }
+
+  .pdf-spec-mini td {
+    padding: 1.5pt 3pt;
+    font-size: 7pt;
+  }
+
+  .pdf-row-title { font-size: 8.5pt; }
 }
 
 /* ============================================
@@ -1572,4 +2124,87 @@ html, body { overflow-x: hidden; }
 .price-calculator-container {
   max-width: 100% !important;
   width: 100% !important;
+}
+
+/* Site-wide quote cart — single compact FAB, bottom-right */
+.wm-global-quote-cart {
+  position: fixed;
+  right: 0.85rem;
+  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  z-index: 9993;
+  display: inline-flex;
+  align-items: stretch;
+  max-width: min(92vw, 17.5rem);
+  padding: 0;
+  border: 1px solid #CBD5E1;
+  border-radius: 11px;
+  background: #FFFFFF;
+  color: #0F172A;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.16);
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+body.has-calc-sticky-bar .wm-global-quote-cart {
+  bottom: calc(5.35rem + env(safe-area-inset-bottom, 0px));
+}
+.wm-global-quote-cart:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.2);
+}
+.wm-quote-cart-total {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.42rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #0F172A;
+  white-space: nowrap;
+  background: #F8FAFC;
+  border-right: 1px solid #E2E8F0;
+  letter-spacing: -0.02em;
+}
+.wm-quote-cart-total[hidden] {
+  display: none !important;
+}
+.wm-quote-cart-fab-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.42rem 0.55rem;
+  background: #0F172A;
+  color: #FFFFFF;
+}
+.wm-global-quote-cart-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.wm-global-quote-cart-count {
+  min-width: 1.05rem;
+  height: 1.05rem;
+  padding: 0 0.28rem;
+  border-radius: 999px;
+  background: #F59E0B;
+  color: #0F172A;
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1.05rem;
+  text-align: center;
+}
+.wm-global-quote-cart:not(.has-items) .wm-global-quote-cart-count {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+@media (max-width: 768px) {
+  .wm-global-quote-cart-label { display: none; }
+  .wm-quote-cart-total { font-size: 0.68rem; max-width: 6.5rem; overflow: hidden; text-overflow: ellipsis; }
+}
+
+/* Keep calculator scroll-FAB above the quote-cart pill */
+body:has(.wm-global-quote-cart) .floating-calc-button {
+  bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px)) !important;
+}
+body.has-calc-sticky-bar:has(.wm-global-quote-cart) .floating-calc-button {
+  bottom: calc(9.5rem + env(safe-area-inset-bottom, 0px)) !important;
 }

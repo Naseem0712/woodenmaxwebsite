@@ -6,9 +6,16 @@
     "optimize:speed": "node tools/optimize-speed.cjs",
     "optimize:speed:dry": "node tools/optimize-speed.cjs --dry",
     "fix:head": "node tools/fix-head-assets.cjs",
-    "fix:seo-urls": "node tools/fix-seo-urls.cjs"
+    "fix:seo-urls": "node tools/fix-seo-urls.cjs",
+    "payments:dev": "node server/index.mjs",
+    "payments:deploy": "npx wrangler deploy",
+    "payments:health": "node -e \"fetch('https://jolly-field-be49.finilexnaseem.workers.dev/health').then(r=>r.json()).then(console.log).catch(console.error)\""
   },
   "devDependencies": {
     "sharp": "^0.33.5"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
   }
 }

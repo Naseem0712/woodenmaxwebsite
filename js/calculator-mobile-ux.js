@@ -16,6 +16,14 @@
 (function () {
   'use strict';
 
+  if (window.__wmCalcMobileUxLoaded) {
+    if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.refresh === 'function') {
+      window.WoodenMaxQuote.refresh();
+    }
+    return;
+  }
+  window.__wmCalcMobileUxLoaded = true;
+
   // ---------- Constants ----------
   var STORAGE_KEY     = 'woodenmax_quote_cart_v1';
   var LEAD_STORAGE    = 'woodenmax_lead_cache_v1';
@@ -48,6 +56,172 @@
     return { min: min, max: max };
   }
 
+  function readExactInr (el) {
+    if (!el) return 0;
+    var attr = el.getAttribute && el.getAttribute('data-wm-inr-total');
+    if (attr) {
+      var n = parseInt(attr, 10);
+      if (!isNaN(n) && n > 0) return n;
+    }
+    var txt = (el.textContent || '').trim();
+    if (!txt) return 0;
+    var digits = txt.replace(/[^0-9]/g, '');
+    if (!digits || /^0+$/.test(digits)) return 0;
+    if (/[–-]/.test(txt)) {
+      var r = parsePriceRange(txt);
+      return Math.round((r.min + r.max) / 2);
+    }
+    return parseInt(digits, 10) || 0;
+  }
+
+  function itemExactAmount (it) {
+    if (it && typeof it.exactAmount === 'number' && it.exactAmount > 0) return it.exactAmount;
+    var r = (it && it.range) || parsePriceRange((it && it.amount) || '');
+    return Math.round((r.min + r.max) / 2);
+  }
+
+  function displayProductName (it) {
+    if (!it) return 'Product';
+    var n = it.productName || 'Product';
+    if (/₹|\/sqft|\(2026\)|\bprice\b/i.test(n)) {
+      return shortProductName(getCalcContainer(), { name: n });
+    }
+    return n;
+  }
+
+  function shortProductName (calc, meta) {
+    if (calc && calc.getAttribute('data-product-name')) {
+      return cleanLabel(calc.getAttribute('data-product-name'));
+    }
+    var h1 = document.querySelector('.product-detail-hero h1, .cluster-hero h1, .page-window-pro h1, h1');
+    var raw = h1 ? h1.textContent : ((meta && meta.name) || document.title || '');
+    raw = cleanLabel(raw).split('|')[0].trim();
+    raw = raw
+      .replace(/\s*\+.*$/i, '')
+      .replace(/\s*\(2026\)\s*$/i, '')
+      .replace(/\s*₹[\d,.\s–-]+(\/sqft)?/gi, ' ')
+      .replace(/\bprice\b/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    raw = raw.replace(/\baluminium\s+window\b/i, 'Window');
+    if (raw.length > 42) raw = raw.split(/\s+/).slice(0, 4).join(' ');
+    return raw || 'Product';
+  }
+
+  function globalCalcOptionDetails () {
+    var details = [];
+    var pairs = [
+      ['calc-glass', 'Glass'],
+      ['calc-coating', 'Coating'],
+      ['calc-lock', 'Lock'],
+      ['calc-unit', 'Unit']
+    ];
+    pairs.forEach(function (p) {
+      var sel = document.getElementById(p[0]);
+      if (sel && sel.options && sel.selectedIndex >= 0) {
+        var v = cleanLabel(sel.options[sel.selectedIndex].textContent);
+        if (v && !/^select/i.test(v)) details.push({ label: p[1], value: v });
+      }
+    });
+    var mesh = document.getElementById('calc-mesh');
+    details.push({ label: 'Mesh', value: (mesh && mesh.checked) ? 'Yes' : 'No' });
+    return details;
+  }
+
+  function rowOptionDetails (rowId) {
+    if (!window.rowSelections || typeof window.rowSelections.get !== 'function') {
+      return globalCalcOptionDetails();
+    }
+    var rs = window.rowSelections.get(rowId);
+    if (!rs) return globalCalcOptionDetails();
+    var glassSel = document.getElementById('calc-glass');
+    var coatSel = document.getElementById('calc-coating');
+    var lockSel = document.getElementById('calc-lock');
+    function optText (sel, val) {
+      if (!sel || !sel.options) return val;
+      for (var i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === val) return cleanLabel(sel.options[i].textContent);
+      }
+      return val;
+    }
+    var out = [
+      { label: 'Glass', value: optText(glassSel, rs.glass) },
+      { label: 'Coating', value: optText(coatSel, rs.coating) },
+      { label: 'Lock', value: optText(lockSel, rs.lock) }
+    ];
+    out.push({ label: 'Mesh', value: rs.mesh ? 'Yes' : 'No' });
+    return out;
+  }
+
+  function leadCcEmail (lead) {
+    var e = (lead && lead.email) ? String(lead.email).trim() : '';
+    return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(e) ? e : '';
+  }
+
+  function readRowSnapshot (row, index, meta) {
+    var amtEl = row.querySelector('.row-amount-text');
+    var exact = readExactInr(amtEl);
+    if (!exact) return null;
+
+    var wEl = row.querySelector('.calc-size-width');
+    var hEl = row.querySelector('.calc-size-height');
+    var qEl = row.querySelector('.calc-size-qty');
+    var w = wEl ? (wEl.value || '').trim() : '';
+    var h = hEl ? (hEl.value || '').trim() : '';
+    var q = qEl ? (qEl.value || '1').trim() : '1';
+    if (!w || !h) return null;
+
+    var unitSel = document.getElementById('calc-unit');
+    var unitLabel = unitSel && unitSel.options
+      ? cleanLabel(unitSel.options[unitSel.selectedIndex].textContent)
+      : 'ft';
+
+    var areaLine = '';
+    var areaEl = row.querySelector('.row-area-text');
+    if (areaEl && areaEl.textContent) {
+      areaLine = cleanLabel(areaEl.textContent).replace(/^Area:\s*/i, '');
+    }
+
+    var details = [
+      { label: 'Width × Height × Qty', value: w + ' × ' + h + ' ' + unitLabel + ' × ' + q }
+    ];
+    if (areaLine) details.push({ label: 'Area', value: areaLine });
+    rowOptionDetails(row.id).forEach(function (d) { details.push(d); });
+
+    var rowCount = document.querySelectorAll('.calc-size-row').length;
+    var productName = meta.name;
+    if (rowCount > 1) productName = meta.name + ' — Opening ' + (index + 1);
+
+    return {
+      productKey: meta.key,
+      productName: productName,
+      category: meta.category || 'Products',
+      details: details,
+      specs: details.map(function (d) { return d.label + ': ' + d.value; }),
+      area: areaLine,
+      exactAmount: exact,
+      amount: fmtINR(exact),
+      range: { min: exact, max: exact },
+      pageUrl: location.href,
+      ts: Date.now()
+    };
+  }
+
+  function readAllRowSnapshots () {
+    var calc = getCalcContainer();
+    if (!calc) return [];
+    var meta = readProductMeta();
+    meta.name = shortProductName(calc, meta);
+    var rows = $$('.calc-size-row', calc);
+    if (!rows.length) return [];
+    var out = [];
+    rows.forEach(function (row, i) {
+      var snap = readRowSnapshot(row, i, meta);
+      if (snap) out.push(snap);
+    });
+    return out;
+  }
+
   function fmtINR (n) {
     if (!n && n !== 0) return '₹0';
     // Indian grouping (… , 12,34,567)
@@ -65,14 +239,52 @@
 
   // ---------- Storage ----------
   function readCart () {
+    var raw = null;
+    try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) {}
+    if (!raw) {
+      try { raw = sessionStorage.getItem(STORAGE_KEY); } catch (e2) {}
+      if (raw) {
+        try { localStorage.setItem(STORAGE_KEY, raw); } catch (e3) {}
+      }
+    }
     try {
-      var raw = localStorage.getItem(STORAGE_KEY);
       var arr = raw ? JSON.parse(raw) : [];
       return Array.isArray(arr) ? arr : [];
-    } catch (e) { return []; }
+    } catch (e4) { return []; }
   }
   function writeCart (items) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch (e) {}
+    var json = JSON.stringify(items);
+    try { localStorage.setItem(STORAGE_KEY, json); } catch (e) {}
+    try { sessionStorage.setItem(STORAGE_KEY, json); } catch (e2) {}
+    syncCartBadges();
+    try {
+      document.dispatchEvent(new CustomEvent('wm-cart-updated', {
+        detail: { count: items.length, items: items }
+      }));
+    } catch (e3) {}
+  }
+
+  function syncCartBadges () {
+    var cart = readCart();
+    var n = cart.length;
+    var grand = cartGrandTotal(cart).exact;
+    var globalBtn = document.getElementById('wmGlobalQuoteCart');
+    if (globalBtn) {
+      var cnt = globalBtn.querySelector('.wm-global-quote-cart-count');
+      if (cnt) cnt.textContent = String(n);
+      var totalEl = document.getElementById('wmQuoteCartTotal');
+      if (totalEl) {
+        if (n > 0) {
+          totalEl.textContent = fmtINR(grand);
+          totalEl.hidden = false;
+        } else {
+          totalEl.textContent = '';
+          totalEl.hidden = true;
+        }
+      }
+      globalBtn.hidden = false;
+      globalBtn.classList.toggle('has-items', n > 0);
+    }
   }
   function readLead () {
     try {
@@ -84,67 +296,504 @@
     try { localStorage.setItem(LEAD_STORAGE, JSON.stringify(data)); } catch (e) {}
   }
 
-  // ---------- Calculator state readers ----------
+  // ---------- Calculator context ----------
+  function getCalcKind () {
+    if ($('.price-calculator-container') || $('[id^="price-calculator"]')) return 'window';
+    if ($('#wmCatalogCalc')) return 'catalog';
+    if ($('#product-pricing-root')) return 'pergola';
+    return null;
+  }
+
   function getCalcContainer () {
-    return $('.price-calculator-container') || $('[id^="price-calculator"]');
+    return (
+      $('.price-calculator-container') ||
+      $('[id^="price-calculator"]') ||
+      $('#wmCatalogCalc') ||
+      $('#product-pricing-root')
+    );
+  }
+
+  function cleanLabel (txt) {
+    return String(txt || '')
+      .replace(/<[^>]+>/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+      .replace(/:$/, '');
   }
 
   function readPrice () {
+    var rowSnaps = readAllRowSnapshots();
+    if (rowSnaps.length) {
+      var sum = 0;
+      rowSnaps.forEach(function (s) { sum += s.exactAmount; });
+      return fmtINR(sum);
+    }
     var el = $('#calc-result-total');
-    if (!el) return null;
-    var txt = (el.textContent || '').trim();
-    if (!txt) return null;
-    var digits = txt.replace(/[^0-9]/g, '');
-    if (!digits || /^0+$/.test(digits)) return null;
-    return txt;
+    var exact = readExactInr(el);
+    if (exact) return fmtINR(exact);
+    var catalog = $('#wmCatalogCalc');
+    if (catalog && catalog._lastCalc) {
+      var c = catalog._lastCalc;
+      var tot = c.orderTotal || c.perPiece;
+      if (tot > 0) return fmtINR(tot);
+    }
+    var est = window.__pergolaLastEstimate;
+    if (est && est.estimatedTotal > 0) return fmtINR(est.estimatedTotal);
+    return null;
   }
 
   function readArea () {
     var el = $('#calc-area-display');
-    if (!el) return '';
-    return (el.textContent || '').replace(/^Total Area:\s*/i, '').trim();
+    if (el) {
+      var t = (el.textContent || '').trim();
+      if (t) return t.replace(/^Total Area:\s*/i, '').replace(/^Glass Area\s*/i, '').trim();
+    }
+    var catalog = $('#wmCatalogCalc');
+    if (catalog && catalog._lastCalc && catalog._lastCalc.dims) {
+      var d = catalog._lastCalc.dims;
+      return d.w + ' × ' + d.h + ' ft (' + d.sqft.toFixed(2) + ' sq.ft)';
+    }
+    var est = window.__pergolaLastEstimate;
+    if (est) return est.width + ' × ' + est.depth + ' ft (' + est.area + ' sq.ft)';
+    return '';
+  }
+
+  function readLabeledFields (root) {
+    var details = [];
+    if (!root) return details;
+    var seen = {};
+
+    function push (label, value) {
+      label = cleanLabel(label);
+      value = cleanLabel(value);
+      if (!label || !value || /^select/i.test(value)) return;
+      var key = label + '::' + value;
+      if (seen[key]) return;
+      seen[key] = true;
+      details.push({ label: label, value: value });
+    }
+
+    $$('.calc-group', root).forEach(function (group) {
+      var labelEl = group.querySelector('label');
+      var label = labelEl ? labelEl.textContent : '';
+      var sel = group.querySelector('select');
+      if (sel && sel.options && sel.selectedIndex >= 0) {
+        push(label, sel.options[sel.selectedIndex].textContent);
+      }
+      var cb = group.querySelector('input[type="checkbox"]');
+      if (cb && cb.checked) {
+        var lbl = group.querySelector('label[for="' + cb.id + '"]') || labelEl;
+        push(lbl ? lbl.textContent : label, 'Yes');
+      }
+    });
+
+    $$('.catalog-calc-field', root).forEach(function (field) {
+      var lab = field.querySelector('label');
+      var label = lab ? lab.textContent : '';
+      var sel = field.querySelector('select');
+      var inp = field.querySelector('input[type="number"], input[type="text"], input[type="tel"], input[type="email"]');
+      if (sel && sel.options) push(label, sel.options[sel.selectedIndex].textContent);
+      else if (inp && inp.value) push(label, inp.value + (inp.id === 'catalogCalcQty' ? ' pc(s)' : ''));
+    });
+
+    $$('input[name="catalogCalcColor"]:checked', root).forEach(function (r) {
+      var lbl = document.querySelector('label[for="' + r.id + '"]');
+      push('Profile colour', lbl ? lbl.textContent : r.value);
+    });
+
+    ['#select-material', '#select-glazing', '#select-coating', '#select-fitting',
+     '#select-pillar-type', '#select-motor-package', '#input-width', '#input-depth'].forEach(function (sel) {
+      var el = $(sel, root) || $(sel);
+      if (!el) return;
+      var lab = el.closest('label');
+      var label = lab ? lab.querySelector('small') : null;
+      var name = label ? label.textContent : el.id.replace(/^input-|^select-/, '').replace(/-/g, ' ');
+      if (el.tagName === 'SELECT' && el.options) push(name, el.options[el.selectedIndex].textContent);
+      else if (el.value) push(name, el.value + (el.id.indexOf('width') >= 0 || el.id.indexOf('depth') >= 0 ? ' ft' : ''));
+    });
+
+    var pillarCnt = $('#input-pillar-count');
+    if (pillarCnt && pillarCnt.value) push('Pillar qty', pillarCnt.value);
+
+    $$('.calc-size-row', root).forEach(function (row, i) {
+      var w = row.querySelector('[data-size-w], .calc-size-w, input[data-field="width"]');
+      var h = row.querySelector('[data-size-h], .calc-size-h, input[data-field="height"]');
+      var qty = row.querySelector('[data-size-qty], .calc-size-qty, input[data-field="qty"]');
+      var parts = [];
+      if (w && w.value) parts.push('W ' + w.value);
+      if (h && h.value) parts.push('H ' + h.value);
+      if (qty && qty.value) parts.push('Qty ' + qty.value);
+      if (!parts.length) {
+        var txt = (row.textContent || '').replace(/\s+/g, ' ').trim();
+        if (txt.length > 4 && txt.length < 120) parts.push(txt);
+      }
+      if (parts.length) push('Opening #' + (i + 1), parts.join(' · '));
+    });
+
+    var dimEl = $('#calc-dimension-display');
+    if (dimEl && (dimEl.textContent || '').trim()) {
+      push('Dimensions', dimEl.textContent);
+    }
+
+    return details;
   }
 
   function readSpecs () {
-    // Aggregate visible select / checkbox labels inside the calculator.
     var calc = getCalcContainer();
-    if (!calc) return [];
-    var specs = [];
-
-    // Size summary
-    var sizeRows = $$('.calc-size-row', calc);
-    if (sizeRows.length) {
-      specs.push(sizeRows.length + ' size' + (sizeRows.length === 1 ? '' : 's'));
-    }
-
-    // Selects → pick currently-selected option text
-    $$('select.calc-select', calc).forEach(function (sel) {
-      if (!sel.options || !sel.value) return;
-      var opt = sel.options[sel.selectedIndex];
-      if (!opt) return;
-      var txt = (opt.textContent || '').replace(/\s*\([^)]*\)\s*/g, '').trim();
-      if (txt && !/^Select/i.test(txt)) specs.push(txt);
-    });
-
-    // Checked checkboxes
-    $$('input[type="checkbox"]', calc).forEach(function (cb) {
-      if (!cb.checked) return;
-      var lbl = calc.querySelector('label[for="' + cb.id + '"]');
-      var txt = lbl ? (lbl.textContent || '').replace(/\s*\([^)]*\)\s*/g, '').trim() : '';
-      if (txt) specs.push(txt);
-    });
-
-    return specs.slice(0, 6); // keep card compact
+    return readLabeledFields(calc).map(function (d) { return d.label + ': ' + d.value; });
   }
 
   function readProductMeta () {
     var calc = getCalcContainer();
-    if (!calc) return { key: 'product', name: 'Product' };
-    return {
-      key:  calc.getAttribute('data-product') || 'product',
-      name: calc.getAttribute('data-product-name') ||
-            (document.title || 'Product').split('|')[0].trim()
+    var kind = getCalcKind();
+    if (kind === 'catalog' && calc) {
+      return {
+        key: calc.getAttribute('data-page-slug') || 'mirror',
+        name: calc.getAttribute('data-page-title') || (document.title || 'Mirror').split('|')[0].trim(),
+        category: 'Mirror Profiles'
+      };
+    }
+    if (kind === 'pergola') {
+      var est = window.__pergolaLastEstimate;
+      return {
+        key: (est && est.pergolaLineId) || 'pergola',
+        name: (est && est.pergolaLineLabel) || (document.title || 'Pergola').split('|')[0].trim(),
+        category: 'Pergolas'
+      };
+    }
+    if (!calc) return { key: 'product', name: 'Product', category: 'Products' };
+    var cat = 'Aluminium Windows';
+    if ((location.pathname || '').indexOf('shower-partitions') >= 0) cat = 'Shower Partitions';
+    var meta = {
+      key: calc.getAttribute('data-product') || 'product',
+      name: shortProductName(calc, {
+        key: calc.getAttribute('data-product') || 'product',
+        name: calc.getAttribute('data-product-name') || (document.title || 'Product').split('|')[0].trim()
+      }),
+      category: cat
     };
+    return meta;
+  }
+
+  function readQuoteSnapshot () {
+    var rowSnaps = readAllRowSnapshots();
+    if (rowSnaps.length === 1) return rowSnaps[0];
+    if (rowSnaps.length > 1) return null;
+
+    var calc = getCalcContainer();
+    var meta = readProductMeta();
+    var exact = readExactInr($('#calc-result-total'));
+    if (!exact && calc) {
+      var rowAmt = calc.querySelector('.row-amount-text');
+      exact = readExactInr(rowAmt);
+    }
+    if (!exact) {
+      var catalog = $('#wmCatalogCalc');
+      if (catalog && catalog._lastCalc) exact = catalog._lastCalc.orderTotal || catalog._lastCalc.perPiece;
+      if (window.__pergolaLastEstimate) exact = window.__pergolaLastEstimate.estimatedTotal;
+    }
+    if (!exact) return null;
+
+    var details = readLabeledFields(calc);
+    var catalog = $('#wmCatalogCalc');
+    if (catalog && catalog._lastCalc) {
+      var c = catalog._lastCalc;
+      var packAmt = c.packingAmt || (c.opts && c.opts.packing ? 500 : 0);
+      details = [
+        { label: 'Size', value: c.dims.w + ' × ' + c.dims.h + ' ft (' + c.dims.sqft.toFixed(2) + ' sq.ft)' },
+        { label: 'Quantity', value: String(c.qty) + ' piece(s)' },
+        { label: 'Profile colour', value: (c.opts && c.opts.color) ? c.opts.color : '—' },
+        { label: 'Mirror glass', value: (c.opts && c.opts.glassBrand) ? c.opts.glassBrand : '—' },
+        { label: 'LED', value: (c.opts && c.opts.led) ? String(c.opts.led).toUpperCase() : '—' },
+        { label: 'Export packing', value: (c.opts && c.opts.packing)
+          ? ('Yes — ' + fmtINR(packAmt) + '/pc × ' + c.qty + ' = ' + fmtINR(packAmt * c.qty))
+          : 'No' },
+        { label: 'Per piece (calc)', value: fmtINR(c.perPiece) },
+        { label: 'Order total (calc)', value: fmtINR(c.orderTotal) }
+      ];
+      if (c.hardwareList && c.hardwareList.length) {
+        details.push({ label: 'Hardware', value: c.hardwareList.join('; ') });
+      }
+    }
+    var est = window.__pergolaLastEstimate;
+    if (est) {
+      details = [
+        { label: 'Footprint', value: est.width + ' × ' + est.depth + ' ft (' + est.area + ' sq.ft)' },
+        { label: 'Structure', value: est.materialDetail || est.material },
+        { label: 'Fitting', value: est.fittingMode },
+        { label: 'Powder coating', value: est.coatingKey },
+        { label: 'Roof product', value: est.roofProduct },
+        { label: 'Structure cost', value: fmtINR(est.baseTotal) },
+        { label: 'Roof cost', value: fmtINR(est.glazingTotal) },
+        { label: 'Coating cost', value: fmtINR(est.coatingTotal) }
+      ];
+      if (est.pillarCount) details.push({ label: 'Pillars', value: (est.pillarLabel || '') + ' × ' + est.pillarCount + ' — ' + fmtINR(est.pillarTotal) });
+      if (est.motorTotal) details.push({ label: 'Motors', value: (est.motorLabel || '') + ' — ' + fmtINR(est.motorTotal) });
+      details.push({ label: 'Line total', value: fmtINR(est.estimatedTotal) });
+    }
+    var snap = {
+      productKey: meta.key,
+      productName: meta.name,
+      category: meta.category || 'Products',
+      details: details,
+      specs: details.map(function (d) { return d.label + ': ' + d.value; }),
+      area: readArea(),
+      exactAmount: exact,
+      amount: fmtINR(exact),
+      range: { min: exact, max: exact },
+      pageUrl: location.href,
+      ts: Date.now()
+    };
+    if (catalog && catalog._lastCalc) {
+      var mc = catalog._lastCalc;
+      snap.mirrorMeta = {
+        packing: !!(mc.opts && mc.opts.packing),
+        packingAmt: mc.packingAmt || 0,
+        qty: mc.qty || 1,
+        perPiece: mc.perPiece,
+        orderTotal: mc.orderTotal,
+        mode: mc.mode
+      };
+    }
+    return snap;
+  }
+
+  function isMirrorCartItem (it) {
+    if (window.WoodenMaxRazorpay && window.WoodenMaxRazorpay.isMirrorItem) {
+      return window.WoodenMaxRazorpay.isMirrorItem(it);
+    }
+    return it && it.category && /mirror/i.test(it.category);
+  }
+
+  function isCartAllMirror (cart) {
+    if (window.WoodenMaxRazorpay && window.WoodenMaxRazorpay.isCartAllMirror) {
+      return window.WoodenMaxRazorpay.isCartAllMirror(cart);
+    }
+    return cart.length > 0 && cart.every(isMirrorCartItem);
+  }
+
+  function isCartMixed (cart) {
+    if (window.WoodenMaxRazorpay && window.WoodenMaxRazorpay.isCartMixed) {
+      return window.WoodenMaxRazorpay.isCartMixed(cart);
+    }
+    if (!cart.length) return false;
+    var hm = cart.some(isMirrorCartItem);
+    var ho = cart.some(function (it) { return !isMirrorCartItem(it); });
+    return hm && ho;
+  }
+
+  function getCartPaymentPlan (cart, payChoice) {
+    if (window.WoodenMaxRazorpay && typeof window.WoodenMaxRazorpay.buildPaymentPlan === 'function') {
+      return window.WoodenMaxRazorpay.buildPaymentPlan(cart, payChoice || 'booking');
+    }
+    return {
+      mode: 'booking',
+      amountInr: 1000,
+      amountPaise: 100000,
+      label: 'Book order — Pay ₹1,000',
+      description: 'Order confirmation',
+      cartKind: 'other'
+    };
+  }
+
+  function sumMirrorPackingInr (items) {
+    var total = 0;
+    (items || []).forEach(function (it) {
+      if (!it.mirrorMeta) return;
+      if (it.mirrorMeta.packing) {
+        total += (it.mirrorMeta.packingAmt || 500) * (it.mirrorMeta.qty || 1);
+      }
+    });
+    return total;
+  }
+
+  function buildOrderTimelineRows (paymentMode, items) {
+    var allMirror = isCartAllMirror(items || []);
+    var mixed = isCartMixed(items || []);
+
+    if (paymentMode === 'mirror_full') {
+      return [
+        { label: 'Day 0', value: 'Full order payment received — manufacturing queued (your exact calculator sizes)' },
+        { label: 'Day 1–2', value: 'Order confirmation call · verify width, height, LED, sensor & packing' },
+        { label: 'Day 3–10', value: 'Fabrication at Hyderabad factory strictly as per sizes you entered (custom, not ready stock)' },
+        { label: 'Day 8–12', value: 'QC · export packing (if ticked) · dispatch paperwork' },
+        { label: 'Dispatch', value: 'Typically 10–15 days from order date — pack & dispatch from factory, then transit to your city' },
+        { label: 'Refund', value: 'Full order amount: non-refundable after 3 days (processing starts). Only products supplied — no cash refund after that.' },
+        { label: 'GST', value: '18% on basic value — extra unless already included in paid amount' }
+      ];
+    }
+
+    if (allMirror && !mixed) {
+      return [
+        { label: 'Day 0', value: '₹1,000 booking received — mirror order slot reserved' },
+        { label: 'Day 1–2', value: 'Confirmation call · exact calculator sizes noted for production' },
+        { label: 'Before production', value: 'Balance (order total − ₹1,000) + GST as applicable — then manufacturing starts' },
+        { label: 'Manufacturing', value: 'Made to your exact sizes entered (custom fabrication)' },
+        { label: 'Dispatch', value: '10–15 days after balance clearance — pack & dispatch from Hyderabad, then transit' },
+        { label: 'Note', value: 'Booking does not start factory until balance is received unless agreed in writing' },
+        { label: 'Refund', value: '₹1,000 booking is RETURNABLE before production starts. Balance/order payment: non-refundable after 3 days once processing begins.' }
+      ];
+    }
+
+    return [
+      { label: 'Day 0', value: '₹1,000 booking received — project slot reserved (mixed cart: booking terms apply to entire order)' },
+      { label: 'Day 1–3', value: 'Site visit scheduled · final measurements on site' },
+      { label: 'Day 3–5', value: 'Final site approval · binding BOQ for all items in cart' },
+      { label: 'Day 5–7', value: '50% advance against approved BOQ · production starts' },
+      { label: 'Week 3–4', value: 'Factory completion · 40% before dispatch' },
+      { label: 'Week 4+', value: '10% on installation completion · balance as per approved BOQ' }
+    ];
+  }
+
+  function buildOrderPolicyRows (items, subtotalExact, paymentMeta) {
+    var freeTransport = subtotalExact >= 1500000;
+    var packingTotal = sumMirrorPackingInr(items);
+    var mixed = isCartMixed(items);
+    var allMirror = isCartAllMirror(items);
+    var isFullMirror = paymentMeta && paymentMeta.payment_mode === 'mirror_full';
+
+    var rows = [
+      { label: 'Quote validity', value: '7 days from payment / receipt date' },
+      { label: 'GST @ 18%', value: 'Always extra on basic value unless explicitly marked incl. GST' },
+      { label: 'Transportation', value: freeTransport
+        ? 'FREE — order ≥ ₹15 L & site within 1,000 km road from Hyderabad'
+        : 'Extra at actuals — becomes FREE when order ≥ ₹15 L & within 1,000 km of Hyderabad' },
+      { label: 'Warranty', value: 'Mirror hardware 1 yr · profiles as per page policy · windows 10/5/2 yr where applicable' }
+    ];
+
+    if (mixed) {
+      rows.unshift(
+        { label: 'Mixed cart rule', value: 'Only ₹1,000 booking online. Full BOQ, site approval & balance for ALL items (mirror + windows) together.' },
+        { label: 'Site approval', value: 'Mandatory site visit & final approval before factory release for non-mirror items; mirror sizes from calculator noted in BOQ.' },
+        { label: 'Payment terms (balance)', value: '50% advance on approved BOQ · 40% before dispatch · 10% on install completion' }
+      );
+    } else if (allMirror && isFullMirror) {
+      rows.unshift(
+        { label: 'Mirror order', value: 'Paid amount = calculator exact sizes (pre-GST). Production only for dimensions you entered.' },
+        { label: 'Dispatch lead time', value: '10–15 days from order date for pack & dispatch (custom fabrication, not stock)' },
+        { label: 'Balance due', value: 'GST @ 18% extra · transit per policy above' }
+      );
+    } else if (allMirror) {
+      rows.unshift(
+        { label: 'Mirror booking', value: '₹1,000 reserves slot · balance + GST before production · or pay full order amount instead' },
+        { label: 'Dispatch lead time', value: '10–15 days after balance received — made to your exact sizes, then pack & dispatch' },
+        { label: 'Sizes binding', value: 'Supply as per calculator inputs unless site visit requested and sizes revised in writing' }
+      );
+    } else {
+      rows.unshift(
+        { label: 'Site approval', value: 'Final sizes confirmed on site before factory release' },
+        { label: 'Payment terms (balance)', value: '50% advance on approved BOQ · 40% before dispatch · 10% on install completion' }
+      );
+    }
+
+    if (packingTotal > 0 && isFullMirror) {
+      rows.unshift({ label: 'Export packing', value: fmtINR(packingTotal) + ' included in order amount paid' });
+    } else if (allMirror && !isFullMirror) {
+      rows.push({ label: 'Export packing', value: packingTotal > 0
+        ? fmtINR(packingTotal) + ' in calculator total — payable with balance'
+        : 'Not selected — tick in calculator (₹500/pc) if needed' });
+    }
+
+    return rows;
+  }
+
+  /** Cancellation & refund — booking returnable; full order non-refundable after 3 days. */
+  function buildRefundPolicyRows (paymentMode) {
+    var isFullOrder = paymentMode === 'mirror_full';
+    if (!isFullOrder) {
+      return [
+        { label: '₹1,000 booking fee', value: 'RETURNABLE — refundable if you cancel before WoodenMax starts order processing / production for your project. Quote Payment ID when requesting refund.' },
+        { label: 'Full order amount (later)', value: 'When you pay balance or full order: NON-REFUNDABLE after 3 calendar days from that payment (material cutting & processing starts). After 3 days only product supply — no cash refund.' },
+        { label: 'Contact', value: '+91 78953 28080 · info@woodenmax.com · mention Receipt / Payment ID' }
+      ];
+    }
+    return [
+      { label: 'Full order payment', value: 'NON-REFUNDABLE after 3 calendar days from payment date. Within 3 days: cancellation only if factory work (material cutting, fabrication, etc.) has NOT started — contact us immediately with Payment ID.' },
+      { label: 'Why 3 days', value: 'Order processing usually begins within 3 days — custom sizes to your exact dimensions; materials cannot be reused or resold.' },
+      { label: 'After 3 days', value: 'No return of money — only supply of products as per confirmed order. Cash refund not available.' },
+      { label: '₹1,000 booking (if paid earlier)', value: 'Booking amount remains RETURNABLE only before production starts; adjusted in order or refunded if entire order cancelled before processing.' },
+      { label: 'Contact', value: '+91 78953 28080 · info@woodenmax.com' }
+    ];
+  }
+
+  function makeReceiptNumber () {
+    var d = new Date();
+    var ymd = '' + d.getFullYear() +
+      String(d.getMonth() + 1).padStart(2, '0') +
+      String(d.getDate()).padStart(2, '0');
+    return 'WMX/RCPT/' + ymd + '/' + Math.floor(1000 + Math.random() * 9000);
+  }
+
+  function buildPaymentReceiptHtml (lead, items, paymentMeta) {
+    var today = new Date();
+    var dateStr = today.toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: '2-digit' });
+    var subtotalExact = 0;
+    items.forEach(function (it) { subtotalExact += itemExactAmount(it); });
+    var gstExact = Math.round(subtotalExact * 0.18);
+    var paidInr = paymentMeta.paid_amount_inr || paymentMeta.paidAmountInr || 1000;
+    var isMirror = paymentMeta.payment_mode === 'mirror_full';
+    var rows = items.map(function (it, i) {
+      return '<tr><td>' + (i + 1) + '</td><td>' + escapeHtml(displayProductName(it)) +
+        '<br><small>' + escapeHtml((it.details || []).map(function (d) {
+          return d.label + ': ' + d.value;
+        }).join(' · ')) + '</small></td><td class="is-numeric">' + fmtINR(itemExactAmount(it)) + '</td></tr>';
+    }).join('');
+
+    var timeline = buildOrderTimelineRows(paymentMeta.payment_mode, items).map(function (r) {
+      return '<li><strong>' + escapeHtml(r.label) + '</strong> — ' + escapeHtml(r.value) + '</li>';
+    }).join('');
+
+    return (
+      '<div class="pdf-doc wm-receipt-doc">' +
+        '<div class="pdf-header">' +
+          '<div class="pdf-brand-text"><strong>WoodenMax</strong><br>Payment Receipt</div>' +
+          '<div class="pdf-meta-block">' +
+            '<div class="row"><span class="label">Receipt No.</span><span class="value">' + escapeHtml(paymentMeta.receipt_no || '—') + '</span></div>' +
+            '<div class="row"><span class="label">Date</span><span class="value">' + escapeHtml(dateStr) + '</span></div>' +
+            '<div class="row"><span class="label">Payment ID</span><span class="value">' + escapeHtml(paymentMeta.payment_id || '—') + '</span></div>' +
+          '</div>' +
+        '</div>' +
+        '<p><strong>Bill to:</strong> ' + escapeHtml(lead.name || '—') + ' · ' + escapeHtml(lead.mobile || '—') +
+          (lead.city ? ' · ' + escapeHtml(lead.city) : '') + '</p>' +
+        '<table class="pdf-spec-mini"><thead><tr><th>#</th><th>Item</th><th>Amount</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+        '<p><strong>Amount paid online:</strong> ' + fmtINR(paidInr) +
+          (isMirror ? ' (calculator total · pre-GST)' : ' (booking fee · balance after site approval)') + '</p>' +
+        (!isMirror
+          ? '<p>Calculator subtotal reference: ' + fmtINR(subtotalExact) + ' · GST extra: ' + fmtINR(gstExact) + '</p>'
+          : '<p>GST @ 18% extra: ' + fmtINR(gstExact) + ' · Grand incl. GST: ' + fmtINR(subtotalExact + gstExact) + '</p>') +
+        '<h3>Order timeline</h3><ol class="wm-receipt-timeline">' + timeline + '</ol>' +
+        '<h3>Cancellation &amp; refund</h3><ul class="wm-receipt-timeline">' +
+          buildRefundPolicyRows(paymentMeta.payment_mode).map(function (r) {
+            return '<li><strong>' + escapeHtml(r.label) + '</strong> — ' + escapeHtml(r.value) + '</li>';
+          }).join('') +
+        '</ul>' +
+        '<p class="cart-foot-note">WoodenMax Architectural Elements · GSTIN 36ARWPA9740L1Z3 · +91 78953 28080</p>' +
+      '</div>'
+    );
+  }
+
+  function ensurePaymentReceiptStage () {
+    var stage = document.getElementById('wmPaymentReceiptStage');
+    if (!stage) {
+      stage = document.createElement('div');
+      stage.id = 'wmPaymentReceiptStage';
+      stage.setAttribute('aria-hidden', 'true');
+      stage.className = 'wm-payment-receipt-stage';
+      document.body.appendChild(stage);
+    }
+    return stage;
+  }
+
+  function printPaymentReceipt (lead, items, paymentMeta) {
+    var html = buildPaymentReceiptHtml(lead, items, paymentMeta);
+    var stage = ensurePaymentReceiptStage();
+    stage.innerHTML = html;
+    printHtmlInIframe({
+      title: 'WoodenMax Payment Receipt',
+      containerId: 'wmPaymentReceiptStage',
+      containerClass: 'wm-payment-receipt-stage',
+      innerHtml: html
+    });
   }
 
   // ---------- Sticky bar ----------
@@ -153,7 +802,6 @@
     var priceEl  = bar.querySelector('.calc-sticky-price');
     var labelEl  = bar.querySelector('.calc-sticky-label');
     var exactBtn = bar.querySelector('.calc-sticky-exact');
-    var cartCnt  = bar.querySelector('.calc-sticky-cart-count');
 
     var price = readPrice();
     if (price) {
@@ -161,18 +809,18 @@
       priceEl.classList.remove(PLACEHOLDER_CLS);
       if (labelEl) labelEl.textContent = 'Live Total';
       if (exactBtn) exactBtn.hidden = false;
+      var addSticky = bar.querySelector('[data-action="add-to-cart-sticky"]');
+      if (addSticky) addSticky.hidden = false;
     } else {
       priceEl.textContent = 'Enter sizes to see price';
       priceEl.classList.add(PLACEHOLDER_CLS);
       if (labelEl) labelEl.textContent = 'Live Estimate';
       if (exactBtn) exactBtn.hidden = true;
+      var addStickyOff = bar.querySelector('[data-action="add-to-cart-sticky"]');
+      if (addStickyOff) addStickyOff.hidden = true;
     }
 
-    var cart = readCart();
-    if (cartCnt) {
-      cartCnt.textContent = String(cart.length);
-      cartCnt.classList.toggle('is-active', cart.length > 0);
-    }
+    syncCartBadges();
   }
 
   // Toggle the inline "Add to Cart" action row visibility based on price.
@@ -184,23 +832,18 @@
 
   // ---------- Cart ----------
   function addCurrentToCart () {
-    var price = readPrice();
-    if (!price) return;
-    var meta = readProductMeta();
-    var item = {
-      id: uid(),
-      productKey:  meta.key,
-      productName: meta.name,
-      specs: readSpecs(),
-      area:  readArea(),
-      amount: price,
-      range: parsePriceRange(price),
-      ts: Date.now()
-    };
+    var snaps = readAllRowSnapshots();
+    if (!snaps.length) {
+      var single = readQuoteSnapshot();
+      if (single) snaps = [single];
+    }
+    if (!snaps.length) return null;
     var cart = readCart();
-    cart.push(item);
+    snaps.forEach(function (snap) {
+      cart.push(Object.assign({ id: uid() }, snap));
+    });
     writeCart(cart);
-    return item;
+    return snaps[snaps.length - 1];
   }
 
   function removeFromCart (id) {
@@ -210,13 +853,11 @@
   }
 
   function cartGrandTotal (cart) {
-    var min = 0, max = 0;
+    var exact = 0;
     cart.forEach(function (it) {
-      var r = it.range || parsePriceRange(it.amount);
-      min += r.min;
-      max += r.max;
+      exact += itemExactAmount(it);
     });
-    return { min: min, max: max };
+    return { min: exact, max: exact, exact: exact };
   }
 
   // ---------- Sheet rendering ----------
@@ -234,7 +875,7 @@
         '<div class="cart-empty">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>' +
           '<strong>Your quote cart is empty</strong>' +
-          '<p>Configure a window in the calculator above, then tap "Add to Cart" to start building your quote.</p>' +
+          '<p>Open any product calculator, configure sizes, then tap <strong>Add to Cart</strong>. Items stay saved as you browse other pages — build one combined quote for windows, shower, mirror, pergola &amp; more.</p>' +
         '</div>' +
         '<div class="cart-cta-stack">' +
           '<button type="button" class="cart-cta-secondary" data-cart-action="close">Continue Configuring</button>' +
@@ -244,13 +885,22 @@
 
     var html = '';
     cart.forEach(function (it) {
+      var details = it.details || (it.specs || []).map(function (s) {
+        var p = String(s).split(':');
+        return { label: (p[0] || '').trim(), value: (p.slice(1).join(':') || '').trim() };
+      });
       html += '<div class="cart-item" data-cart-id="' + escapeHtml(it.id) + '">' +
-        '<div class="cart-item-title">' + escapeHtml(it.productName) + '</div>' +
-        '<div class="cart-item-amount">' + escapeHtml(it.amount) + '</div>' +
-        '<div class="cart-item-specs">' +
-          (it.area ? '<span>' + escapeHtml(it.area) + '</span>' : '') +
-          it.specs.map(function (s) { return '<span>' + escapeHtml(s) + '</span>'; }).join('') +
+        '<div class="cart-item-head">' +
+          '<div class="cart-item-title">' + escapeHtml(displayProductName(it)) + '</div>' +
+          (it.category ? '<span class="cart-item-cat">' + escapeHtml(it.category) + '</span>' : '') +
         '</div>' +
+        '<div class="cart-item-amount">' + escapeHtml(it.amount) + '</div>' +
+        (it.area ? '<div class="cart-item-area"><strong>Area / size:</strong> ' + escapeHtml(it.area) + '</div>' : '') +
+        '<dl class="cart-item-details">' +
+          details.slice(0, 12).map(function (d) {
+            return '<div class="cart-detail-row"><dt>' + escapeHtml(d.label) + '</dt><dd>' + escapeHtml(d.value) + '</dd></div>';
+          }).join('') +
+        '</dl>' +
         '<div class="cart-item-actions">' +
           '<button type="button" data-cart-action="remove" data-cart-id="' + escapeHtml(it.id) + '">Remove</button>' +
         '</div>' +
@@ -258,12 +908,12 @@
     });
 
     var total = cartGrandTotal(cart);
-    var mid = Math.round((total.min + total.max) / 2);
-    var freeTransport = mid >= 1500000; // ≥ ₹15 Lakh basic
-    var gstMid = Math.round(mid * 0.18);
+    var subExact = total.exact;
+    var freeTransport = subExact >= 1500000;
+    var gstMid = Math.round(subExact * 0.18);
     html += '<div class="cart-total-row">' +
               '<span class="cart-total-label">Subtotal (' + cart.length + ' item' + (cart.length === 1 ? '' : 's') + ')</span>' +
-              '<span class="cart-total-value">' + fmtINR(total.min) + ' – ' + fmtINR(total.max) + '</span>' +
+              '<span class="cart-total-value">' + fmtINR(subExact) + '</span>' +
             '</div>';
 
     // GST + Transport policy block — explicit, every cart open
@@ -287,16 +937,50 @@
               '</p>' +
             '</div>';
 
-    html += '<div class="cart-cta-stack">' +
+    var allMirror = isCartAllMirror(cart);
+    var mixed = isCartMixed(cart);
+    var mirrorExact = getCartPaymentPlan(cart, 'mirror_full');
+    html += '<div class="cart-cta-stack">';
+    if (allMirror && !mixed) {
+      html += '<button type="button" class="cart-cta-book" data-cart-action="book-order" data-pay-choice="mirror_full">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>' +
+                escapeHtml(mirrorExact.label) +
+              '</button>' +
+              '<button type="button" class="cart-cta-book cart-cta-book--alt" data-cart-action="book-order" data-pay-choice="booking">' +
+                'Book slot — Pay ₹1,000' +
+              '</button>';
+    } else {
+      html += '<button type="button" class="cart-cta-book" data-cart-action="book-order" data-pay-choice="booking">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>' +
+                'Book order — Pay ₹1,000' +
+              '</button>';
+    }
+    html +=
               '<button type="button" class="cart-cta-secondary" data-cart-action="add-more">Add More Items</button>' +
               '<button type="button" class="cart-cta-primary"   data-cart-action="export-pdf">' +
                 '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>' +
-                'Save &amp; Export PDF' +
+                'Download Quote PDF' +
+              '</button>' +
+            '</div>' +
+            '<div class="cart-share-row">' +
+              '<button type="button" class="cart-share-wa" data-cart-action="share-whatsapp">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.11.547 4.091 1.507 5.818L0 24l6.335-1.662A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>' +
+                'WhatsApp quote' +
+              '</button>' +
+              '<button type="button" class="cart-share-email" data-cart-action="share-email">' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' +
+                'Email summary' +
               '</button>' +
             '</div>';
 
-    html += '<p class="cart-foot-note">Indicative ranges only. Final binding quote after site measurement. ' +
-            '<a href="/policies/gst-transport-policy" target="_blank" rel="noopener">Read full GST &amp; transport policy →</a></p>';
+    html += '<p class="cart-foot-note">' +
+            (mixed
+              ? '<strong>Mixed cart:</strong> only ₹1,000 booking online — site visit &amp; BOQ for all items. '
+              : (allMirror
+                ? '<strong>Mirror:</strong> full order pay (no refund after 3 days) or ₹1,000 booking (<em>returnable</em> before production). Dispatch 10–15 days. '
+                : '<strong>₹1,000 booking</strong> returnable before production — balance non-refundable after 3 days once factory starts. ')) +
+            'Receipt + timeline emailed to you &amp; WoodenMax. ' +
+            '<a href="/policies/gst-transport-policy" target="_blank" rel="noopener">Policy →</a></p>';
 
     body.innerHTML = html;
   }
@@ -310,6 +994,9 @@
     sheet.setAttribute('aria-hidden', 'false');
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
+    if (typeof ensureRazorpayModule === 'function') {
+      ensureRazorpayModule().catch(function () {});
+    }
   }
   function closeSheet () {
     var sheet = $('#calcBottomSheet');
@@ -323,7 +1010,92 @@
   }
 
   // ---------- Form modal ----------
-  function openForm (intent) {
+  function payHelpHtmlLive () {
+    return (
+      '<strong class="calc-pay-help-mode">Live payment</strong>' +
+      '<p class="calc-pay-help-note">Asli paise cut honge. Success ke baad receipt + email.</p>' +
+      '<ul>' +
+        '<li><strong>UPI:</strong> Laptop par QR scan (PhonePe / Google Pay / Paytm). Mobile par UPI app.</li>' +
+        '<li><strong>Card / Netbanking:</strong> Indian debit, credit, aur bank login.</li>' +
+        '<li>Problem ho to Payment ID ke sath <strong>+91 78953 28080</strong> par call/WhatsApp.</li>' +
+      '</ul>'
+    );
+  }
+
+  function payHelpHtmlTest () {
+    return (
+      '<strong class="calc-pay-help-mode">Test mode</strong>' +
+      '<p class="calc-pay-help-note">Paisa cut nahi hota (test keys).</p>' +
+      '<ul>' +
+        '<li><strong>Netbanking / Card:</strong> reliable — test card <code>5267 3181 8797 5449</code>.</li>' +
+        '<li><strong>UPI QR + PhonePe:</strong> test par fail — live keys par chalega.</li>' +
+      '</ul>'
+    );
+  }
+
+  function syncPayHelpContent (mode) {
+    var payHelp = $('#calcPayHelp');
+    if (!payHelp) return;
+    var isLive = mode === 'live';
+    payHelp.innerHTML = isLive ? payHelpHtmlLive() : payHelpHtmlTest();
+    payHelp.classList.toggle('calc-pay-help--live', isLive);
+    payHelp.classList.toggle('calc-pay-help--test', !isLive);
+  }
+
+  function syncBookOrderFormUi (payChoice) {
+    var modal = $('#calcFormModal');
+    var cart = readCart();
+    var mixed = isCartMixed(cart);
+    var allMirror = isCartAllMirror(cart);
+    var choice = mixed ? 'booking' : (payChoice || 'booking');
+    if (modal) modal.setAttribute('data-pay-choice', choice);
+
+    var block = $('#calcPayChoiceBlock');
+    if (block) {
+      block.hidden = !allMirror || mixed;
+      if (!block.hidden) {
+        var radios = block.querySelectorAll('input[name="pay_choice"]');
+        Array.prototype.forEach.call(radios, function (r) {
+          r.checked = r.value === choice;
+        });
+      }
+    }
+
+    var plan = getCartPaymentPlan(cart, choice);
+    var title = $('#calcFormTitle');
+    var intro = $('#calcFormIntro');
+    var payHelp = $('#calcPayHelp');
+    if (payHelp) {
+      payHelp.hidden = false;
+      syncPayHelpContent('test');
+      if (window.WoodenMaxRazorpay && typeof window.WoodenMaxRazorpay.fetchPaymentsHealth === 'function') {
+        window.WoodenMaxRazorpay.fetchPaymentsHealth().then(function (h) {
+          syncPayHelpContent(h && h.razorpay_mode === 'live' ? 'live' : 'test');
+        });
+      }
+    }
+    var submitLabel = $('#calcFormSubmit') && $('#calcFormSubmit').querySelector('.calc-form-submit-label');
+
+    if (plan.mode === 'mirror_full') {
+      if (title) title.textContent = 'Confirm Mirror Order';
+      if (intro) intro.textContent = 'Pay ' + fmtINR(plan.amountInr) + ' for your exact sizes. Dispatch 10–15 days after order. Refund: not possible after 3 days (cutting/production starts). GST & transit extra. Receipt + policy emailed to you & WoodenMax.';
+      if (submitLabel) submitLabel.textContent = 'Pay ' + fmtINR(plan.amountInr) + ' & Get Receipt';
+    } else if (allMirror) {
+      if (title) title.textContent = 'Book Mirror Order — ₹1,000';
+      if (intro) intro.textContent = '₹1,000 booking is RETURNABLE if you cancel before production starts. Balance + GST before factory. Full order amount: non-refundable after 3 days once processing begins.';
+      if (submitLabel) submitLabel.textContent = 'Pay ₹1,000 Booking';
+    } else if (mixed) {
+      if (title) title.textContent = 'Book Order (Mixed Cart) — ₹1,000';
+      if (intro) intro.textContent = 'Mixed cart: ₹1,000 booking only (RETURNABLE before production). Site visit & BOQ for all items. Full order payments: non-refundable after 3 days once processing starts.';
+      if (submitLabel) submitLabel.textContent = 'Pay ₹1,000 Booking';
+    } else {
+      if (title) title.textContent = 'Book Order — Pay ₹1,000';
+      if (intro) intro.textContent = 'Pay ₹1,000 to confirm your slot. Balance after site visit & final site approval. Secure Razorpay payment.';
+      if (submitLabel) submitLabel.textContent = 'Pay ₹1,000 & Confirm Order';
+    }
+  }
+
+  function openForm (intent, payChoice) {
     var modal = $('#calcFormModal');
     if (!modal) return;
     var title  = $('#calcFormTitle');
@@ -334,10 +1106,20 @@
     modal.setAttribute('data-intent', intent);
 
     if (intent === 'exact') {
+      var payBlock = $('#calcPayChoiceBlock');
+      if (payBlock) payBlock.hidden = true;
+      var payHelpHide = $('#calcPayHelp');
+      if (payHelpHide) payHelpHide.hidden = true;
       if (title)       title.textContent  = 'Get Exact Price';
       if (intro)       intro.textContent  = 'Share quick details and we will reveal the exact price for your configuration. No spam, we promise.';
       if (submitLabel) submitLabel.textContent = 'Show Exact Price';
+    } else if (intent === 'book-order') {
+      syncBookOrderFormUi(payChoice);
     } else {
+      var payBlock2 = $('#calcPayChoiceBlock');
+      if (payBlock2) payBlock2.hidden = true;
+      var payHelpHide2 = $('#calcPayHelp');
+      if (payHelpHide2) payHelpHide2.hidden = true;
       if (title)       title.textContent  = 'Save & Export Quote PDF';
       if (intro)       intro.textContent  = 'Fill your details to download a branded WoodenMax quote PDF. We will email a copy too if you share an email.';
       if (submitLabel) submitLabel.textContent = 'Download Quote PDF';
@@ -394,20 +1176,9 @@
    * formatter labels it "live calc snapshot, not yet added to cart".
    */
   function snapshotLiveCalc () {
-    var price = readPrice();
-    if (!price) return null;
-    var meta = readProductMeta();
-    return {
-      id: uid(),
-      productKey:  meta.key,
-      productName: meta.name,
-      specs:       readSpecs(),
-      area:        readArea(),
-      amount:      price,
-      range:       parsePriceRange(price),
-      ts:          Date.now(),
-      _virtual:    true
-    };
+    var snap = readQuoteSnapshot();
+    if (!snap) return null;
+    return Object.assign({ id: uid(), _virtual: true }, snap);
   }
 
   /**
@@ -429,7 +1200,7 @@
     var cart = readCart();
     var live = snapshotLiveCalc();
 
-    if (intent === 'export-pdf') {
+    if (intent === 'export-pdf' || intent === 'book-order') {
       if (cart.length) return cart;
       return live ? [live] : [];
     }
@@ -459,21 +1230,38 @@
    * rolled formatter so this still works if email-submitter.js fails
    * to load.
    */
-  function buildLeadEmailBody (lead, items, intent) {
+  function quoteEmailItemRows (it) {
+    var rows = [
+      { label: 'Product', value: displayProductName(it) },
+      { label: 'Area', value: it.area || '—' }
+    ];
+    if (it.details && it.details.length) {
+      it.details.forEach(function (d) {
+        if (d.label === 'Area' && it.area) return;
+        rows.push({ label: d.label, value: d.value });
+      });
+    } else if (it.specs && it.specs.length) {
+      it.specs.forEach(function (s) {
+        if (it.area && /^Area:/i.test(String(s))) return;
+        rows.push({ label: 'Detail', value: s });
+      });
+    }
+    if (it.category) rows.push({ label: 'Category', value: it.category });
+    rows.push({ label: 'Amount', value: fmtINR(itemExactAmount(it)) });
+    return rows;
+  }
+
+  function buildLeadEmailBody (lead, items, intent, paymentMeta) {
     var pageUrl = (typeof location !== 'undefined') ? location.href : '';
     var pageTitle = (typeof document !== 'undefined' && document.title) ? document.title : '';
 
-    var subtotalMid = 0;
-    var totalRange  = { min: 0, max: 0 };
+    var subtotalExact = 0;
     items.forEach(function (it) {
-      var r = it.range || parsePriceRange(it.amount);
-      subtotalMid    += midpoint(it);
-      totalRange.min += r.min;
-      totalRange.max += r.max;
+      subtotalExact += itemExactAmount(it);
     });
-    var gstMid        = Math.round(subtotalMid * 0.18);
-    var grandMid      = subtotalMid + gstMid;
-    var freeTransport = subtotalMid >= 1500000;
+    var gstExact        = Math.round(subtotalExact * 0.18);
+    var grandExact      = subtotalExact + gstExact;
+    var freeTransport = subtotalExact >= 1500000;
 
     if (window.EmailSubmitter &&
         typeof window.EmailSubmitter.buildStructuredPlainText === 'function') {
@@ -482,9 +1270,15 @@
       sections.push({
         title: 'Request type',
         rows: [
-          { label: 'Intent',          value: intent === 'export-pdf'
-                                              ? 'Quote PDF download'
-                                              : 'Get-Exact-Price enquiry' },
+          { label: 'Intent',          value: intent === 'order-booking'
+                                              ? (paymentMeta && paymentMeta.payment_mode === 'mirror_full'
+                                                  ? ('Mirror order paid — ' + fmtINR(paymentMeta.paid_amount_inr || 0))
+                                                  : 'Order booking paid (₹1,000)')
+                                              : intent === 'export-pdf'
+                                                ? 'Quote PDF download'
+                                                : intent === 'book-order'
+                                                  ? 'Order booking (checkout)'
+                                                  : 'Get-Exact-Price enquiry' },
           { label: 'Source page',     value: pageTitle || pageUrl || '—' },
           { label: 'Page URL',        value: pageUrl || '—' },
           { label: 'Items submitted', value: items.length + ' configuration' + (items.length === 1 ? '' : 's') }
@@ -503,54 +1297,85 @@
       });
 
       items.forEach(function (it, idx) {
-        var r = it.range || parsePriceRange(it.amount);
-        var rows = [
-          { label: 'Product',  value: it.productName || '—' },
-          { label: 'Area',     value: it.area        || '—' }
-        ];
-        (it.specs || []).forEach(function (s, i) {
-          rows.push({ label: 'Spec ' + (i + 1), value: s });
-        });
-        rows.push({ label: 'Live estimate', value: it.amount });
-        rows.push({ label: 'Range (basic)', value: fmtINR(r.min) + ' – ' + fmtINR(r.max) });
-        rows.push({ label: 'Midpoint',      value: fmtINR(midpoint(it)) });
         sections.push({
           title: 'Item #' + (idx + 1) + (it._virtual ? '  (live calc snapshot, not yet added to cart)' : ''),
-          rows: rows
+          rows: quoteEmailItemRows(it)
         });
       });
 
       sections.push({
         title: 'Totals',
         rows: [
-          { label: 'Subtotal (mid, basic)',      value: fmtINR(subtotalMid) },
-          { label: 'Estimate range (basic)',     value: fmtINR(totalRange.min) + ' – ' + fmtINR(totalRange.max) },
-          { label: 'GST @ 18% (always extra)',   value: '+ ' + fmtINR(gstMid) },
+          { label: 'Subtotal (calculator)',      value: fmtINR(subtotalExact) },
+          { label: 'GST @ 18% (always extra)',   value: '+ ' + fmtINR(gstExact) },
           { label: 'Transportation',             value: freeTransport
                                                           ? 'FREE  (≥ ₹15 L within 1,000 km of Hyderabad)'
                                                           : 'Extra at actuals  (order < ₹15 L or > 1,000 km)' },
-          { label: 'Grand total (mid, incl GST)', value: fmtINR(grandMid) }
+          { label: 'Grand total (incl. GST)', value: fmtINR(grandExact) }
         ]
       });
+
+      if (paymentMeta && paymentMeta.payment_id) {
+        var paidLbl = paymentMeta.payment_mode === 'mirror_full'
+          ? fmtINR(paymentMeta.paid_amount_inr || 0) + ' (calculator exact · pre-GST)'
+          : '₹1,000 (booking fee)';
+        sections.push({
+          title: 'Razorpay payment',
+          rows: [
+            { label: 'Receipt no.', value: paymentMeta.receipt_no || '—' },
+            { label: 'Paid online', value: paidLbl },
+            { label: 'Payment ID', value: paymentMeta.payment_id },
+            { label: 'Order ID', value: paymentMeta.order_id || '—' },
+            { label: 'Balance due', value: paymentMeta.payment_mode === 'mirror_full'
+              ? 'GST @ 18% extra · transit per policy below'
+              : 'Payable after site visit & final site approval (per BOQ)' }
+          ]
+        });
+      }
+
+      if (intent === 'order-booking') {
+        sections.push({
+          title: 'Order timeline (indicative)',
+          rows: buildOrderTimelineRows(paymentMeta && paymentMeta.payment_mode, items)
+        });
+        sections.push({
+          title: 'Terms · GST · Transportation · Packing',
+          rows: buildOrderPolicyRows(items, subtotalExact, paymentMeta)
+        });
+        sections.push({
+          title: 'Cancellation & refund policy',
+          rows: buildRefundPolicyRows(paymentMeta && paymentMeta.payment_mode)
+        });
+      }
 
       sections.push({
         title: 'Notes',
         rows: [
-          { label: 'Validity', value: '30 days from this email' },
-          { label: 'Disclaimer', value: 'Indicative ₹/sq.ft from live WoodenMax calculator. Final BOQ after free physical site verification.' }
+          { label: 'Validity', value: '7 days from this email' },
+          { label: 'Disclaimer', value: 'Indicative calculator pricing. Final BOQ after site visit & final site approval where applicable.' }
         ]
       });
 
-      var title = intent === 'export-pdf'
-        ? 'WoodenMax — Quote PDF Request'
-        : 'WoodenMax — Get-Exact-Price Enquiry';
+      var title = intent === 'order-booking'
+        ? (paymentMeta && paymentMeta.payment_mode === 'mirror_full'
+          ? ('WoodenMax — Mirror Order Paid ' + fmtINR(paymentMeta.paid_amount_inr || 0))
+          : 'WoodenMax — Order Booking Paid ₹1,000')
+        : intent === 'export-pdf'
+          ? 'WoodenMax — Quote PDF Request'
+          : 'WoodenMax — Get-Exact-Price Enquiry';
 
       return window.EmailSubmitter.buildStructuredPlainText(title, sections);
     }
 
     // Fallback if EmailSubmitter helper is unavailable
     var L = [];
-    L.push('WoodenMax — ' + (intent === 'export-pdf' ? 'Quote PDF Request' : 'Get-Exact-Price Enquiry'));
+    L.push('WoodenMax — ' + (intent === 'order-booking'
+      ? 'Order Booking Paid ₹1,000'
+      : intent === 'export-pdf' ? 'Quote PDF Request' : 'Get-Exact-Price Enquiry'));
+    if (paymentMeta && paymentMeta.payment_id) {
+      L.push('Payment ID: ' + paymentMeta.payment_id);
+      L.push('Order ID:   ' + (paymentMeta.order_id || '—'));
+    }
     L.push('================================================');
     L.push('Lead: ' + (lead.name || '—') + ' · ' + (lead.mobile || '—') + ' · ' + (lead.city || '—'));
     if (lead.email) L.push('Email: ' + lead.email);
@@ -559,21 +1384,16 @@
     L.push('URL:    ' + (pageUrl || '—'));
     L.push('');
     items.forEach(function (it, idx) {
-      var r = it.range || parsePriceRange(it.amount);
       L.push('--- Item #' + (idx + 1) + ' --------------------------------');
-      L.push('  Product : ' + (it.productName || '—'));
-      L.push('  Area    : ' + (it.area || '—'));
-      (it.specs || []).forEach(function (s, i) { L.push('  Spec ' + (i + 1) + '  : ' + s); });
-      L.push('  Amount  : ' + it.amount);
-      L.push('  Range   : ' + fmtINR(r.min) + ' – ' + fmtINR(r.max));
-      L.push('  Mid     : ' + fmtINR(midpoint(it)));
+      quoteEmailItemRows(it).forEach(function (row) {
+        L.push('  ' + row.label + (row.label.length < 12 ? ' ' : '') + ': ' + row.value);
+      });
       L.push('');
     });
-    L.push('Subtotal (mid)         : ' + fmtINR(subtotalMid));
-    L.push('Estimate range (basic) : ' + fmtINR(totalRange.min) + ' – ' + fmtINR(totalRange.max));
-    L.push('GST @ 18% (extra)      : + ' + fmtINR(gstMid));
+    L.push('Subtotal (calculator)  : ' + fmtINR(subtotalExact));
+    L.push('GST @ 18% (extra)      : + ' + fmtINR(gstExact));
     L.push('Transportation         : ' + (freeTransport ? 'FREE' : 'Extra at actuals'));
-    L.push('Grand total (mid+GST)  : ' + fmtINR(grandMid));
+    L.push('Grand total (incl GST) : ' + fmtINR(grandExact));
     return L.join('\n');
   }
 
@@ -582,7 +1402,7 @@
    * Promise that resolves whether or not the email succeeded — we
    * never want to block the PDF print on a transport failure.
    */
-  function sendLeadEmail (lead, items, intent) {
+  function sendLeadEmail (lead, items, intent, paymentMeta) {
     return new Promise(function (resolve) {
       if (!window.EmailSubmitter || typeof window.EmailSubmitter.submit !== 'function') {
         resolve({ ok: false, reason: 'EmailSubmitter unavailable' });
@@ -593,11 +1413,15 @@
         return;
       }
 
-      var subject = intent === 'export-pdf'
-        ? 'New Quote PDF Request · ' + (lead.name || 'Lead') + ' · ' + (lead.city || '—')
-        : 'Get-Exact-Price Enquiry · ' + (lead.name || 'Lead') + ' · ' + (lead.city || '—');
+      var subject = intent === 'order-booking'
+        ? (paymentMeta && paymentMeta.payment_mode === 'mirror_full'
+          ? ('MIRROR ORDER PAID · ' + fmtINR(paymentMeta.paid_amount_inr || 0) + ' · ' + (lead.name || 'Lead') + ' · ' + (lead.mobile || '—'))
+          : ('ORDER BOOKED · ₹1,000 paid · ' + (lead.name || 'Lead') + ' · ' + (lead.mobile || '—')))
+        : intent === 'export-pdf'
+          ? 'New Quote PDF Request · ' + (lead.name || 'Lead') + ' · ' + (lead.city || '—')
+          : 'Get-Exact-Price Enquiry · ' + (lead.name || 'Lead') + ' · ' + (lead.city || '—');
 
-      var body = buildLeadEmailBody(lead, items, intent);
+      var body = buildLeadEmailBody(lead, items, intent, paymentMeta);
 
       window.EmailSubmitter.submit({
         subject: subject,
@@ -608,7 +1432,7 @@
           city:   lead.city || '',
           mobile: lead.mobile || ''
         },
-        ccEmail: lead.email || '',
+        ccEmail: leadCcEmail(lead),
         onSuccess: function () {
           try {
             if (typeof window.trackMobileLeadSubmit === 'function') {
@@ -665,9 +1489,18 @@
     var price = readPrice();
     if (!price) return;
 
-    // Compute "exact" as the upper bound of the range, presented as a single number
-    var range = parsePriceRange(price);
-    var exact = Math.round((range.min * 0.6) + (range.max * 0.4));
+    var exact = readExactInr($('#calc-result-total'));
+    if (!exact) {
+      var rowSnaps = readAllRowSnapshots();
+      if (rowSnaps.length) {
+        exact = 0;
+        rowSnaps.forEach(function (s) { exact += s.exactAmount; });
+      }
+    }
+    if (!exact) {
+      var range = parsePriceRange(price);
+      exact = Math.round((range.min + range.max) / 2);
+    }
 
     var existing = $('#calcExactBlock');
     if (existing) existing.remove();
@@ -685,7 +1518,7 @@
     block.innerHTML =
       '<div style="font-size: 0.75rem; font-weight: 700; color: #047857; letter-spacing: 0.6px; text-transform: uppercase;">Exact Price for ' + escapeHtml(lead.name || 'You') + '</div>' +
       '<div style="font-size: 1.7rem; font-weight: 800; color: #0F172A; margin: 0.35rem 0;">' + fmtINR(exact) + '</div>' +
-      '<p style="margin: 0; font-size: 0.85rem; color: #475569;">A WoodenMax specialist will reach you on <strong>' + escapeHtml(lead.mobile) + '</strong> within 2 working hours to confirm site measurements. GST extra.</p>';
+      '<p style="margin: 0; font-size: 0.85rem; color: #475569;">A WoodenMax specialist will reach you on <strong>' + escapeHtml(lead.mobile) + '</strong> within 2 working hours to schedule site visit and final site approval. GST extra.</p>';
 
     // Insert after the price display so it visually replaces it.
     var priceDisplay = calc.querySelector('.calc-price-display');
@@ -726,15 +1559,15 @@
   }
 
   function midpoint (it) {
-    var r = parsePriceRange(it.amount);
-    return Math.round((r.min + r.max) / 2);
+    return itemExactAmount(it);
   }
 
-  function buildPrintStage (lead) {
+  function buildPrintStage (lead, items) {
     var stage = $('#calcPrintStage');
     if (!stage) return;
-    var cart = readCart();
+    var cart = (items && items.length) ? items : readCart();
     if (!cart.length) return;
+    stage.removeAttribute('aria-hidden');
 
     // ----- Document meta -----
     var today = new Date();
@@ -742,51 +1575,63 @@
     var mm = String(today.getMonth() + 1).padStart(2, '0');
     var yy = today.getFullYear();
     var dateStr   = dd + ' ' + today.toLocaleString('en-IN', { month: 'short' }) + ' ' + yy;
-    var validTill = new Date(today.getTime() + 30 * 86400000)
+    var validTill = new Date(today.getTime() + 7 * 86400000)
                       .toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: '2-digit' });
     var ymd = '' + yy + mm + dd;
     var quoteNum = 'WMX/' + ymd + '/' + Math.floor(1000 + Math.random() * 9000);
 
-    // ----- Compute totals using midpoint (clean GST math) -----
-    var subtotalMid = 0, totalRange = { min: 0, max: 0 };
+    // ----- Totals: sum exact calculator amounts (matches on-screen row prices) -----
+    var subtotalExact = 0;
     cart.forEach(function (it) {
-      var r = parsePriceRange(it.amount);
-      subtotalMid    += midpoint(it);
-      totalRange.min += r.min;
-      totalRange.max += r.max;
+      subtotalExact += itemExactAmount(it);
     });
-    var gstMid   = Math.round(subtotalMid * 0.18);
-    var grandMid = subtotalMid + gstMid;
+    var gstMid   = Math.round(subtotalExact * 0.18);
+    var grandMid = subtotalExact + gstMid;
 
     // ----- Build itemised rows -----
     var rowsHtml = cart.map(function (it, i) {
-      var r = parsePriceRange(it.amount);
-      var mid = midpoint(it);
+      var lineExact = itemExactAmount(it);
+      var details = it.details || [];
+      var specBlock = '';
+      if (it.area) {
+        specBlock += '<div class="pdf-spec-line"><strong>Area / size:</strong> ' + escapeHtml(it.area) + '</div>';
+      }
+      if (details.length) {
+        specBlock += '<table class="pdf-spec-mini"><tbody>' +
+          details.map(function (d) {
+            return '<tr><td class="pdf-spec-k">' + escapeHtml(d.label) + '</td><td class="pdf-spec-v">' + escapeHtml(d.value) + '</td></tr>';
+          }).join('') +
+        '</tbody></table>';
+      } else if (it.specs && it.specs.length) {
+        specBlock += '<div class="pdf-specs">' + it.specs.map(escapeHtml).join('<br>') + '</div>';
+      }
       return '<tr>' +
         '<td class="is-center">' + (i + 1) + '</td>' +
         '<td>' +
-          '<div class="pdf-row-title">' + escapeHtml(it.productName) + '</div>' +
-          (it.specs.length || it.area
-            ? '<div class="pdf-specs">' +
-                (it.area ? '<strong>Size:</strong> ' + escapeHtml(it.area) + (it.specs.length ? ' &nbsp;|&nbsp; ' : '') : '') +
-                it.specs.map(escapeHtml).join(' &nbsp;·&nbsp; ') +
-              '</div>'
-            : '') +
+          '<div class="pdf-row-title">' + escapeHtml(displayProductName(it)) + '</div>' +
+          (it.category ? '<div class="pdf-row-cat">' + escapeHtml(it.category) + '</div>' : '') +
+          specBlock +
         '</td>' +
         '<td class="is-center">1 set</td>' +
-        '<td class="is-numeric">' + fmtINR(r.min) + ' – ' + fmtINR(r.max) + '</td>' +
-        '<td class="is-numeric"><strong>' + fmtINR(mid) + '</strong></td>' +
+        '<td class="is-numeric"><strong>' + fmtINR(lineExact) + '</strong></td>' +
       '</tr>';
     }).join('');
+
+    var logoImg = pdfAssetUrl('images/woodenmax-logo.webp');
+    var founderImg = pdfAssetUrl('images/Founder-Naseem.webp');
 
     // ----- Render -----
     stage.innerHTML =
       '<div class="pdf-doc">' +
 
+        '<section class="pdf-block pdf-block--quote">' +
+
         // === Header ===
         '<div class="pdf-header">' +
           '<div class="pdf-brand-block">' +
-            '<div class="pdf-brand-mark">W</div>' +
+            '<div class="pdf-brand-mark">' +
+              '<img class="pdf-brand-logo" src="' + escapeHtml(logoImg) + '" alt="WoodenMax" width="46" height="46">' +
+            '</div>' +
             '<div class="pdf-brand-text">' +
               '<strong>WoodenMax</strong>' +
               '<span class="pdf-tagline">Premium Aluminium Windows · Facade · Shower Partitions · Pergolas</span>' +
@@ -818,20 +1663,19 @@
             '<h2>Project / Site</h2>' +
             '<div class="pdf-party-row"><span class="k">City:</span> <span class="v">' + escapeHtml(lead.city || '—') + '</span></div>' +
             '<div class="pdf-party-row"><span class="k">Items:</span> <span class="v">' + cart.length + ' configuration' + (cart.length > 1 ? 's' : '') + '</span></div>' +
-            '<div class="pdf-party-row"><span class="k">Site visit:</span> <span class="v">Free · within 48 hrs</span></div>' +
+            '<div class="pdf-party-row"><span class="k">Site visit:</span> <span class="v">Scheduled · final approval on site</span></div>' +
             '<div class="pdf-party-row"><span class="k">Lead time:</span> <span class="v">3–4 weeks from approval</span></div>' +
           '</div>' +
         '</div>' +
 
         // === Itemised quote table ===
-        '<h3 class="pdf-section-title">Itemised Estimate</h3>' +
+        '<h3 class="pdf-section-title">Itemised Estimate (Calculator)</h3>' +
         '<table class="pdf-table">' +
           '<thead><tr>' +
             '<th class="is-center" style="width:5%">#</th>' +
-            '<th style="width:48%">Item &amp; Specifications</th>' +
-            '<th class="is-center" style="width:9%">Qty</th>' +
-            '<th class="is-numeric" style="width:20%">Estimate Range</th>' +
-            '<th class="is-numeric" style="width:18%">Amount (Mid)</th>' +
+            '<th style="width:58%">Item &amp; Specifications</th>' +
+            '<th class="is-center" style="width:10%">Qty</th>' +
+            '<th class="is-numeric" style="width:27%">Amount (₹)</th>' +
           '</tr></thead>' +
           '<tbody>' + rowsHtml + '</tbody>' +
         '</table>' +
@@ -839,15 +1683,14 @@
         // === Totals ===
         '<div class="pdf-totals">' +
           '<table class="pdf-totals-table">' +
-            '<tr><td class="label">Subtotal (mid estimate)</td><td class="value">' + fmtINR(subtotalMid) + '</td></tr>' +
+            '<tr><td class="label">Subtotal (calculator)</td><td class="value">' + fmtINR(subtotalExact) + '</td></tr>' +
             '<tr><td class="label">GST @ 18% <span style="color:#B45309;font-weight:600">(always extra)</span></td><td class="value">' + fmtINR(gstMid) + '</td></tr>' +
             '<tr><td class="label">Transportation</td><td class="value">' +
               (grandMid >= 1500000
                 ? '<span style="color:#047857;font-weight:700">FREE *</span>'
                 : '<span style="color:#B45309">At actuals</span>')
             + '</td></tr>' +
-            '<tr><td class="label" style="font-size:7.5pt">Estimate Range (incl. GST)</td><td class="value" style="font-weight:600;color:#475569">' + fmtINR(Math.round(totalRange.min * 1.18)) + ' – ' + fmtINR(Math.round(totalRange.max * 1.18)) + '</td></tr>' +
-            '<tr class="grand"><td class="label">Grand Total</td><td class="value">' + fmtINR(grandMid) + '</td></tr>' +
+            '<tr class="grand"><td class="label">Grand Total (incl. GST)</td><td class="value">' + fmtINR(grandMid) + '</td></tr>' +
           '</table>' +
         '</div>' +
 
@@ -869,13 +1712,18 @@
         // === Amount in words ===
         '<div class="pdf-amount-words"><strong>Amount in words:</strong> ' + numToIndianWords(grandMid) + ' (inclusive of GST · indicative).</div>' +
 
+        '</section>' +
+
+        '<section class="pdf-block pdf-block--legal">' +
+
         // === Terms + Bank ===
         '<div class="pdf-grid-2">' +
           '<div class="pdf-card">' +
             '<h3>Terms &amp; Conditions</h3>' +
             '<ol class="pdf-terms-list">' +
-              '<li>This is a <strong>budgetary estimate</strong> generated from on-site indicative inputs. Final quotation is issued only after a free physical site measurement by our technical team.</li>' +
-              '<li>Prices are valid for <strong>30 days</strong> from the date above and are subject to revision based on actual aluminium &amp; glass market rates at order time.</li>' +
+              '<li>This is a <strong>budgetary estimate</strong> from calculator inputs. After <strong>site visit</strong>, <strong>final site approval</strong> is taken on site by our technical team; only then is a binding quotation issued.</li>' +
+              '<li><strong>Calculator sizes:</strong> If the customer places the order using sizes entered in this calculator, supply will be for those exact sizes only. If actual site openings differ from calculator inputs, WoodenMax is <strong>not responsible</strong> for resizing, rework, or extra cost.</li>' +
+              '<li>Prices are valid for <strong>7 days</strong> from the date above (valid till ' + escapeHtml(validTill) + ') and are subject to revision based on actual aluminium &amp; glass market rates at order time.</li>' +
               '<li><strong>GST @ 18% is always extra</strong> on the basic value. All quoted prices in this document are pre-tax unless explicitly marked "incl. GST".</li>' +
               '<li><strong>Transportation policy:</strong> Delivery is <strong>FREE</strong> when both conditions are met &mdash; (a) total order value &#8805; <strong>&#8377;15 Lakh</strong> (basic, pre-tax), AND (b) the delivery site is within <strong>1,000 km by road</strong> from our Hyderabad branch. For orders below either threshold, road freight is charged at actuals at the time of confirmation.</li>' +
               '<li>Payment terms: <strong>50% advance</strong> with order confirmation, <strong>40%</strong> before dispatch from factory, <strong>10%</strong> on installation completion.</li>' +
@@ -890,8 +1738,8 @@
             '<h3>Payment Details</h3>' +
             '<div class="pdf-bank-row"><span class="k">Account Name</span><span class="v">WoodenMax Architectural Elements</span></div>' +
             '<div class="pdf-bank-row"><span class="k">Bank</span><span class="v">HDFC Bank</span></div>' +
-            '<div class="pdf-bank-row"><span class="k">Account No.</span><span class="v">5010 0123 4567 89</span></div>' +
-            '<div class="pdf-bank-row"><span class="k">IFSC</span><span class="v">HDFC0001234</span></div>' +
+            '<div class="pdf-bank-row"><span class="k">Account No.</span><span class="v">50200092938110</span></div>' +
+            '<div class="pdf-bank-row"><span class="k">IFSC</span><span class="v">HDFC0001996</span></div>' +
             '<div class="pdf-bank-row"><span class="k">Branch</span><span class="v">Nampally, Hyderabad</span></div>' +
             '<div class="pdf-bank-row"><span class="k">UPI</span><span class="v">pay@woodenmax</span></div>' +
             '<div class="pdf-bank-row"><span class="k">GSTIN</span><span class="v">36ARWPA9740L1Z3</span></div>' +
@@ -902,6 +1750,10 @@
             '<div class="pdf-bank-row"><span class="k">Web</span><span class="v">woodenmax.in</span></div>' +
           '</div>' +
         '</div>' +
+
+        '</section>' +
+
+        '<section class="pdf-block pdf-block--closing">' +
 
         // === Signatures ===
         '<div class="pdf-signatures">' +
@@ -929,7 +1781,7 @@
           // numbers above.  The avatar is the same Founder-Naseem.webp
           // used across the website (SEO + EEAT consistency).
           '<div class="pdf-eeat-founder">' +
-            '<img class="pdf-eeat-founder-photo" src="/images/Founder-Naseem.webp" alt="Naseem Ahmad — Founder of WoodenMax" width="46" height="46">' +
+            '<img class="pdf-eeat-founder-photo" src="' + escapeHtml(founderImg) + '" alt="Naseem Ahmad — Founder of WoodenMax" width="46" height="46">' +
             '<div class="pdf-eeat-founder-text">' +
               '<strong>Personally backed by Naseem Ahmad</strong>' +
               '<span>Founder &amp; Managing Partner · WoodenMax Architectural Elements · Hyderabad · 2014</span>' +
@@ -945,7 +1797,279 @@
           '<div class="right">+91 78953 28080<br>info@woodenmax.com<br>www.woodenmax.in</div>' +
         '</div>' +
 
+        '</section>' +
+
       '</div>';
+  }
+
+  function pdfAssetUrl (relPath) {
+    var clean = String(relPath || '').replace(/^\//, '');
+    var pathname = (location.pathname || '').replace(/\\/g, '/');
+    var parts = pathname.replace(/^\/+/, '').split('/').filter(Boolean);
+    if (parts.length && /^[a-zA-Z]:$/.test(parts[0])) parts.shift();
+    var last = parts[parts.length - 1] || '';
+    var depth = (last && last.indexOf('.') !== -1) ? parts.length - 1 : parts.length;
+    var prefix = depth <= 0 ? '' : new Array(depth + 1).join('../');
+    var rel = prefix + clean;
+    try {
+      if (/^https?:$/i.test(location.protocol) && location.href) {
+        return new URL(rel, location.href).href;
+      }
+    } catch (e) {}
+    return rel;
+  }
+
+  var _wmPrintFrame = null;
+
+  var WM_RECEIPT_INLINE_PRINT_CSS =
+    'html,body{margin:0;padding:0;background:#fff;color:#0f172a;font:400 10pt/1.45 -apple-system,Segoe UI,Roboto,sans-serif}' +
+    '#wmPaymentReceiptStage,#calcPrintStage{display:block!important;position:static!important;width:auto!important;height:auto!important;overflow:visible!important}' +
+    '.pdf-doc{max-width:100%;padding:0}' +
+    '.pdf-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1pt solid #0f172a;padding-bottom:8pt;margin-bottom:10pt}' +
+    '.pdf-brand-text strong{font-size:14pt}' +
+    '.pdf-meta-block .row{display:flex;justify-content:space-between;gap:12pt;font-size:9pt;margin:2pt 0}' +
+    '.pdf-meta-block .label{color:#64748b}' +
+    '.pdf-spec-mini{width:100%;border-collapse:collapse;margin:8pt 0;font-size:9pt}' +
+    '.pdf-spec-mini th,.pdf-spec-mini td{border:0.5pt solid #cbd5e1;padding:5pt 6pt;text-align:left}' +
+    '.pdf-spec-mini th{background:#f1f5f9}' +
+    '.pdf-spec-mini .is-numeric{text-align:right;white-space:nowrap}' +
+    '.wm-receipt-timeline{margin:6pt 0 10pt;padding-left:14pt;font-size:9pt}' +
+    '.cart-foot-note{margin-top:12pt;font-size:8pt;color:#64748b}' +
+    'h3{font-size:10pt;margin:10pt 0 4pt}';
+
+  function printHtmlInIframe (opts) {
+    opts = opts || {};
+    var title = opts.title || 'WoodenMax';
+    var containerId = opts.containerId || 'wmPrintDoc';
+    var containerClass = opts.containerClass || '';
+    var innerHtml = opts.innerHtml || '';
+    if (!innerHtml.trim()) {
+      window.print();
+      return;
+    }
+
+    if (_wmPrintFrame && _wmPrintFrame.parentNode) {
+      _wmPrintFrame.parentNode.removeChild(_wmPrintFrame);
+    }
+
+    var iframe = document.createElement('iframe');
+    iframe.setAttribute('title', title);
+    iframe.setAttribute('aria-hidden', 'true');
+    iframe.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;opacity:0;pointer-events:none;';
+    _wmPrintFrame = iframe;
+
+    var cssHref = pdfAssetUrl('css/calculator-mobile-ux.css');
+    var docHtml =
+      '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">' +
+      '<title>' + escapeHtml(title) + '</title>' +
+      '<link rel="stylesheet" href="' + cssHref.replace(/"/g, '%22') + '">' +
+      '<style>' + WM_RECEIPT_INLINE_PRINT_CSS + (opts.extraStyle || '') + '</style>' +
+      '</head><body>' +
+      '<div id="' + escapeHtml(containerId) + '" class="' + escapeHtml(containerClass) + '">' + innerHtml + '</div>' +
+      '</body></html>';
+
+    document.body.appendChild(iframe);
+
+    var iwin = iframe.contentWindow;
+    var idoc = iwin.document;
+    idoc.open();
+    idoc.write(docHtml);
+    idoc.close();
+
+    var printed = false;
+    function runPrint () {
+      if (printed) return;
+      printed = true;
+      try {
+        iwin.focus();
+        var cleanup = function () {
+          iwin.removeEventListener('afterprint', cleanup);
+          setTimeout(function () {
+            if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+            _wmPrintFrame = null;
+          }, 200);
+        };
+        iwin.addEventListener('afterprint', cleanup);
+        iwin.print();
+      } catch (err) {
+        if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
+        _wmPrintFrame = null;
+        window.print();
+      }
+    }
+
+    function waitForCss (then) {
+      var links = idoc.querySelectorAll('link[rel="stylesheet"]');
+      if (!links.length) {
+        then();
+        return;
+      }
+      var left = links.length;
+      var finished = false;
+      function tick () {
+        if (finished) return;
+        left -= 1;
+        if (left <= 0) {
+          finished = true;
+          setTimeout(then, 80);
+        }
+      }
+      Array.prototype.forEach.call(links, function (link) {
+        if (link.sheet) tick();
+        else {
+          link.addEventListener('load', tick);
+          link.addEventListener('error', tick);
+        }
+      });
+      setTimeout(function () {
+        if (!finished) {
+          finished = true;
+          then();
+        }
+      }, 1200);
+    }
+
+    iframe.onload = function () { waitForCss(runPrint); };
+    setTimeout(function () { waitForCss(runPrint); }, 50);
+  }
+
+  function printQuotePdf () {
+    var stage = document.getElementById('calcPrintStage');
+    if (!stage || !stage.innerHTML.trim()) {
+      window.print();
+      return;
+    }
+    printHtmlInIframe({
+      title: 'WoodenMax Budget Quotation',
+      containerId: 'calcPrintStage',
+      containerClass: 'calc-print-stage',
+      innerHtml: stage.innerHTML
+    });
+  }
+
+  function jsPathPrefix () {
+    var s = document.querySelector('script[src*="calculator-mobile-ux.js"]');
+    if (s && s.src) {
+      return s.src.replace(/calculator-mobile-ux\.js(?:\?.*)?$/i, '');
+    }
+    var pathname = window.location.pathname.replace(/\\/g, '/');
+    var parts = pathname.replace(/^\/+/, '').split('/').filter(Boolean);
+    var last = parts[parts.length - 1] || '';
+    var depth = (last && last.indexOf('.') !== -1) ? parts.length - 1 : parts.length;
+    if (depth < 0) depth = 0;
+    return (depth === 0 ? '' : new Array(depth + 1).join('../')) + 'js/';
+  }
+
+  function ensureRazorpayModule () {
+    return new Promise(function (resolve, reject) {
+      if (window.WoodenMaxRazorpay && typeof window.WoodenMaxRazorpay.startCheckout === 'function') {
+        resolve();
+        return;
+      }
+      if (!document.querySelector('script[src*="razorpay-checkout.js"]')) {
+        var tag = document.createElement('script');
+        tag.src = jsPathPrefix() + 'razorpay-checkout.js';
+        tag.defer = true;
+        tag.onload = tag.onerror = function () {
+          if (window.WoodenMaxRazorpay) resolve();
+          else reject(new Error('Payment script could not load'));
+        };
+        document.body.appendChild(tag);
+        return;
+      }
+      var tries = 0;
+      var wait = setInterval(function () {
+        tries += 1;
+        if (window.WoodenMaxRazorpay) {
+          clearInterval(wait);
+          resolve();
+        } else if (tries > 100) {
+          clearInterval(wait);
+          reject(new Error('Payment module timeout'));
+        }
+      }, 50);
+    });
+  }
+
+  function handleBookOrderPayment (lead, items, submit) {
+    ensureRazorpayModule().then(function () {
+      runBookOrderPayment(lead, items, submit);
+    }).catch(function () {
+      if (submit) submit.classList.remove('is-loading');
+      showToast('warn', 'Payment module not loaded. Refresh the page (Ctrl+F5) or call <strong>+91 78953 28080</strong>.');
+    });
+  }
+
+  function runBookOrderPayment (lead, items, submit) {
+    if (!window.WoodenMaxRazorpay || typeof window.WoodenMaxRazorpay.startBookingCheckout !== 'function') {
+      if (submit) submit.classList.remove('is-loading');
+      showToast('warn', 'Payment module not loaded. Refresh the page or call <strong>+91 78953 28080</strong>.');
+      return;
+    }
+
+    var checkoutFn = window.WoodenMaxRazorpay.startCheckout || window.WoodenMaxRazorpay.startBookingCheckout;
+    var modal = $('#calcFormModal');
+    var payChoice = 'booking';
+    if (modal) {
+      payChoice = modal.getAttribute('data-pay-choice') || 'booking';
+      var picked = modal.querySelector('input[name="pay_choice"]:checked');
+      if (picked && !isCartMixed(items)) payChoice = picked.value;
+    }
+    if (isCartMixed(items)) payChoice = 'booking';
+
+    checkoutFn({
+      lead: lead,
+      items: items,
+      payChoice: payChoice,
+      onStatus: function (_phase, msg) {
+        var label = submit && submit.querySelector('.calc-form-submit-label');
+        if (label && msg) label.textContent = msg;
+      }
+    }).then(function (result) {
+      var plan = result.plan || getCartPaymentPlan(items, payChoice);
+      var paymentMeta = {
+        payment_id: result.payment && result.payment.razorpay_payment_id,
+        order_id: result.payment && result.payment.razorpay_order_id,
+        payment_mode: plan.mode,
+        paid_amount_inr: plan.amountInr,
+        paid_amount_paise: plan.amountPaise,
+        receipt_no: makeReceiptNumber()
+      };
+      return sendLeadEmail(lead, items, 'order-booking', paymentMeta).then(function (emailRes) {
+        if (submit) submit.classList.remove('is-loading');
+        closeForm();
+        closeSheet();
+        printPaymentReceipt(lead, items, paymentMeta);
+        var paidMsg = plan.mode === 'mirror_full'
+          ? ('<strong>Mirror order confirmed.</strong> ' + fmtINR(plan.amountInr) + ' received. Receipt opened — save or print. ')
+          : ('<strong>Order confirmed.</strong> ₹1,000 received. Receipt opened. Balance after site size check. ');
+        showToast(
+          'success',
+          paidMsg + 'Details emailed to you' +
+            (lead.email ? ' (<strong>' + escapeHtml(lead.email) + '</strong>)' : '') +
+            ' &amp; WoodenMax. Payment ID: <strong>' + escapeHtml(paymentMeta.payment_id || '—') + '</strong>.'
+        );
+        if (!emailRes || !emailRes.ok) {
+          showToast(
+            'warn',
+            'Payment succeeded but email failed — keep your receipt print &amp; WhatsApp +91 78953 28080.'
+          );
+        }
+      });
+    }).catch(function (err) {
+      if (submit) submit.classList.remove('is-loading');
+      var msg = (err && err.message) ? err.message : 'Payment could not be completed';
+      if (window.WoodenMaxRazorpay && window.WoodenMaxRazorpay.formatPaymentError) {
+        msg = window.WoodenMaxRazorpay.formatPaymentError(err || msg);
+      }
+      if (/cancel/i.test(msg)) {
+        showToast('warn', 'Payment cancelled. You can try again when ready.');
+      } else if (/international/i.test(msg) || /authentication failed|keys galat/i.test(msg)) {
+        showToast('warn', msg);
+      } else {
+        showToast('warn', escapeHtml(msg) + ' — call <strong>+91 78953 28080</strong> if amount was debited.');
+      }
+    });
   }
 
   function handleFormSubmit (e) {
@@ -961,15 +2085,18 @@
     var submit = $('#calcFormSubmit');
     if (submit) submit.classList.add('is-loading');
 
-    // Capture exactly what the lead is asking for — for "Export PDF"
-    // we use the full cart; for "Get Exact" we lead with the live
-    // calc state on this page and append other cart entries as context.
     var items = snapshotItems(intent);
 
-    // Fire the email in the background.  We deliberately don't make
-    // the user wait — the PDF / exact-price reveal proceeds as soon as
-    // the email round-trips OR after the 4-second safety timeout,
-    // whichever comes first.
+    if (intent === 'book-order') {
+      if (!items.length) {
+        if (submit) submit.classList.remove('is-loading');
+        showToast('warn', '<strong>Quote cart is empty.</strong> Add products from the calculator, then book order.');
+        return;
+      }
+      handleBookOrderPayment(lead, items, submit);
+      return;
+    }
+
     var emailPromise = sendLeadEmail(lead, items, intent);
 
     emailPromise.then(function (result) {
@@ -978,10 +2105,13 @@
 
       if (intent === 'export-pdf') {
         closeSheet();
-        buildPrintStage(lead);
-        setTimeout(function () { window.print(); }, 250);
+        if (!items.length) {
+          showToast('warn', '<strong>Quote cart is empty.</strong> Add products from the calculator, then download PDF again.');
+          return;
+        }
+        buildPrintStage(lead, items);
+        setTimeout(function () { printQuotePdf(); }, 400);
       } else {
-        // intent === 'exact'
         showExactPriceInline(lead);
       }
 
@@ -1004,16 +2134,88 @@
   }
 
   // ---------- Add-to-Cart button feedback ----------
-  function flashAddedFeedback (btn) {
+  function flashAddedFeedback (btn, count) {
     if (!btn) return;
     var label = btn.querySelector('span');
     var orig = label ? label.textContent : '';
     btn.classList.add('is-success');
-    if (label) label.textContent = '✓ Added to cart';
+    if (label) {
+      label.textContent = (count && count > 1)
+        ? ('✓ ' + count + ' added')
+        : '✓ Added to cart';
+    }
     setTimeout(function () {
       btn.classList.remove('is-success');
       if (label) label.textContent = orig;
     }, 1500);
+  }
+
+  function buildCartShareText (cart) {
+    var lead = readLead() || { name: 'Customer', mobile: '', city: '' };
+    var lines = [
+      'WoodenMax — Quote Summary',
+      'Quote for: ' + (lead.name || 'Customer') + (lead.city ? ' · ' + lead.city : ''),
+      ''
+    ];
+    cart.forEach(function (it, i) {
+      lines.push((i + 1) + '. ' + displayProductName(it));
+      if (it.area) lines.push('   Size: ' + it.area);
+      (it.details || []).forEach(function (d) {
+        lines.push('   ' + d.label + ': ' + d.value);
+      });
+      lines.push('   Amount: ' + fmtINR(itemExactAmount(it)));
+      lines.push('');
+    });
+    var total = cartGrandTotal(cart);
+    lines.push('Subtotal: ' + fmtINR(total.exact));
+    lines.push('GST 18% extra · Transport per policy');
+    lines.push('woodenmax.in');
+    return lines.join('\n');
+  }
+
+  function shareCartWhatsApp () {
+    var cart = readCart();
+    if (!cart.length) return;
+    var lead = readLead();
+    var text = buildCartShareText(cart);
+    var phone = '917895328080';
+    window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    if (lead && lead.mobile) {
+      showToast('success', 'Opening WhatsApp with your full quote breakdown. Our team: <strong>+91 78953 28080</strong>');
+    }
+  }
+
+  function shareCartEmail () {
+    var cart = readCart();
+    if (!cart.length) return;
+    var lead = readLead() || {};
+    var body = buildLeadEmailBody(lead, cart, 'export-pdf');
+    var subject = 'WoodenMax Quote — ' + (lead.name || 'Customer') + ' — ' + cart.length + ' item(s)';
+    var to = lead.email || 'info@woodenmax.com';
+    window.location.href = 'mailto:' + encodeURIComponent(to) +
+      '?subject=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+  }
+
+  function injectCalcActionRow () {
+    if ($('#calcActionRow')) return;
+    var calc = getCalcContainer();
+    if (!calc) return;
+    var priceDisplay = calc.querySelector('.calc-price-display') ||
+      $('#catalogCalcResult') ||
+      $('#pricing-output');
+    if (!priceDisplay) return;
+    var row = document.createElement('div');
+    row.className = 'calc-action-row';
+    row.id = 'calcActionRow';
+    row.hidden = true;
+    row.innerHTML =
+      '<button type="button" class="calc-add-cart-btn" data-action="add-to-cart">' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>' +
+        '<span>Add to Quote Cart</span>' +
+      '</button>' +
+      '<p class="calc-action-note">Same details as Get Exact Price — add each opening, then open cart for PDF, WhatsApp or email.</p>';
+    priceDisplay.insertAdjacentElement('afterend', row);
   }
 
   // ---------- Auto-injected scaffolding ----------
@@ -1021,32 +2223,27 @@
   // print stage are not authored in the HTML. We inject them once if
   // they're missing so every calculator page gets the new UX without
   // requiring per-page HTML edits.
-  function buildScaffolding () {
-    if (!getCalcContainer()) return; // no calculator on this page
-    if (document.getElementById('calcStickyBar')) return; // already present
+  function bindAddToCartClick (btn, bar) {
+    if (!btn || btn._wmCartBound) return;
+    btn._wmCartBound = true;
+    btn.addEventListener('click', function () {
+      var before = readCart().length;
+      var item = addCurrentToCart();
+      if (item) {
+        var added = readCart().length - before;
+        flashAddedFeedback(btn, added);
+        if (bar) updateStickyBar(bar);
+        var sheet = $('#calcBottomSheet');
+        if (sheet && sheet.classList.contains(SHEET_OPEN)) renderSheet();
+        showToast(
+          'success',
+          '<strong>' + (added > 1 ? added + ' openings added' : 'Added to quote cart') + '.</strong> Open cart → Download PDF or WhatsApp.'
+        );
+      }
+    });
+  }
 
-    var fragment = document.createDocumentFragment();
-    var holder = document.createElement('div');
-    holder.setAttribute('data-calc-mobile-ux-scaffold', '1');
-    holder.innerHTML =
-      // Sticky bottom price bar
-      '<div class="calc-sticky-bar" id="calcStickyBar">' +
-        '<div class="calc-sticky-bar-content">' +
-          '<div class="calc-sticky-info">' +
-            '<span class="calc-sticky-label">Live Estimate</span>' +
-            '<span class="calc-sticky-price is-placeholder">Enter sizes to see price</span>' +
-          '</div>' +
-          '<button type="button" class="calc-sticky-exact" data-form-open="exact" hidden>' +
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>' +
-            '<span>Get Exact</span>' +
-          '</button>' +
-          '<button type="button" class="calc-sticky-cart" data-sheet-toggle aria-label="Open quote cart">' +
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>' +
-            '<span class="calc-sticky-cart-count" id="calcCartCount">0</span>' +
-          '</button>' +
-        '</div>' +
-      '</div>' +
-
+  var CART_SHEET_HTML =
       // Bottom sheet (Quote Cart)
       '<div class="calc-bottom-sheet" id="calcBottomSheet" aria-hidden="true" role="dialog" aria-label="Your quote cart">' +
         '<div class="calc-sheet-backdrop"></div>' +
@@ -1070,6 +2267,12 @@
           '</div>' +
           '<form id="calcLeadForm" class="calc-form-body" onsubmit="return false;">' +
             '<p class="calc-form-intro" id="calcFormIntro">Fill your details to download a branded quote PDF. We will email a copy too if you share it.</p>' +
+            '<div class="calc-pay-choice-block" id="calcPayChoiceBlock" hidden>' +
+              '<p class="calc-pay-choice-title">Mirror payment option</p>' +
+              '<label class="calc-pay-choice-opt"><input type="radio" name="pay_choice" value="mirror_full"> Pay full order (exact total) — <strong>non-refundable after 3 days</strong></label>' +
+              '<label class="calc-pay-choice-opt"><input type="radio" name="pay_choice" value="booking" checked> ₹1,000 booking — <strong>returnable</strong> before production starts</label>' +
+            '</div>' +
+            '<div class="calc-pay-help calc-pay-help--loading" id="calcPayHelp" hidden>Loading payment mode…</div>' +
             '<div class="calc-form-grid">' +
               '<div class="calc-form-row"><label>Name <em>*</em></label><input type="text" name="name" placeholder="Your full name" required autocomplete="name"></div>' +
               '<div class="calc-form-row"><label>Mobile <em>*</em></label><input type="tel" name="mobile" placeholder="10-digit mobile" pattern="[0-9]{10}" required autocomplete="tel"></div>' +
@@ -1095,86 +2298,107 @@
         '</div>' +
       '</div>' +
 
-      // Hidden print stage (filled just before window.print())
-      '<div id="calcPrintStage" class="calc-print-stage" aria-hidden="true"></div>';
+      '<button type="button" class="wm-global-quote-cart" id="wmGlobalQuoteCart" aria-label="Open quote cart">' +
+        '<span class="wm-quote-cart-total" id="wmQuoteCartTotal" hidden></span>' +
+        '<span class="wm-quote-cart-fab-main">' +
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+            '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/>' +
+          '</svg>' +
+          '<span class="wm-global-quote-cart-label">Cart</span>' +
+          '<span class="wm-global-quote-cart-count">0</span>' +
+        '</span>' +
+      '</button>';
 
-    while (holder.firstChild) fragment.appendChild(holder.firstChild);
-    document.body.appendChild(fragment);
+  function ensurePrintStage () {
+    var stage = document.getElementById('calcPrintStage');
+    if (!stage) {
+      stage = document.createElement('div');
+      stage.id = 'calcPrintStage';
+      stage.className = 'calc-print-stage';
+      stage.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(stage);
+      return;
+    }
+    if (stage.parentElement !== document.body) {
+      document.body.appendChild(stage);
+    }
   }
 
-  // ---------- Init ----------
-  function init () {
-    try { buildScaffolding(); } catch (e) {}
+  function buildCartScaffolding () {
+    ensurePrintStage();
+    if (document.getElementById('calcBottomSheet')) return;
+    var holder = document.createElement('div');
+    holder.setAttribute('data-calc-mobile-ux-scaffold', 'cart');
+    holder.innerHTML = CART_SHEET_HTML;
+    document.body.appendChild(holder);
+  }
 
-    var bar   = $('#calcStickyBar') || $('.calc-sticky-bar');
+  function buildCalcStickyBar () {
+    if (!getCalcContainer()) return;
+    if (document.getElementById('calcStickyBar')) {
+      injectCalcActionRow();
+      return;
+    }
+
+    var holder = document.createElement('div');
+    holder.setAttribute('data-calc-mobile-ux-scaffold', 'sticky');
+    holder.innerHTML =
+      '<div class="calc-sticky-bar" id="calcStickyBar">' +
+        '<div class="calc-sticky-bar-content">' +
+          '<div class="calc-sticky-info">' +
+            '<span class="calc-sticky-label">Live Estimate</span>' +
+            '<span class="calc-sticky-price is-placeholder">Enter sizes to see price</span>' +
+          '</div>' +
+          '<button type="button" class="calc-sticky-add" data-action="add-to-cart-sticky" hidden title="Add current config to cart">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>' +
+            '<span>Add</span>' +
+          '</button>' +
+          '<button type="button" class="calc-sticky-exact" data-form-open="exact" hidden>' +
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>' +
+            '<span>Get Exact</span>' +
+          '</button>' +
+        '</div>' +
+      '</div>';
+
+    document.body.appendChild(holder);
+    injectCalcActionRow();
+  }
+
+  function buildScaffolding () {
+    buildCartScaffolding();
+    buildCalcStickyBar();
+  }
+
+  var cartUiWired = false;
+
+  function wireGlobalCartUi () {
+    if (cartUiWired) return;
+    cartUiWired = true;
+
     var sheet = $('#calcBottomSheet');
     var modal = $('#calcFormModal');
-    var calc  = getCalcContainer();
 
-    if (!bar || !calc) return;
-    document.body.classList.add(BODY_FLAG);
-
-    updateStickyBar(bar);
-    syncAddToCartRow();
-    setTimeout(function () { bar.classList.add(BAR_VISIBLE); }, 350);
-
-    // Live updates as the user interacts
-    var debounceTimer = null;
-    function scheduleUpdate () {
-      if (debounceTimer) clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(function () {
-        updateStickyBar(bar);
-        syncAddToCartRow();
-      }, 150);
-    }
-    ['input','change','click'].forEach(function (evt) {
-      calc.addEventListener(evt, scheduleUpdate, true);
-    });
-    var totalEl = $('#calc-result-total');
-    if (totalEl && typeof MutationObserver !== 'undefined') {
-      new MutationObserver(scheduleUpdate).observe(totalEl, {
-        childList: true, characterData: true, subtree: true
+    var globalBtn = document.getElementById('wmGlobalQuoteCart');
+    if (globalBtn) {
+      globalBtn.addEventListener('click', function () {
+        if (sheet && sheet.classList.contains(SHEET_OPEN)) closeSheet(); else openSheet();
       });
     }
 
-    // Inline "Add to Cart" button (inside calculator)
-    var addBtn = $('[data-action="add-to-cart"]');
-    if (addBtn) {
-      addBtn.addEventListener('click', function () {
-        var item = addCurrentToCart();
-        if (item) {
-          flashAddedFeedback(addBtn);
-          updateStickyBar(bar);
-          if (sheet && sheet.classList.contains(SHEET_OPEN)) renderSheet();
-        }
-      });
-    }
-
-    // Sticky bar — Get Exact button
-    var exactBtn = bar.querySelector('[data-form-open="exact"]');
-    if (exactBtn) exactBtn.addEventListener('click', function () { openForm('exact'); });
-
-    // Sticky bar — Cart toggle
-    var cartBtn = bar.querySelector('[data-sheet-toggle]');
-    if (cartBtn) cartBtn.addEventListener('click', function () {
-      if (sheet && sheet.classList.contains(SHEET_OPEN)) closeSheet(); else openSheet();
-    });
-
-    // Sheet: backdrop / close
     if (sheet) {
       var bd = sheet.querySelector('.calc-sheet-backdrop');
       if (bd) bd.addEventListener('click', closeSheet);
       var cl = sheet.querySelector('.calc-sheet-close');
       if (cl) cl.addEventListener('click', closeSheet);
 
-      // Delegated cart actions
       sheet.addEventListener('click', function (e) {
         var t = e.target.closest && e.target.closest('[data-cart-action]');
         if (!t) return;
         var action = t.getAttribute('data-cart-action');
+        var bar = $('#calcStickyBar');
         if (action === 'remove') {
           removeFromCart(t.getAttribute('data-cart-id'));
-          updateStickyBar(bar);
+          if (bar) updateStickyBar(bar);
           renderSheet();
         } else if (action === 'add-more' || action === 'close') {
           closeSheet();
@@ -1182,10 +2406,24 @@
           if (c) setTimeout(function () { c.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 350);
         } else if (action === 'export-pdf') {
           openForm('export-pdf');
+        } else if (action === 'book-order') {
+          var cartItems = readCart();
+          if (!cartItems.length) {
+            showToast('warn', '<strong>Cart is empty.</strong> Add calculator sizes first, then book order.');
+            return;
+          }
+          if (isCartMixed(cartItems)) {
+            openForm('book-order', 'booking');
+            return;
+          }
+          openForm('book-order', t.getAttribute('data-pay-choice') || 'booking');
+        } else if (action === 'share-whatsapp') {
+          shareCartWhatsApp();
+        } else if (action === 'share-email') {
+          shareCartEmail();
         }
       });
 
-      // Swipe-down to close (touch)
       var grabber = sheet.querySelector('.calc-sheet-grabber');
       var panel   = sheet.querySelector('.calc-sheet-panel');
       if (grabber && panel) {
@@ -1208,23 +2446,106 @@
       }
     }
 
-    // Form modal: backdrop / close
     if (modal) {
       var fbd = modal.querySelector('.calc-form-backdrop');
       if (fbd) fbd.addEventListener('click', closeForm);
       var fcl = modal.querySelector('.calc-form-close');
       if (fcl) fcl.addEventListener('click', closeForm);
-
       var form = $('#calcLeadForm');
-      if (form) form.addEventListener('submit', handleFormSubmit);
+      if (form && !form._wmLeadBound) {
+        form._wmLeadBound = true;
+        form.addEventListener('submit', handleFormSubmit);
+      }
+      var payRadios = modal && modal.querySelectorAll('input[name="pay_choice"]');
+      if (payRadios && !modal._wmPayChoiceBound) {
+        modal._wmPayChoiceBound = true;
+        Array.prototype.forEach.call(payRadios, function (r) {
+          r.addEventListener('change', function () {
+            syncBookOrderFormUi(r.value);
+          });
+        });
+      }
     }
 
-    // Escape key — close in order: form → sheet
-    document.addEventListener('keydown', function (e) {
-      if (e.key !== 'Escape') return;
-      if (modal && modal.classList.contains(MODAL_OPEN)) { closeForm(); return; }
-      if (sheet && sheet.classList.contains(SHEET_OPEN)) { closeSheet(); }
+    if (!window._wmCartEscapeBound) {
+      window._wmCartEscapeBound = true;
+      document.addEventListener('keydown', function (e) {
+        if (e.key !== 'Escape') return;
+        var m = $('#calcFormModal');
+        var s = $('#calcBottomSheet');
+        if (m && m.classList.contains(MODAL_OPEN)) { closeForm(); return; }
+        if (s && s.classList.contains(SHEET_OPEN)) { closeSheet(); }
+      });
+    }
+
+    window.addEventListener('storage', function (e) {
+      if (e.key === STORAGE_KEY) syncCartBadges();
     });
+    window.addEventListener('pageshow', function () {
+      syncCartBadges();
+      var b = $('#calcStickyBar');
+      if (b) updateStickyBar(b);
+    });
+  }
+
+  function initGlobalCart () {
+    try { ensurePrintStage(); } catch (e0) {}
+    try { buildCartScaffolding(); } catch (e) {}
+    try { wireGlobalCartUi(); } catch (e2) {}
+    syncCartBadges();
+  }
+
+  // ---------- Init ----------
+  function init () {
+    initGlobalCart();
+
+    try { buildCalcStickyBar(); } catch (e) {}
+    try { injectCalcActionRow(); } catch (e2) {}
+
+    var bar   = $('#calcStickyBar') || $('.calc-sticky-bar');
+    var sheet = $('#calcBottomSheet');
+    var calc  = getCalcContainer();
+
+    if (!calc) return;
+    if (!bar) {
+      try { buildCalcStickyBar(); } catch (e3) {}
+      bar = $('#calcStickyBar');
+    }
+    if (!bar) return;
+    document.body.classList.add(BODY_FLAG);
+    syncCartBadges();
+
+    updateStickyBar(bar);
+    syncAddToCartRow();
+    setTimeout(function () { bar.classList.add(BAR_VISIBLE); }, 350);
+
+    var debounceTimer = null;
+    function scheduleUpdate () {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function () {
+        updateStickyBar(bar);
+        syncAddToCartRow();
+      }, 150);
+    }
+    ['input','change','click'].forEach(function (evt) {
+      calc.addEventListener(evt, scheduleUpdate, true);
+    });
+    document.addEventListener('wm-quote-price-update', scheduleUpdate);
+    var totalEl = $('#calc-result-total');
+    if (totalEl && typeof MutationObserver !== 'undefined') {
+      new MutationObserver(scheduleUpdate).observe(totalEl, {
+        childList: true, characterData: true, subtree: true
+      });
+    }
+
+    $$('[data-action="add-to-cart"]').forEach(function (addBtn) {
+      bindAddToCartClick(addBtn, bar);
+    });
+    var addSticky = bar.querySelector('[data-action="add-to-cart-sticky"]');
+    bindAddToCartClick(addSticky, bar);
+
+    var exactBtn = bar.querySelector('[data-form-open="exact"]');
+    if (exactBtn) exactBtn.addEventListener('click', function () { openForm('exact'); });
   }
 
   // ============================================================
@@ -1376,7 +2697,7 @@
         // Compact trust-bar below the 4 cards — converts CTR by hitting
         // free-visit / speed / pricing-transparency / social-proof objections.
         '<div class="eeat-trust-bar" role="note">' +
-          (mirrorCtx ? '' : '<span class="eeat-trust-sitevisit"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> <strong>Free</strong> site visit \u2014 within <strong>48 hrs</strong></span>') +
+          (mirrorCtx ? '' : '<span class="eeat-trust-sitevisit"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg> <strong>Site visit</strong> \u2014 <strong>final approval on site</strong></span>') +
           '<span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 11 3 3 11 3"/><line x1="3" y1="3" x2="11" y2="11"/><polyline points="21 13 21 21 13 21"/><line x1="21" y1="21" x2="13" y2="13"/></svg> <strong>GST 18%</strong> extra, transparently shown</span>' +
           '<span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> <strong>Free transport</strong> on \u20b915L+ orders <em>(\u2264 1,000 km from HYD)</em></span>' +
           '<span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> <strong>4.8/5</strong> from 500+ clients</span>' +
@@ -1438,12 +2759,37 @@
   }
 
   // ---------- Site-wide cleanup bootstrap ----------
+  function hideLegacyInlineCalcForm () {
+    if (!document.body.classList.contains(BODY_FLAG)) return;
+    var legacy = document.getElementById('calc-user-form');
+    if (legacy) {
+      legacy.style.display = 'none';
+      legacy.setAttribute('aria-hidden', 'true');
+    }
+  }
+
   function siteCleanupInit () {
     try { cleanupBodyCtas(); } catch (e) {}
     try { removeFinalCtaSection(); } catch (e) {}
     try { injectEeatBlock(); } catch (e) {}
     try { enforceStrictFabHide(); } catch (e) {}
+    try { hideLegacyInlineCalcForm(); } catch (e) {}
   }
+
+  window.WoodenMaxQuote = {
+    addCurrent: addCurrentToCart,
+    readCart: readCart,
+    openCart: openSheet,
+    openExactForm: function () { openForm('exact'); },
+    openPdfForm: function () { openForm('export-pdf'); },
+    readSnapshot: readQuoteSnapshot,
+    refresh: function () {
+      syncCartBadges();
+      var bar = $('#calcStickyBar');
+      if (bar) updateStickyBar(bar);
+      syncAddToCartRow();
+    }
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function () { init(); siteCleanupInit(); });

@@ -1,5 +1,7 @@
-# Cloudflare Worker — email relay (Web3Forms)
-# Deploy: npx wrangler deploy
+# Cloudflare Worker — email relay (Web3Forms) + Razorpay API
+# Deploy: npm run payments:deploy
+# Set secrets: npx wrangler secret put RAZORPAY_KEY_ID
+#              npx wrangler secret put RAZORPAY_KEY_SECRET
 # https://developers.cloudflare.com/workers/wrangler/configuration/
 
 name = "jolly-field-be49"
