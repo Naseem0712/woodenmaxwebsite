@@ -10,7 +10,8 @@
     "payments:dev": "node server/index.mjs",
     "payments:deploy": "npx wrangler deploy",
     "payments:health": "node -e \"fetch('https://jolly-field-be49.finilexnaseem.workers.dev/health').then(r=>r.json()).then(console.log).catch(console.error)\"",
-    "payments:setup-live": "powershell -ExecutionPolicy Bypass -File tools/set-razorpay-live-secrets.ps1"
+    "payments:setup-live": "powershell -ExecutionPolicy Bypass -File tools/set-razorpay-live-secrets.ps1",
+    "merchant:feed": "python tools/generate_merchant_feed.py"
   },
   "devDependencies": {
     "sharp": "^0.33.5"

@@ -1,114 +1,144 @@
-# WoodenMax – Google Store / Marketplace Setup Guide
+# WoodenMax – Google Shopping / Merchant Center
 
-Site ko Google mein store jaisa dikhane ke liye ye steps follow karein.
-
----
-
-## 1. Product Feed (Already Created)
-
-**File:** `products-feed.xml`  
-**Live URL (deploy ke baad):** `https://woodenmax.in/products-feed.xml`
-
-Is feed mein 25 products hain – aluminium windows, shower partitions, glass railing, louvers, elevation cladding, etc.
+Site par product feed ready hai. Google par dubara listings ke liye **naya ya appeal** + **feed connect** karna hoga.
 
 ---
 
-## 2. Kahan Upload Karna Hai
+## 0. Account band / reject ho gaya — kya karein
 
-### Option A: Google Merchant Center (Recommended – Free Product Listings)
+Google Merchant Center account **suspend** ya **disapproved** tab hota hai jab policy, website, ya business proof fail ho jaye.
 
-1. **Merchant Center account banao**
-   - https://merchantcenter.google.com pe jao
-   - Google account se sign in karo
-   - "Get started" pe click karo
+### Pehle reason dekho (zaroori)
 
-2. **Business verify karo**
-   - Business name: WoodenMax
-   - Country: India
-   - Website: https://woodenmax.in
-   - Verification: Domain ownership verify karo (HTML file ya DNS record)
+1. [Merchant Center](https://merchantcenter.google.com) login karo (purana account agar access ho).
+2. **Account issues** / **Diagnostics** / **Notifications** kholo.
+3. Likely reasons (custom manufacturing sites par common):
+   - Website / return policy / contact mismatch
+   - Misleading prices (feed price ≠ landing page)
+   - Domain verify nahi
+   - Prohibited or unclear product (e.g. “free” misleading)
+   - Duplicate accounts
 
-3. **Product feed add karo**
-   - Left menu → **Products** → **Feeds**
-   - **Add feed** → **Scheduled fetch**
-   - Feed name: `WoodenMax Products`
-   - **Input method:** URL
-   - **File URL:** `https://woodenmax.in/products-feed.xml`
-   - **Fetch schedule:** Daily
-   - Save karo
+### Fix list (appeal se pehle)
 
-4. **Feed process hone do**
-   - 24–48 hours ke andar products process ho jayenge
-   - **Diagnostics** mein errors check karein
+| Check | Kya hona chahiye |
+|--------|------------------|
+| Website live | https://woodenmax.in HTTPS, mobile OK |
+| Contact | Phone +91 78953 28080, info@woodenmax.com har page par |
+| Return policy | `/policies/cancellation-refund-policy.html` clear |
+| Privacy | `/policies/privacy-policy.html` |
+| Prices | Feed = “starting from” / calculator — page par bhi clear ho |
+| Checkout | Custom quote OK — “Book slot ₹1,000” + form (live payment working) |
+| Business | GSTIN 36ARWPA9740L1Z3 Merchant Center Business settings mein |
 
----
+### Appeal / request review
 
-### Option B: Google Sheets (Easiest – Edit karne mein aasaan)
+1. Issues fix karo (upar table).
+2. Merchant Center → issue → **Request review** (agar button ho).
+3. 3–7 din wait. Agar reject phir aaye — reason padh kar dubara fix.
 
-1. **CSV import karo**
-   - `products-feed.csv` file kholo (project folder mein hai)
-   - Apni Google Sheet kholo: https://docs.google.com/spreadsheets/d/1uyz24_lE5J6Fim6fFLZ8oiCbzCbi09cIYqh3pFM4g7Y/
-   - **File** → **Import** → **Upload** → `products-feed.csv` select karo
-   - "Replace spreadsheet" ya "Insert new sheet" choose karo
-   - Delimiter: Comma
+### Naya account (agar purana permanently band)
 
-2. **Merchant Center mein connect karo**
-   - Merchant Center → **Products** → **Feeds** → **Add feed**
-   - **Input method:** Google Sheets
-   - Apni Sheet select karo (same Google account hona chahiye)
-   - Sheet name / range select karo (e.g. Sheet1 ya data wala range)
-   - **Fetch schedule:** Daily
+Google kabhi **naya GMC same business** allow karta hai jab purana permanently disabled ho:
 
-3. **Fayda:** Sheet mein direct edit karo – price, title, description change – Merchant Center next fetch pe update le lega.
+1. **Naya Google account** (ya clean workspace) — same phone spam avoid karo.
+2. https://merchantcenter.google.com → **Create account**
+3. Business: **WoodenMax Architectural Elements**, India, woodenmax.in
+4. **Domain verify** (HTML tag / DNS — Search Console se link karna best)
+5. **Business information** complete: address Hyderabad, GSTIN, customer support
+6. **Shipping & returns** India settings set karo
+7. Feed connect (Section 2) — **96 products**
 
----
-
-### Option C: Manual Upload (Agar URL fetch kaam na kare)
-
-1. Merchant Center → Products → Feeds
-2. **Add feed** → **Primary feed** → **Upload**
-3. `products-feed.xml` file download karo (site deploy ke baad `https://woodenmax.in/products-feed.xml` se)
-4. File upload karo (XML format)
-5. Har 1–2 hafte baad naya upload karo jab products update hon
+> Purane account ke violations naye account par repeat mat karo (galat prices, fake reviews, etc.).
 
 ---
 
-## 3. Google Search Console (Already Setup)
+## 1. Product feed (repo mein updated)
 
-- Sitemap: `https://woodenmax.in/sitemap.xml` (already submitted hona chahiye)
-- Product pages pe Product schema hai – Google automatically rich results dikha sakta hai
+| File | Use |
+|------|-----|
+| `products-feed.xml` | Merchant Center **Scheduled fetch URL** |
+| `products-feed.csv` | Google Sheets import / manual edit |
 
----
+**Live URL (deploy ke baad):** https://woodenmax.in/products-feed.xml
 
-## 4. Deploy Checklist
+**Abhi feed mein:** **96 sellable products** (windows, grills, shower, mirrors, louvers, pergola, city pages, etc.)
 
-1. **Git push** – `products-feed.xml` aur `MERCHANT_SETUP.md` repo mein hon
-2. **Site deploy** – Cloudflare Pages / hosting pe deploy karo
-3. **Verify** – Browser mein open karo: `https://woodenmax.in/products-feed.xml`
-4. **Merchant Center** – Feed URL submit karo (Step 2)
+**Regenerate (jab nayi product pages add hon):**
 
----
+```bash
+python tools/generate_merchant_feed.py
+```
 
-## 5. Kya Expect Karein
+Ya: `npm run merchant:feed` (agar script add ho)
 
-| Feature | Kahan Dikhega |
-|--------|----------------|
-| Product rich results (price, rating) | Google Search – product pages pe |
-| Free product listings | Google Shopping tab (India mein available ho to) |
-| Sitelinks, breadcrumbs | Google Search – time ke saath |
+Guide / calculator-only pages feed mein **nahi** aate (Google disapprove karta hai) — ye intentional hai.
 
 ---
 
-## 6. Feed Update Kaise Karein
+## 2. Merchant Center — feed connect (sab products)
 
-- **URL fetch:** Merchant Center daily khud fetch karega
-- **Manual change:** `products-feed.xml` edit karo, push karo, 24 hrs baad Merchant Center naya data le lega
-- **Naya product:** Feed mein naya `<entry>` add karo, same process
+### Option A: URL fetch (recommended)
+
+1. Merchant Center → **Products** → **Feeds** → **+** Add feed
+2. **Primary feed** → **Scheduled fetch**
+3. Name: `WoodenMax All Products`
+4. **File URL:** `https://woodenmax.in/products-feed.xml`
+5. **Fetch:** Daily
+6. **Save** → **Fetch now**
+
+24–48 hours: **Products** count badhega. **Diagnostics** mein errors fix karo.
+
+### Option B: Google Sheets
+
+1. `products-feed.csv` → Google Sheet import
+2. Merchant Center → Add feed → **Google Sheets** → same account
+3. Daily fetch
+
+### Option C: Manual upload (emergency)
+
+Feeds → Upload → `products-feed.xml` (XML)
 
 ---
 
-## Support Links
+## 3. Deploy checklist (feed live hona zaroori)
 
-- [Google Merchant Center Help](https://support.google.com/merchants/)
-- [Product feed specification](https://support.google.com/merchants/answer/7052112)
-- [Free product listings (India)](https://support.google.com/merchants/answer/9199328)
+1. Git push + site deploy
+2. Browser: https://woodenmax.in/products-feed.xml — XML dikhe, 96 items
+3. Merchant Center mein URL submit
+4. Search Console: sitemap already `sitemap.xml`
+
+---
+
+## 4. Google Ads vs Free listings
+
+| | Free listings | Google Ads Shopping |
+|--|----------------|---------------------|
+| Cost | Free (eligible countries) | Paid |
+| Setup | Merchant Center feed only | Ads + Merchant link |
+| India | Often limited vs Ads | Full control |
+
+Free listings ke liye feed + policy clean honi chahiye. Ads chahiye to Merchant Center **linked** hona chahiye Google Ads se.
+
+---
+
+## 5. Common feed errors (fix)
+
+| Error | Fix |
+|-------|-----|
+| Image too small | Image min 100×100, prefer 800+ |
+| Price mismatch | Page title/desc mein same “from ₹X” |
+| Missing GTIN | `identifier_exists = no` already set for custom |
+| Landing page 404 | Deploy all product HTML first |
+| Policy: insufficient contact | Footer + contact page |
+
+---
+
+## 6. Support links
+
+- [Merchant Center Help](https://support.google.com/merchants/)
+- [Product data spec](https://support.google.com/merchants/answer/7052112)
+- [Account suspensions](https://support.google.com/merchants/answer/6150244)
+- [Free listings](https://support.google.com/merchants/answer/9199328)
+
+Support: +91 78953 28080 · info@woodenmax.com
