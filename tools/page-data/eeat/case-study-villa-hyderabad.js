@@ -107,7 +107,7 @@ module.exports.pageConfig = {
     { q: 'How was the structural-glazing facade attached without a visible frame?',
       a: 'The DGU units are bonded to an aluminium sub-frame using Dow Corning DC-993 structural silicone, with a 4-side mechanical safety capture on the inside. The visible joint is a 12 mm weather silicone bead between adjacent units. Wind-load qualified at +2.0 kPa.' },
     { q: 'My villa is similar — can you do mine?',
-      a: 'Yes, anywhere within our 14-city service network. <a href="../contact.html?intent=site-visit&amp;source=case-villa-hyd">Book a free site visit</a> and we share a similar-scale quote within 5 working days.' }
+      a: 'Yes, anywhere within our 14-city service network. <a href="../contact?intent=site-visit&amp;source=case-villa-hyd">Book a free site visit</a> and we share a similar-scale quote within 5 working days.' }
   ],
   internalLinks: [
     { href: '/about/case-study-makobrew-jubilee-hills',            title: 'Case study — Makobrew Cafe',  desc: 'Jubilee Hills + Himayat Nagar (full BOQ)' },

@@ -84,6 +84,10 @@
         { label: 'Certifications',          href: 'about/certifications-iso-qualicoat'    },
         { label: 'Case Study — Makobrew',   href: 'about/case-study-makobrew-jubilee-hills' },
         { label: 'Case Study — Hyderabad',  href: 'about/case-study-villa-hyderabad'      },
+        { label: 'Case Study — Delhi',      href: 'about/case-study-luxury-bungalow-delhi' },
+        { label: 'Case Study — Mumbai',     href: 'about/case-study-commercial-tower-mumbai' },
+        { label: 'Material sourcing',       href: 'about/material-sourcing-india'       },
+        { label: 'Team &amp; leadership',   href: 'about/team-leadership'                 },
         { label: 'Calculators',             href: 'calculators'                           },
         { label: 'Blog',                    href: 'blog'                                  },
         { label: 'Catalog',                 href: 'catalog'                               }

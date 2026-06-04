@@ -64,7 +64,7 @@ const MIRROR_EEAT = {
   ],
   links: [
     { href: '/about/manufacturing-process', label: 'How we manufacture' },
-    { href: '/about/quality-control', label: 'QC process' },
+    { href: '/about/quality-testing-process', label: 'QC process' },
     { href: '/about/factory-tour-hyderabad', label: 'Factory tour' },
     { href: '/products/mirror-profiles/', label: 'All mirror calculators' },
   ],

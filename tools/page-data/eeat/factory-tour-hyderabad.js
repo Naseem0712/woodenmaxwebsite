@@ -65,7 +65,7 @@ module.exports.pageConfig = {
       body:
         '<p>We host customer site-visits Monday to Saturday, 10 AM to 5 PM, by appointment. A 90-minute guided tour covers the 7 stations + a sit-down with one of our engineers to discuss your project.</p>' +
         '<p>For B2B partners (architects, builders), we run a 3-hour deep-dive that includes our QC lab, the powder-coating booth (visible from a glass corridor), and a hands-on demo of system options.</p>',
-      cta: { href: '../contact.html?intent=factory-visit', label: 'Schedule a factory visit' }
+      cta: { href: '../contact?intent=factory-visit', label: 'Schedule a factory visit' }
     },
     {
       heading: 'Address &amp; map',

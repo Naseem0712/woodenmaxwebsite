@@ -90,7 +90,7 @@ module.exports.pageConfig = {
       heading: 'How we ran the project (family + partner model)',
       body:
         '<p>At any given time WoodenMax is running <strong>10–12 live projects across India in parallel</strong>. This Delhi restoration was concurrent with the Mumbai BKC tower (above) and a 5-villa cluster in Hyderabad — all coordinated from our Hyderabad factory by the founding family, with execution on Delhi site led by a trained partner crew that has been with us since 2019.</p>' +
-        '<p>For pricing on a restoration like this, see our <a href="../calculators.html">calculators</a> or share project drawings on <a href="../contact.html?intent=site-visit&amp;source=case-delhi-bungalow">our enquiry form</a>; quote shared within 5 working days. GST 18% extra and transport governed by our <a href="../policies/gst-transport-policy">policy</a>.</p>'
+        '<p>For pricing on a restoration like this, see our <a href="../calculators.html">calculators</a> or share project drawings on <a href="../contact?intent=site-visit&amp;source=case-delhi-bungalow">our enquiry form</a>; quote shared within 5 working days. GST 18% extra and transport governed by our <a href="../policies/gst-transport-policy">policy</a>.</p>'
     },
     {
       heading: 'Lessons',

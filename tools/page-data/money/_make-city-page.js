@@ -50,7 +50,7 @@ function makeCityPage (citySlug, productKey) {
           ? `<strong>Free transport</strong> on orders &ge; ₹15 L (${city.distanceKm} km, within radius)`
           : `Transparent transport pricing &mdash; ${city.distanceKm} km from factory`
       ],
-      cta: { href: `../../contact.html?intent=site-visit&amp;city=${cityLower}&amp;source=${slug}`, label: `Book ${city.name} site visit` }
+      cta: { href: `../../contact?intent=site-visit&amp;city=${cityLower}&amp;source=${slug}`, label: `Book ${city.name} site visit` }
     },
     sections: [
       {

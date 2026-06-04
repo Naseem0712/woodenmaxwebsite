@@ -776,7 +776,7 @@ function buildPage(p) {
         <a href="https://wa.me/917895328080?text=${encodeURIComponent(
           "Hi WoodenMax — I want a system window quote. Page: " + p.slug
         )}" class="btn btn-outline" rel="noopener" target="_blank">WhatsApp (system window)</a>
-        <a href="../../contact.html?product=${p.slug}" class="btn btn-outline">Site visit &amp; exact BOQ</a>
+        <a href="../../contact?product=${p.slug}" class="btn btn-outline">Site visit &amp; exact BOQ</a>
       </div>
       <aside style="padding:0 0 1.25rem;border-bottom:1px solid #e2e8f0;margin:0.5rem 0 0;max-width:920px;" aria-label="Explore next — price tools and system cluster">
         <p style="margin:0 0 0.5rem;font-size:0.9rem;color:#64748b;font-weight:600;">Explore next</p>

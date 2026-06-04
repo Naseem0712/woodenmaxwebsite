@@ -614,7 +614,7 @@ function buildPage(p) {
       <div class="seo-hero-actions">
         <a href="${calcAnchor}" class="btn btn-primary">Jump to live calculator</a>
         <a href="https://wa.me/917895328080?text=${encodeURIComponent('Hi — shower glass quote. Page: ' + p.slug + '. Sizes & city: __')}" class="btn btn-outline" rel="noopener" target="_blank">WhatsApp quote</a>
-        <a href="${ASSET}contact.html?product=${encodeURIComponent(p.slug)}" class="btn btn-outline">Contact</a>
+        <a href="${ASSET}contact?product=${encodeURIComponent(p.slug)}" class="btn btn-outline">Contact</a>
       </div>
       ${clusterLinksHtml(p.slug)}
     </div>

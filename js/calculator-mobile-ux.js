@@ -2587,7 +2587,7 @@
       'a[href*="whatsapp.com"]',
       'a[href*="api.whatsapp"]',
       'a[href$="contact.html"]',
-      'a[href*="contact.html?"]',
+      'a[href*="contact?"]',
       'a[href$="/contact"]',
       'a[href*="/contact?"]',
       'a[href*="contact?product"]'

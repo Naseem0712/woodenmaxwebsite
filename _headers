@@ -55,8 +55,17 @@
   Cache-Control: public, max-age=300, must-revalidate
 /js/site-footer.js
   Cache-Control: public, max-age=300, must-revalidate
+/js/mirror-page-analytics.js
+  Cache-Control: public, max-age=300, must-revalidate
 /css/calculator-mobile-ux.css
   Cache-Control: public, max-age=300, must-revalidate
 
 /js/*
   Cache-Control: public, max-age=604800
+# GSC: noindex utility URLs
+/search
+  X-Robots-Tag: noindex, nofollow
+/search/*
+  X-Robots-Tag: noindex, nofollow
+/calculator-design-preview.html
+  X-Robots-Tag: noindex, nofollow

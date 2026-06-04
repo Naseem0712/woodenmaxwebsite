@@ -1102,7 +1102,7 @@ ${NAV}
       <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin:1.25rem 0;">
         <a href="#${p.calcId}" class="btn btn-primary">Calculate Your Window Cost</a>
         <a href="https://wa.me/917895328080?text=${WA_TEXT}" class="btn btn-outline" rel="noopener" target="_blank">Send Size on WhatsApp</a>
-        <a href="../../contact.html?product=${p.slug}" class="btn btn-outline">Get Exact Price</a>
+        <a href="../../contact?product=${p.slug}" class="btn btn-outline">Get Exact Price</a>
       </div>
       ${extraInternalStrip(p.slug)}
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-top:1.5rem;">

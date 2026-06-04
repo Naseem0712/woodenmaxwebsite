@@ -8,7 +8,7 @@
 
 ## Fix (har deploy ke baad)
 
-1. **Code push** → repo jo Pages se connected hai (**Sai-innovation** on Cloudflare).
+1. **Code push** → is repo (`woodenmax-live`) ko Cloudflare Pages project se connect karein (jo `woodenmax.in` serve karta hai).
 2. **Caching → Configuration → Purge Cache → Purge Everything** (woodenmax.in zone).
 3. Browser **Ctrl+Shift+R** ya incognito test.
 4. Asset version bump (optional): `node tools/bump-wm-asset-cache.cjs` then commit.
@@ -25,4 +25,4 @@
 
 ## Repo note
 
-Pages project **Sai-innovation** se deploy hota hai. Local folder `woodenmaxwebsite` par push ho to alag repo ho sakta hai — dono sync rakhein ya Pages ko sahi repo se connect karein.
+Deploy **usi Git repo** se hona chahiye jo Cloudflare Pages → woodenmax.in se linked hai (yeh workspace: `woodenmax-live`). Push ke baad Pages build complete hone ka wait karein, phir cache purge.

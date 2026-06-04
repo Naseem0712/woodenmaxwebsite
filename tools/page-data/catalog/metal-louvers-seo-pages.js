@@ -422,7 +422,7 @@ const pages = [
           'Perforated feature panels at lobby',
         ],
         subsections: [
-          { h3: 'Work with your architect', body: '<p>We review architect elevations, suggest profile sizes and gap, then issue a locked BOQ. Share PDF on <a href="../../contact.html?intent=louver-quote">contact form</a>.</p>' },
+          { h3: 'Work with your architect', body: '<p>We review architect elevations, suggest profile sizes and gap, then issue a locked BOQ. Share PDF on <a href="../../contact?intent=louver-quote">contact form</a>.</p>' },
         ],
       },
     ],
@@ -780,7 +780,7 @@ pages.forEach(function (pg) {
     { href: '/products/metal-louvers/aluminium-facade-louver-price', title: 'Facade louver', desc: '₹580–820/sqft' },
     { href: '/products/metal-louvers/fixed-vs-motorized-louver', title: 'Fixed vs motorized', desc: 'Compare' },
     { href: '/products/metal-louvers.html', title: 'Live BOQ calculators', desc: 'Product tools' },
-    { href: '/contact.html?intent=louver-quote', title: 'Free site visit', desc: 'Locked PDF quote' },
+    { href: '/contact?intent=louver-quote', title: 'Free site visit', desc: 'Locked PDF quote' },
   ]).filter(function (l, i, arr) {
     var dup = arr.findIndex(function (x) { return x.href === l.href; }) !== i;
     var self = l.href.indexOf(pg.slug) !== -1 && l.href.indexOf('metal-louvers.html') === -1;

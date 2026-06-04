@@ -67,6 +67,25 @@ function breadcrumbJson(crumbs, canonical) {
   });
 }
 
+function mirrorHubItemListJson(cfg, canonical) {
+  if (!cfg.isHub || cfg.silo !== 'mirror-profiles' || !cfg.hubLinks || !cfg.hubLinks.length) return '';
+  return JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'WoodenMax mirror profile calculators',
+    url: canonical,
+    numberOfItems: cfg.hubLinks.length,
+    itemListElement: cfg.hubLinks.map(function (l, i) {
+      return {
+        '@type': 'ListItem',
+        position: i + 1,
+        name: l.title,
+        url: ORIGIN + '/products/mirror-profiles/' + l.slug,
+      };
+    }),
+  });
+}
+
 function faqJson(faqs) {
   if (!faqs || !faqs.length) return '';
   return JSON.stringify({
@@ -425,6 +444,7 @@ function renderPage(cfg) {
   var faq = renderFaq(cfg.faqs);
   var related = cfg.isHub ? '' : renderRelated(cfg.internalLinks, prefix);
   var fj = faqJson(cfg.faqs);
+  var hubList = mirrorHubItemListJson(cfg, canonical);
 
   return (
 '<!DOCTYPE html>\n<html lang="en">\n<head>\n' +
@@ -461,6 +481,7 @@ renderGa4Head(prefix) +
 '  <script type="application/ld+json">' + productJson(cfg, canonical, ogImage) + '</script>\n' +
 '  <script type="application/ld+json">' + localBusinessJson() + '</script>\n' +
 (fj ? '  <script type="application/ld+json">' + fj + '</script>\n' : '') +
+(hubList ? '  <script type="application/ld+json">' + hubList + '</script>\n' : '') +
 '</head>\n<body class="cluster-page silo-' + esc(cfg.silo) + ' catalog-seo-page">\n' +
 crumb + '\n' +
 '<header class="cluster-hero">\n  <div class="container cluster-hero-grid">\n' +
@@ -482,6 +503,7 @@ sections + eeat + calcProducts + hub + faq + related +
 (cfg.calcMode ? '  <script src="' + prefix + 'js/email-submitter.js" defer></script>\n' : '') +
 '  <script src="' + prefix + 'js/catalog-quick-calc.js" defer></script>\n' +
 '  <script defer src="' + prefix + 'js/analytics-events.js"></script>\n' +
+(cfg.silo === 'mirror-profiles' ? '  <script defer src="' + prefix + 'js/mirror-page-analytics.js"></script>\n' : '') +
 '  <script src="' + prefix + 'js/seo-enhancer.js" defer></script>\n' +
 '</body>\n</html>\n'
   );

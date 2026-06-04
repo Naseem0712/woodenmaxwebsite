@@ -92,6 +92,9 @@ function decodeEntities(s) {
 function urlFor(file) {
   const rel = path.relative(ROOT, file).replace(/\\/g, '/');
   if (rel === 'index.html') return ORIGIN + '/';
+  if (/\/index\.html$/i.test(rel)) {
+    return ORIGIN + '/' + rel.replace(/\/index\.html$/i, '');
+  }
   return ORIGIN + '/' + rel.replace(/\.html$/i, '');
 }
 

@@ -1,6 +1,14 @@
 # www to non-www
 https://www.woodenmax.in/* https://woodenmax.in/:splat 301
 
+# GSC: index + hub cleanup (fix-gsc-url-issues.cjs)
+/index / 301
+/index/ / 301
+/products/metal-louvers/index /products/metal-louvers 301
+/products/metal-louvers/index/ /products/metal-louvers 301
+/products/mirror-profiles/index /products/mirror-profiles 301
+/products/mirror-profiles/index/ /products/mirror-profiles 301
+
 # Pricing API (clean URL)
 /api/calculate /api/calculate/ 200
 /api/calculate.html /api/calculate/ 301
@@ -283,8 +291,8 @@ http://www.woodenmax.in/* https://woodenmax.in/:splat 301
 /products/metal-louvers/curved-architectural-louvers.html/ /products/metal-louvers/curved-architectural-louvers 301
 /products/metal-louvers/fixed-vs-motorized-louver.html /products/metal-louvers/fixed-vs-motorized-louver 301
 /products/metal-louvers/fixed-vs-motorized-louver.html/ /products/metal-louvers/fixed-vs-motorized-louver 301
-/products/metal-louvers/index.html /products/metal-louvers/index 301
-/products/metal-louvers/index.html/ /products/metal-louvers/index 301
+/products/metal-louvers/index.html /products/metal-louvers 301
+/products/metal-louvers/index.html/ /products/metal-louvers 301
 /products/metal-louvers/louver-canopy-facade.html /products/metal-louvers/louver-canopy-facade 301
 /products/metal-louvers/louver-canopy-facade.html/ /products/metal-louvers/louver-canopy-facade 301
 /products/metal-louvers/louver-installation-guide.html /products/metal-louvers/louver-installation-guide 301
@@ -311,8 +319,8 @@ http://www.woodenmax.in/* https://woodenmax.in/:splat 301
 /products/mirror-profiles/backlit-mirror-profile-price.html/ /products/mirror-profiles/backlit-mirror-profile-price 301
 /products/mirror-profiles/custom-mirror-profile.html /products/mirror-profiles/custom-mirror-profile 301
 /products/mirror-profiles/custom-mirror-profile.html/ /products/mirror-profiles/custom-mirror-profile 301
-/products/mirror-profiles/index.html /products/mirror-profiles/index 301
-/products/mirror-profiles/index.html/ /products/mirror-profiles/index 301
+/products/mirror-profiles/index.html /products/mirror-profiles 301
+/products/mirror-profiles/index.html/ /products/mirror-profiles 301
 /products/mirror-profiles/led-bathroom-mirror-profile.html /products/mirror-profiles/led-bathroom-mirror-profile 301
 /products/mirror-profiles/led-bathroom-mirror-profile.html/ /products/mirror-profiles/led-bathroom-mirror-profile 301
 /products/mirror-profiles/led-mirror-profile-delhi.html /products/mirror-profiles/led-mirror-profile-delhi 301

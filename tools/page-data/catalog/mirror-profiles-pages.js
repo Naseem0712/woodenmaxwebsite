@@ -247,7 +247,7 @@ const pages = [
     },
     bodySections: [{
       heading: 'Standard vs slim round line',
-      body: '<p>This page is the <strong>standard profile</strong> round touch mirror. For a slimmer face, see the <a href="round-mirror-profile.html">round slim profile page</a> (+₹100/sq.ft vs this line).</p>',
+      body: '<p>This page is the <strong>standard profile</strong> round touch mirror. For a slimmer face, see the <a href="round-mirror-profile">round slim profile page</a> (+₹100/sq.ft vs this line).</p>',
     }],
     faqs: [
       { q: 'What is the default touch sensor?', a: '<strong>3A capacitive touch</strong> is standard. Select 5A upgrade in the calculator (+₹' + MIRROR_RATES_JSON.hardware.touch5AUpgrade + '/pc).' },
@@ -430,7 +430,7 @@ const pages = [
     },
     bodySections: [{
       heading: 'Rectangle vs round pricing',
-      body: '<p>Calculator uses <strong>width × height</strong> in feet (billable sq.ft). Rate band matches <a href="touch-sensor-mirror-profile.html">round touch mirror</a> — for slim profile see <a href="round-mirror-profile.html">round slim page</a>.</p>',
+      body: '<p>Calculator uses <strong>width × height</strong> in feet (billable sq.ft). Rate band matches <a href="touch-sensor-mirror-profile">round touch mirror</a> — for slim profile see <a href="round-mirror-profile">round slim page</a>.</p>',
     }],
     productSchema: { name: 'Rectangular Touch LED Mirror', lowPrice: 650, highPrice: 750, unitCode: 'FTK' },
   }),
@@ -575,6 +575,26 @@ const pages = [
 ];
 
 const MIRROR_LINK_MAP = {
+  'round-mirror-profile': [
+    { href: '/products/mirror-profiles/touch-sensor-mirror-profile', title: 'Standard round touch', desc: 'Base line' },
+    { href: '/products/mirror-profiles/rectangular-mirror-profile', title: 'Rect / square touch', desc: 'Same rates' },
+  ],
+  'rectangular-mirror-profile': [
+    { href: '/products/mirror-profiles/touch-sensor-mirror-profile', title: 'Round touch line', desc: '2×2 – 4×4 ft' },
+    { href: '/products/mirror-profiles/backlit-mirror-profile-price', title: 'Backlit rectangle', desc: 'Imported profile' },
+  ],
+  'backlit-mirror-profile-price': [
+    { href: '/products/mirror-profiles/led-bathroom-mirror-profile', title: 'LED bathroom mirror', desc: 'Waterproof line' },
+    { href: '/products/mirror-profiles/rectangular-mirror-profile', title: 'Rect touch mirror', desc: 'Standard profile' },
+  ],
+  'custom-mirror-profile': [
+    { href: '/products/mirror-profiles/motion-sensor-mirror-profile', title: 'Luxury motion mirror', desc: 'Dual glass' },
+    { href: '/products/mirror-profiles/mirror-profile-price-per-foot', title: 'Rate list per foot', desc: 'All lines' },
+  ],
+  'aluminium-mirror-frame-designs': [
+    { href: '/products/mirror-profiles/motion-sensor-mirror-profile', title: 'Motion luxury oval', desc: 'Imported profile' },
+    { href: '/products/mirror-profiles/mirror-profile-without-led', title: 'Plain frame only', desc: 'No LED' },
+  ],
   'touch-sensor-mirror-profile': [
     { href: '/products/mirror-profiles/round-mirror-profile', title: 'Slim round profile', desc: '+₹100/sq.ft' },
     { href: '/products/mirror-profiles/rectangular-mirror-profile', title: 'Rect touch mirror', desc: 'Same hardware' },
@@ -624,8 +644,9 @@ pages.forEach(function (pg) {
     { href: '/products/mirror-profiles/touch-sensor-mirror-profile', title: 'Round touch mirror', desc: 'Live calculator' },
     { href: '/products/mirror-profiles/motion-sensor-mirror-profile', title: 'Luxury motion mirror', desc: 'Dual glass' },
     { href: '/products/mirror-profiles/mirror-profile-price-per-foot', title: 'Bevel modular', desc: 'Glass + add-ons' },
+    { href: '/products/shower-partitions', title: 'Shower partitions', desc: 'Pair with bath glass' },
     { href: '/products/aluminium-windows', title: 'Aluminium windows', desc: 'Match bath suite' },
-    { href: '/products/aluminium-windows/what-is-aluminium-system-window', title: 'System window guide', desc: 'Villa bath suites' },
+    { href: '/products/metal-louvers', title: 'Metal louvers', desc: 'Facade & bath vents' },
     { href: '/contact?intent=mirror-quote', title: 'Formal quote', desc: 'Free site visit' },
   ]).filter(function (l, i, arr) {
     var dup = arr.findIndex(function (x) { return x.href === l.href; }) !== i;

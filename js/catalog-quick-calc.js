@@ -374,7 +374,9 @@
         onSuccess: function () {
           if (status) status.textContent = 'Thank you — we will email/WhatsApp your formal quote within 24 hours.';
           try {
-            if (typeof window.trackCalculatorFormSubmit === 'function') {
+            if (typeof window.trackMirrorInquirySubmit === 'function') {
+              window.trackMirrorInquirySubmit(snap);
+            } else if (typeof window.trackCalculatorFormSubmit === 'function') {
               window.trackCalculatorFormSubmit('mirror_catalog', !!(snap && snap.orderTotal));
             }
           } catch (e) { /* optional */ }
@@ -391,6 +393,10 @@
 
   function trackCatalogCalcRun(root, snap) {
     try {
+      if (typeof window.trackMirrorCalculatorRun === 'function' && snap) {
+        window.trackMirrorCalculatorRun(snap);
+        return;
+      }
       if (typeof window.trackCalculatorCalculation === 'function' && snap) {
         window.trackCalculatorCalculation(snap.orderTotal || snap.perPiece, snap.dims ? snap.dims.w * snap.dims.h : 0, {
           glass: snap.opts && snap.opts.glassBrand,

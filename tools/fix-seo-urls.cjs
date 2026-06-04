@@ -168,7 +168,7 @@ function patchRobots() {
 ${marker}
 Disallow: /cdn-cgi/
 Disallow: /contact?
-Disallow: /contact.html?
+Disallow: /contact?
 Disallow: /search?
 `;
 

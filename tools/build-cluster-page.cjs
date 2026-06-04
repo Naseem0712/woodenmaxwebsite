@@ -386,7 +386,7 @@ function renderPage (cfg, outRelPath) {
   '      <div class="cluster-hero-cta">\n' +
   '        ' + (cfg.hero && cfg.hero.cta
               ? '<a href="' + esc(cfg.hero.cta.href) + '" class="cluster-cta-primary">' + esc(cfg.hero.cta.label) + ' &rarr;</a>'
-              : '<a href="' + prefix + 'contact.html?intent=site-visit" class="cluster-cta-primary">Book free site visit &rarr;</a>') + '\n' +
+              : '<a href="' + prefix + 'contact?intent=site-visit" class="cluster-cta-primary">Book free site visit &rarr;</a>') + '\n' +
   '      </div>\n' +
   '    </div>\n' +
   '    ' + (cfg.hero && cfg.hero.image
@@ -424,7 +424,7 @@ function renderPage (cfg, outRelPath) {
   '  <div class="container">\n' +
   '    <h2>Ready to lock down a final binding quote?</h2>\n' +
   '    <p>WoodenMax engineers visit free within 48 hours, measure on site, and share a locked PDF quote with GST &amp; transport pre-confirmed.</p>\n' +
-  '    <a href="' + prefix + 'contact.html?intent=site-visit&amp;source=' + esc(cfg.slug || '') + '" class="cluster-cta-primary">Book free site visit &rarr;</a>\n' +
+  '    <a href="' + prefix + 'contact?intent=site-visit&amp;source=' + esc(cfg.slug || '') + '" class="cluster-cta-primary">Book free site visit &rarr;</a>\n' +
   '    <p class="cluster-final-trust">GST 18% extra &bull; Free transport on &#8377;15L+ orders &le; 1,000 km from Hyderabad &bull; <a href="' + prefix + 'policies/gst-transport-policy">policy</a></p>\n' +
   '  </div>\n' +
   '</section>\n' +
