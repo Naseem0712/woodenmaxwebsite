@@ -1329,6 +1329,8 @@
       if (exactBtn) exactBtn.hidden = !!document.querySelector('[data-grill-calculator]');
       var addSticky = bar.querySelector('[data-action="add-to-cart-sticky"]');
       if (addSticky) addSticky.hidden = false;
+      var buySticky = bar.querySelector('[data-action="buy-booking"]');
+      if (buySticky) buySticky.hidden = getCalcKind() !== 'catalog';
     } else {
       priceEl.textContent = 'Enter sizes to see price';
       priceEl.classList.add(PLACEHOLDER_CLS);
@@ -1336,6 +1338,8 @@
       if (exactBtn) exactBtn.hidden = true;
       var addStickyOff = bar.querySelector('[data-action="add-to-cart-sticky"]');
       if (addStickyOff) addStickyOff.hidden = true;
+      var buyStickyOff = bar.querySelector('[data-action="buy-booking"]');
+      if (buyStickyOff) buyStickyOff.hidden = true;
     }
 
     syncCartBadges();
@@ -2922,6 +2926,9 @@
             '<span class="calc-sticky-label">Live Estimate</span>' +
             '<span class="calc-sticky-price is-placeholder">Enter sizes to see price</span>' +
           '</div>' +
+          '<button type="button" class="calc-sticky-buy" data-action="buy-booking" hidden title="Buy online with Razorpay">' +
+            '<span>Buy — ₹1,000</span>' +
+          '</button>' +
           '<button type="button" class="calc-sticky-add" data-action="add-to-cart-sticky" hidden title="Add current config to cart">' +
             '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>' +
             '<span>Add</span>' +
@@ -3104,6 +3111,7 @@
       calc.addEventListener(evt, scheduleUpdate, true);
     });
     document.addEventListener('wm-quote-price-update', scheduleUpdate);
+    document.addEventListener('wm-catalog-calc-updated', scheduleUpdate);
     var totalEl = $('#calc-result-total');
     if (totalEl && typeof MutationObserver !== 'undefined') {
       new MutationObserver(scheduleUpdate).observe(totalEl, {
@@ -3116,6 +3124,16 @@
     });
     var addSticky = bar.querySelector('[data-action="add-to-cart-sticky"]');
     bindAddToCartClick(addSticky, bar);
+
+    var buySticky = bar.querySelector('[data-action="buy-booking"]');
+    if (buySticky && !buySticky._wmBuyBound) {
+      buySticky._wmBuyBound = true;
+      buySticky.addEventListener('click', function () {
+        if (window.WoodenMaxQuote && window.WoodenMaxQuote.openBookOrder) {
+          window.WoodenMaxQuote.openBookOrder('booking');
+        }
+      });
+    }
 
     var exactBtn = bar.querySelector('[data-form-open="exact"]');
     if (exactBtn) exactBtn.addEventListener('click', function () { openForm('exact'); });

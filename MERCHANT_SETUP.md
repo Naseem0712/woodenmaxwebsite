@@ -19,16 +19,34 @@ Google Merchant Center account **suspend** ya **disapproved** tab hota hai jab p
    - Prohibited or unclear product (e.g. “free” misleading)
    - Duplicate accounts
 
+### “User cannot complete purchase” (manual check) — kya karna hai
+
+Google ne likha: **Buy button nahi**, page homepage par redirect, ya product store par nahi.
+
+| Google check | WoodenMax fix |
+|--------------|----------------|
+| Functioning Buy button | Har **mirror / louver catalog** page par **“Buy online — Pay ₹1,000”** (Razorpay live). Shower/window pages par calculator + cart **“Book order — Pay ₹1,000”**. |
+| Product page loads | Feed link = same URL as `<link rel="canonical">` (deploy latest `products-feed.xml`) |
+| Product on store | Feed mein jo link hai woh 404 na ho — deploy HTML + images |
+
+**Review dubara:** Merchant Center → issue → **I fixed the issue** — abhi screenshot ke hisaab se **8 Jun 2026** ke baad button enable hoga. Usse pehle deploy + 2–3 sample pages test karo.
+
+**Test URLs (reviewer jaisa):**
+
+1. https://woodenmax.in/products/mirror-profiles/led-bathroom-mirror-profile — size daalo → **Buy online — Pay ₹1,000** dikhe  
+2. https://woodenmax.in/products/shower-partitions/frameless-shower-partition — calculator → cart → **Book order — Pay ₹1,000**  
+3. https://woodenmax.in/policies/cancellation-refund-policy — refund clear  
+
 ### Fix list (appeal se pehle)
 
 | Check | Kya hona chahiye |
 |--------|------------------|
 | Website live | https://woodenmax.in HTTPS, mobile OK |
 | Contact | Phone +91 78953 28080, info@woodenmax.com har page par |
-| Return policy | `/policies/cancellation-refund-policy.html` clear |
-| Privacy | `/policies/privacy-policy.html` |
+| Return policy | `/policies/cancellation-refund-policy` clear |
+| Privacy | `/policies/privacy-policy` |
 | Prices | Feed = “starting from” / calculator — page par bhi clear ho |
-| Checkout | Custom quote OK — “Book slot ₹1,000” + form (live payment working) |
+| Checkout | **Visible Buy / Book Pay ₹1,000** on product pages (Razorpay live on Worker) |
 | Business | GSTIN 36ARWPA9740L1Z3 Merchant Center Business settings mein |
 
 ### Appeal / request review
@@ -62,7 +80,7 @@ Google kabhi **naya GMC same business** allow karta hai jab purana permanently d
 
 **Live URL (deploy ke baad):** https://woodenmax.in/products-feed.xml
 
-**Abhi feed mein:** **96 sellable products** (windows, grills, shower, mirrors, louvers, pergola, city pages, etc.)
+**Abhi feed mein:** **102 sellable products** (windows, grills, shower, mirrors, louvers, pergola, city pages, etc.)
 
 **Regenerate (jab nayi product pages add hon):**
 

@@ -229,6 +229,107 @@
     return lines.join('\n');
   }
 
+  function whenQuoteReady(fn, attempt) {
+    attempt = attempt || 0;
+    if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.openBookOrder === 'function') {
+      fn();
+      return;
+    }
+    if (attempt > 50) {
+      window.alert('Payment is still loading. Please wait a few seconds and try again.');
+      return;
+    }
+    setTimeout(function () { whenQuoteReady(fn, attempt + 1); }, 120);
+  }
+
+  function openCatalogCheckout(payChoice) {
+    var root = document.getElementById('wmCatalogCalc');
+    if (!root || !root._lastCalc) {
+      window.alert('Enter width and height in the calculator first, then use Buy online.');
+      return;
+    }
+    whenQuoteReady(function () {
+      window.WoodenMaxQuote.openBookOrder(payChoice || 'booking');
+    });
+  }
+
+  function ensureCatalogBuyActions(root) {
+    var result = document.getElementById('catalogCalcResult');
+    if (!result) return null;
+    var box = document.getElementById('catalogBuyActions');
+    if (!box) {
+      box = document.createElement('div');
+      box.id = 'catalogBuyActions';
+      box.className = 'catalog-buy-actions';
+      box.setAttribute('role', 'group');
+      box.setAttribute('aria-label', 'Buy online');
+      box.innerHTML =
+        '<p class="catalog-buy-lead"><strong>Buy online</strong> — secure checkout via Razorpay (UPI, card, netbanking). ' +
+        '₹1,000 booking reserves your slot; full mirror order can be paid from cart.</p>' +
+        '<div class="catalog-buy-btns">' +
+          '<button type="button" class="catalog-buy-btn catalog-buy-btn--primary" data-catalog-pay="booking">' +
+            'Buy online — Pay ₹1,000' +
+          '</button>' +
+          '<button type="button" class="catalog-buy-btn" data-catalog-pay="mirror_full">' +
+            'Buy now — pay full calculator total' +
+          '</button>' +
+          '<button type="button" class="catalog-buy-btn catalog-buy-btn--ghost" data-catalog-pay="cart">' +
+            'Add to cart' +
+          '</button>' +
+        '</div>' +
+        '<p class="catalog-buy-policy">Refund before production · <a href="../../policies/cancellation-refund-policy">Cancellation policy</a></p>';
+      result.insertAdjacentElement('afterend', box);
+      box.addEventListener('click', function (e) {
+        var btn = e.target.closest && e.target.closest('[data-catalog-pay]');
+        if (!btn) return;
+        var mode = btn.getAttribute('data-catalog-pay');
+        if (mode === 'cart') {
+          whenQuoteReady(function () {
+            if (window.WoodenMaxQuote.addCurrent) {
+              var item = window.WoodenMaxQuote.addCurrent();
+              if (item && window.WoodenMaxQuote.openCart) window.WoodenMaxQuote.openCart();
+            }
+          });
+          return;
+        }
+        openCatalogCheckout(mode === 'mirror_full' ? 'mirror_full' : 'booking');
+      });
+    }
+    return box;
+  }
+
+  function syncCatalogBuyVisibility(root) {
+    var box = ensureCatalogBuyActions(root);
+    if (!box) return;
+    var ready = !!(root && root._lastCalc && (root._lastCalc.orderTotal || root._lastCalc.perPiece));
+    box.hidden = !ready;
+    var fullBtn = box.querySelector('[data-catalog-pay="mirror_full"]');
+    if (fullBtn) {
+      var tot = root._lastCalc.orderTotal || root._lastCalc.perPiece;
+      fullBtn.textContent = 'Buy now — Pay ' + fmt(tot);
+      fullBtn.hidden = !(tot >= 1);
+    }
+    try {
+      document.dispatchEvent(new CustomEvent('wm-catalog-calc-updated'));
+    } catch (err) { /* optional */ }
+  }
+
+  function injectHeroBuyCta() {
+    var heroCta = document.querySelector('.cluster-hero-cta');
+    if (!heroCta || heroCta.querySelector('[data-catalog-hero-buy]')) return;
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'cluster-cta-primary catalog-hero-buy';
+    btn.setAttribute('data-catalog-hero-buy', '1');
+    btn.textContent = 'Buy online — Pay ₹1,000';
+    heroCta.insertBefore(btn, heroCta.firstChild);
+    btn.addEventListener('click', function () {
+      var calc = document.getElementById('wmCatalogCalc');
+      if (calc) calc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      openCatalogCheckout('booking');
+    });
+  }
+
   function runCalc(root) {
     var mode = root.getAttribute('data-calc-mode');
     var cfg = parseConfig(root);
@@ -306,6 +407,7 @@
     if (root.getAttribute('data-calc-mode')) {
       trackCatalogCalcRun(root, root._lastCalc);
     }
+    syncCatalogBuyVisibility(root);
   }
 
   function bindLive(root) {
@@ -416,6 +518,8 @@
   }
 
   function initMirror(root) {
+    ensureCatalogBuyActions(root);
+    injectHeroBuyCta();
     bindLive(root);
     try {
       if (typeof window.trackCalculatorPageView === 'function') {

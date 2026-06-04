@@ -92,6 +92,12 @@ SKIP_FROM_FEED_PATTERNS = [
 SKIP_FROM_FEED_EXACT = {
     # explicit one-offs that don't fit a clean pattern
     "shower-curtain-vs-glass-partition",
+    "system-window-for-villa",
+    "full-elevation-villa-facade",
+}
+
+# Shower SEO price landings: real calculators + canonical on site root — keep in feed.
+SHOWER_PRICE_LANDING_SLUGS = frozenset({
     "corner-shower-partition-price",
     "fixed-glass-shower-panel-price",
     "frameless-glass-shower-price",
@@ -99,13 +105,13 @@ SKIP_FROM_FEED_EXACT = {
     "shower-enclosure-price",
     "sliding-shower-door-price",
     "walk-in-shower-glass-price",
-    "system-window-for-villa",
-    "full-elevation-villa-facade",
-}
+})
 
 
 def should_skip_for_feed(slug: str) -> bool:
     """True if the page is an info / guide / calculator (not a product)."""
+    if slug in SHOWER_PRICE_LANDING_SLUGS:
+        return False
     if slug in SKIP_FROM_FEED_EXACT:
         return True
     for pat in SKIP_FROM_FEED_PATTERNS:
@@ -122,6 +128,12 @@ GPC_RAILINGS = "499949"  # Hardware > Building Materials > Handrails & Railing S
 GPC_SIDING = "503775"  # Hardware > Building Materials > Siding
 GPC_FENCE_PANELS = "502973"  # Hardware > Fencing & Barriers > Fence Panels
 GPC_PERGOLA = "703"  # ... > Garden Arches, Trellises, Arbors & Pergolas
+GPC_MIRRORS = "595"  # Home & Garden > Decor > Mirrors
+
+CANONICAL_RE = re.compile(
+    r'<link\s+rel=["\']canonical["\']\s+href=["\']([^"\']+)["\']',
+    re.I,
+)
 
 OG_IMAGE_RE = re.compile(
     r'<meta\s+property=["\']og:image["\']\s+content=["\']([^"\']+)["\']',
@@ -152,6 +164,53 @@ ABS_IMG_RE = re.compile(r'https://woodenmax\.in/images/[^"\'<>]+', re.I)
 
 SCAN_CHARS = 350_000
 EXTRA_IMAGE_CAP = 10
+
+# Verified on-disk product heroes — used when og:image / page imgs 404 on deploy.
+SILO_FALLBACK_IMAGES: dict[str, str] = {
+    "aluminium-windows": (
+        f"{SITE_ORIGIN}/images/products/2 Track Aluminium Window/"
+        "2-track-aluminium-sliding-window-modern-home.webp"
+    ),
+    "glass-elevation": (
+        f"{SITE_ORIGIN}/images/products/Glazing/architectural-glass-elevation.webp"
+    ),
+    "elevation-cladding": (
+        f"{SITE_ORIGIN}/images/products/elevation-cladding/"
+        "hpl-acp-elevation-house-cladding.webp"
+    ),
+    "grills": (
+        f"{SITE_ORIGIN}/images/products/Grills/aluminium-window-grill-design-modern.webp"
+    ),
+    "metal-louvers": (
+        f"{SITE_ORIGIN}/images/products/metal-louvers/"
+        "building-exterior-aluminium-louver-cladding-india.webp"
+    ),
+    "mirror-profiles": (
+        f"{SITE_ORIGIN}/images/products/mirror-profiles/"
+        "led-aluminium-mirror-profile-bathroom-price-india.webp"
+    ),
+    "shower-partitions": (
+        f"{SITE_ORIGIN}/images/products/Glass Shower Partition Price/"
+        "glass-shower-partition-modern-bathroom.webp"
+    ),
+    "glass-railing": (
+        f"{SITE_ORIGIN}/images/products/balcony-glass-railing-system/"
+        "luxury-balcony-glass-railing.webp"
+    ),
+    "pergola": (
+        f"{SITE_ORIGIN}/images/products/metal-louvers/"
+        "aluminium-ceiling-louver-pergola-design.webp"
+    ),
+    "telescope-windows": (
+        f"{SITE_ORIGIN}/images/products/telescope-windows/"
+        "telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp"
+    ),
+    "folding-systems": (
+        f"{SITE_ORIGIN}/images/products/folding-systems/"
+        "folding-aluminium-balcony-door-toughened-glass-india.webp"
+    ),
+}
+DEFAULT_FEED_LOGO = f"{SITE_ORIGIN}/images/woodenmax-logo.webp"
 
 
 def min_numeric_from_rates(rates: dict) -> int | None:
@@ -234,6 +293,7 @@ def default_price_for_path(rel: str) -> int:
         "glass-railing":      1850,    # balcony glass railing ₹1850/rft min
         "grills":             200,
         "pergola":            1500,
+        "mirror-profiles":    720,     # hub: ₹720–1,850/ft LED profile
     }
     return defaults.get(first, 550)
 
@@ -380,6 +440,7 @@ def product_type_for(rel: str) -> str:
         "glass-railing": "Home & Garden > Building Materials > Glass Railings",
         "grills": "Home & Garden > Building Materials > Safety Grills",
         "pergola": "Home & Garden > Outdoor Living > Pergolas",
+        "mirror-profiles": "Home & Garden > Decor > LED & Aluminium Mirror Profiles",
     }
     return mapping.get(key, "Home & Garden > Building Materials")
 
@@ -398,6 +459,7 @@ def category_label_for(rel: str) -> str:
         "glass-railing": "Home > Glass Railing",
         "grills": "Home > Safety Grills",
         "pergola": "Home > Pergola Outdoor",
+        "mirror-profiles": "Home > LED Mirror Profiles",
     }
     return labels.get(key, "Home > Building Materials")
 
@@ -416,8 +478,64 @@ def google_product_category_for(rel: str) -> str:
         "glass-railing": GPC_RAILINGS,
         "grills": GPC_FENCE_PANELS,
         "pergola": GPC_PERGOLA,
+        "mirror-profiles": GPC_MIRRORS,
     }
     return gpc.get(key, GPC_DOORS)
+
+
+def normalize_site_url(url: str) -> str:
+    """Normalize woodenmax.in page URLs (canonical / product link)."""
+    u = html_module.unescape(url.strip()).split("#")[0]
+    if u.startswith("/"):
+        u = SITE_ORIGIN + u
+    if not u.startswith("http"):
+        return u
+    p = urlparse(u)
+    host = p.netloc.lower()
+    if host.startswith("www.woodenmax.in"):
+        host = "woodenmax.in"
+    path = unquote(p.path)
+    if path != "/" and path.endswith("/"):
+        path = path.rstrip("/")
+    enc_path = quote(path, safe="/")
+    return urlunparse(("https", host, enc_path, "", p.query, ""))
+
+
+def feed_link_from_html(text: str, rel: str) -> str:
+    """Prefer <link rel=canonical> so GMC landing URL matches the live page."""
+    head = text[:50000]
+    m = CANONICAL_RE.search(head)
+    if m:
+        href = html_module.unescape(m.group(1).strip())
+        if href:
+            return normalize_site_url(href)
+    stem = rel.replace(".html", "").strip("/")
+    parts = stem.split("/")
+    if parts and parts[-1] == "index":
+        parts = parts[:-1]
+    path = "/".join(parts)
+    if not path:
+        return f"{SITE_ORIGIN}/products/"
+    # Hubs use trailing slash (matches site canonicals).
+    if len(parts) == 1:
+        return f"{SITE_ORIGIN}/products/{path}/"
+    return f"{SITE_ORIGIN}/products/{path}"
+
+
+def feed_id_for_path(path: Path, rel: str) -> str:
+    """Stable Merchant Center id — never use bare 'index'."""
+    stem = path.stem
+    if stem != "index":
+        fid = stem
+    else:
+        parent = path.parent.name
+        fid = parent if parent and parent != "products" else stem
+    if len(fid) > 50:
+        link = feed_link_from_html(
+            path.read_text(encoding="utf-8", errors="replace"), rel
+        )
+        fid = hashlib.sha256(link.encode("utf-8")).hexdigest()[:16]
+    return fid
 
 
 def products_page_base_url(rel: str) -> str:
@@ -462,6 +580,74 @@ def should_skip_image_url(url: str) -> bool:
     if "/images/" not in low:
         return True
     return False
+
+
+def local_path_for_site_url(url: str) -> Path | None:
+    """Map https://woodenmax.in/images/... to a repo file (if under images/)."""
+    u = normalize_feed_image_url(url)
+    if not u.startswith(SITE_ORIGIN + "/"):
+        return None
+    rel = unquote(urlparse(u).path.lstrip("/"))
+    if not rel.startswith("images/"):
+        return None
+    return ROOT / rel
+
+
+def feed_image_exists(url: str) -> bool:
+    p = local_path_for_site_url(url)
+    return bool(p and p.is_file())
+
+
+def silo_fallback_image(rel: str) -> str:
+    key = folder_key(rel)
+    raw = SILO_FALLBACK_IMAGES.get(key)
+    if raw:
+        return normalize_feed_image_url(raw)
+    return normalize_feed_image_url(DEFAULT_FEED_LOGO)
+
+
+def pick_feed_primary_image(text: str, rel: str, meta: dict) -> str:
+    """First fetchable product image: og → in-page imgs → silo hero → logo."""
+    img_candidates = collect_product_image_urls(text, rel)
+    og_raw = (meta.get("image") or "").strip()
+    if og_raw.startswith("/"):
+        og_raw = SITE_ORIGIN + og_raw
+    primary_og = normalize_feed_image_url(og_raw) if og_raw else ""
+    if primary_og and should_skip_image_url(primary_og):
+        primary_og = ""
+
+    ordered: list[str] = []
+    if primary_og and "woodenmax-logo" not in primary_og.lower():
+        ordered.append(primary_og)
+    ordered.extend(img_candidates)
+
+    seen: set[str] = set()
+    for u in ordered:
+        k = dedupe_image_key(u)
+        if k in seen:
+            continue
+        seen.add(k)
+        if feed_image_exists(u):
+            return u
+
+    fb = silo_fallback_image(rel)
+    if feed_image_exists(fb):
+        return fb
+    return normalize_feed_image_url(DEFAULT_FEED_LOGO)
+
+
+def pick_feed_extra_images(text: str, rel: str, primary: str) -> list[str]:
+    pk = dedupe_image_key(primary)
+    out: list[str] = []
+    for u in collect_product_image_urls(text, rel):
+        if dedupe_image_key(u) == pk:
+            continue
+        if not feed_image_exists(u):
+            continue
+        out.append(u)
+        if len(out) >= EXTRA_IMAGE_CAP:
+            break
+    return out
 
 
 def normalize_feed_image_url(url: str) -> str:
@@ -665,8 +851,8 @@ def main() -> None:
     html_files = sorted(PRODUCTS_DIR.rglob("*.html"))
     for path in html_files:
         rel = path.relative_to(PRODUCTS_DIR).as_posix()
-        link_path = rel.replace(".html", "")
-        link = f"{SITE_ORIGIN}/products/{link_path}"
+        text = path.read_text(encoding="utf-8", errors="replace")
+        link = feed_link_from_html(text, rel)
         if link in seen_link:
             continue
         seen_link.add(link)
@@ -675,10 +861,7 @@ def main() -> None:
             skipped_info_pages.append(rel)
             continue
 
-        fid = path.stem
-        if len(fid) > 50:
-            fid = hashlib.sha256(link.encode("utf-8")).hexdigest()[:16]
-        text = path.read_text(encoding="utf-8", errors="replace")
+        fid = feed_id_for_path(path, rel)
         meta = parse_html(text, path.stem)
 
         title = clean_title(meta["title"])
@@ -721,24 +904,8 @@ def main() -> None:
             continue
         seen_title[norm_t] = path.stem
 
-        img_candidates = collect_product_image_urls(text, rel)
-        logo_fallback = normalize_feed_image_url(f"{SITE_ORIGIN}/images/woodenmax-logo.png")
-        og_raw = (meta["image"] or "").strip()
-        if og_raw.startswith("/"):
-            og_raw = SITE_ORIGIN + og_raw
-        primary_og = normalize_feed_image_url(og_raw) if og_raw else ""
-        if primary_og and should_skip_image_url(primary_og):
-            primary_og = ""
-
-        if primary_og and "woodenmax-logo" not in primary_og.lower():
-            image = primary_og
-        elif img_candidates:
-            image = img_candidates[0]
-        else:
-            image = logo_fallback
-
-        pk = dedupe_image_key(image)
-        extras = [u for u in img_candidates if dedupe_image_key(u) != pk][:EXTRA_IMAGE_CAP]
+        image = pick_feed_primary_image(text, rel, meta)
+        extras = pick_feed_extra_images(text, rel, image)
         additional = ", ".join(extras)
 
         cat_key = folder_key(rel)
@@ -753,7 +920,7 @@ def main() -> None:
             band = "premium"
         else:
             band = "luxury"
-        unit = "rft" if cat_key == "glass-railing" else (
+        unit = "rft" if cat_key in ("glass-railing", "mirror-profiles") else (
             "project" if cat_key == "pergola" and price_val > 5000 else "sqft"
         )
 
@@ -796,7 +963,7 @@ def main() -> None:
                 f"Powered by {BRAND} Pricing Engine v1.0."
             )[:4990],
             "link": f"{SITE_ORIGIN}/api/calculate",
-            "image_link": f"{SITE_ORIGIN}/images/og-default.webp",
+            "image_link": SILO_FALLBACK_IMAGES["aluminium-windows"],
             "additional_image_link": "",
             "availability": "in stock",
             "price": "578.00 INR",
@@ -850,12 +1017,22 @@ def main() -> None:
         "custom_label_3",
         "custom_label_4",
     ]
-    with out_path.open("w", encoding="utf-8", newline="") as f:
+    csv_target = out_path
+    try:
+        fh = out_path.open("w", encoding="utf-8", newline="")
+    except PermissionError:
+        csv_target = ROOT / "products-feed.generated.csv"
+        fh = csv_target.open("w", encoding="utf-8", newline="")
+        print(
+            f"⚠ {out_path.name} is locked (close Excel). Wrote {csv_target.name} instead.",
+            file=sys.stderr,
+        )
+    with fh as f:
         w = csv.DictWriter(f, fieldnames=fieldnames)
         w.writeheader()
         w.writerows(rows)
 
-    print(f"Wrote {len(rows)} rows to {out_path.relative_to(ROOT)}")
+    print(f"Wrote {len(rows)} rows to {csv_target.relative_to(ROOT)}")
     print("Price source distribution:")
     for src in ("override", "title", "desc", "json", "fallback"):
         n = price_source_counts.get(src, 0)
@@ -869,6 +1046,25 @@ def main() -> None:
               "(kept on site, not in Merchant feed):")
         for p in skipped_info_pages:
             print(f"  - {p}")
+
+    by_silo: dict[str, int] = {}
+    for r in rows:
+        silo = r.get("custom_label_0") or "other"
+        by_silo[silo] = by_silo.get(silo, 0) + 1
+    print("\nFeed rows by silo (custom_label_0):")
+    for silo in sorted(by_silo):
+        print(f"  {silo}: {by_silo[silo]}")
+
+    broken_images = [r for r in rows if not feed_image_exists(r["image_link"])]
+    if broken_images:
+        print(
+            f"\n⚠ {len(broken_images)} feed rows still point at missing image files:",
+            file=sys.stderr,
+        )
+        for r in broken_images[:25]:
+            print(f"  {r['id']}: {r['image_link']}", file=sys.stderr)
+    else:
+        print(f"\n✓ All {len(rows)} feed image_link URLs resolve to files on disk.")
 
 
 if __name__ == "__main__":

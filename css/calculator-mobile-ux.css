@@ -267,6 +267,23 @@
 .calc-sticky-add[hidden] { display: none !important; }
 .calc-sticky-add:hover { transform: translateY(-1px); }
 
+.calc-sticky-buy {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 0.9rem;
+  background: linear-gradient(135deg, #0f766e, #059669);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.calc-sticky-buy[hidden] { display: none !important; }
+.calc-sticky-buy:hover { transform: translateY(-1px); }
+
 /* Cart toggle button */
 .calc-sticky-cart {
   flex-shrink: 0;

@@ -152,6 +152,10 @@ module.exports.cities = {
 module.exports.products = {
   'aluminium-window': {
     hub: '/products/aluminium-windows',
+    ogImage:
+      'https://woodenmax.in/images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home.webp',
+    heroImageRel:
+      '../../images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home.webp',
     title: 'Aluminium Window',
     pluralTitle: 'Aluminium Windows',
     productSlug: 'aluminium-window',
@@ -170,6 +174,10 @@ module.exports.products = {
   },
   'glass-elevation': {
     hub: '/products/glass-elevation',
+    ogImage:
+      'https://woodenmax.in/images/products/Glazing/architectural-glass-elevation.webp',
+    heroImageRel:
+      '../../images/products/Glazing/architectural-glass-elevation.webp',
     title: 'Glass Elevation',
     pluralTitle: 'Glass Elevations',
     productSlug: 'glass-elevation',

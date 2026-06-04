@@ -222,6 +222,68 @@
   color: #64748b;
   margin: 0.75rem 0 0;
 }
+.catalog-buy-actions {
+  margin-top: 1rem;
+  padding: 1rem 1.1rem;
+  background: #ecfdf5;
+  border: 1px solid #6ee7b7;
+  border-radius: 12px;
+}
+.catalog-buy-actions[hidden] {
+  display: none !important;
+}
+.catalog-buy-lead {
+  margin: 0 0 0.85rem;
+  font-size: 0.92rem;
+  color: #065f46;
+  line-height: 1.5;
+}
+.catalog-buy-btns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.catalog-buy-btn {
+  font: 600 0.9rem/1.2 Inter, system-ui, sans-serif;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #0f766e;
+  background: #fff;
+  color: #0f766e;
+  cursor: pointer;
+}
+.catalog-buy-btn--primary {
+  background: #0f766e;
+  color: #fff;
+  border-color: #0f766e;
+}
+.catalog-buy-btn--primary:hover {
+  background: #115e59;
+}
+.catalog-buy-btn--ghost {
+  border-color: #cbd5e1;
+  color: #334155;
+}
+.catalog-buy-policy {
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+.catalog-buy-policy a {
+  color: #0f766e;
+  text-decoration: underline;
+}
+.catalog-hero-buy {
+  margin-right: 0.5rem;
+  margin-bottom: 0.35rem;
+}
+.cluster-hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
 .catalog-calc-result.is-visible {
   display: block;
   margin-top: 1rem;

@@ -24,7 +24,7 @@ function makeCityPage (citySlug, productKey) {
     canonical,
     title: `${prod.title} Price in ${city.name} 2026 | ₹${prod.priceLow}-${prod.priceHigh}/sqft | WoodenMax`,
     description: `Live aluminium window price in ${city.name} from ₹${prod.priceLow}/sqft to ₹${prod.priceHigh}/sqft. Calculator, finishes, install timelines, free site visit. ${city.freeTransport ? 'Free transport on orders ≥ ₹15 L.' : 'Transparent transport pricing.'}`,
-    ogImage: `https://woodenmax.in/images/cities/${cityLower}-hero.webp`,
+    ogImage: prod.ogImage,
     schemaType: 'Product',
     datePublished: '2026-05-18',
     lastUpdated:   '2026-05-18',
@@ -38,7 +38,7 @@ function makeCityPage (citySlug, productKey) {
     hero: {
       sub: `Live ${city.name} pricing across all ${prod.title.toLowerCase()} variants, with ${city.name}-specific climate, salinity and wind-load specs baked into every quote.`,
       image: {
-        src: `../../images/cities/${cityLower}-hero.webp`,
+        src: prod.heroImageRel,
         alt: `${prod.title} installation in ${city.name} — typical premium project visualisation`,
         w: 1200, h: 750
       },
