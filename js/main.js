@@ -32,9 +32,10 @@
   if (global.__wmPricingModuleLoaded) return;
   global.__wmPricingModuleLoaded = true;
 
-  var CACHE_KEY = 'wm_pricing_ctx_v3';   // bumped — old cache had old premium
+  var CACHE_KEY = 'wm_pricing_ctx_v4';   // bumped — skip browser geo on woodenmax.in
   var TTL_MS = 12 * 60 * 60 * 1000;
   var FX_URL = 'https://open.er-api.com/v6/latest/INR';
+  // Browser geo only for non-production hosts; woodenmax.in uses INR (see shouldUseDomesticGeoOnly).
   var GEO_URL = 'https://api.geocoded.me/';
 
   var EUROZONE = {
@@ -373,6 +374,17 @@
     }
   }
 
+  /** Live site: no browser geo fetch (CORS / rate limits). INR default; ?wmPricingCountry=US for QA. */
+  function shouldUseDomesticGeoOnly() {
+    if (pricingCountryOverride()) return false;
+    try {
+      var h = (location.hostname || '').toLowerCase();
+      return h === 'woodenmax.in' || h === 'www.woodenmax.in' || h.endsWith('.woodenmax.in');
+    } catch (e) {
+      return true;
+    }
+  }
+
   function run() {
     var urlOverride = pricingCountryOverride();
     var cached = urlOverride ? null : loadCached();
@@ -380,6 +392,34 @@
       bindFormatters(cached);
     } else {
       bindFormatters(domesticState());
+    }
+
+    if (shouldUseDomesticGeoOnly()) {
+      if (!cached) dispatchReady();
+      return;
+    }
+
+    if (urlOverride) {
+      fetchJson(FX_URL).then(function (fx) {
+        var rates = fx && fx.rates;
+        if (!rates) {
+          if (!cached) {
+            bindFormatters(domesticState());
+            dispatchReady();
+          }
+          return;
+        }
+        if (urlOverride === 'IN') {
+          bindFormatters(domesticState());
+          dispatchReady();
+          return;
+        }
+        var st = buildForeignState(urlOverride, 'USD', rates);
+        st.pricingTestOverride = true;
+        bindFormatters(st);
+        dispatchReady();
+      });
+      return;
     }
 
     Promise.all([fetchJson(GEO_URL), fetchJson(FX_URL)])
