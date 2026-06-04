@@ -125,6 +125,10 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     calculate() {
+      if (typeof window.wmDelegateMultipleSizeRecalc === 'function' && window.wmDelegateMultipleSizeRecalc()) {
+        return;
+      }
+
       // Get inputs
       const widthInput = document.getElementById('calc-width');
       const heightInput = document.getElementById('calc-height');
@@ -266,6 +270,10 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     }
     
     sendEmail(userDetails) {
+      if (typeof window.wmUsesMultipleSizeRows === 'function' && window.wmUsesMultipleSizeRows()) {
+        return super.sendEmail(userDetails);
+      }
+
       const selections = this.getCalculatorSelections();
       
       // Always get area and numberOfWindows (needed for email body and logging)

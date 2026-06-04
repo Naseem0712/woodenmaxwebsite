@@ -213,9 +213,15 @@
     // Use calculator instance rates if available, otherwise use fallback
     const BASE_RATE = calculatorInstance?.BASE_RATE_PER_SQFT || FALLBACK_BASE_RATE;
     const BASE_HARDWARE = calculatorInstance?.BASE_HARDWARE_COST || FALLBACK_HARDWARE;
+    const MULTIPOINT_HARDWARE = calculatorInstance?.MULTIPOINT_HARDWARE_COST || BASE_HARDWARE;
+    const heavyGlass = glassOption === '12mm' || glassOption === 'dgu' || glassOption === 'safety';
     
-    // Base cost per window
-    let baseCostPerWindow = (BASE_RATE * areaSqft) + BASE_HARDWARE;
+    // Base cost per window (upgrade hardware for heavy glass / multipoint lock)
+    let hardwareCostPerWindow = BASE_HARDWARE;
+    if (heavyGlass || lockOption === 'multi') {
+      hardwareCostPerWindow = MULTIPOINT_HARDWARE;
+    }
+    let baseCostPerWindow = (BASE_RATE * areaSqft) + hardwareCostPerWindow;
     
     // Add-ons per sqft
     let addOnsPerSqft = 0;
@@ -250,6 +256,8 @@
     if (hasMesh) {
       if (typeof calculatorInstance?.MESH_RATE === 'number' && calculatorInstance.MESH_RATE > 0) {
         addOnsPerSqft += calculatorInstance.MESH_RATE;
+      } else if (calculatorInstance?.MESH_RATES?.security) {
+        addOnsPerSqft += calculatorInstance.MESH_RATES.security;
       } else if (calculatorInstance?.MESH_RATES?.standard) {
         addOnsPerSqft += calculatorInstance.MESH_RATES.standard;
       } else {
@@ -259,12 +267,14 @@
     
     // Lock add-ons (per window)
     let lockAdditionPerWindow = 0;
-    if (lockOption === 'multi') {
+    if (lockOption === 'multi' && !heavyGlass) {
       if (calculatorInstance?.LOCK_RATES?.multiPoint) {
         lockAdditionPerWindow = calculatorInstance.LOCK_RATES.multiPoint;
       } else if (FALLBACK_LOCK_RATES.multiPoint) {
         lockAdditionPerWindow = FALLBACK_LOCK_RATES.multiPoint;
       }
+    } else if (lockOption === 'mortice' && calculatorInstance?.LOCK_RATES?.mortice) {
+      lockAdditionPerWindow = calculatorInstance.LOCK_RATES.mortice;
     }
     
     // Calculate per window cost
@@ -843,7 +853,22 @@
     }
   }
   
+  function wmUsesMultipleSizeRows() {
+    const container = document.getElementById('calc-sizes-container');
+    return !!(container && container.querySelectorAll('.calc-size-row').length > 0);
+  }
+
+  function wmDelegateMultipleSizeRecalc() {
+    if (wmUsesMultipleSizeRows() && typeof recalculateAll === 'function') {
+      recalculateAll();
+      return true;
+    }
+    return false;
+  }
+
   window.wmRecalculateAllSizeRows = recalculateAll;
+  window.wmUsesMultipleSizeRows = wmUsesMultipleSizeRows;
+  window.wmDelegateMultipleSizeRecalc = wmDelegateMultipleSizeRecalc;
 
   startInit();
 })();
