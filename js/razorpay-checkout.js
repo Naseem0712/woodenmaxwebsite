@@ -83,6 +83,17 @@
       };
     }
 
+    if (choice === 'order_full' && !mixed && !allMirror && sub >= 1) {
+      return {
+        mode: 'order_full',
+        amountInr: sub,
+        amountPaise: sub * 100,
+        label: 'Confirm order — Pay ' + fmtInr(sub),
+        description: 'Full order — calculator total (pre-GST). Non-refundable after 3 days once processing starts. GST & transport extra.',
+        cartKind: 'other',
+      };
+    }
+
     return {
       mode: 'booking',
       amountInr: 1000,
@@ -227,7 +238,7 @@
           contact: lead.mobile || '',
         },
         notes: {
-          purpose: plan.mode === 'mirror_full' ? 'mirror_full_pay' : 'order_booking',
+          purpose: (plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'order_full_pay' : 'order_booking',
           env: testMode ? 'test' : 'live',
         },
         theme: { color: '#B45309' },
@@ -295,8 +306,8 @@
 
     var plan = buildPaymentPlan(items, options.payChoice);
 
-    if (plan.mode === 'mirror_full' && plan.amountPaise < 100) {
-      return Promise.reject(new Error('Calculator total is too low. Check mirror size & options.'));
+    if ((plan.mode === 'mirror_full' || plan.mode === 'order_full') && plan.amountPaise < 100) {
+      return Promise.reject(new Error('Calculator total is too low. Check sizes & options.'));
     }
 
     onStatus('loading', 'Preparing secure payment…');
@@ -304,10 +315,10 @@
     return loadCheckoutScript()
       .then(function () {
         return postJson('/api/create-order', {
-          purpose: plan.mode === 'mirror_full' ? 'mirror_full_pay' : 'order_booking',
+          purpose: (plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'order_full_pay' : 'order_booking',
           amount: plan.amountPaise,
           currency: 'INR',
-          receipt: (plan.mode === 'mirror_full' ? 'wm_mirror_' : 'wm_book_') + Date.now(),
+          receipt: ((plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'wm_full_' : 'wm_book_') + Date.now(),
           notes: {
             lead_name: lead.name || '',
             lead_mobile: lead.mobile || '',
@@ -330,7 +341,7 @@
         } else if (isRazorpayTestKey(order.key_id)) {
           onStatus('test', 'Test mode — no real money');
         }
-        onStatus('modal', plan.mode === 'mirror_full'
+        onStatus('modal', (plan.mode === 'mirror_full' || plan.mode === 'order_full')
           ? ('Pay ' + fmtInr(plan.amountInr) + ' securely')
           : 'Pay ₹1,000 booking securely');
         return openRazorpayModal(lead, plan, order);

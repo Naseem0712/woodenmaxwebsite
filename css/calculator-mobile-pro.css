@@ -1,0 +1,423 @@
+/**
+ * calculator-mobile-pro.css — v2 ultra-compact mobile calculator
+ * Scope: .calc-mobile-pro only, max-width 768px. Desktop unchanged.
+ */
+
+@media (max-width: 768px) {
+  /* Section wrapper — less air above/below calculator */
+  .window-price-calc-section:has(.calc-mobile-pro) {
+    padding: 1.25rem 0 !important;
+  }
+
+  .window-price-calc-section:has(.calc-mobile-pro) .section-title {
+    font-size: 1.15rem !important;
+    margin-bottom: 0.25rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .window-price-calc-section:has(.calc-mobile-pro) > .container > p {
+    display: none !important;
+  }
+
+  .calc-mobile-pro {
+    --calc-pro-accent: #b8893d;
+    --calc-pro-ink: #0f172a;
+    --calc-pro-muted: #64748b;
+    --calc-pro-border: #e2e8f0;
+    --calc-pro-soft: #f8fafc;
+    padding: 0.5rem 0.45rem 0.55rem !important;
+    border-radius: 12px !important;
+    border: 1px solid var(--calc-pro-border) !important;
+    box-shadow: 0 4px 18px -10px rgba(15, 23, 42, 0.16) !important;
+    background: #fff !important;
+  }
+
+  /* Trust strip hidden — sticky bar already shows price/trust */
+  .calc-mobile-pro > div[style*="text-align: center"]:first-of-type {
+    display: none !important;
+  }
+
+  /* Header — one tight row */
+  .calc-mobile-pro .calc-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.4rem !important;
+    padding: 0.4rem 0.5rem !important;
+    margin-bottom: 0.45rem !important;
+    border-radius: 8px !important;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+    border: none !important;
+  }
+
+  .calc-mobile-pro .calc-header svg {
+    width: 15px !important;
+    height: 15px !important;
+    flex-shrink: 0;
+    color: var(--calc-pro-accent) !important;
+  }
+
+  .calc-mobile-pro .calc-header h2,
+  .calc-mobile-pro .calc-header h3 {
+    font-size: 0.82rem !important;
+    color: #f8fafc !important;
+    letter-spacing: 0.01em !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Groups */
+  .calc-mobile-pro .calc-group {
+    margin-bottom: 0.4rem !important;
+    min-width: 0;
+  }
+
+  .calc-mobile-pro .calc-group > label {
+    font-size: 0.62rem !important;
+    margin-bottom: 0.2rem !important;
+    letter-spacing: 0.03em !important;
+    color: var(--calc-pro-muted) !important;
+    gap: 0.25rem !important;
+  }
+
+  .calc-mobile-pro .calc-group > label svg {
+    display: none !important;
+  }
+
+  .calc-mobile-pro .calc-group > div[style*="color: #b0b0b0"],
+  .calc-mobile-pro .calc-group > div[style*="color:#b0b0b0"] {
+    display: none !important;
+  }
+
+  .calc-mobile-pro .calc-input,
+  .calc-mobile-pro .calc-select,
+  .calc-mobile-pro .calc-size-width,
+  .calc-mobile-pro .calc-size-height,
+  .calc-mobile-pro .calc-size-qty {
+    padding: 0.38rem 0.45rem !important;
+    min-height: 36px !important;
+    font-size: 16px !important;
+    border-radius: 7px !important;
+    border-color: var(--calc-pro-border) !important;
+  }
+
+  .calc-mobile-pro .calc-select {
+    padding-right: 1.75rem !important;
+    background-position: right 0.45rem center !important;
+    background-size: 12px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .calc-mobile-pro .calc-options-grid .calc-select {
+    font-size: 0.72rem !important;
+    padding: 0.38rem 1.55rem 0.38rem 0.4rem !important;
+    min-height: 34px !important;
+  }
+
+  /* Sizes block — unit inline feel */
+  .calc-mobile-pro .calc-group:has(#calc-sizes-container) > label {
+    margin-bottom: 0.15rem !important;
+  }
+
+  .calc-mobile-pro .calc-group:has(#calc-sizes-container) > div[style*="margin-bottom: 1rem"] {
+    margin-bottom: 0.35rem !important;
+  }
+
+  .calc-mobile-pro #calc-sizes-container {
+    gap: 0.35rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  .calc-mobile-pro .calc-size-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr auto !important;
+    grid-template-areas:
+      "width height remove"
+      "qty qty qty" !important;
+    padding: 0.4rem !important;
+    gap: 0.3rem 0.35rem !important;
+    border-radius: 8px !important;
+    background: var(--calc-pro-soft) !important;
+    border: 1px solid var(--calc-pro-border) !important;
+  }
+
+  .calc-mobile-pro .calc-size-row > div:nth-child(1) { grid-area: width; }
+  .calc-mobile-pro .calc-size-row > div:nth-child(2) { grid-area: height; }
+  .calc-mobile-pro .calc-size-row > div:nth-child(3) { grid-area: qty; }
+
+  .calc-mobile-pro .calc-size-row > .remove-size-btn {
+    grid-area: remove;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    padding: 0 !important;
+    align-self: end;
+    margin-bottom: 2px;
+  }
+
+  .calc-mobile-pro .calc-size-row > .row-amount {
+    display: none !important;
+  }
+
+  .calc-mobile-pro .calc-size-row .size-label {
+    font-size: 0.58rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  .calc-mobile-pro #calc-area-display {
+    font-size: 0.72rem !important;
+    padding: 0.35rem 0.45rem !important;
+    margin-top: 0.3rem !important;
+    border-radius: 7px !important;
+    line-height: 1.2 !important;
+  }
+
+  .calc-mobile-pro #calc-add-size-btn,
+  .calc-mobile-pro #calc-sync-selections-btn {
+    padding: 0.4rem 0.5rem !important;
+    font-size: 0.72rem !important;
+    margin-top: 0.3rem !important;
+    border-radius: 7px !important;
+    min-height: 34px !important;
+    gap: 0.35rem !important;
+  }
+
+  .calc-mobile-pro #calc-add-size-btn svg,
+  .calc-mobile-pro #calc-sync-selections-btn svg {
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  /* All options — 2×2 grid (glass, coating, mesh, lock) */
+  .calc-mobile-pro .calc-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 0.4rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .calc-mobile-pro .calc-options-grid .calc-group {
+    margin-bottom: 0 !important;
+  }
+
+  .calc-mobile-pro .calc-options-grid .calc-group > label {
+    font-size: 0.58rem !important;
+    margin-bottom: 0.15rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .calc-mobile-pro .calc-options-grid .calc-group:has(#calc-mesh) > label {
+    display: none !important;
+  }
+
+  .calc-mobile-pro .calc-checkbox-group {
+    padding: 0.35rem 0.4rem !important;
+    border-radius: 7px !important;
+    min-height: 36px !important;
+    gap: 0.35rem !important;
+  }
+
+  .calc-mobile-pro .calc-checkbox-group input[type="checkbox"] {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .calc-mobile-pro .calc-checkbox-group label {
+    font-size: 0.68rem !important;
+    line-height: 1.15 !important;
+    font-weight: 500 !important;
+    color: var(--calc-pro-ink) !important;
+  }
+
+  /* Price strip — slim */
+  .calc-mobile-pro .calc-price-display {
+    padding: 0.45rem 0.55rem !important;
+    margin-top: 0.35rem !important;
+    border-radius: 8px !important;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%) !important;
+    border: 1px solid rgba(184, 137, 61, 0.3) !important;
+  }
+
+  body.has-calc-sticky-bar .calc-mobile-pro .calc-price-display {
+    display: none !important;
+  }
+
+  .calc-mobile-pro .calc-price-row {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: none !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.35rem !important;
+  }
+
+  .calc-mobile-pro .calc-price-label {
+    font-size: 0.68rem !important;
+    font-weight: 600 !important;
+    color: var(--calc-pro-muted) !important;
+    line-height: 1.2 !important;
+  }
+
+  .calc-mobile-pro .calc-price-value {
+    font-size: 0.95rem !important;
+    font-weight: 800 !important;
+    color: var(--calc-pro-ink) !important;
+    width: auto !important;
+    text-align: right;
+  }
+
+  /* Get Exact — compact pill */
+  .calc-mobile-exact-cta {
+    margin-top: 0.35rem;
+  }
+
+  .calc-mobile-exact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    width: 100%;
+    padding: 0.48rem 0.65rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #fff;
+    cursor: pointer;
+    background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+    box-shadow: 0 4px 12px -6px rgba(37, 99, 235, 0.5);
+  }
+
+  .calc-mobile-exact-btn svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+
+  .calc-mobile-exact-hint {
+    display: none !important;
+  }
+
+  /* Form — hidden until tap */
+  .calc-mobile-pro .calc-user-form {
+    display: none !important;
+    margin-top: 0.45rem !important;
+    padding: 0.55rem 0.5rem !important;
+    border-radius: 10px !important;
+    border: 1px solid var(--calc-pro-border) !important;
+    box-shadow: 0 8px 24px -14px rgba(15, 23, 42, 0.22);
+    animation: calcProFormIn 0.22s ease;
+  }
+
+  .calc-mobile-pro .calc-user-form.calc-user-form--open {
+    display: block !important;
+  }
+
+  @keyframes calcProFormIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .calc-mobile-pro .calc-user-form h4 {
+    font-size: 0.85rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .calc-mobile-pro .calc-user-form h4 svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  .calc-mobile-pro .calc-user-form > p {
+    font-size: 0.72rem !important;
+    margin-bottom: 0.45rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .calc-mobile-pro .calc-user-form .calc-group {
+    margin-bottom: 0.4rem !important;
+  }
+
+  .calc-mobile-pro .calc-user-form .calc-group label {
+    font-size: 0.72rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  .calc-mobile-pro .calc-submit-btn {
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.82rem !important;
+    border-radius: 8px !important;
+    margin-top: 0.15rem;
+  }
+
+  /* Pricing info — tiny accordion */
+  .calc-mobile-pro .calc-info-box {
+    margin-top: 0.4rem !important;
+    padding: 0 !important;
+    border: 1px solid var(--calc-pro-border) !important;
+    border-radius: 8px !important;
+    background: var(--calc-pro-soft) !important;
+    overflow: hidden;
+  }
+
+  .calc-mobile-pro .calc-info-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+    border: none;
+    background: transparent;
+    font-size: 0.68rem;
+    font-weight: 600;
+    color: var(--calc-pro-ink);
+    cursor: pointer;
+    text-align: left;
+    line-height: 1.2;
+  }
+
+  .calc-mobile-pro .calc-info-toggle svg {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+    color: var(--calc-pro-muted);
+  }
+
+  .calc-mobile-pro .calc-info-box.is-open .calc-info-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .calc-mobile-pro .calc-info-body {
+    display: none;
+    padding: 0 0.5rem 0.45rem;
+    font-size: 0.65rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .calc-mobile-pro .calc-info-box.is-open .calc-info-body {
+    display: block;
+  }
+
+  .calc-mobile-pro .calc-info-body p {
+    margin: 0 0 0.25rem !important;
+    font-size: 0.65rem !important;
+  }
+
+  .calc-mobile-pro #calc-success-message {
+    margin-top: 0.4rem !important;
+    padding: 0.45rem !important;
+    font-size: 0.75rem !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .calc-mobile-exact-cta,
+  .calc-info-toggle {
+    display: none;
+  }
+}

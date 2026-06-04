@@ -780,16 +780,35 @@
   flex: 1 1 100%;
 }
 
-.price-calculator-container[data-grill-calculator] .calc-group > div {
+.price-calculator-container[data-grill-calculator] .calc-group > div:not(.grills-gap-fields):not(.grills-calc-dims) {
   flex: 1 1 100%;
   min-width: 0;
   width: 100%;
 }
 
+.price-calculator-container[data-grill-calculator] .grills-gap-fields {
+  flex: 1 1 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem 0.5rem;
+  width: 100%;
+}
+
+.price-calculator-container[data-grill-calculator] .grills-calc-tail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
 @media (max-width: 480px) {
   .price-calculator-container[data-grill-calculator] .calc-group > .calc-select {
-    flex: 1 1 100%;
+    flex: 1 1 calc(50% - 0.35rem);
     min-width: 0;
+    margin-top: 0 !important;
+  }
+
+  .price-calculator-container[data-grill-calculator] .calc-group > .calc-select:only-of-type {
+    flex: 1 1 100%;
   }
 }
 

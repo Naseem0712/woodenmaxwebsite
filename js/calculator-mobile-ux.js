@@ -32,6 +32,7 @@
   var SHEET_OPEN      = 'is-open';
   var MODAL_OPEN      = 'is-open';
   var PLACEHOLDER_CLS = 'is-placeholder';
+  var COMPANY_UPI_ID  = 'finilexnaseem-3@okicici';
 
   // ---------- Tiny utilities ----------
   function $ (sel, root) { return (root || document).querySelector(sel); }
@@ -108,32 +109,74 @@
     return raw || 'Product';
   }
 
-  function globalCalcOptionDetails () {
-    var details = [];
-    var pairs = [
-      ['calc-glass', 'Glass'],
-      ['calc-coating', 'Coating'],
-      ['calc-lock', 'Lock'],
-      ['calc-unit', 'Unit']
-    ];
-    pairs.forEach(function (p) {
-      var sel = document.getElementById(p[0]);
-      if (sel && sel.options && sel.selectedIndex >= 0) {
-        var v = cleanLabel(sel.options[sel.selectedIndex].textContent);
-        if (v && !/^select/i.test(v)) details.push({ label: p[1], value: v });
-      }
+  function fullProductLineName (calc) {
+    calc = calc || getCalcContainer();
+    if (calc && calc.getAttribute('data-product-name')) {
+      return cleanLabel(calc.getAttribute('data-product-name'));
+    }
+    return shortProductName(calc, readProductMeta());
+  }
+
+  function calcSelectDetail (id, label) {
+    var sel = document.getElementById(id);
+    if (!sel || sel.tagName !== 'SELECT' || !sel.options || sel.selectedIndex < 0) return null;
+    var v = cleanLabel(sel.options[sel.selectedIndex].textContent);
+    if (!v || /^select/i.test(v)) return null;
+    return { label: label, value: v };
+  }
+
+  function calcCheckboxDetail (id, label) {
+    var cb = document.getElementById(id);
+    if (!cb || cb.type !== 'checkbox') return null;
+    return { label: label, value: cb.checked ? 'Yes' : 'No' };
+  }
+
+  function mergeDetailRows () {
+    var map = {};
+    var order = [];
+    for (var i = 0; i < arguments.length; i++) {
+      (arguments[i] || []).forEach(function (d) {
+        if (!d || !d.label) return;
+        if (!map.hasOwnProperty(d.label)) order.push(d.label);
+        map[d.label] = d;
+      });
+    }
+    return order.map(function (lbl) { return map[lbl]; });
+  }
+
+  function pageLevelWindowDetails (meta) {
+    meta = meta || readProductMeta();
+    var rows = [{ label: 'Window / product', value: fullProductLineName() || meta.name }];
+    [
+      ['calc-track', 'Track'],
+      ['calc-color', 'Profile colour'],
+      ['calc-profile', 'Profile / system'],
+      ['calc-system', 'System'],
+      ['calc-hardware', 'Hardware']
+    ].forEach(function (p) {
+      var d = calcSelectDetail(p[0], p[1]);
+      if (d) rows.push(d);
     });
-    var mesh = document.getElementById('calc-mesh');
-    details.push({ label: 'Mesh', value: (mesh && mesh.checked) ? 'Yes' : 'No' });
-    return details;
+    var mesh = calcCheckboxDetail('calc-mesh', 'Mesh');
+    if (mesh) rows.push(mesh);
+    var grillOpt = calcCheckboxDetail('calc-grill', 'Window grill option');
+    if (grillOpt) rows.push(grillOpt);
+    return rows;
+  }
+
+  function globalCalcOptionDetails () {
+    return mergeDetailRows(
+      pageLevelWindowDetails(readProductMeta()),
+      [
+        calcSelectDetail('calc-glass', 'Glass'),
+        calcSelectDetail('calc-coating', 'Coating'),
+        calcSelectDetail('calc-lock', 'Lock'),
+        calcSelectDetail('calc-unit', 'Unit')
+      ].filter(Boolean)
+    );
   }
 
   function rowOptionDetails (rowId) {
-    if (!window.rowSelections || typeof window.rowSelections.get !== 'function') {
-      return globalCalcOptionDetails();
-    }
-    var rs = window.rowSelections.get(rowId);
-    if (!rs) return globalCalcOptionDetails();
     var glassSel = document.getElementById('calc-glass');
     var coatSel = document.getElementById('calc-coating');
     var lockSel = document.getElementById('calc-lock');
@@ -144,13 +187,28 @@
       }
       return val;
     }
-    var out = [
-      { label: 'Glass', value: optText(glassSel, rs.glass) },
-      { label: 'Coating', value: optText(coatSel, rs.coating) },
-      { label: 'Lock', value: optText(lockSel, rs.lock) }
-    ];
-    out.push({ label: 'Mesh', value: rs.mesh ? 'Yes' : 'No' });
-    return out;
+    var rowOpts = [];
+    if (window.rowSelections && typeof window.rowSelections.get === 'function') {
+      var rs = window.rowSelections.get(rowId);
+      if (rs) {
+        rowOpts = [
+          { label: 'Glass', value: optText(glassSel, rs.glass) },
+          { label: 'Coating', value: optText(coatSel, rs.coating) },
+          { label: 'Lock', value: optText(lockSel, rs.lock) },
+          { label: 'Mesh', value: rs.mesh ? 'Yes' : 'No' }
+        ];
+      }
+    }
+    if (!rowOpts.length) {
+      rowOpts = [
+        calcSelectDetail('calc-glass', 'Glass'),
+        calcSelectDetail('calc-coating', 'Coating'),
+        calcSelectDetail('calc-lock', 'Lock')
+      ].filter(Boolean);
+      var mesh = calcCheckboxDetail('calc-mesh', 'Mesh');
+      if (mesh) rowOpts.push(mesh);
+    }
+    return mergeDetailRows(pageLevelWindowDetails(readProductMeta()), rowOpts);
   }
 
   function leadCcEmail (lead) {
@@ -182,15 +240,18 @@
       areaLine = cleanLabel(areaEl.textContent).replace(/^Area:\s*/i, '');
     }
 
-    var details = [
-      { label: 'Width × Height × Qty', value: w + ' × ' + h + ' ' + unitLabel + ' × ' + q }
-    ];
-    if (areaLine) details.push({ label: 'Area', value: areaLine });
-    rowOptionDetails(row.id).forEach(function (d) { details.push(d); });
+    var calc = getCalcContainer();
+    var details = mergeDetailRows(
+      rowOptionDetails(row.id),
+      [
+        { label: 'Width × Height × Qty', value: w + ' × ' + h + ' ' + unitLabel + ' × ' + q },
+        areaLine ? { label: 'Area', value: areaLine } : null
+      ].filter(Boolean)
+    );
 
     var rowCount = document.querySelectorAll('.calc-size-row').length;
-    var productName = meta.name;
-    if (rowCount > 1) productName = meta.name + ' — Opening ' + (index + 1);
+    var productName = fullProductLineName(calc) || meta.name;
+    if (rowCount > 1) productName = productName + ' — Opening ' + (index + 1);
 
     return {
       productKey: meta.key,
@@ -235,6 +296,403 @@
 
   function uid () {
     return 'q_' + Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-4);
+  }
+
+  function grillInnerShapeLabel (shape) {
+    var m = { rect: 'Rectangle / Square', round: 'Round', oval: 'Oval' };
+    return m[shape] || shape || '—';
+  }
+
+  function grillGapTypeLabel (val) {
+    var m = {
+      uniform: 'Uniform gap',
+      alternating2: 'Alternating 2 gaps',
+      alternating3: 'Alternating 3 gaps'
+    };
+    return m[val] || val || '—';
+  }
+
+  function grillGapSpacingLine (r, inst) {
+    var u = (r.unit || 'in').toLowerCase();
+    var g1 = r.gap1;
+    var g2 = r.gap2;
+    var g3 = r.gap3;
+    var gt = r.gapType || (inst && inst.val ? inst.val('grill-gap-type') : 'uniform');
+    if (inst && typeof inst.numVal === 'function') {
+      if (g1 == null) g1 = inst.numVal('grill-gap1');
+      if (g2 == null) g2 = inst.numVal('grill-gap2');
+      if (g3 == null) g3 = inst.numVal('grill-gap3');
+    }
+    var parts = [];
+    if (g1 > 0) parts.push('Gap 1: ' + g1 + ' ' + u);
+    if ((gt === 'alternating2' || gt === 'alternating3') && g2 > 0) {
+      parts.push('Gap 2: ' + g2 + ' ' + u);
+    }
+    if (gt === 'alternating3' && g3 > 0) parts.push('Gap 3: ' + g3 + ' ' + u);
+    return parts.join(' · ');
+  }
+
+  function buildGrillSpecDetails (r, meta, inst) {
+    meta = meta || readProductMeta();
+    var qty = r.qty || 1;
+    var colorName = r.colorName || (inst && inst.selectedColor ? inst.selectedColor.name : '');
+    var coating = r.coatingFinish || '';
+    var finishSel = document.getElementById('grill-coating-finish');
+    if (finishSel && finishSel.options && finishSel.selectedIndex >= 0) {
+      coating = cleanLabel(finishSel.options[finishSel.selectedIndex].textContent) || coating;
+    }
+    if (!coating && inst && inst.val) coating = inst.val('grill-coating-finish') || '';
+    var innerShape = r.innerShape || (inst && inst.val ? inst.val('grill-inner-shape') : 'rect');
+    var rodSize = r.rodSize != null ? r.rodSize : (inst && inst.numVal ? inst.numVal('grill-rod-size') : 0);
+    var hasDiv = r.hasDividers || (inst && inst.val && inst.val('grill-dividers') === 'yes');
+    var rows = [
+      { label: 'Grill product', value: fullProductLineName(getCalcContainer()) || meta.name },
+      { label: 'Opening size', value: r.width + ' × ' + r.height + ' ' + (r.unit || 'in') },
+      { label: 'Quantity', value: String(qty) },
+      {
+        label: 'Outer frame',
+        value: (r.outerProfile || '—') + 'mm profile · ' + (r.outerThickness || '—') + 'mm wall'
+      },
+      {
+        label: 'Inner section',
+        value: (r.innerProfile || '—') + 'mm ' + grillInnerShapeLabel(innerShape) +
+          ' · ' + (r.innerThickness || '—') + 'mm wall'
+      },
+      {
+        label: 'Pattern',
+        value: (r.pattern || '—') + ' · ' + grillGapTypeLabel(r.gapType)
+      }
+    ];
+    var gapSp = grillGapSpacingLine(r, inst);
+    if (gapSp) rows.push({ label: 'Gap spacing', value: gapSp });
+    if (r.sectionSpaces && r.sectionSpaces.length > 1) {
+      rows.push({ label: 'Sections', value: r.sectionSpaces.length + ' vertical section(s)' });
+    }
+    if (hasDiv) {
+      var divTxt = 'Horizontal dividers — yes';
+      if (inst && inst.numVal) {
+        var dc = inst.numVal('grill-divider-count');
+        var dl = inst.val('grill-divider-layout');
+        if (dc > 0) {
+          divTxt += ' (' + dc + ' · ' + (dl === 'center' ? 'center grouped' : 'equal spacing') + ')';
+        }
+      }
+      rows.push({ label: 'Dividers', value: divTxt });
+    }
+    rows.push({
+      label: 'Coating finish',
+      value: coating + (colorName ? ' — ' + colorName : '')
+    });
+    rows.push({
+      label: 'Threaded rod (iron)',
+      value: rodSize > 0 ? rodSize + 'mm rod' : 'None'
+    });
+    return rows;
+  }
+
+  function grillCartFieldsFromItem (it) {
+    var f = Object.assign({}, it);
+    f.qty = grillCartQty(it);
+    (it.details || []).forEach(function (d) {
+      if (d.label === 'Opening size' || d.label === 'Size') {
+        var m = String(d.value).match(/([\d.]+)\s*[×x]\s*([\d.]+)\s*([a-z]+)/i);
+        if (m) {
+          f.width = parseFloat(m[1]);
+          f.height = parseFloat(m[2]);
+          f.unit = m[3];
+        }
+      }
+    });
+    return f;
+  }
+
+  /** Same size + profile + pattern on grill pages → one cart/print line */
+  function grillCartFingerprint (it) {
+    if (!it || it.category !== 'Safety Grills') return null;
+    var size = '';
+    var outer = '';
+    var inner = '';
+    var pattern = '';
+    var coating = '';
+    (it.details || []).forEach(function (d) {
+      if (d.label === 'Size') size = d.value;
+      if (d.label === 'Outer frame') outer = d.value;
+      if (d.label === 'Inner pipes') inner = d.value;
+      if (d.label === 'Pattern') pattern = d.value;
+      if (d.label === 'Coating') coating = d.value;
+    });
+    return [it.key || '', size, outer, inner, pattern, coating].join('\u00A6');
+  }
+
+  function grillCartQty (it) {
+    var q = 1;
+    (it.details || []).forEach(function (d) {
+      if (d.label === 'Quantity') q = parseInt(d.value, 10) || 1;
+    });
+    return q;
+  }
+
+  /** Parse "48 × 48 in" → sq.ft (same formula as grills calculator). */
+  function parseGrillSizeSqFt (sizeStr) {
+    var s = String(sizeStr || '').trim();
+    var m = s.match(/([\d.]+)\s*[×x]\s*([\d.]+)\s*(in(?:ch(?:es)?)?|ft(?:ee?t)?|mm|cm)?/i);
+    if (!m) return 0;
+    var w = parseFloat(m[1]);
+    var h = parseFloat(m[2]);
+    var u = (m[3] || 'in').toLowerCase();
+    var wIn;
+    var hIn;
+    if (/^ft/.test(u)) {
+      wIn = w * 12;
+      hIn = h * 12;
+    } else if (u === 'mm') {
+      wIn = w / 25.4;
+      hIn = h / 25.4;
+    } else if (u === 'cm') {
+      wIn = w / 2.54;
+      hIn = h / 2.54;
+    } else {
+      wIn = w;
+      hIn = h;
+    }
+    if (!(wIn > 0 && hIn > 0)) return 0;
+    return (wIn * hIn) / 144;
+  }
+
+  function grillAreaSummaryLine (perArea, qty) {
+    perArea = Number(perArea) || 0;
+    qty = parseInt(qty, 10) || 1;
+    if (!(perArea > 0)) return '';
+    var total = perArea * qty;
+    return perArea.toFixed(2) + ' sq.ft × ' + qty + ' = ' + total.toFixed(2) + ' sq.ft';
+  }
+
+  function resolveGrillPerAreaSqFt (it) {
+    if (!it) return 0;
+    if (it.grillPerAreaSqFt > 0) return it.grillPerAreaSqFt;
+    var per = 0;
+    (it.details || []).forEach(function (d) {
+      if (d.label === 'Area (per grill)') {
+        per = parseFloat(String(d.value).replace(/[^\d.]/g, '')) || per;
+      } else if (d.label === 'Area' && /sq\.?\s*ft/i.test(d.value)) {
+        var am = String(d.value).match(/([\d.]+)\s*sq/i);
+        if (am) per = parseFloat(am[1]) || per;
+      } else if (d.label === 'Size') {
+        per = per || parseGrillSizeSqFt(d.value);
+      }
+    });
+    if (per > 0) return per;
+    if (it.wInches > 0 && it.hInches > 0) return (it.wInches * it.hInches) / 144;
+    if (it.width > 0 && it.height > 0) {
+      return parseGrillSizeSqFt(it.width + ' × ' + it.height + ' ' + (it.unit || 'in'));
+    }
+    var calc = document.querySelector('[data-grill-calculator]');
+    if (calc && calc._wmGrillsCalc && calc._wmGrillsCalc.lastResults) {
+      var r = calc._wmGrillsCalc.lastResults;
+      if (r.totalAreaSqFt > 0) return r.totalAreaSqFt;
+    }
+    return 0;
+  }
+
+  function enrichGrillCartItem (it) {
+    if (!it || it.category !== 'Safety Grills') return it;
+    var copy = Object.assign({}, it);
+    var meta = { name: copy.productName || copy.name || 'Safety Grills' };
+    var inst = null;
+    var calc = document.querySelector('[data-grill-calculator]');
+    if (calc && calc._wmGrillsCalc) inst = calc._wmGrillsCalc;
+    var fields = grillCartFieldsFromItem(copy);
+    var baseDetails = buildGrillSpecDetails(fields, meta, inst);
+    var qty = grillCartQty(copy);
+    var perA = resolveGrillPerAreaSqFt(copy);
+    if (perA > 0) {
+      copy.grillPerAreaSqFt = perA;
+      copy.grillTotalAreaSqFt = perA * qty;
+      copy.area = grillAreaSummaryLine(perA, qty);
+      copy.details = injectGrillAreaIntoDetails(baseDetails, perA, qty, copy.grillPerSqftRate || 0);
+    } else {
+      copy.details = baseDetails;
+    }
+    copy.specs = (copy.details || []).map(function (d) { return d.label + ': ' + d.value; });
+    return copy;
+  }
+
+  function enrichWindowCartItem (it) {
+    if (!it || it.category === 'Safety Grills') return it;
+    var calc = getCalcContainer();
+    if (!calc || calc.getAttribute('data-grill-calculator') != null) return it;
+    var meta = readProductMeta();
+    var page = pageLevelWindowDetails(meta);
+    var merged = mergeDetailRows(page, it.details || []);
+    var copy = Object.assign({}, it);
+    copy.productName = fullProductLineName(calc) || copy.productName;
+    copy.details = merged;
+    copy.specs = merged.map(function (d) { return d.label + ': ' + d.value; });
+    return copy;
+  }
+
+  function enrichCartItemForPrint (it) {
+    if (it && it.category === 'Safety Grills') return enrichGrillCartItem(it);
+    return enrichWindowCartItem(it);
+  }
+
+  function grillAreaDetailRows (perArea, qty, perSqftRate) {
+    perArea = Number(perArea) || 0;
+    qty = qty || 1;
+    var rows = [];
+    if (perArea > 0) {
+      rows.push({ label: 'Area', value: grillAreaSummaryLine(perArea, qty) });
+    }
+    if (perSqftRate > 0) rows.push({ label: 'Rate', value: fmtINR(perSqftRate) + '/sqft' });
+    return rows;
+  }
+
+  function injectGrillAreaIntoDetails (details, perArea, qty, perSqftRate) {
+    var filtered = (details || []).filter(function (d) {
+      return d.label !== 'Area' && d.label !== 'Area (per grill)' &&
+        d.label !== 'Total area' && d.label !== 'Rate';
+    });
+    var out = [];
+    var inserted = false;
+    filtered.forEach(function (d) {
+      out.push(d);
+      if (!inserted && d.label === 'Quantity') {
+        grillAreaDetailRows(perArea, qty, perSqftRate).forEach(function (a) { out.push(a); });
+        inserted = true;
+      }
+    });
+    if (!inserted) {
+      grillAreaDetailRows(perArea, qty, perSqftRate).forEach(function (a) { out.push(a); });
+    }
+    return out;
+  }
+
+  function grillSizeLine (width, height, unit, qty) {
+    return width + ' \u00D7 ' + height + ' ' + unit + ' \u00B7 Qty ' + qty;
+  }
+
+  function mergeGrillCartLine (existing, incoming) {
+    var qty = grillCartQty(existing) + grillCartQty(incoming);
+    var merged = Object.assign({}, existing);
+    merged.id = existing.id;
+    merged.exactAmount = (existing.exactAmount || 0) + (incoming.exactAmount || 0);
+    merged.amount = fmtINR(merged.exactAmount);
+    var perArea = existing.grillPerAreaSqFt || incoming.grillPerAreaSqFt || 0;
+    var perSqft = existing.grillPerSqftRate || incoming.grillPerSqftRate || 0;
+    merged.grillPerAreaSqFt = perArea;
+    merged.grillPerSqftRate = perSqft;
+    merged.grillTotalAreaSqFt = perArea * qty;
+    var sizeVal = '';
+    merged.details = (existing.details || []).map(function (d) {
+      if (d.label === 'Quantity') return { label: 'Quantity', value: String(qty) };
+      if (d.label === 'Size') sizeVal = d.value;
+      return d;
+    });
+    if (!(perArea > 0)) perArea = resolveGrillPerAreaSqFt(merged) || resolveGrillPerAreaSqFt(incoming);
+    merged.grillPerAreaSqFt = perArea;
+    merged.grillTotalAreaSqFt = perArea * qty;
+    merged.details = injectGrillAreaIntoDetails(merged.details, perArea, qty, perSqft);
+    merged.area = grillAreaSummaryLine(perArea, qty) || (sizeVal ? sizeVal + ' \u00B7 Qty ' + qty : merged.area);
+    merged.specs = (merged.details || []).map(function (d) { return d.label + ': ' + d.value; });
+    return merged;
+  }
+
+  function addGrillSnapToCart (cart, snap) {
+    snap = enrichGrillCartItem(snap);
+    var fp = grillCartFingerprint(snap);
+    if (!fp) {
+      cart.push(Object.assign({ id: uid() }, snap));
+      return;
+    }
+    for (var i = 0; i < cart.length; i++) {
+      if (grillCartFingerprint(cart[i]) === fp) {
+        cart[i] = mergeGrillCartLine(cart[i], snap);
+        return;
+      }
+    }
+    cart.push(Object.assign({ id: uid() }, snap));
+  }
+
+  function collapseGrillCartLines (cart) {
+    var merged = {};
+    var order = [];
+    cart.forEach(function (it) {
+      var fp = grillCartFingerprint(it);
+      if (!fp) {
+        order.push({ k: 'o', item: it });
+        return;
+      }
+      if (!merged[fp]) {
+        merged[fp] = Object.assign({}, it);
+        order.push({ k: 'g', fp: fp });
+      } else {
+        merged[fp] = mergeGrillCartLine(merged[fp], it);
+      }
+    });
+    return order.map(function (e) {
+      return enrichGrillCartItem(e.k === 'g' ? merged[e.fp] : e.item);
+    });
+  }
+
+  function cartSnapFromGrillQuotationItem (it, meta) {
+    meta = meta || readProductMeta();
+    var colorSuffix = it.colorName ? ' \u2014 ' + it.colorName : '';
+    var qty = it.qty || 1;
+    var perArea = it.totalAreaSqFt || 0;
+    if (!(perArea > 0) && it.wInches > 0 && it.hInches > 0) {
+      perArea = (it.wInches * it.hInches) / 144;
+    }
+    if (!(perArea > 0)) {
+      perArea = parseGrillSizeSqFt(it.width + ' \u00D7 ' + it.height + ' ' + (it.unit || 'in'));
+    }
+    var specSource = Object.assign({}, it, { colorName: it.colorName || (colorSuffix ? colorSuffix.replace(/^ \u2014 /, '') : '') });
+    var details = injectGrillAreaIntoDetails(
+      buildGrillSpecDetails(specSource, meta, null),
+      perArea,
+      qty,
+      it.perSqftRate || 0
+    );
+    return {
+      key: (location.pathname || 'grill').replace(/[^\w-]+/g, '-'),
+      productName: fullProductLineName() || meta.name,
+      name: fullProductLineName() || meta.name,
+      category: 'Safety Grills',
+      amount: fmtINR(it.grandTotal),
+      exactAmount: Math.round(it.grandTotal),
+      grillPerAreaSqFt: perArea,
+      grillPerSqftRate: it.perSqftRate || 0,
+      grillTotalAreaSqFt: perArea * qty,
+      wInches: it.wInches,
+      hInches: it.hInches,
+      width: it.width,
+      height: it.height,
+      unit: it.unit,
+      outerProfile: it.outerProfile,
+      outerThickness: it.outerThickness,
+      innerProfile: it.innerProfile,
+      innerShape: it.innerShape,
+      innerThickness: it.innerThickness,
+      pattern: it.pattern,
+      gapType: it.gapType,
+      coatingFinish: it.coatingFinish,
+      colorName: it.colorName,
+      rodSize: it.rodSize,
+      hasDividers: it.hasDividers,
+      sectionSpaces: it.sectionSpaces,
+      qty: qty,
+      area: grillAreaSummaryLine(perArea, qty) || grillSizeLine(it.width, it.height, it.unit, qty),
+      details: details,
+      specs: details.map(function (d) { return d.label + ': ' + d.value; })
+    };
+  }
+
+  function syncGrillQuotationToCart (quotationItems) {
+    var cart = readCart().filter(function (it) { return it.category !== 'Safety Grills'; });
+    var meta = readProductMeta();
+    (quotationItems || []).forEach(function (it) {
+      addGrillSnapToCart(cart, cartSnapFromGrillQuotationItem(it, meta));
+    });
+    writeCart(cart);
   }
 
   // ---------- Storage ----------
@@ -321,6 +779,53 @@
       .replace(/:$/, '');
   }
 
+  function readGrillQuoteSnapshot () {
+    var calc = document.querySelector('[data-grill-calculator]');
+    if (!calc || !calc._wmGrillsCalc) return null;
+    var inst = calc._wmGrillsCalc;
+    var r = inst.lastResults;
+    if (!r || !(r.grandTotal > 0)) return null;
+
+    var meta = readProductMeta();
+    var qty = r.qty || 1;
+    var perArea = r.totalAreaSqFt || 0;
+    if (!(perArea > 0) && r.wInches > 0 && r.hInches > 0) {
+      perArea = (r.wInches * r.hInches) / 144;
+    }
+    var specR = Object.assign({}, r, {
+      colorName: inst.selectedColor ? inst.selectedColor.name : '',
+      gap1: inst.numVal('grill-gap1'),
+      gap2: inst.numVal('grill-gap2'),
+      gap3: inst.numVal('grill-gap3')
+    });
+    var details = injectGrillAreaIntoDetails(
+      buildGrillSpecDetails(specR, meta, inst),
+      perArea,
+      qty,
+      r.perSqftRate || 0
+    );
+
+    return {
+      key: (location.pathname || 'grill').replace(/[^\w-]+/g, '-'),
+      productName: fullProductLineName(calc) || meta.name,
+      name: fullProductLineName(calc) || meta.name,
+      category: 'Safety Grills',
+      amount: fmtINR(r.grandTotal),
+      exactAmount: Math.round(r.grandTotal),
+      grillPerAreaSqFt: perArea,
+      grillPerSqftRate: r.perSqftRate || 0,
+      grillTotalAreaSqFt: perArea * qty,
+      wInches: r.wInches,
+      hInches: r.hInches,
+      width: r.width,
+      height: r.height,
+      unit: r.unit,
+      area: grillAreaSummaryLine(perArea, qty) || grillSizeLine(r.width, r.height, r.unit, qty),
+      details: details,
+      specs: details.map(function (d) { return d.label + ': ' + d.value; })
+    };
+  }
+
   function readPrice () {
     var rowSnaps = readAllRowSnapshots();
     if (rowSnaps.length) {
@@ -328,6 +833,8 @@
       rowSnaps.forEach(function (s) { sum += s.exactAmount; });
       return fmtINR(sum);
     }
+    var grillGrand = readExactInr($('#grill-result-grand'));
+    if (grillGrand) return fmtINR(grillGrand);
     var el = $('#calc-result-total');
     var exact = readExactInr(el);
     if (exact) return fmtINR(exact);
@@ -463,6 +970,9 @@
     }
     if (!calc) return { key: 'product', name: 'Product', category: 'Products' };
     var cat = 'Aluminium Windows';
+    if (calc.getAttribute('data-grill-calculator') != null || (location.pathname || '').indexOf('/grills/') >= 0) {
+      cat = 'Safety Grills';
+    }
     if ((location.pathname || '').indexOf('shower-partitions') >= 0) cat = 'Shower Partitions';
     var meta = {
       key: calc.getAttribute('data-product') || 'product',
@@ -476,6 +986,9 @@
   }
 
   function readQuoteSnapshot () {
+    var grillSnap = readGrillQuoteSnapshot();
+    if (grillSnap) return grillSnap;
+
     var rowSnaps = readAllRowSnapshots();
     if (rowSnaps.length === 1) return rowSnaps[0];
     if (rowSnaps.length > 1) return null;
@@ -531,9 +1044,14 @@
       if (est.motorTotal) details.push({ label: 'Motors', value: (est.motorLabel || '') + ' — ' + fmtINR(est.motorTotal) });
       details.push({ label: 'Line total', value: fmtINR(est.estimatedTotal) });
     }
+    var calcWin = getCalcContainer();
+    if (calcWin && calcWin.getAttribute('data-grill-calculator') == null && details.length) {
+      details = mergeDetailRows(pageLevelWindowDetails(meta), details);
+    }
+
     var snap = {
       productKey: meta.key,
-      productName: meta.name,
+      productName: fullProductLineName(calcWin) || meta.name,
       category: meta.category || 'Products',
       details: details,
       specs: details.map(function (d) { return d.label + ': ' + d.value; }),
@@ -808,7 +1326,7 @@
       priceEl.textContent = price;
       priceEl.classList.remove(PLACEHOLDER_CLS);
       if (labelEl) labelEl.textContent = 'Live Total';
-      if (exactBtn) exactBtn.hidden = false;
+      if (exactBtn) exactBtn.hidden = !!document.querySelector('[data-grill-calculator]');
       var addSticky = bar.querySelector('[data-action="add-to-cart-sticky"]');
       if (addSticky) addSticky.hidden = false;
     } else {
@@ -840,7 +1358,11 @@
     if (!snaps.length) return null;
     var cart = readCart();
     snaps.forEach(function (snap) {
-      cart.push(Object.assign({ id: uid() }, snap));
+      if (snap.category === 'Safety Grills') {
+        addGrillSnapToCart(cart, snap);
+      } else {
+        cart.push(Object.assign({ id: uid() }, snap));
+      }
     });
     writeCart(cart);
     return snaps[snaps.length - 1];
@@ -1076,9 +1598,9 @@
     }
     var submitLabel = $('#calcFormSubmit') && $('#calcFormSubmit').querySelector('.calc-form-submit-label');
 
-    if (plan.mode === 'mirror_full') {
-      if (title) title.textContent = 'Confirm Mirror Order';
-      if (intro) intro.textContent = 'Pay ' + fmtINR(plan.amountInr) + ' for your exact sizes. Dispatch 10–15 days after order. Refund: not possible after 3 days (cutting/production starts). GST & transit extra. Receipt + policy emailed to you & WoodenMax.';
+    if (plan.mode === 'mirror_full' || plan.mode === 'order_full') {
+      if (title) title.textContent = plan.mode === 'mirror_full' ? 'Confirm Mirror Order' : 'Confirm Order — Full Payment';
+      if (intro) intro.textContent = 'Pay ' + fmtINR(plan.amountInr) + ' for your configured sizes. Refund: not possible after 3 days once factory processing starts. GST & transport extra. Receipt + policy emailed to you & WoodenMax.';
       if (submitLabel) submitLabel.textContent = 'Pay ' + fmtINR(plan.amountInr) + ' & Get Receipt';
     } else if (allMirror) {
       if (title) title.textContent = 'Book Mirror Order — ₹1,000';
@@ -1201,8 +1723,8 @@
     var live = snapshotLiveCalc();
 
     if (intent === 'export-pdf' || intent === 'book-order') {
-      if (cart.length) return cart;
-      return live ? [live] : [];
+      if (cart.length) return collapseGrillCartLines(cart).map(enrichCartItemForPrint);
+      return live ? enrichCartItemForPrint(live) : [];
     }
 
     // intent === 'exact'
@@ -1565,7 +2087,8 @@
   function buildPrintStage (lead, items) {
     var stage = $('#calcPrintStage');
     if (!stage) return;
-    var cart = (items && items.length) ? items : readCart();
+    var cart = collapseGrillCartLines((items && items.length) ? items : readCart())
+      .map(enrichCartItemForPrint);
     if (!cart.length) return;
     stage.removeAttribute('aria-hidden');
 
@@ -1612,12 +2135,12 @@
           (it.category ? '<div class="pdf-row-cat">' + escapeHtml(it.category) + '</div>' : '') +
           specBlock +
         '</td>' +
-        '<td class="is-center">1 set</td>' +
+        '<td class="is-center">' + (it.category === 'Safety Grills' ? grillCartQty(it) : '1') + '</td>' +
         '<td class="is-numeric"><strong>' + fmtINR(lineExact) + '</strong></td>' +
       '</tr>';
     }).join('');
 
-    var logoImg = pdfAssetUrl('images/woodenmax-logo.webp');
+    var logoImg = brandLogoUrl();
     var founderImg = pdfAssetUrl('images/Founder-Naseem.webp');
 
     // ----- Render -----
@@ -1630,7 +2153,7 @@
         '<div class="pdf-header">' +
           '<div class="pdf-brand-block">' +
             '<div class="pdf-brand-mark">' +
-              '<img class="pdf-brand-logo" src="' + escapeHtml(logoImg) + '" alt="WoodenMax" width="46" height="46">' +
+              '<img class="pdf-brand-logo" src="' + escapeHtml(logoImg) + '" alt="WoodenMax" width="120" height="40">' +
             '</div>' +
             '<div class="pdf-brand-text">' +
               '<strong>WoodenMax</strong>' +
@@ -1741,7 +2264,7 @@
             '<div class="pdf-bank-row"><span class="k">Account No.</span><span class="v">50200092938110</span></div>' +
             '<div class="pdf-bank-row"><span class="k">IFSC</span><span class="v">HDFC0001996</span></div>' +
             '<div class="pdf-bank-row"><span class="k">Branch</span><span class="v">Nampally, Hyderabad</span></div>' +
-            '<div class="pdf-bank-row"><span class="k">UPI</span><span class="v">pay@woodenmax</span></div>' +
+            '<div class="pdf-bank-row"><span class="k">UPI</span><span class="v">' + escapeHtml(COMPANY_UPI_ID) + '</span></div>' +
             '<div class="pdf-bank-row"><span class="k">GSTIN</span><span class="v">36ARWPA9740L1Z3</span></div>' +
             '<div class="pdf-bank-row"><span class="k">PAN</span><span class="v">ARWPA9740L</span></div>' +
             '<h3 style="margin-top:8pt">Contact Sales</h3>' +
@@ -1792,7 +2315,9 @@
 
         // === Foot ===
         '<div class="pdf-foot">' +
-          '<div class="left"><strong>WoodenMax Architectural Elements</strong><br>5-6-411/413, Aaghapura,<br>Nampally, Hyderabad 500001</div>' +
+          '<div class="left">' +
+            '<img class="pdf-foot-logo" src="' + escapeHtml(logoImg) + '" alt="WoodenMax" width="100" height="32">' +
+            '<strong>WoodenMax Architectural Elements</strong><br>5-6-411/413, Aaghapura,<br>Nampally, Hyderabad 500001</div>' +
           '<div class="center">Thank you for choosing WoodenMax · Quote ' + quoteNum + '</div>' +
           '<div class="right">+91 78953 28080<br>info@woodenmax.com<br>www.woodenmax.in</div>' +
         '</div>' +
@@ -1819,12 +2344,29 @@
     return rel;
   }
 
+  /** Original full-colour WoodenMax logo — reliable in print iframe on mobile */
+  function brandLogoUrl () {
+    var resolved = pdfAssetUrl('images/woodenmax-logo.webp');
+    if (/^https?:\/\//i.test(resolved)) return resolved;
+    try {
+      var origin = (location.origin || '').replace(/\/$/, '');
+      if (origin && origin !== 'null') return origin + '/images/woodenmax-logo.webp';
+    } catch (e) { /* ignore */ }
+    return 'https://woodenmax.in/images/woodenmax-logo.webp';
+  }
+
   var _wmPrintFrame = null;
 
   var WM_RECEIPT_INLINE_PRINT_CSS =
-    'html,body{margin:0;padding:0;background:#fff;color:#0f172a;font:400 10pt/1.45 -apple-system,Segoe UI,Roboto,sans-serif}' +
-    '#wmPaymentReceiptStage,#calcPrintStage{display:block!important;position:static!important;width:auto!important;height:auto!important;overflow:visible!important}' +
-    '.pdf-doc{max-width:100%;padding:0}' +
+    '@page{size:A4 portrait;margin:8mm}' +
+    'html,body{margin:0!important;padding:0!important;width:100%!important;background:#fff;color:#0f172a;font:400 10pt/1.45 -apple-system,Segoe UI,Roboto,sans-serif}' +
+    '#wmPaymentReceiptStage,#calcPrintStage{display:block!important;position:static!important;width:100%!important;max-width:100%!important;height:auto!important;overflow:visible!important}' +
+    '.pdf-doc{width:100%!important;max-width:100%!important;box-sizing:border-box;padding:0}' +
+    '.pdf-header,.pdf-parties,.pdf-foot,.pdf-table{width:100%!important;max-width:100%!important;box-sizing:border-box}' +
+    '.pdf-table{table-layout:fixed}' +
+    '.pdf-brand-logo,.pdf-foot-logo{filter:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;object-fit:contain}' +
+    '.pdf-brand-mark{width:auto!important;min-width:52pt;height:auto!important;max-height:40pt;border:none;background:transparent;box-shadow:none}' +
+    '.pdf-foot-logo{display:block;max-height:28pt;width:auto;margin:0 0 6pt}' +
     '.pdf-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1pt solid #0f172a;padding-bottom:8pt;margin-bottom:10pt}' +
     '.pdf-brand-text strong{font-size:14pt}' +
     '.pdf-meta-block .row{display:flex;justify-content:space-between;gap:12pt;font-size:9pt;margin:2pt 0}' +
@@ -1898,10 +2440,41 @@
       }
     }
 
+    function waitForImages (then) {
+      var imgs = idoc.images;
+      if (!imgs || !imgs.length) {
+        then();
+        return;
+      }
+      var pending = imgs.length;
+      var done = false;
+      function tick () {
+        if (done) return;
+        pending -= 1;
+        if (pending <= 0) {
+          done = true;
+          setTimeout(then, 60);
+        }
+      }
+      Array.prototype.forEach.call(imgs, function (img) {
+        if (img.complete && img.naturalWidth > 0) tick();
+        else {
+          img.addEventListener('load', tick);
+          img.addEventListener('error', tick);
+        }
+      });
+      setTimeout(function () {
+        if (!done) {
+          done = true;
+          then();
+        }
+      }, 2500);
+    }
+
     function waitForCss (then) {
       var links = idoc.querySelectorAll('link[rel="stylesheet"]');
       if (!links.length) {
-        then();
+        waitForImages(then);
         return;
       }
       var left = links.length;
@@ -1911,7 +2484,7 @@
         left -= 1;
         if (left <= 0) {
           finished = true;
-          setTimeout(then, 80);
+          setTimeout(function () { waitForImages(then); }, 80);
         }
       }
       Array.prototype.forEach.call(links, function (link) {
@@ -1924,7 +2497,7 @@
       setTimeout(function () {
         if (!finished) {
           finished = true;
-          then();
+          waitForImages(then);
         }
       }, 1200);
     }
@@ -2657,6 +3230,7 @@
   }
 
   function injectEeatBlock () {
+    if (document.querySelector('[data-grill-calculator]')) return;
     if (document.querySelector('.eeat-block')) return;
     if (document.body.classList.contains('catalog-seo-page') && document.body.classList.contains('silo-mirror-profiles')) {
       return;
@@ -2779,9 +3353,22 @@
   window.WoodenMaxQuote = {
     addCurrent: addCurrentToCart,
     readCart: readCart,
+    syncGrillQuotation: syncGrillQuotationToCart,
     openCart: openSheet,
     openExactForm: function () { openForm('exact'); },
     openPdfForm: function () { openForm('export-pdf'); },
+    openBookOrder: function (payChoice) {
+      var cart = readCart();
+      if (!cart.length) {
+        var added = addCurrentToCart();
+        if (!added) {
+          showToast('warn', '<strong>Add sizes first.</strong> Configure the calculator, then tap Add to Quote Cart.');
+          return;
+        }
+        syncCartBadges();
+      }
+      openForm('book-order', payChoice || 'booking');
+    },
     readSnapshot: readQuoteSnapshot,
     refresh: function () {
       syncCartBadges();

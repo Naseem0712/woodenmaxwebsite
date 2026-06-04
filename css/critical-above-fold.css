@@ -10,7 +10,7 @@ img{max-width:100%;height:auto;display:block}
 .wm-navbar{position:sticky}
 .navbar-content,.wm-navbar-inner{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;max-width:1280px;margin:0 auto;width:100%;min-height:64px}
 .navbar-logo,.wm-logo{display:flex;align-items:center;gap:.75rem;text-decoration:none;color:#f8f8f6}
-.navbar-logo img,.wm-logo img{width:40px;height:40px;object-fit:contain}
+.navbar-logo img,.wm-logo img{width:auto;height:40px;max-width:140px;object-fit:contain;filter:none}
 .hero-slider{position:relative;height:100vh;min-height:600px;width:100%;overflow:hidden;background:#0a0e17}
 .slide{position:absolute;inset:0;opacity:0;z-index:0;transition:opacity 1s ease-in-out}
 .slide.active{opacity:1;z-index:10}

@@ -1,0 +1,659 @@
+/**
+ * Grills product detail — layout pilot (aluminium-window-grills first).
+ * Scope with body.grills-product-page; roll into product-pages-global after approval.
+ */
+
+/* ── Dark hero ── */
+body.grills-product-page .eeat-block[data-eeat-injected] {
+  display: none !important;
+}
+
+body.grills-product-page .grills-product-hero {
+  background: #0f172a !important;
+  color: #e2e8f0;
+  padding: 4.5rem 0 0.25rem !important;
+}
+
+body.grills-product-page .grills-product-hero h1 {
+  color: #f8fafc !important;
+  font-size: clamp(1.35rem, 4.5vw, 2.1rem);
+  line-height: 1.28;
+  margin: 0;
+}
+
+body.grills-product-page .grills-hero-intro {
+  color: #e2e8f0 !important;
+  margin: 0.65rem 0 0;
+  font-size: clamp(0.95rem, 2.8vw, 1.05rem);
+  line-height: 1.55;
+  max-width: 52rem;
+}
+
+body.grills-product-page .grills-hero-intro strong {
+  color: #f8fafc !important;
+  font-weight: 600;
+}
+
+body.grills-product-page .grills-breadcrumb a {
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+}
+
+body.grills-product-page .grills-breadcrumb a:hover {
+  color: #fff;
+}
+
+body.grills-product-page .grills-breadcrumb [aria-current="page"] {
+  color: #4ade80;
+  font-weight: 500;
+}
+
+/* ── Photo ↔ preview ── */
+.grills-visual-stage {
+  margin-top: 0.85rem;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.grills-hero-photo img {
+  display: block;
+  width: 100%;
+  max-height: min(38vh, 260px);
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.grills-hero-preview-slot {
+  display: none;
+}
+
+html.grills-user-sized .grills-hero-photo {
+  display: none;
+}
+
+html.grills-user-sized .grills-hero-preview-slot {
+  display: block;
+}
+
+body.grills-product-page .grill-svg-preview-wrap--hero,
+body.grills-product-page .grill-svg-preview-wrap--calc {
+  background: transparent !important;
+  border: none !important;
+  padding: 0.35rem 0 !important;
+  margin: 0 !important;
+}
+
+body.grills-product-page .grill-preview-head {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.35rem;
+  gap: 0.5rem;
+}
+
+body.grills-product-page .grill-preview-head h3 {
+  color: #e2e8f0 !important;
+  font-size: 0.88rem !important;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+}
+
+body.grills-product-page .grill-preview-badge {
+  color: #94a3b8;
+  font-size: 0.68rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+body.grills-product-page .grill-svg-container {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0.35rem 0.5rem !important;
+  margin: 0 auto;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: visible !important;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 120px;
+}
+
+body.grills-product-page .grill-svg-fit {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0 auto;
+  overflow: visible;
+}
+
+body.grills-product-page .grill-dim-labels {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.35rem;
+  flex-wrap: wrap;
+}
+
+body.grills-product-page .grill-dim-labels span {
+  color: #94a3b8 !important;
+  font-size: 0.72rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 10px;
+  border-radius: 4px;
+}
+
+body.grills-product-page .grills-visual-stage {
+  overflow: visible;
+}
+
+/* ── Calculator section ── */
+body.grills-product-page .grills-calc-section {
+  padding: 0 0 1.75rem !important;
+  margin-top: -0.25rem;
+  background: #0f172a !important;
+}
+
+body.grills-product-page #calcActionRow {
+  display: none !important;
+}
+
+body.grills-product-page .grills-calc-section .price-calculator-container {
+  padding: 0.85rem 0.9rem 1rem !important;
+  border-radius: 14px;
+}
+
+body.grills-product-page .grills-calc-section .calc-header {
+  padding: 0.25rem 0 0.5rem !important;
+  margin-bottom: 0.15rem !important;
+}
+
+body.grills-product-page .grills-calc-section .calc-header h2 {
+  font-size: 1.1rem !important;
+  color: var(--gold-400, #b45309) !important;
+}
+
+/* Labels & fields — readable on light calc card */
+body.grills-product-page [data-grill-calculator] .grills-calc-label {
+  grid-column: 1 / -1;
+  color: #334155 !important;
+  font-size: 0.72rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin: 0 0 0.1rem !important;
+}
+
+body.grills-product-page [data-grill-calculator] .grills-field-label {
+  display: block;
+  color: #475569 !important;
+  font-size: 0.7rem !important;
+  font-weight: 600 !important;
+  margin-bottom: 0.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+/* All calc groups: grid (desktop + mobile) */
+body.grills-product-page [data-grill-calculator] .grills-calc-group {
+  display: grid !important;
+  gap: 0.35rem 0.5rem !important;
+  margin-bottom: 0.55rem !important;
+  align-items: end;
+}
+
+body.grills-product-page [data-grill-calculator] .grills-calc-group > .calc-select,
+body.grills-product-page [data-grill-calculator] .grills-calc-group > .calc-input {
+  flex: none !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  margin-top: 0 !important;
+  padding: 0.48rem 0.45rem !important;
+  min-height: 38px !important;
+  font-size: 0.9rem !important;
+  color: #0f172a !important;
+}
+
+body.grills-product-page [data-grill-calculator] .grills-calc-group--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body.grills-product-page [data-grill-calculator] .grills-calc-group--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+body.grills-product-page [data-grill-calculator] .grills-calc-group--dims {
+  grid-template-columns: minmax(5rem, 0.8fr) repeat(3, minmax(0, 1fr));
+}
+
+body.grills-product-page [data-grill-calculator] .grills-calc-group--dims .grills-calc-dims {
+  display: contents;
+}
+
+body.grills-product-page [data-grill-calculator] .grills-calc-group--dims .grills-calc-dims > div {
+  min-width: 0;
+}
+
+body.grills-product-page [data-grill-calculator] .grills-calc-group--pattern {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body.grills-product-page [data-grill-calculator] .grills-gap-fields {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem 0.5rem;
+}
+
+body.grills-product-page [data-grill-calculator] .grills-gap-cell {
+  min-width: 0;
+}
+
+/* Rod + dividers + coating — one row on desktop */
+body.grills-product-page .grills-calc-tail {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem 0.55rem;
+  margin-bottom: 0.55rem;
+}
+
+body.grills-product-page .grills-calc-tail .grills-calc-mini {
+  margin-bottom: 0 !important;
+  grid-template-columns: 1fr;
+}
+
+body.grills-product-page [data-grill-calculator] #grill-divider-options,
+body.grills-product-page [data-grill-calculator] #grill-color-swatches {
+  grid-column: 1 / -1;
+}
+
+body.grills-product-page [data-grill-calculator] #grill-divider-options .grills-calc-dims {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+/* Price panel — fix low-contrast stats */
+body.grills-product-page .grills-calc-price-panel {
+  margin-top: 0.75rem !important;
+  padding: 0.85rem 0.75rem !important;
+}
+
+body.grills-product-page .grills-calc-stat {
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  padding: 0.4rem 0.35rem;
+  border-radius: 6px;
+  text-align: center;
+}
+
+body.grills-product-page .grills-calc-stat-label {
+  display: block;
+  color: #475569 !important;
+  font-size: 0.68rem !important;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.15rem;
+}
+
+body.grills-product-page .grills-calc-stat-value,
+body.grills-product-page .grills-calc-results-mini [id^="grill-result-"] {
+  display: block;
+  color: #0f172a !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  line-height: 1.25;
+}
+
+body.grills-product-page .grills-calc-results-mini {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.35rem;
+  margin-bottom: 0.55rem;
+}
+
+body.grills-product-page .grills-calc-price-rows .calc-price-label {
+  color: #334155 !important;
+  font-weight: 600 !important;
+}
+
+body.grills-product-page .grills-calc-price-rows .calc-price-value {
+  color: #0f172a !important;
+}
+
+body.grills-product-page .grills-grand-total {
+  color: #047857 !important;
+  font-size: 1.35rem !important;
+  font-weight: 800 !important;
+}
+
+body.grills-product-page .grills-calc-price-rows {
+  border-top: 2px solid rgba(212, 175, 55, 0.35);
+  padding-top: 0.65rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.15rem 1rem;
+}
+
+body.grills-product-page .grills-calc-price-rows .calc-price-row {
+  padding: 0.35rem 0 !important;
+  border: none !important;
+  margin: 0 !important;
+}
+
+body.grills-product-page .grills-calc-price-rows .calc-price-row:last-child {
+  grid-column: 1 / -1;
+  border-top: 2px solid rgba(5, 150, 105, 0.35) !important;
+  padding-top: 0.5rem !important;
+  margin-top: 0.25rem !important;
+}
+
+/* Quote cart + order actions — reuse site-wide cart button styles */
+body.grills-product-page #grill-quotation-cart {
+  margin-top: 1rem;
+}
+
+/* Inline quotation list (after Add to cart) */
+body.grills-product-page .grill-quote-panel {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  margin-bottom: 0.75rem;
+}
+
+body.grills-product-page .grill-quote-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.65rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #047857 !important;
+}
+
+body.grills-product-page .grill-quote-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.5rem 0.75rem;
+  align-items: start;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid #bbf7d0;
+}
+
+body.grills-product-page .grill-quote-item:last-of-type {
+  border-bottom: none;
+  padding-bottom: 0.35rem;
+}
+
+body.grills-product-page .grill-quote-item-title {
+  margin: 0 0 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f172a !important;
+  line-height: 1.35;
+}
+
+body.grills-product-page .grill-quote-size {
+  color: #0f172a !important;
+}
+
+body.grills-product-page .grill-quote-qty {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.1rem 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #065f46 !important;
+  background: #fff;
+  border: 1px solid #a7f3d0;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+body.grills-product-page .grill-quote-item-spec {
+  margin: 0;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #334155 !important;
+  line-height: 1.45;
+}
+
+body.grills-product-page .grill-quote-item-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  min-width: 5.5rem;
+}
+
+body.grills-product-page .grill-quote-item-price {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #047857 !important;
+  white-space: nowrap;
+}
+
+body.grills-product-page .grill-quote-item-area {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #475569 !important;
+}
+
+body.grills-product-page .grill-quote-item-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  margin-top: 0.15rem;
+  padding: 0.35rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #b91c1c !important;
+  background: #fff;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+body.grills-product-page .grill-quote-item-remove:hover {
+  background: #fef2f2;
+  border-color: #f87171;
+}
+
+body.grills-product-page .grill-quote-item-remove svg {
+  flex-shrink: 0;
+}
+
+body.grills-product-page .grill-quote-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.65rem;
+  padding-top: 0.65rem;
+  border-top: 2px solid #6ee7b7;
+}
+
+body.grills-product-page .grill-quote-total-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0f172a !important;
+}
+
+body.grills-product-page .grill-quote-total-value {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #047857 !important;
+}
+
+body.grills-product-page .grill-add-cart-btn {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+body.grills-product-page .grill-order-actions {
+  margin-top: 0.5rem;
+}
+
+body.grills-product-page .grill-order-actions-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem;
+  color: #64748b !important;
+  text-align: center;
+  font-weight: 600;
+}
+
+body.grills-product-page .grill-cart-cta-stack {
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0;
+}
+
+body.grills-product-page .grill-cart-cta-stack > * {
+  flex: none;
+  width: 100%;
+}
+
+body.grills-product-page .grill-cart-foot-note {
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+/* Details / price snippet */
+body.grills-product-page .grills-product-details {
+  background: #0f172a;
+  padding: 0 0 2.5rem;
+}
+
+body.grills-product-page .grills-price-snippet {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border: 2px solid #6ee7b7;
+  border-radius: 16px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+body.grills-product-page .grills-price-snippet-lead {
+  font-size: 1rem;
+  color: #064e3b !important;
+  font-weight: 600;
+  margin: 0 0 0.85rem;
+  line-height: 1.5;
+}
+
+body.grills-product-page .grills-price-snippet-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  font-size: 0.88rem;
+}
+
+body.grills-product-page .grills-price-snippet-table thead tr {
+  background: #059669;
+  color: #fff;
+}
+
+body.grills-product-page .grills-price-snippet-table th,
+body.grills-product-page .grills-price-snippet-table td {
+  padding: 0.5rem 0.65rem;
+  text-align: left;
+  color: #1e293b !important;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+body.grills-product-page .grills-price-snippet-table th {
+  color: #fff !important;
+  font-weight: 600;
+}
+
+body.grills-product-page .grills-price-cell {
+  color: #047857 !important;
+  font-weight: 700 !important;
+}
+
+body.grills-product-page .grills-product-details h2 {
+  color: #e2e8f0 !important;
+}
+
+body.grills-product-page .grills-product-details li,
+body.grills-product-page .grills-product-details td {
+  color: #cbd5e1 !important;
+}
+
+/* ── Tablet / mobile tweaks ── */
+@media (max-width: 900px) {
+  body.grills-product-page [data-grill-calculator] .grills-calc-group--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.grills-product-page [data-grill-calculator] .grills-calc-group--3 > #grill-inner-shape {
+    grid-column: 1 / -1;
+  }
+
+}
+
+@media (max-width: 720px) {
+  body.grills-product-page .grills-product-hero {
+    padding-top: 4rem !important;
+  }
+
+  body.grills-product-page .grills-calc-tail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.grills-product-page .grills-calc-tail .grills-calc-mini:last-child {
+    grid-column: 1 / -1;
+  }
+
+  body.grills-product-page .grills-calc-results-mini {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.grills-product-page .grills-calc-price-rows {
+    grid-template-columns: 1fr;
+  }
+
+  body.grills-product-page .grill-svg-preview-wrap--hero .grill-svg-container {
+    max-height: none;
+  }
+}
+
+@media (max-width: 480px) {
+  body.grills-product-page [data-grill-calculator] .grills-calc-group > .calc-select,
+  body.grills-product-page [data-grill-calculator] .grills-calc-group > .calc-input {
+    font-size: 16px !important;
+    min-height: 40px !important;
+  }
+
+  body.grills-product-page [data-grill-calculator] .grills-gap-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.grills-product-page [data-grill-calculator] .grills-gap-fields .grills-gap-cell:first-child {
+    grid-column: 1 / -1;
+  }
+
+  body.grills-product-page .grill-quote-item {
+    grid-template-columns: 1fr;
+  }
+
+  body.grills-product-page .grill-quote-item-side {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+  }
+}

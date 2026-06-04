@@ -105,6 +105,13 @@
     return '\u20B9' + Math.round(n).toLocaleString('en-IN');
   }
 
+  function isMobilePdfContext() {
+    try {
+      if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) return true;
+    } catch (e) { /* ignore */ }
+    return (navigator.maxTouchPoints > 0 && window.innerWidth < 1024);
+  }
+
   // ──────────────────────────────────────────────
   // CALCULATOR CLASS
   // ──────────────────────────────────────────────
@@ -114,6 +121,7 @@
     if (!this.container) return;
     this.lastResults = null;
     this.selectedColor = null;
+    this.container._wmGrillsCalc = this;
     this.init();
   }
 
@@ -122,8 +130,23 @@
     this.injectColorSwatches();
     this.populateOuterProfiles();
     this.bindEvents();
+    this.bindHeroPreviewSwap();
+    this.bindPreviewResize();
     this.updateInnerProfiles();
     this.calculate();
+  };
+
+  GrillsCalculator.prototype.bindPreviewResize = function() {
+    if (window._wmGrillPreviewResizeBound) return;
+    window._wmGrillPreviewResizeBound = true;
+    var self = this;
+    window.addEventListener('resize', function() {
+      document.querySelectorAll('[data-grill-calculator]').forEach(function(el) {
+        if (el._wmGrillsCalc && typeof el._wmGrillsCalc._syncPreviewStageSize === 'function') {
+          el._wmGrillsCalc._syncPreviewStageSize();
+        }
+      });
+    });
   };
 
   /** Fill outer frame dropdown from RECT_SQUARE_PROFILES (HTML on some pages only listed a subset). */
@@ -152,31 +175,34 @@
     return parseFloat(this.val(id)) || 0;
   };
 
-  // ── Inject SVG preview container + PDF button ──
+  GrillsCalculator.prototype._buildPreviewWrapHtml = function() {
+    return '<div class="grill-preview-head">' +
+        '<h3>Live Grill Preview</h3>' +
+        '<span class="grill-preview-badge">Auto fit</span>' +
+      '</div>' +
+      '<div class="grill-svg-container" aria-hidden="false"></div>' +
+      '<div class="grill-dim-labels"></div>';
+  };
+
+  // ── Inject SVG preview (hero + calculator — same as original bottom placement) ──
   GrillsCalculator.prototype.injectPreviewAndActions = function() {
+    if (this.container.querySelector('.grill-svg-preview-wrap--calc')) return;
+
     var priceDisplay = this.container.querySelector('.calc-price-display');
     if (!priceDisplay) return;
 
-    var wrap = document.createElement('div');
-    wrap.id = 'grill-svg-preview-wrap';
-    wrap.style.cssText = 'margin-bottom:1.5rem;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:1rem;';
-    wrap.innerHTML =
-      '<div style="display:flex;align-items:center;margin-bottom:0.75rem;">' +
-        '<h3 style="color:#e2e8f0;font-size:0.95rem;font-weight:600;margin:0;flex:1;">Live Grill Preview</h3>' +
-        '<span style="color:#64748b;font-size:0.7rem;background:rgba(255,255,255,0.05);padding:2px 8px;border-radius:4px;">Scale to fit</span>' +
-      '</div>' +
-      '<div id="grill-svg-container" style="background:rgba(15,23,42,0.5);border-radius:8px;padding:1rem;display:flex;align-items:center;justify-content:center;min-height:200px;position:relative;overflow:hidden;"></div>' +
-      '<div id="grill-dim-labels" style="display:flex;justify-content:center;gap:1.5rem;margin-top:0.5rem;"></div>';
-    priceDisplay.parentNode.insertBefore(wrap, priceDisplay);
+    var calcWrap = document.createElement('div');
+    calcWrap.className = 'grill-svg-preview-wrap grill-svg-preview-wrap--calc';
+    calcWrap.style.cssText = 'margin-bottom:1rem;padding:0;';
+    calcWrap.innerHTML = this._buildPreviewWrapHtml();
+    priceDisplay.parentNode.insertBefore(calcWrap, priceDisplay);
 
-    // PDF is generated only after "Get Exact Price" form submit (see submitInquiry)
-    var ctaLink = this.container.querySelector('a[href*="contact"]');
-    if (ctaLink && ctaLink.parentNode) {
-      var hint = document.createElement('span');
-      hint.id = 'grill-pdf-hint';
-      hint.style.cssText = 'display:inline-block;margin-left:0.75rem;color:#64748b;font-size:0.78rem;max-width:14rem;vertical-align:middle;line-height:1.35;';
-      hint.textContent = 'Full quotation PDF downloads after you submit the form below.';
-      ctaLink.parentNode.appendChild(hint);
+    var heroSlot = document.getElementById('grills-hero-preview-slot');
+    if (heroSlot && !heroSlot.querySelector('.grill-svg-preview-wrap--hero')) {
+      var heroWrap = document.createElement('div');
+      heroWrap.className = 'grill-svg-preview-wrap grill-svg-preview-wrap--hero';
+      heroWrap.innerHTML = this._buildPreviewWrapHtml();
+      heroSlot.appendChild(heroWrap);
     }
   };
 
@@ -268,6 +294,30 @@
 
     this.toggleGapInputs();
     this.toggleDividerInputs();
+  };
+
+  /** Show hero preview slot (hide product photo) after user changes default dimensions. */
+  GrillsCalculator.prototype.bindHeroPreviewSwap = function() {
+    if (!document.getElementById('grills-hero-preview-slot')) return;
+    var self = this;
+    var defaults = { w: 48, h: 48, q: 1 };
+    var mark = function() {
+      document.documentElement.classList.add('grills-user-sized');
+      var slot = document.getElementById('grills-hero-preview-slot');
+      if (slot) slot.setAttribute('aria-hidden', 'false');
+    };
+    var check = function() {
+      var w = self.numVal('grill-width') || defaults.w;
+      var h = self.numVal('grill-height') || defaults.h;
+      var q = Math.max(1, self.numVal('grill-qty') || defaults.q);
+      if (w !== defaults.w || h !== defaults.h || q !== defaults.q) mark();
+    };
+    ['grill-width', 'grill-height', 'grill-qty'].forEach(function(id) {
+      var e = self.el(id);
+      if (!e) return;
+      e.addEventListener('input', check);
+      e.addEventListener('change', check);
+    });
   };
 
   GrillsCalculator.prototype.updateInnerProfiles = function() {
@@ -507,6 +557,13 @@
     var totalIronWeight = rodWeightTotal;
     var grandTotal = finalSellingPrice + installationCost + bestAluCost.wastageCost;
 
+    var grillPriceMultiplier = 1.1;
+    finalSellingPrice = Math.round(finalSellingPrice * grillPriceMultiplier);
+    installationCost = Math.round(installationCost * grillPriceMultiplier);
+    bestAluCost.wastageCost = Math.round(bestAluCost.wastageCost * grillPriceMultiplier);
+    grandTotal = finalSellingPrice + installationCost + bestAluCost.wastageCost;
+    perSqftRate = totalAreaSqFt > 0 ? finalSellingPrice / (totalAreaSqFt * qty) : 0;
+
     this.lastResults = {
       wInches: wInches, hInches: hInches, width: width, height: height, unit: unit, qty: qty,
       outerFaceInches: outerFaceInches, innerFaceInches: innerFaceInches,
@@ -544,6 +601,9 @@
     this.setText('grill-result-grand', fmtINR(grandTotal));
 
     this.renderSVG();
+    if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.refresh === 'function') {
+      window.WoodenMaxQuote.refresh();
+    }
   };
 
   GrillsCalculator.prototype.setText = function(id, text) {
@@ -554,15 +614,9 @@
   // ──────────────────────────────────────────────
   // SVG PREVIEW — exact replica of Calculator.tsx JSX lines 1214-1304
   // ──────────────────────────────────────────────
-  GrillsCalculator.prototype.renderSVG = function() {
-    var ct = this.container.querySelector('#grill-svg-container');
-    var dl = this.container.querySelector('#grill-dim-labels');
-    if (!ct || !this.lastResults) return;
-    var r = this.lastResults;
+  GrillsCalculator.prototype._buildGrillSvgHtml = function(r, idSuffix) {
     var uid = this.containerId;
     var sw = Math.max(r.wInches, r.hInches) * 0.001;
-
-    // Determine fill gradient based on selected color or coating finish
     var stops;
     if (this.selectedColor) {
       stops = this.selectedColor.svgStops;
@@ -574,13 +628,18 @@
       stops = ['#52525b','#27272a','#18181b'];
     }
 
-    var gid = 'gf-' + uid;
-    var fid = 'fs-' + uid;
-
+    var gid = 'gf-' + uid + idSuffix;
+    var fid = 'fs-' + uid + idSuffix;
+    /* Padding so frame, stroke & drop-shadow are not clipped top/bottom */
+    var pad = Math.max(2.5, Math.max(r.wInches, r.hInches) * 0.1);
+    var vbW = r.wInches + pad * 2;
+    var vbH = r.hInches + pad * 2;
     var svg = [];
-    svg.push('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 '+r.wInches+' '+r.hInches+'" preserveAspectRatio="xMidYMid meet" style="width:100%;height:100%;max-height:320px;display:block;">');
+    svg.push(
+      '<svg xmlns="http://www.w3.org/2000/svg" class="grill-svg-fit" ' +
+      'viewBox="0 0 '+vbW+' '+vbH+'" preserveAspectRatio="xMidYMid meet">'
+    );
     svg.push('<defs>');
-
     if (r.coatingFinish === 'wooden' && !this.selectedColor) {
       svg.push('<linearGradient id="'+gid+'" x1="0%" y1="0%" x2="100%" y2="0%">');
     } else {
@@ -596,41 +655,79 @@
     var fill = 'url(#'+gid+')';
     var filter = 'url(#'+fid+')';
     var oF = r.outerFaceInches;
-
-    // Outer frame with cutout — exact from JSX
+    svg.push('<g transform="translate('+pad+','+pad+')">');
     svg.push('<path d="M0,0 H'+r.wInches+' V'+r.hInches+' H0 Z M'+oF+','+oF+' V'+(r.hInches-oF)+' H'+(r.wInches-oF)+' V'+oF+' Z" fill="'+fill+'" filter="'+filter+'" fill-rule="evenodd"/>');
 
-    // Dividers
     for (var d = 0; d < r.dividers.length; d++) {
       var dv = r.dividers[d];
       svg.push('<rect x="'+dv.x+'" y="'+dv.y+'" width="'+dv.w+'" height="'+dv.h+'" fill="'+fill+'" filter="'+filter+'" stroke="#18181b" stroke-width="'+sw+'"/>');
     }
-
-    // Inner pipes
     for (var p = 0; p < r.pipes.length; p++) {
       var pipe = r.pipes[p];
       var rx = (pipe.isRound || r.innerShape === 'oval') ? Math.min(pipe.w, pipe.h) / 2 : Math.max(r.wInches, r.hInches) * 0.002;
       svg.push('<rect x="'+pipe.x+'" y="'+pipe.y+'" width="'+pipe.w+'" height="'+pipe.h+'" rx="'+rx+'" fill="'+fill+'" filter="'+filter+'" stroke="#27272a" stroke-width="'+sw+'"/>');
     }
-
-    // Rod indicators inside pipes
     if (r.rodSize > 0) {
-      for (var p = 0; p < r.pipes.length; p++) {
-        var pipe = r.pipes[p];
-        var cx = pipe.x + pipe.w / 2;
-        var cy = pipe.y + pipe.h / 2;
+      for (var rp = 0; rp < r.pipes.length; rp++) {
+        var rpPipe = r.pipes[rp];
+        var cx = rpPipe.x + rpPipe.w / 2;
+        var cy = rpPipe.y + rpPipe.h / 2;
         var isVert = r.pattern === 'vertical';
-        svg.push('<line x1="'+(isVert?cx:pipe.x)+'" y1="'+(isVert?pipe.y:cy)+'" x2="'+(isVert?cx:pipe.x+pipe.w)+'" y2="'+(isVert?pipe.y+pipe.h:cy)+'" stroke="#18181b" stroke-width="'+(Math.max(r.wInches,r.hInches)*0.003)+'" stroke-dasharray="4 2" opacity="0.6"/>');
+        svg.push('<line x1="'+(isVert?cx:rpPipe.x)+'" y1="'+(isVert?rpPipe.y:cy)+'" x2="'+(isVert?cx:rpPipe.x+rpPipe.w)+'" y2="'+(isVert?rpPipe.y+rpPipe.h:cy)+'" stroke="#18181b" stroke-width="'+(Math.max(r.wInches,r.hInches)*0.003)+'" stroke-dasharray="4 2" opacity="0.6"/>');
       }
     }
-
+    svg.push('</g>');
     svg.push('</svg>');
-    ct.innerHTML = svg.join('');
+    return svg.join('');
+  };
 
-    if (dl) {
-      dl.innerHTML = '<span style="color:#94a3b8;font-size:0.75rem;font-weight:500;background:rgba(255,255,255,0.05);padding:2px 10px;border-radius:4px;">'+r.width+' '+r.unit+' W</span>' +
-        '<span style="color:#94a3b8;font-size:0.75rem;font-weight:500;background:rgba(255,255,255,0.05);padding:2px 10px;border-radius:4px;">'+r.height+' '+r.unit+' H</span>';
+  /** Size preview stage from grill aspect ratio so SVG scales to fit (auto zoom). */
+  GrillsCalculator.prototype._syncPreviewStageSize = function() {
+    var r = this.lastResults;
+    if (!r || r.wInches <= 0 || r.hInches <= 0) return;
+    var ratio = r.hInches / r.wInches;
+    var containers = document.querySelectorAll(
+      '#' + this.containerId + ' .grill-svg-container, #grills-hero-preview-slot .grill-svg-container'
+    );
+    for (var i = 0; i < containers.length; i++) {
+      var el = containers[i];
+      var isHero = !!el.closest('#grills-hero-preview-slot');
+      var wrap = el.parentElement;
+      var maxW = (wrap && wrap.clientWidth) ? wrap.clientWidth - 16 : 360;
+      var maxH = isHero ? 220 : 260;
+      var h = Math.min(maxH, maxW * ratio);
+      var w = h / ratio;
+      if (w > maxW) {
+        w = maxW;
+        h = w * ratio;
+      }
+      el.style.height = Math.round(Math.max(isHero ? 120 : 140, h)) + 'px';
     }
+  };
+
+  GrillsCalculator.prototype.renderSVG = function() {
+    var containers = document.querySelectorAll(
+      '#' + this.containerId + ' .grill-svg-container, #grills-hero-preview-slot .grill-svg-container'
+    );
+    if (!containers.length || !this.lastResults) return;
+    var r = this.lastResults;
+    var dimHtml = '<span style="color:#94a3b8;font-size:0.75rem;font-weight:500;background:rgba(255,255,255,0.05);padding:2px 10px;border-radius:4px;">'+r.width+' '+r.unit+' W</span>' +
+        '<span style="color:#94a3b8;font-size:0.75rem;font-weight:500;background:rgba(255,255,255,0.05);padding:2px 10px;border-radius:4px;">'+r.height+' '+r.unit+' H</span>';
+
+    for (var ci = 0; ci < containers.length; ci++) {
+      var suffix = containers[ci].closest('#grills-hero-preview-slot') ? '-hero' : '-calc-' + ci;
+      containers[ci].innerHTML = this._buildGrillSvgHtml(r, suffix);
+    }
+    var dimNodes = document.querySelectorAll(
+      '#' + this.containerId + ' .grill-dim-labels, #grills-hero-preview-slot .grill-dim-labels'
+    );
+    for (var di = 0; di < dimNodes.length; di++) {
+      dimNodes[di].innerHTML = dimHtml;
+    }
+    var self = this;
+    requestAnimationFrame(function() {
+      self._syncPreviewStageSize();
+    });
   };
 
   // ──────────────────────────────────────────────
@@ -677,6 +774,13 @@
   GrillsCalculator.prototype.generatePDF = function(opts) {
     opts = opts || {};
     var silent = opts.silent === true;
+    /* Mobile: branded print dialog (full A4 width) — not jsPDF file download */
+    if (isMobilePdfContext()) {
+      if (!silent && window.WoodenMaxQuote && typeof window.WoodenMaxQuote.openPdfForm === 'function') {
+        window.WoodenMaxQuote.openPdfForm();
+      }
+      return;
+    }
     var lineItems = this._getPdfLineItems();
     if (!lineItems.length) {
       if (!silent) {
@@ -914,7 +1018,7 @@
     y += 12;
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
-    var bank = 'Account Name: WoodenMax Architectural Elements\nAccount Number: 5020092938110\nIFSC Code: HDFC0001996\nBranch: Hyderaguda Hyderabad';
+    var bank = 'Account Name: WoodenMax Architectural Elements\nAccount Number: 5020092938110\nIFSC Code: HDFC0001996\nBranch: Hyderaguda Hyderabad\nUPI: finilexnaseem-3@okicici';
     var splitBank = doc.splitTextToSize(bank, pw - 100);
     doc.text(splitBank, 40, y);
     y += splitBank.length * 11 + 18;
@@ -947,7 +1051,8 @@
       };
     }
 
-    var svgEl = this.container.querySelector('#grill-svg-container svg');
+    var svgEl = this.container.querySelector('.grill-svg-preview-wrap--calc .grill-svg-container svg') ||
+      this.container.querySelector('.grill-svg-container svg');
     var fileName = 'WoodenMax_Grill_Quotation_' + lineItems.length + 'L_' + refNo + '.pdf';
 
     if (svgEl && rSvg && rSvg.wInches && rSvg.hInches) {
@@ -1038,10 +1143,10 @@
     var addBtn = document.createElement('button');
     addBtn.type = 'button';
     addBtn.id = 'grill-add-to-quote';
-    addBtn.style.cssText = 'width:100%;padding:0.85rem;background:linear-gradient(135deg,#059669,#047857);color:#fff;border:none;border-radius:12px;font-weight:600;font-size:0.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.5rem;transition:all 0.2s;margin-bottom:1rem;';
-    addBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add This Size to Quotation';
+    addBtn.className = 'calc-add-cart-btn grill-add-cart-btn';
+    addBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span>Add to Quote Cart</span>';
     var self = this;
-    addBtn.addEventListener('click', function() { self.addToQuotation(); });
+    addBtn.addEventListener('click', function() { self.addToQuotationAndGlobalCart(); });
     cartWrap.appendChild(addBtn);
 
     var listDiv = document.createElement('div');
@@ -1079,6 +1184,74 @@
     return [it.width, it.height, it.unit, it.outerProfile, it.outerThickness, it.innerProfile, it.innerShape, it.innerThickness, it.pattern, it.gapType, it.coatingFinish, it.colorName || '', it.rodSize, !!it.hasDividers, sec].join('\u00A6');
   };
 
+  GrillsCalculator.prototype._syncGlobalCartFromQuotation = function() {
+    if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.syncGrillQuotation === 'function') {
+      window.WoodenMaxQuote.syncGrillQuotation(this.quotationItems || []);
+    }
+  };
+
+  GrillsCalculator.prototype.addToQuotationAndGlobalCart = function() {
+    this.addToQuotation();
+    this._syncGlobalCartFromQuotation();
+    if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.refresh === 'function') {
+      window.WoodenMaxQuote.refresh();
+    }
+  };
+
+  GrillsCalculator.prototype._ensureGlobalCartForAction = function(cb) {
+    var cart = window.WoodenMaxQuote && window.WoodenMaxQuote.readCart
+      ? window.WoodenMaxQuote.readCart() : [];
+    if (!cart.length) {
+      this.addToQuotationAndGlobalCart();
+    }
+    if (typeof cb === 'function') cb();
+  };
+
+  GrillsCalculator.prototype.injectGrillOrderActions = function() {
+    var cartWrap = this.container.querySelector('#grill-quotation-cart');
+    if (!cartWrap || cartWrap.querySelector('.grill-order-actions')) return;
+
+    var panel = document.createElement('div');
+    panel.className = 'grill-order-actions';
+    panel.innerHTML =
+      '<p class="grill-order-actions-title">Next step — same buttons as quote cart</p>' +
+      '<div class="cart-cta-stack grill-cart-cta-stack">' +
+        '<button type="button" class="cart-cta-primary" data-grill-action="export-pdf">' +
+          '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>' +
+          'Download Quote PDF' +
+        '</button>' +
+        '<button type="button" class="cart-cta-book" data-grill-action="order-full">' +
+          '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>' +
+          'Order Now — Full Amount' +
+        '</button>' +
+        '<button type="button" class="cart-cta-book cart-cta-book--alt" data-grill-action="book-slot">' +
+          'Book Slot — Pay ₹1,000' +
+        '</button>' +
+      '</div>' +
+      '<p class="cart-foot-note grill-cart-foot-note">Adds to cart if empty · form opens on click · GST extra on full pay</p>';
+
+    cartWrap.appendChild(panel);
+
+    var self = this;
+    panel.querySelectorAll('[data-grill-action]').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var action = this.getAttribute('data-grill-action');
+        self._ensureGlobalCartForAction(function() {
+          if (!window.WoodenMaxQuote) return;
+          if (action === 'export-pdf' && window.WoodenMaxQuote.openPdfForm) {
+            window.WoodenMaxQuote.openPdfForm();
+          } else if (action === 'order-full' && window.WoodenMaxQuote.openBookOrder) {
+            window.WoodenMaxQuote.openBookOrder('order_full');
+          } else if (action === 'book-slot' && window.WoodenMaxQuote.openBookOrder) {
+            window.WoodenMaxQuote.openBookOrder('booking');
+          } else if (window.WoodenMaxQuote.openCart) {
+            window.WoodenMaxQuote.openCart();
+          }
+        });
+      });
+    });
+  };
+
   GrillsCalculator.prototype.addToQuotation = function() {
     var r = this.lastResults;
     if (!r) return;
@@ -1100,13 +1273,14 @@
         ex.totalAluWeight += snap.totalAluWeight;
         ex.totalIronWeight += snap.totalIronWeight;
         this.renderQuotationList();
+        this._syncGlobalCartFromQuotation();
         var addBtn = this.container.querySelector('#grill-add-to-quote');
         if (addBtn) {
-          addBtn.textContent = 'Merged with matching line!';
-          addBtn.style.background = 'linear-gradient(135deg,#2563eb,#1d4ed8)';
+          addBtn.classList.add('is-success');
+          addBtn.innerHTML = '<span>Merged with matching line!</span>';
           setTimeout(function() {
-            addBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg> Add Another Size';
-            addBtn.style.background = 'linear-gradient(135deg,#059669,#047857)';
+            addBtn.classList.remove('is-success');
+            addBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span>Add Another Size</span>';
           }, 1200);
         }
         return;
@@ -1116,6 +1290,7 @@
     snap.id = this._qid;
     this.quotationItems.push(snap);
     this.renderQuotationList();
+    this._syncGlobalCartFromQuotation();
 
     var addBtn = this.container.querySelector('#grill-add-to-quote');
     if (addBtn) {
@@ -1131,6 +1306,7 @@
   GrillsCalculator.prototype.removeFromQuotation = function(id) {
     this.quotationItems = this.quotationItems.filter(function(item) { return item.id !== id; });
     this.renderQuotationList();
+    this._syncGlobalCartFromQuotation();
   };
 
   GrillsCalculator.prototype.renderQuotationList = function() {
@@ -1142,34 +1318,34 @@
     listDiv.style.display = 'block';
     var self = this;
     var totalGrand = 0;
-    var html = '<div style="background:rgba(5,150,105,0.08);border:1px solid rgba(5,150,105,0.25);border-radius:12px;padding:1rem;margin-bottom:1rem;">';
-    html += '<h4 style="color:#22c55e;font-size:0.95rem;margin:0 0 0.75rem;display:flex;align-items:center;gap:0.5rem;">';
-    html += '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>';
+    var html = '<div class="grill-quote-panel">';
+    html += '<h4 class="grill-quote-heading">';
+    html += '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>';
     html += 'Quotation (' + items.length + ' size' + (items.length > 1 ? 's' : '') + ')</h4>';
 
     for (var i = 0; i < items.length; i++) {
       var it = items[i];
       totalGrand += it.grandTotal;
-      html += '<div style="display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid rgba(255,255,255,0.08);" data-qitem="' + it.id + '">';
-      html += '<div style="flex:1;">';
-      html += '<span style="color:#e2e8f0;font-weight:600;font-size:0.9rem;">' + it.width + 'x' + it.height + ' ' + it.unit + '</span>';
-      html += '<span style="color:#94a3b8;font-size:0.8rem;margin-left:0.5rem;">Qty: ' + it.qty + '</span>';
-      html += '<div style="color:#64748b;font-size:0.75rem;">' + it.outerProfile + 'mm | ' + it.innerProfile + 'mm ' + it.innerShape + ' | ' + it.coatingFinish + (it.colorName ? ' — ' + it.colorName : '') + '</div>';
+      var specLine = it.outerProfile + 'mm · ' + it.innerProfile + 'mm ' + it.innerShape + ' · ' + it.coatingFinish + (it.colorName ? ' · ' + it.colorName : '');
+      html += '<article class="grill-quote-item" data-qitem="' + it.id + '">';
+      html += '<div class="grill-quote-item-main">';
+      html += '<p class="grill-quote-item-title"><span class="grill-quote-size">' + it.width + ' × ' + it.height + ' ' + it.unit + '</span>';
+      html += '<span class="grill-quote-qty">Qty ' + it.qty + '</span></p>';
+      html += '<p class="grill-quote-item-spec">' + specLine + '</p>';
       html += '</div>';
-      html += '<div style="text-align:right;margin-right:0.5rem;">';
-      html += '<div style="color:#22c55e;font-weight:600;font-size:0.9rem;">' + fmtINR(it.grandTotal) + '</div>';
-      html += '<div style="color:#64748b;font-size:0.7rem;">' + it.totalAreaSqFt.toFixed(1) + ' sqft</div>';
-      html += '</div>';
-      html += '<button type="button" data-remove-qid="' + it.id + '" style="background:none;border:none;color:#ef4444;cursor:pointer;padding:4px;" title="Remove">';
-      html += '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg></button>';
-      html += '</div>';
+      html += '<div class="grill-quote-item-side">';
+      html += '<div class="grill-quote-item-price">' + fmtINR(it.grandTotal) + '</div>';
+      html += '<div class="grill-quote-item-area">' + it.totalAreaSqFt.toFixed(1) + ' sqft</div>';
+      html += '<button type="button" class="grill-quote-item-remove" data-remove-qid="' + it.id + '" aria-label="Remove this size">';
+      html += '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg>';
+      html += '<span>Remove</span></button>';
+      html += '</div></article>';
     }
 
-    html += '<div style="display:flex;justify-content:space-between;padding:0.75rem 0 0;margin-top:0.25rem;">';
-    html += '<span style="color:#e2e8f0;font-weight:700;">Quotation Total:</span>';
-    html += '<span style="color:#22c55e;font-weight:700;font-size:1.1rem;">' + fmtINR(totalGrand) + '</span>';
-    html += '</div>';
-    html += '</div>';
+    html += '<div class="grill-quote-total">';
+    html += '<span class="grill-quote-total-label">Quotation Total</span>';
+    html += '<span class="grill-quote-total-value">' + fmtINR(totalGrand) + '</span>';
+    html += '</div></div>';
 
     listDiv.innerHTML = html;
 
@@ -1339,12 +1515,6 @@
     if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
     if (form) form.style.display = 'none';
     if (success) success.style.display = 'block';
-    var self = this;
-    try {
-      if (self.lastResults && typeof self.generatePDF === 'function') {
-        setTimeout(function() { self.generatePDF({ silent: true }); }, 400);
-      }
-    } catch (e) { /* ignore */ }
     setTimeout(function() {
       if (form) form.style.display = '';
       if (success) success.style.display = 'none';
@@ -1366,7 +1536,11 @@
   GrillsCalculator.prototype.init = function() {
     _origInit.call(this);
     this.injectQuotationCart();
-    this.injectInquiryForm();
+    if (document.querySelector('[data-grill-calculator]')) {
+      this.injectGrillOrderActions();
+    } else {
+      this.injectInquiryForm();
+    }
   };
 
   // ──────────────────────────────────────────────

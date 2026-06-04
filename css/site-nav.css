@@ -40,11 +40,13 @@ body.wm-nav-open { overflow: hidden; }
   flex: 0 0 auto;
 }
 .wm-logo img {
-  width: 36px;
-  height: 36px;
+  width: auto;
+  height: 40px;
+  max-width: 140px;
   object-fit: contain;
-  border-radius: 6px;
-  filter: brightness(0) invert(1);
+  object-position: left center;
+  border-radius: 0;
+  filter: none;
 }
 .wm-logo-text {
   font-weight: 800;
