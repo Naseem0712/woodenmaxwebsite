@@ -58,6 +58,7 @@
     }
   },
   "pageCalculator": {
+    "index": "rect-led",
     "led-mirror-profile-price": "half-round",
     "led-mirror-profile-delhi": "half-round",
     "touch-sensor-mirror-profile": "round-touch",

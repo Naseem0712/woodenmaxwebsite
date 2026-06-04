@@ -36,8 +36,8 @@ const LOUVER_RATES = {
 };
 
 /** Build calcConfig for a mirror SEO page from data/mirror-rates.json */
-function mirrorCalcConfig(slug, extra) {
-  var key = MIRROR_RATES_JSON.pageCalculator[slug];
+function mirrorCalcConfig(slug, extra, modeOverride) {
+  var key = modeOverride || MIRROR_RATES_JSON.pageCalculator[slug];
   if (!key) return extra || {};
   var base = Object.assign({}, MIRROR_RATES_JSON.calculators[key]);
   delete base.description;

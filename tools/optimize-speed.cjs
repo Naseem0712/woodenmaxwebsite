@@ -51,6 +51,14 @@ const CRITICAL_CSS = fs.readFileSync(
 
 const CRITICAL_MARKER = 'id="wm-critical-css"';
 
+/** Never async-load these — prevents FOUC on nav/layout (see tools/fix-css-loading.cjs). */
+const BLOCKING_CSS = new Set([
+  'styles.css',
+  'site-nav.css',
+  'site-footer.css',
+  'product-pages-global.css',
+]);
+
 const stats = {
   imagesConverted: 0,
   htmlFiles: 0,
@@ -167,6 +175,8 @@ function asyncStylesheets(html) {
     (full, sp1, q1, sp2, q2, href, rest) => {
       if (/wm-critical|print|onload/i.test(full)) return full;
       if (/fonts\.googleapis\.com/i.test(href)) return full;
+      const base = (href.split('/').pop() || '').split('?')[0];
+      if (BLOCKING_CSS.has(base)) return full;
       if (html.includes(`href="${href}" as="style"`)) return full;
       stats.stylesAsync++;
       const preload = `<link rel="preload" href="${href}" as="style" onload="this.onload=null;this.rel='stylesheet'">`;

@@ -44,16 +44,16 @@ function p(cfg) {
   };
   var out = Object.assign(base, cfg);
   if (!out.eeatBlock && !cfg.skipEeat) out.eeatBlock = MIRROR_EEAT;
-  if (mirrorCalcKey(cfg.slug)) {
-    var ck = mirrorCalcKey(cfg.slug);
+  var ck = cfg.calcMode || mirrorCalcKey(cfg.slug);
+  if (ck) {
     if (!out.calcMode) out.calcMode = ck;
     var squareModes = ['round-touch', 'round-slim', 'square-touch', 'wooden-round'];
     var presets = squareModes.indexOf(ck) !== -1 ? SQUARE_PRESETS : RECT_PRESETS;
     out.calcConfig = mirrorCalcConfig(cfg.slug, Object.assign({
       presetSizes: presets,
-      defaultW: cfg.defaultW != null ? cfg.defaultW : (squareModes.indexOf(ck) !== -1 ? 3 : 2),
+      defaultW: cfg.defaultW != null ? cfg.defaultW : (squareModes.indexOf(ck) !== -1 ? 3 : ck === 'rect-led' ? 2.5 : 2),
       defaultH: cfg.defaultH != null ? cfg.defaultH : (ck === 'rect-led' ? 4 : 3),
-    }, cfg.calcConfigExtras || {}));
+    }, cfg.calcConfigExtras || {}), ck);
   }
   if (out.calcMode) {
     if (!out.hardwareTable) out.hardwareTable = MIRROR_HARDWARE_TABLE;
@@ -128,11 +128,11 @@ const pages = [
     image: 'led-aluminium-mirror-profile-bathroom-price-india.webp',
     imageAlt: 'LED aluminium mirror profile for bathroom — price from ₹720/ft | WoodenMax India',
     imageCaption: 'LED aluminium mirror profile — WoodenMax fabricates bathroom, wardrobe and custom mirror frames',
-    calcTypes: [
-      { label: 'Plain aluminium frame', min: MIRROR_RATES.plain.min, max: MIRROR_RATES.plain.max },
-      { label: 'LED backlit profile', min: MIRROR_RATES.ledSingle.min, max: MIRROR_RATES.ledDouble.max },
-      { label: 'Premium LED profile', min: MIRROR_RATES.ledPremium.min, max: MIRROR_RATES.ledUltra.max },
-    ],
+    calcMode: 'rect-led',
+    calcIntro:
+      'Live hub calculator — width × height (ft). V120 ₹850/sqft · V220 ₹950/sqft. Profile colour, glass brand, touch & driver update the amount instantly. For C-type, round, plain frame or luxury lines open the dedicated pages below.',
+    defaultW: 2.5,
+    defaultH: 4,
     priceTable: {
       head: ['Mirror type', 'Price range (₹/ft)', 'Best for'],
       rows: [
