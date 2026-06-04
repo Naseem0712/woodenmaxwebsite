@@ -2,6 +2,20 @@
 
 Use this when you have **`rzp_live_…`** keys and want real customer payments (UPI, Card, Netbanking).
 
+**Site code is already integrated.** Keys go only on **Cloudflare Worker** — not in HTML/JS/Git.
+
+Check now: [Worker health](https://jolly-field-be49.finilexnaseem.workers.dev/health) must show `"razorpay_mode":"live"`. If it says `"test"`, complete Step 2 below.
+
+### Quick setup (PC)
+
+```powershell
+cd woodenmax-live
+npx wrangler login
+npm run payments:setup-live
+```
+
+Paste **Key ID** + **Key Secret** when prompted. Script sets secrets and deploys `worker.js`.
+
 ---
 
 ## Step 1 — Razorpay Dashboard (Live mode)

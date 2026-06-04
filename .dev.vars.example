@@ -1,0 +1,4 @@
+# Copy to .dev.vars (gitignored) for: npx wrangler dev
+# Production: Cloudflare Dashboard → Worker secrets only
+RAZORPAY_KEY_ID=rzp_live_your_key_id
+RAZORPAY_KEY_SECRET=your_live_key_secret
