@@ -244,10 +244,35 @@ function renderMirrorCalc(cfg, prefix) {
   }
   var intro = cfg.calcIntro || 'Select size & options — amount updates live. GST, packing & transit extra.';
   var cfgJson = JSON.stringify(c).replace(/'/g, '&#39;');
+  var hubCompact = !!cfg.isHub;
+  var calcSectionClass = 'catalog-calc-section catalog-calc-mirror' + (hubCompact ? ' catalog-calc-section--hub-compact' : '');
+  var calcTitle = hubCompact ? 'Quick mirror estimate' : 'Live mirror calculator';
+  var calcIntroHtml = hubCompact
+    ? '<p class="catalog-calc-intro catalog-calc-intro--short">V120 ₹850/sqft · V220 ₹950/sqft — size, colour &amp; hardware update instantly.</p>'
+    : '<p class="catalog-calc-intro">' + esc(intro) + '</p>';
+  var inquiryHtml = hubCompact
+    ? ('<details class="catalog-calc-inquiry-fold" id="catalogCalcInquiry">' +
+      '<summary class="catalog-inq-summary">Request formal quote</summary>' +
+      '<div class="catalog-calc-inquiry catalog-calc-inquiry--nested">' +
+      '<div class="catalog-inq-grid"><div class="catalog-calc-field"><label>Name</label><input type="text" id="catalogInqName"></div>' +
+      '<div class="catalog-calc-field"><label>Mobile</label><input type="tel" id="catalogInqPhone"></div>' +
+      '<div class="catalog-calc-field"><label>Email</label><input type="email" id="catalogInqEmail"></div>' +
+      '<div class="catalog-calc-field"><label>City</label><input type="text" id="catalogInqCity"></div>' +
+      '<div class="catalog-calc-field catalog-calc-field-full"><label>Notes</label><textarea id="catalogInqNotes" rows="2"></textarea></div></div>' +
+      '<button type="button" class="catalog-calc-submit catalog-inq-submit" id="catalogInqSubmit">Send inquiry</button>' +
+      '<p class="catalog-inq-status" id="catalogInqStatus" role="status"></p></div></details>')
+    : ('<div class="catalog-calc-inquiry" id="catalogCalcInquiry"><h3 class="catalog-inq-title">Request formal quote</h3>' +
+      '<div class="catalog-inq-grid"><div class="catalog-calc-field"><label>Name</label><input type="text" id="catalogInqName"></div>' +
+      '<div class="catalog-calc-field"><label>Mobile</label><input type="tel" id="catalogInqPhone"></div>' +
+      '<div class="catalog-calc-field"><label>Email</label><input type="email" id="catalogInqEmail"></div>' +
+      '<div class="catalog-calc-field"><label>City</label><input type="text" id="catalogInqCity"></div>' +
+      '<div class="catalog-calc-field catalog-calc-field-full"><label>Notes</label><textarea id="catalogInqNotes" rows="2"></textarea></div></div>' +
+      '<button type="button" class="catalog-calc-submit catalog-inq-submit" id="catalogInqSubmit">Send inquiry</button>' +
+      '<p class="catalog-inq-status" id="catalogInqStatus" role="status"></p></div>');
   return (
-    '<section class="catalog-calc-section catalog-calc-mirror" id="wmCatalogCalc" data-calc-mode="' + esc(mode) + '" data-calc-config=\'' + cfgJson + '\' data-page-title="' + esc(cfg.h1) + '" data-page-slug="' + esc(cfg.slug || '') + '">' +
-    '<div class="container"><h2 class="cluster-h2">Live mirror calculator</h2>' +
-    '<p class="catalog-calc-intro">' + esc(intro) + '</p>' +
+    '<section class="' + calcSectionClass + '" id="wmCatalogCalc" data-calc-mode="' + esc(mode) + '" data-calc-config=\'' + cfgJson + '\' data-page-title="' + esc(cfg.h1) + '" data-page-slug="' + esc(cfg.slug || '') + '">' +
+    '<div class="container"><h2 class="cluster-h2">' + calcTitle + '</h2>' +
+    calcIntroHtml +
     '<div class="catalog-calc-grid catalog-calc-grid-mirror">' +
     '<div class="catalog-calc-field"><label>Preset size</label><select id="catalogCalcPreset">' + presetOpts + '</select></div>' +
     '<div class="catalog-calc-field"><label>Width (ft)</label><input type="number" id="catalogCalcWidth" min="0.5" step="0.5" value="' + (c.defaultW || 2) + '"></div>' +
@@ -261,16 +286,9 @@ function renderMirrorCalc(cfg, prefix) {
     '</div>' +
     '<div class="catalog-calc-result" id="catalogCalcResult"><p class="catalog-calc-placeholder">Enter size to see amount per piece.</p></div>' +
     '<p class="note catalog-calc-note">*GST 18% extra | Transport charges extra | Final price confirmed on formal quote</p>' +
-    '<p class="source catalog-calc-source">Calculated by WoodenMax Pricing Engine v1.0 | woodenmax.in</p>' +
+    (hubCompact ? '' : '<p class="source catalog-calc-source">Calculated by WoodenMax Pricing Engine v1.0 | woodenmax.in</p>') +
     '<div class="catalog-calc-hardware-summary" id="catalogCalcHwSummary"></div>' +
-    '<div class="catalog-calc-inquiry" id="catalogCalcInquiry"><h3 class="catalog-inq-title">Request formal quote</h3>' +
-    '<div class="catalog-inq-grid"><div class="catalog-calc-field"><label>Name</label><input type="text" id="catalogInqName"></div>' +
-    '<div class="catalog-calc-field"><label>Mobile</label><input type="tel" id="catalogInqPhone"></div>' +
-    '<div class="catalog-calc-field"><label>Email</label><input type="email" id="catalogInqEmail"></div>' +
-    '<div class="catalog-calc-field"><label>City</label><input type="text" id="catalogInqCity"></div>' +
-    '<div class="catalog-calc-field catalog-calc-field-full"><label>Notes</label><textarea id="catalogInqNotes" rows="2"></textarea></div></div>' +
-    '<button type="button" class="catalog-calc-submit catalog-inq-submit" id="catalogInqSubmit">Send inquiry</button>' +
-    '<p class="catalog-inq-status" id="catalogInqStatus" role="status"></p></div>' +
+    inquiryHtml +
     '<div class="catalog-wa-row">' +
     '<a class="catalog-wa-btn whatsapp-btn" id="catalogCalcWa" href="https://wa.me/917895328080" target="_blank" rel="noopener" data-ga-event="wm_whatsapp_click">Get exact quote on WhatsApp &rarr;</a>' +
     '</div></div></section>'
@@ -391,9 +409,14 @@ function renderHub(cfg, prefix) {
   var imgBase = cfg.silo === 'mirror-profiles'
     ? 'images/products/mirror-profiles/'
     : 'images/products/metal-louvers/';
+  var hubHeading = cfg.silo === 'mirror-profiles' ? 'Choose your mirror line' : 'Browse all pages';
+  var hubSub = cfg.silo === 'mirror-profiles'
+    ? '<p class="catalog-hub-lead">Each product has its own live calculator — tap a card to open sizes, sensors &amp; exact rates.</p>'
+    : '';
   return (
-    '<section class="cluster-section"><div class="container"><h2 class="cluster-h2">Browse all pages</h2>' +
-    '<div class="catalog-hub-grid">' +
+    '<section class="cluster-section catalog-hub-section--priority" id="mirror-product-lines"><div class="container"><h2 class="cluster-h2">' + hubHeading + '</h2>' +
+    hubSub +
+    '<div class="catalog-hub-grid catalog-hub-grid--compact">' +
     (cfg.hubLinks || []).map(function (l) {
       var href = l.slug;
       return '<a href="' + href + '" class="catalog-hub-card">' +
@@ -484,16 +507,18 @@ renderGa4Head(prefix) +
 (hubList ? '  <script type="application/ld+json">' + hubList + '</script>\n' : '') +
 '</head>\n<body class="cluster-page silo-' + esc(cfg.silo) + ' catalog-seo-page">\n' +
 crumb + '\n' +
-'<header class="cluster-hero">\n  <div class="container cluster-hero-grid">\n' +
+'<header class="cluster-hero' + (cfg.isHub && cfg.silo === 'mirror-profiles' ? ' cluster-hero--hub-slim' : '') + '">\n  <div class="container cluster-hero-grid">\n' +
 '    <div class="cluster-hero-text">\n      <h1>' + esc(cfg.h1) + '</h1>\n' +
 (cfg.heroSub ? '      <p class="cluster-hero-sub">' + esc(cfg.heroSub) + '</p>\n' : '') +
-'      <div class="cluster-hero-cta">' + (cfg.silo === 'mirror-profiles' ? '<a href="' + prefix + 'contact?intent=mirror-quote" class="cluster-cta-primary" data-ga-event="wm_cta_click">Get mirror quote &rarr;</a>' : '<a href="' + prefix + 'contact?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote" class="cluster-cta-primary" data-ga-event="wm_cta_click">Book free site visit &rarr;</a>') + '</div>\n' +
+'      <div class="cluster-hero-cta">' + (cfg.isHub && cfg.silo === 'mirror-profiles'
+      ? '<a href="#mirror-product-lines" class="cluster-cta-primary" data-ga-event="wm_cta_click">Browse mirror lines &rarr;</a><a href="' + prefix + 'contact?intent=mirror-quote" class="cluster-cta-secondary" data-ga-event="wm_cta_click">Get quote</a>'
+      : (cfg.silo === 'mirror-profiles' ? '<a href="' + prefix + 'contact?intent=mirror-quote" class="cluster-cta-primary" data-ga-event="wm_cta_click">Get mirror quote &rarr;</a>' : '<a href="' + prefix + 'contact?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote" class="cluster-cta-primary" data-ga-event="wm_cta_click">Book free site visit &rarr;</a>')) + '</div>\n' +
 '    </div>\n    <div class="cluster-hero-media"><figure class="cluster-hero-figure">' +
 '<img class="catalog-hero-product-img" src="' + esc(imgSrc) + '" alt="' + esc(imgAlt) + '" width="800" height="600" loading="lazy" decoding="async">' +
 (cfg.imageCaption ? '<figcaption class="cluster-hero-caption"><span class="cluster-hero-caption-text">' + esc(cfg.imageCaption) + '</span></figcaption>' : '') +
 '</figure></div>\n  </div>\n</header>\n' +
-calc + '\n' +
-sections + eeat + calcProducts + hub + faq + related +
+(cfg.isHub ? (calc + '\n' + hub + '\n') : (calc + '\n')) +
+sections + eeat + calcProducts + (cfg.isHub ? '' : hub) + faq + related +
 '<section class="cluster-final-cta"><div class="container"><h2>Ready for a locked PDF quote?</h2>' +
 '<p>' + (cfg.silo === 'mirror-profiles' ? 'Submit calculator details for a formal mirror BOQ. GST 18% extra. Dispatch in 7 working days after confirmation.' : 'WoodenMax visits free within 48 hours in Hyderabad, Delhi NCR &amp; Jaipur. GST 18% extra on all rates.') + '</p>' +
 (cfg.silo === 'mirror-profiles' ? '<a href="' + prefix + 'contact?intent=mirror-quote&amp;source=' + esc(cfg.slug) + '" class="cluster-cta-primary" data-ga-event="wm_cta_click">Request formal quote &rarr;</a>' : '<a href="' + prefix + 'contact?intent=' + (cfg.silo === 'mirror-profiles' ? 'mirror' : 'louver') + '-quote&amp;source=' + esc(cfg.slug) + '" class="cluster-cta-primary" data-ga-event="wm_cta_click">Book free site visit &rarr;</a>') + '</div></section>\n' +

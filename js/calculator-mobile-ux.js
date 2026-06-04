@@ -30,6 +30,7 @@
   var BODY_FLAG       = 'has-calc-sticky-bar';
   var BAR_VISIBLE     = 'is-visible';
   var SHEET_OPEN      = 'is-open';
+  var sheetReturnFocusEl = null;
   var MODAL_OPEN      = 'is-open';
   var PLACEHOLDER_CLS = 'is-placeholder';
   var COMPANY_UPI_ID  = 'finilexnaseem-3@okicici';
@@ -771,6 +772,23 @@
     );
   }
 
+  function isGrillCalcPage () {
+    return !!document.querySelector('[data-grill-calculator]') ||
+      /\/products\/grills\//i.test(location.pathname || '');
+  }
+
+  function configureGrillStickyBar (bar) {
+    if (!bar || !isGrillCalcPage()) return;
+    var exact = bar.querySelector('.calc-sticky-exact');
+    if (exact) exact.remove();
+    var add = bar.querySelector('[data-action="add-to-cart-sticky"]');
+    if (add) {
+      add.classList.add('calc-sticky-add--cart');
+      var span = add.querySelector('span');
+      if (span) span.textContent = 'Add to Cart';
+    }
+  }
+
   function cleanLabel (txt) {
     return String(txt || '')
       .replace(/<[^>]+>/g, '')
@@ -1320,26 +1338,38 @@
     var priceEl  = bar.querySelector('.calc-sticky-price');
     var labelEl  = bar.querySelector('.calc-sticky-label');
     var exactBtn = bar.querySelector('.calc-sticky-exact');
-
+    var addSticky = bar.querySelector('[data-action="add-to-cart-sticky"]');
+    var buySticky = bar.querySelector('[data-action="buy-booking"]');
     var price = readPrice();
+    var isGrill = isGrillCalcPage();
+
+    if (isGrill) configureGrillStickyBar(bar);
+
     if (price) {
       priceEl.textContent = price;
       priceEl.classList.remove(PLACEHOLDER_CLS);
       if (labelEl) labelEl.textContent = 'Live Total';
-      if (exactBtn) exactBtn.hidden = !!document.querySelector('[data-grill-calculator]');
-      var addSticky = bar.querySelector('[data-action="add-to-cart-sticky"]');
-      if (addSticky) addSticky.hidden = false;
-      var buySticky = bar.querySelector('[data-action="buy-booking"]');
-      if (buySticky) buySticky.hidden = getCalcKind() !== 'catalog';
+      if (isGrill) {
+        if (exactBtn) exactBtn.hidden = true;
+        if (addSticky) {
+          addSticky.hidden = false;
+          addSticky.classList.add('calc-sticky-add--cart');
+          var addLabel = addSticky.querySelector('span');
+          if (addLabel) addLabel.textContent = 'Add to Cart';
+        }
+        if (buySticky) buySticky.hidden = true;
+      } else {
+        if (exactBtn) exactBtn.hidden = false;
+        if (addSticky) addSticky.hidden = false;
+        if (buySticky) buySticky.hidden = getCalcKind() !== 'catalog';
+      }
     } else {
       priceEl.textContent = 'Enter sizes to see price';
       priceEl.classList.add(PLACEHOLDER_CLS);
       if (labelEl) labelEl.textContent = 'Live Estimate';
       if (exactBtn) exactBtn.hidden = true;
-      var addStickyOff = bar.querySelector('[data-action="add-to-cart-sticky"]');
-      if (addStickyOff) addStickyOff.hidden = true;
-      var buyStickyOff = bar.querySelector('[data-action="buy-booking"]');
-      if (buyStickyOff) buyStickyOff.hidden = true;
+      if (addSticky) addSticky.hidden = true;
+      if (buySticky) buySticky.hidden = true;
     }
 
     syncCartBadges();
@@ -1350,6 +1380,16 @@
     var row = $('#calcActionRow');
     if (!row) return;
     row.hidden = readPrice() === null;
+  }
+
+  function syncGrillAddButton () {
+    var btn = document.getElementById('grill-add-to-quote');
+    if (!btn) return;
+    var hasPrice = readPrice() !== null;
+    btn.disabled = !hasPrice;
+    btn.setAttribute('aria-disabled', hasPrice ? 'false' : 'true');
+    btn.style.opacity = hasPrice ? '' : '0.55';
+    btn.style.pointerEvents = hasPrice ? '' : 'none';
   }
 
   // ---------- Cart ----------
@@ -1387,29 +1427,121 @@
   }
 
   // ---------- Sheet rendering ----------
+  function ensureCartSheetLayout () {
+    var panel = document.querySelector('#calcBottomSheet .calc-sheet-panel');
+    if (!panel || panel.querySelector('#calcSheetActions')) return;
+    var body = document.getElementById('calcSheetBody');
+    if (!body || body.closest('.calc-sheet-scroll')) return;
+
+    var actions = document.createElement('div');
+    actions.className = 'calc-sheet-actions';
+    actions.id = 'calcSheetActions';
+    actions.hidden = true;
+
+    var scroll = document.createElement('div');
+    scroll.className = 'calc-sheet-scroll';
+    scroll.id = 'calcSheetScroll';
+
+    panel.insertBefore(actions, body);
+    panel.replaceChild(scroll, body);
+    scroll.appendChild(body);
+  }
+
+  function buildCartActionsHtml (cart) {
+    var total = cartGrandTotal(cart);
+    var subExact = total.exact;
+    var allMirror = isCartAllMirror(cart);
+    var mixed = isCartMixed(cart);
+    var mirrorExact = getCartPaymentPlan(cart, 'mirror_full');
+
+    var html =
+      '<div class="cart-actions-bar">' +
+        '<div class="cart-actions-summary">' +
+          '<span class="cart-actions-summary-label">Subtotal · ' + cart.length + ' item' + (cart.length === 1 ? '' : 's') + '</span>' +
+          '<span class="cart-actions-summary-value">' + fmtINR(subExact) + '</span>' +
+        '</div>' +
+        '<div class="cart-actions-grid">';
+
+    html +=
+          '<button type="button" class="cart-action-btn cart-action-btn--pdf" data-cart-action="export-pdf">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>' +
+            '<span>Download PDF</span>' +
+          '</button>';
+
+    if (allMirror && !mixed) {
+      html +=
+          '<button type="button" class="cart-action-btn cart-action-btn--buy" data-cart-action="book-order" data-pay-choice="mirror_full">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>' +
+            '<span>' + escapeHtml(mirrorExact.label) + '</span>' +
+          '</button>' +
+        '</div>' +
+        '<button type="button" class="cart-action-btn cart-action-btn--slot cart-action-btn--full" data-cart-action="book-order" data-pay-choice="booking">' +
+          '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
+          '<span>Book a Slot — Pay ₹1,000</span>' +
+        '</button>';
+    } else {
+      html +=
+          '<button type="button" class="cart-action-btn cart-action-btn--slot" data-cart-action="book-order" data-pay-choice="booking">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
+            '<span>Book a Slot — Pay ₹1,000</span>' +
+          '</button>' +
+        '</div>';
+    }
+
+    html +=
+        '<div class="cart-actions-share">' +
+          '<button type="button" class="cart-share-wa cart-share-wa--compact" data-cart-action="share-whatsapp">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.11.547 4.091 1.507 5.818L0 24l6.335-1.662A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>' +
+            'WhatsApp' +
+          '</button>' +
+          '<button type="button" class="cart-share-email cart-share-email--compact" data-cart-action="share-email">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' +
+            'Email' +
+          '</button>' +
+          '<button type="button" class="cart-action-btn cart-action-btn--ghost cart-action-btn--mini" data-cart-action="add-more">+ Add more</button>' +
+        '</div>' +
+      '</div>';
+
+    return html;
+  }
+
   function renderSheet () {
+    ensureCartSheetLayout();
     var sheet = $('#calcBottomSheet');
     if (!sheet) return;
-    var body  = sheet.querySelector('.calc-sheet-body');
+    var body = document.getElementById('calcSheetBody');
+    var actionsEl = document.getElementById('calcSheetActions');
     var count = sheet.querySelector('#calcSheetCount');
     var cart = readCart();
 
     if (count) count.textContent = '(' + cart.length + ')';
 
     if (!cart.length) {
+      if (actionsEl) {
+        actionsEl.hidden = true;
+        actionsEl.innerHTML = '';
+      }
+      if (!body) return;
       body.innerHTML =
         '<div class="cart-empty">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>' +
           '<strong>Your quote cart is empty</strong>' +
           '<p>Open any product calculator, configure sizes, then tap <strong>Add to Cart</strong>. Items stay saved as you browse other pages — build one combined quote for windows, shower, mirror, pergola &amp; more.</p>' +
         '</div>' +
-        '<div class="cart-cta-stack">' +
+        '<div class="cart-cta-stack cart-cta-stack--empty">' +
           '<button type="button" class="cart-cta-secondary" data-cart-action="close">Continue Configuring</button>' +
         '</div>';
       return;
     }
 
-    var html = '';
+    if (actionsEl) {
+      actionsEl.hidden = false;
+      actionsEl.innerHTML = buildCartActionsHtml(cart);
+    }
+
+    if (!body) return;
+
+    var html = '<div class="cart-items-heading">Added products</div>';
     cart.forEach(function (it) {
       var details = it.details || (it.specs || []).map(function (s) {
         var p = String(s).split(':');
@@ -1437,12 +1569,9 @@
     var subExact = total.exact;
     var freeTransport = subExact >= 1500000;
     var gstMid = Math.round(subExact * 0.18);
-    html += '<div class="cart-total-row">' +
-              '<span class="cart-total-label">Subtotal (' + cart.length + ' item' + (cart.length === 1 ? '' : 's') + ')</span>' +
-              '<span class="cart-total-value">' + fmtINR(subExact) + '</span>' +
-            '</div>';
+    var allMirror = isCartAllMirror(cart);
+    var mixed = isCartMixed(cart);
 
-    // GST + Transport policy block — explicit, every cart open
     html += '<div class="cart-policy-block">' +
               '<div class="cart-policy-row">' +
                 '<span class="cart-policy-key">GST @ 18% <em>(always extra)</em></span>' +
@@ -1463,42 +1592,6 @@
               '</p>' +
             '</div>';
 
-    var allMirror = isCartAllMirror(cart);
-    var mixed = isCartMixed(cart);
-    var mirrorExact = getCartPaymentPlan(cart, 'mirror_full');
-    html += '<div class="cart-cta-stack">';
-    if (allMirror && !mixed) {
-      html += '<button type="button" class="cart-cta-book" data-cart-action="book-order" data-pay-choice="mirror_full">' +
-                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>' +
-                escapeHtml(mirrorExact.label) +
-              '</button>' +
-              '<button type="button" class="cart-cta-book cart-cta-book--alt" data-cart-action="book-order" data-pay-choice="booking">' +
-                'Book slot — Pay ₹1,000' +
-              '</button>';
-    } else {
-      html += '<button type="button" class="cart-cta-book" data-cart-action="book-order" data-pay-choice="booking">' +
-                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>' +
-                'Book order — Pay ₹1,000' +
-              '</button>';
-    }
-    html +=
-              '<button type="button" class="cart-cta-secondary" data-cart-action="add-more">Add More Items</button>' +
-              '<button type="button" class="cart-cta-primary"   data-cart-action="export-pdf">' +
-                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>' +
-                'Download Quote PDF' +
-              '</button>' +
-            '</div>' +
-            '<div class="cart-share-row">' +
-              '<button type="button" class="cart-share-wa" data-cart-action="share-whatsapp">' +
-                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.11.547 4.091 1.507 5.818L0 24l6.335-1.662A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>' +
-                'WhatsApp quote' +
-              '</button>' +
-              '<button type="button" class="cart-share-email" data-cart-action="share-email">' +
-                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' +
-                'Email summary' +
-              '</button>' +
-            '</div>';
-
     html += '<p class="cart-foot-note">' +
             (mixed
               ? '<strong>Mixed cart:</strong> only ₹1,000 booking online — site visit &amp; BOQ for all items. '
@@ -1512,9 +1605,22 @@
   }
 
   // ---------- Sheet open/close ----------
+  function releaseDialogFocus (container, fallbackEl) {
+    if (!container) return;
+    var active = document.activeElement;
+    if (!active || !container.contains(active)) return;
+    var target = sheetReturnFocusEl || fallbackEl || document.getElementById('wmGlobalQuoteCart');
+    if (target && typeof target.focus === 'function') {
+      try { target.focus({ preventScroll: true }); } catch (e1) { target.focus(); }
+    } else {
+      active.blur();
+    }
+  }
+
   function openSheet () {
     var sheet = $('#calcBottomSheet');
     if (!sheet) return;
+    sheetReturnFocusEl = document.activeElement;
     renderSheet();
     sheet.classList.add(SHEET_OPEN);
     sheet.setAttribute('aria-hidden', 'false');
@@ -1523,12 +1629,18 @@
     if (typeof ensureRazorpayModule === 'function') {
       ensureRazorpayModule().catch(function () {});
     }
+    setTimeout(function () {
+      var closeBtn = sheet.querySelector('.calc-sheet-close');
+      if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus({ preventScroll: true });
+    }, 80);
   }
   function closeSheet () {
     var sheet = $('#calcBottomSheet');
     if (!sheet) return;
     sheet.classList.remove(SHEET_OPEN);
+    releaseDialogFocus(sheet);
     sheet.setAttribute('aria-hidden', 'true');
+    sheetReturnFocusEl = null;
     if (!$('#calcFormModal.is-open')) {
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
@@ -1681,6 +1793,7 @@
     var modal = $('#calcFormModal');
     if (!modal) return;
     modal.classList.remove(MODAL_OPEN);
+    releaseDialogFocus(modal);
     modal.setAttribute('aria-hidden', 'true');
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
@@ -2776,6 +2889,7 @@
 
   function injectCalcActionRow () {
     if ($('#calcActionRow')) return;
+    if (document.getElementById('grill-add-to-quote')) return;
     var calc = getCalcContainer();
     if (!calc) return;
     var priceDisplay = calc.querySelector('.calc-price-display') ||
@@ -2792,7 +2906,12 @@
         '<span>Add to Quote Cart</span>' +
       '</button>' +
       '<p class="calc-action-note">Same details as Get Exact Price — add each opening, then open cart for PDF, WhatsApp or email.</p>';
-    priceDisplay.insertAdjacentElement('afterend', row);
+    var grillCart = calc.querySelector('#grill-quotation-cart');
+    if (grillCart) {
+      grillCart.insertAdjacentElement('afterend', row);
+    } else {
+      priceDisplay.insertAdjacentElement('afterend', row);
+    }
   }
 
   // ---------- Auto-injected scaffolding ----------
@@ -2805,7 +2924,17 @@
     btn._wmCartBound = true;
     btn.addEventListener('click', function () {
       var before = readCart().length;
-      var item = addCurrentToCart();
+      var item = null;
+      var grillEl = document.querySelector('[data-grill-calculator]');
+      var grillInst = grillEl && grillEl._wmGrillsCalc;
+      if (grillInst && typeof grillInst.addToQuotationAndGlobalCart === 'function') {
+        grillInst.addToQuotationAndGlobalCart();
+        if (readCart().length > before) {
+          item = readCart()[readCart().length - 1];
+        }
+      } else {
+        item = addCurrentToCart();
+      }
       if (item) {
         var added = readCart().length - before;
         flashAddedFeedback(btn, added);
@@ -2814,7 +2943,7 @@
         if (sheet && sheet.classList.contains(SHEET_OPEN)) renderSheet();
         showToast(
           'success',
-          '<strong>' + (added > 1 ? added + ' openings added' : 'Added to quote cart') + '.</strong> Open cart → Download PDF or WhatsApp.'
+          '<strong>' + (added > 1 ? added + ' openings added' : 'Added to cart') + '.</strong> Open cart → Download PDF or WhatsApp.'
         );
       }
     });
@@ -2830,7 +2959,10 @@
             '<h3>Your Quote Cart <span class="calc-sheet-count" id="calcSheetCount">(0)</span></h3>' +
             '<button type="button" class="calc-sheet-close" aria-label="Close cart">&times;</button>' +
           '</div>' +
-          '<div class="calc-sheet-body" id="calcSheetBody"></div>' +
+          '<div class="calc-sheet-actions" id="calcSheetActions" hidden></div>' +
+          '<div class="calc-sheet-scroll" id="calcSheetScroll">' +
+            '<div class="calc-sheet-body" id="calcSheetBody"></div>' +
+          '</div>' +
         '</div>' +
       '</div>' +
 
@@ -2903,19 +3035,35 @@
 
   function buildCartScaffolding () {
     ensurePrintStage();
-    if (document.getElementById('calcBottomSheet')) return;
+    if (document.getElementById('calcBottomSheet')) {
+      ensureCartSheetLayout();
+      return;
+    }
     var holder = document.createElement('div');
     holder.setAttribute('data-calc-mobile-ux-scaffold', 'cart');
     holder.innerHTML = CART_SHEET_HTML;
     document.body.appendChild(holder);
+    ensureCartSheetLayout();
   }
 
   function buildCalcStickyBar () {
     if (!getCalcContainer()) return;
-    if (document.getElementById('calcStickyBar')) {
+    var existingBar = document.getElementById('calcStickyBar');
+    if (existingBar) {
+      configureGrillStickyBar(existingBar);
       injectCalcActionRow();
       return;
     }
+
+    var grillPage = isGrillCalcPage();
+    var cartSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>';
+    var addLabel = grillPage ? 'Add to Cart' : 'Add';
+    var addClass = grillPage ? 'calc-sticky-add calc-sticky-add--cart' : 'calc-sticky-add';
+    var exactBtnHtml = grillPage ? '' :
+      '<button type="button" class="calc-sticky-exact" data-form-open="exact" hidden>' +
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>' +
+        '<span>Get Exact</span>' +
+      '</button>';
 
     var holder = document.createElement('div');
     holder.setAttribute('data-calc-mobile-ux-scaffold', 'sticky');
@@ -2926,21 +3074,20 @@
             '<span class="calc-sticky-label">Live Estimate</span>' +
             '<span class="calc-sticky-price is-placeholder">Enter sizes to see price</span>' +
           '</div>' +
-          '<button type="button" class="calc-sticky-buy" data-action="buy-booking" hidden title="Buy online with Razorpay">' +
-            '<span>Buy — ₹1,000</span>' +
+          (grillPage ? '' :
+            '<button type="button" class="calc-sticky-buy" data-action="buy-booking" hidden title="Buy online with Razorpay">' +
+              '<span>Buy — ₹1,000</span>' +
+            '</button>') +
+          '<button type="button" class="' + addClass + '" data-action="add-to-cart-sticky" hidden title="Add to quote cart">' +
+            cartSvg +
+            '<span>' + addLabel + '</span>' +
           '</button>' +
-          '<button type="button" class="calc-sticky-add" data-action="add-to-cart-sticky" hidden title="Add current config to cart">' +
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>' +
-            '<span>Add</span>' +
-          '</button>' +
-          '<button type="button" class="calc-sticky-exact" data-form-open="exact" hidden>' +
-            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>' +
-            '<span>Get Exact</span>' +
-          '</button>' +
+          exactBtnHtml +
         '</div>' +
       '</div>';
 
     document.body.appendChild(holder);
+    configureGrillStickyBar(document.getElementById('calcStickyBar'));
     injectCalcActionRow();
   }
 
@@ -3118,6 +3265,12 @@
         childList: true, characterData: true, subtree: true
       });
     }
+    var grillGrandEl = $('#grill-result-grand');
+    if (grillGrandEl && typeof MutationObserver !== 'undefined') {
+      new MutationObserver(scheduleUpdate).observe(grillGrandEl, {
+        childList: true, characterData: true, subtree: true
+      });
+    }
 
     $$('[data-action="add-to-cart"]').forEach(function (addBtn) {
       bindAddToCartClick(addBtn, bar);
@@ -3136,7 +3289,23 @@
     }
 
     var exactBtn = bar.querySelector('[data-form-open="exact"]');
-    if (exactBtn) exactBtn.addEventListener('click', function () { openForm('exact'); });
+    if (exactBtn && !isGrillCalcPage()) {
+      exactBtn.addEventListener('click', function () { openForm('exact'); });
+    }
+
+    configureGrillStickyBar(bar);
+
+    if (document.querySelector('[data-grill-calculator]')) {
+      setTimeout(function () {
+        try { injectCalcActionRow(); } catch (eGrill) {}
+        syncAddToCartRow();
+        syncGrillAddButton();
+        updateStickyBar(bar);
+        $$('[data-action="add-to-cart"]').forEach(function (addBtn) {
+          bindAddToCartClick(addBtn, bar);
+        });
+      }, 120);
+    }
   }
 
   // ============================================================
@@ -3389,10 +3558,21 @@
     },
     readSnapshot: readQuoteSnapshot,
     refresh: function () {
+      try { injectCalcActionRow(); } catch (e) {}
       syncCartBadges();
+      syncAddToCartRow();
+      syncGrillAddButton();
       var bar = $('#calcStickyBar');
       if (bar) updateStickyBar(bar);
-      syncAddToCartRow();
+      if (bar) {
+        $$('[data-action="add-to-cart"]').forEach(function (addBtn) {
+          bindAddToCartClick(addBtn, bar);
+        });
+        bindAddToCartClick(bar.querySelector('[data-action="add-to-cart-sticky"]'), bar);
+      }
+    },
+    ensureCalcActions: function () {
+      try { injectCalcActionRow(); } catch (e) {}
     }
   };
 

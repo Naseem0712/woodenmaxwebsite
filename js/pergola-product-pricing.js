@@ -233,6 +233,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
       pricingRoot.innerHTML = buildUI();
 
+      notifyQuoteUi();
+
       var inputWidth = document.getElementById('input-width');
       var inputDepth = document.getElementById('input-depth');
       var inputFrameLen = document.getElementById('input-frameLen');
@@ -730,6 +732,17 @@ document.addEventListener('DOMContentLoaded', function () {
           totalFrameRft: totalFrameRft,
           framePieces: framePieces,
         };
+
+        notifyQuoteUi();
+      }
+
+      function notifyQuoteUi() {
+        try {
+          document.dispatchEvent(new CustomEvent('wm-quote-price-update'));
+        } catch (e) {}
+        if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.refresh === 'function') {
+          window.WoodenMaxQuote.refresh();
+        }
       }
 
       renderPricing();

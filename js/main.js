@@ -35,7 +35,7 @@
   var CACHE_KEY = 'wm_pricing_ctx_v3';   // bumped — old cache had old premium
   var TTL_MS = 12 * 60 * 60 * 1000;
   var FX_URL = 'https://open.er-api.com/v6/latest/INR';
-  var GEO_URL = 'https://ipapi.co/json/';
+  var GEO_URL = 'https://api.geocoded.me/';
 
   var EUROZONE = {
     AT: 1, BE: 1, CY: 1, EE: 1, FI: 1, FR: 1, DE: 1, GR: 1, IE: 1, IT: 1,
@@ -396,9 +396,13 @@
         }
         var cc = urlOverride;
         if (!cc) {
-          cc = geo && (geo.country_code || geo.country)
-            ? String(geo.country_code || geo.country).toUpperCase()
-            : 'IN';
+          if (geo && geo.country_code) {
+            cc = String(geo.country_code).toUpperCase();
+          } else if (geo && geo.country) {
+            cc = String(geo.country).toUpperCase();
+          } else {
+            cc = 'IN';
+          }
         }
         if (cc === 'IN') {
           var dom = domesticState();

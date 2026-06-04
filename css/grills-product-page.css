@@ -500,6 +500,12 @@ body.grills-product-page .grill-add-cart-btn {
   margin-bottom: 0.75rem;
 }
 
+body.grills-product-page .grill-add-cart-btn:disabled,
+body.grills-product-page .grill-add-cart-btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
 body.grills-product-page .grill-order-actions {
   margin-top: 0.5rem;
 }

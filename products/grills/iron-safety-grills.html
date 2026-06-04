@@ -57,7 +57,7 @@
     "name": "Iron Safety Grills",
     "description": "Traditional iron safety grills with ornamental designs. Budget-friendly, high raw strength. Price ₹220-330 per sqft.",
     "brand": {"@type": "Brand", "name": "WoodenMax"},
-    "offers": {"@type": "AggregateOffer", "lowPrice": "220", "highPrice": "330", "priceCurrency": "INR"}
+    "offers": {"@type": "AggregateOffer", "lowPrice": "425", "highPrice": "650", "priceCurrency": "INR"}
   }
   </script>
   <script type="application/ld+json">
@@ -242,10 +242,10 @@
     <div class="container grills-calculator-page-wrap">
       <div id="grill-calc-iron-safety" data-grill-calculator data-product-name="Iron Safety Grills" class="price-calculator-container">
         <div class="calc-header">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--gold-400);"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--gold-400);"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           <h2 style="color: var(--gold-400); margin: 0; font-size: 1.5rem; font-weight: 700;">Grill Price Calculator</h2>
         </div>
-        <div class="calc-group grills-calc-group">
+        <div class="calc-group grills-calc-group grills-calc-group--dims">
           <label class="grills-calc-label">Unit &amp; Dimensions</label>
           <select id="grill-unit" class="calc-select"><option value="in">Inches</option><option value="ft">Feet</option><option value="cm">Centimeters</option><option value="mm">Millimeters</option><option value="m">Meters</option></select>
           <div class="grills-calc-dims">
@@ -254,72 +254,119 @@
             <div><label class="grills-field-label">Qty</label><input type="number" id="grill-qty" class="calc-input" value="1" step="1" min="1"></div>
           </div>
         </div>
-        <div class="calc-group grills-calc-group">
-          <label>Outer Frame Profile</label>
+        <div class="calc-group grills-calc-group grills-calc-group--2">
+          <label class="grills-calc-label">Outer Frame Profile</label>
           <select id="grill-outer-profile" class="calc-select">
             <option value="19x19">19x19mm</option><option value="25x25" selected>25x25mm</option><option value="25x38">25x38mm</option>
           </select>
-          <select id="grill-outer-thickness" class="calc-select" style="margin-top: 0.5rem;">
+          <select id="grill-outer-thickness" class="calc-select">
             <option value="1.5" selected>1.5mm</option><option value="2">2.0mm</option>
           </select>
         </div>
-        <div class="calc-group grills-calc-group">
-          <label>Inner Pipe Shape &amp; Profile</label>
+        <div class="calc-group grills-calc-group grills-calc-group--3">
+          <label class="grills-calc-label">Inner Pipe Shape &amp; Profile</label>
           <select id="grill-inner-shape" class="calc-select"><option value="rect">Rectangle / Square</option><option value="round">Round</option></select>
-          <select id="grill-inner-profile" class="calc-select" style="margin-top: 0.5rem;"><option value="12x12" selected>12x12mm</option></select>
-          <select id="grill-inner-thickness" class="calc-select" style="margin-top: 0.5rem;">
+          <select id="grill-inner-profile" class="calc-select"><option value="12x12" selected>12x12mm</option></select>
+          <select id="grill-inner-thickness" class="calc-select">
             <option value="1.2" selected>1.2mm</option><option value="1.5">1.5mm</option><option value="2">2.0mm</option>
           </select>
         </div>
-        <div class="calc-group grills-calc-group">
-          <label>Pattern &amp; Gap</label>
+        <div class="calc-group grills-calc-group grills-calc-group--pattern">
+          <label class="grills-calc-label">Pattern &amp; Gap</label>
           <select id="grill-pattern" class="calc-select"><option value="vertical">Vertical</option><option value="horizontal">Horizontal</option></select>
-          <select id="grill-gap-type" class="calc-select" style="margin-top: 0.5rem;"><option value="uniform">Uniform Gap</option><option value="alternating2">Alternating 2</option><option value="alternating3">Alternating 3</option></select>
-          <div style="margin-top: 0.5rem;"><label class="grills-field-label">Gap 1</label><input type="number" id="grill-gap1" class="calc-input" value="3" step="0.1" min="0.1"></div>
-          <div id="grill-gap2-row" style="margin-top: 0.5rem; display: none;"><label class="grills-field-label">Gap 2</label><input type="number" id="grill-gap2" class="calc-input" value="4" step="0.1" min="0.1"></div>
-          <div id="grill-gap3-row" style="margin-top: 0.5rem; display: none;"><label class="grills-field-label">Gap 3</label><input type="number" id="grill-gap3" class="calc-input" value="5" step="0.1" min="0.1"></div>
+          <select id="grill-gap-type" class="calc-select"><option value="uniform">Uniform Gap</option><option value="alternating2">Alternating 2</option><option value="alternating3">Alternating 3</option></select>
+                    <div class="grills-gap-fields">
+            <div class="grills-gap-cell">
+              <label class="grills-field-label">Gap 1</label>
+              <input type="number" id="grill-gap1" class="calc-input" value="3" step="0.1" min="0.1">
+            </div>
+            <div class="grills-gap-cell" id="grill-gap2-row" style="display: none;">
+              <label class="grills-field-label">Gap 2</label>
+              <input type="number" id="grill-gap2" class="calc-input" value="4" step="0.1" min="0.1">
+            </div>
+            <div class="grills-gap-cell" id="grill-gap3-row" style="display: none;">
+              <label class="grills-field-label">Gap 3</label>
+              <input type="number" id="grill-gap3" class="calc-input" value="5" step="0.1" min="0.1">
+            </div>
+          </div>
         </div>
-        <div class="calc-group grills-calc-group">
-          <label>Threaded Rod</label>
+
+                                <div class="grills-calc-tail">
+        <div class="calc-group grills-calc-group grills-calc-mini">
+          <label class="grills-calc-label">Threaded Rod (Iron)</label>
           <select id="grill-rod-size" class="calc-select"><option value="0">None</option><option value="8" selected>8mm</option><option value="10">10mm</option></select>
         </div>
-        <div class="calc-group grills-calc-group">
-          <label>Dividers</label>
+
+        <div class="calc-group grills-calc-group grills-calc-mini">
+          <label class="grills-calc-label">Horizontal Dividers</label>
           <select id="grill-dividers" class="calc-select"><option value="no">No Dividers</option><option value="yes">Add Dividers</option></select>
-          <div id="grill-divider-options" style="display: none; margin-top: 0.5rem;">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-              <div><label class="grills-field-label">Count</label><input type="number" id="grill-divider-count" class="calc-input" value="1" min="1" max="5"></div>
-              <div><label class="grills-field-label">Layout</label><select id="grill-divider-layout" class="calc-select"><option value="equal">Equal</option><option value="center">Center</option></select></div>
+          <div id="grill-divider-options" style="display: none;">
+            <div class="grills-calc-dims">
+              <div>
+                <label class="grills-field-label">Count</label>
+                <input type="number" id="grill-divider-count" class="calc-input" value="1" min="1" max="5">
+              </div>
+              <div>
+                <label class="grills-field-label">Layout</label>
+                <select id="grill-divider-layout" class="calc-select">
+                  <option value="equal">Equal Spacing</option>
+                  <option value="center">Center Grouped</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
-        <div class="calc-group grills-calc-group">
-          <label>Coating Finish</label>
-          <select id="grill-coating-finish" class="calc-select"><option value="plain">Plain Powder Coat</option><option value="texture">Texture (+₹15/sqft)</option><option value="wooden">Wooden Grain (+₹30/sqft)</option></select>
+
+        <div class="calc-group grills-calc-group grills-calc-mini">
+          <label class="grills-calc-label">Coating Finish</label>
+          <select id="grill-coating-finish" class="calc-select"><option value="plain">Plain Powder Coat</option><option value="texture">Texture (+₹15/sqft)</option><option value="wooden">Wooden Grain (+₹65/sqft)</option></select>
         </div>
+        </div>
+
         <div class="calc-price-display grills-calc-price-panel">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
-            <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px;"><div style="color: #94a3b8; font-size: 0.75rem;">Area</div><div id="grill-result-area" style="color: #e2e8f0; font-weight: 600;">0 sq.ft</div></div>
-            <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px;"><div style="color: #94a3b8; font-size: 0.75rem;">Pipes</div><div id="grill-result-pipes" style="color: #e2e8f0; font-weight: 600;">0</div></div>
-            <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px;"><div style="color: #94a3b8; font-size: 0.75rem;">Alu Weight</div><div id="grill-result-alu-weight" style="color: #e2e8f0; font-weight: 600;">0 kg</div></div>
-            <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px;"><div style="color: #94a3b8; font-size: 0.75rem;">Iron Weight</div><div id="grill-result-iron-weight" style="color: #e2e8f0; font-weight: 600;">0 kg</div></div>
-            <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px;"><div style="color: #94a3b8; font-size: 0.75rem;">Outer Pipes</div><div id="grill-result-outer-qty" style="color: #e2e8f0; font-weight: 600;">0</div></div>
-            <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px;"><div style="color: #94a3b8; font-size: 0.75rem;">Inner Pipes</div><div id="grill-result-inner-qty" style="color: #e2e8f0; font-weight: 600;">0</div></div>
-            <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px;"><div style="color: #94a3b8; font-size: 0.75rem;">Rods</div><div id="grill-result-rod-qty" style="color: #e2e8f0; font-weight: 600;">None</div></div>
-            <div style="background: rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 8px;"><div style="color: #94a3b8; font-size: 0.75rem;">Nuts</div><div id="grill-result-nuts" style="color: #e2e8f0; font-weight: 600;">None</div></div>
+          <div class="grills-calc-results-mini">
+            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Area</span><span id="grill-result-area" class="grills-calc-stat-value">0 sq.ft</span></div>
+            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Pipes</span><span id="grill-result-pipes" class="grills-calc-stat-value">0</span></div>
+            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Alu Weight</span><span id="grill-result-alu-weight" class="grills-calc-stat-value">0 kg</span></div>
+            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Iron Weight</span><span id="grill-result-iron-weight" class="grills-calc-stat-value">0 kg</span></div>
+            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Outer Pipes</span><span id="grill-result-outer-qty" class="grills-calc-stat-value">0</span></div>
+            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Inner Pipes</span><span id="grill-result-inner-qty" class="grills-calc-stat-value">0</span></div>
+            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Rods</span><span id="grill-result-rod-qty" class="grills-calc-stat-value">None</span></div>
+            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Nuts</span><span id="grill-result-nuts" class="grills-calc-stat-value">None</span></div>
           </div>
-          <div style="border-top: 2px solid rgba(212, 175, 55, 0.3); padding-top: 1rem;">
-            <div class="calc-price-row"><span class="calc-price-label">Selling Price:</span><span id="grill-result-total" class="calc-price-value" style="font-size: 1.5rem;">₹0</span></div>
-            <div class="calc-price-row"><span class="calc-price-label">Rate per sqft:</span><span id="grill-result-per-sqft" class="calc-price-value">₹0/sqft</span></div>
-            <div class="calc-price-row"><span class="calc-price-label">Per Grill:</span><span id="grill-result-per-unit" class="calc-price-value">₹0/grill</span></div>
-            <div class="calc-price-row" style="opacity: 0.7;"><span class="calc-price-label">Installation:</span><span id="grill-result-install" class="calc-price-value">₹0</span></div>
-            <div class="calc-price-row" style="opacity: 0.7;"><span class="calc-price-label">Wastage:</span><span id="grill-result-wastage" class="calc-price-value">₹0</span></div>
+          
+          <div class="grills-calc-price-rows">
+            <div class="calc-price-row">
+              <span class="calc-price-label">Selling Price:</span>
+              <span id="grill-result-total" class="calc-price-value" style="font-size: 1.5rem;">₹0</span>
+            </div>
+            <div class="calc-price-row">
+              <span class="calc-price-label">Rate per sqft:</span>
+              <span id="grill-result-per-sqft" class="calc-price-value">₹0/sqft</span>
+            </div>
+            <div class="calc-price-row">
+              <span class="calc-price-label">Per Grill:</span>
+              <span id="grill-result-per-unit" class="calc-price-value">₹0/grill</span>
+            </div>
+            <div class="calc-price-row" style="opacity: 0.7;">
+              <span class="calc-price-label">Installation:</span>
+              <span id="grill-result-install" class="calc-price-value">₹0</span>
+            </div>
+            <div class="calc-price-row" style="opacity: 0.7;">
+              <span class="calc-price-label">Wastage Cost:</span>
+              <span id="grill-result-wastage" class="calc-price-value">₹0</span>
+            </div>
             <div class="calc-price-row" style="border-top: 2px solid rgba(212, 175, 55, 0.5); margin-top: 0.75rem; padding-top: 0.75rem;">
-              <span class="calc-price-label" style="font-weight: 700;">Grand Total:</span><span id="grill-result-grand" class="calc-price-value" style="font-size: 1.5rem; color: #22c55e;">₹0</span>
+              <span class="calc-price-label" style="font-weight: 700;">Grand Total (incl. install + wastage):</span>
+              <span id="grill-result-grand" class="calc-price-value grills-grand-total">₹0</span>
             </div>
           </div>
         </div>
+        
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <a href="../../contact" style="display: inline-block; background: linear-gradient(135deg, #059669, #047857); color: #fff; padding: 1rem 2.5rem; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1rem;">Get Free Quote</a>
         </div>
+      </div>
     </div>
   </section>
 
@@ -334,9 +381,9 @@
             <th style="padding: 0.5rem 0.75rem; text-align: left;">Use</th>
           </tr></thead>
           <tbody>
-            <tr style="border-bottom: 1px solid #e5e7eb;"><td style="padding: 0.5rem 0.75rem;">Standard Iron</td><td style="padding: 0.5rem 0.75rem; color: #059669; font-weight: 600;">₹220/sqft</td><td style="padding: 0.5rem 0.75rem; color: #475569;">Basic security</td></tr>
-            <tr style="border-bottom: 1px solid #e5e7eb;"><td style="padding: 0.5rem 0.75rem;">Ornamental Iron</td><td style="padding: 0.5rem 0.75rem; color: #059669; font-weight: 600;">₹275/sqft</td><td style="padding: 0.5rem 0.75rem; color: #475569;">Decorative</td></tr>
-            <tr><td style="padding: 0.5rem 0.75rem;">Heavy-Duty Iron</td><td style="padding: 0.5rem 0.75rem; color: #059669; font-weight: 600;">₹330/sqft</td><td style="padding: 0.5rem 0.75rem; color: #475569;">Max security</td></tr>
+            <tr style="border-bottom: 1px solid #e5e7eb;"><td style="padding: 0.5rem 0.75rem;">Standard Iron</td><td style="padding: 0.5rem 0.75rem; color: #059669; font-weight: 600;">₹425/sqft</td><td style="padding: 0.5rem 0.75rem; color: #475569;">Basic security</td></tr>
+            <tr style="border-bottom: 1px solid #e5e7eb;"><td style="padding: 0.5rem 0.75rem;">Ornamental Iron</td><td style="padding: 0.5rem 0.75rem; color: #059669; font-weight: 600;">₹540/sqft</td><td style="padding: 0.5rem 0.75rem; color: #475569;">Decorative</td></tr>
+            <tr><td style="padding: 0.5rem 0.75rem;">Heavy-Duty Iron</td><td style="padding: 0.5rem 0.75rem; color: #059669; font-weight: 600;">₹650/sqft</td><td style="padding: 0.5rem 0.75rem; color: #475569;">Max security</td></tr>
           </tbody>
         </table>
       </div>

@@ -105,6 +105,12 @@
     return '\u20B9' + Math.round(n).toLocaleString('en-IN');
   }
 
+  function notifyGrillQuoteUi() {
+    if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.refresh === 'function') {
+      window.WoodenMaxQuote.refresh();
+    }
+  }
+
   function isMobilePdfContext() {
     try {
       if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) return true;
@@ -601,9 +607,7 @@
     this.setText('grill-result-grand', fmtINR(grandTotal));
 
     this.renderSVG();
-    if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.refresh === 'function') {
-      window.WoodenMaxQuote.refresh();
-    }
+    notifyGrillQuoteUi();
   };
 
   GrillsCalculator.prototype.setText = function(id, text) {
@@ -1144,7 +1148,7 @@
     addBtn.type = 'button';
     addBtn.id = 'grill-add-to-quote';
     addBtn.className = 'calc-add-cart-btn grill-add-cart-btn';
-    addBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span>Add to Quote Cart</span>';
+    addBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span>Add to Cart</span>';
     var self = this;
     addBtn.addEventListener('click', function() { self.addToQuotationAndGlobalCart(); });
     cartWrap.appendChild(addBtn);
@@ -1193,9 +1197,7 @@
   GrillsCalculator.prototype.addToQuotationAndGlobalCart = function() {
     this.addToQuotation();
     this._syncGlobalCartFromQuotation();
-    if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.refresh === 'function') {
-      window.WoodenMaxQuote.refresh();
-    }
+    notifyGrillQuoteUi();
   };
 
   GrillsCalculator.prototype._ensureGlobalCartForAction = function(cb) {
@@ -1541,6 +1543,7 @@
     } else {
       this.injectInquiryForm();
     }
+    notifyGrillQuoteUi();
   };
 
   // ──────────────────────────────────────────────
