@@ -187,6 +187,40 @@
       "description": "27MM Domal Series - 2 Track (without mesh) or 3 Track (with mesh). Recommended height 6 feet, maximum 8 feet. Includes 5mm clear tuff glass, single point touch type lock, regular wheels, regular coating."
     },
     {
+      "id": "slimline-aluminium-window",
+      "name": "Slimline Aluminium Window",
+      "slug": "slimline-aluminium-window",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 908,
+        "hardwareCost": 820,
+        "hardwareCostMultiPoint": 1680,
+        "useGlobalRates": true,
+        "glass": {
+          "6mm": 0,
+          "8mm": 0,
+          "10mm": 0,
+          "12mm": 0,
+          "dgu": 0,
+          "laminated": 0
+        },
+        "grill": {
+          "aluminium12mm": 310
+        },
+        "mesh": {
+          "openable": 390
+        },
+        "lock": {
+          "singlePoint": 0,
+          "multiPoint": 0
+        }
+      },
+      "features": ["mesh", "grill", "multiPointLock"],
+      "description": "Premium slimline casement window with black powder coating. Hindalco or imported profiles, Saint-Gobain glass (5-12mm single or DGU 16-22mm), imported hardware. Base from ₹900/sq.ft."
+    },
+    {
       "id": "top-hung-casement",
       "name": "Top Hung Casement Window",
       "slug": "top-hung-casement-window",

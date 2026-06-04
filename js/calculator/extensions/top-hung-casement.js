@@ -547,6 +547,7 @@ Generated from Live Price Calculator
   }
   
   const TOP_HUNG_CASEMENT_PRODUCT_IDS = [
+    'slimline-aluminium-window',
     'top-hung-casement',
     'system-casement-50mm-euro-guide',
     'system-casement-52mm-gulf-brands',
