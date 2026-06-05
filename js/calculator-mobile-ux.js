@@ -151,6 +151,50 @@
     }
   }
 
+  function inferCategoryFromPageUrl (pageUrl) {
+    var path = pageUrl ? String(pageUrl) : '';
+    if (!path && typeof location !== 'undefined') path = location.pathname || '';
+    try {
+      if (path.indexOf('://') >= 0) {
+        path = new URL(path, (typeof location !== 'undefined' && location.origin) || 'https://woodenmax.in').pathname;
+      }
+    } catch (e1) { /* keep raw path */ }
+    path = path.replace(/\.html$/, '').replace(/\/$/, '').toLowerCase();
+    if (path.indexOf('/pergola/') >= 0 || /\/pergola$/i.test(path)) return 'Pergolas';
+    if (path.indexOf('/metal-louvers/') >= 0 || /\/metal-louvers$/i.test(path)) return 'Metal Louvers';
+    if (path.indexOf('/shower-partitions/') >= 0) return 'Shower Partitions';
+    if (path.indexOf('/telescope-windows/') >= 0) return 'Telescopic Doors';
+    if (path.indexOf('/folding-systems/') >= 0) return 'Folding Systems';
+    if (path.indexOf('/grills/') >= 0) return 'Safety Grills';
+    if (path.indexOf('/glass-railing/') >= 0) return 'Glass Railing';
+    if (path.indexOf('/mirror-profiles/') >= 0) return 'Mirror Profiles';
+    return null;
+  }
+
+  function isPergolaPage () {
+    return inferCategoryFromPageUrl(typeof location !== 'undefined' ? location.href : '') === 'Pergolas';
+  }
+
+  function isShowerCalcDom () {
+    return !!(document.getElementById('calc-shower-type') || document.getElementById('calc-left-width'));
+  }
+
+  function resolveCartCategory (it) {
+    if (!it) return 'Products';
+    var fromUrl = inferCategoryFromPageUrl(it.pageUrl);
+    if (fromUrl) return fromUrl;
+    if (it.pergolaMeta) return 'Pergolas';
+    if (it.mirrorMeta && isMirrorCartItem(it)) return 'Mirror Profiles';
+    if (it.category && !/^aluminium windows$/i.test(String(it.category).trim())) {
+      return it.category;
+    }
+    if (it.calcSnapshot && it.calcSnapshot.category &&
+        !/^aluminium windows$/i.test(String(it.calcSnapshot.category).trim())) {
+      return it.calcSnapshot.category;
+    }
+    return it.category || 'Products';
+  }
+
   function resolveCartProductName (it) {
     if (!it) return 'Product';
     if (it.savedProductName) return cleanStoredProductName(it.savedProductName);
@@ -171,12 +215,14 @@
     if (!it) return it;
     var copy = ensureCartItemDetails(it);
     var pname = resolveCartProductName(copy);
-    var cat = copy.category || 'Products';
+    var cat = resolveCartCategory(copy);
+    copy.category = cat;
     var details = (copy.details || []).map(function (d) {
       if (!d || !d.label) return d;
       if (d.label === 'Window / product' || d.label === 'Product' || d.label === 'Grill product') {
         return { label: 'Product', value: pname };
       }
+      if (d.label === 'Category') return { label: 'Category', value: cat };
       return d;
     });
     if (!details.some(function (d) { return d && d.label === 'Product'; })) {
@@ -201,7 +247,7 @@
     }
     snap.savedProductName = pname;
     snap.productName = pname;
-    snap.category = snap.category || meta.category || 'Products';
+    snap.category = inferCategoryFromPageUrl(snap.pageUrl) || snap.category || meta.category || 'Products';
     snap.productKey = snap.productKey || meta.key || 'product';
     snap.pageUrl = snap.pageUrl || (typeof location !== 'undefined' ? location.href : '');
     return snap;
@@ -211,13 +257,16 @@
     if (!calc || calc.id === 'wmCatalogCalc' || calc.id === 'product-pricing-root') return null;
     meta = meta || readProductMeta();
     var pname = productNameFromCalc(calc, meta);
+    var cat = inferCategoryFromPageUrl(typeof location !== 'undefined' ? location.href : '') ||
+      meta.category || 'Products';
+    var specRows = isShowerCalcDom() ? buildShowerCalcDetails(calc, exact) : buildStandardWindowCalcDetails(calc, exact);
     var details = mergeDetailRows(
-      [{ label: 'Product', value: pname }, { label: 'Category', value: meta.category || 'Products' }],
-      buildStandardWindowCalcDetails(calc, exact)
+      [{ label: 'Product', value: pname }, { label: 'Category', value: cat }],
+      specRows
     );
     return {
       productName: pname,
-      category: meta.category || 'Products',
+      category: cat,
       productKey: meta.key || 'product',
       pageUrl: typeof location !== 'undefined' ? location.href : '',
       details: details
@@ -725,7 +774,7 @@
   }
 
   function enrichPergolaCartItem (it) {
-    if (!it || it.category !== 'Pergolas') return it;
+    if (!it || resolveCartCategory(it) !== 'Pergolas') return finalizeCartItemForPrint(it);
     var live = window.__pergolaLastEstimate;
     if (live && cartItemMatchesLivePage(it)) {
       return patchPrintItem(it, {
@@ -781,16 +830,50 @@
   }
 
   function enrichWindowCartItem (it) {
-    if (!it || it.category === 'Safety Grills' || it.category === 'Glass Railing' ||
-        it.category === 'Mirror Profiles' || it.category === 'Pergolas' || isMirrorCartItem(it)) {
+    var cat = resolveCartCategory(it);
+    if (!it || cat === 'Safety Grills' || cat === 'Glass Railing' ||
+        cat === 'Mirror Profiles' || cat === 'Pergolas' || isMirrorCartItem(it)) {
       return finalizeCartItemForPrint(it);
     }
     if (it.calcSnapshot && it.calcSnapshot.details && it.calcSnapshot.details.length) {
-      return patchPrintItem(it, {
-        productName: it.calcSnapshot.productName || it.productName,
-        category: it.calcSnapshot.category || it.category,
-        details: it.calcSnapshot.details
+      var snapName = it.calcSnapshot.productName || it.productName;
+      var snapDetails = it.calcSnapshot.details.filter(function (d) {
+        return d && d.label !== 'Product' && d.label !== 'Category';
       });
+      if (cartItemMatchesLivePage(it) && isShowerCalcDom()) {
+        var liveShower = buildShowerCalcDetails(getCalcContainer(), itemExactAmount(it));
+        if (liveShower.length) snapDetails = liveShower;
+      }
+      return patchPrintItem(it, {
+        productName: snapName,
+        category: cat,
+        details: mergeDetailRows(
+          [{ label: 'Product', value: snapName }, { label: 'Category', value: cat }],
+          snapDetails
+        )
+      });
+    }
+    if (cartItemMatchesLivePage(it)) {
+      var liveCalc = getCalcContainer();
+      if (liveCalc && liveCalc.id !== 'wmCatalogCalc' && liveCalc.id !== 'product-pricing-root' &&
+          liveCalc.getAttribute('data-grill-calculator') == null) {
+        var liveMeta = readProductMeta();
+        var liveExact = itemExactAmount(it);
+        var liveName = productNameFromCalc(liveCalc, liveMeta);
+        var liveStd = isShowerCalcDom()
+          ? buildShowerCalcDetails(liveCalc, liveExact)
+          : buildStandardWindowCalcDetails(liveCalc, liveExact);
+        if (liveStd.length) {
+          return patchPrintItem(it, {
+            productName: liveName,
+            category: cat,
+            details: mergeDetailRows(
+              [{ label: 'Product', value: liveName }, { label: 'Category', value: cat }],
+              liveStd
+            )
+          });
+        }
+      }
     }
     if ((hasSubstantiveCartDetails(it) && !it._virtual) || !cartItemMatchesLivePage(it)) {
       return finalizeCartItemForPrint(it);
@@ -803,12 +886,12 @@
     var meta = readProductMeta();
     var exact = itemExactAmount(it);
     var pname = productNameFromCalc(calc, meta);
-    var std = buildStandardWindowCalcDetails(calc, exact);
+    var std = isShowerCalcDom() ? buildShowerCalcDetails(calc, exact) : buildStandardWindowCalcDetails(calc, exact);
     return patchPrintItem(it, {
       productName: pname,
-      category: meta.category || it.category,
+      category: cat,
       details: mergeDetailRows(
-        [{ label: 'Product', value: pname }, { label: 'Category', value: meta.category || it.category }],
+        [{ label: 'Product', value: pname }, { label: 'Category', value: cat }],
         std,
         it.details || []
       )
@@ -862,11 +945,14 @@
   }
 
   function enrichCartItemForPrint (it) {
-    if (it && it.category === 'Safety Grills') return enrichGrillCartItem(it);
-    if (it && it.category === 'Glass Railing') return enrichGlassRailingCartItem(it);
-    if (it && (it.category === 'Mirror Profiles' || isMirrorCartItem(it))) return enrichMirrorCartItem(it);
-    if (it && it.category === 'Pergolas') return enrichPergolaCartItem(it);
-    return enrichWindowCartItem(it);
+    if (!it) return it;
+    var cat = resolveCartCategory(it);
+    var routed = Object.assign({}, it, { category: cat });
+    if (cat === 'Safety Grills') return enrichGrillCartItem(routed);
+    if (cat === 'Glass Railing') return enrichGlassRailingCartItem(routed);
+    if (cat === 'Mirror Profiles' || isMirrorCartItem(routed)) return enrichMirrorCartItem(routed);
+    if (cat === 'Pergolas') return enrichPergolaCartItem(routed);
+    return enrichWindowCartItem(routed);
   }
 
   function grillAreaDetailRows (perArea, qty, perSqftRate) {
@@ -1089,18 +1175,17 @@
 
   // ---------- Calculator context ----------
   function getCalcKind () {
-    if ($('.price-calculator-container') || $('[id^="price-calculator"]')) return 'window';
-    if ($('#wmCatalogCalc')) return 'catalog';
     if ($('#product-pricing-root')) return 'pergola';
+    if ($('#wmCatalogCalc')) return 'catalog';
+    if ($('.price-calculator-container')) return 'window';
     return null;
   }
 
   function getCalcContainer () {
     return (
       $('.price-calculator-container') ||
-      $('[id^="price-calculator"]') ||
-      $('#wmCatalogCalc') ||
-      $('#product-pricing-root')
+      $('#product-pricing-root') ||
+      $('#wmCatalogCalc')
     );
   }
 
@@ -1285,8 +1370,56 @@
     };
   }
 
+  function buildShowerCalcDetails (calc, exact) {
+    if (!calc) calc = getCalcContainer();
+    var rows = [];
+    var leftW = $('#calc-left-width', calc) || document.getElementById('calc-left-width');
+    var rightW = $('#calc-right-width', calc) || document.getElementById('calc-right-width');
+    var h = $('#calc-height', calc) || document.getElementById('calc-height');
+    var unitSel = $('#calc-unit', calc) || document.getElementById('calc-unit');
+    var unitLabel = unitSel && unitSel.options && unitSel.selectedIndex >= 0
+      ? cleanLabel(unitSel.options[unitSel.selectedIndex].textContent)
+      : 'ft';
+    if (leftW && leftW.value) {
+      var sizeParts = [leftW.value.trim()];
+      if (rightW && rightW.value && rightW.offsetParent !== null) sizeParts.push(rightW.value.trim());
+      if (h && h.value) sizeParts.push(h.value.trim());
+      rows.push({ label: 'Size (W × H)', value: sizeParts.join(' × ') + ' ' + unitLabel });
+    } else {
+      var w = $('#calc-width', calc);
+      if (w && w.value && h && h.value) {
+        rows.push({ label: 'Size (W × H)', value: w.value.trim() + ' × ' + h.value.trim() + ' ' + unitLabel });
+      }
+    }
+    var areaEl = $('#calc-area-display', calc) || document.getElementById('calc-area-display');
+    if (areaEl && cleanLabel(areaEl.textContent)) {
+      rows.push({ label: 'Area', value: cleanLabel(areaEl.textContent) });
+    }
+    var dimEl = $('#calc-dimension-display', calc) || document.getElementById('calc-dimension-display');
+    if (dimEl && cleanLabel(dimEl.textContent)) {
+      rows.push({ label: 'Dimensions', value: cleanLabel(dimEl.textContent) });
+    }
+    [
+      ['calc-shower-type', 'Shower configuration'],
+      ['calc-profile-finish', 'Profile finish'],
+      ['calc-glass-type', 'Glass type'],
+      ['calc-glass-color', 'Glass colour'],
+      ['calc-door-type', 'Door type'],
+      ['calc-hardware-finish', 'Hardware finish'],
+      ['calc-door-count', 'Number of doors']
+    ].forEach(function (p) {
+      var d = calcSelectDetail(p[0], p[1]);
+      if (d) rows.push(d);
+    });
+    var numEl = $('#calc-number', calc) || $('#calc-quantity', calc) || document.getElementById('calc-quantity');
+    if (numEl && numEl.value) rows.push({ label: 'Quantity', value: String(numEl.value) });
+    if (exact > 0) rows.push({ label: 'Line total', value: fmtINR(exact) });
+    return rows;
+  }
+
   function buildStandardWindowCalcDetails (calc, exact) {
     if (!calc) return [];
+    if (isShowerCalcDom()) return buildShowerCalcDetails(calc, exact);
     var rows = [];
     var w = $('#calc-width', calc);
     var h = $('#calc-height', calc);
@@ -1334,6 +1467,10 @@
     var wastageEl = $('#calc-result-wastage', calc);
     if (wastageEl && readExactInr(wastageEl) > 0) {
       rows.push({ label: 'Wastage cost', value: fmtINR(readExactInr(wastageEl)) });
+    }
+    var cuttingEl = $('#calc-cutting-details', calc);
+    if (cuttingEl && cleanLabel(cuttingEl.textContent)) {
+      rows.push({ label: 'Cutting plan', value: cleanLabel(cuttingEl.textContent) });
     }
     if (exact > 0) rows.push({ label: 'Line total', value: fmtINR(exact) });
     return rows;
@@ -1555,7 +1692,7 @@
         category: 'Mirror Profiles'
       };
     }
-    if (kind === 'pergola') {
+    if (kind === 'pergola' || isPergolaPage()) {
       var est = window.__pergolaLastEstimate;
       return {
         key: (est && est.pergolaLineId) || 'pergola',
@@ -1568,6 +1705,7 @@
     if (calc.getAttribute('data-grill-calculator') != null || (location.pathname || '').indexOf('/grills/') >= 0) {
       cat = 'Safety Grills';
     }
+    if ((location.pathname || '').indexOf('/pergola/') >= 0) cat = 'Pergolas';
     if ((location.pathname || '').indexOf('shower-partitions') >= 0) cat = 'Shower Partitions';
     if ((location.pathname || '').indexOf('metal-louvers') >= 0) cat = 'Metal Louvers';
     if ((location.pathname || '').indexOf('folding-systems') >= 0) cat = 'Folding Systems';
@@ -1622,18 +1760,20 @@
       details = buildMirrorCalcDetails(catalog._lastCalc);
     }
     var est = window.__pergolaLastEstimate;
-    if (est && calcKind === 'pergola') {
+    if (est && (calcKind === 'pergola' || isPergolaPage())) {
       details = buildPergolaCalcDetails(est);
     }
     var calcWin = getCalcContainer();
     if (calcWin && calcWin.getAttribute('data-grill-calculator') == null && !isGlassRailingPage() &&
-        !mirrorLive && calcKind !== 'pergola' && calcKind !== 'catalog') {
+        !mirrorLive && calcKind !== 'pergola' && calcKind !== 'catalog' && !isPergolaPage()) {
       var pname = productNameFromCalc(calcWin, meta);
       var calcSnap = buildCalcSnapshotFromDom(calcWin, meta, exact);
       if (calcSnap && calcSnap.details.length) {
         details = calcSnap.details;
       } else {
-        var stdWin = buildStandardWindowCalcDetails(calcWin, exact);
+        var stdWin = isShowerCalcDom()
+          ? buildShowerCalcDetails(calcWin, exact)
+          : buildStandardWindowCalcDetails(calcWin, exact);
         details = stdWin.length
           ? mergeDetailRows(pageLevelWindowDetails(meta, calcWin, pname), stdWin)
           : mergeDetailRows(pageLevelWindowDetails(meta, calcWin, pname), details);
@@ -1645,7 +1785,8 @@
       productName: (mirrorLive && mirrorLive.pageTitle) ||
         (est && est.pergolaLineLabel) ||
         productNameFromCalc(calcWin, meta),
-      category: meta.category || 'Products',
+      category: inferCategoryFromPageUrl(typeof location !== 'undefined' ? location.href : '') ||
+        meta.category || 'Products',
       details: details,
       specs: details.map(function (d) { return d.label + ': ' + d.value; }),
       area: readArea(),
@@ -1658,10 +1799,10 @@
     if (mirrorLive) {
       snap.mirrorMeta = buildMirrorMetaPayload(catalog._lastCalc);
     }
-    if (est && calcKind === 'pergola') {
+    if (est && (calcKind === 'pergola' || isPergolaPage())) {
       snap.pergolaMeta = buildPergolaMetaPayload(est);
     }
-    if (!mirrorLive && calcKind !== 'pergola' && calcKind !== 'catalog' && calcWin) {
+    if (!mirrorLive && calcKind !== 'pergola' && calcKind !== 'catalog' && calcWin && !isPergolaPage()) {
       snap.calcSnapshot = buildCalcSnapshotFromDom(calcWin, meta, exact);
     }
     return snap;
