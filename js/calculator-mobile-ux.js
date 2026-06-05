@@ -99,13 +99,70 @@
     return Math.round((r.min + r.max) / 2);
   }
 
+  function cleanStoredProductName (raw) {
+    raw = cleanLabel(raw || '').split('|')[0].trim();
+    raw = raw
+      .replace(/\s*\+.*$/i, '')
+      .replace(/\s*\(2026\)\s*$/i, '')
+      .replace(/\s*₹[\d,.\s–-]+(\/sqft)?/gi, ' ')
+      .replace(/\bprice\b/gi, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+    return raw || 'Product';
+  }
+
   function displayProductName (it) {
     if (!it) return 'Product';
     var n = it.productName || 'Product';
     if (/₹|\/sqft|\(2026\)|\bprice\b/i.test(n)) {
-      return shortProductName(getCalcContainer(), { name: n });
+      return cleanStoredProductName(n);
     }
     return n;
+  }
+
+  function specsToDetailRows (specs) {
+    return (specs || []).map(function (s) {
+      var line = String(s || '');
+      var idx = line.indexOf(':');
+      if (idx > 0) {
+        return { label: line.slice(0, idx).trim(), value: line.slice(idx + 1).trim() };
+      }
+      return { label: 'Detail', value: line };
+    }).filter(function (d) { return d.label && d.value; });
+  }
+
+  function hasSubstantiveCartDetails (it) {
+    return !!(it && it.details && it.details.length >= 2);
+  }
+
+  function ensureCartItemDetails (it) {
+    if (!it) return it;
+    var copy = Object.assign({}, it);
+    if (hasSubstantiveCartDetails(copy)) return copy;
+    if (copy.specs && copy.specs.length) {
+      copy.details = specsToDetailRows(copy.specs);
+    }
+    return copy;
+  }
+
+  function cartItemPagePath (it) {
+    var pageUrl = (it && it.pageUrl) ? String(it.pageUrl) : '';
+    if (!pageUrl) return '';
+    try {
+      return new URL(pageUrl, typeof location !== 'undefined' ? location.origin : 'https://woodenmax.in')
+        .pathname.replace(/\.html$/, '').replace(/\/$/, '').toLowerCase();
+    } catch (e) {
+      return pageUrl.split('?')[0].replace(/\.html$/, '').replace(/\/$/, '').toLowerCase();
+    }
+  }
+
+  function cartItemMatchesLivePage (it) {
+    if (!it || typeof location === 'undefined') return false;
+    var meta = readProductMeta();
+    if (it.productKey && meta.key && it.productKey === meta.key) return true;
+    var savedPath = cartItemPagePath(it);
+    var livePath = location.pathname.replace(/\.html$/, '').replace(/\/$/, '').toLowerCase();
+    return !!(savedPath && savedPath === livePath);
   }
 
   function shortProductName (calc, meta) {
@@ -535,6 +592,101 @@
     return copy;
   }
 
+  function buildPergolaCalcDetails (est) {
+    if (!est) return [];
+    var rows = [
+      { label: 'Footprint', value: est.width + ' × ' + est.depth + ' ft (' + est.area + ' sq.ft)' },
+      { label: 'Structure', value: est.materialDetail || est.material || '—' },
+      { label: 'Fitting', value: est.fittingMode || '—' },
+      { label: 'Powder coating', value: est.coatingKey || '—' },
+      { label: 'Roof product', value: est.roofProduct || '—' },
+      { label: 'Structure cost', value: fmtINR(est.baseTotal || 0) },
+      { label: 'Roof cost', value: fmtINR(est.glazingTotal || 0) },
+      { label: 'Coating cost', value: fmtINR(est.coatingTotal || 0) }
+    ];
+    if (est.pillarCount) {
+      rows.push({
+        label: 'Pillars',
+        value: (est.pillarLabel || '') + ' × ' + est.pillarCount + ' — ' + fmtINR(est.pillarTotal || 0)
+      });
+    }
+    if (est.motorTotal) {
+      rows.push({ label: 'Motors', value: (est.motorLabel || '') + ' — ' + fmtINR(est.motorTotal) });
+    }
+    if (est.totalFrameRft > 0) {
+      rows.push({ label: 'Frame length', value: est.totalFrameRft + ' rft' });
+    }
+    if (est.glazingSheets > 0) {
+      rows.push({
+        label: 'Roof sheets',
+        value: est.glazingSheets + ' sheet(s)' +
+          (est.sheetW && est.sheetH ? ' · ' + est.sheetW + '×' + est.sheetH + ' ft' : '')
+      });
+    }
+    rows.push({ label: 'Line total', value: fmtINR(est.estimatedTotal || 0) });
+    return rows;
+  }
+
+  function buildPergolaMetaPayload (est) {
+    if (!est) return null;
+    return {
+      pageTitle: est.pageTitle,
+      pageUrl: est.pageUrl,
+      pergolaLineId: est.pergolaLineId,
+      pergolaLineLabel: est.pergolaLineLabel,
+      width: est.width,
+      depth: est.depth,
+      area: est.area,
+      material: est.material,
+      materialDetail: est.materialDetail,
+      fittingMode: est.fittingMode,
+      coatingKey: est.coatingKey,
+      roofProduct: est.roofProduct,
+      baseTotal: est.baseTotal,
+      glazingTotal: est.glazingTotal,
+      coatingTotal: est.coatingTotal,
+      pillarCount: est.pillarCount,
+      pillarLabel: est.pillarLabel,
+      pillarTotal: est.pillarTotal,
+      motorLabel: est.motorLabel,
+      motorTotal: est.motorTotal,
+      estimatedTotal: est.estimatedTotal,
+      totalFrameRft: est.totalFrameRft,
+      glazingSheets: est.glazingSheets,
+      sheetW: est.sheetW,
+      sheetH: est.sheetH
+    };
+  }
+
+  function enrichPergolaCartItem (it) {
+    if (!it || it.category !== 'Pergolas') return it;
+    var live = window.__pergolaLastEstimate;
+    if (live && cartItemMatchesLivePage(it)) {
+      var liveDetails = buildPergolaCalcDetails(live);
+      return Object.assign({}, it, {
+        productName: live.pergolaLineLabel || it.productName,
+        details: liveDetails,
+        specs: liveDetails.map(function (d) { return d.label + ': ' + d.value; }),
+        area: live.width + ' × ' + live.depth + ' ft (' + live.area + ' sq.ft)',
+        exactAmount: live.estimatedTotal || it.exactAmount,
+        amount: fmtINR(live.estimatedTotal || itemExactAmount(it)),
+        pergolaMeta: buildPergolaMetaPayload(live)
+      });
+    }
+    if (it.pergolaMeta) {
+      var metaDetails = buildPergolaCalcDetails(it.pergolaMeta);
+      return Object.assign({}, it, {
+        productName: it.pergolaMeta.pergolaLineLabel || it.productName,
+        details: metaDetails,
+        specs: metaDetails.map(function (d) { return d.label + ': ' + d.value; }),
+        area: it.pergolaMeta.width + ' × ' + it.pergolaMeta.depth + ' ft (' + it.pergolaMeta.area + ' sq.ft)',
+        exactAmount: it.pergolaMeta.estimatedTotal || it.exactAmount,
+        amount: fmtINR(it.pergolaMeta.estimatedTotal || itemExactAmount(it))
+      });
+    }
+    return ensureCartItemDetails(it);
+  }
+
   function enrichMirrorCartItem (it) {
     if (!it || !isMirrorCartItem(it)) return it;
     var catalog = $('#wmCatalogCalc');
@@ -567,19 +719,30 @@
         amount: fmtINR(rebuilt.orderTotal || itemExactAmount(it))
       });
     }
-    return it;
+    return ensureCartItemDetails(it);
   }
 
   function enrichWindowCartItem (it) {
     if (!it || it.category === 'Safety Grills' || it.category === 'Glass Railing' ||
-        it.category === 'Mirror Profiles' || isMirrorCartItem(it)) return it;
+        it.category === 'Mirror Profiles' || it.category === 'Pergolas' || isMirrorCartItem(it)) {
+      return it;
+    }
+    if (hasSubstantiveCartDetails(it) && !it._virtual) {
+      return ensureCartItemDetails(it);
+    }
+    if (!cartItemMatchesLivePage(it)) {
+      return ensureCartItemDetails(it);
+    }
     var calc = getCalcContainer();
-    if (!calc || calc.getAttribute('data-grill-calculator') != null) return it;
+    if (!calc || calc.getAttribute('data-grill-calculator') != null ||
+        calc.id === 'wmCatalogCalc' || calc.id === 'product-pricing-root') {
+      return ensureCartItemDetails(it);
+    }
     var meta = readProductMeta();
     var exact = itemExactAmount(it);
     var std = buildStandardWindowCalcDetails(calc, exact);
     var merged = std.length
-      ? mergeDetailRows(pageLevelWindowDetails(meta), std)
+      ? mergeDetailRows(pageLevelWindowDetails(meta), std, it.details || [])
       : mergeDetailRows(pageLevelWindowDetails(meta), it.details || []);
     var copy = Object.assign({}, it);
     copy.productName = fullProductLineName(calc) || copy.productName;
@@ -590,8 +753,11 @@
 
   function enrichGlassRailingCartItem (it) {
     if (!it || it.category !== 'Glass Railing') return it;
+    if (hasSubstantiveCartDetails(it) && !cartItemMatchesLivePage(it)) {
+      return ensureCartItemDetails(it);
+    }
     var live = readGlassRailingQuoteSnapshot();
-    if (live && (!it.productKey || it.productKey === live.productKey)) {
+    if (live && cartItemMatchesLivePage(it)) {
       return Object.assign({}, it, {
         productName: live.productName || it.productName,
         details: live.details,
@@ -602,7 +768,7 @@
         amount: live.amount
       });
     }
-    return it;
+    return ensureCartItemDetails(it);
   }
 
   function cartItemQtyLabel (it) {
@@ -636,6 +802,7 @@
     if (it && it.category === 'Safety Grills') return enrichGrillCartItem(it);
     if (it && it.category === 'Glass Railing') return enrichGlassRailingCartItem(it);
     if (it && (it.category === 'Mirror Profiles' || isMirrorCartItem(it))) return enrichMirrorCartItem(it);
+    if (it && it.category === 'Pergolas') return enrichPergolaCartItem(it);
     return enrichWindowCartItem(it);
   }
 
@@ -1071,9 +1238,13 @@
     if (areaEl && (areaEl.textContent || '').trim()) {
       rows.push({ label: 'Area', value: cleanLabel(areaEl.textContent) });
     }
-    var numEl = $('#calc-number', calc);
+    var numEl = $('#calc-number', calc) || $('#calc-quantity', calc);
     if (numEl && numEl.value) {
       rows.push({ label: 'Quantity', value: String(numEl.value) });
+    }
+    var piecesEl = $('#calc-pieces-display', calc);
+    if (piecesEl && cleanLabel(piecesEl.textContent)) {
+      rows.push({ label: 'Louver pieces', value: cleanLabel(piecesEl.textContent) });
     }
     var panel = calcSelectDetail('calc-panel-config', 'Door / fold set');
     if (panel) rows.push(panel);
@@ -1083,9 +1254,25 @@
     if (coat) rows.push(coat);
     var profile = calcSelectDetail('calc-profile', 'Profile');
     if (profile) rows.push(profile);
+    var track = calcSelectDetail('calc-track', 'Track');
+    if (track) rows.push(track);
+    var system = calcSelectDetail('calc-system', 'System');
+    if (system) rows.push(system);
+    var hardware = calcSelectDetail('calc-hardware', 'Hardware');
+    if (hardware) rows.push(hardware);
     var lock = calcSelectDetail('calc-lock', 'Lock');
     if (lock) rows.push(lock);
-    if (exact > 0) rows.push({ label: 'Estimated amount', value: fmtINR(exact) });
+    var mesh = calcCheckboxDetail('calc-mesh', 'Mesh');
+    if (mesh) rows.push(mesh);
+    var mainEl = $('#calc-result-main', calc);
+    if (mainEl && readExactInr(mainEl) > 0) {
+      rows.push({ label: 'Panel / base cost', value: fmtINR(readExactInr(mainEl)) });
+    }
+    var wastageEl = $('#calc-result-wastage', calc);
+    if (wastageEl && readExactInr(wastageEl) > 0) {
+      rows.push({ label: 'Wastage cost', value: fmtINR(readExactInr(wastageEl)) });
+    }
+    if (exact > 0) rows.push({ label: 'Line total', value: fmtINR(exact) });
     return rows;
   }
 
@@ -1324,6 +1511,9 @@
       cat = 'Safety Grills';
     }
     if ((location.pathname || '').indexOf('shower-partitions') >= 0) cat = 'Shower Partitions';
+    if ((location.pathname || '').indexOf('metal-louvers') >= 0) cat = 'Metal Louvers';
+    if ((location.pathname || '').indexOf('folding-systems') >= 0) cat = 'Folding Systems';
+    if ((location.pathname || '').indexOf('telescope-windows') >= 0) cat = 'Telescopic Doors';
     if (isGlassRailingPage()) cat = 'Glass Railing';
     var calcKey = calc.getAttribute('data-product');
     if (!calcKey && isGlassRailingPage()) {
@@ -1373,19 +1563,7 @@
     }
     var est = window.__pergolaLastEstimate;
     if (est) {
-      details = [
-        { label: 'Footprint', value: est.width + ' × ' + est.depth + ' ft (' + est.area + ' sq.ft)' },
-        { label: 'Structure', value: est.materialDetail || est.material },
-        { label: 'Fitting', value: est.fittingMode },
-        { label: 'Powder coating', value: est.coatingKey },
-        { label: 'Roof product', value: est.roofProduct },
-        { label: 'Structure cost', value: fmtINR(est.baseTotal) },
-        { label: 'Roof cost', value: fmtINR(est.glazingTotal) },
-        { label: 'Coating cost', value: fmtINR(est.coatingTotal) }
-      ];
-      if (est.pillarCount) details.push({ label: 'Pillars', value: (est.pillarLabel || '') + ' × ' + est.pillarCount + ' — ' + fmtINR(est.pillarTotal) });
-      if (est.motorTotal) details.push({ label: 'Motors', value: (est.motorLabel || '') + ' — ' + fmtINR(est.motorTotal) });
-      details.push({ label: 'Line total', value: fmtINR(est.estimatedTotal) });
+      details = buildPergolaCalcDetails(est);
     }
     var calcWin = getCalcContainer();
     var mirrorLive = catalog && catalog._lastCalc;
@@ -1400,7 +1578,9 @@
 
     var snap = {
       productKey: meta.key,
-      productName: (mirrorLive && mirrorLive.pageTitle) || fullProductLineName(calcWin) || meta.name,
+      productName: (mirrorLive && mirrorLive.pageTitle) ||
+        (est && est.pergolaLineLabel) ||
+        fullProductLineName(calcWin) || meta.name,
       category: meta.category || 'Products',
       details: details,
       specs: details.map(function (d) { return d.label + ': ' + d.value; }),
@@ -1413,6 +1593,9 @@
     };
     if (catalog && catalog._lastCalc) {
       snap.mirrorMeta = buildMirrorMetaPayload(catalog._lastCalc);
+    }
+    if (est) {
+      snap.pergolaMeta = buildPergolaMetaPayload(est);
     }
     return snap;
   }
