@@ -1,218 +1,204 @@
 /**
- * Fold & Bi-Fold Aluminium Glass Doors Calculator Extension
- * Extends base calculator with profile and glass options
+ * Fold & Bi-Fold Aluminium Doors — panel-set pricing (frame + glass + hardware + coating).
  */
-
-(function() {
+(function () {
   'use strict';
-  
+
+  var L = function () { return window.FoldSlidingDoorLogic; };
+
   class PriceCalculatorFoldBifoldAluminiumDoors extends PriceCalculatorBase {
     constructor(productId, productConfig, containerId) {
       super(productId, productConfig, containerId);
-      
-      // Base rate per sqft (includes 8mm clear tuff glass + mortice lock)
-      this.BASE_RATE_PER_SQFT = productConfig.rates.baseRate || 1750;
-      
-      // Profile options (from JSON)
-      this.PROFILE_RATES = productConfig.rates.profiles || {
-        '50mm': 0,
-        '52mm': 0
-      };
-      
-      // Glass rates (from JSON)
-      this.GLASS_RATES = productConfig.rates.glass || {
-        '8mm-clear': 0,
-        '6mm-clear': -20,
-        '10mm-clear': 35,
-        '12mm-clear': 65,
-        'safety': 180,
-        'dgu': 200
-      };
-      
-      setTimeout(() => {
-        this.setupExtensionEventListeners();
-        this.setupFormSubmission();
-      }, 150);
+
+      this.FRAME_RATE = productConfig.rates.frameRate || L().FRAME_RATE;
+      this.GLASS_RATES = Object.assign({}, L().DEFAULT_GLASS_RATES, productConfig.rates.glass || {});
+      this.COATING_RATES = Object.assign({}, L().FOLD_COATING_RATES, productConfig.rates.coating || {});
+      this.CALC_MODE = 'fold';
+
+      setTimeout(function () {
+        this.setupFoldSlidingCalc();
+      }.bind(this), 150);
     }
-    
+
+    setupFoldSlidingCalc() {
+      var container = document.getElementById(this.containerId);
+      L().ensurePanelConfigUI(container);
+      L().updatePanelConfigDropdown(L().getWidthInFeet(this), true, this.CALC_MODE);
+      L().bindWidthSync(this, function () { this.calculate(); }.bind(this), this.CALC_MODE);
+      this.setupExtensionEventListeners();
+      this.setupFormSubmission();
+      this.calculate();
+    }
+
     setupExtensionEventListeners() {
-      // Number of doors listener
-      const numberInput = document.getElementById('calc-number');
-      if (numberInput) {
-        numberInput.addEventListener('input', () => this.calculate());
-      }
-      
-      // Profile option listener
-      const profileSelect = document.getElementById('calc-profile');
-      if (profileSelect) {
-        profileSelect.addEventListener('change', () => this.calculate());
-      }
-      
-      // Glass option listener
-      const glassSelect = document.getElementById('calc-glass');
-      if (glassSelect) {
-        glassSelect.addEventListener('change', () => this.calculate());
-      }
+      ['calc-number', 'calc-profile'].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', function () { this.calculate(); }.bind(this));
+        if (el) el.addEventListener('change', function () { this.calculate(); }.bind(this));
+      }.bind(this));
+
+      var glassSelect = document.getElementById('calc-glass');
+      if (glassSelect) glassSelect.addEventListener('change', function () { this.calculate(); }.bind(this));
+
+      var colorSelect = document.getElementById('calc-color');
+      if (colorSelect) colorSelect.addEventListener('change', function () { this.calculate(); }.bind(this));
     }
-    
+
+    getColorOption() {
+      var el = document.getElementById('calc-color');
+      return el ? el.value : 'plain';
+    }
+
     getProfileOption() {
-      const profileSelect = document.getElementById('calc-profile');
-      return profileSelect ? profileSelect.value : '50mm';
+      var el = document.getElementById('calc-profile');
+      return el ? el.value : '50mm';
     }
-    
+
     getGlassOption() {
-      const glassSelect = document.getElementById('calc-glass');
-      return glassSelect ? glassSelect.value : '8mm-clear';
+      var el = document.getElementById('calc-glass');
+      return el ? el.value : '8mm-clear';
     }
-    
+
+    getPanelConfig() {
+      var el = document.getElementById('calc-panel-config');
+      return el ? el.value : '';
+    }
+
     calculate() {
-      // Get area in sqft
-      const areaSqft = this.getArea();
-      const numberOfDoors = parseInt(document.getElementById('calc-number')?.value || '1', 10);
-      
-      if (areaSqft <= 0) {
+      var areaSqft = this.getArea();
+      var widthFt = L().getWidthInFeet(this);
+      var units = parseInt(document.getElementById('calc-number')?.value || '1', 10);
+      var panelConfig = this.getPanelConfig();
+
+      if (areaSqft <= 0 || !panelConfig) {
+        this.displayResults(0, 0, 0, 0, 0, 0, 0);
+        L().renderBreakdown(document.getElementById('calc-price-breakdown'), null);
+        return;
+      }
+
+      var quote = L().calculateQuote({
+        areaSqft: areaSqft,
+        widthFt: widthFt,
+        panelConfig: panelConfig,
+        glassKey: this.getGlassOption(),
+        colorKey: this.getColorOption(),
+        units: units,
+        frameRate: this.FRAME_RATE,
+        glassRates: this.GLASS_RATES,
+        mode: this.CALC_MODE,
+        coatingRates: this.COATING_RATES
+      });
+
+      if (!quote) {
         this.displayResults(0, 0, 0, 0, 0, 0, 0);
         return;
       }
-      
-      // Base cost per sqft (includes 8mm clear tuff glass + mortice lock)
-      let baseCostPerSqft = this.BASE_RATE_PER_SQFT;
-      
-      // Glass add-ons (per sqft)
-      let addOnsPerSqft = 0;
-      const glassOption = this.getGlassOption();
-      
-      if (this.GLASS_RATES[glassOption] !== undefined) {
-        addOnsPerSqft += Number(this.GLASS_RATES[glassOption]) || 0;
-      }
-      
-      // Profile option (currently no additional cost, but structure ready)
-      const profileOption = this.getProfileOption();
-      if (this.PROFILE_RATES[profileOption]) {
-        addOnsPerSqft += Number(this.PROFILE_RATES[profileOption]) || 0;
-      }
-      
-      // Calculate per sqft cost
-      const costPerSqft = baseCostPerSqft + addOnsPerSqft;
-      
-      // Cost per door = area × rate per sqft
-      const costPerDoor = areaSqft * costPerSqft;
-      
-      // Total cost for all doors
-      const totalCost = costPerDoor * numberOfDoors;
-      
-      // Calculate ±20% range
-      const costPerDoorMinus20 = costPerDoor * 0.8;
-      const costPerDoorPlus20 = costPerDoor * 1.2;
-      const totalCostMinus20 = totalCost * 0.8;
-      const totalCostPlus20 = totalCost * 1.2;
-      
-      // Display results
+
+      this.lastCalculatedAmounts = {
+        perWindowCost: quote.perUnit,
+        subtotal: quote.subtotal,
+        hardwareCost: quote.hardwareCost,
+        frameCost: quote.frameCost,
+        glassCost: quote.glassCost,
+        coatingCost: quote.coatingCost,
+        panelConfig: quote.panelConfig,
+        panelLabel: quote.panelLabel,
+        profile: this.getProfileOption()
+      };
+
+      L().renderBreakdown(document.getElementById('calc-price-breakdown'), quote);
+
       this.displayResults(
-        costPerDoorMinus20,
-        costPerDoorPlus20,
-        totalCostMinus20,
-        totalCostPlus20,
-        costPerDoor,
-        totalCost,
-        numberOfDoors
+        quote.perUnitMin,
+        quote.perUnitMax,
+        quote.totalMin,
+        quote.totalMax,
+        quote.perUnit,
+        quote.subtotal,
+        units
       );
     }
-    
+
     displayResults(perDoorMin, perDoorMax, totalMin, totalMax, perDoor, total, count) {
-      const formatCurrency = (num) =>
-        typeof window.formatPriceFromINR === 'function'
+      var formatCurrency = function (num) {
+        return typeof window.formatPriceFromINR === 'function'
           ? window.formatPriceFromINR(num)
           : '\u20B9' + Math.round(num).toLocaleString('en-IN');
-      const formatRange = (lo, hi) =>
-        typeof window.formatPriceRangeFromINR === 'function'
+      };
+      var formatRange = function (lo, hi) {
+        return typeof window.formatPriceRangeFromINR === 'function'
           ? window.formatPriceRangeFromINR(lo, hi)
           : formatCurrency(lo) + ' - ' + formatCurrency(hi);
+      };
 
-      // Per door range
-      const perDoorResult = document.getElementById('calc-result-per-window');
-      if (perDoorResult) {
-        perDoorResult.textContent = formatRange(perDoorMin, perDoorMax);
-      }
+      var perDoorResult = document.getElementById('calc-result-per-window');
+      if (perDoorResult) perDoorResult.textContent = formatRange(perDoorMin, perDoorMax);
 
-      // Total range
-      const totalResult = document.getElementById('calc-result-total');
-      if (totalResult) {
-        totalResult.textContent = formatRange(totalMin, totalMax);
-      }
-      
-      // Update labels
-      const perDoorLabel = document.getElementById('calc-label-per-window');
-      if (perDoorLabel) {
-        perDoorLabel.textContent = 'Per Door Cost (Range):';
-      }
-      
-      const totalLabel = document.getElementById('calc-label-total');
+      var totalResult = document.getElementById('calc-result-total');
+      if (totalResult) totalResult.textContent = formatRange(totalMin, totalMax);
+
+      var perDoorLabel = document.getElementById('calc-label-per-window');
+      if (perDoorLabel) perDoorLabel.textContent = 'Per Opening (Range):';
+
+      var totalLabel = document.getElementById('calc-label-total');
       if (totalLabel) {
-        totalLabel.textContent = count > 1 ? `Total Cost - ${count} Doors (Range):` : 'Total Cost (Range):';
+        totalLabel.textContent = count > 1 ? 'Total — ' + count + ' Openings (Range):' : 'Total Cost (Range):';
       }
     }
-    
+
     getCalculatorSelections() {
-      const widthInput = document.getElementById('calc-width');
-      const heightInput = document.getElementById('calc-height');
-      const unitSelect = document.getElementById('calc-unit');
-      const numberInput = document.getElementById('calc-number');
-      
       return {
-        width: widthInput?.value || '',
-        height: heightInput?.value || '',
-        unit: unitSelect?.value || 'ft',
-        numberOfDoors: numberInput?.value || '1',
+        width: document.getElementById('calc-width')?.value || '',
+        height: document.getElementById('calc-height')?.value || '',
+        unit: document.getElementById('calc-unit')?.value || 'ft',
+        numberOfDoors: document.getElementById('calc-number')?.value || '1',
+        panelConfig: this.getPanelConfig(),
+        panelLabel: this.lastCalculatedAmounts?.panelLabel || '',
         profile: this.getProfileOption(),
         glass: this.getGlassOption(),
-        area: this.getArea()
+        coating: this.getColorOption(),
+        area: this.getArea(),
+        widthFt: L().getWidthInFeet(this)
       };
     }
-    
+
     sendEmail(userDetails) {
-      const selections = this.getCalculatorSelections();
-      
-      // Get calculated amounts
-      const perDoorCost = this.lastCalculatedAmounts?.perWindowCost || 0;
-      const totalCost = this.lastCalculatedAmounts?.subtotal || 0;
-      
-      const emailBody = `
-New Quote Request - Fold & Bi-Fold Aluminium Glass Doors
+      var s = this.getCalculatorSelections();
+      var a = this.lastCalculatedAmounts || {};
+      var fmt = function (n) {
+        return typeof window.formatPriceFromINR === 'function'
+          ? window.formatPriceFromINR(Math.round(n))
+          : '\u20B9' + Math.round(n).toLocaleString('en-IN');
+      };
 
-Door Specifications:
-- Size: ${selections.width} x ${selections.height} ${selections.unit}
-- Area: ${selections.area.toFixed(2)} sq.ft
-- Number of Doors: ${selections.numberOfDoors}
-- Profile: ${selections.profile}
-- Glass: ${selections.glass}
+      var emailBody = [
+        'New Quote — Fold & Bi-Fold Aluminium Glass Doors',
+        '',
+        'Size: ' + s.width + ' × ' + s.height + ' ' + s.unit,
+        'Area: ' + s.area.toFixed(2) + ' sq.ft',
+        'Door set: ' + (s.panelLabel || s.panelConfig),
+        'Profile: ' + s.profile,
+        'Glass: ' + s.glass,
+        'Coating: ' + s.coating,
+        'Openings: ' + s.numberOfDoors,
+        '',
+        'Estimated per opening: ' + fmt(a.perWindowCost || 0),
+        'Estimated total: ' + fmt(a.subtotal || 0),
+        '',
+        'Contact: ' + userDetails.name + ' · ' + userDetails.mobile
+      ].join('\n');
 
-Calculated Amounts:
-- Cost per door: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(perDoorCost)) : '\u20B9' + Math.round(perDoorCost).toLocaleString('en-IN')}
-- Total cost: ${typeof window.formatPriceFromINR === 'function' ? window.formatPriceFromINR(Math.round(totalCost)) : '\u20B9' + Math.round(totalCost).toLocaleString('en-IN')}
-
-Contact Details:
-- Name: ${userDetails.name}
-- City: ${userDetails.city}
-- Mobile: ${userDetails.mobile}
-${userDetails.email ? `- Email: ${userDetails.email}` : ''}`.trim();
-      
-      // Use base class submitEmailForm method with correct format
-      this.submitEmailForm(emailBody, userDetails, selections, {
-        perWindow: perDoorCost,
-        total: totalCost
+      this.submitEmailForm(emailBody, userDetails, s, {
+        perWindow: a.perWindowCost,
+        total: a.subtotal
       });
     }
   }
-  
-  // Register the extension class
+
   if (typeof window !== 'undefined') {
     window.PriceCalculatorFoldBifoldAluminiumDoors = PriceCalculatorFoldBifoldAluminiumDoors;
   }
-  
-  // Override initCalculator to use this extension class
   if (typeof createExtensionInitCalculator === 'function') {
     createExtensionInitCalculator('fold-bifold-aluminium-doors', PriceCalculatorFoldBifoldAluminiumDoors, 'FoldBifoldAluminiumDoors');
   }
 })();
-

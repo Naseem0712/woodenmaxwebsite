@@ -774,27 +774,27 @@
                 Glass Type
               </label>
               <select id="calc-glass" class="calc-select">
-                <option value="8mm-clear">8mm Clear Tuff Glass (Included)</option>
+                <option value="6mm-clear">6mm Clear Tuff Glass</option>
+                <option value="8mm-clear" selected>8mm Clear Tuff Glass</option>
                 <option value="10mm-clear">10mm Clear Tuff Glass</option>
-                <option value="8mm-clear-fluted">8mm Clear Fluted Glass (Imported)</option>
-                <option value="8mm-grey-fluted">8mm Grey Fluted Glass (Imported)</option>
-                <option value="8mm-brown-fluted">8mm Brown Fluted Glass (Imported)</option>
+                <option value="12mm-clear">12mm Clear Tuff Glass</option>
+                <option value="laminated-5+5">5+5mm Laminated Safety Glass</option>
               </select>
-              <div style="color: #b0b0b0; font-size: 0.8rem; margin-top: 0.5rem; padding-left: 1.5rem;">Base rate includes 8mm clear tuff glass. Fluted glass options are imported.</div>
+              <div style="color: #b0b0b0; font-size: 0.8rem; margin-top: 0.5rem; padding-left: 1.5rem;">Enter width first — fold set is suggested automatically. All panels open; price updates below.</div>
             </div>
             
-            <!-- Color Options -->
+            <!-- Coating Type -->
             <div class="calc-group">
-              <label>
+              <label for="calc-color">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-                Color Option
+                Coating Type
               </label>
-              <select id="calc-color" class="calc-select">
-                <option value="matt-black">Matt Black</option>
-                <option value="gold">Gold</option>
-                <option value="rose-gold">Rose Gold</option>
-                <option value="copper-gold">Copper Gold</option>
+              <select id="calc-color" class="calc-select" aria-label="Coating Type">
+                <option value="plain" selected>Plain Powder Coat (Included)</option>
+                <option value="texture">Texture Finish</option>
+                <option value="wooden">Wooden Finish</option>
               </select>
+              <div style="color: #b0b0b0; font-size: 0.8rem; margin-top: 0.5rem; padding-left: 1.5rem;">Standard RAL powder coating — not imported premium colors (gold / rose gold).</div>
             </div>
             
             <!-- Price Display -->
@@ -1305,6 +1305,7 @@
   <script defer src="../../js/main.js?v=20260522"></script>
   <script src="../../js/calculator/configs.js" defer></script>
   <script src="../../js/calculator/base.js" defer></script>
+  <script src="../../js/calculator/fold-sliding-door-logic.js" defer></script>
   <script src="../../js/calculator/extensions/fold-sliding-window-system.js" defer></script>
   <script src="../../js/calculator/loader.js" defer></script>
   <script src="../../js/calculator/smooth-typing-indicator.js" defer></script>

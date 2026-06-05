@@ -5,7 +5,19 @@
 (function () {
   'use strict';
 
-  if (typeof gtag === 'undefined') return;
+  /** Always queue/send — never skip registering handlers if gtag loads late. */
+  function sendEvent(eventName, params) {
+    var payload = Object.assign({}, params || {});
+    if (!payload.page_path && typeof window !== 'undefined' && window.location) {
+      payload.page_path = window.location.pathname;
+    }
+    if (typeof gtag === 'function') {
+      gtag('event', eventName, payload);
+      return;
+    }
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(Object.assign({ event: eventName }, payload));
+  }
 
   var lastLeadKey = '';
   var lastLeadAt = 0;
@@ -36,7 +48,7 @@
         params[k] = extra[k];
       });
     }
-    gtag('event', 'generate_lead', params);
+    sendEvent('generate_lead', params);
   }
 
   window.trackLeadConversion = trackLeadConversion;
@@ -74,7 +86,7 @@
     tickEngagement();
     if (totalEngagementMs < 10000) return;
     engagementSent = true;
-    gtag('event', 'engagement_time', {
+    sendEvent('engagement_time', {
       engagement_time_msec: totalEngagementMs,
       non_interaction: true
     });
@@ -89,7 +101,7 @@
       event_category: 'Calculator',
       non_interaction: true
     };
-    gtag('event', eventName, Object.assign({}, defaultParams, eventParams || {}));
+    sendEvent(eventName, Object.assign({}, defaultParams, eventParams || {}));
   };
 
   window.trackCalculatorSize = function (width, height, unit, quantity) {
@@ -154,7 +166,7 @@
       page_path: typeof window !== 'undefined' && window.location ? window.location.pathname : '',
       non_interaction: !(params && params.non_interaction === false)
     };
-    gtag('event', eventName, Object.assign(base, params || {}));
+    sendEvent(eventName, Object.assign(base, params || {}));
   };
 
   window.trackEstimateItemSaved = function (addedCount, meta) {
@@ -166,6 +178,16 @@
       total_amount: meta && meta.amount,
       non_interaction: false,
       value: meta && meta.amount ? Math.round(meta.amount) : 0
+    });
+    sendEvent('calculator_save_configuration', {
+      event_category: 'Project Estimate',
+      event_label: 'Configuration Saved',
+      items_added: addedCount || 1,
+      estimate_item_count: meta && meta.totalItems,
+      product_name: meta && meta.productName,
+      total_amount: meta && meta.amount,
+      value: meta && meta.amount ? Math.round(meta.amount) : 0,
+      non_interaction: false
     });
   };
 
@@ -185,14 +207,15 @@
       non_interaction: false,
       value: Math.round(totalInr || 0)
     });
-    trackLeadConversion('estimate_pdf', { wm_items: itemCount || 0 });
-  };
-
-  window.trackEstimateItemRemoved = function (itemCount) {
-    trackEstimateEvent('estimate_item_removed', {
+    sendEvent('calculator_pdf_download', {
+      event_category: 'Project Estimate',
+      event_label: 'Quote PDF Downloaded',
       estimate_item_count: itemCount || 0,
+      total_amount: totalInr || 0,
+      value: Math.round(totalInr || 0),
       non_interaction: false
     });
+    trackLeadConversion('estimate_pdf', { wm_items: itemCount || 0 });
   };
 
   /** After email API success only — one custom + one generate_lead */
@@ -242,7 +265,7 @@
     var key = String(productId || '') + '|' + String(productName || '');
     if (key === lastCalcViewKey) return;
     lastCalcViewKey = key;
-    gtag('event', 'calculator_view', {
+    sendEvent('calculator_view', {
       event_category: 'Calculator',
       event_label: 'Calculator Opened',
       product_id: productId,
@@ -264,7 +287,7 @@
   };
 
   window.trackContactPageContext = function (intent, source) {
-    gtag('event', 'contact_page_view', {
+    sendEvent('contact_page_view', {
       event_category: 'Contact',
       wm_intent: intent || 'general',
       wm_source: source || 'direct',

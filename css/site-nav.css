@@ -26,8 +26,8 @@ body.wm-nav-open { overflow: hidden; }
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 0.6rem 1rem;
-  min-height: 64px;
+  padding: 0.5rem 1rem;
+  min-height: 56px;
 }
 
 /* ---------- Logo ---------- */
@@ -41,12 +41,19 @@ body.wm-nav-open { overflow: hidden; }
 }
 .wm-logo img {
   width: auto;
-  height: 40px;
-  max-width: 140px;
+  height: 36px;
+  max-width: 120px;
+  max-height: 36px;
   object-fit: contain;
   object-position: left center;
   border-radius: 0;
   filter: none;
+}
+.wm-navbar .wm-logo img {
+  width: auto !important;
+  height: 36px !important;
+  max-width: 120px !important;
+  max-height: 36px !important;
 }
 .wm-logo-text {
   font-weight: 800;

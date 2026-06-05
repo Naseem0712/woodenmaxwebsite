@@ -551,22 +551,35 @@
       "subcategory": "bifold",
       "status": "active",
       "rates": {
-        "baseRate": 2024,
+        "frameRate": 1050,
+        "baseRate": 1050,
         "useGlobalRates": false,
         "profiles": {
           "50mm": 0,
           "52mm": 0
         },
+        "panelConfig": {
+          "2+1": 25000,
+          "3+1": 30000,
+          "5+1": 45000,
+          "2+2": 35000,
+          "3+3": 40000,
+          "perDoor": 8500
+        },
         "glass": {
-          "8mm-clear": 0,
-          "6mm-clear": -21,
-          "10mm-clear": 37,
-          "12mm-clear": 68,
-          "safety": 189,
-          "dgu": 210
+          "6mm-clear": 350,
+          "8mm-clear": 450,
+          "10mm-clear": 550,
+          "12mm-clear": 650,
+          "laminated-5+5": 780
+        },
+        "coating": {
+          "plain": 0,
+          "texture": 0,
+          "wooden": 68
         }
       },
-      "features": ["profileOptions", "glassOptions", "ralColors"],
+      "features": ["profileOptions", "glassOptions", "coating", "ralColors"],
       "description": "Fold & Bi-Fold Aluminium Glass Doors with 50mm and 52mm profiles. Base rate includes 8mm clear tuff glass and mortice lock. RAL color powder coating available. Perfect for balcony doors, window openings, living room partitions, office cabins, showroom fronts. 95% opening with safety glass."
     },
     {
@@ -577,22 +590,32 @@
       "subcategory": "fold-sliding",
       "status": "active",
       "rates": {
-        "baseRate": 2607,
+        "frameRate": 1050,
+        "baseRate": 1050,
         "useGlobalRates": false,
-        "glass": {
-          "8mm-clear": 0,
-          "10mm-clear": 37,
-          "8mm-clear-fluted": 89,
-          "8mm-grey-fluted": 121,
-          "8mm-brown-fluted": 121
+        "panelConfig": {
+          "2+1": 25000,
+          "3+1": 30000,
+          "5+1": 45000,
+          "2+2": 35000,
+          "3+3": 40000,
+          "perDoor": 8500
         },
-        "premiumColors": {
-          "rose-gold": 68,
-          "copper-gold": 68
+        "glass": {
+          "6mm-clear": 350,
+          "8mm-clear": 450,
+          "10mm-clear": 550,
+          "12mm-clear": 650,
+          "laminated-5+5": 780
+        },
+        "coating": {
+          "plain": 0,
+          "texture": 0,
+          "wooden": 68
         }
       },
-      "features": ["glassOptions", "colorOptions", "premiumColors", "morticeLock"],
-      "description": "Fold & Sliding Window System with imported slim profiles. 2-door configuration for gates and windows. Base rate includes 8mm clear tuff glass and mortice lock. Imported hardware for slim look with security. Premium colors: Rose Gold, Copper Gold. Premium glass: Clear Fluted, Grey Fluted, Brown Fluted."
+      "features": ["glassOptions", "coating", "morticeLock"],
+      "description": "Fold & Sliding Window System with imported slim profiles. Panel configurations for wide openings — all panels fold open (no fixed panel). Base rate includes 8mm clear tuff glass and mortice lock. RAL powder coating: plain, texture, or wooden finish."
     },
     {
       "id": "wooden-finish-aluminium-louvers",

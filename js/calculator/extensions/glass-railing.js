@@ -710,7 +710,120 @@ class GlassRailingCalculator {
     if (pillarRow) pillarRow.style.display = 'none';
     if (studRow) studRow.style.display = 'none';
     
-    if (totalEl) totalEl.textContent = this.formatAmount(totalAmount);
+    if (totalEl) {
+      totalEl.textContent = this.formatAmount(totalAmount);
+      totalEl.setAttribute('data-wm-inr-total', String(Math.round(totalAmount)));
+    }
+  }
+
+  getSelectLabel(selectId) {
+    const container = document.getElementById(this.containerId);
+    if (!container) return '';
+    const sel = container.querySelector('#' + selectId);
+    if (!sel || !sel.options || sel.selectedIndex < 0) return '';
+    return String(sel.options[sel.selectedIndex].textContent || '').replace(/\s+/g, ' ').trim();
+  }
+
+  getFinishLabel(finish) {
+    const map = {
+      plain: 'Plain powder coating',
+      wooden: 'Wooden powder coating',
+      texture: 'Texture finish'
+    };
+    return map[finish] || finish || '—';
+  }
+
+  getIndividualLengthLines() {
+    const container = document.getElementById(this.containerId);
+    if (!container) return [];
+    const unit = this.getUnit();
+    const lengthsContainer = container.querySelector('#calc-lengths-container');
+    if (!lengthsContainer) return [];
+    const lines = [];
+    lengthsContainer.querySelectorAll('.calc-length-input').forEach((input, index) => {
+      const raw = parseFloat(String(input.value || '').trim());
+      if (!(raw > 0)) return;
+      const rft = this.convertToFeet(raw, unit);
+      lines.push('Run ' + (index + 1) + ': ' + raw + ' ' + unit.toUpperCase() + ' = ' + rft.toFixed(2) + ' rft');
+    });
+    return lines;
+  }
+
+  getAnchorBoltCount(totalLengthFt) {
+    if (!(totalLengthFt > 0)) return 0;
+    return Math.ceil(totalLengthFt / 2);
+  }
+
+  /** Structured snapshot for project estimate / PDF print (amounts only, no hidden rates). */
+  getQuoteSnapshot() {
+    const totalLengthFt = this.getTotalLengthFt();
+    const heightFt = this.getHeightFt();
+    if (!(totalLengthFt > 0) || !(heightFt > 0)) return null;
+
+    const amounts = this.lastCalculatedAmounts || {};
+    const totalCost = Math.round(amounts.totalCost || 0);
+    if (!(totalCost > 0)) return null;
+
+    const unit = this.getUnit();
+    const lengthRmt = totalLengthFt / this.FEET_PER_METER;
+    const areaSqft = totalLengthFt * heightFt;
+    const glassKey = this.getSelectLabel('calc-glass') || '—';
+    const bottomProfile = this.getSelectedBottomProfile();
+    const bottomFinish = this.getBottomFinish();
+    const handrail = this.getSelectedHandrail();
+    const handrailFinish = this.getHandrailFinish();
+    const pillarQty = amounts.pillarBracketQty || 0;
+    const studQty = amounts.studQty || 0;
+    const anchorCount = this.getAnchorBoltCount(totalLengthFt);
+    const fmt = (n) => this.formatCurrency(Math.round(n || 0));
+
+    const lengthLines = this.getIndividualLengthLines();
+    const details = [
+      { label: 'Product', value: this.config.name || this.productId },
+      { label: 'Height', value: heightFt.toFixed(2) + ' ft' },
+      lengthLines.length
+        ? { label: 'Length runs', value: lengthLines.join(' · ') }
+        : null,
+      { label: 'Total length', value: totalLengthFt.toFixed(2) + ' rft (' + lengthRmt.toFixed(2) + ' rmt)' },
+      { label: 'Glass area', value: areaSqft.toFixed(2) + ' sq.ft' + (this.GLASS_WASTAGE_PERCENT > 0 ? ' (incl. ' + this.GLASS_WASTAGE_PERCENT + '% wastage)' : '') },
+      { label: 'Glass type', value: glassKey },
+      bottomProfile
+        ? {
+            label: this.isPillarBracket(bottomProfile) ? 'Bottom (pillar / balustrade)' : this.isStud(bottomProfile) ? 'Bottom (vertical stud)' : 'Bottom profile',
+            value: bottomProfile.label + (bottomProfile.id !== 'none' ? ' · ' + this.getFinishLabel(bottomFinish) : '')
+          }
+        : { label: 'Bottom profile', value: 'No bottom profile' },
+      pillarQty > 0 ? { label: 'Pillar / balustrade qty', value: pillarQty + ' pcs' } : null,
+      studQty > 0 ? { label: 'Stud qty', value: studQty + ' pcs (both sides)' } : null,
+      {
+        label: 'Handrail (top)',
+        value: (handrail?.label || '—') + (handrail?.material === 'aluminium' ? ' · ' + this.getFinishLabel(handrailFinish) : '')
+      },
+      { label: 'Hardware package', value: 'Wall + 180° + 90° connectors · ' + fmt(amounts.hardwareCost) },
+      { label: 'Anchor bolts', value: anchorCount + ' pcs · ' + fmt(amounts.anchorBoltCost) },
+      { label: 'Installation', value: fmt(amounts.installationCost) },
+      { label: 'Glass cost', value: fmt(amounts.glassCost) },
+      bottomProfile ? { label: 'Bottom profile cost', value: fmt(amounts.bottomProfileCost) + (pillarQty > 0 ? ' (' + pillarQty + ' pcs)' : studQty > 0 ? ' (' + studQty + ' pcs)' : '') } : null,
+      { label: 'Handrail cost', value: fmt(amounts.handrailCost) },
+      { label: 'Estimated total', value: fmt(totalCost) }
+    ].filter(Boolean);
+
+    const productKey = this.productId;
+    return {
+      productKey: productKey,
+      productName: this.config.name || productKey,
+      category: 'Glass Railing',
+      details: details,
+      specs: details.map(function (d) { return d.label + ': ' + d.value; }),
+      area: totalLengthFt.toFixed(2) + ' rft running · height ' + heightFt.toFixed(2) + ' ft',
+      railingRft: totalLengthFt,
+      railingHeightFt: heightFt,
+      exactAmount: totalCost,
+      amount: fmt(totalCost),
+      range: { min: totalCost, max: totalCost },
+      pageUrl: typeof location !== 'undefined' ? location.href : '',
+      ts: Date.now()
+    };
   }
   
   setupFormSubmission() {

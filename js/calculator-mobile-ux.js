@@ -536,12 +536,15 @@
   }
 
   function enrichWindowCartItem (it) {
-    if (!it || it.category === 'Safety Grills') return it;
+    if (!it || it.category === 'Safety Grills' || it.category === 'Glass Railing') return it;
     var calc = getCalcContainer();
     if (!calc || calc.getAttribute('data-grill-calculator') != null) return it;
     var meta = readProductMeta();
-    var page = pageLevelWindowDetails(meta);
-    var merged = mergeDetailRows(page, it.details || []);
+    var exact = itemExactAmount(it);
+    var std = buildStandardWindowCalcDetails(calc, exact);
+    var merged = std.length
+      ? mergeDetailRows(pageLevelWindowDetails(meta), std)
+      : mergeDetailRows(pageLevelWindowDetails(meta), it.details || []);
     var copy = Object.assign({}, it);
     copy.productName = fullProductLineName(calc) || copy.productName;
     copy.details = merged;
@@ -549,8 +552,41 @@
     return copy;
   }
 
+  function enrichGlassRailingCartItem (it) {
+    if (!it || it.category !== 'Glass Railing') return it;
+    var live = readGlassRailingQuoteSnapshot();
+    if (live && (!it.productKey || it.productKey === live.productKey)) {
+      return Object.assign({}, it, {
+        productName: live.productName || it.productName,
+        details: live.details,
+        specs: live.specs,
+        area: live.area,
+        railingRft: live.railingRft,
+        exactAmount: live.exactAmount,
+        amount: live.amount
+      });
+    }
+    return it;
+  }
+
+  function cartItemQtyLabel (it) {
+    if (it && it.category === 'Safety Grills') return String(grillCartQty(it));
+    if (it && it.category === 'Glass Railing') {
+      if (it.railingRft > 0) return it.railingRft.toFixed(2) + ' rft';
+      var m = String(it.area || '').match(/([\d.]+)\s*rft/i);
+      if (m) return m[1] + ' rft';
+    }
+    if (it && it.details) {
+      for (var i = 0; i < it.details.length; i++) {
+        if (it.details[i].label === 'Quantity') return it.details[i].value;
+      }
+    }
+    return '1';
+  }
+
   function enrichCartItemForPrint (it) {
     if (it && it.category === 'Safety Grills') return enrichGrillCartItem(it);
+    if (it && it.category === 'Glass Railing') return enrichGlassRailingCartItem(it);
     return enrichWindowCartItem(it);
   }
 
@@ -814,6 +850,62 @@
       .replace(/:$/, '');
   }
 
+  function isGlassRailingPage () {
+    return /\/products\/glass-railing\//i.test(location.pathname || '') ||
+      !!document.getElementById('price-calculator-glass-railing-balcony') ||
+      !!document.getElementById('price-calculator-glass-railing-staircase');
+  }
+
+  function getGlassRailingCalculatorInstance () {
+    var ids = ['glass-railing-balcony', 'glass-railing-staircase'];
+    for (var i = 0; i < ids.length; i++) {
+      var inst = window['calculator_' + ids[i]];
+      if (inst && typeof inst.getQuoteSnapshot === 'function') return inst;
+    }
+    return null;
+  }
+
+  function readGlassRailingQuoteSnapshot () {
+    if (!isGlassRailingPage()) return null;
+    var inst = getGlassRailingCalculatorInstance();
+    if (!inst || typeof inst.getQuoteSnapshot !== 'function') return null;
+    return inst.getQuoteSnapshot();
+  }
+
+  function buildStandardWindowCalcDetails (calc, exact) {
+    if (!calc) return [];
+    var rows = [];
+    var w = $('#calc-width', calc);
+    var h = $('#calc-height', calc);
+    var unitSel = $('#calc-unit', calc);
+    var unitLabel = unitSel && unitSel.options && unitSel.selectedIndex >= 0
+      ? cleanLabel(unitSel.options[unitSel.selectedIndex].textContent)
+      : 'ft';
+    if (w && w.value && h && h.value) {
+      rows.push({ label: 'Size (W × H)', value: w.value.trim() + ' × ' + h.value.trim() + ' ' + unitLabel });
+    }
+    var areaEl = $('#calc-area-display', calc);
+    if (areaEl && (areaEl.textContent || '').trim()) {
+      rows.push({ label: 'Area', value: cleanLabel(areaEl.textContent) });
+    }
+    var numEl = $('#calc-number', calc);
+    if (numEl && numEl.value) {
+      rows.push({ label: 'Quantity', value: String(numEl.value) });
+    }
+    var panel = calcSelectDetail('calc-panel-config', 'Door / fold set');
+    if (panel) rows.push(panel);
+    var glass = calcSelectDetail('calc-glass', 'Glass type');
+    if (glass) rows.push(glass);
+    var coat = calcSelectDetail('calc-color', 'Coating') || calcSelectDetail('calc-coating', 'Coating');
+    if (coat) rows.push(coat);
+    var profile = calcSelectDetail('calc-profile', 'Profile');
+    if (profile) rows.push(profile);
+    var lock = calcSelectDetail('calc-lock', 'Lock');
+    if (lock) rows.push(lock);
+    if (exact > 0) rows.push({ label: 'Estimated amount', value: fmtINR(exact) });
+    return rows;
+  }
+
   function readGrillQuoteSnapshot () {
     var calc = document.querySelector('[data-grill-calculator]');
     if (!calc || !calc._wmGrillsCalc) return null;
@@ -930,6 +1022,13 @@
     }
     var est = window.__pergolaLastEstimate;
     if (est) return est.width + ' × ' + est.depth + ' ft (' + est.area + ' sq.ft)';
+    if (isGlassRailingPage()) {
+      var railInst = getGlassRailingCalculatorInstance();
+      if (railInst && typeof railInst.getTotalLengthFt === 'function') {
+        var rft = railInst.getTotalLengthFt();
+        if (rft > 0) return rft.toFixed(2) + ' rft running';
+      }
+    }
     return '';
   }
 
@@ -1042,8 +1141,14 @@
       cat = 'Safety Grills';
     }
     if ((location.pathname || '').indexOf('shower-partitions') >= 0) cat = 'Shower Partitions';
+    if (isGlassRailingPage()) cat = 'Glass Railing';
+    var calcKey = calc.getAttribute('data-product');
+    if (!calcKey && isGlassRailingPage()) {
+      if (document.getElementById('price-calculator-glass-railing-staircase')) calcKey = 'glass-railing-staircase';
+      else if (document.getElementById('price-calculator-glass-railing-balcony')) calcKey = 'glass-railing-balcony';
+    }
     var meta = {
-      key: calc.getAttribute('data-product') || 'product',
+      key: calcKey || 'product',
       name: shortProductName(calc, {
         key: calc.getAttribute('data-product') || 'product',
         name: calc.getAttribute('data-product-name') || (document.title || 'Product').split('|')[0].trim()
@@ -1056,6 +1161,9 @@
   function readQuoteSnapshot () {
     var grillSnap = readGrillQuoteSnapshot();
     if (grillSnap) return grillSnap;
+
+    var railingSnap = readGlassRailingQuoteSnapshot();
+    if (railingSnap) return railingSnap;
 
     var rowSnaps = readAllRowSnapshots();
     if (rowSnaps.length === 1) return rowSnaps[0];
@@ -1113,8 +1221,13 @@
       details.push({ label: 'Line total', value: fmtINR(est.estimatedTotal) });
     }
     var calcWin = getCalcContainer();
-    if (calcWin && calcWin.getAttribute('data-grill-calculator') == null && details.length) {
-      details = mergeDetailRows(pageLevelWindowDetails(meta), details);
+    if (calcWin && calcWin.getAttribute('data-grill-calculator') == null && !isGlassRailingPage()) {
+      var stdWin = buildStandardWindowCalcDetails(calcWin, exact);
+      if (stdWin.length) {
+        details = mergeDetailRows(pageLevelWindowDetails(meta), stdWin);
+      } else if (details.length) {
+        details = mergeDetailRows(pageLevelWindowDetails(meta), details);
+      }
     }
 
     var snap = {
@@ -1610,9 +1723,9 @@
           (it.category ? '<span class="cart-item-cat">' + escapeHtml(it.category) + '</span>' : '') +
         '</div>' +
         '<div class="cart-item-amount">' + escapeHtml(it.amount) + '</div>' +
-        (it.area ? '<div class="cart-item-area"><strong>Area / size:</strong> ' + escapeHtml(it.area) + '</div>' : '') +
+        (it.area ? '<div class="cart-item-area"><strong>' + (it.category === 'Glass Railing' ? 'Run length:' : 'Area / size:') + '</strong> ' + escapeHtml(it.area) + '</div>' : '') +
         '<dl class="cart-item-details">' +
-          details.slice(0, 12).map(function (d) {
+          details.slice(0, 20).map(function (d) {
             return '<div class="cart-detail-row"><dt>' + escapeHtml(d.label) + '</dt><dd>' + escapeHtml(d.value) + '</dd></div>';
           }).join('') +
         '</dl>' +
@@ -2296,7 +2409,8 @@
       var details = it.details || [];
       var specBlock = '';
       if (it.area) {
-        specBlock += '<div class="pdf-spec-line"><strong>Area / size:</strong> ' + escapeHtml(it.area) + '</div>';
+        var areaLbl = it.category === 'Glass Railing' ? 'Run length:' : 'Area / size:';
+        specBlock += '<div class="pdf-spec-line"><strong>' + areaLbl + '</strong> ' + escapeHtml(it.area) + '</div>';
       }
       if (details.length) {
         specBlock += '<table class="pdf-spec-mini"><tbody>' +
@@ -2314,7 +2428,7 @@
           (it.category ? '<div class="pdf-row-cat">' + escapeHtml(it.category) + '</div>' : '') +
           specBlock +
         '</td>' +
-        '<td class="is-center">' + (it.category === 'Safety Grills' ? grillCartQty(it) : '1') + '</td>' +
+        '<td class="is-center">' + escapeHtml(cartItemQtyLabel(it)) + '</td>' +
         '<td class="is-numeric"><strong>' + fmtINR(lineExact) + '</strong></td>' +
       '</tr>';
     }).join('');
@@ -2697,6 +2811,14 @@
     try {
       if (typeof window.trackEstimatePdfDownload === 'function') {
         window.trackEstimatePdfDownload(cart.length, total);
+      } else if (typeof gtag === 'function') {
+        gtag('event', 'estimate_pdf_download', {
+          event_category: 'Project Estimate',
+          estimate_item_count: cart.length,
+          total_amount: total,
+          value: Math.round(total || 0),
+          non_interaction: false
+        });
       }
     } catch (ePdf) { /* optional */ }
     if (!stage || !stage.innerHTML.trim()) {
@@ -3032,6 +3154,12 @@
               totalItems: readCart().length,
               productName: displayProductName(item),
               amount: itemExactAmount(item)
+            });
+          } else if (typeof gtag === 'function') {
+            gtag('event', 'estimate_item_saved', {
+              event_category: 'Project Estimate',
+              items_added: added,
+              non_interaction: false
             });
           }
         } catch (eSave) { /* optional */ }
