@@ -535,8 +535,44 @@
     return copy;
   }
 
+  function enrichMirrorCartItem (it) {
+    if (!it || !isMirrorCartItem(it)) return it;
+    var catalog = $('#wmCatalogCalc');
+    var live = catalog && catalog._lastCalc;
+    if (live && (!it.productKey || it.productKey === live.slug)) {
+      var liveDetails = buildMirrorCalcDetails(live);
+      return Object.assign({}, it, {
+        productName: live.pageTitle || it.productName,
+        details: liveDetails,
+        specs: liveDetails.map(function (d) { return d.label + ': ' + d.value; }),
+        area: live.dims
+          ? live.dims.w + ' × ' + live.dims.h + ' ft (' + live.dims.sqft.toFixed(2) + ' sq.ft)'
+          : it.area,
+        exactAmount: live.orderTotal || live.perPiece || it.exactAmount,
+        amount: fmtINR(live.orderTotal || live.perPiece || itemExactAmount(it)),
+        mirrorMeta: buildMirrorMetaPayload(live)
+      });
+    }
+    var rebuilt = mirrorCalcSnapshotFromMeta(it.mirrorMeta);
+    if (rebuilt) {
+      var metaDetails = buildMirrorCalcDetails(rebuilt);
+      return Object.assign({}, it, {
+        productName: rebuilt.pageTitle || it.productName,
+        details: metaDetails,
+        specs: metaDetails.map(function (d) { return d.label + ': ' + d.value; }),
+        area: rebuilt.dims
+          ? rebuilt.dims.w + ' × ' + rebuilt.dims.h + ' ft (' + rebuilt.dims.sqft.toFixed(2) + ' sq.ft)'
+          : it.area,
+        exactAmount: rebuilt.orderTotal || it.exactAmount,
+        amount: fmtINR(rebuilt.orderTotal || itemExactAmount(it))
+      });
+    }
+    return it;
+  }
+
   function enrichWindowCartItem (it) {
-    if (!it || it.category === 'Safety Grills' || it.category === 'Glass Railing') return it;
+    if (!it || it.category === 'Safety Grills' || it.category === 'Glass Railing' ||
+        it.category === 'Mirror Profiles' || isMirrorCartItem(it)) return it;
     var calc = getCalcContainer();
     if (!calc || calc.getAttribute('data-grill-calculator') != null) return it;
     var meta = readProductMeta();
@@ -570,6 +606,18 @@
   }
 
   function cartItemQtyLabel (it) {
+    if (it && isMirrorCartItem(it)) {
+      if (it.mirrorMeta && it.mirrorMeta.qty > 0) return String(it.mirrorMeta.qty);
+      if (it.details) {
+        for (var mi = 0; mi < it.details.length; mi++) {
+          if (it.details[mi].label === 'Quantity') {
+            var qm = String(it.details[mi].value).match(/(\d+)/);
+            if (qm) return qm[1];
+          }
+        }
+      }
+      return '1';
+    }
     if (it && it.category === 'Safety Grills') return String(grillCartQty(it));
     if (it && it.category === 'Glass Railing') {
       if (it.railingRft > 0) return it.railingRft.toFixed(2) + ' rft';
@@ -587,6 +635,7 @@
   function enrichCartItemForPrint (it) {
     if (it && it.category === 'Safety Grills') return enrichGrillCartItem(it);
     if (it && it.category === 'Glass Railing') return enrichGlassRailingCartItem(it);
+    if (it && (it.category === 'Mirror Profiles' || isMirrorCartItem(it))) return enrichMirrorCartItem(it);
     return enrichWindowCartItem(it);
   }
 
@@ -870,6 +919,140 @@
     var inst = getGlassRailingCalculatorInstance();
     if (!inst || typeof inst.getQuoteSnapshot !== 'function') return null;
     return inst.getQuoteSnapshot();
+  }
+
+  var MIRROR_MODE_LABELS = {
+    'round-touch': 'Round touch LED mirror',
+    'square-touch': 'Rectangular / square touch LED mirror',
+    'round-slim': 'Round slim LED mirror profile',
+    'wooden-round': 'Wooden finish round LED mirror',
+    'imported-motion': 'Imported profile motion sensor mirror',
+    'rect-led': 'Rectangular LED backlit mirror',
+    'backlit-touch': 'Backlit touch mirror (imported profile)',
+    'custom-rect-led': 'Custom rectangular LED mirror',
+    'half-round': 'Half-round LED mirror',
+    'bevel-modular': 'Bevel modular mirror line',
+    'luxury-glass': 'Luxury dual-glass mirror'
+  };
+
+  function mirrorColorLabel (id) {
+    var cfg = (typeof window !== 'undefined' && window.WM_MIRROR_RATES && window.WM_MIRROR_RATES.profileColors) || {};
+    var labels = cfg.labels || {
+      'matt-black': 'Matt Black',
+      'matt-grey': 'Matt Grey',
+      'matt-gold': 'Matt Gold',
+      'brush-gold': 'Brush Gold',
+      'rose-gold': 'Rose Gold'
+    };
+    return labels[id] || id || '—';
+  }
+
+  function mirrorGlassLabel (id) {
+    if (id === 'gold-plus') return 'Gold Plus';
+    if (id === 'saint-gobain') return 'Saint Gobain';
+    return id || '—';
+  }
+
+  function mirrorCalcSnapshotFromMeta (meta) {
+    if (!meta) return null;
+    if (meta.dims && meta.opts) return meta;
+    if (!meta.qty && !meta.perPiece) return null;
+    return {
+      pageTitle: meta.pageTitle,
+      slug: meta.slug,
+      dims: meta.dims,
+      opts: meta.opts || {},
+      qty: meta.qty || 1,
+      perPiece: meta.perPiece,
+      orderTotal: meta.orderTotal,
+      mode: meta.mode,
+      ratePerSqft: meta.ratePerSqft,
+      packingAmt: meta.packingAmt || 0,
+      hardwareList: meta.hardwareList || []
+    };
+  }
+
+  function buildMirrorCalcDetails (c) {
+    if (!c) return [];
+    var o = c.opts || {};
+    var dims = c.dims || {};
+    var sqft = dims.sqft || (dims.w > 0 && dims.h > 0 ? dims.w * dims.h : 0);
+    var packAmt = c.packingAmt || (o.packing ? 500 : 0);
+    var qty = c.qty || 1;
+    var mode = c.mode || '';
+    var rows = [];
+
+    rows.push({
+      label: 'Mirror type',
+      value: c.pageTitle || MIRROR_MODE_LABELS[mode] || mode || '—'
+    });
+    if (dims.w > 0 && dims.h > 0) {
+      rows.push({
+        label: 'Size',
+        value: dims.w + ' × ' + dims.h + ' ft' + (sqft > 0 ? ' (' + sqft.toFixed(2) + ' sq.ft)' : '')
+      });
+    }
+    rows.push({ label: 'Quantity', value: String(qty) + ' piece(s)' });
+    rows.push({ label: 'Profile colour', value: mirrorColorLabel(o.color) });
+    rows.push({ label: 'Mirror glass', value: mirrorGlassLabel(o.glassBrand) });
+
+    if (mode === 'bevel-modular') {
+      rows.push({ label: 'Profile add-on', value: o.profile ? 'Yes' : 'No' });
+      rows.push({ label: 'LED V120 add-on', value: o.ledV120 ? 'Yes' : 'No' });
+      rows.push({ label: 'LED V220 add-on', value: o.ledV220 ? 'Yes' : 'No' });
+    } else if (mode === 'luxury-glass') {
+      rows.push({ label: 'LED strip', value: (o.led || 'v120').toUpperCase() });
+      if (o.sensor === 'motion') {
+        rows.push({ label: 'Sensor', value: 'Motion — ' + (o.glassCount || 2) + ' glass panel(s)' });
+      } else if (o.sensor === 'touch') {
+        rows.push({ label: 'Sensor', value: 'Touch sensor' });
+      } else {
+        rows.push({ label: 'Sensor', value: 'None' });
+      }
+    } else if (mode) {
+      rows.push({ label: 'LED strip', value: (o.led || 'v120').toUpperCase() });
+      rows.push({
+        label: 'Touch sensor',
+        value: o.touchAmp === '5' ? '5A upgrade' : '3A standard'
+      });
+      rows.push({ label: 'LED driver', value: (o.driver || '5') + 'A' });
+    }
+
+    rows.push({
+      label: 'Export packing',
+      value: o.packing
+        ? ('Yes — ' + fmtINR(packAmt) + '/pc × ' + qty + ' = ' + fmtINR(packAmt * qty))
+        : 'No'
+    });
+
+    if (c.ratePerSqft > 0) {
+      rows.push({ label: 'Base rate (LED/profile)', value: fmtINR(c.ratePerSqft) + '/sq.ft' });
+    }
+    if (c.hardwareList && c.hardwareList.length) {
+      rows.push({ label: 'Hardware bundle', value: c.hardwareList.join('; ') });
+    }
+    if (c.perPiece > 0) rows.push({ label: 'Per piece', value: fmtINR(c.perPiece) });
+    if (c.orderTotal > 0) rows.push({ label: 'Line total', value: fmtINR(c.orderTotal) });
+
+    return rows;
+  }
+
+  function buildMirrorMetaPayload (mc) {
+    if (!mc) return null;
+    return {
+      pageTitle: mc.pageTitle,
+      slug: mc.slug,
+      dims: mc.dims,
+      opts: mc.opts,
+      qty: mc.qty || 1,
+      perPiece: mc.perPiece,
+      orderTotal: mc.orderTotal,
+      mode: mc.mode,
+      ratePerSqft: mc.ratePerSqft,
+      packing: !!(mc.opts && mc.opts.packing),
+      packingAmt: mc.packingAmt || 0,
+      hardwareList: mc.hardwareList || []
+    };
   }
 
   function buildStandardWindowCalcDetails (calc, exact) {
@@ -1186,23 +1369,7 @@
     var details = readLabeledFields(calc);
     var catalog = $('#wmCatalogCalc');
     if (catalog && catalog._lastCalc) {
-      var c = catalog._lastCalc;
-      var packAmt = c.packingAmt || (c.opts && c.opts.packing ? 500 : 0);
-      details = [
-        { label: 'Size', value: c.dims.w + ' × ' + c.dims.h + ' ft (' + c.dims.sqft.toFixed(2) + ' sq.ft)' },
-        { label: 'Quantity', value: String(c.qty) + ' piece(s)' },
-        { label: 'Profile colour', value: (c.opts && c.opts.color) ? c.opts.color : '—' },
-        { label: 'Mirror glass', value: (c.opts && c.opts.glassBrand) ? c.opts.glassBrand : '—' },
-        { label: 'LED', value: (c.opts && c.opts.led) ? String(c.opts.led).toUpperCase() : '—' },
-        { label: 'Export packing', value: (c.opts && c.opts.packing)
-          ? ('Yes — ' + fmtINR(packAmt) + '/pc × ' + c.qty + ' = ' + fmtINR(packAmt * c.qty))
-          : 'No' },
-        { label: 'Per piece (calc)', value: fmtINR(c.perPiece) },
-        { label: 'Order total (calc)', value: fmtINR(c.orderTotal) }
-      ];
-      if (c.hardwareList && c.hardwareList.length) {
-        details.push({ label: 'Hardware', value: c.hardwareList.join('; ') });
-      }
+      details = buildMirrorCalcDetails(catalog._lastCalc);
     }
     var est = window.__pergolaLastEstimate;
     if (est) {
@@ -1221,7 +1388,8 @@
       details.push({ label: 'Line total', value: fmtINR(est.estimatedTotal) });
     }
     var calcWin = getCalcContainer();
-    if (calcWin && calcWin.getAttribute('data-grill-calculator') == null && !isGlassRailingPage()) {
+    var mirrorLive = catalog && catalog._lastCalc;
+    if (calcWin && calcWin.getAttribute('data-grill-calculator') == null && !isGlassRailingPage() && !mirrorLive) {
       var stdWin = buildStandardWindowCalcDetails(calcWin, exact);
       if (stdWin.length) {
         details = mergeDetailRows(pageLevelWindowDetails(meta), stdWin);
@@ -1232,7 +1400,7 @@
 
     var snap = {
       productKey: meta.key,
-      productName: fullProductLineName(calcWin) || meta.name,
+      productName: (mirrorLive && mirrorLive.pageTitle) || fullProductLineName(calcWin) || meta.name,
       category: meta.category || 'Products',
       details: details,
       specs: details.map(function (d) { return d.label + ': ' + d.value; }),
@@ -1244,15 +1412,7 @@
       ts: Date.now()
     };
     if (catalog && catalog._lastCalc) {
-      var mc = catalog._lastCalc;
-      snap.mirrorMeta = {
-        packing: !!(mc.opts && mc.opts.packing),
-        packingAmt: mc.packingAmt || 0,
-        qty: mc.qty || 1,
-        perPiece: mc.perPiece,
-        orderTotal: mc.orderTotal,
-        mode: mc.mode
-      };
+      snap.mirrorMeta = buildMirrorMetaPayload(catalog._lastCalc);
     }
     return snap;
   }
