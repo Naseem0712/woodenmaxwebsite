@@ -768,7 +768,7 @@ def write_xml_feed(rows: list[dict]) -> None:
     out: list[str] = [
         '<?xml version="1.0" encoding="UTF-8"?>',
         '<feed xmlns="http://www.w3.org/2005/Atom" xmlns:g="http://base.google.com/ns/1.0">',
-        '  <title>WoodenMax Products — Aluminium Windows, Glass Facades, Pergolas & More</title>',
+        f'  <title>{_xml_escape("WoodenMax Products — Aluminium Windows, Glass Facades, Pergolas & More")}</title>',
         f'  <link href="{SITE_ORIGIN}"/>',
         f'  <link href="{SITE_ORIGIN}/products-feed.xml" rel="self"/>',
         f'  <updated>{now}</updated>',
