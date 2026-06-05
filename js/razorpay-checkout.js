@@ -26,8 +26,8 @@
 
   function isMirrorItem (it) {
     if (!it) return false;
-    if (it.category && /mirror/i.test(it.category)) return true;
-    if (it.mirrorMeta) return true;
+    if (it.category && /mirror profiles/i.test(String(it.category))) return true;
+    if (it.category && /mirror/i.test(it.category) && it.mirrorMeta) return true;
     return false;
   }
 

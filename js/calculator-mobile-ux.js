@@ -112,12 +112,7 @@
   }
 
   function displayProductName (it) {
-    if (!it) return 'Product';
-    var n = it.productName || 'Product';
-    if (/₹|\/sqft|\(2026\)|\bprice\b/i.test(n)) {
-      return cleanStoredProductName(n);
-    }
-    return n;
+    return resolveCartProductName(it);
   }
 
   function specsToDetailRows (specs) {
@@ -156,6 +151,83 @@
     }
   }
 
+  function resolveCartProductName (it) {
+    if (!it) return 'Product';
+    if (it.savedProductName) return cleanStoredProductName(it.savedProductName);
+    if (it.productName && !/^product$/i.test(String(it.productName).trim())) {
+      return cleanStoredProductName(it.productName);
+    }
+    if (it.pergolaMeta && it.pergolaMeta.pergolaLineLabel) {
+      return cleanStoredProductName(it.pergolaMeta.pergolaLineLabel);
+    }
+    if (it.mirrorMeta && it.mirrorMeta.pageTitle && /mirror profiles/i.test(String(it.category || ''))) {
+      return cleanStoredProductName(it.mirrorMeta.pageTitle);
+    }
+    if (it.name) return cleanStoredProductName(it.name);
+    return 'Product';
+  }
+
+  function finalizeCartItemForPrint (it) {
+    if (!it) return it;
+    var copy = ensureCartItemDetails(it);
+    var pname = resolveCartProductName(copy);
+    var cat = copy.category || 'Products';
+    var details = (copy.details || []).map(function (d) {
+      if (!d || !d.label) return d;
+      if (d.label === 'Window / product' || d.label === 'Product' || d.label === 'Grill product') {
+        return { label: 'Product', value: pname };
+      }
+      return d;
+    });
+    if (!details.some(function (d) { return d && d.label === 'Product'; })) {
+      details.unshift({ label: 'Product', value: pname });
+    }
+    if (cat && !details.some(function (d) { return d && d.label === 'Category'; })) {
+      details.splice(1, 0, { label: 'Category', value: cat });
+    }
+    copy.productName = pname;
+    copy.details = details;
+    copy.specs = details.map(function (d) { return d.label + ': ' + d.value; });
+    return copy;
+  }
+
+  function attachCartItemIdentity (snap, meta, calc) {
+    if (!snap) return snap;
+    meta = meta || readProductMeta();
+    calc = calc || getCalcContainer();
+    var pname = productNameFromCalc(calc, meta);
+    if (snap.productName && snap.productName !== 'Product') {
+      pname = cleanStoredProductName(snap.productName);
+    }
+    snap.savedProductName = pname;
+    snap.productName = pname;
+    snap.category = snap.category || meta.category || 'Products';
+    snap.productKey = snap.productKey || meta.key || 'product';
+    snap.pageUrl = snap.pageUrl || (typeof location !== 'undefined' ? location.href : '');
+    return snap;
+  }
+
+  function buildCalcSnapshotFromDom (calc, meta, exact) {
+    if (!calc || calc.id === 'wmCatalogCalc' || calc.id === 'product-pricing-root') return null;
+    meta = meta || readProductMeta();
+    var pname = productNameFromCalc(calc, meta);
+    var details = mergeDetailRows(
+      [{ label: 'Product', value: pname }, { label: 'Category', value: meta.category || 'Products' }],
+      buildStandardWindowCalcDetails(calc, exact)
+    );
+    return {
+      productName: pname,
+      category: meta.category || 'Products',
+      productKey: meta.key || 'product',
+      pageUrl: typeof location !== 'undefined' ? location.href : '',
+      details: details
+    };
+  }
+
+  function patchPrintItem (it, patch) {
+    return finalizeCartItemForPrint(Object.assign({}, it, patch || {}));
+  }
+
   function cartItemMatchesLivePage (it) {
     if (!it || typeof location === 'undefined') return false;
     var meta = readProductMeta();
@@ -163,6 +235,15 @@
     var savedPath = cartItemPagePath(it);
     var livePath = location.pathname.replace(/\.html$/, '').replace(/\/$/, '').toLowerCase();
     return !!(savedPath && savedPath === livePath);
+  }
+
+  function productNameFromCalc (calc, meta) {
+    calc = calc || getCalcContainer();
+    meta = meta || readProductMeta();
+    if (calc && calc.getAttribute('data-product-name')) {
+      return cleanLabel(calc.getAttribute('data-product-name'));
+    }
+    return meta.name || shortProductName(calc, meta);
   }
 
   function shortProductName (calc, meta) {
@@ -182,14 +263,6 @@
     raw = raw.replace(/\baluminium\s+window\b/i, 'Window');
     if (raw.length > 42) raw = raw.split(/\s+/).slice(0, 4).join(' ');
     return raw || 'Product';
-  }
-
-  function fullProductLineName (calc) {
-    calc = calc || getCalcContainer();
-    if (calc && calc.getAttribute('data-product-name')) {
-      return cleanLabel(calc.getAttribute('data-product-name'));
-    }
-    return shortProductName(calc, readProductMeta());
   }
 
   function calcSelectDetail (id, label) {
@@ -219,9 +292,11 @@
     return order.map(function (lbl) { return map[lbl]; });
   }
 
-  function pageLevelWindowDetails (meta) {
+  function pageLevelWindowDetails (meta, calc, productName) {
     meta = meta || readProductMeta();
-    var rows = [{ label: 'Window / product', value: fullProductLineName() || meta.name }];
+    calc = calc || getCalcContainer();
+    productName = productName || productNameFromCalc(calc, meta);
+    var rows = [{ label: 'Product', value: productName }];
     [
       ['calc-track', 'Track'],
       ['calc-color', 'Profile colour'],
@@ -239,19 +314,10 @@
     return rows;
   }
 
-  function globalCalcOptionDetails () {
-    return mergeDetailRows(
-      pageLevelWindowDetails(readProductMeta()),
-      [
-        calcSelectDetail('calc-glass', 'Glass'),
-        calcSelectDetail('calc-coating', 'Coating'),
-        calcSelectDetail('calc-lock', 'Lock'),
-        calcSelectDetail('calc-unit', 'Unit')
-      ].filter(Boolean)
-    );
-  }
-
-  function rowOptionDetails (rowId) {
+  function rowOptionDetails (rowId, meta, calc, productName) {
+    meta = meta || readProductMeta();
+    calc = calc || getCalcContainer();
+    productName = productName || productNameFromCalc(calc, meta);
     var glassSel = document.getElementById('calc-glass');
     var coatSel = document.getElementById('calc-coating');
     var lockSel = document.getElementById('calc-lock');
@@ -283,7 +349,7 @@
       var mesh = calcCheckboxDetail('calc-mesh', 'Mesh');
       if (mesh) rowOpts.push(mesh);
     }
-    return mergeDetailRows(pageLevelWindowDetails(readProductMeta()), rowOpts);
+    return mergeDetailRows(pageLevelWindowDetails(meta, calc, productName), rowOpts);
   }
 
   function leadCcEmail (lead) {
@@ -316,8 +382,9 @@
     }
 
     var calc = getCalcContainer();
+    var productName = productNameFromCalc(calc, meta);
     var details = mergeDetailRows(
-      rowOptionDetails(row.id),
+      rowOptionDetails(row.id, meta, calc, productName),
       [
         { label: 'Width × Height × Qty', value: w + ' × ' + h + ' ' + unitLabel + ' × ' + q },
         areaLine ? { label: 'Area', value: areaLine } : null
@@ -325,10 +392,9 @@
     );
 
     var rowCount = document.querySelectorAll('.calc-size-row').length;
-    var productName = fullProductLineName(calc) || meta.name;
     if (rowCount > 1) productName = productName + ' — Opening ' + (index + 1);
 
-    return {
+    return attachCartItemIdentity({
       productKey: meta.key,
       productName: productName,
       category: meta.category || 'Products',
@@ -340,7 +406,7 @@
       range: { min: exact, max: exact },
       pageUrl: location.href,
       ts: Date.now()
-    };
+    }, meta, calc);
   }
 
   function readAllRowSnapshots () {
@@ -421,7 +487,7 @@
     var rodSize = r.rodSize != null ? r.rodSize : (inst && inst.numVal ? inst.numVal('grill-rod-size') : 0);
     var hasDiv = r.hasDividers || (inst && inst.val && inst.val('grill-dividers') === 'yes');
     var rows = [
-      { label: 'Grill product', value: fullProductLineName(getCalcContainer()) || meta.name },
+      { label: 'Grill product', value: resolveCartProductName({ productName: meta.name, name: meta.name }) },
       { label: 'Opening size', value: r.width + ' × ' + r.height + ' ' + (r.unit || 'in') },
       { label: 'Quantity', value: String(qty) },
       {
@@ -589,7 +655,7 @@
       copy.details = baseDetails;
     }
     copy.specs = (copy.details || []).map(function (d) { return d.label + ': ' + d.value; });
-    return copy;
+    return finalizeCartItemForPrint(copy);
   }
 
   function buildPergolaCalcDetails (est) {
@@ -662,11 +728,9 @@
     if (!it || it.category !== 'Pergolas') return it;
     var live = window.__pergolaLastEstimate;
     if (live && cartItemMatchesLivePage(it)) {
-      var liveDetails = buildPergolaCalcDetails(live);
-      return Object.assign({}, it, {
+      return patchPrintItem(it, {
         productName: live.pergolaLineLabel || it.productName,
-        details: liveDetails,
-        specs: liveDetails.map(function (d) { return d.label + ': ' + d.value; }),
+        details: buildPergolaCalcDetails(live),
         area: live.width + ' × ' + live.depth + ' ft (' + live.area + ' sq.ft)',
         exactAmount: live.estimatedTotal || it.exactAmount,
         amount: fmtINR(live.estimatedTotal || itemExactAmount(it)),
@@ -674,29 +738,25 @@
       });
     }
     if (it.pergolaMeta) {
-      var metaDetails = buildPergolaCalcDetails(it.pergolaMeta);
-      return Object.assign({}, it, {
+      return patchPrintItem(it, {
         productName: it.pergolaMeta.pergolaLineLabel || it.productName,
-        details: metaDetails,
-        specs: metaDetails.map(function (d) { return d.label + ': ' + d.value; }),
+        details: buildPergolaCalcDetails(it.pergolaMeta),
         area: it.pergolaMeta.width + ' × ' + it.pergolaMeta.depth + ' ft (' + it.pergolaMeta.area + ' sq.ft)',
         exactAmount: it.pergolaMeta.estimatedTotal || it.exactAmount,
         amount: fmtINR(it.pergolaMeta.estimatedTotal || itemExactAmount(it))
       });
     }
-    return ensureCartItemDetails(it);
+    return finalizeCartItemForPrint(it);
   }
 
   function enrichMirrorCartItem (it) {
     if (!it || !isMirrorCartItem(it)) return it;
     var catalog = $('#wmCatalogCalc');
     var live = catalog && catalog._lastCalc;
-    if (live && (!it.productKey || it.productKey === live.slug)) {
-      var liveDetails = buildMirrorCalcDetails(live);
-      return Object.assign({}, it, {
+    if (live && cartItemMatchesLivePage(it) && (!it.productKey || it.productKey === live.slug)) {
+      return patchPrintItem(it, {
         productName: live.pageTitle || it.productName,
-        details: liveDetails,
-        specs: liveDetails.map(function (d) { return d.label + ': ' + d.value; }),
+        details: buildMirrorCalcDetails(live),
         area: live.dims
           ? live.dims.w + ' × ' + live.dims.h + ' ft (' + live.dims.sqft.toFixed(2) + ' sq.ft)'
           : it.area,
@@ -707,11 +767,9 @@
     }
     var rebuilt = mirrorCalcSnapshotFromMeta(it.mirrorMeta);
     if (rebuilt) {
-      var metaDetails = buildMirrorCalcDetails(rebuilt);
-      return Object.assign({}, it, {
+      return patchPrintItem(it, {
         productName: rebuilt.pageTitle || it.productName,
-        details: metaDetails,
-        specs: metaDetails.map(function (d) { return d.label + ': ' + d.value; }),
+        details: buildMirrorCalcDetails(rebuilt),
         area: rebuilt.dims
           ? rebuilt.dims.w + ' × ' + rebuilt.dims.h + ' ft (' + rebuilt.dims.sqft.toFixed(2) + ' sq.ft)'
           : it.area,
@@ -719,56 +777,61 @@
         amount: fmtINR(rebuilt.orderTotal || itemExactAmount(it))
       });
     }
-    return ensureCartItemDetails(it);
+    return finalizeCartItemForPrint(it);
   }
 
   function enrichWindowCartItem (it) {
     if (!it || it.category === 'Safety Grills' || it.category === 'Glass Railing' ||
         it.category === 'Mirror Profiles' || it.category === 'Pergolas' || isMirrorCartItem(it)) {
-      return it;
+      return finalizeCartItemForPrint(it);
     }
-    if (hasSubstantiveCartDetails(it) && !it._virtual) {
-      return ensureCartItemDetails(it);
+    if (it.calcSnapshot && it.calcSnapshot.details && it.calcSnapshot.details.length) {
+      return patchPrintItem(it, {
+        productName: it.calcSnapshot.productName || it.productName,
+        category: it.calcSnapshot.category || it.category,
+        details: it.calcSnapshot.details
+      });
     }
-    if (!cartItemMatchesLivePage(it)) {
-      return ensureCartItemDetails(it);
+    if ((hasSubstantiveCartDetails(it) && !it._virtual) || !cartItemMatchesLivePage(it)) {
+      return finalizeCartItemForPrint(it);
     }
     var calc = getCalcContainer();
     if (!calc || calc.getAttribute('data-grill-calculator') != null ||
         calc.id === 'wmCatalogCalc' || calc.id === 'product-pricing-root') {
-      return ensureCartItemDetails(it);
+      return finalizeCartItemForPrint(it);
     }
     var meta = readProductMeta();
     var exact = itemExactAmount(it);
+    var pname = productNameFromCalc(calc, meta);
     var std = buildStandardWindowCalcDetails(calc, exact);
-    var merged = std.length
-      ? mergeDetailRows(pageLevelWindowDetails(meta), std, it.details || [])
-      : mergeDetailRows(pageLevelWindowDetails(meta), it.details || []);
-    var copy = Object.assign({}, it);
-    copy.productName = fullProductLineName(calc) || copy.productName;
-    copy.details = merged;
-    copy.specs = merged.map(function (d) { return d.label + ': ' + d.value; });
-    return copy;
+    return patchPrintItem(it, {
+      productName: pname,
+      category: meta.category || it.category,
+      details: mergeDetailRows(
+        [{ label: 'Product', value: pname }, { label: 'Category', value: meta.category || it.category }],
+        std,
+        it.details || []
+      )
+    });
   }
 
   function enrichGlassRailingCartItem (it) {
-    if (!it || it.category !== 'Glass Railing') return it;
+    if (!it || it.category !== 'Glass Railing') return finalizeCartItemForPrint(it);
     if (hasSubstantiveCartDetails(it) && !cartItemMatchesLivePage(it)) {
-      return ensureCartItemDetails(it);
+      return finalizeCartItemForPrint(it);
     }
     var live = readGlassRailingQuoteSnapshot();
     if (live && cartItemMatchesLivePage(it)) {
-      return Object.assign({}, it, {
+      return patchPrintItem(it, {
         productName: live.productName || it.productName,
         details: live.details,
-        specs: live.specs,
         area: live.area,
         railingRft: live.railingRft,
         exactAmount: live.exactAmount,
         amount: live.amount
       });
     }
-    return ensureCartItemDetails(it);
+    return finalizeCartItemForPrint(it);
   }
 
   function cartItemQtyLabel (it) {
@@ -924,8 +987,8 @@
     );
     return {
       key: (location.pathname || 'grill').replace(/[^\w-]+/g, '-'),
-      productName: fullProductLineName() || meta.name,
-      name: fullProductLineName() || meta.name,
+      productName: productNameFromCalc(null, meta),
+      name: productNameFromCalc(null, meta),
       category: 'Safety Grills',
       amount: fmtINR(it.grandTotal),
       exactAmount: Math.round(it.grandTotal),
@@ -1304,8 +1367,8 @@
 
     return {
       key: (location.pathname || 'grill').replace(/[^\w-]+/g, '-'),
-      productName: fullProductLineName(calc) || meta.name,
-      name: fullProductLineName(calc) || meta.name,
+      productName: productNameFromCalc(calc, meta),
+      name: productNameFromCalc(calc, meta),
       category: 'Safety Grills',
       amount: fmtINR(r.grandTotal),
       exactAmount: Math.round(r.grandTotal),
@@ -1482,11 +1545,6 @@
     return details;
   }
 
-  function readSpecs () {
-    var calc = getCalcContainer();
-    return readLabeledFields(calc).map(function (d) { return d.label + ': ' + d.value; });
-  }
-
   function readProductMeta () {
     var calc = getCalcContainer();
     var kind = getCalcKind();
@@ -1558,29 +1616,35 @@
 
     var details = readLabeledFields(calc);
     var catalog = $('#wmCatalogCalc');
-    if (catalog && catalog._lastCalc) {
+    var calcKind = getCalcKind();
+    var mirrorLive = (calcKind === 'catalog' && catalog && catalog._lastCalc) ? catalog._lastCalc : null;
+    if (mirrorLive) {
       details = buildMirrorCalcDetails(catalog._lastCalc);
     }
     var est = window.__pergolaLastEstimate;
-    if (est) {
+    if (est && calcKind === 'pergola') {
       details = buildPergolaCalcDetails(est);
     }
     var calcWin = getCalcContainer();
-    var mirrorLive = catalog && catalog._lastCalc;
-    if (calcWin && calcWin.getAttribute('data-grill-calculator') == null && !isGlassRailingPage() && !mirrorLive) {
-      var stdWin = buildStandardWindowCalcDetails(calcWin, exact);
-      if (stdWin.length) {
-        details = mergeDetailRows(pageLevelWindowDetails(meta), stdWin);
-      } else if (details.length) {
-        details = mergeDetailRows(pageLevelWindowDetails(meta), details);
+    if (calcWin && calcWin.getAttribute('data-grill-calculator') == null && !isGlassRailingPage() &&
+        !mirrorLive && calcKind !== 'pergola' && calcKind !== 'catalog') {
+      var pname = productNameFromCalc(calcWin, meta);
+      var calcSnap = buildCalcSnapshotFromDom(calcWin, meta, exact);
+      if (calcSnap && calcSnap.details.length) {
+        details = calcSnap.details;
+      } else {
+        var stdWin = buildStandardWindowCalcDetails(calcWin, exact);
+        details = stdWin.length
+          ? mergeDetailRows(pageLevelWindowDetails(meta, calcWin, pname), stdWin)
+          : mergeDetailRows(pageLevelWindowDetails(meta, calcWin, pname), details);
       }
     }
 
-    var snap = {
+    var snap = attachCartItemIdentity({
       productKey: meta.key,
       productName: (mirrorLive && mirrorLive.pageTitle) ||
         (est && est.pergolaLineLabel) ||
-        fullProductLineName(calcWin) || meta.name,
+        productNameFromCalc(calcWin, meta),
       category: meta.category || 'Products',
       details: details,
       specs: details.map(function (d) { return d.label + ': ' + d.value; }),
@@ -1590,21 +1654,22 @@
       range: { min: exact, max: exact },
       pageUrl: location.href,
       ts: Date.now()
-    };
-    if (catalog && catalog._lastCalc) {
+    }, meta, calcWin);
+    if (mirrorLive) {
       snap.mirrorMeta = buildMirrorMetaPayload(catalog._lastCalc);
     }
-    if (est) {
+    if (est && calcKind === 'pergola') {
       snap.pergolaMeta = buildPergolaMetaPayload(est);
+    }
+    if (!mirrorLive && calcKind !== 'pergola' && calcKind !== 'catalog' && calcWin) {
+      snap.calcSnapshot = buildCalcSnapshotFromDom(calcWin, meta, exact);
     }
     return snap;
   }
 
   function isMirrorCartItem (it) {
-    if (window.WoodenMaxRazorpay && window.WoodenMaxRazorpay.isMirrorItem) {
-      return window.WoodenMaxRazorpay.isMirrorItem(it);
-    }
-    return it && it.category && /mirror/i.test(it.category);
+    if (!it) return false;
+    return !!(it.category && /mirror profiles/i.test(String(it.category)));
   }
 
   function isCartAllMirror (cart) {
@@ -2713,10 +2778,6 @@
     if (thousand) parts.push(under1000(thousand) + ' Thousand');
     if (hundred)  parts.push(under1000(hundred));
     return parts.join(' ') + ' Rupees Only';
-  }
-
-  function midpoint (it) {
-    return itemExactAmount(it);
   }
 
   function buildPrintStage (lead, items) {

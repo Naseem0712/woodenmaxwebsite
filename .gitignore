@@ -49,6 +49,11 @@ node_modules/
 *.backup
 *~
 
+# Python cache / generated feeds (local only)
+__pycache__/
+*.pyc
+products-feed.generated.csv
+
 # Editor backups
 *.sublime-project
 *.sublime-workspace
