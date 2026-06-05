@@ -28,7 +28,7 @@ module.exports.pageConfig = {
       table: {
         head: ['Where', 'What we capture', 'Why'],
         rows: [
-          ['<strong>Price calculators</strong>', 'Dimensions, configuration, derived price', 'Stored only in your browser\'s localStorage to remember your cart. Not transmitted to us until you submit a quote form.'],
+          ['<strong>Price calculators</strong>', 'Dimensions, configuration, derived price', 'Stored only in your browser\'s localStorage to remember your saved project estimate. Not transmitted to us until you submit a quote form.'],
           ['<strong>Quote / contact form</strong>', 'Name, mobile, email, PIN code, project address (optional)', 'To call you back, schedule site visit, ship the PDF quote.'],
           ['<strong>WhatsApp inquiries</strong>', 'Phone number, message thread', 'To respond to your inquiry. We use Meta\'s WhatsApp Business API.'],
           ['<strong>Phone calls to/from us</strong>', 'Call recording (where mandated), call duration, agent notes', 'Training, quality, dispute resolution. Recordings deleted after 90 days.'],
@@ -42,7 +42,7 @@ module.exports.pageConfig = {
       body:
         '<p>We use three categories of cookies:</p>' +
         '<ul class="cluster-list">' +
-          '<li><strong>Essential</strong> — calculator cart, language, cookie consent itself. Cannot be turned off; the site won\'t work without them.</li>' +
+          '<li><strong>Essential</strong> — calculator project estimate (saved configurations), language, cookie consent itself. Cannot be turned off; the site won\'t work without them.</li>' +
           '<li><strong>Analytics</strong> — Google Analytics 4 (anonymised IP), Microsoft Clarity (privacy mode). You can turn these off via our cookie banner.</li>' +
           '<li><strong>Marketing</strong> — Meta Pixel, Google Ads conversion. You can turn these off via our cookie banner.</li>' +
         '</ul>' +

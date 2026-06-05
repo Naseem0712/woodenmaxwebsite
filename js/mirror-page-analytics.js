@@ -26,8 +26,17 @@
     non_interaction: true
   });
 
+  if (typeof window.trackCalculatorPageView === 'function') {
+    window.trackCalculatorPageView(slug, document.title || slug);
+  }
+
   window.trackMirrorCalculatorRun = function (snap) {
     if (!snap) return;
+    var key = (snap.slug || slug) + '|' + Math.round(snap.orderTotal || snap.perPiece || 0);
+    var now = Date.now();
+    if (key === window.__wmLastMirrorCalcKey && now - (window.__wmLastMirrorCalcAt || 0) < 4000) return;
+    window.__wmLastMirrorCalcKey = key;
+    window.__wmLastMirrorCalcAt = now;
     track('mirror_calculator_run', {
       event_label: snap.slug || slug,
       mirror_slug: snap.slug || slug,

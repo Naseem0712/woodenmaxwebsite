@@ -7,13 +7,16 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const VERSION = process.env.WM_ASSET_V || '20260519';
+const VERSION = process.env.WM_ASSET_V || '20260522';
 const DRY = process.argv.includes('--dry');
 
 const ASSETS = [
   'css/calculator-mobile-ux.css',
+  'js/analytics.js',
+  'js/analytics-events.js',
   'js/calculator-mobile-ux.js',
   'js/main.js',
+  'js/mirror-page-analytics.js',
   'js/site-footer.js',
   'js/razorpay-checkout.js',
 ];

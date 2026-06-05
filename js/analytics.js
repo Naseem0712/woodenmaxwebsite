@@ -126,7 +126,73 @@
         has_mesh: (selections && selections.mesh) || false,
         value: Math.round(totalCost || 0)
       });
-    }, 8000);
+    }, 3500);
+  };
+
+  var lastLiveCalcKey = '';
+  var lastLiveCalcAt = 0;
+
+  /** Fired when sticky bar / mobile UX shows a live total (all calculator types). */
+  window.trackLiveEstimateCalculated = function (totalCost, totalArea, productId) {
+    var key = (productId || '') + '|' + Math.round(totalCost || 0);
+    var now = Date.now();
+    if (key === lastLiveCalcKey && now - lastLiveCalcAt < 5000) return;
+    lastLiveCalcKey = key;
+    lastLiveCalcAt = now;
+    trackCalculatorEvent('calculator_calculation', {
+      event_label: 'Live Estimate Calculated',
+      total_cost: totalCost,
+      total_area: totalArea,
+      product_id: productId || '',
+      value: Math.round(totalCost || 0)
+    });
+  };
+
+  window.trackEstimateEvent = function (eventName, params) {
+    var base = {
+      event_category: 'Project Estimate',
+      page_path: typeof window !== 'undefined' && window.location ? window.location.pathname : '',
+      non_interaction: !(params && params.non_interaction === false)
+    };
+    gtag('event', eventName, Object.assign(base, params || {}));
+  };
+
+  window.trackEstimateItemSaved = function (addedCount, meta) {
+    trackEstimateEvent('estimate_item_saved', {
+      event_label: 'Configuration Saved',
+      items_added: addedCount || 1,
+      estimate_item_count: meta && meta.totalItems,
+      product_name: meta && meta.productName,
+      total_amount: meta && meta.amount,
+      non_interaction: false,
+      value: meta && meta.amount ? Math.round(meta.amount) : 0
+    });
+  };
+
+  window.trackEstimateOpened = function (itemCount) {
+    trackEstimateEvent('estimate_opened', {
+      event_label: 'Project Estimate Opened',
+      estimate_item_count: itemCount || 0,
+      non_interaction: false
+    });
+  };
+
+  window.trackEstimatePdfDownload = function (itemCount, totalInr) {
+    trackEstimateEvent('estimate_pdf_download', {
+      event_label: 'Quote PDF Downloaded',
+      estimate_item_count: itemCount || 0,
+      total_amount: totalInr || 0,
+      non_interaction: false,
+      value: Math.round(totalInr || 0)
+    });
+    trackLeadConversion('estimate_pdf', { wm_items: itemCount || 0 });
+  };
+
+  window.trackEstimateItemRemoved = function (itemCount) {
+    trackEstimateEvent('estimate_item_removed', {
+      estimate_item_count: itemCount || 0,
+      non_interaction: false
+    });
   };
 
   /** After email API success only — one custom + one generate_lead */
@@ -144,7 +210,38 @@
     trackLeadConversion('contact_form', extra || {});
   };
 
+  window.trackEstimateItemRemoved = function (itemCount) {
+    trackEstimateEvent('estimate_item_removed', {
+      estimate_item_count: itemCount || 0,
+      non_interaction: false
+    });
+  };
+
+  window.trackEstimatePrint = function (kind, itemCount, totalInr) {
+    trackEstimateEvent('estimate_print', {
+      event_label: kind === 'payment_receipt' ? 'Payment Receipt Print' : 'Quote PDF Print',
+      print_kind: kind || 'quote_pdf',
+      estimate_item_count: itemCount || 0,
+      total_amount: totalInr || 0,
+      non_interaction: false
+    });
+  };
+
+  window.trackEstimateShare = function (channel, itemCount) {
+    trackEstimateEvent('estimate_share', {
+      event_label: channel === 'whatsapp' ? 'WhatsApp Share' : 'Email Share',
+      share_channel: channel || 'unknown',
+      estimate_item_count: itemCount || 0,
+      non_interaction: false
+    });
+  };
+
+  var lastCalcViewKey = '';
+
   window.trackCalculatorPageView = function (productId, productName) {
+    var key = String(productId || '') + '|' + String(productName || '');
+    if (key === lastCalcViewKey) return;
+    lastCalcViewKey = key;
     gtag('event', 'calculator_view', {
       event_category: 'Calculator',
       event_label: 'Calculator Opened',

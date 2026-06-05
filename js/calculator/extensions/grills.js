@@ -1148,7 +1148,7 @@
     addBtn.type = 'button';
     addBtn.id = 'grill-add-to-quote';
     addBtn.className = 'calc-add-cart-btn grill-add-cart-btn';
-    addBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg><span>Add to Cart</span>';
+    addBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg><span>Save Configuration</span>';
     var self = this;
     addBtn.addEventListener('click', function() { self.addToQuotationAndGlobalCart(); });
     cartWrap.appendChild(addBtn);
@@ -1198,6 +1198,15 @@
     this.addToQuotation();
     this._syncGlobalCartFromQuotation();
     notifyGrillQuoteUi();
+    try {
+      if (typeof window.trackEstimateItemSaved === 'function' && window.WoodenMaxQuote) {
+        var cart = window.WoodenMaxQuote.readCart ? window.WoodenMaxQuote.readCart() : [];
+        window.trackEstimateItemSaved(1, {
+          totalItems: cart.length,
+          productName: 'Safety Grills'
+        });
+      }
+    } catch (eGa) { /* optional */ }
   };
 
   GrillsCalculator.prototype._ensureGlobalCartForAction = function(cb) {
@@ -1216,7 +1225,7 @@
     var panel = document.createElement('div');
     panel.className = 'grill-order-actions';
     panel.innerHTML =
-      '<p class="grill-order-actions-title">Next step — same buttons as quote cart</p>' +
+      '<p class="grill-order-actions-title">Next step — same as Project Estimate panel</p>' +
       '<div class="cart-cta-stack grill-cart-cta-stack">' +
         '<button type="button" class="cart-cta-primary" data-grill-action="export-pdf">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="M9 15l3 3 3-3"/></svg>' +
@@ -1230,7 +1239,7 @@
           'Book Slot — Pay ₹1,000' +
         '</button>' +
       '</div>' +
-      '<p class="cart-foot-note grill-cart-foot-note">Adds to cart if empty · form opens on click · GST extra on full pay</p>';
+      '<p class="cart-foot-note grill-cart-foot-note">Saves to project estimate if empty · form opens on click · GST extra on full pay</p>';
 
     cartWrap.appendChild(panel);
 

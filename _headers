@@ -1,6 +1,7 @@
-# WoodenMax — Cloudflare Pages custom headers
+# WoodenMax — Cloudflare Pages custom headers (NOT YAML — Plain Text / Cloudflare _headers syntax)
 # https://developers.cloudflare.com/pages/configuration/headers/
-# One file at site root (publish directory). Path rules use leading /.
+# Path rules use leading /. Header lines are indented with two spaces.
+# Editor: if you see YAML errors on lines with *, ignore them or use Plain Text mode.
 
 # Pricing API (HTML + JSON responses)
 /api/*
@@ -48,7 +49,7 @@
 /css/*
   Cache-Control: public, max-age=604800
 
-# Cart + Razorpay UI — short cache so deploys show up (Google / CDN were serving 7-day-old JS)
+# Estimate UX + Razorpay UI — short cache so deploys show up (CDN was serving 7-day-old JS)
 /js/calculator-mobile-ux.js
   Cache-Control: public, max-age=300, must-revalidate
 /js/razorpay-checkout.js
@@ -57,11 +58,16 @@
   Cache-Control: public, max-age=300, must-revalidate
 /js/mirror-page-analytics.js
   Cache-Control: public, max-age=300, must-revalidate
+/js/analytics-events.js
+  Cache-Control: public, max-age=300, must-revalidate
+/js/analytics.js
+  Cache-Control: public, max-age=300, must-revalidate
 /css/calculator-mobile-ux.css
   Cache-Control: public, max-age=300, must-revalidate
 
 /js/*
   Cache-Control: public, max-age=604800
+
 # GSC: noindex utility URLs
 /search
   X-Robots-Tag: noindex, nofollow

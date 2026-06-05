@@ -527,7 +527,7 @@ sections + eeat + calcProducts + (cfg.isHub ? '' : hub) + faq + related +
 (cfg.calcMode ? '  <script src="' + prefix + 'js/mirror-rates-data.js" defer></script>\n' : '') +
 (cfg.calcMode ? '  <script src="' + prefix + 'js/email-submitter.js" defer></script>\n' : '') +
 '  <script src="' + prefix + 'js/catalog-quick-calc.js" defer></script>\n' +
-'  <script defer src="' + prefix + 'js/analytics-events.js"></script>\n' +
+'  <script defer src="' + prefix + 'js/analytics-events.js?v=20260521"></script>\n' +
 (cfg.silo === 'mirror-profiles' ? '  <script defer src="' + prefix + 'js/mirror-page-analytics.js"></script>\n' : '') +
 '  <script src="' + prefix + 'js/seo-enhancer.js" defer></script>\n' +
 '</body>\n</html>\n'

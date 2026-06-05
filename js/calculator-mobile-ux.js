@@ -35,6 +35,23 @@
   var PLACEHOLDER_CLS = 'is-placeholder';
   var COMPANY_UPI_ID  = 'finilexnaseem-3@okicici';
 
+  /** User-facing copy — project estimate, not e-commerce cart. */
+  var UI = {
+    fabLabel: 'Estimate',
+    sheetTitle: 'Project Estimate',
+    saveConfig: 'Save Configuration',
+    saveShort: 'Save',
+    saveInline: 'Save to Project Estimate',
+    emptyTitle: 'No configurations saved yet',
+    emptyBody: 'Configure sizes on any product page, then tap <strong>Save Configuration</strong>. Items stay saved as you browse — build one combined project estimate for windows, shower, mirror, pergola &amp; more.',
+    savedHeading: 'Saved configurations',
+    addMore: '+ Add configuration',
+    toastSaved: 'Saved to project estimate.',
+    toastOpenEstimate: 'Open Estimate → Download PDF or WhatsApp.'
+  };
+
+  var lastTrackedLiveInr = 0;
+
   // ---------- Tiny utilities ----------
   function $ (sel, root) { return (root || document).querySelector(sel); }
   function $$ (sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
@@ -785,7 +802,7 @@
     if (add) {
       add.classList.add('calc-sticky-add--cart');
       var span = add.querySelector('span');
-      if (span) span.textContent = 'Add to Cart';
+      if (span) span.textContent = UI.saveConfig;
     }
   }
 
@@ -842,6 +859,39 @@
       details: details,
       specs: details.map(function (d) { return d.label + ': ' + d.value; })
     };
+  }
+
+  function readPriceInr () {
+    var rowSnaps = readAllRowSnapshots();
+    if (rowSnaps.length) {
+      var sum = 0;
+      rowSnaps.forEach(function (s) { sum += s.exactAmount; });
+      return sum;
+    }
+    var grillGrand = readExactInr($('#grill-result-grand'));
+    if (grillGrand) return grillGrand;
+    var exact = readExactInr($('#calc-result-total'));
+    if (exact) return exact;
+    var catalog = $('#wmCatalogCalc');
+    if (catalog && catalog._lastCalc) {
+      var c = catalog._lastCalc;
+      return c.orderTotal || c.perPiece || 0;
+    }
+    var est = window.__pergolaLastEstimate;
+    if (est && est.estimatedTotal > 0) return est.estimatedTotal;
+    return 0;
+  }
+
+  function trackLiveCalcIfNeeded () {
+    var inr = readPriceInr();
+    if (!inr || inr <= 0 || inr === lastTrackedLiveInr) return;
+    lastTrackedLiveInr = inr;
+    if (typeof window.trackLiveEstimateCalculated !== 'function') return;
+    var meta = readProductMeta();
+    var areaText = readArea();
+    var areaMatch = String(areaText).match(/([\d.]+)\s*sq\.?\s*ft/i);
+    var areaSqft = areaMatch ? parseFloat(areaMatch[1]) : 0;
+    window.trackLiveEstimateCalculated(inr, areaSqft, (meta && meta.key) || location.pathname);
   }
 
   function readPrice () {
@@ -1172,9 +1222,9 @@
     }
 
     return [
-      { label: 'Day 0', value: '₹1,000 booking received — project slot reserved (mixed cart: booking terms apply to entire order)' },
+      { label: 'Day 0', value: '₹1,000 booking received — project slot reserved (mixed estimate: booking terms apply to entire order)' },
       { label: 'Day 1–3', value: 'Site visit scheduled · final measurements on site' },
-      { label: 'Day 3–5', value: 'Final site approval · binding BOQ for all items in cart' },
+      { label: 'Day 3–5', value: 'Final site approval · binding BOQ for all saved configurations' },
       { label: 'Day 5–7', value: '50% advance against approved BOQ · production starts' },
       { label: 'Week 3–4', value: 'Factory completion · 40% before dispatch' },
       { label: 'Week 4+', value: '10% on installation completion · balance as per approved BOQ' }
@@ -1199,7 +1249,7 @@
 
     if (mixed) {
       rows.unshift(
-        { label: 'Mixed cart rule', value: 'Only ₹1,000 booking online. Full BOQ, site approval & balance for ALL items (mirror + windows) together.' },
+        { label: 'Mixed estimate rule', value: 'Only ₹1,000 booking online. Full BOQ, site approval & balance for ALL items (mirror + windows) together.' },
         { label: 'Site approval', value: 'Mandatory site visit & final approval before factory release for non-mirror items; mirror sizes from calculator noted in BOQ.' },
         { label: 'Payment terms (balance)', value: '50% advance on approved BOQ · 40% before dispatch · 10% on install completion' }
       );
@@ -1328,7 +1378,10 @@
       title: 'WoodenMax Payment Receipt',
       containerId: 'wmPaymentReceiptStage',
       containerClass: 'wm-payment-receipt-stage',
-      innerHtml: html
+      innerHtml: html,
+      trackKind: 'payment_receipt',
+      itemCount: (items && items.length) || 0,
+      totalInr: paymentMeta && paymentMeta.paid_amount_inr
     });
   }
 
@@ -1355,7 +1408,7 @@
           addSticky.hidden = false;
           addSticky.classList.add('calc-sticky-add--cart');
           var addLabel = addSticky.querySelector('span');
-          if (addLabel) addLabel.textContent = 'Add to Cart';
+          if (addLabel) addLabel.textContent = UI.saveConfig;
         }
         if (buySticky) buySticky.hidden = true;
       } else {
@@ -1373,9 +1426,8 @@
     }
 
     syncCartBadges();
+    trackLiveCalcIfNeeded();
   }
-
-  // Toggle the inline "Add to Cart" action row visibility based on price.
   function syncAddToCartRow () {
     var row = $('#calcActionRow');
     if (!row) return;
@@ -1415,6 +1467,11 @@
   function removeFromCart (id) {
     var cart = readCart().filter(function (it) { return it.id !== id; });
     writeCart(cart);
+    try {
+      if (typeof window.trackEstimateItemRemoved === 'function') {
+        window.trackEstimateItemRemoved(cart.length);
+      }
+    } catch (eRem) { /* optional */ }
     return cart;
   }
 
@@ -1498,7 +1555,7 @@
             '<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>' +
             'Email' +
           '</button>' +
-          '<button type="button" class="cart-action-btn cart-action-btn--ghost cart-action-btn--mini" data-cart-action="add-more">+ Add more</button>' +
+          '<button type="button" class="cart-action-btn cart-action-btn--ghost cart-action-btn--mini" data-cart-action="add-more">' + UI.addMore + '</button>' +
         '</div>' +
       '</div>';
 
@@ -1525,8 +1582,8 @@
       body.innerHTML =
         '<div class="cart-empty">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>' +
-          '<strong>Your quote cart is empty</strong>' +
-          '<p>Open any product calculator, configure sizes, then tap <strong>Add to Cart</strong>. Items stay saved as you browse other pages — build one combined quote for windows, shower, mirror, pergola &amp; more.</p>' +
+          '<strong>' + UI.emptyTitle + '</strong>' +
+          '<p>' + UI.emptyBody + '</p>' +
         '</div>' +
         '<div class="cart-cta-stack cart-cta-stack--empty">' +
           '<button type="button" class="cart-cta-secondary" data-cart-action="close">Continue Configuring</button>' +
@@ -1541,7 +1598,7 @@
 
     if (!body) return;
 
-    var html = '<div class="cart-items-heading">Added products</div>';
+    var html = '<div class="cart-items-heading">' + UI.savedHeading + '</div>';
     cart.forEach(function (it) {
       var details = it.details || (it.specs || []).map(function (s) {
         var p = String(s).split(':');
@@ -1594,7 +1651,7 @@
 
     html += '<p class="cart-foot-note">' +
             (mixed
-              ? '<strong>Mixed cart:</strong> only ₹1,000 booking online — site visit &amp; BOQ for all items. '
+              ? '<strong>Mixed estimate:</strong> only ₹1,000 booking online — site visit &amp; BOQ for all items. '
               : (allMirror
                 ? '<strong>Mirror:</strong> full order pay (no refund after 3 days) or ₹1,000 booking (<em>returnable</em> before production). Dispatch 10–15 days. '
                 : '<strong>₹1,000 booking</strong> returnable before production — balance non-refundable after 3 days once factory starts. ')) +
@@ -1626,6 +1683,11 @@
     sheet.setAttribute('aria-hidden', 'false');
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
+    try {
+      if (typeof window.trackEstimateOpened === 'function') {
+        window.trackEstimateOpened(readCart().length);
+      }
+    } catch (eTrack) { /* optional */ }
     if (typeof ensureRazorpayModule === 'function') {
       ensureRazorpayModule().catch(function () {});
     }
@@ -1723,8 +1785,8 @@
       if (intro) intro.textContent = '₹1,000 booking is RETURNABLE if you cancel before production starts. Balance + GST before factory. Full order amount: non-refundable after 3 days once processing begins.';
       if (submitLabel) submitLabel.textContent = 'Pay ₹1,000 Booking';
     } else if (mixed) {
-      if (title) title.textContent = 'Book Order (Mixed Cart) — ₹1,000';
-      if (intro) intro.textContent = 'Mixed cart: ₹1,000 booking only (RETURNABLE before production). Site visit & BOQ for all items. Full order payments: non-refundable after 3 days once processing starts.';
+      if (title) title.textContent = 'Book Order (Mixed Estimate) — ₹1,000';
+      if (intro) intro.textContent = 'Mixed estimate: ₹1,000 booking only (RETURNABLE before production). Site visit & BOQ for all items. Full order payments: non-refundable after 3 days once processing starts.';
       if (submitLabel) submitLabel.textContent = 'Pay ₹1,000 Booking';
     } else {
       if (title) title.textContent = 'Book Order — Pay ₹1,000';
@@ -2543,6 +2605,11 @@
         iwin.focus();
         var cleanup = function () {
           iwin.removeEventListener('afterprint', cleanup);
+          try {
+            if (typeof window.trackEstimatePrint === 'function') {
+              window.trackEstimatePrint(opts.trackKind || 'quote_pdf', opts.itemCount || 0, opts.totalInr || 0);
+            }
+          } catch (eTr) { /* optional */ }
           setTimeout(function () {
             if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
             _wmPrintFrame = null;
@@ -2625,6 +2692,13 @@
 
   function printQuotePdf () {
     var stage = document.getElementById('calcPrintStage');
+    var cart = readCart();
+    var total = cartGrandTotal(cart).exact;
+    try {
+      if (typeof window.trackEstimatePdfDownload === 'function') {
+        window.trackEstimatePdfDownload(cart.length, total);
+      }
+    } catch (ePdf) { /* optional */ }
     if (!stage || !stage.innerHTML.trim()) {
       window.print();
       return;
@@ -2633,7 +2707,10 @@
       title: 'WoodenMax Budget Quotation',
       containerId: 'calcPrintStage',
       containerClass: 'calc-print-stage',
-      innerHtml: stage.innerHTML
+      innerHtml: stage.innerHTML,
+      trackKind: 'quote_pdf',
+      itemCount: cart.length,
+      totalInr: total
     });
   }
 
@@ -2780,7 +2857,7 @@
     if (intent === 'book-order') {
       if (!items.length) {
         if (submit) submit.classList.remove('is-loading');
-        showToast('warn', '<strong>Quote cart is empty.</strong> Add products from the calculator, then book order.');
+        showToast('warn', '<strong>Estimate is empty.</strong> Save configurations from the calculator, then book order.');
         return;
       }
       handleBookOrderPayment(lead, items, submit);
@@ -2796,7 +2873,7 @@
       if (intent === 'export-pdf') {
         closeSheet();
         if (!items.length) {
-          showToast('warn', '<strong>Quote cart is empty.</strong> Add products from the calculator, then download PDF again.');
+            showToast('warn', '<strong>Estimate is empty.</strong> Save calculator configurations first, then download PDF again.');
           return;
         }
         buildPrintStage(lead, items);
@@ -2832,7 +2909,7 @@
     if (label) {
       label.textContent = (count && count > 1)
         ? ('✓ ' + count + ' added')
-        : '✓ Added to cart';
+        : '✓ Saved';
     }
     setTimeout(function () {
       btn.classList.remove('is-success');
@@ -2869,6 +2946,11 @@
     var lead = readLead();
     var text = buildCartShareText(cart);
     var phone = '917895328080';
+    try {
+      if (typeof window.trackEstimateShare === 'function') {
+        window.trackEstimateShare('whatsapp', cart.length);
+      }
+    } catch (eWa) { /* optional */ }
     window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(text), '_blank', 'noopener');
     if (lead && lead.mobile) {
       showToast('success', 'Opening WhatsApp with your full quote breakdown. Our team: <strong>+91 78953 28080</strong>');
@@ -2879,6 +2961,11 @@
     var cart = readCart();
     if (!cart.length) return;
     var lead = readLead() || {};
+    try {
+      if (typeof window.trackEstimateShare === 'function') {
+        window.trackEstimateShare('email', cart.length);
+      }
+    } catch (eEm) { /* optional */ }
     var body = buildLeadEmailBody(lead, cart, 'export-pdf');
     var subject = 'WoodenMax Quote — ' + (lead.name || 'Customer') + ' — ' + cart.length + ' item(s)';
     var to = lead.email || 'info@woodenmax.com';
@@ -2902,10 +2989,10 @@
     row.hidden = true;
     row.innerHTML =
       '<button type="button" class="calc-add-cart-btn" data-action="add-to-cart">' +
-        '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>' +
-        '<span>Add to Quote Cart</span>' +
+        '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>' +
+        '<span>' + UI.saveInline + '</span>' +
       '</button>' +
-      '<p class="calc-action-note">Same details as Get Exact Price — add each opening, then open cart for PDF, WhatsApp or email.</p>';
+      '<p class="calc-action-note">Same details as Get Exact Price — save each opening, then open Project Estimate for PDF, WhatsApp or email.</p>';
     var grillCart = calc.querySelector('#grill-quotation-cart');
     if (grillCart) {
       grillCart.insertAdjacentElement('afterend', row);
@@ -2938,26 +3025,36 @@
       if (item) {
         var added = readCart().length - before;
         flashAddedFeedback(btn, added);
+        try {
+          if (typeof window.trackEstimateItemSaved === 'function') {
+            var meta = readProductMeta();
+            window.trackEstimateItemSaved(added, {
+              totalItems: readCart().length,
+              productName: displayProductName(item),
+              amount: itemExactAmount(item)
+            });
+          }
+        } catch (eSave) { /* optional */ }
         if (bar) updateStickyBar(bar);
         var sheet = $('#calcBottomSheet');
         if (sheet && sheet.classList.contains(SHEET_OPEN)) renderSheet();
         showToast(
           'success',
-          '<strong>' + (added > 1 ? added + ' openings added' : 'Added to cart') + '.</strong> Open cart → Download PDF or WhatsApp.'
+          '<strong>' + (added > 1 ? added + ' configurations saved' : UI.toastSaved) + '</strong> ' + UI.toastOpenEstimate
         );
       }
     });
   }
 
   var CART_SHEET_HTML =
-      // Bottom sheet (Quote Cart)
-      '<div class="calc-bottom-sheet" id="calcBottomSheet" aria-hidden="true" role="dialog" aria-label="Your quote cart">' +
+      // Bottom sheet (Project Estimate)
+      '<div class="calc-bottom-sheet" id="calcBottomSheet" aria-hidden="true" role="dialog" aria-label="Your project estimate">' +
         '<div class="calc-sheet-backdrop"></div>' +
         '<div class="calc-sheet-panel">' +
           '<div class="calc-sheet-grabber" aria-hidden="true"></div>' +
           '<div class="calc-sheet-header">' +
-            '<h3>Your Quote Cart <span class="calc-sheet-count" id="calcSheetCount">(0)</span></h3>' +
-            '<button type="button" class="calc-sheet-close" aria-label="Close cart">&times;</button>' +
+            '<h3>' + UI.sheetTitle + ' <span class="calc-sheet-count" id="calcSheetCount">(0)</span></h3>' +
+            '<button type="button" class="calc-sheet-close" aria-label="Close estimate">&times;</button>' +
           '</div>' +
           '<div class="calc-sheet-actions" id="calcSheetActions" hidden></div>' +
           '<div class="calc-sheet-scroll" id="calcSheetScroll">' +
@@ -3007,13 +3104,13 @@
         '</div>' +
       '</div>' +
 
-      '<button type="button" class="wm-global-quote-cart" id="wmGlobalQuoteCart" aria-label="Open quote cart">' +
+      '<button type="button" class="wm-global-quote-cart" id="wmGlobalQuoteCart" aria-label="Open project estimate">' +
         '<span class="wm-quote-cart-total" id="wmQuoteCartTotal" hidden></span>' +
         '<span class="wm-quote-cart-fab-main">' +
           '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
-            '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/>' +
+            '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>' +
           '</svg>' +
-          '<span class="wm-global-quote-cart-label">Cart</span>' +
+          '<span class="wm-global-quote-cart-label">' + UI.fabLabel + '</span>' +
           '<span class="wm-global-quote-cart-count">0</span>' +
         '</span>' +
       '</button>';
@@ -3057,7 +3154,7 @@
 
     var grillPage = isGrillCalcPage();
     var cartSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>';
-    var addLabel = grillPage ? 'Add to Cart' : 'Add';
+    var addLabel = grillPage ? UI.saveConfig : UI.saveShort;
     var addClass = grillPage ? 'calc-sticky-add calc-sticky-add--cart' : 'calc-sticky-add';
     var exactBtnHtml = grillPage ? '' :
       '<button type="button" class="calc-sticky-exact" data-form-open="exact" hidden>' +
@@ -3078,7 +3175,7 @@
             '<button type="button" class="calc-sticky-buy" data-action="buy-booking" hidden title="Buy online with Razorpay">' +
               '<span>Buy — ₹1,000</span>' +
             '</button>') +
-          '<button type="button" class="' + addClass + '" data-action="add-to-cart-sticky" hidden title="Add to quote cart">' +
+          '<button type="button" class="' + addClass + '" data-action="add-to-cart-sticky" hidden title="Save configuration to project estimate">' +
             cartSvg +
             '<span>' + addLabel + '</span>' +
           '</button>' +
@@ -3132,11 +3229,20 @@
           var c = getCalcContainer();
           if (c) setTimeout(function () { c.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 350);
         } else if (action === 'export-pdf') {
+          try {
+            if (typeof window.trackEstimateEvent === 'function') {
+              window.trackEstimateEvent('estimate_pdf_request', {
+                event_label: 'Download PDF Clicked',
+                estimate_item_count: readCart().length,
+                non_interaction: false
+              });
+            }
+          } catch (ePdfReq) { /* optional */ }
           openForm('export-pdf');
         } else if (action === 'book-order') {
           var cartItems = readCart();
           if (!cartItems.length) {
-            showToast('warn', '<strong>Cart is empty.</strong> Add calculator sizes first, then book order.');
+            showToast('warn', '<strong>Estimate is empty.</strong> Configure the calculator and save configurations first.');
             return;
           }
           if (isCartMixed(cartItems)) {
@@ -3245,6 +3351,13 @@
     updateStickyBar(bar);
     syncAddToCartRow();
     setTimeout(function () { bar.classList.add(BAR_VISIBLE); }, 350);
+
+    try {
+      if (typeof trackCalculatorPageView === 'function') {
+        var meta = readProductMeta();
+        trackCalculatorPageView(meta.key || calc.id || location.pathname, meta.name || document.title);
+      }
+    } catch (ePv) { /* optional */ }
 
     var debounceTimer = null;
     function scheduleUpdate () {
@@ -3549,7 +3662,7 @@
       if (!cart.length) {
         var added = addCurrentToCart();
         if (!added) {
-          showToast('warn', '<strong>Add sizes first.</strong> Configure the calculator, then tap Add to Quote Cart.');
+          showToast('warn', '<strong>Add sizes first.</strong> Configure the calculator, then tap Save Configuration.');
           return;
         }
         syncCartBadges();

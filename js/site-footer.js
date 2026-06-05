@@ -15,7 +15,7 @@
   'use strict';
 
   /** Bump after deploy so CDN/browser fetch new cart + payment JS (see _headers). */
-  var WM_ASSET_V = '20260519';
+  var WM_ASSET_V = '20260522';
 
   // ----------------------------------------------------------------------
   //  1. Canonical content (single source of truth)
@@ -324,6 +324,14 @@
   // ----------------------------------------------------------------------
   //  6. Boot
   // ----------------------------------------------------------------------
+  function ensureAnalyticsEvents () {
+    if (document.querySelector('script[src*="analytics-events.js"]')) return;
+    var s = document.createElement('script');
+    s.src = PREFIX + 'js/analytics-events.js?v=' + WM_ASSET_V;
+    s.defer = true;
+    document.body.appendChild(s);
+  }
+
   function ensureQuoteCartAssets () {
     if (window.__wmQuoteCartAssetsLoading) return;
 
@@ -380,6 +388,7 @@
     var footer = holder.firstChild;
     document.body.appendChild(footer);
     wireNewsletter(footer);
+    ensureAnalyticsEvents();
     ensureQuoteCartAssets();
   }
 

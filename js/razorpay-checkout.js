@@ -100,7 +100,7 @@
       amountPaise: BOOKING_PAISE,
       label: 'Book order — Pay ₹1,000',
       description: mixed
-        ? 'Mixed cart booking — ₹1,000 slot (balance after site visit & approval)'
+        ? 'Mixed estimate booking — ₹1,000 slot (balance after site visit & approval)'
         : (allMirror
           ? 'Mirror booking — ₹1,000 returnable before production'
           : 'Order confirmation — ₹1,000 booking (returnable before production starts)'),
@@ -297,7 +297,7 @@
     var onStatus = typeof options.onStatus === 'function' ? options.onStatus : function () {};
 
     if (!items.length) {
-      return Promise.reject(new Error('Add at least one item to the quote cart before paying.'));
+      return Promise.reject(new Error('Save at least one configuration to your project estimate before paying.'));
     }
 
     if (isCartMixed(items)) {
