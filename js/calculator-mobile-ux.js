@@ -151,24 +151,39 @@
     }
   }
 
-  function inferCategoryFromPageUrl (pageUrl) {
-    var path = pageUrl ? String(pageUrl) : '';
-    if (!path && typeof location !== 'undefined') path = location.pathname || '';
-    try {
-      if (path.indexOf('://') >= 0) {
-        path = new URL(path, (typeof location !== 'undefined' && location.origin) || 'https://woodenmax.in').pathname;
-      }
-    } catch (e1) { /* keep raw path */ }
-    path = path.replace(/\.html$/, '').replace(/\/$/, '').toLowerCase();
+  function categoryFromPath (path) {
+    path = String(path || '').replace(/\.html$/, '').replace(/\/$/, '').toLowerCase();
+    if (path.indexOf('/grills/') >= 0 || /\/grills$/i.test(path)) return 'Safety Grills';
     if (path.indexOf('/pergola/') >= 0 || /\/pergola$/i.test(path)) return 'Pergolas';
     if (path.indexOf('/metal-louvers/') >= 0 || /\/metal-louvers$/i.test(path)) return 'Metal Louvers';
     if (path.indexOf('/shower-partitions/') >= 0) return 'Shower Partitions';
     if (path.indexOf('/telescope-windows/') >= 0) return 'Telescopic Doors';
     if (path.indexOf('/folding-systems/') >= 0) return 'Folding Systems';
-    if (path.indexOf('/grills/') >= 0) return 'Safety Grills';
     if (path.indexOf('/glass-railing/') >= 0) return 'Glass Railing';
     if (path.indexOf('/mirror-profiles/') >= 0) return 'Mirror Profiles';
     return null;
+  }
+
+  function inferCategoryFromItemUrl (pageUrl) {
+    if (!pageUrl) return null;
+    var path = String(pageUrl);
+    try {
+      if (path.indexOf('://') >= 0) {
+        path = new URL(path, (typeof location !== 'undefined' && location.origin) || 'https://woodenmax.in').pathname;
+      }
+    } catch (e1) { /* keep raw path */ }
+    return categoryFromPath(path);
+  }
+
+  function inferCategoryFromPageUrl (pageUrl) {
+    var path = pageUrl ? String(pageUrl) : '';
+    if (!path && typeof location !== 'undefined') path = location.href || location.pathname || '';
+    try {
+      if (path.indexOf('://') >= 0) {
+        path = new URL(path, (typeof location !== 'undefined' && location.origin) || 'https://woodenmax.in').pathname;
+      }
+    } catch (e2) { /* keep raw path */ }
+    return categoryFromPath(path);
   }
 
   function isPergolaPage () {
@@ -179,9 +194,20 @@
     return !!(document.getElementById('calc-shower-type') || document.getElementById('calc-left-width'));
   }
 
+  function isGrillCartItem (it) {
+    if (!it) return false;
+    if (it.category && /safety grills/i.test(String(it.category))) return true;
+    if (it.grillPerAreaSqFt > 0 || it.grillPerSqftRate > 0 || it.grillTotalAreaSqFt > 0) return true;
+    if (it.outerProfile || it.innerProfile || it.pattern || it.gapType || it.coatingFinish) return true;
+    var savedPath = cartItemPagePath(it);
+    if (savedPath && savedPath.indexOf('/grills/') >= 0) return true;
+    return false;
+  }
+
   function resolveCartCategory (it) {
     if (!it) return 'Products';
-    var fromUrl = inferCategoryFromPageUrl(it.pageUrl);
+    if (isGrillCartItem(it)) return 'Safety Grills';
+    var fromUrl = inferCategoryFromItemUrl(it.pageUrl);
     if (fromUrl) return fromUrl;
     if (it.pergolaMeta) return 'Pergolas';
     if (it.mirrorMeta && isMirrorCartItem(it)) return 'Mirror Profiles';
@@ -247,7 +273,7 @@
     }
     snap.savedProductName = pname;
     snap.productName = pname;
-    snap.category = inferCategoryFromPageUrl(snap.pageUrl) || snap.category || meta.category || 'Products';
+    snap.category = inferCategoryFromItemUrl(snap.pageUrl) || snap.category || meta.category || 'Products';
     snap.productKey = snap.productKey || meta.key || 'product';
     snap.pageUrl = snap.pageUrl || (typeof location !== 'undefined' ? location.href : '');
     return snap;
@@ -598,7 +624,7 @@
 
   /** Same size + profile + pattern on grill pages → one cart/print line */
   function grillCartFingerprint (it) {
-    if (!it || it.category !== 'Safety Grills') return null;
+    if (!it || !isGrillCartItem(it)) return null;
     var size = '';
     var outer = '';
     var inner = '';
@@ -685,7 +711,7 @@
   }
 
   function enrichGrillCartItem (it) {
-    if (!it || it.category !== 'Safety Grills') return it;
+    if (!it || resolveCartCategory(it) !== 'Safety Grills') return finalizeCartItemForPrint(it);
     var copy = Object.assign({}, it);
     var meta = { name: copy.productName || copy.name || 'Safety Grills' };
     var inst = null;
@@ -930,7 +956,7 @@
       }
       return '1';
     }
-    if (it && it.category === 'Safety Grills') return String(grillCartQty(it));
+    if (it && isGrillCartItem(it)) return String(grillCartQty(it));
     if (it && it.category === 'Glass Railing') {
       if (it.railingRft > 0) return it.railingRft.toFixed(2) + ' rft';
       var m = String(it.area || '').match(/([\d.]+)\s*rft/i);
@@ -1071,7 +1097,7 @@
       qty,
       it.perSqftRate || 0
     );
-    return {
+    return attachCartItemIdentity({
       key: (location.pathname || 'grill').replace(/[^\w-]+/g, '-'),
       productName: productNameFromCalc(null, meta),
       name: productNameFromCalc(null, meta),
@@ -1101,12 +1127,14 @@
       qty: qty,
       area: grillAreaSummaryLine(perArea, qty) || grillSizeLine(it.width, it.height, it.unit, qty),
       details: details,
-      specs: details.map(function (d) { return d.label + ': ' + d.value; })
-    };
+      specs: details.map(function (d) { return d.label + ': ' + d.value; }),
+      pageUrl: typeof location !== 'undefined' ? location.href : '',
+      ts: Date.now()
+    }, meta, null);
   }
 
   function syncGrillQuotationToCart (quotationItems) {
-    var cart = readCart().filter(function (it) { return it.category !== 'Safety Grills'; });
+    var cart = readCart().filter(function (it) { return !isGrillCartItem(it); });
     var meta = readProductMeta();
     (quotationItems || []).forEach(function (it) {
       addGrillSnapToCart(cart, cartSnapFromGrillQuotationItem(it, meta));
@@ -1502,7 +1530,7 @@
       r.perSqftRate || 0
     );
 
-    return {
+    return attachCartItemIdentity({
       key: (location.pathname || 'grill').replace(/[^\w-]+/g, '-'),
       productName: productNameFromCalc(calc, meta),
       name: productNameFromCalc(calc, meta),
@@ -1519,8 +1547,10 @@
       unit: r.unit,
       area: grillAreaSummaryLine(perArea, qty) || grillSizeLine(r.width, r.height, r.unit, qty),
       details: details,
-      specs: details.map(function (d) { return d.label + ': ' + d.value; })
-    };
+      specs: details.map(function (d) { return d.label + ': ' + d.value; }),
+      pageUrl: typeof location !== 'undefined' ? location.href : '',
+      ts: Date.now()
+    }, meta, calc);
   }
 
   function readPriceInr () {
@@ -2116,7 +2146,7 @@
     if (!snaps.length) return null;
     var cart = readCart();
     snaps.forEach(function (snap) {
-      if (snap.category === 'Safety Grills') {
+      if (isGrillCartItem(snap)) {
         addGrillSnapToCart(cart, snap);
       } else {
         cart.push(Object.assign({ id: uid() }, snap));
