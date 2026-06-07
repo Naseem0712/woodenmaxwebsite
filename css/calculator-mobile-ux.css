@@ -1286,8 +1286,12 @@ body.grills-product-page .calc-sticky-exact {
 }
 
 /* ============================================
-   6. ENHANCED FAB — sit above sticky bar
+   6. ENHANCED FAB — sit above sticky bar, below estimate sheet (960)
    ============================================ */
+.floating-calc-button {
+  z-index: 940;
+}
+
 @media (max-width: 768px) {
   .floating-calc-button {
     bottom: calc(82px + env(safe-area-inset-bottom, 0px) + 0.5rem) !important;

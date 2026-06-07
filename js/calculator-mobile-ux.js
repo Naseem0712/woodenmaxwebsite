@@ -2366,6 +2366,18 @@
     }
   }
 
+  function syncFabOverlayBodyClasses () {
+    var sheet = $('#calcBottomSheet');
+    var modal = $('#calcFormModal');
+    document.body.classList.toggle('calc-sheet-open', !!(sheet && sheet.classList.contains(SHEET_OPEN)));
+    document.body.classList.toggle('calc-form-open', !!(modal && modal.classList.contains(MODAL_OPEN)));
+    if (window.WMFloatingCalcButton && typeof window.WMFloatingCalcButton.refresh === 'function') {
+      window.WMFloatingCalcButton.refresh();
+    } else {
+      document.dispatchEvent(new CustomEvent('wm-fab-overlay-change'));
+    }
+  }
+
   function openSheet () {
     var sheet = $('#calcBottomSheet');
     if (!sheet) return;
@@ -2387,6 +2399,7 @@
       var closeBtn = sheet.querySelector('.calc-sheet-close');
       if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus({ preventScroll: true });
     }, 80);
+    syncFabOverlayBodyClasses();
   }
   function closeSheet () {
     var sheet = $('#calcBottomSheet');
@@ -2399,6 +2412,7 @@
       document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
     }
+    syncFabOverlayBodyClasses();
   }
 
   // ---------- Form modal ----------
@@ -2541,6 +2555,7 @@
       var first = form.querySelector('input:not([disabled]), select:not([disabled])');
       if (first) first.focus();
     }, 320);
+    syncFabOverlayBodyClasses();
   }
 
   function closeForm () {
@@ -2549,8 +2564,11 @@
     modal.classList.remove(MODAL_OPEN);
     releaseDialogFocus(modal);
     modal.setAttribute('aria-hidden', 'true');
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
+    if (!$('#calcBottomSheet.is-open')) {
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+    }
+    syncFabOverlayBodyClasses();
   }
 
   // ---------- Form submit handlers ----------
@@ -4292,47 +4310,10 @@
   }
 
   /**
-   * Stricter "hide FAB when calculator is in view" logic.
-   * Existing js/floating-calc-button.js uses a 200px buffer which
-   * makes the FAB disappear too early. We attach an IntersectionObserver
-   * that triggers the hide/show only when at least 25% of the calculator
-   * is visible — giving the user the FAB right up until they reach the
-   * calc, and re-showing it the moment they scroll past.
+   * FAB hide/show is handled by js/floating-calc-button.js (IntersectionObserver + overlay classes).
    */
   function enforceStrictFabHide () {
-    var fab = document.querySelector('.floating-calc-button');
-    var calc = getCalcContainer();
-    if (!fab || !calc || typeof IntersectionObserver === 'undefined') return;
-
-    // Mark the FAB so the old scroll-based logic in floating-calc-button.js
-    // can detect this and back off. (We also forcefully apply visibility
-    // here every observer fire — last-write-wins.)
-    fab.setAttribute('data-strict-hide', '1');
-
-    function setHidden (hidden) {
-      fab.style.transition = 'opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1), transform 0.45s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.45s';
-      if (hidden) {
-        fab.style.opacity = '0';
-        fab.style.visibility = 'hidden';
-        fab.style.pointerEvents = 'none';
-        fab.style.transform = 'translateY(12px) scale(0.97)';
-      } else {
-        fab.style.opacity = '1';
-        fab.style.visibility = 'visible';
-        fab.style.pointerEvents = 'auto';
-        fab.style.transform = 'translateY(0) scale(1)';
-      }
-    }
-
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        // FAB hides when the calculator is meaningfully on screen.
-        var inView = entry.isIntersecting && entry.intersectionRatio > 0.2;
-        requestAnimationFrame(function () { setHidden(inView); });
-      });
-    }, { root: null, rootMargin: '0px', threshold: [0, 0.1, 0.2, 0.3, 0.5, 0.75, 1] });
-
-    io.observe(calc);
+    syncFabOverlayBodyClasses();
   }
 
   // ---------- Site-wide cleanup bootstrap ----------
