@@ -37,17 +37,20 @@
 
   /** User-facing copy — project estimate, not e-commerce cart. */
   var UI = {
-    fabLabel: 'Estimate',
-    sheetTitle: 'Project Estimate',
-    saveConfig: 'Save Configuration',
-    saveShort: 'Save',
-    saveInline: 'Save to Project Estimate',
+    fabLabel: 'My Estimate',
+    sheetTitle: 'My Project Estimate',
+    viewEstimate: 'View My Project Estimate',
+    saveConfig: 'Save to My Project Estimate',
+    saveSticky: 'Save to My Estimate',
+    saveInline: 'Save to My Project Estimate',
     emptyTitle: 'No configurations saved yet',
-    emptyBody: 'Configure sizes on any product page, then tap <strong>Save Configuration</strong>. Items stay saved as you browse — build one combined project estimate for windows, shower, mirror, pergola &amp; more.',
+    emptyBody: 'Configure sizes on any product page, then tap <strong>Save to My Project Estimate</strong>. Items stay saved as you browse — build one combined estimate for windows, shower, mirror, pergola &amp; more.',
     savedHeading: 'Saved configurations',
     addMore: '+ Add configuration',
-    toastSaved: 'Saved to project estimate.',
-    toastOpenEstimate: 'Open Estimate → Download PDF or WhatsApp.'
+    toastSaved: 'Saved to your project estimate.',
+    toastOpenEstimate: 'Tap <strong>View My Project Estimate</strong> → Download PDF or WhatsApp.',
+    bookSlotLabel: 'Book a Site Visit Slot — ₹1,000 hold',
+    bookSlotNote: 'Optional when you are ready — not required for your PDF estimate. Refundable before production starts.'
   };
 
   var lastTrackedLiveInr = 0;
@@ -1187,9 +1190,13 @@
           totalEl.hidden = true;
         }
       }
-      globalBtn.hidden = false;
+      var hideOnMobileCalc = document.body.classList.contains(BODY_FLAG) &&
+        window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+      globalBtn.hidden = hideOnMobileCalc;
       globalBtn.classList.toggle('has-items', n > 0);
     }
+    var bar = document.getElementById('calcStickyBar');
+    if (bar) updateStickyViewEstimate(bar, readPrice() || '');
   }
   function readLead () {
     try {
@@ -1230,8 +1237,77 @@
     if (add) {
       add.classList.add('calc-sticky-add--cart');
       var span = add.querySelector('span');
-      if (span) span.textContent = UI.saveConfig;
+      if (span) span.textContent = UI.saveSticky;
     }
+  }
+
+  function migrateStickyBarLayout (bar) {
+    if (!bar) return;
+    var exact = bar.querySelector('.calc-sticky-exact');
+    if (exact) exact.remove();
+    if (bar.querySelector('[data-action="open-estimate"]')) return;
+    var info = bar.querySelector('.calc-sticky-info');
+    if (!info) return;
+    var priceEl = info.querySelector('.calc-sticky-price');
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'calc-sticky-view-estimate';
+    btn.setAttribute('data-action', 'open-estimate');
+    btn.setAttribute('title', 'Open your saved project estimate');
+    btn.innerHTML =
+      '<span class="calc-sticky-view-label">' + UI.viewEstimate + '</span>' +
+      '<span class="calc-sticky-view-meta calc-sticky-price is-placeholder">' +
+        escapeHtml(priceEl ? priceEl.textContent : 'Enter sizes to see price') +
+      '</span>';
+    info.replaceWith(btn);
+    var addSpan = bar.querySelector('[data-action="add-to-cart-sticky"] span');
+    if (addSpan) addSpan.textContent = UI.saveSticky;
+  }
+
+  function updateStickyViewEstimate (bar, livePriceText) {
+    if (!bar) return;
+    var viewBtn = bar.querySelector('[data-action="open-estimate"]');
+    if (!viewBtn) return;
+    var labelEl = viewBtn.querySelector('.calc-sticky-view-label');
+    var metaEl = viewBtn.querySelector('.calc-sticky-view-meta');
+    if (labelEl) labelEl.textContent = UI.viewEstimate;
+    if (!metaEl) return;
+    var cart = readCart();
+    var n = cart.length;
+    var grand = cartGrandTotal(cart).exact;
+    if (n > 0) {
+      metaEl.textContent = fmtINR(grand) + ' · ' + n + ' saved';
+      metaEl.classList.remove('is-placeholder');
+    } else if (livePriceText) {
+      metaEl.textContent = livePriceText + ' · this page';
+      metaEl.classList.remove('is-placeholder');
+    } else {
+      metaEl.textContent = 'Nothing saved yet';
+      metaEl.classList.add('is-placeholder');
+    }
+  }
+
+  function bindStickyViewEstimate (bar) {
+    if (!bar) return;
+    migrateStickyBarLayout(bar);
+    var viewBtn = bar.querySelector('[data-action="open-estimate"]');
+    if (!viewBtn || viewBtn._wmViewBound) return;
+    viewBtn._wmViewBound = true;
+    viewBtn.addEventListener('click', function () {
+      openSheet();
+    });
+  }
+
+  function buildBookSlotFooterHtml () {
+    return (
+      '<div class="cart-slot-footer">' +
+        '<p class="cart-slot-footer-note">' + UI.bookSlotNote + '</p>' +
+        '<button type="button" class="cart-action-btn cart-action-btn--slot cart-action-btn--full cart-action-btn--muted" data-cart-action="book-order" data-pay-choice="booking">' +
+          '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
+          '<span>' + UI.bookSlotLabel + '</span>' +
+        '</button>' +
+      '</div>'
+    );
   }
 
   function cleanLabel (txt) {
@@ -2080,43 +2156,29 @@
   // ---------- Sticky bar ----------
   function updateStickyBar (bar) {
     if (!bar) return;
-    var priceEl  = bar.querySelector('.calc-sticky-price');
-    var labelEl  = bar.querySelector('.calc-sticky-label');
-    var exactBtn = bar.querySelector('.calc-sticky-exact');
+    migrateStickyBarLayout(bar);
     var addSticky = bar.querySelector('[data-action="add-to-cart-sticky"]');
     var buySticky = bar.querySelector('[data-action="buy-booking"]');
     var price = readPrice();
     var isGrill = isGrillCalcPage();
+    var livePriceText = price ? (typeof price === 'string' ? price : fmtINR(price)) : '';
 
     if (isGrill) configureGrillStickyBar(bar);
 
     if (price) {
-      priceEl.textContent = price;
-      priceEl.classList.remove(PLACEHOLDER_CLS);
-      if (labelEl) labelEl.textContent = 'Live Total';
-      if (isGrill) {
-        if (exactBtn) exactBtn.hidden = true;
-        if (addSticky) {
-          addSticky.hidden = false;
-          addSticky.classList.add('calc-sticky-add--cart');
-          var addLabel = addSticky.querySelector('span');
-          if (addLabel) addLabel.textContent = UI.saveConfig;
-        }
-        if (buySticky) buySticky.hidden = true;
-      } else {
-        if (exactBtn) exactBtn.hidden = false;
-        if (addSticky) addSticky.hidden = false;
-        if (buySticky) buySticky.hidden = getCalcKind() !== 'catalog';
+      if (addSticky) {
+        addSticky.hidden = false;
+        addSticky.classList.add('calc-sticky-add--cart');
+        var addLabel = addSticky.querySelector('span');
+        if (addLabel) addLabel.textContent = UI.saveSticky;
       }
+      if (buySticky) buySticky.hidden = isGrill || getCalcKind() !== 'catalog';
     } else {
-      priceEl.textContent = 'Enter sizes to see price';
-      priceEl.classList.add(PLACEHOLDER_CLS);
-      if (labelEl) labelEl.textContent = 'Live Estimate';
-      if (exactBtn) exactBtn.hidden = true;
       if (addSticky) addSticky.hidden = true;
       if (buySticky) buySticky.hidden = true;
     }
 
+    updateStickyViewEstimate(bar, livePriceText);
     syncCartBadges();
     trackLiveCalcIfNeeded();
   }
@@ -2223,18 +2285,9 @@
             '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>' +
             '<span>' + escapeHtml(mirrorExact.label) + '</span>' +
           '</button>' +
-        '</div>' +
-        '<button type="button" class="cart-action-btn cart-action-btn--slot cart-action-btn--full" data-cart-action="book-order" data-pay-choice="booking">' +
-          '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
-          '<span>Book a Slot — Pay ₹1,000</span>' +
-        '</button>';
-    } else {
-      html +=
-          '<button type="button" class="cart-action-btn cart-action-btn--slot" data-cart-action="book-order" data-pay-choice="booking">' +
-            '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
-            '<span>Book a Slot — Pay ₹1,000</span>' +
-          '</button>' +
         '</div>';
+    } else {
+      html += '</div>';
     }
 
     html +=
@@ -2349,6 +2402,8 @@
                 : '<strong>₹1,000 booking</strong> returnable before production — balance non-refundable after 3 days once factory starts. ')) +
             'Receipt + timeline emailed to you &amp; WoodenMax. ' +
             '<a href="/policies/gst-transport-policy" target="_blank" rel="noopener">Policy →</a></p>';
+
+    html += buildBookSlotFooterHtml();
 
     body.innerHTML = html;
   }
@@ -3707,7 +3762,7 @@
         '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>' +
         '<span>' + UI.saveInline + '</span>' +
       '</button>' +
-      '<p class="calc-action-note">Same details as Get Exact Price — save each opening, then open Project Estimate for PDF, WhatsApp or email.</p>';
+      '<p class="calc-action-note">Save each configuration to your project estimate, then tap <strong>View My Project Estimate</strong> for PDF, WhatsApp or email.</p>';
     var grillCart = calc.querySelector('#grill-quotation-cart');
     if (grillCart) {
       grillCart.insertAdjacentElement('afterend', row);
@@ -3868,44 +3923,40 @@
     if (!getCalcContainer()) return;
     var existingBar = document.getElementById('calcStickyBar');
     if (existingBar) {
+      migrateStickyBarLayout(existingBar);
       configureGrillStickyBar(existingBar);
+      bindStickyViewEstimate(existingBar);
       injectCalcActionRow();
       return;
     }
 
     var grillPage = isGrillCalcPage();
     var cartSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>';
-    var addLabel = grillPage ? UI.saveConfig : UI.saveShort;
-    var addClass = grillPage ? 'calc-sticky-add calc-sticky-add--cart' : 'calc-sticky-add';
-    var exactBtnHtml = grillPage ? '' :
-      '<button type="button" class="calc-sticky-exact" data-form-open="exact" hidden>' +
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>' +
-        '<span>Get Exact</span>' +
-      '</button>';
 
     var holder = document.createElement('div');
     holder.setAttribute('data-calc-mobile-ux-scaffold', 'sticky');
     holder.innerHTML =
       '<div class="calc-sticky-bar" id="calcStickyBar">' +
         '<div class="calc-sticky-bar-content">' +
-          '<div class="calc-sticky-info">' +
-            '<span class="calc-sticky-label">Live Estimate</span>' +
-            '<span class="calc-sticky-price is-placeholder">Enter sizes to see price</span>' +
-          '</div>' +
+          '<button type="button" class="calc-sticky-view-estimate" data-action="open-estimate" title="Open your saved project estimate">' +
+            '<span class="calc-sticky-view-label">' + UI.viewEstimate + '</span>' +
+            '<span class="calc-sticky-view-meta is-placeholder">Nothing saved yet</span>' +
+          '</button>' +
           (grillPage ? '' :
             '<button type="button" class="calc-sticky-buy" data-action="buy-booking" hidden title="Buy online with Razorpay">' +
               '<span>Buy — ₹1,000</span>' +
             '</button>') +
-          '<button type="button" class="' + addClass + '" data-action="add-to-cart-sticky" hidden title="Save configuration to project estimate">' +
+          '<button type="button" class="calc-sticky-add calc-sticky-add--cart" data-action="add-to-cart-sticky" hidden title="Save to your project estimate">' +
             cartSvg +
-            '<span>' + addLabel + '</span>' +
+            '<span>' + UI.saveSticky + '</span>' +
           '</button>' +
-          exactBtnHtml +
         '</div>' +
       '</div>';
 
     document.body.appendChild(holder);
-    configureGrillStickyBar(document.getElementById('calcStickyBar'));
+    var newBar = document.getElementById('calcStickyBar');
+    configureGrillStickyBar(newBar);
+    bindStickyViewEstimate(newBar);
     injectCalcActionRow();
   }
 
@@ -4122,11 +4173,7 @@
       });
     }
 
-    var exactBtn = bar.querySelector('[data-form-open="exact"]');
-    if (exactBtn && !isGrillCalcPage()) {
-      exactBtn.addEventListener('click', function () { openForm('exact'); });
-    }
-
+    bindStickyViewEstimate(bar);
     configureGrillStickyBar(bar);
 
     if (document.querySelector('[data-grill-calculator]')) {
@@ -4346,7 +4393,7 @@
       if (!cart.length) {
         var added = addCurrentToCart();
         if (!added) {
-          showToast('warn', '<strong>Add sizes first.</strong> Configure the calculator, then tap Save Configuration.');
+          showToast('warn', '<strong>Add sizes first.</strong> Configure the calculator, then tap Save to My Estimate.');
           return;
         }
         syncCartBadges();
