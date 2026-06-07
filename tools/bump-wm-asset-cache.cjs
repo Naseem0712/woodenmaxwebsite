@@ -7,17 +7,25 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const VERSION = process.env.WM_ASSET_V || '20260522';
+const VERSION = process.env.WM_ASSET_V || '20260601';
 const DRY = process.argv.includes('--dry');
 
 const ASSETS = [
   'css/calculator-mobile-ux.css',
+  'css/product-image-gallery.css',
+  'css/product-pages-global.css',
+  'css/site-nav.css',
   'js/analytics.js',
   'js/analytics-events.js',
   'js/calculator-mobile-ux.js',
+  'js/floating-calc-button.js',
   'js/main.js',
   'js/mirror-page-analytics.js',
+  'js/nav-tree.js',
+  'js/product-image-gallery.js',
+  'js/seo-enhancer.js',
   'js/site-footer.js',
+  'js/site-nav.js',
   'js/razorpay-checkout.js',
 ];
 

@@ -15,7 +15,7 @@
   'use strict';
 
   /** Bump after deploy so CDN/browser fetch new cart + payment JS (see _headers). */
-  var WM_ASSET_V = '20260530';
+  var WM_ASSET_V = '20260601';
 
   // ----------------------------------------------------------------------
   //  1. Canonical content (single source of truth)
@@ -380,6 +380,26 @@
     }
   }
 
+  function ensureProductGalleryAssets () {
+    if (!document.querySelector('link[href*="product-image-gallery.css"]')) {
+      var css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = PREFIX + 'css/product-image-gallery.css?v=' + WM_ASSET_V;
+      document.head.appendChild(css);
+    }
+    if (!document.querySelector('script[src*="product-image-gallery.js"]')) {
+      var s = document.createElement('script');
+      s.src = PREFIX + 'js/product-image-gallery.js?v=' + WM_ASSET_V;
+      s.defer = true;
+      s.onload = function () {
+        if (typeof window.wmBootProductGalleries === 'function') window.wmBootProductGalleries();
+      };
+      document.body.appendChild(s);
+    } else if (typeof window.wmBootProductGalleries === 'function') {
+      window.wmBootProductGalleries();
+    }
+  }
+
   function init () {
     purgeLegacyFooter();
 
@@ -390,6 +410,7 @@
     wireNewsletter(footer);
     ensureAnalyticsEvents();
     ensureQuoteCartAssets();
+    ensureProductGalleryAssets();
   }
 
   if (document.readyState === 'loading') {

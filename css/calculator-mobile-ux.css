@@ -160,10 +160,20 @@
 
 .calc-sticky-bar-content {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   gap: 0.6rem;
   max-width: 760px;
   margin: 0 auto;
+  width: 100%;
+}
+
+.calc-sticky-view-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.08rem;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
 .calc-sticky-info {
@@ -177,42 +187,52 @@
 .calc-sticky-view-estimate {
   flex: 1 1 auto;
   min-width: 0;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.12rem;
-  padding: 0.55rem 0.75rem;
-  border: 1px solid #CBD5E1;
-  border-radius: 12px;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
-  color: #0F172A;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding: 0.72rem 0.95rem;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 55%, #2563EB 100%);
+  color: #FFFFFF;
   cursor: pointer;
   text-align: left;
-  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  box-shadow: 0 8px 22px rgba(30, 64, 175, 0.35), inset 0 1px 0 rgba(255,255,255,0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.calc-sticky-view-estimate::after {
+  content: '→';
+  flex: 0 0 auto;
+  font-size: 1.1rem;
+  font-weight: 800;
+  opacity: 0.9;
 }
 
 .calc-sticky-view-estimate:hover,
 .calc-sticky-view-estimate:focus-visible {
-  border-color: #94A3B8;
-  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.1);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(30, 64, 175, 0.42), inset 0 1px 0 rgba(255,255,255,0.16);
+  filter: brightness(1.04);
   outline: none;
 }
 
 .calc-sticky-view-label {
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 800;
-  color: #1E40AF;
+  color: #FFFFFF;
   line-height: 1.2;
+  letter-spacing: 0.01em;
 }
 
 .calc-sticky-view-meta {
-  font-size: 0.92rem;
-  font-weight: 800;
-  color: #0F172A;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.88);
   line-height: 1.15;
-  letter-spacing: -0.01em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -220,9 +240,9 @@
 }
 
 .calc-sticky-view-meta.is-placeholder {
-  font-size: 0.78rem;
+  font-size: 0.76rem;
   font-weight: 600;
-  color: #64748B;
+  color: rgba(255,255,255,0.72);
 }
 
 .calc-sticky-label {
@@ -2419,14 +2439,15 @@ html, body { overflow-x: hidden; }
   bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
   z-index: 9993;
   display: inline-flex;
-  align-items: stretch;
-  max-width: min(92vw, 17.5rem);
+  align-items: center;
+  gap: 0;
+  max-width: min(92vw, 16rem);
   padding: 0;
-  border: 1px solid #CBD5E1;
-  border-radius: 11px;
-  background: #FFFFFF;
-  color: #0F172A;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.16);
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+  color: #FFFFFF;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
   cursor: pointer;
   overflow: hidden;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -2441,13 +2462,13 @@ body.has-calc-sticky-bar .wm-global-quote-cart {
 .wm-quote-cart-total {
   display: inline-flex;
   align-items: center;
-  padding: 0.42rem 0.55rem;
+  padding: 0.55rem 0.65rem;
   font-size: 0.72rem;
   font-weight: 800;
-  color: #0F172A;
+  color: #FFFFFF;
   white-space: nowrap;
-  background: #F8FAFC;
-  border-right: 1px solid #E2E8F0;
+  background: rgba(255,255,255,0.08);
+  border-right: 1px solid rgba(255,255,255,0.12);
   letter-spacing: -0.02em;
 }
 .wm-quote-cart-total[hidden] {
@@ -2456,31 +2477,34 @@ body.has-calc-sticky-bar .wm-global-quote-cart {
 .wm-quote-cart-fab-main {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.42rem 0.55rem;
-  background: #0F172A;
+  gap: 0.35rem;
+  padding: 0.55rem 0.85rem 0.55rem 0.65rem;
+  background: transparent;
   color: #FFFFFF;
 }
 .wm-global-quote-cart-label {
-  font-size: 0.72rem;
-  font-weight: 700;
+  font-size: 0.76rem;
+  font-weight: 800;
   line-height: 1;
+  letter-spacing: 0.01em;
 }
 .wm-global-quote-cart-count {
-  min-width: 1.05rem;
-  height: 1.05rem;
-  padding: 0 0.28rem;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding: 0 0.32rem;
   border-radius: 999px;
   background: #F59E0B;
   color: #0F172A;
-  font-size: 0.62rem;
-  font-weight: 800;
-  line-height: 1.05rem;
+  font-size: 0.65rem;
+  font-weight: 900;
+  line-height: 1.15rem;
   text-align: center;
+  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.35);
 }
 .wm-global-quote-cart:not(.has-items) .wm-global-quote-cart-count {
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.2);
   color: #fff;
+  box-shadow: none;
 }
 @media (max-width: 768px) {
   .wm-global-quote-cart-label { display: none; }

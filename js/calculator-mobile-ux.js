@@ -1255,9 +1255,11 @@
     btn.setAttribute('data-action', 'open-estimate');
     btn.setAttribute('title', 'Open your saved project estimate');
     btn.innerHTML =
-      '<span class="calc-sticky-view-label">' + UI.viewEstimate + '</span>' +
-      '<span class="calc-sticky-view-meta calc-sticky-price is-placeholder">' +
-        escapeHtml(priceEl ? priceEl.textContent : 'Enter sizes to see price') +
+      '<span class="calc-sticky-view-stack">' +
+        '<span class="calc-sticky-view-label">' + UI.viewEstimate + '</span>' +
+        '<span class="calc-sticky-view-meta calc-sticky-price is-placeholder">' +
+          escapeHtml(priceEl ? priceEl.textContent : 'Enter sizes to see price') +
+        '</span>' +
       '</span>';
     info.replaceWith(btn);
     var addSpan = bar.querySelector('[data-action="add-to-cart-sticky"] span');
@@ -3939,8 +3941,10 @@
       '<div class="calc-sticky-bar" id="calcStickyBar">' +
         '<div class="calc-sticky-bar-content">' +
           '<button type="button" class="calc-sticky-view-estimate" data-action="open-estimate" title="Open your saved project estimate">' +
-            '<span class="calc-sticky-view-label">' + UI.viewEstimate + '</span>' +
-            '<span class="calc-sticky-view-meta is-placeholder">Nothing saved yet</span>' +
+            '<span class="calc-sticky-view-stack">' +
+              '<span class="calc-sticky-view-label">' + UI.viewEstimate + '</span>' +
+              '<span class="calc-sticky-view-meta is-placeholder">Nothing saved yet</span>' +
+            '</span>' +
           '</button>' +
           (grillPage ? '' :
             '<button type="button" class="calc-sticky-buy" data-action="buy-booking" hidden title="Buy online with Razorpay">' +

@@ -1,29 +1,19 @@
 /*!
  * js/site-nav.js — single source of truth for the WoodenMax top navigation.
  *
- * What it does (on every page, on DOMContentLoaded):
- *  1. Removes any existing <nav class="navbar">… and any old <header> the page hard-coded.
- *  2. Rebuilds the canonical navbar (logo + categories + utility links + CTA + mobile menu).
- *  3. Wires the category carousel (left / right arrows + smooth scroll + active highlight).
- *  4. Wires the mobile hamburger (slide-down menu).
- *  5. Computes the correct relative prefix from the current pathname so the nav works at
- *     any folder depth (root, /products/grills/, /about/, /policies/, /products/glass-elevation/…).
- *  6. Sets the "active" highlight on whatever silo the current page lives in.
+ * Desktop: logo + category carousel + utility links + CTA.
+ * Mobile:  logo + burger → right-side drawer with hub accordions + all product pages.
  *
- * Result: 130 pages × 16 navbar variants → 130 pages × 1 navbar.
+ * Requires js/nav-tree.js (window.WM_NAV_TREE) loaded before this script.
  */
 (function () {
   'use strict';
 
-  // ----------------------------------------------------------------------
-  //  1. Canonical menu structure (single source of truth)
-  // ----------------------------------------------------------------------
   var BRAND_LOGO   = 'images/woodenmax-logo.webp';
   var BRAND_NAME   = 'WoodenMax';
   var BRAND_PHONE  = '+91 78953 28080';
   var BRAND_HREF_CONTACT = 'contact';
 
-  // Each category links to its hub (clean URLs; _redirects handles legacy .html).
   var CATEGORIES = [
     { slug: 'aluminium-windows',  label: 'Aluminium',  href: 'products/aluminium-windows' },
     { slug: 'telescope-windows',  label: 'Telescope',  href: 'products/telescope-windows' },
@@ -38,7 +28,6 @@
     { slug: 'grills',             label: 'Grills',     href: 'products/grills'            }
   ];
 
-  // Right-side utility links — same on every page.
   var UTILITY = [
     { label: 'Calculators', href: 'calculators',                  cls: 'nav-link-secondary' },
     { label: 'Blog',        href: 'blog',                         cls: 'nav-link-secondary' },
@@ -46,15 +35,11 @@
     { label: 'Case studies',href: 'about/case-study-makobrew-jubilee-hills', cls: 'nav-link-secondary' }
   ];
 
-  // ----------------------------------------------------------------------
-  //  2. Path utility — compute the right "../" prefix for current page
-  // ----------------------------------------------------------------------
+  var NAV_TREE = window.WM_NAV_TREE || null;
+
   function computePrefix () {
-    // On http(s) we have a real path. On file:// we still have a path.
     var pathname = window.location.pathname.replace(/\\/g, '/');
-    // Strip leading slash
     var parts = pathname.replace(/^\/+/, '').split('/').filter(Boolean);
-    // Last segment is the file if it has an extension; otherwise it's a dir.
     var last = parts[parts.length - 1] || '';
     var depth = (last && last.indexOf('.') !== -1) ? parts.length - 1 : parts.length;
     if (depth < 0) depth = 0;
@@ -69,9 +54,28 @@
 
   var PREFIX = computePrefix();
 
-  // ----------------------------------------------------------------------
-  //  3. Determine the "active" category from the current URL
-  // ----------------------------------------------------------------------
+  function normPath (p) {
+    return String(p || '')
+      .replace(/\\/g, '/')
+      .replace(/^\/+/, '')
+      .replace(/\.html$/i, '')
+      .replace(/\/+$/, '')
+      .toLowerCase();
+  }
+
+  function currentPagePath () {
+    return normPath(window.location.pathname);
+  }
+
+  function isActiveHref (href) {
+    var target = normPath(href);
+    var cur = currentPagePath();
+    if (!target) return false;
+    if (cur === target) return true;
+    if (cur.indexOf(target + '/') === 0) return false;
+    return false;
+  }
+
   function detectActiveSlug () {
     var path = window.location.pathname.toLowerCase();
     for (var i = 0; i < CATEGORIES.length; i++) {
@@ -80,9 +84,75 @@
     return null;
   }
 
-  // ----------------------------------------------------------------------
-  //  4. Build the navbar HTML
-  // ----------------------------------------------------------------------
+  function hubHasActiveChild (hub) {
+    if (!hub || !hub.children) return false;
+    for (var i = 0; i < hub.children.length; i++) {
+      if (isActiveHref(hub.children[i].href)) return true;
+    }
+    return false;
+  }
+
+  function buildMobileDrawerHtml (activeSlug) {
+    var hubs = (NAV_TREE && NAV_TREE.hubs) ? NAV_TREE.hubs : CATEGORIES.map(function (c) {
+      return { slug: c.slug, label: c.label, href: c.href, children: [{ label: c.label, href: c.href }] };
+    });
+    var siteLinks = (NAV_TREE && NAV_TREE.site) ? NAV_TREE.site : UTILITY.concat([
+      { label: 'Warranty', href: 'policies/warranty-policy' },
+      { label: 'GST & Transport', href: 'policies/gst-transport-policy' }
+    ]);
+
+    var hubHtml = hubs.map(function (hub) {
+      var expanded = hub.slug === activeSlug || hubHasActiveChild(hub);
+      var panelId = 'wmHubPanel-' + hub.slug;
+      var children = (hub.children || []).map(function (child) {
+        var activeCls = isActiveHref(child.href) ? ' is-active' : '';
+        return '<a class="wm-drawer-link' + activeCls + '" href="' + abs(child.href) + '">' + child.label + '</a>';
+      }).join('');
+
+      return (
+        '<div class="wm-drawer-hub' + (expanded ? ' is-open' : '') + '" data-slug="' + hub.slug + '">' +
+          '<button type="button" class="wm-drawer-hub-toggle" aria-expanded="' + (expanded ? 'true' : 'false') + '" aria-controls="' + panelId + '">' +
+            '<span class="wm-drawer-hub-label">' + hub.label + '</span>' +
+            '<svg class="wm-drawer-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+          '</button>' +
+          '<div class="wm-drawer-hub-panel" id="' + panelId + '"' + (expanded ? '' : ' hidden') + '>' + children + '</div>' +
+        '</div>'
+      );
+    }).join('');
+
+    var siteHtml = siteLinks.map(function (link) {
+      var activeCls = isActiveHref(link.href) ? ' is-active' : '';
+      return '<a class="wm-drawer-link wm-drawer-link--site' + activeCls + '" href="' + abs(link.href) + '">' + link.label + '</a>';
+    }).join('');
+
+    return (
+      '<div class="wm-drawer-backdrop" id="wmDrawerBackdrop" hidden aria-hidden="true"></div>' +
+      '<aside class="wm-drawer" id="wmMobileDrawer" hidden aria-hidden="true" aria-label="Site menu">' +
+        '<div class="wm-drawer-head">' +
+          '<div class="wm-drawer-head-text">' +
+            '<span class="wm-drawer-kicker">WoodenMax</span>' +
+            '<span class="wm-drawer-title">Browse products</span>' +
+          '</div>' +
+          '<button type="button" class="wm-drawer-close" id="wmDrawerClose" aria-label="Close menu">' +
+            '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>' +
+          '</button>' +
+        '</div>' +
+        '<div class="wm-drawer-scroll">' +
+          '<div class="wm-drawer-section">' +
+            '<div class="wm-drawer-heading">Product categories</div>' +
+            '<div class="wm-drawer-accordions">' + hubHtml + '</div>' +
+          '</div>' +
+          '<div class="wm-drawer-section">' +
+            '<div class="wm-drawer-heading">Site pages</div>' +
+            siteHtml +
+          '</div>' +
+          '<a class="wm-drawer-cta" href="' + abs(BRAND_HREF_CONTACT) + '?intent=site-visit&amp;source=nav-mobile">Get free quote</a>' +
+          '<a class="wm-drawer-call" href="tel:+917895328080">' + BRAND_PHONE + '</a>' +
+        '</div>' +
+      '</aside>'
+    );
+  }
+
   function buildHtml () {
     var activeSlug = detectActiveSlug();
 
@@ -120,118 +190,129 @@
             ' Get free quote' +
           '</a>' +
 
-          '<button type="button" class="wm-burger" id="wmBurger" aria-label="Open menu" aria-expanded="false">' +
+          '<button type="button" class="wm-burger" id="wmBurger" aria-label="Open menu" aria-expanded="false" aria-controls="wmMobileDrawer">' +
             '<svg id="wmBurgerOpen"  width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg>' +
             '<svg id="wmBurgerClose" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>' +
           '</button>' +
         '</div>' +
-
-        '<div class="wm-mobile-menu" id="wmMobileMenu" hidden>' +
-          '<div class="wm-mobile-section">' +
-            '<div class="wm-mobile-heading">Products</div>' +
-            CATEGORIES.map(function (c) {
-              var activeCls = (c.slug === activeSlug) ? ' is-active' : '';
-              return '<a class="wm-mobile-link' + activeCls + '" href="' + abs(c.href) + '">' + c.label + '</a>';
-            }).join('') +
-          '</div>' +
-          '<div class="wm-mobile-section">' +
-            '<div class="wm-mobile-heading">More</div>' +
-            UTILITY.map(function (u) {
-              return '<a class="wm-mobile-link" href="' + abs(u.href) + '">' + u.label + '</a>';
-            }).join('') +
-            '<a class="wm-mobile-link" href="' + abs('policies/warranty-policy') + '">Warranty</a>' +
-            '<a class="wm-mobile-link" href="' + abs('policies/gst-transport-policy') + '">GST &amp; Transport</a>' +
-          '</div>' +
-          '<a class="wm-mobile-cta" href="' + abs(BRAND_HREF_CONTACT) + '?intent=site-visit&amp;source=nav-mobile">Get free quote &rarr;</a>' +
-          '<a class="wm-mobile-call" href="tel:+917895328080">' + BRAND_PHONE + '</a>' +
-        '</div>' +
-      '</nav>'
+      '</nav>' +
+      buildMobileDrawerHtml(activeSlug)
     );
   }
 
-  // ----------------------------------------------------------------------
-  //  5. Remove any legacy navbar(s)
-  // ----------------------------------------------------------------------
   function purgeLegacyNav () {
-    // Remove the old `<nav class="navbar">` (any variant) and any hard-coded site header.
     var legacy = document.querySelectorAll(
-      'nav.navbar, header.site-header, .wm-navbar, .floating-calc-button-old, .cluster-breadcrumb + nav.navbar'
+      'nav.navbar, header.site-header, .wm-navbar, .wm-drawer, .wm-drawer-backdrop, ' +
+      '#mobileMenu, .mobile-menu, #mobileToggle, .mobile-toggle, .mobile-menu-overlay'
     );
     legacy.forEach(function (n) { n.parentNode && n.parentNode.removeChild(n); });
   }
 
-  // ----------------------------------------------------------------------
-  //  6. Wire interactivity (carousel arrows + mobile menu)
-  // ----------------------------------------------------------------------
+  function setDrawerOpen (open, root) {
+    var drawer = root.querySelector('#wmMobileDrawer');
+    var backdrop = root.querySelector('#wmDrawerBackdrop');
+    var burger = root.querySelector('#wmBurger');
+    var openIcon = root.querySelector('#wmBurgerOpen');
+    var closeIcon = root.querySelector('#wmBurgerClose');
+    if (!drawer || !backdrop || !burger) return;
+
+    if (open) {
+      drawer.removeAttribute('hidden');
+      drawer.setAttribute('aria-hidden', 'false');
+      backdrop.removeAttribute('hidden');
+      backdrop.setAttribute('aria-hidden', 'false');
+      burger.setAttribute('aria-expanded', 'true');
+      openIcon.style.display = 'none';
+      closeIcon.style.display = '';
+      document.body.classList.add('wm-nav-open');
+      requestAnimationFrame(function () {
+        drawer.classList.add('is-visible');
+        backdrop.classList.add('is-visible');
+      });
+    } else {
+      drawer.classList.remove('is-visible');
+      backdrop.classList.remove('is-visible');
+      burger.setAttribute('aria-expanded', 'false');
+      openIcon.style.display = '';
+      closeIcon.style.display = 'none';
+      document.body.classList.remove('wm-nav-open');
+      window.setTimeout(function () {
+        if (!drawer.classList.contains('is-visible')) {
+          drawer.setAttribute('hidden', '');
+          drawer.setAttribute('aria-hidden', 'true');
+          backdrop.setAttribute('hidden', '');
+          backdrop.setAttribute('aria-hidden', 'true');
+        }
+      }, 280);
+    }
+  }
+
   function wireInteractivity (root) {
     var cats   = root.querySelector('#wmCats');
     var prev   = root.querySelector('#wmCatPrev');
     var next   = root.querySelector('#wmCatNext');
     var burger = root.querySelector('#wmBurger');
-    var menu   = root.querySelector('#wmMobileMenu');
-    var openIcon  = root.querySelector('#wmBurgerOpen');
-    var closeIcon = root.querySelector('#wmBurgerClose');
+    var drawer = root.querySelector('#wmMobileDrawer');
+    var backdrop = root.querySelector('#wmDrawerBackdrop');
+    var closeBtn = root.querySelector('#wmDrawerClose');
 
     if (cats && prev && next) {
       function step (dir) {
-        var w = cats.clientWidth * 0.66;
-        cats.scrollBy({ left: dir * w, behavior: 'smooth' });
+        cats.scrollBy({ left: dir * cats.clientWidth * 0.66, behavior: 'smooth' });
       }
       prev.addEventListener('click', function () { step(-1); });
       next.addEventListener('click', function () { step(1);  });
       function updateArrowVisibility () {
-        var atStart = cats.scrollLeft <= 4;
-        var atEnd   = cats.scrollLeft + cats.clientWidth >= cats.scrollWidth - 4;
-        prev.disabled = atStart;
-        next.disabled = atEnd;
+        prev.disabled = cats.scrollLeft <= 4;
+        next.disabled = cats.scrollLeft + cats.clientWidth >= cats.scrollWidth - 4;
       }
       cats.addEventListener('scroll', updateArrowVisibility, { passive: true });
       window.addEventListener('resize', updateArrowVisibility);
       updateArrowVisibility();
-
-      // Scroll active item into view on load
       var activeItem = cats.querySelector('.cat-item.active');
       if (activeItem) {
-        var offset = activeItem.offsetLeft - (cats.clientWidth / 2) + (activeItem.clientWidth / 2);
-        cats.scrollLeft = Math.max(0, offset);
+        cats.scrollLeft = Math.max(0, activeItem.offsetLeft - (cats.clientWidth / 2) + (activeItem.clientWidth / 2));
         setTimeout(updateArrowVisibility, 50);
       }
     }
 
-    if (burger && menu) {
+    function closeDrawer () { setDrawerOpen(false, root); }
+    function openDrawer () { setDrawerOpen(true, root); }
+
+    if (burger && drawer) {
       burger.addEventListener('click', function () {
-        var open = !menu.hasAttribute('hidden');
-        if (open) {
-          menu.setAttribute('hidden', '');
-          burger.setAttribute('aria-expanded', 'false');
-          openIcon.style.display = '';
-          closeIcon.style.display = 'none';
-          document.body.classList.remove('wm-nav-open');
-        } else {
-          menu.removeAttribute('hidden');
-          burger.setAttribute('aria-expanded', 'true');
-          openIcon.style.display = 'none';
-          closeIcon.style.display = '';
-          document.body.classList.add('wm-nav-open');
-        }
+        if (drawer.hasAttribute('hidden') || !drawer.classList.contains('is-visible')) openDrawer();
+        else closeDrawer();
       });
-      menu.querySelectorAll('a').forEach(function (a) {
-        a.addEventListener('click', function () {
-          menu.setAttribute('hidden', '');
-          burger.setAttribute('aria-expanded', 'false');
-          openIcon.style.display = '';
-          closeIcon.style.display = 'none';
-          document.body.classList.remove('wm-nav-open');
+    }
+    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+    if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && document.body.classList.contains('wm-nav-open')) closeDrawer();
+    });
+
+    if (drawer) {
+      drawer.querySelectorAll('.wm-drawer-hub-toggle').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var hub = btn.closest('.wm-drawer-hub');
+          var panel = hub && hub.querySelector('.wm-drawer-hub-panel');
+          if (!hub || !panel) return;
+          var open = hub.classList.toggle('is-open');
+          btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+          if (open) panel.removeAttribute('hidden');
+          else panel.setAttribute('hidden', '');
         });
+      });
+
+      drawer.querySelectorAll('a').forEach(function (a) {
+        a.addEventListener('click', closeDrawer);
       });
     }
   }
 
-  // ----------------------------------------------------------------------
-  //  7. Boot
-  // ----------------------------------------------------------------------
   function init () {
-    if (document.getElementById('wmNavbar')) return; // safety
+    if (document.getElementById('wmNavbar')) return;
     purgeLegacyNav();
 
     var skel = document.getElementById('wmNavSkel');
@@ -239,20 +320,15 @@
 
     var holder = document.createElement('div');
     holder.innerHTML = buildHtml();
-    var nav = holder.firstChild;
-
-    // Insert at the very top of <body>
-    if (document.body.firstChild) {
-      document.body.insertBefore(nav, document.body.firstChild);
-    } else {
-      document.body.appendChild(nav);
+    while (holder.firstChild) {
+      if (document.body.firstChild) document.body.insertBefore(holder.firstChild, document.body.firstChild);
+      else document.body.appendChild(holder.firstChild);
     }
 
-    // Reserve scroll padding so anchor jumps don't hide under the sticky nav
     document.documentElement.style.scrollPaddingTop = '76px';
     document.body.classList.add('has-wm-navbar');
 
-    wireInteractivity(nav);
+    wireInteractivity(document.body);
   }
 
   if (document.readyState === 'loading') {

@@ -511,8 +511,7 @@
     var monthYear = new Date().toLocaleString('en-IN', { month: 'short', year: 'numeric' });
     strip.innerHTML =
       '<div class="wm-verified-inner">' +
-        '<span class="wm-verified-pill"> Verified by ' + BRAND.name + ' &middot; <strong>Updated ' + monthYear + '</strong></span>' +
-        '<span class="wm-verified-meta">ISO 9001 &middot; Qualicoat Class 2 &middot; GST 18% extra &middot; Free transport on &#8377;15L+ orders within 1,000 km</span>' +
+        '<span class="wm-verified-pill">Last updated <strong>' + monthYear + '</strong></span>' +
       '</div>';
     document.body.appendChild(strip);
   }
@@ -560,13 +559,12 @@
   function injectDeepSeoCss () {
     if (document.getElementById('wm-deep-seo-css')) return;
     var css =
-      '.wm-verified-strip{position:fixed;bottom:0;left:0;right:0;z-index:90;background:linear-gradient(90deg,#064e3b,#047857);color:#FFF;padding:0.4rem 0.75rem;font-family:"Inter",sans-serif;font-size:0.78rem;font-weight:600;text-align:center;box-shadow:0 -2px 10px rgba(0,0,0,0.15);display:flex;justify-content:center;pointer-events:none;}' +
-      '.wm-verified-inner{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:0.75rem;max-width:1280px;width:100%;}' +
-      '.wm-verified-pill{display:inline-flex;align-items:center;gap:0.4rem;background:rgba(255,255,255,0.15);padding:0.3rem 0.75rem;border-radius:999px;}' +
-      '.wm-vdot{width:8px;height:8px;background:#10F2A0;border-radius:50%;box-shadow:0 0 0 3px rgba(16,242,160,0.25);animation:wmPulse 1.6s ease-in-out infinite;}' +
-      '.wm-verified-meta{opacity:0.92;font-weight:500;font-size:0.74rem;}' +
-      '@keyframes wmPulse{0%,100%{opacity:1}50%{opacity:0.55}}' +
-      '@media (max-width:720px){.wm-verified-meta{display:none}.wm-verified-strip{font-size:0.72rem;padding:0.35rem 0.5rem;}}' +
+      '.wm-verified-strip{position:fixed;bottom:0;left:0;right:0;z-index:90;background:rgba(15,23,42,0.92);color:#E2E8F0;padding:0.35rem 0.75rem;font-family:"Inter",sans-serif;font-size:0.74rem;font-weight:600;text-align:center;box-shadow:0 -2px 10px rgba(0,0,0,0.12);display:flex;justify-content:center;pointer-events:none;}' +
+      '.wm-verified-inner{display:flex;align-items:center;justify-content:center;max-width:1280px;width:100%;}' +
+      '.wm-verified-pill{display:inline-flex;align-items:center;gap:0.35rem;padding:0.2rem 0.65rem;border-radius:999px;color:#CBD5E1;}' +
+      '.wm-verified-pill strong{color:#F8FAFC;font-weight:700;}' +
+      '.cluster-final-trust{display:none!important;}' +
+      '@media (max-width:720px){.wm-verified-strip{font-size:0.7rem;padding:0.3rem 0.5rem;}}' +
       '.wm-auto-related{background:#F8FAFC;border-top:1px solid #E2E8F0;padding:2.5rem 0;margin-top:2rem;}' +
       '.wm-auto-related-title{font-family:"Playfair Display",serif;font-size:1.4rem;color:#0F172A;margin:0 0 1rem;}' +
       '.wm-auto-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.85rem;}' +

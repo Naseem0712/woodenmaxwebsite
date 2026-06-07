@@ -21,11 +21,13 @@ const ROOT = path.resolve(__dirname, '..');
 const DRY  = process.argv.includes('--dry');
 
 // All site-chrome assets that should land on every page.
+// JS order: footer → site-nav → nav-tree so final DOM order is nav-tree, site-nav, site-footer.
 const ASSETS = [
   { kind: 'css', file: 'css/site-nav.css'    },
   { kind: 'css', file: 'css/site-footer.css' },
+  { kind: 'js',  file: 'js/site-footer.js'   },
   { kind: 'js',  file: 'js/site-nav.js'      },
-  { kind: 'js',  file: 'js/site-footer.js'   }
+  { kind: 'js',  file: 'js/nav-tree.js'      }
 ];
 
 const SKIP = new Set([
@@ -68,6 +70,12 @@ function processFile (htmlAbs) {
         html = html.replace(/<\/head>/i, '  ' + tag + '\n</head>');
         added++;
       }
+    } else if (a.file === 'js/nav-tree.js' && /<script[^>]+src="[^"]*site-nav\.js"/i.test(html)) {
+      html = html.replace(
+        /(<script[^>]+src="[^"]*site-nav\.js"[^>]*>\s*<\/script>)/i,
+        tag + '\n  $1'
+      );
+      added++;
     } else {
       if (/<\/body>/i.test(html)) {
         html = html.replace(/<\/body>/i, '  ' + tag + '\n</body>');
