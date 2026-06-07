@@ -402,3 +402,6 @@ http://www.woodenmax.in/* https://woodenmax.in/:splat 301
 /return-policy.html /return-policy 301
 /return-policy.html/ /return-policy 301
 # END AUTO: .html → clean URL
+
+/products/pergola.html /products/pergola 301
+/products/pergola.html/ /products/pergola 301

@@ -151,10 +151,14 @@
     {
       "slug": "pergola",
       "label": "Pergolas",
-      "href": "products/pergola/aluminium-pergola",
+      "href": "products/pergola",
       "children": [
         {
           "label": "All Pergolas",
+          "href": "products/pergola"
+        },
+        {
+          "label": "Aluminium Pergola",
           "href": "products/pergola/aluminium-pergola"
         },
         {

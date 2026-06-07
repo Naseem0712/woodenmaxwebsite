@@ -1,0 +1,183 @@
+/**
+ * Fix pergola category: breadcrumbs, hub links, create products/pergola.html
+ * Run: node tools/fix-pergola-category.cjs
+ */
+const fs = require('fs');
+const path = require('path');
+
+const ROOT = path.resolve(__dirname, '..');
+const PERGOLA_DIR = path.join(ROOT, 'products/pergola');
+const PERGOLA_PAGES = [
+  'aluminium-pergola.html',
+  'glass-skylight.html',
+  'profile-pergola.html',
+  'profile-iron-canopy.html',
+  'retractable-pergola.html'
+];
+
+function fixPergolaPage (file) {
+  let html = fs.readFileSync(file, 'utf8');
+  var before = html;
+
+  html = html.replace(
+    /"name":"Louvers","item":"https:\/\/woodenmax\.in\/products\/metal-louvers"/g,
+    '"name":"Pergolas","item":"https://woodenmax.in/products/pergola"'
+  );
+  html = html.replace(
+    /<a href="\.\.\/metal-louvers">Louvers<\/a>/g,
+    '<a href="../pergola">Pergolas</a>'
+  );
+  html = html.replace(
+    /<strong>WoodenMax Louvers<\/strong> \(category hub\): terrace pergolas are catalogued with our metal louvers line — open the[\s\S]*?<a href="\.\.\/metal-louvers" style="color: #1e40af; font-weight: 600;">metal louvers hub<\/a>/g,
+    '<strong>WoodenMax Pergolas</strong> (category hub): browse all terrace pergola types with live calculators — open the <a href="../pergola" style="color: #1e40af; font-weight: 600;">pergola hub</a>'
+  );
+
+  if (html !== before) {
+    fs.writeFileSync(file, html, 'utf8');
+    return true;
+  }
+  return false;
+}
+
+function buildPergolaHub () {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H3574PEDBK"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-H3574PEDBK');</script>
+  <script defer src="../js/analytics.js?v=20260601"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aluminium Pergola Price India (2026) | Terrace, Glass Roof, Motorized &amp; Canopy — Hub | WoodenMax</title>
+  <meta name="description" content="Pergola price hub India 2026 — fixed glass-roof aluminium pergola, profile louver pergola, glass skylight, motorized retractable roof and iron canopy. Live ₹/sqft calculators on every page." />
+  <link rel="canonical" href="https://woodenmax.in/products/pergola" />
+  <meta property="og:title" content="Aluminium Pergola Price India 2026 | WoodenMax Hub" />
+  <meta property="og:description" content="Terrace pergolas, glass roofs, motorized retractable systems and canopies — compare types and open live calculators." />
+  <meta property="og:url" content="https://woodenmax.in/products/pergola" />
+  <meta property="og:image" content="https://woodenmax.in/images/products/aluminium-pergola/glass-pergola-manufacturer.webp" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Aluminium Pergolas & Glass Roof Structures — WoodenMax Hub","url":"https://woodenmax.in/products/pergola","mainEntity":{"@type":"ItemList","itemListElement":[{"@type":"ListItem","position":1,"name":"Glass-roof aluminium pergola","url":"https://woodenmax.in/products/pergola/aluminium-pergola"},{"@type":"ListItem","position":2,"name":"Profile louver pergola","url":"https://woodenmax.in/products/pergola/profile-pergola"},{"@type":"ListItem","position":3,"name":"Glass skylight & top light","url":"https://woodenmax.in/products/pergola/glass-skylight"},{"@type":"ListItem","position":4,"name":"Motorized retractable pergola","url":"https://woodenmax.in/products/pergola/retractable-pergola"},{"@type":"ListItem","position":5,"name":"Iron & profile canopy","url":"https://woodenmax.in/products/pergola/profile-iron-canopy"}]}}</script>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/product-pages-global.css?v=20260601">
+  <link rel="stylesheet" href="../css/site-nav.css?v=20260601">
+  <link rel="stylesheet" href="../css/site-footer.css">
+</head>
+<body>
+  <div style="padding:6rem 0 1rem;background:#F3F4F6;">
+    <div class="container">
+      <nav style="font-size:0.875rem;color:#475569;" aria-label="Breadcrumb">
+        <a href="../index">Home</a> / <a href="../catalog">Catalog</a> / <span style="color:#1E40AF;font-weight:500;">Pergolas</span>
+      </nav>
+    </div>
+  </div>
+
+  <section class="page-header" style="padding-top:2rem;">
+    <div class="page-header-bg" style="background-image:url('../images/products/aluminium-pergola/glass-pergola-manufacturer.webp');"></div>
+    <div class="page-header-overlay"></div>
+    <div class="page-header-content">
+      <span class="section-label">Outdoor Structures</span>
+      <h1>Aluminium Pergola &amp; Glass Roof Price Hub</h1>
+      <p>Terrace pergolas, glass skylights, motorized retractable roofs and entrance canopies — each with a live ₹/sqft calculator. Pick your type below.</p>
+    </div>
+  </section>
+
+  <section class="container" style="padding:2.5rem 1rem 3rem;">
+    <h2 style="font-family:'Playfair Display',serif;font-size:1.6rem;color:#0f172a;margin-bottom:1.25rem;">All pergola systems</h2>
+    <div class="product-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;">
+      <a href="pergola/aluminium-pergola" class="product-card" style="text-decoration:none;color:inherit;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;">
+        <img loading="lazy" src="../images/products/aluminium-pergola/glass-pergola-manufacturer.webp" alt="Glass roof aluminium pergola" style="width:100%;height:180px;object-fit:cover;">
+        <div style="padding:1rem;"><strong style="color:#1e40af;">Glass-roof aluminium pergola</strong><p style="margin:0.35rem 0 0;font-size:0.88rem;color:#64748b;">Fixed terrace structure — glass or polycarbonate roof</p></div>
+      </a>
+      <a href="pergola/profile-pergola" class="product-card" style="text-decoration:none;color:inherit;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;">
+        <img loading="lazy" src="../images/products/profile-pergola/aluminium-pergola-hyderabad.webp" alt="Profile louver pergola" style="width:100%;height:180px;object-fit:cover;">
+        <div style="padding:1rem;"><strong style="color:#1e40af;">Profile / louver pergola</strong><p style="margin:0.35rem 0 0;font-size:0.88rem;color:#64748b;">Slim aluminium grid — filtered sun, cafés &amp; villas</p></div>
+      </a>
+      <a href="pergola/glass-skylight" class="product-card" style="text-decoration:none;color:inherit;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;">
+        <img loading="lazy" src="../images/products/skylight/automatic-roof-system-manufacturer.webp" alt="Glass skylight pergola" style="width:100%;height:180px;object-fit:cover;">
+        <div style="padding:1rem;"><strong style="color:#1e40af;">Glass skylight &amp; top light</strong><p style="margin:0.35rem 0 0;font-size:0.88rem;color:#64748b;">Atrium roofs, stair cores, daylight strips</p></div>
+      </a>
+      <a href="pergola/retractable-pergola" class="product-card" style="text-decoration:none;color:inherit;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;">
+        <img loading="lazy" src="../images/products/retractble-pergola/automatic-pergola.webp" alt="Motorized retractable pergola" style="width:100%;height:180px;object-fit:cover;">
+        <div style="padding:1rem;"><strong style="color:#1e40af;">Motorized retractable pergola</strong><p style="margin:0.35rem 0 0;font-size:0.88rem;color:#64748b;">Sliding louver roof — rain &amp; wind sensors</p></div>
+      </a>
+      <a href="pergola/profile-iron-canopy" class="product-card" style="text-decoration:none;color:inherit;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;background:#fff;">
+        <img loading="lazy" src="../images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india.webp" alt="Iron canopy pergola" style="width:100%;height:180px;object-fit:cover;">
+        <div style="padding:1rem;"><strong style="color:#1e40af;">Iron / MS canopy</strong><p style="margin:0.35rem 0 0;font-size:0.88rem;color:#64748b;">Entrance, parking &amp; long-span canopies</p></div>
+      </a>
+    </div>
+    <p style="margin-top:2rem;color:#64748b;font-size:0.92rem;">Also see <a href="metal-louvers" style="color:#1e40af;">architectural metal louvers</a> for elevation &amp; ceiling rafters (separate category).</p>
+  </section>
+
+  <script src="../js/nav-tree.js?v=20260601" defer></script>
+  <script src="../js/site-nav.js?v=20260601" defer></script>
+  <script src="../js/site-footer.js?v=20260601" defer></script>
+</body>
+</html>
+`;
+}
+
+// Fix pergola product pages
+var n = 0;
+PERGOLA_PAGES.forEach(function (name) {
+  var f = path.join(PERGOLA_DIR, name);
+  if (fs.existsSync(f) && fixPergolaPage(f)) {
+    console.log('Fixed', name);
+    n++;
+  }
+});
+
+// Write hub page
+var hubPath = path.join(ROOT, 'products/pergola.html');
+fs.writeFileSync(hubPath, buildPergolaHub(), 'utf8');
+console.log('Wrote products/pergola.html');
+
+// Update nav sources
+var navJs = fs.readFileSync(path.join(ROOT, 'js/site-nav.js'), 'utf8');
+navJs = navJs.replace(
+  "{ slug: 'pergola',            label: 'Pergola',    href: 'products/pergola/aluminium-pergola' }",
+  "{ slug: 'pergola',            label: 'Pergola',    href: 'products/pergola' }"
+);
+fs.writeFileSync(path.join(ROOT, 'js/site-nav.js'), navJs, 'utf8');
+
+var footerJs = fs.readFileSync(path.join(ROOT, 'js/site-footer.js'), 'utf8');
+footerJs = footerJs.replace(
+  "{ label: 'Pergola',            href: 'products/pergola/aluminium-pergola' }",
+  "{ label: 'Pergola',            href: 'products/pergola' }"
+);
+fs.writeFileSync(path.join(ROOT, 'js/site-footer.js'), footerJs, 'utf8');
+
+var genTree = fs.readFileSync(path.join(ROOT, 'tools/generate-nav-tree.cjs'), 'utf8');
+genTree = genTree.replace(
+  "{ slug: 'pergola', label: 'Pergolas', href: 'products/pergola/aluminium-pergola' }",
+  "{ slug: 'pergola', label: 'Pergolas', href: 'products/pergola' }"
+);
+fs.writeFileSync(path.join(ROOT, 'tools/generate-nav-tree.cjs'), genTree, 'utf8');
+
+// Catalog category tag
+var catalog = fs.readFileSync(path.join(ROOT, 'catalog.html'), 'utf8');
+catalog = catalog.replace(
+  '<a href="products/pergola/aluminium-pergola" class="product-card" data-category="metal-louvers">',
+  '<a href="products/pergola" class="product-card" data-category="pergola">'
+);
+fs.writeFileSync(path.join(ROOT, 'catalog.html'), catalog, 'utf8');
+
+// Metal louvers schema — remove pergola items from louver list
+var louvers = fs.readFileSync(path.join(ROOT, 'products/metal-louvers.html'), 'utf8');
+louvers = louvers.replace(
+  /,\s*\{"@type": "ListItem", "position": 5, "name": "Glass roof aluminium pergola"[\s\S]*?"position": 9, "name": "Profile & iron canopy", "url": "https:\/\/woodenmax\.in\/products\/pergola\/profile-iron-canopy"\}/,
+  ''
+);
+louvers = louvers.replace(
+  '<a href="./pergola/aluminium-pergola" style="color: #1e40af; font-weight: 600;">glass-roof pergola</a>',
+  '<a href="./pergola" style="color: #1e40af; font-weight: 600;">pergola hub</a>'
+);
+fs.writeFileSync(path.join(ROOT, 'products/metal-louvers.html'), louvers, 'utf8');
+
+// Redirects
+var redirects = fs.readFileSync(path.join(ROOT, '_redirects'), 'utf8');
+if (!redirects.includes('/products/pergola.html ')) {
+  redirects += '\n/products/pergola.html /products/pergola 301\n/products/pergola.html/ /products/pergola 301\n';
+  fs.writeFileSync(path.join(ROOT, '_redirects'), redirects, 'utf8');
+  console.log('Added _redirects for /products/pergola');
+}
+
+console.log('Done — fixed', n, 'pergola pages');

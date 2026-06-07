@@ -64,7 +64,7 @@
         { label: 'Aluminium Windows',  href: 'products/aluminium-windows'   },
         { label: 'Telescope Windows',  href: 'products/telescope-windows'   },
         { label: 'Folding Systems',    href: 'products/folding-systems'     },
-        { label: 'Pergola',            href: 'products/pergola/aluminium-pergola' },
+        { label: 'Pergola',            href: 'products/pergola' },
         { label: 'Metal Louvers',      href: 'products/metal-louvers'       },
         { label: 'Mirror Profiles',    href: 'products/mirror-profiles/'         },
         { label: 'Shower Partitions',  href: 'products/shower-partitions'   },

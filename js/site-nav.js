@@ -18,7 +18,7 @@
     { slug: 'aluminium-windows',  label: 'Aluminium',  href: 'products/aluminium-windows' },
     { slug: 'telescope-windows',  label: 'Telescope',  href: 'products/telescope-windows' },
     { slug: 'folding-systems',    label: 'Folding',    href: 'products/folding-systems'   },
-    { slug: 'pergola',            label: 'Pergola',    href: 'products/pergola/aluminium-pergola' },
+    { slug: 'pergola',            label: 'Pergola',    href: 'products/pergola' },
     { slug: 'metal-louvers',      label: 'Louvers',    href: 'products/metal-louvers'     },
     { slug: 'mirror-profiles',    label: 'Mirrors',    href: 'products/mirror-profiles/'       },
     { slug: 'shower-partitions',  label: 'Shower',     href: 'products/shower-partitions' },

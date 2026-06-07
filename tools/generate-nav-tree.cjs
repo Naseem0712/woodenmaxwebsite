@@ -13,7 +13,7 @@ const HUBS = [
   { slug: 'aluminium-windows', label: 'Aluminium Windows', href: 'products/aluminium-windows' },
   { slug: 'telescope-windows', label: 'Telescopic Doors', href: 'products/telescope-windows' },
   { slug: 'folding-systems', label: 'Folding Systems', href: 'products/folding-systems' },
-  { slug: 'pergola', label: 'Pergolas', href: 'products/pergola/aluminium-pergola' },
+  { slug: 'pergola', label: 'Pergolas', href: 'products/pergola' },
   { slug: 'metal-louvers', label: 'Metal Louvers', href: 'products/metal-louvers' },
   { slug: 'mirror-profiles', label: 'Mirror Profiles', href: 'products/mirror-profiles/' },
   { slug: 'shower-partitions', label: 'Shower Partitions', href: 'products/shower-partitions' },
