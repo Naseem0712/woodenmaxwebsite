@@ -4,10 +4,14 @@ https://www.woodenmax.in/* https://woodenmax.in/:splat 301
 # GSC: index + hub cleanup (fix-gsc-url-issues.cjs)
 /index / 301
 /index/ / 301
+/products/metal-louvers /products/metal-louvers/index.html 200
+/products/metal-louvers/ /products/metal-louvers/index.html 200
 /products/metal-louvers/index /products/metal-louvers 301
 /products/metal-louvers/index/ /products/metal-louvers 301
 /products/mirror-profiles/index /products/mirror-profiles 301
 /products/mirror-profiles/index/ /products/mirror-profiles 301
+/products/pergola /products/pergola.html 200
+/products/pergola/ /products/pergola.html 200
 
 # Pricing API (clean URL)
 /api/calculate /api/calculate/ 200
@@ -71,6 +75,10 @@ http://woodenmax.in/* https://woodenmax.in/:splat 301
 http://www.woodenmax.in/* https://woodenmax.in/:splat 301
 /about.html /about 301
 /about.html/ /about 301
+/about/case-studies /about 301
+/about/case-studies/ /about 301
+/about/quality-control /about/quality-testing-process 301
+/about/quality-control/ /about/quality-testing-process 301
 /about/case-study-commercial-tower-mumbai.html /about/case-study-commercial-tower-mumbai 301
 /about/case-study-commercial-tower-mumbai.html/ /about/case-study-commercial-tower-mumbai 301
 /about/case-study-luxury-bungalow-delhi.html /about/case-study-luxury-bungalow-delhi 301
@@ -405,3 +413,9 @@ http://www.woodenmax.in/* https://woodenmax.in/:splat 301
 
 /products/pergola.html /products/pergola 301
 /products/pergola.html/ /products/pergola 301
+/products/aluminium-pergola-glass-roof-price-india /products/pergola/aluminium-pergola-glass-roof-price-india 301
+/products/aluminium-pergola-glass-roof-price-india/ /products/pergola/aluminium-pergola-glass-roof-price-india 301
+/products/aluminium-pergola-glass-roof-price-india.html /products/pergola/aluminium-pergola-glass-roof-price-india 301
+/products/aluminium-pergola-glass-roof-price-india.html/ /products/pergola/aluminium-pergola-glass-roof-price-india 301
+/products/pergola/aluminium-pergola-glass-roof-price-india.html /products/pergola/aluminium-pergola-glass-roof-price-india 301
+/products/pergola/aluminium-pergola-glass-roof-price-india.html/ /products/pergola/aluminium-pergola-glass-roof-price-india 301

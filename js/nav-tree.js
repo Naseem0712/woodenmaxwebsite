@@ -10,107 +10,116 @@
       "children": [
         {
           "label": "All Aluminium Windows",
-          "href": "products/aluminium-windows"
+          "href": "products/aluminium-windows",
+          "kind": "hub"
         },
         {
-          "label": "2 Track Aluminium Window Price",
+          "label": "2-track sliding (29 mm)",
           "href": "products/aluminium-windows/2-track-aluminium-window-price"
         },
         {
-          "label": "2 Track French Sliding Door",
-          "href": "products/aluminium-windows/2-track-french-sliding-door"
-        },
-        {
-          "label": "3 Track Sliding Window",
+          "label": "3-track Domal sliding",
           "href": "products/aluminium-windows/3-track-sliding-window"
         },
         {
-          "label": "4 Track Aluminium Sliding Window Price",
+          "label": "4-track wide opening",
           "href": "products/aluminium-windows/4-track-sliding-window-price"
         },
         {
-          "label": "Aluminium Casement Window Price",
+          "label": "Best window for home",
+          "href": "products/aluminium-windows/best-aluminium-window-for-home"
+        },
+        {
+          "label": "Casement openable",
           "href": "products/aluminium-windows/aluminium-casement-window-price"
         },
         {
-          "label": "Aluminium Sliding Window",
-          "href": "products/aluminium-windows/aluminium-sliding-window"
-        },
-        {
-          "label": "Aluminium System Window Price",
-          "href": "products/aluminium-windows/aluminium-system-window-price"
-        },
-        {
-          "label": "Bengaluru",
-          "href": "products/aluminium-windows/aluminium-window-price-bangalore"
-        },
-        {
-          "label": "Chandigarh",
-          "href": "products/aluminium-windows/aluminium-window-price-chandigarh"
-        },
-        {
-          "label": "Delhi NCR",
-          "href": "products/aluminium-windows/aluminium-window-price-delhi"
-        },
-        {
-          "label": "French Door Georgian Bar",
+          "label": "French Georgian bar",
           "href": "products/aluminium-windows/french-door-georgian-bar"
         },
         {
-          "label": "Georgian Grill Casement Door",
+          "label": "French sliding door",
+          "href": "products/aluminium-windows/2-track-french-sliding-door"
+        },
+        {
+          "label": "Full villa elevation",
+          "href": "products/aluminium-windows/full-elevation-villa-facade"
+        },
+        {
+          "label": "Georgian grill door",
           "href": "products/aluminium-windows/georgian-grill-casement-door"
         },
         {
-          "label": "Hyderabad ₹/sqft",
-          "href": "products/aluminium-windows/aluminium-window-price-hyderabad"
+          "label": "Glass cost breakdown",
+          "href": "products/aluminium-windows/aluminium-window-glass-price-breakdown"
         },
         {
-          "label": "Mumbai",
-          "href": "products/aluminium-windows/aluminium-window-price-mumbai"
+          "label": "Premium sliding (29 mm)",
+          "href": "products/aluminium-windows/aluminium-sliding-window"
         },
         {
-          "label": "Pune",
-          "href": "products/aluminium-windows/aluminium-window-price-pune"
+          "label": "Premium sliding calculator",
+          "href": "products/aluminium-windows/aluminium-sliding-window-price-calculator"
         },
         {
-          "label": "Slim Aluminium Window Price Luxury",
-          "href": "products/aluminium-windows/slim-aluminium-window-price-luxury"
+          "label": "Sliding vs casement",
+          "href": "products/aluminium-windows/sliding-vs-casement-window"
         },
         {
-          "label": "Slim Entrance Glass Door",
+          "label": "Slim entrance door",
           "href": "products/aluminium-windows/slim-entrance-glass-door"
         },
         {
-          "label": "Slim System Window Price",
+          "label": "Slim luxury casement",
+          "href": "products/aluminium-windows/slim-aluminium-window-price-luxury"
+        },
+        {
+          "label": "Slim system window",
           "href": "products/aluminium-windows/slim-system-window-price"
         },
         {
-          "label": "Slimline Aluminium Window",
+          "label": "Slimline casement",
           "href": "products/aluminium-windows/slimline-aluminium-window"
         },
         {
-          "label": "System Casement Window Price",
+          "label": "System casement",
           "href": "products/aluminium-windows/system-casement-window-price"
         },
         {
-          "label": "System Sliding Window Price",
+          "label": "System sliding",
           "href": "products/aluminium-windows/system-sliding-window-price"
         },
         {
-          "label": "Top Hung Casement Window",
+          "label": "System vs normal window",
+          "href": "products/aluminium-windows/system-window-vs-normal-window"
+        },
+        {
+          "label": "System window",
+          "href": "products/aluminium-windows/aluminium-system-window-price"
+        },
+        {
+          "label": "System window brands",
+          "href": "products/aluminium-windows/aluminium-system-window-brands-india"
+        },
+        {
+          "label": "System window for villa",
+          "href": "products/aluminium-windows/system-window-for-villa"
+        },
+        {
+          "label": "System window glass",
+          "href": "products/aluminium-windows/system-window-glass-options"
+        },
+        {
+          "label": "System window install",
+          "href": "products/aluminium-windows/system-window-installation"
+        },
+        {
+          "label": "Top-hung casement",
           "href": "products/aluminium-windows/top-hung-casement-window"
         },
         {
-          "label": "Vijayawada",
-          "href": "products/aluminium-windows/aluminium-window-price-vijayawada"
-        },
-        {
-          "label": "Visakhapatnam",
-          "href": "products/aluminium-windows/aluminium-window-price-visakhapatnam"
-        },
-        {
-          "label": "Warangal",
-          "href": "products/aluminium-windows/aluminium-window-price-warangal"
+          "label": "What is system window?",
+          "href": "products/aluminium-windows/what-is-aluminium-system-window"
         }
       ]
     },
@@ -121,10 +130,11 @@
       "children": [
         {
           "label": "All Telescopic Doors",
-          "href": "products/telescope-windows"
+          "href": "products/telescope-windows",
+          "kind": "hub"
         },
         {
-          "label": "Telescopic Slim Sliding Door",
+          "label": "Slim telescopic door",
           "href": "products/telescope-windows/telescopic-slim-sliding-door"
         }
       ]
@@ -136,14 +146,15 @@
       "children": [
         {
           "label": "All Folding Systems",
-          "href": "products/folding-systems"
+          "href": "products/folding-systems",
+          "kind": "hub"
         },
         {
-          "label": "Fold Bifold Aluminium Doors",
+          "label": "Bi-fold balcony door",
           "href": "products/folding-systems/fold-bifold-aluminium-doors"
         },
         {
-          "label": "Fold Sliding Window System",
+          "label": "Fold & slide window",
           "href": "products/folding-systems/fold-sliding-window-system"
         }
       ]
@@ -155,27 +166,32 @@
       "children": [
         {
           "label": "All Pergolas",
-          "href": "products/pergola"
+          "href": "products/pergola",
+          "kind": "hub"
         },
         {
-          "label": "Aluminium Pergola",
-          "href": "products/pergola/aluminium-pergola"
-        },
-        {
-          "label": "Glass Roof Pergola Price in India",
+          "label": "Glass skylight roof",
           "href": "products/pergola/glass-skylight"
         },
         {
-          "label": "Motorized Pergola Roof Price in India",
-          "href": "products/pergola/retractable-pergola"
+          "label": "Glass-roof pergola guide",
+          "href": "products/pergola/aluminium-pergola-glass-roof-price-india"
         },
         {
-          "label": "Profile Iron Canopy",
+          "label": "Iron canopy pergola",
           "href": "products/pergola/profile-iron-canopy"
         },
         {
-          "label": "Profile Pergola",
+          "label": "Motorized retractable roof",
+          "href": "products/pergola/retractable-pergola"
+        },
+        {
+          "label": "Profile louver pergola",
           "href": "products/pergola/profile-pergola"
+        },
+        {
+          "label": "Terrace glass-roof pergola",
+          "href": "products/pergola/aluminium-pergola"
         }
       ]
     },
@@ -186,66 +202,67 @@
       "children": [
         {
           "label": "All Metal Louvers",
-          "href": "products/metal-louvers"
+          "href": "products/metal-louvers",
+          "kind": "hub"
         },
         {
-          "label": "Aluminium Facade Louver Price",
-          "href": "products/metal-louvers/aluminium-facade-louver-price"
-        },
-        {
-          "label": "Aluminium Louver Design Building",
-          "href": "products/metal-louvers/aluminium-louver-design-building"
-        },
-        {
-          "label": "Aluminium Louvre 100x50mm Price",
+          "label": "100×50 mm heavy louver",
           "href": "products/metal-louvers/aluminium-louvre-100x50mm-price"
         },
         {
-          "label": "Aluminium Louvre 75x38mm Price",
+          "label": "75×38 mm facade louver",
           "href": "products/metal-louvers/aluminium-louvre-75x38mm-price"
         },
         {
-          "label": "Ceiling Pergola Louvers",
+          "label": "Building louver design",
+          "href": "products/metal-louvers/aluminium-louver-design-building"
+        },
+        {
+          "label": "Ceiling rafters",
           "href": "products/metal-louvers/ceiling-pergola-louvers"
         },
         {
-          "label": "Commercial Building Louvers",
+          "label": "Commercial bulk supply",
           "href": "products/metal-louvers/commercial-building-louvers"
         },
         {
-          "label": "Curved Architectural Louvers",
+          "label": "Curved architectural",
           "href": "products/metal-louvers/curved-architectural-louvers"
         },
         {
-          "label": "Louver Canopy Facade",
+          "label": "Entry canopy louvers",
           "href": "products/metal-louvers/louver-canopy-facade"
         },
         {
-          "label": "Louver Installation Guide",
+          "label": "Facade louver",
+          "href": "products/metal-louvers/aluminium-facade-louver-price"
+        },
+        {
+          "label": "Fixed vs motorized",
+          "href": "products/metal-louvers/fixed-vs-motorized-louver"
+        },
+        {
+          "label": "Installation guide",
           "href": "products/metal-louvers/louver-installation-guide"
         },
         {
-          "label": "Louver Price Delhi",
-          "href": "products/metal-louvers/louver-price-delhi"
+          "label": "Louver vs ACP cladding",
+          "href": "products/metal-louvers/louver-vs-acp-cladding"
         },
         {
-          "label": "Louver Price Hyderabad",
-          "href": "products/metal-louvers/louver-price-hyderabad"
-        },
-        {
-          "label": "Louver Price Jaipur",
-          "href": "products/metal-louvers/louver-price-jaipur"
-        },
-        {
-          "label": "Motorized Louver Price India",
+          "label": "Motorized louver",
           "href": "products/metal-louvers/motorized-louver-price-india"
         },
         {
-          "label": "Perforated Aluminium Panel Price",
+          "label": "Perforated facade panel",
           "href": "products/metal-louvers/perforated-aluminium-panel-price"
         },
         {
-          "label": "Wooden Finish Aluminium Louvers",
+          "label": "Ventilation louver panel",
+          "href": "products/metal-louvers/ventilation-louver-price-per-sqft"
+        },
+        {
+          "label": "Wood-look louvers",
           "href": "products/metal-louvers/wooden-finish-aluminium-louvers"
         }
       ]
@@ -257,62 +274,55 @@
       "children": [
         {
           "label": "All Mirror Profiles",
-          "href": "products/mirror-profiles"
+          "href": "products/mirror-profiles",
+          "kind": "hub"
         },
         {
-          "label": "Aluminium Mirror Frame Designs",
-          "href": "products/mirror-profiles/aluminium-mirror-frame-designs"
-        },
-        {
-          "label": "Backlit Mirror Profile Price",
-          "href": "products/mirror-profiles/backlit-mirror-profile-price"
-        },
-        {
-          "label": "Custom Mirror Profile",
-          "href": "products/mirror-profiles/custom-mirror-profile"
-        },
-        {
-          "label": "D-Type Half Round LED Mirror Price",
-          "href": "products/mirror-profiles/led-mirror-profile-delhi"
-        },
-        {
-          "label": "Led Bathroom Mirror Profile",
+          "label": "Bathroom backlit mirror",
           "href": "products/mirror-profiles/led-bathroom-mirror-profile"
         },
         {
-          "label": "Led Mirror Profile Hyderabad",
-          "href": "products/mirror-profiles/led-mirror-profile-hyderabad"
-        },
-        {
-          "label": "Led Mirror Profile Price",
-          "href": "products/mirror-profiles/led-mirror-profile-price"
-        },
-        {
-          "label": "Mirror Profile Price Per Foot",
+          "label": "Beveled glass only",
           "href": "products/mirror-profiles/mirror-profile-price-per-foot"
         },
         {
-          "label": "Mirror Profile Without Led",
-          "href": "products/mirror-profiles/mirror-profile-without-led"
+          "label": "Black oval motion mirror",
+          "href": "products/mirror-profiles/aluminium-mirror-frame-designs"
         },
         {
-          "label": "Motion Sensor Mirror Profile",
+          "label": "C-type LED mirror",
+          "href": "products/mirror-profiles/led-mirror-profile-price"
+        },
+        {
+          "label": "Custom height mirror",
+          "href": "products/mirror-profiles/custom-mirror-profile"
+        },
+        {
+          "label": "Motion sensor luxury",
           "href": "products/mirror-profiles/motion-sensor-mirror-profile"
         },
         {
-          "label": "Rectangular Mirror Profile",
+          "label": "Plain frame (no LED)",
+          "href": "products/mirror-profiles/mirror-profile-without-led"
+        },
+        {
+          "label": "Rectangular touch LED",
           "href": "products/mirror-profiles/rectangular-mirror-profile"
         },
         {
-          "label": "Round Mirror Profile",
+          "label": "Round touch LED",
           "href": "products/mirror-profiles/round-mirror-profile"
         },
         {
-          "label": "Touch Sensor Mirror Profile",
+          "label": "Touch backlit rectangle",
+          "href": "products/mirror-profiles/backlit-mirror-profile-price"
+        },
+        {
+          "label": "Touch sensor mirror",
           "href": "products/mirror-profiles/touch-sensor-mirror-profile"
         },
         {
-          "label": "Wardrobe Mirror Profile",
+          "label": "Wardrobe mirror",
           "href": "products/mirror-profiles/wardrobe-mirror-profile"
         }
       ]
@@ -324,27 +334,88 @@
       "children": [
         {
           "label": "All Shower Partitions",
-          "href": "products/shower-partitions"
+          "href": "products/shower-partitions",
+          "kind": "hub"
         },
         {
-          "label": "Black Profile Shower Partition",
-          "href": "products/shower-partitions/black-profile-shower-partition"
-        },
-        {
-          "label": "Frameless Shower Partition",
-          "href": "products/shower-partitions/frameless-shower-partition"
-        },
-        {
-          "label": "Frosted Glass Bathroom Door",
-          "href": "products/shower-partitions/frosted-glass-bathroom-door"
-        },
-        {
-          "label": "Premium Black Profile Shower",
+          "label": "Black profile openable",
           "href": "products/shower-partitions/premium-black-profile-shower"
         },
         {
-          "label": "Slim Frame Shower Partition",
+          "label": "Black profile sliding",
+          "href": "products/shower-partitions/black-profile-shower-partition"
+        },
+        {
+          "label": "Cleaning & care",
+          "href": "products/shower-partitions/shower-glass-maintenance"
+        },
+        {
+          "label": "Curtain vs glass",
+          "href": "products/shower-partitions/shower-curtain-vs-glass-partition"
+        },
+        {
+          "label": "Fixed splash panel",
+          "href": "products/shower-partitions/fixed-glass-shower-panel-price"
+        },
+        {
+          "label": "Framed vs frameless",
+          "href": "products/shower-partitions/framed-vs-frameless-shower"
+        },
+        {
+          "label": "Frameless price guide",
+          "href": "products/shower-partitions/frameless-glass-shower-price"
+        },
+        {
+          "label": "Frameless walk-in",
+          "href": "products/shower-partitions/frameless-shower-partition"
+        },
+        {
+          "label": "Frosted fold & slide",
+          "href": "products/shower-partitions/frosted-glass-bathroom-door"
+        },
+        {
+          "label": "Full enclosure guide",
+          "href": "products/shower-partitions/shower-enclosure-price"
+        },
+        {
+          "label": "Glass partition guide",
+          "href": "products/shower-partitions/glass-shower-partition-price"
+        },
+        {
+          "label": "Glass thickness (6–10 mm)",
+          "href": "products/shower-partitions/shower-glass-thickness"
+        },
+        {
+          "label": "Glass types & finishes",
+          "href": "products/shower-partitions/shower-glass-types"
+        },
+        {
+          "label": "Gold fluted shower",
           "href": "products/shower-partitions/slim-frame-shower-partition"
+        },
+        {
+          "label": "Installation cost",
+          "href": "products/shower-partitions/shower-installation-cost"
+        },
+        {
+          "label": "L-corner partition",
+          "href": "products/shower-partitions/corner-shower-partition-price"
+        },
+        {
+          "label": "Shower design layouts",
+          "href": "products/shower-partitions/bathroom-shower-design-price"
+        },
+        {
+          "label": "Sliding door guide",
+          "href": "products/shower-partitions/sliding-shower-door-price"
+        },
+        {
+          "label": "Small bathroom ideas",
+          "href": "products/shower-partitions/small-bathroom-shower-design"
+        },
+        {
+          "label": "Walk-in wet zone",
+          "href": "products/shower-partitions/walk-in-shower-glass-price"
         }
       ]
     },
@@ -355,14 +426,15 @@
       "children": [
         {
           "label": "All Elevation Cladding",
-          "href": "products/elevation-cladding"
+          "href": "products/elevation-cladding",
+          "kind": "hub"
         },
         {
-          "label": "Hpl Acp Elevation Cladding",
+          "label": "HPL + ACP combo cladding",
           "href": "products/elevation-cladding/hpl-acp-elevation-cladding"
         },
         {
-          "label": "Hpl Exterior Cladding",
+          "label": "HPL exterior panels",
           "href": "products/elevation-cladding/hpl-exterior-cladding"
         }
       ]
@@ -374,39 +446,8 @@
       "children": [
         {
           "label": "All Glass Elevation",
-          "href": "products/glass-elevation"
-        },
-        {
-          "label": "Glass — Bengaluru",
-          "href": "products/glass-elevation/glass-elevation-price-bangalore"
-        },
-        {
-          "label": "Glass — Chandigarh",
-          "href": "products/glass-elevation/glass-elevation-price-chandigarh"
-        },
-        {
-          "label": "Glass — Delhi NCR",
-          "href": "products/glass-elevation/glass-elevation-price-delhi"
-        },
-        {
-          "label": "Glass — Mumbai",
-          "href": "products/glass-elevation/glass-elevation-price-mumbai"
-        },
-        {
-          "label": "Glass — Pune",
-          "href": "products/glass-elevation/glass-elevation-price-pune"
-        },
-        {
-          "label": "Glass — Vijayawada",
-          "href": "products/glass-elevation/glass-elevation-price-vijayawada"
-        },
-        {
-          "label": "Glass — Visakhapatnam",
-          "href": "products/glass-elevation/glass-elevation-price-visakhapatnam"
-        },
-        {
-          "label": "Glass — Warangal",
-          "href": "products/glass-elevation/glass-elevation-price-warangal"
+          "href": "products/glass-elevation",
+          "kind": "hub"
         }
       ]
     },
@@ -417,14 +458,15 @@
       "children": [
         {
           "label": "All Glass Railing",
-          "href": "products/glass-railing"
+          "href": "products/glass-railing",
+          "kind": "hub"
         },
         {
-          "label": "Balcony Glass Railing",
+          "label": "Balcony glass railing",
           "href": "products/glass-railing/balcony-glass-railing"
         },
         {
-          "label": "Staircase Glass Railing",
+          "label": "Staircase glass railing",
           "href": "products/glass-railing/staircase-glass-railing"
         }
       ]
@@ -436,29 +478,226 @@
       "children": [
         {
           "label": "All Safety Grills",
-          "href": "products/grills"
+          "href": "products/grills",
+          "kind": "hub"
         },
         {
-          "label": "Aluminium Window Grills",
+          "label": "Aluminium window grill",
           "href": "products/grills/aluminium-window-grills"
         },
         {
-          "label": "Balcony Safety Grills",
+          "label": "Balcony safety grill",
           "href": "products/grills/balcony-safety-grills"
         },
         {
-          "label": "Iron Grill ( Iron Window Grill ) Price",
+          "label": "Iron window grill",
           "href": "products/grills/iron-safety-grills"
         },
         {
-          "label": "Staircase Balustrade Grills",
+          "label": "Staircase balustrade",
           "href": "products/grills/staircase-balustrade-grills"
         },
         {
-          "label": "Window Safety Grills",
+          "label": "Window safety grill",
           "href": "products/grills/window-safety-grills"
         }
       ]
+    }
+  ],
+  "cities": [
+    {
+      "label": "Browse all cities",
+      "href": "catalog",
+      "kind": "hub"
+    },
+    {
+      "label": "Bengaluru hub",
+      "href": "city/bangalore",
+      "group": "hub"
+    },
+    {
+      "label": "Delhi NCR hub",
+      "href": "city/delhi",
+      "group": "hub"
+    },
+    {
+      "label": "Hyderabad hub",
+      "href": "city/hyderabad",
+      "group": "hub"
+    },
+    {
+      "label": "Jaipur hub",
+      "href": "city/jaipur",
+      "group": "hub"
+    },
+    {
+      "label": "Lucknow hub",
+      "href": "city/lucknow",
+      "group": "hub"
+    },
+    {
+      "label": "Mumbai hub",
+      "href": "city/mumbai",
+      "group": "hub"
+    },
+    {
+      "label": "Pune hub",
+      "href": "city/pune",
+      "group": "hub"
+    },
+    {
+      "label": "Windows — Bengaluru",
+      "href": "products/aluminium-windows/aluminium-window-price-bangalore",
+      "group": "windows"
+    },
+    {
+      "label": "Windows — Chandigarh",
+      "href": "products/aluminium-windows/aluminium-window-price-chandigarh",
+      "group": "windows"
+    },
+    {
+      "label": "Windows — Delhi NCR",
+      "href": "products/aluminium-windows/aluminium-window-price-delhi",
+      "group": "windows"
+    },
+    {
+      "label": "Windows — Hyderabad",
+      "href": "products/aluminium-windows/aluminium-window-price-hyderabad",
+      "group": "windows"
+    },
+    {
+      "label": "Windows — Mumbai",
+      "href": "products/aluminium-windows/aluminium-window-price-mumbai",
+      "group": "windows"
+    },
+    {
+      "label": "Windows — Per Sqft",
+      "href": "products/aluminium-windows/aluminium-window-price-per-sqft",
+      "group": "windows"
+    },
+    {
+      "label": "Windows — Pune",
+      "href": "products/aluminium-windows/aluminium-window-price-pune",
+      "group": "windows"
+    },
+    {
+      "label": "Windows — Vijayawada",
+      "href": "products/aluminium-windows/aluminium-window-price-vijayawada",
+      "group": "windows"
+    },
+    {
+      "label": "Windows — Visakhapatnam",
+      "href": "products/aluminium-windows/aluminium-window-price-visakhapatnam",
+      "group": "windows"
+    },
+    {
+      "label": "Windows — Warangal",
+      "href": "products/aluminium-windows/aluminium-window-price-warangal",
+      "group": "windows"
+    },
+    {
+      "label": "Glass — Bengaluru",
+      "href": "products/glass-elevation/glass-elevation-price-bangalore",
+      "group": "glass"
+    },
+    {
+      "label": "Glass — Chandigarh",
+      "href": "products/glass-elevation/glass-elevation-price-chandigarh",
+      "group": "glass"
+    },
+    {
+      "label": "Glass — Delhi NCR",
+      "href": "products/glass-elevation/glass-elevation-price-delhi",
+      "group": "glass"
+    },
+    {
+      "label": "Glass — Mumbai",
+      "href": "products/glass-elevation/glass-elevation-price-mumbai",
+      "group": "glass"
+    },
+    {
+      "label": "Glass — Pune",
+      "href": "products/glass-elevation/glass-elevation-price-pune",
+      "group": "glass"
+    },
+    {
+      "label": "Glass — Vijayawada",
+      "href": "products/glass-elevation/glass-elevation-price-vijayawada",
+      "group": "glass"
+    },
+    {
+      "label": "Glass — Visakhapatnam",
+      "href": "products/glass-elevation/glass-elevation-price-visakhapatnam",
+      "group": "glass"
+    },
+    {
+      "label": "Glass — Warangal",
+      "href": "products/glass-elevation/glass-elevation-price-warangal",
+      "group": "glass"
+    },
+    {
+      "label": "Louvers — Delhi NCR",
+      "href": "products/metal-louvers/louver-price-delhi",
+      "group": "louvers"
+    },
+    {
+      "label": "Louvers — Hyderabad",
+      "href": "products/metal-louvers/louver-price-hyderabad",
+      "group": "louvers"
+    },
+    {
+      "label": "Louvers — Jaipur",
+      "href": "products/metal-louvers/louver-price-jaipur",
+      "group": "louvers"
+    },
+    {
+      "label": "Mirrors — Delhi NCR",
+      "href": "products/mirror-profiles/led-mirror-profile-delhi",
+      "group": "mirrors"
+    },
+    {
+      "label": "Mirrors — Hyderabad",
+      "href": "products/mirror-profiles/led-mirror-profile-hyderabad",
+      "group": "mirrors"
+    }
+  ],
+  "blog": [
+    {
+      "label": "All blog posts",
+      "href": "blog",
+      "kind": "hub"
+    },
+    {
+      "label": "Sliding glass door guide",
+      "href": "blog/aluminium-sliding-glass-door-complete-guide"
+    },
+    {
+      "label": "Full product guide",
+      "href": "blog/complete-woodenmax-products-guide"
+    },
+    {
+      "label": "Energy-efficient windows",
+      "href": "blog/energy-efficient-windows-guide"
+    },
+    {
+      "label": "Frameless sliding doors",
+      "href": "blog/frameless-sliding-doors-interior-partitions"
+    },
+    {
+      "label": "Pergola design ideas",
+      "href": "blog/pergola-design-ideas-india"
+    },
+    {
+      "label": "Sliding vs folding door",
+      "href": "blog/sliding-window-vs-folding-door-comparison"
+    },
+    {
+      "label": "Soundproof windows (Hyd)",
+      "href": "blog/soundproof-windows-Hyderabad"
+    },
+    {
+      "label": "Window maintenance tips",
+      "href": "blog/window-maintenance-tips"
     }
   ],
   "site": [
@@ -469,10 +708,6 @@
     {
       "label": "All calculators",
       "href": "calculators"
-    },
-    {
-      "label": "Blog & guides",
-      "href": "blog"
     },
     {
       "label": "About WoodenMax",

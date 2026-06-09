@@ -10,7 +10,7 @@ module.exports.pageConfig = {
   breadcrumb: [
     { label: 'Home',  href: '/' },
     { label: 'About', href: '/about/' },
-    { label: 'Case studies', href: '/about/case-studies' },
+    { label: 'Case studies', href: '/about' },
     { label: 'Delhi Lutyens bungalow' }
   ],
   h1: 'Case study: 1948 Lutyens-zone bungalow restoration, Delhi',

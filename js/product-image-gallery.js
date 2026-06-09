@@ -20,7 +20,8 @@
   function isSkipRoot (el) {
     return Boolean(el.closest(
       'nav, footer, .wm-footer, header, .navbar, .wm-navbar, .wm-drawer, ' +
-      '.product-thumbnail-gallery, .wm-logo, .footer, .calc-sticky-bar, .wm-global-quote-cart'
+      '.product-thumbnail-gallery, .wm-logo, .footer, .calc-sticky-bar, .wm-global-quote-cart, ' +
+      '.catalog-hub-grid, .catalog-hub-card, .catalog-hub-section--priority, .catalog-products-grid, .product-card'
     ));
   }
 
@@ -109,6 +110,8 @@
 
     document.querySelectorAll('section').forEach(function (section) {
       if (section.querySelector('.product-image-gallery, .price-calculator-container, table')) return;
+      if (section.querySelector('.catalog-hub-grid, .catalog-products-grid')) return;
+      if (section.classList.contains('catalog-hub-section--priority')) return;
       if (section.querySelector('img.alum-seo-hero-compact')) return;
       var imgs = uniqueImages(Array.prototype.slice.call(section.querySelectorAll('img')).filter(function (img) {
         if (isSkipRoot(img)) return false;
@@ -120,6 +123,8 @@
 
       var grid = imgs[0].closest('div');
       if (!grid || !imgs.every(function (i) { return grid.contains(i); })) return;
+      if (grid.classList.contains('catalog-hub-grid') || grid.classList.contains('catalog-products-grid')) return;
+      if (grid.closest('.catalog-hub-section--priority')) return;
       if (grid.dataset.wmGalleryUpgraded === '1') return;
       if (grid.querySelectorAll('img').length !== imgs.length) return;
 

@@ -10,7 +10,7 @@ module.exports.pageConfig = {
   breadcrumb: [
     { label: 'Home',  href: '/' },
     { label: 'About', href: '/about/' },
-    { label: 'Case studies', href: '/about/case-studies' },
+    { label: 'Case studies', href: '/about' },
     { label: 'Mumbai commercial tower' }
   ],
   h1: 'Case study: 16-storey commercial tower facade, Mumbai',

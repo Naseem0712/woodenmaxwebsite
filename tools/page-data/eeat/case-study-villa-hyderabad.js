@@ -10,7 +10,7 @@ module.exports.pageConfig = {
   breadcrumb: [
     { label: 'Home',  href: '/' },
     { label: 'About', href: '/about/' },
-    { label: 'Case studies', href: '/about/case-studies' },
+    { label: 'Case studies', href: '/about' },
     { label: 'Hyderabad villa — Banjara Hills' }
   ],
   h1: 'Case study: 5-BHK premium villa, Banjara Hills, Hyderabad',

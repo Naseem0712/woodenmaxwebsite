@@ -332,8 +332,17 @@
     document.body.appendChild(s);
   }
 
+  function pageNeedsQuoteCartUx () {
+    if (document.querySelector('[id^="price-calculator-"]')) return true;
+    if (document.querySelector('.price-calculator-container')) return true;
+    if (document.querySelector('[data-grill-calculator]')) return true;
+    if (document.querySelector('script[src*="calculator-mobile-ux.js"]')) return true;
+    return false;
+  }
+
   function ensureQuoteCartAssets () {
     if (window.__wmQuoteCartAssetsLoading) return;
+    if (!pageNeedsQuoteCartUx()) return;
 
     var hasUxOnPage = Boolean(document.querySelector('script[src*="calculator-mobile-ux.js"]'));
     var hasRzpOnPage = Boolean(document.querySelector('script[src*="razorpay-checkout.js"]'));

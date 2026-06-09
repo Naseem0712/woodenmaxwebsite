@@ -57,9 +57,9 @@ const LOUVER_EEAT = {
   ],
   links: [
     { href: '/about/manufacturing-process', label: 'Manufacturing process' },
-    { href: '/about/quality-control', label: 'Quality control' },
+    { href: '/about/quality-testing-process', label: 'Quality control' },
     { href: '/about/factory-tour-hyderabad', label: 'Factory tour Hyderabad' },
-    { href: '/products/metal-louvers.html', label: 'Live louver calculators' },
+    { href: '/products/metal-louvers', label: 'Live louver calculators' },
   ],
 };
 

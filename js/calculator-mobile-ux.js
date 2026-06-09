@@ -4242,6 +4242,7 @@
     var links = document.querySelectorAll(selectors.join(','));
     Array.prototype.forEach.call(links, function (a) {
       if (isInsideNavOrFooter(a)) return;
+      if (a.closest('.catalog-hub-section--priority, .catalog-hub-grid')) return;
       a.style.display = 'none';
       a.setAttribute('data-cta-removed', '1');
     });
@@ -4252,6 +4253,7 @@
     var allButtons = document.querySelectorAll('a, button');
     Array.prototype.forEach.call(allButtons, function (el) {
       if (isInsideNavOrFooter(el)) return;
+      if (el.closest('.catalog-hub-section--priority, .catalog-hub-grid')) return;
       if (el.hasAttribute('data-cta-removed')) return;
       var txt = (el.textContent || '').trim();
       if (!txt || txt.length > 60) return;
@@ -4260,6 +4262,15 @@
         el.setAttribute('data-cta-removed', '1');
       }
     });
+  }
+
+  function isCatalogHubSection (sec) {
+    if (!sec) return false;
+    if (sec.classList.contains('catalog-hub-section--priority')) return true;
+    if (sec.querySelector('.catalog-hub-grid')) return true;
+    var hubId = sec.id || '';
+    if (/^(pergola-products|louver-products|mirror-product-lines)$/.test(hubId)) return true;
+    return false;
   }
 
   /**
@@ -4272,6 +4283,7 @@
     var sections = document.querySelectorAll('section');
     Array.prototype.forEach.call(sections, function (sec) {
       if (sec.hasAttribute('data-final-cta-removed')) return;
+      if (isCatalogHubSection(sec)) return;
       var heading = sec.querySelector('h2, h3');
       var hText = heading ? (heading.textContent || '').trim() : '';
       var bodyText = (sec.textContent || '').toLowerCase();

@@ -92,33 +92,84 @@
     return false;
   }
 
+  function listHasActiveChild (items) {
+    if (!items) return false;
+    for (var i = 0; i < items.length; i++) {
+      if (isActiveHref(items[i].href)) return true;
+    }
+    return false;
+  }
+
+  function isCitySectionActive () {
+    var cur = currentPagePath();
+    if (cur.indexOf('city/') === 0) return true;
+    if (/aluminium-window-price-(bangalore|delhi|mumbai|pune|hyderabad|jaipur|chandigarh|vijayawada|visakhapatnam|warangal)$/.test(cur)) return true;
+    if (/glass-elevation-price-(bangalore|delhi|mumbai|pune|hyderabad|jaipur|chandigarh|vijayawada|visakhapatnam|warangal)$/.test(cur)) return true;
+    if (/louver-price-(delhi|hyderabad|jaipur)$/.test(cur)) return true;
+    if (/led-mirror-profile-(delhi|hyderabad)$/.test(cur)) return true;
+    return false;
+  }
+
+  function isBlogSectionActive () {
+    var cur = currentPagePath();
+    return cur === 'blog' || cur.indexOf('blog/') === 0;
+  }
+
+  function buildDrawerAccordion (opts) {
+    var expanded = opts.expanded;
+    var panelId = opts.panelId;
+    var children = (opts.children || []).map(function (child) {
+      var activeCls = isActiveHref(child.href) ? ' is-active' : '';
+      return '<a class="wm-drawer-link' + activeCls + '" href="' + abs(child.href) + '">' + child.label + '</a>';
+    }).join('');
+
+    return (
+      '<div class="wm-drawer-hub' + (expanded ? ' is-open' : '') + '" data-slug="' + opts.slug + '">' +
+        '<button type="button" class="wm-drawer-hub-toggle" aria-expanded="' + (expanded ? 'true' : 'false') + '" aria-controls="' + panelId + '">' +
+          '<span class="wm-drawer-hub-label">' + opts.label + '</span>' +
+          '<svg class="wm-drawer-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
+        '</button>' +
+        '<div class="wm-drawer-hub-panel" id="' + panelId + '"' + (expanded ? '' : ' hidden') + '>' + children + '</div>' +
+      '</div>'
+    );
+  }
+
   function buildMobileDrawerHtml (activeSlug) {
     var hubs = (NAV_TREE && NAV_TREE.hubs) ? NAV_TREE.hubs : CATEGORIES.map(function (c) {
       return { slug: c.slug, label: c.label, href: c.href, children: [{ label: c.label, href: c.href }] };
     });
+    var cityLinks = (NAV_TREE && NAV_TREE.cities) ? NAV_TREE.cities : [];
+    var blogLinks = (NAV_TREE && NAV_TREE.blog) ? NAV_TREE.blog : [{ label: 'All blog posts', href: 'blog' }];
     var siteLinks = (NAV_TREE && NAV_TREE.site) ? NAV_TREE.site : UTILITY.concat([
       { label: 'Warranty', href: 'policies/warranty-policy' },
       { label: 'GST & Transport', href: 'policies/gst-transport-policy' }
     ]);
 
     var hubHtml = hubs.map(function (hub) {
-      var expanded = hub.slug === activeSlug || hubHasActiveChild(hub);
-      var panelId = 'wmHubPanel-' + hub.slug;
-      var children = (hub.children || []).map(function (child) {
-        var activeCls = isActiveHref(child.href) ? ' is-active' : '';
-        return '<a class="wm-drawer-link' + activeCls + '" href="' + abs(child.href) + '">' + child.label + '</a>';
-      }).join('');
-
-      return (
-        '<div class="wm-drawer-hub' + (expanded ? ' is-open' : '') + '" data-slug="' + hub.slug + '">' +
-          '<button type="button" class="wm-drawer-hub-toggle" aria-expanded="' + (expanded ? 'true' : 'false') + '" aria-controls="' + panelId + '">' +
-            '<span class="wm-drawer-hub-label">' + hub.label + '</span>' +
-            '<svg class="wm-drawer-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>' +
-          '</button>' +
-          '<div class="wm-drawer-hub-panel" id="' + panelId + '"' + (expanded ? '' : ' hidden') + '>' + children + '</div>' +
-        '</div>'
-      );
+      return buildDrawerAccordion({
+        slug: hub.slug,
+        label: hub.label,
+        panelId: 'wmHubPanel-' + hub.slug,
+        expanded: hub.slug === activeSlug || hubHasActiveChild(hub),
+        children: hub.children || []
+      });
     }).join('');
+
+    var citiesHtml = cityLinks.length ? buildDrawerAccordion({
+      slug: 'cities',
+      label: 'Cities & local rates',
+      panelId: 'wmHubPanel-cities',
+      expanded: isCitySectionActive(),
+      children: cityLinks
+    }) : '';
+
+    var blogHtml = buildDrawerAccordion({
+      slug: 'blog',
+      label: 'Blog & guides',
+      panelId: 'wmHubPanel-blog',
+      expanded: isBlogSectionActive(),
+      children: blogLinks
+    });
 
     var siteHtml = siteLinks.map(function (link) {
       var activeCls = isActiveHref(link.href) ? ' is-active' : '';
@@ -141,6 +192,10 @@
           '<div class="wm-drawer-section">' +
             '<div class="wm-drawer-heading">Product categories</div>' +
             '<div class="wm-drawer-accordions">' + hubHtml + '</div>' +
+          '</div>' +
+          '<div class="wm-drawer-section">' +
+            '<div class="wm-drawer-heading">Cities &amp; blog</div>' +
+            '<div class="wm-drawer-accordions">' + citiesHtml + blogHtml + '</div>' +
           '</div>' +
           '<div class="wm-drawer-section">' +
             '<div class="wm-drawer-heading">Site pages</div>' +

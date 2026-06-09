@@ -10,7 +10,7 @@ module.exports.pageConfig = {
   breadcrumb: [
     { label: 'Home',  href: '/' },
     { label: 'About', href: '/about/' },
-    { label: 'Case studies', href: '/about/case-studies' },
+    { label: 'Case studies', href: '/about' },
     { label: 'Makobrew — Jubilee Hills + Himayat Nagar' }
   ],
   h1: 'Case study: Makobrew Vegetarian Restaurant &amp; Cafe — two outlets, Hyderabad',

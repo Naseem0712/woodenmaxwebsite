@@ -8,7 +8,7 @@
   Access-Control-Allow-Origin: *
   Access-Control-Allow-Methods: GET, OPTIONS
   Access-Control-Allow-Headers: Content-Type
-  X-Robots-Tag: index, follow
+  X-Robots-Tag: noindex, nofollow
 
 /api/calculate
   Access-Control-Allow-Origin: *

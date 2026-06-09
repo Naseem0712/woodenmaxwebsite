@@ -481,6 +481,46 @@
     }, 'jsonld-organization');
   }
 
+  // ---------- 12. SERP thumbnail signals from og:image ----------
+  function ensureSerpImageMeta () {
+    var og = document.querySelector('meta[property="og:image"]');
+    if (!og) return;
+    var imgUrl = (og.getAttribute('content') || '').trim();
+    if (!imgUrl) return;
+
+    ensureLink('image_src', imgUrl);
+    ensureMeta('image', imgUrl);
+
+    var hasPrimary = false;
+    $$('script[type="application/ld+json"]').forEach(function (s) {
+      if ((s.textContent || '').indexOf('primaryImageOfPage') !== -1) hasPrimary = true;
+    });
+    if (hasPrimary) return;
+
+    var pageUrl = location.origin + location.pathname.replace(/\/$/, '');
+    var titleEl = document.querySelector('title');
+    var descEl = document.querySelector('meta[name="description"]');
+    var altEl = document.querySelector('meta[property="og:image:alt"]');
+    var pageName = titleEl ? titleEl.textContent.trim().slice(0, 120) : BRAND.name;
+    var pageDesc = descEl ? descEl.getAttribute('content') : pageName;
+    var caption = altEl ? altEl.getAttribute('content') : pageName;
+
+    appendJsonLd({
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      'url': pageUrl,
+      'name': pageName,
+      'description': pageDesc,
+      'primaryImageOfPage': {
+        '@type': 'ImageObject',
+        'url': imgUrl,
+        'width': 1200,
+        'height': 800,
+        'caption': caption
+      }
+    }, 'jsonld-serp-primary-image');
+  }
+
   // ---------- 13. Image alt audit — fail-safe for empty alts ----------
   function strengthenImageAlts () {
     var h1 = (document.querySelector('h1') || {}).textContent || '';
@@ -555,7 +595,41 @@
     document.body.appendChild(section);
   }
 
-  // ---------- 16. Inject minimal CSS for the new visible elements ----------
+  // ---------- 16. City / hub back-links on local landing pages ----------
+  function injectLocalLandingLinks () {
+    if (document.querySelector('.wm-local-landing-links')) return;
+    var path = location.pathname.toLowerCase();
+    var parts = path.replace(/^\/+/, '').split('/').filter(Boolean);
+    var depth = parts.length;
+    var prefix = depth <= 0 ? '' : new Array(depth + 1).join('../');
+    var links = [];
+
+    if (/aluminium-window-price-(bangalore|delhi|mumbai|pune|hyderabad|jaipur|chandigarh|vijayawada|visakhapatnam|warangal)$/.test(path)) {
+      var citySlug = path.match(/aluminium-window-price-([a-z]+)$/)[1];
+      links.push({ label: 'Aluminium windows hub', href: prefix + 'products/aluminium-windows' });
+      links.push({ label: 'Homepage', href: prefix + 'index' });
+      if (citySlug) links.push({ label: citySlug.charAt(0).toUpperCase() + citySlug.slice(1) + ' city hub', href: prefix + 'city/' + citySlug });
+    } else if (/glass-elevation-price-/.test(path)) {
+      links.push({ label: 'Glass elevation hub', href: prefix + 'products/glass-elevation' });
+      links.push({ label: 'Homepage', href: prefix + 'index' });
+    } else if (/louver-price-/.test(path)) {
+      links.push({ label: 'Metal louvers hub', href: prefix + 'products/metal-louvers' });
+      links.push({ label: 'Homepage', href: prefix + 'index' });
+    }
+
+    if (!links.length) return;
+    var nav = document.createElement('nav');
+    nav.className = 'wm-local-landing-links';
+    nav.setAttribute('aria-label', 'Related hub pages');
+    nav.innerHTML = links.map(function (l) {
+      return '<a href="' + l.href + '">' + l.label + '</a>';
+    }).join(' <span aria-hidden="true">·</span> ');
+    var anchor = document.querySelector('.cluster-breadcrumb, nav[aria-label="Breadcrumb"], .container');
+    if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(nav, anchor.nextSibling);
+    else document.body.insertBefore(nav, document.body.firstChild);
+  }
+
+  // ---------- 17. Inject minimal CSS for the new visible elements ----------
   function injectDeepSeoCss () {
     if (document.getElementById('wm-deep-seo-css')) return;
     var css =
@@ -565,18 +639,22 @@
       '.wm-verified-pill strong{color:#F8FAFC;font-weight:700;}' +
       '.cluster-final-trust{display:none!important;}' +
       '@media (max-width:720px){.wm-verified-strip{font-size:0.7rem;padding:0.3rem 0.5rem;}}' +
-      '.wm-auto-related{background:#F8FAFC;border-top:1px solid #E2E8F0;padding:2.5rem 0;margin-top:2rem;}' +
-      '.wm-auto-related-title{font-family:"Playfair Display",serif;font-size:1.4rem;color:#0F172A;margin:0 0 1rem;}' +
-      '.wm-auto-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.85rem;}' +
-      '.wm-auto-related-card{display:flex;flex-direction:column;gap:0.2rem;padding:0.95rem 1.15rem;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:12px;text-decoration:none;color:#0F172A;transition:all 0.18s ease;}' +
-      '.wm-auto-related-card strong{font-size:0.9rem;color:#1E40AF;}' +
-      '.wm-auto-related-card span{font-size:0.78rem;color:#64748B;}' +
-      '.wm-auto-related-card:hover{border-color:#1E40AF;transform:translateY(-2px);box-shadow:0 6px 16px rgba(30,64,175,0.12);}' +
+      '.wm-auto-related{background:#F1F5F9;border-top:1px solid #E2E8F0;padding:0.65rem 0;margin-top:0.5rem;}' +
+      '.wm-auto-related-title{font-family:inherit;font-size:0.8rem;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:0.04em;margin:0 0 0.4rem;}' +
+      '.wm-auto-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:0.35rem;}' +
+      '.wm-auto-related-card{display:flex;flex-direction:column;gap:0;padding:0.38rem 0.55rem;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:6px;text-decoration:none;color:#0F172A;transition:background 0.15s ease,border-color 0.15s ease;}' +
+      '.wm-auto-related-card strong{font-size:0.72rem;line-height:1.3;color:#1E40AF;}' +
+      '.wm-auto-related-card span{display:none;}' +
+      '.wm-auto-related-card:hover{border-color:#93C5FD;background:#EFF6FF;transform:none;box-shadow:none;}' +
+      '@media (min-width:768px){.wm-auto-related-grid{grid-template-columns:repeat(6,1fr);}}' +
       'body{padding-bottom:46px;}' +
       '@media (max-width:720px){body{padding-bottom:38px;}}' +
       // Make sure the floating action button / sticky bar doesn't overlap the verified strip
       '.fab-container,.calc-fab,#calcStickyBar,.calc-sticky-bar{bottom:48px !important;}' +
-      '@media (max-width:720px){.fab-container,.calc-fab,#calcStickyBar,.calc-sticky-bar{bottom:42px !important;}}';
+      '@media (max-width:720px){.fab-container,.calc-fab,#calcStickyBar,.calc-sticky-bar{bottom:42px !important;}}' +
+      '.wm-local-landing-links{display:block;max-width:1280px;margin:0.65rem auto 0;padding:0.5rem 1rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-size:0.82rem;line-height:1.5;color:#334155}' +
+      '.wm-local-landing-links a{color:#1d4ed8;font-weight:600;text-decoration:none}' +
+      '.wm-local-landing-links a:hover{text-decoration:underline}';
     var style = document.createElement('style');
     style.id = 'wm-deep-seo-css';
     style.appendChild(document.createTextNode(css));
@@ -593,12 +671,14 @@
     try { injectOrganization();      } catch (e) {}
     try { injectBreadcrumbFromHtml();} catch (e) {}
     try { injectProductSchema();     } catch (e) {}
+    try { ensureSerpImageMeta();     } catch (e) {}
     try { injectSpeakable();         } catch (e) {}
     try { ensureImageDimensions();   } catch (e) {}
     try { strengthenImageAlts();     } catch (e) {}
     try { secureExternalLinks();     } catch (e) {}
     try { injectFreshness();         } catch (e) {}
     try { injectAutoRelated();       } catch (e) {}
+    try { injectLocalLandingLinks(); } catch (e) {}
     try { injectVerifiedBadge();     } catch (e) {}
   }
 
