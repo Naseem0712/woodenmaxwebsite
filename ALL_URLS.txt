@@ -1,6 +1,6 @@
 # WoodenMax — Complete Site URL Index (auto-generated)
-# Last run: 2026-05-22
-# Total URLs: 170
+# Last run: 2026-06-09
+# Total URLs: 171
 
 https://woodenmax.in/
 https://woodenmax.in/about
@@ -114,7 +114,6 @@ https://woodenmax.in/products/grills/iron-safety-grills
 https://woodenmax.in/products/grills/staircase-balustrade-grills
 https://woodenmax.in/products/grills/window-safety-grills
 https://woodenmax.in/products/metal-louvers
-https://woodenmax.in/products/metal-louvers/
 https://woodenmax.in/products/metal-louvers/aluminium-facade-louver-price
 https://woodenmax.in/products/metal-louvers/aluminium-louver-design-building
 https://woodenmax.in/products/metal-louvers/aluminium-louvre-100x50mm-price
@@ -148,7 +147,9 @@ https://woodenmax.in/products/mirror-profiles/rectangular-mirror-profile
 https://woodenmax.in/products/mirror-profiles/round-mirror-profile
 https://woodenmax.in/products/mirror-profiles/touch-sensor-mirror-profile
 https://woodenmax.in/products/mirror-profiles/wardrobe-mirror-profile
+https://woodenmax.in/products/pergola
 https://woodenmax.in/products/pergola/aluminium-pergola
+https://woodenmax.in/products/pergola/aluminium-pergola-glass-roof-price-india
 https://woodenmax.in/products/pergola/glass-skylight
 https://woodenmax.in/products/pergola/profile-iron-canopy
 https://woodenmax.in/products/pergola/profile-pergola
