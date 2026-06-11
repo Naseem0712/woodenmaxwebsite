@@ -743,15 +743,7 @@
 /* ============================================
    GRILLS CALCULATORS — denser two-column field rows
    ============================================ */
-/* Grill product pages: calculator + FAQ use ~full viewport width (95%). */
-.container.grills-calculator-page-wrap,
-.container.grills-faq-page-wrap {
-  width: 95%;
-  max-width: 95%;
-  margin-left: auto;
-  margin-right: auto;
-  box-sizing: border-box;
-}
+/* Grill product pages: calculator + FAQ width — see grills-shared.css (90%). */
 
 .price-calculator-container[data-grill-calculator] {
   padding: 1.75rem 1.5rem;

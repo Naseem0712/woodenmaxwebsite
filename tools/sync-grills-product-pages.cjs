@@ -22,7 +22,7 @@ const PAGES = [
     calcId: 'grill-calc-iron-safety',
     productName: 'Iron Safety Grills',
     breadcrumb: 'Iron Safety Grills',
-    img: '../../images/products/Grills/aluminium grill fabricators near me.webp',
+    img: '../../images/products/Grills/aluminium-grill-fabricators-near-me.webp',
     imgAlt: 'Iron Safety Grill Fabricators Price',
   },
   {
@@ -30,7 +30,7 @@ const PAGES = [
     calcId: 'grill-calc-window-safety',
     productName: 'Window Safety Grills',
     breadcrumb: 'Window Safety Grills',
-    img: '../../images/products/Grills/window grill design.webp',
+    img: '../../images/products/Grills/window-grill-design.webp',
     imgAlt: 'Window Safety Grill Design',
   },
   {

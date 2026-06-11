@@ -23,7 +23,7 @@ const IMAGE_FALLBACKS = {
   'images/products/Grills/balcony-safety-grill-design.webp':
     'images/products/Grills/aluminium-child-safety-balcony-grill.webp',
   'images/products/Grills/iron-window-grill-design.webp':
-    'images/products/Grills/window grill design.webp',
+    'images/products/Grills/window-grill-design.webp',
   'images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp':
     'images/products/metal-louvers/aluminium-ceiling-louver-pergola-design.webp',
   'images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp':

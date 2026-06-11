@@ -1,0 +1,326 @@
+/**
+ * Shared layout + FAQ for grills hub and product pages.
+ */
+/* Unified content rail — hero, calculator, FAQ align on product pages */
+.grills-content-rail,
+.grills-faq-wrap,
+.container.grills-faq-page-wrap,
+.container.grills-calculator-page-wrap,
+body.grills-product-page .container.grills-hero-compact {
+  width: 95%;
+  max-width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+  box-sizing: border-box;
+}
+
+.grills-hub-inner {
+  width: 95%;
+  max-width: 95%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.grills-faq-section {
+  padding: 2.75rem 0 3rem;
+  background: #f8fafc;
+}
+
+.grills-faq-section h2 {
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 1.5rem;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.grills-faq-section h3 {
+  font-size: clamp(1.1rem, 2vw, 1.25rem);
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 1rem;
+  text-align: center;
+}
+
+.grills-faq-item {
+  border: 1px solid #e8edf2;
+  border-radius: 10px;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.grills-faq-item:hover {
+  border-color: #d7dee8;
+}
+
+.grills-faq-item.active {
+  border-color: #bbf7d0;
+  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.08);
+}
+
+.grills-faq-question {
+  padding: 0.95rem 1.15rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  font-weight: 600;
+  font-size: 0.94rem;
+  line-height: 1.45;
+  color: #0f172a;
+}
+
+.grills-faq-question svg {
+  flex-shrink: 0;
+  color: #64748b;
+  transition: transform 0.25s ease;
+}
+
+.grills-faq-answer {
+  padding: 0 1.15rem;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.grills-faq-answer p {
+  color: #475569;
+  line-height: 1.65;
+  font-size: 0.92rem;
+  padding-bottom: 1rem;
+  margin: 0;
+}
+
+.grills-faq-item.active .grills-faq-answer {
+  padding: 0 1.15rem 0.15rem;
+  max-height: 520px;
+}
+
+.grills-faq-item.active .grills-faq-question svg {
+  transform: rotate(180deg);
+}
+
+/* Hub page sections */
+body.grills-hub-page .grills-hero {
+  min-height: auto;
+  padding: 3rem 0 2.25rem;
+}
+
+body.grills-hub-page .grills-hero-grid {
+  gap: 2.25rem;
+}
+
+body.grills-hub-page .grills-hero-title {
+  font-size: clamp(1.75rem, 3.2vw, 2.65rem);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+body.grills-hub-page .grills-hero-desc {
+  font-size: 1.02rem;
+  line-height: 1.7;
+  margin-bottom: 1.25rem;
+}
+
+body.grills-hub-page .grills-hero-features {
+  gap: 0.65rem;
+}
+
+body.grills-hub-page .grills-hero-feature {
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid #eef2f6;
+  background: #fafbfc;
+}
+
+body.grills-hub-page .grills-hub-section {
+  padding: 2.5rem 0;
+}
+
+body.grills-hub-page .grills-hub-section--alt {
+  background: #f8fafc;
+}
+
+body.grills-hub-page .grills-hub-section-title {
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.5rem;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+body.grills-hub-page .grills-hub-section-lead {
+  color: #64748b;
+  text-align: center;
+  margin: 0 0 1.75rem;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  max-width: 40rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.grills-hub-page .grills-snippet-card {
+  background: linear-gradient(135deg, #f0fdf9 0%, #ecfdf5 100%);
+  border: 1px solid #a7f3d0;
+  border-radius: 14px;
+  padding: 1.35rem 1.5rem;
+  margin-bottom: 0;
+}
+
+body.grills-hub-page .grills-snippet-card > p {
+  font-size: 1rem;
+  color: #065f46;
+  font-weight: 600;
+  margin: 0 0 0.85rem;
+  line-height: 1.5;
+}
+
+body.grills-hub-page .grills-snippet-card table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+body.grills-hub-page .grills-snippet-card thead tr {
+  background: #059669;
+  color: #fff;
+}
+
+body.grills-hub-page .grills-snippet-card th,
+body.grills-hub-page .grills-snippet-card td {
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+}
+
+body.grills-hub-page .grills-snippet-card tbody tr {
+  border-bottom: 1px solid #eef2f6;
+}
+
+body.grills-hub-page .grills-compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.15rem;
+  width: 95%;
+  max-width: 95%;
+  margin: 0 auto;
+}
+
+body.grills-hub-page .grills-compare-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.35rem 1.5rem;
+  border: 1px solid #e8edf2;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+body.grills-hub-page .grills-compare-card--aluminium {
+  border-color: #bbf7d0;
+}
+
+body.grills-hub-page .grills-compare-card h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+body.grills-hub-page .grills-compare-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+body.grills-hub-page .grills-compare-card li {
+  padding: 0.4rem 0;
+  color: #334155;
+  font-size: 0.92rem;
+}
+
+body.grills-hub-page .grills-calc-hub {
+  padding: 2.5rem 0;
+  background: #f8fafc;
+  border-top: 1px solid #e8edf2;
+}
+
+body.grills-hub-page .grills-calc-hub-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 0.85rem;
+}
+
+body.grills-hub-page .grills-calc-hub-card {
+  display: block;
+  padding: 1rem 1.1rem;
+  background: #fff;
+  border: 1px solid #e8edf2;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+body.grills-hub-page .grills-calc-hub-card:hover {
+  border-color: #86efac;
+  box-shadow: 0 8px 20px rgba(5, 150, 105, 0.1);
+  transform: translateY(-2px);
+}
+
+body.grills-hub-page .grills-product-card {
+  border-radius: 12px;
+  border: 1px solid #e8edf2;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+body.grills-hub-page .grills-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(5, 150, 105, 0.1);
+}
+
+body.grills-hub-page .grills-products-grid {
+  gap: 1.35rem;
+}
+
+body.grills-hub-page .grills-product-info {
+  padding: 1.15rem 1.25rem;
+}
+
+body.grills-hub-page .wm-grill-gallery-section {
+  padding: 2.5rem 0 1.25rem;
+}
+
+body.grills-hub-page .wm-grill-materials-section {
+  padding: 1.5rem 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .grills-content-rail,
+  .grills-faq-wrap,
+  .container.grills-faq-page-wrap,
+  .container.grills-calculator-page-wrap,
+  body.grills-product-page .container.grills-hero-compact,
+  body.grills-hub-page .grills-hub-inner,
+  body.grills-hub-page .grills-compare-grid {
+    width: 95%;
+    max-width: 95%;
+  }
+
+  body.grills-hub-page .grills-compare-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.grills-hub-page .grills-hero-features {
+    grid-template-columns: 1fr;
+  }
+}
