@@ -15,7 +15,7 @@
   'use strict';
 
   /** Bump after deploy so CDN/browser fetch new cart + payment JS (see _headers). */
-  var WM_ASSET_V = '20260601';
+  var WM_ASSET_V = '20260612';
 
   // ----------------------------------------------------------------------
   //  1. Canonical content (single source of truth)
@@ -62,6 +62,7 @@
       heading: 'Products',
       links: [
         { label: 'Aluminium Windows',  href: 'products/aluminium-windows'   },
+        { label: 'System Windows Calculator', href: 'https://systemwindows.woodenmax.in/' },
         { label: 'Telescope Windows',  href: 'products/telescope-windows'   },
         { label: 'Folding Systems',    href: 'products/folding-systems'     },
         { label: 'Pergola',            href: 'products/pergola' },
