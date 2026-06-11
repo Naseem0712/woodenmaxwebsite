@@ -34,6 +34,14 @@ https://woodenmax.in/api/calculate?product=29mm-sliding&width=5&height=4&glass=6
 - Fold bifold aluminium doors: ₹2,024
 - Fold sliding window system: ₹2,607
 
+### Casement / Openable Series Specs (40–72mm):
+| Series | Max Height | Max Shutter Width | Glass Limits |
+| 40–45mm | 6–7 ft | 3 ft | DGU up to 22mm |
+| 50–52mm | 10 ft | Standard door widths | DGU up to 38mm |
+| 65–72mm | 12 ft | 3.5–4 ft | Single 5–12mm or laminated up to 13.52mm only — no DGU |
+
+Use 40–45mm for flats/builder vents; 50–52mm for premium entrance & sound; 65–72mm for offices, safety doors, automatic access hardware.
+
 ### Glass Extra Cost (per sqft):
 - 6mm clear: ₹0 (base included)
 - 8mm clear: +₹32

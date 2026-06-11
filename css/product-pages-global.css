@@ -1410,7 +1410,8 @@ body.morning-seo-page .seo-breadcrumb-current {
   font-weight: 600;
 }
 
-body.morning-seo-page .seo-page-h1 {
+body.morning-seo-page .seo-page-h1,
+body.system-window-seo-page .seo-page-h1 {
   font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
   font-size: 2.25rem;
   color: #0f172a;
@@ -1536,7 +1537,8 @@ body.morning-seo-page img.shower-seo-inline-img {
 }
 
 /* Calculator band — same light treatment as aluminium window price guide */
-body.morning-seo-page .seo-shower-calculator-section {
+body.morning-seo-page .seo-shower-calculator-section,
+body.system-window-seo-page .seo-shower-calculator-section {
   padding: 3rem 0;
   background: #f8fafc;
 }
@@ -1562,22 +1564,91 @@ body.morning-seo-page .seo-shower-calculator-actions .btn + .btn {
   margin-left: 0.5rem;
 }
 
-body.morning-seo-page .seo-content-section {
+body.morning-seo-page .seo-content-section,
+body.system-window-seo-page .seo-content-section {
   padding: 3rem 0;
   background: #fff;
 }
 
-body.morning-seo-page .seo-content-narrow.container {
-  max-width: 1240px;
+body.morning-seo-page .seo-content-narrow.container,
+body.system-window-seo-page .seo-content-narrow.container {
+  max-width: min(1240px, 95vw);
+  width: 100%;
 }
 
-body.morning-seo-page .seo-faq-section {
+body.morning-seo-page .seo-faq-narrow.container,
+body.system-window-seo-page .seo-faq-narrow.container {
+  max-width: min(1240px, 95vw);
+  width: 100%;
+}
+
+/* Window SEO pages — unify narrow 900px inline containers to full content width */
+body.morning-seo-page .container[style*="max-width:900px"],
+body.system-window-seo-page .container[style*="max-width:900px"] {
+  max-width: min(1240px, 95vw) !important;
+  width: 100%;
+}
+
+body.morning-seo-page .seo-prose-block {
+  color: #334155;
+  line-height: 1.75;
+}
+
+body.morning-seo-page .seo-prose-block > p {
+  margin: 0 0 1rem;
+}
+
+body.morning-seo-page .seo-prose-block > h3 {
+  margin: 1.5rem 0 0.65rem;
+  font-size: 1.12rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+body.morning-seo-page .seo-prose-block > h3:first-child {
+  margin-top: 0;
+}
+
+body.morning-seo-page .seo-prose-block ul {
+  margin: 0.5rem 0 1rem;
+  padding-left: 1.25rem;
+  line-height: 1.8;
+  color: #334155;
+}
+
+body.morning-seo-page .seo-prose-block a {
+  color: #8a6321;
+  font-weight: 500;
+}
+
+body.morning-seo-page .seo-use-case-list {
+  margin: 0.75rem 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+body.morning-seo-page .seo-use-case-list li {
+  margin-bottom: 0.85rem;
+  padding-left: 1rem;
+  border-left: 3px solid #8a6321;
+  color: #334155;
+  line-height: 1.65;
+}
+
+body.morning-seo-page .seo-use-case-list strong {
+  color: #0f172a;
+}
+
+body.morning-seo-page .seo-faq-section,
+body.system-window-seo-page .seo-faq-section {
   padding: 3rem 0;
   background: #f1f5f9;
 }
 
-body.morning-seo-page .seo-faq-narrow.container {
-  max-width: 1240px;
+body.morning-seo-page .seo-faq-narrow.container,
+body.system-window-seo-page .seo-faq-narrow.container {
+  max-width: min(1240px, 95vw);
+  width: 100%;
 }
 
 body.morning-seo-page .seo-faq-item {
@@ -1763,3 +1834,123 @@ body.morning-seo-page .seo-related-hub a {
   color: #8a6321;
 }
 
+/* ============================================
+   WM PAGE GUIDE — sliding / casement series blocks
+   ============================================ */
+.wm-page-guide,
+.wm-series-guide,
+.wm-casement-guide,
+.wm-sliding-context {
+  padding: 4rem 0;
+  background: #F8FAFC;
+}
+
+.wm-why-choose {
+  padding: 3.5rem 0;
+  background: #FFFFFF;
+}
+
+.wm-guide-inner {
+  max-width: min(1240px, 95vw);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 max(1rem, 2.5vw);
+}
+
+.wm-page-guide .section-title,
+.wm-series-guide .section-title,
+.wm-casement-guide .section-title,
+.wm-sliding-context .section-title,
+.wm-why-choose .section-title {
+  margin-bottom: 1.25rem;
+  color: #0F172A;
+}
+
+.wm-page-guide h3,
+.wm-series-guide h3,
+.wm-casement-guide h3 {
+  margin: 1.25rem 0 0.75rem;
+  font-size: 1.15rem;
+  color: #0F172A;
+}
+
+.wm-compare-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 1.5rem 0;
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+}
+
+.wm-compare-table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.wm-compare-table thead th {
+  background: #1E40AF;
+  color: #fff;
+  padding: 0.85rem 1rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.wm-compare-table tbody td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #E2E8F0;
+  color: #334155;
+  vertical-align: top;
+}
+
+.wm-compare-table tbody tr:nth-child(even) td {
+  background: #F8FAFC;
+}
+
+.wm-compare-table tbody td:first-child {
+  font-weight: 600;
+  color: #0F172A;
+  white-space: nowrap;
+}
+
+.wm-page-guide p,
+.wm-page-guide li,
+.wm-series-guide p,
+.wm-series-guide li,
+.wm-casement-guide p,
+.wm-casement-guide li,
+.wm-sliding-context p,
+.wm-sliding-context li,
+.wm-why-choose p {
+  color: #475569;
+  line-height: 1.75;
+}
+
+.wm-page-guide a,
+.wm-series-guide a,
+.wm-casement-guide a,
+.wm-sliding-context a,
+.wm-why-choose a {
+  color: #1E40AF;
+  font-weight: 500;
+}
+
+.wm-faq-card {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.wm-faq-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  color: #1e3a8a;
+}
+
+.wm-faq-card p {
+  margin: 0;
+  color: #334155;
+  line-height: 1.7;
+}
