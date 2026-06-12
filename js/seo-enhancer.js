@@ -356,6 +356,16 @@
       return /"@type"\s*:\s*"Product"/.test(s.textContent || '');
     });
     if (existing) return;
+    // Category hub pages use CollectionPage + ItemList — not Product.
+    var isHubPage = $$('script[type="application/ld+json"]').some(function (s) {
+      var raw = s.textContent || '';
+      return /"@type"\s*:\s*"CollectionPage"/.test(raw);
+    });
+    if (!isHubPage && (document.body.classList.contains('cluster-page') ||
+        document.body.classList.contains('catalog-seo-page'))) {
+      isHubPage = true;
+    }
+    if (isHubPage) return;
     var path = location.pathname.toLowerCase();
     if (path.indexOf('/products/') === -1) return;
     // Need an H1 + a price hint somewhere in the page.
