@@ -347,23 +347,23 @@
         },
         {
           "label": "Cleaning & care",
-          "href": "products/shower-partitions/shower-glass-maintenance"
+          "href": "shower-glass-maintenance"
         },
         {
           "label": "Curtain vs glass",
-          "href": "products/shower-partitions/shower-curtain-vs-glass-partition"
+          "href": "shower-curtain-vs-glass-partition"
         },
         {
           "label": "Fixed splash panel",
-          "href": "products/shower-partitions/fixed-glass-shower-panel-price"
+          "href": "fixed-glass-shower-panel-price"
         },
         {
           "label": "Framed vs frameless",
-          "href": "products/shower-partitions/framed-vs-frameless-shower"
+          "href": "framed-vs-frameless-shower"
         },
         {
           "label": "Frameless price guide",
-          "href": "products/shower-partitions/frameless-glass-shower-price"
+          "href": "frameless-glass-shower-price"
         },
         {
           "label": "Frameless walk-in",
@@ -375,19 +375,19 @@
         },
         {
           "label": "Full enclosure guide",
-          "href": "products/shower-partitions/shower-enclosure-price"
+          "href": "shower-enclosure-price"
         },
         {
           "label": "Glass partition guide",
-          "href": "products/shower-partitions/glass-shower-partition-price"
+          "href": "glass-shower-partition-price"
         },
         {
           "label": "Glass thickness (6–10 mm)",
-          "href": "products/shower-partitions/shower-glass-thickness"
+          "href": "shower-glass-thickness"
         },
         {
           "label": "Glass types & finishes",
-          "href": "products/shower-partitions/shower-glass-types"
+          "href": "shower-glass-types"
         },
         {
           "label": "Gold fluted shower",
@@ -395,27 +395,27 @@
         },
         {
           "label": "Installation cost",
-          "href": "products/shower-partitions/shower-installation-cost"
+          "href": "shower-installation-cost"
         },
         {
           "label": "L-corner partition",
-          "href": "products/shower-partitions/corner-shower-partition-price"
+          "href": "corner-shower-partition-price"
         },
         {
           "label": "Shower design layouts",
-          "href": "products/shower-partitions/bathroom-shower-design-price"
+          "href": "bathroom-shower-design-price"
         },
         {
           "label": "Sliding door guide",
-          "href": "products/shower-partitions/sliding-shower-door-price"
+          "href": "sliding-shower-door-price"
         },
         {
           "label": "Small bathroom ideas",
-          "href": "products/shower-partitions/small-bathroom-shower-design"
+          "href": "small-bathroom-shower-design"
         },
         {
           "label": "Walk-in wet zone",
-          "href": "products/shower-partitions/walk-in-shower-glass-price"
+          "href": "walk-in-shower-glass-price"
         }
       ]
     },
