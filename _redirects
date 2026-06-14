@@ -1,6 +1,9 @@
 # www to non-www
 https://www.woodenmax.in/* https://woodenmax.in/:splat 301
 
+# Grill image — legacy filename with spaces (301 to clean slug)
+/images/products/Grills/aluminium%20grill%20fabricators%20near%20me.webp /images/products/Grills/aluminium-grill-fabricators-near-me.webp 301
+
 # GSC: index + hub cleanup (fix-gsc-url-issues.cjs)
 /index / 301
 /index/ / 301
