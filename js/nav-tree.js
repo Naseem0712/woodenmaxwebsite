@@ -722,6 +722,10 @@
       "href": "contact"
     },
     {
+      "label": "Partner Program (free listing)",
+      "href": "partner"
+    },
+    {
       "label": "Warranty policy",
       "href": "policies/warranty-policy"
     },

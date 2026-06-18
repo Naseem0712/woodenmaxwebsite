@@ -33,7 +33,7 @@
     { label: 'Calculators', href: 'calculators',                  cls: 'nav-link-secondary' },
     { label: 'Blog',        href: 'blog',                         cls: 'nav-link-secondary' },
     { label: 'About',       href: 'about',                        cls: 'nav-link-secondary' },
-    { label: 'Case studies',href: 'about/case-study-makobrew-jubilee-hills', cls: 'nav-link-secondary' }
+    { label: 'Partner Program', href: 'partner',                 cls: 'nav-link-secondary' }
   ];
 
   var NAV_TREE = window.WM_NAV_TREE || null;

@@ -91,7 +91,8 @@
         { label: 'Team &amp; leadership',   href: 'about/team-leadership'                 },
         { label: 'Calculators',             href: 'calculators'                           },
         { label: 'Blog',                    href: 'blog'                                  },
-        { label: 'Catalog',                 href: 'catalog'                               }
+        { label: 'Catalog',                 href: 'catalog'                               },
+        { label: 'Partner Program',         href: 'partner'                               }
       ]
     },
     {
@@ -102,7 +103,8 @@
         { label: 'GST &amp; Transport',               href: 'policies/gst-transport-policy'         },
         { label: 'Cancellation &amp; Refund',         href: 'policies/cancellation-refund-policy'   },
         { label: 'Privacy Policy',                    href: 'policies/privacy-policy'               },
-        { label: 'Return Policy',                     href: 'return-policy'                         }
+        { label: 'Return Policy',                     href: 'return-policy'                         },
+        { label: 'Partner Program Terms',             href: 'policies/partner-terms'               }
       ]
     },
     {
