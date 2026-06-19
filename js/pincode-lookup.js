@@ -237,5 +237,132 @@
     return { get: function () { return Object.assign({}, info); } };
   }
 
-  window.WMPincode = { attach: attach, loadPins: loadPins, loadCities: loadCities };
+  // ---- Single unified field: type city / area / pincode, pick or free-type ----
+  var areaIndex = null;
+  function buildAreaIndex(map) {
+    if (areaIndex) return areaIndex;
+    var idx = [];
+    for (var pin in map) {
+      var rec = map[pin]; // [district, region, state, [areas]]
+      var d = rec[0], s = rec[2], areas = rec[3] || [];
+      for (var i = 0; i < areas.length; i++) idx.push([areas[i], pin, d, s]);
+    }
+    areaIndex = idx;
+    return idx;
+  }
+
+  function attachSingle(opts) {
+    opts = opts || {};
+    var el = opts.input;
+    if (!el) return { get: function () { return {}; } };
+    var onChange = typeof opts.onChange === 'function' ? opts.onChange : function () {};
+    injectStyles();
+
+    var info = { query: '', pincode: '', area: '', city: '', district: '', region: '', state: '', source: '' };
+    function emit(src) { info.source = src; info.query = el.value.trim(); onChange(Object.assign({}, info)); }
+
+    var wrap = document.createElement('div');
+    wrap.className = 'wm-ac-wrap';
+    el.parentNode.insertBefore(wrap, el);
+    wrap.appendChild(el);
+    var list = document.createElement('div');
+    list.className = 'wm-ac-list';
+    list.setAttribute('role', 'listbox');
+    wrap.appendChild(list);
+
+    var matches = [], activeIdx = -1, timer = null;
+
+    el.addEventListener('focus', function () { loadPins().then(buildAreaIndex).catch(function () {}); loadCities().catch(function () {}); }, { once: true });
+
+    function closeList() { list.classList.remove('is-open'); list.innerHTML = ''; activeIdx = -1; matches = []; }
+    function render() {
+      if (!matches.length) { closeList(); return; }
+      list.innerHTML = matches.map(function (m, i) {
+        return '<div class="wm-ac-item' + (i === activeIdx ? ' is-active' : '') + '" role="option" data-i="' + i + '">' +
+          m.label + ' <small>' + m.sub + '</small></div>';
+      }).join('');
+      list.classList.add('is-open');
+    }
+    function pick(m) {
+      info.pincode = m.pincode || '';
+      info.area = m.area || '';
+      info.city = m.district || '';
+      info.district = m.district || '';
+      info.state = m.state || '';
+      el.value = m.plain;
+      closeList();
+      emit('select');
+    }
+
+    function compute(q) {
+      q = q.trim().toLowerCase();
+      var res = [];
+      if (q.length < 2) return res;
+      if (/^\d+$/.test(q)) {
+        if (!pinMap) return res;
+        for (var pin in pinMap) {
+          if (pin.indexOf(q) === 0) {
+            var r = pinMap[pin]; var a0 = (r[3] && r[3][0]) || r[0];
+            res.push({ label: a0 + ', ' + r[0], sub: 'PIN ' + pin + ' · ' + r[2], plain: a0 + ', ' + r[0] + ' (' + pin + ')', pincode: pin, area: (r[3] && r[3][0]) || '', district: r[0], state: r[2] });
+            if (res.length >= 8) break;
+          }
+        }
+        return res;
+      }
+      // City/district matches first (short, friendly)
+      if (cities) {
+        for (var i = 0; i < cities.length && res.length < 4; i++) {
+          if (cities[i][0].toLowerCase().indexOf(q) === 0) {
+            var c = cities[i];
+            res.push({ label: c[0], sub: 'City · PIN ' + c[1] + ' · ' + c[3], plain: c[0] + ' (' + c[1] + ')', pincode: c[1], area: '', district: c[0], state: c[3] });
+          }
+        }
+      }
+      // Area / locality matches
+      if (areaIndex) {
+        for (var j = 0; j < areaIndex.length && res.length < 8; j++) {
+          if (areaIndex[j][0].toLowerCase().indexOf(q) === 0) {
+            var ai = areaIndex[j];
+            res.push({ label: ai[0] + ', ' + ai[2], sub: 'PIN ' + ai[1] + ' · ' + ai[3], plain: ai[0] + ', ' + ai[2] + ' (' + ai[1] + ')', pincode: ai[1], area: ai[0], district: ai[2], state: ai[3] });
+          }
+        }
+      }
+      return res;
+    }
+
+    el.addEventListener('input', function () {
+      // Free typing invalidates any previously resolved selection.
+      info.pincode = ''; info.area = ''; info.district = ''; info.state = '';
+      emit('type');
+      var q = el.value;
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(function () {
+        Promise.all([loadPins().then(buildAreaIndex), loadCities()]).then(function () {
+          matches = compute(q);
+          activeIdx = -1;
+          render();
+        }).catch(function () {});
+      }, 120);
+    });
+
+    el.addEventListener('keydown', function (e) {
+      if (!list.classList.contains('is-open')) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); activeIdx = Math.min(activeIdx + 1, matches.length - 1); render(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); activeIdx = Math.max(activeIdx - 1, 0); render(); }
+      else if (e.key === 'Enter') { if (activeIdx >= 0 && matches[activeIdx]) { e.preventDefault(); pick(matches[activeIdx]); } }
+      else if (e.key === 'Escape') { closeList(); }
+    });
+    list.addEventListener('mousedown', function (e) {
+      var item = e.target.closest('.wm-ac-item');
+      if (!item) return;
+      e.preventDefault();
+      var idx = parseInt(item.getAttribute('data-i'), 10);
+      if (matches[idx]) pick(matches[idx]);
+    });
+    document.addEventListener('click', function (e) { if (e.target !== el && !list.contains(e.target)) closeList(); });
+
+    return { get: function () { return Object.assign({}, info); } };
+  }
+
+  window.WMPincode = { attach: attach, attachSingle: attachSingle, loadPins: loadPins, loadCities: loadCities };
 })();
