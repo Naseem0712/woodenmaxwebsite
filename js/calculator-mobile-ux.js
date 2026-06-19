@@ -2558,6 +2558,29 @@
     }
   }
 
+  // Attach the unified city/area/pincode autocomplete to the lead form's city
+  // field. Idempotent + retries until js/pincode-lookup.js (WMPincode) is ready.
+  function attachLeadLocation (attempt) {
+    var form = $('#calcLeadForm');
+    if (!form || form.getAttribute('data-wm-loc') === '1') return;
+    var cityEl = form.elements && form.elements['city'];
+    if (!cityEl) return;
+    if (!window.WMPincode || !window.WMPincode.attachSingle) {
+      if ((attempt || 0) < 25) setTimeout(function () { attachLeadLocation((attempt || 0) + 1); }, 200);
+      return;
+    }
+    form.setAttribute('data-wm-loc', '1');
+    window.WMPincode.attachSingle({
+      input: cityEl,
+      onChange: function (info) {
+        if (form.elements['pincode'])  form.elements['pincode'].value  = info.pincode  || '';
+        if (form.elements['area'])     form.elements['area'].value     = info.area      || '';
+        if (form.elements['district']) form.elements['district'].value = info.district  || '';
+        if (form.elements['state'])    form.elements['state'].value    = info.state     || '';
+      }
+    });
+  }
+
   function openForm (intent, payChoice) {
     var modal = $('#calcFormModal');
     if (!modal) return;
@@ -2593,12 +2616,15 @@
     if (lead) {
       var form = $('#calcLeadForm');
       if (form) {
-        ['name','mobile','city','email','role'].forEach(function (k) {
+        ['name','mobile','city','email','role','pincode','area','district','state'].forEach(function (k) {
           var f = form.elements[k];
           if (f && lead[k]) f.value = lead[k];
         });
       }
     }
+
+    // Smart city/area/pincode autocomplete (same widget as contact + calculator forms)
+    attachLeadLocation();
 
     modal.classList.add(MODAL_OPEN);
     modal.setAttribute('aria-hidden', 'false');
@@ -2631,7 +2657,7 @@
   // ---------- Form submit handlers ----------
   function collectLead (form) {
     var data = {};
-    ['name','mobile','city','email','role'].forEach(function (k) {
+    ['name','mobile','city','email','role','pincode','area','district','state'].forEach(function (k) {
       var f = form.elements[k];
       data[k] = f ? (f.value || '').trim() : '';
     });
@@ -2753,16 +2779,19 @@
         ]
       });
 
-      sections.push({
-        title: 'Lead details',
-        rows: [
-          { label: 'Name',    value: lead.name   || '—' },
-          { label: 'Mobile',  value: lead.mobile || '—' },
-          { label: 'City',    value: lead.city   || '—' },
-          { label: 'Email',   value: lead.email  || '—' },
-          { label: 'Role',    value: lead.role   || '—' }
-        ]
-      });
+      var leadRows = [
+        { label: 'Name',    value: lead.name   || '—' },
+        { label: 'Mobile',  value: lead.mobile || '—' },
+        { label: 'City',    value: lead.city   || '—' }
+      ];
+      if (lead.pincode) leadRows.push({ label: 'Pincode',  value: lead.pincode });
+      if (lead.area)    leadRows.push({ label: 'Area',     value: lead.area });
+      if (lead.district || lead.state) {
+        leadRows.push({ label: 'District / State', value: [lead.district, lead.state].filter(Boolean).join(', ') });
+      }
+      leadRows.push({ label: 'Email', value: lead.email || '—' });
+      leadRows.push({ label: 'Role',  value: lead.role  || '—' });
+      sections.push({ title: 'Lead details', rows: leadRows });
 
       items.forEach(function (it, idx) {
         sections.push({
@@ -2898,7 +2927,11 @@
           name:   lead.name || '',
           email:  lead.email || '',
           city:   lead.city || '',
-          mobile: lead.mobile || ''
+          mobile: lead.mobile || '',
+          pincode:  lead.pincode  || '',
+          area:     lead.area     || '',
+          district: lead.district || '',
+          state:    lead.state    || ''
         },
         ccEmail: leadCcEmail(lead),
         onSuccess: function () {
@@ -3127,7 +3160,7 @@
           '</div>' +
           '<div class="pdf-party">' +
             '<h2>Project / Site</h2>' +
-            '<div class="pdf-party-row"><span class="k">City:</span> <span class="v">' + escapeHtml(lead.city || '—') + '</span></div>' +
+            '<div class="pdf-party-row"><span class="k">City:</span> <span class="v">' + escapeHtml([lead.city, (lead.district && lead.district !== lead.city ? lead.district : ''), lead.state, lead.pincode].filter(Boolean).join(', ') || '—') + '</span></div>' +
             '<div class="pdf-party-row"><span class="k">Items:</span> <span class="v">' + cart.length + ' configuration' + (cart.length > 1 ? 's' : '') + '</span></div>' +
             '<div class="pdf-party-row"><span class="k">Site visit:</span> <span class="v">Scheduled · final approval on site</span></div>' +
             '<div class="pdf-party-row"><span class="k">Lead time:</span> <span class="v">3–4 weeks from approval</span></div>' +
@@ -3860,7 +3893,10 @@
             '<div class="calc-form-grid">' +
               '<div class="calc-form-row"><label>Name <em>*</em></label><input type="text" name="name" placeholder="Your full name" required autocomplete="name"></div>' +
               '<div class="calc-form-row"><label>Mobile <em>*</em></label><input type="tel" name="mobile" placeholder="10-digit mobile" pattern="[0-9]{10}" required autocomplete="tel"></div>' +
-              '<div class="calc-form-row"><label>City / Pincode <em>*</em></label><input type="text" name="city" placeholder="e.g. Hyderabad / 500001" required autocomplete="address-level2"></div>' +
+              '<div class="calc-form-row"><label>City / Area / Pincode <em>*</em></label>' +
+                '<input type="text" name="city" placeholder="Type city, area or PIN — e.g. Tejalhera or 500001" required autocomplete="off">' +
+                '<input type="hidden" name="pincode"><input type="hidden" name="area"><input type="hidden" name="district"><input type="hidden" name="state">' +
+              '</div>' +
               '<div class="calc-form-row"><label>Email <small>(optional)</small></label><input type="email" name="email" placeholder="To receive the PDF copy" autocomplete="email"></div>' +
               '<div class="calc-form-row calc-form-row-full"><label>I am a <em>*</em></label>' +
                 '<select name="role" required>' +

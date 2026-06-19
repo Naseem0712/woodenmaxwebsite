@@ -9,8 +9,13 @@ header.site-header,
 .mobile-menu,
 .mobile-menu-overlay { display: none !important; }
 
+/* Navbar is JS-injected after first paint. Keeping it in normal flow (sticky)
+   pushed the whole page down on inject = large CLS. Using `fixed` (out of flow)
+   + a pre-paint body reservation (below) makes the inject zero-shift.
+   `!important` overrides the leftover inline `.wm-navbar{position:sticky}`
+   in older pages' critical CSS without editing every HTML file. */
 .wm-navbar {
-  position: sticky;
+  position: fixed !important;
   top: 0;
   z-index: 1000;
   width: 100%;
@@ -20,6 +25,12 @@ header.site-header,
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
+}
+
+/* Reserve the fixed navbar's height up front (loads before first paint) so the
+   JS-injected navbar never shifts content. Matches the navbar's ~64px height. */
+body {
+  padding-top: 64px;
 }
 body.wm-nav-open { overflow: hidden; }
 body.wm-nav-open > *:not(.wm-navbar):not(.wm-drawer):not(.wm-drawer-backdrop):not(.calc-sticky-bar):not(#calcStickyBar):not(.wm-global-quote-cart):not(.floating-calc-button) {

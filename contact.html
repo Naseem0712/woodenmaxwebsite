@@ -466,7 +466,31 @@
       height: 400px;
       border: none;
       filter: grayscale(50%) contrast(1.1);
+      display: block;
     }
+
+    /* Lightweight click-to-load placeholder — no map network/JS until tapped */
+    .map-facade {
+      width: 100%;
+      height: 400px;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      color: #1f2b4d;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(217,119,6,0.10), transparent 60%),
+        linear-gradient(135deg, #eef2f7 0%, #e2e8f0 100%);
+      background-color: #eef2f7;
+      transition: background-color 0.2s ease;
+    }
+    .map-facade:hover { background-color: #e6ebf2; }
+    .map-facade-pin { color: #d97706; line-height: 0; }
+    .map-facade-title { font-weight: 600; font-size: 1.05rem; }
+    .map-facade-hint { font-size: 0.85rem; color: #64748b; }
     
     /* Service Areas */
     .areas-section {
@@ -520,7 +544,7 @@
     }
   </style>
   
-  <link rel="stylesheet" href="css/site-nav.css?v=20260601">
+  <link rel="stylesheet" href="css/site-nav.css?v=20260620">
   
   <link rel="stylesheet" href="css/site-footer.css">
 
@@ -796,10 +820,40 @@
         <h2 class="section-title">Find Us Here</h2>
       </div>
       <div class="map-container">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.123456789!2d78.4567890!3d17.3850123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDIzJzA2LjAiTiA3OMKwMjcnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <button type="button" class="map-facade" id="mapFacade"
+          data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.123456789!2d78.4567890!3d17.3850123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTfCsDIzJzA2LjAiTiA3OMKwMjcnMjQuNCJF!5e0!3m2!1sen!2sin!4v1234567890"
+          aria-label="Load interactive Google Map of WoodenMax location">
+          <span class="map-facade-pin" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </span>
+          <span class="map-facade-title">View WoodenMax on Google Maps</span>
+          <span class="map-facade-hint">Tap to load the interactive map</span>
+        </button>
       </div>
     </div>
   </section>
+
+  <script>
+    // Google Map facade: load the heavy embed iframe only on user interaction.
+    (function () {
+      var f = document.getElementById('mapFacade');
+      if (!f) return;
+      var loaded = false;
+      function loadMap() {
+        if (loaded) return;
+        loaded = true;
+        var src = f.getAttribute('data-src');
+        var ifr = document.createElement('iframe');
+        ifr.src = src;
+        ifr.loading = 'lazy';
+        ifr.allowFullscreen = true;
+        ifr.referrerPolicy = 'no-referrer-when-downgrade';
+        ifr.title = 'WoodenMax location on Google Maps';
+        f.replaceWith(ifr);
+      }
+      f.addEventListener('click', loadMap);
+    })();
+  </script>
 
   <!-- FOOTER -->
   <script defer src="js/email-submitter.js"></script>
