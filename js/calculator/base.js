@@ -589,6 +589,9 @@ class PriceCalculatorBase {
     // Remove any existing listeners to prevent duplicates
     const newForm = form.cloneNode(true);
     form.parentNode.replaceChild(newForm, form);
+
+    // Smart city/area/pincode field (lazy-loads location data on focus)
+    this.attachLocationField(newForm);
     
     newForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -615,13 +618,48 @@ class PriceCalculatorBase {
         return false;
       }
       
-      const userDetails = { name, city, mobile, email: email || '', leadType: leadType || '' };
+      const loc = this._locInfo || {};
+      const userDetails = { name, city, mobile, email: email || '', leadType: leadType || '',
+        pincode: loc.pincode || '', area: loc.area || '', district: loc.district || '', state: loc.state || '' };
 
       // generate_lead is fired only after email API succeeds — see submitEmailForm() onSuccess
       this.submitUserDetails(userDetails);
       
       return false;
     });
+  }
+
+  // Attach the unified city/area/pincode autocomplete to the calculator lead form.
+  attachLocationField(scope, attempt) {
+    try {
+      const el = (scope || document).querySelector('#calc-user-city');
+      if (!el) return;
+      if (!window.WMPincode || !window.WMPincode.attachSingle) {
+        if ((attempt || 0) < 20) { setTimeout(() => this.attachLocationField(scope, (attempt || 0) + 1), 250); }
+        return;
+      }
+      if (el.dataset.wmAttached === '1') return;
+      el.dataset.wmAttached = '1';
+      if (/enter your city/i.test(el.getAttribute('placeholder') || '')) {
+        el.setAttribute('placeholder', 'Type city, area or PIN — e.g. Tejalhera or 251310');
+      }
+      const self = this;
+      self._locInfo = {};
+      window.WMPincode.attachSingle({ input: el, onChange: function (info) { self._locInfo = info; } });
+    } catch (e) { /* non-fatal */ }
+  }
+
+  // Build resolved-location rows for the enquiry email (only when populated).
+  locationRows(ud) {
+    const rows = [];
+    if (ud && ud.pincode) rows.push({ label: 'Pincode', value: ud.pincode });
+    if (ud && ud.area) rows.push({ label: 'Area', value: ud.area });
+    const ds = [ud && ud.district, ud && ud.state].filter(Boolean).join(', ');
+    if (ds) rows.push({ label: 'District / State', value: ds });
+    return rows;
+  }
+  locationLines(ud) {
+    return this.locationRows(ud).map((r) => `${r.label}: ${r.value}`);
   }
   
   submitUserDetails(userDetails) {
@@ -797,6 +835,7 @@ class PriceCalculatorBase {
             rows: [
               { label: 'Name', value: userDetails.name || 'Not provided' },
               { label: 'City', value: userDetails.city || 'Not provided' },
+              ...this.locationRows(userDetails),
               { label: 'Mobile', value: userDetails.mobile || 'Not provided' },
               { label: 'Email', value: userDetails.email || 'Not provided' },
             ],
@@ -847,6 +886,7 @@ class PriceCalculatorBase {
         `NEW QUOTE REQUEST - ${this.config.name || this.productId}`,
         `Name: ${userDetails.name || 'Not provided'}`,
         `City: ${userDetails.city || 'Not provided'}`,
+        ...this.locationLines(userDetails),
         `Mobile: ${userDetails.mobile || 'Not provided'}`,
         `Email: ${userDetails.email || 'Not provided'}`,
         `Dimensions: ${selections.width} × ${selections.height} ${selections.unit}`,
@@ -1026,6 +1066,7 @@ class PriceCalculatorBase {
             rows: [
               { label: 'Name', value: userDetails.name || 'Not provided' },
               { label: 'City', value: userDetails.city || 'Not provided' },
+              ...this.locationRows(userDetails),
               { label: 'Mobile', value: userDetails.mobile || 'Not provided' },
               { label: 'Email', value: userDetails.email || 'Not provided' },
             ],
@@ -1058,6 +1099,8 @@ class PriceCalculatorBase {
       emailBody = [
         `NEW QUOTE REQUEST (multiple sizes) - ${this.config.name || this.productId}`,
         `Name: ${userDetails.name || ''}`,
+        `City: ${userDetails.city || 'Not provided'}`,
+        ...this.locationLines(userDetails),
         `Total: ${totalCalculatedAmount > 0 ? '₹' + totalCalculatedAmount.toLocaleString('en-IN') : totalPriceText}`,
       ].join('\n');
     }

@@ -989,6 +989,11 @@
                 <input type="text" id="state" name="state" placeholder="e.g. Telangana" required>
               </div>
               <div class="pf-group">
+                <label for="pincode">Pincode</label>
+                <input type="text" id="pincode" name="pincode" inputmode="numeric" maxlength="6" autocomplete="postal-code" placeholder="e.g. 500032">
+                <span class="pf-hint">Type your city above to pick it, or enter PIN to auto-fill city &amp; state.</span>
+              </div>
+              <div class="pf-group">
                 <label for="gst">GST Number</label>
                 <input type="text" id="gst" name="gst" placeholder="e.g. 36ABCDE1234F1Z5">
                 <span class="pf-hint">No GST? Leave blank and add your Udyam / MSME number instead.</span>
@@ -1169,6 +1174,7 @@
 
   <!-- SCRIPTS -->
   <script defer src="js/email-submitter.js"></script>
+  <script defer src="js/pincode-lookup.js?v=20260620c"></script>
   <script defer src="js/main.js?v=20260601"></script>
 
   <script>
@@ -1205,6 +1211,7 @@
         const address = val('address');
         const city = val('city');
         const state = val('state');
+        const pincode = val('pincode');
         const gst = val('gst');
         const udyam = val('udyam');
         const pan = val('pan');
@@ -1277,6 +1284,7 @@
               { label: 'Address', value: address },
               { label: 'City', value: city },
               { label: 'State', value: state },
+              { label: 'Pincode', value: pincode || 'Not provided' },
               { label: 'GST Number', value: gst || 'Not provided' },
               { label: 'Udyam / MSME No.', value: udyam || 'Not provided' },
               { label: 'PAN Number', value: pan || 'Not provided' },
@@ -1383,6 +1391,25 @@
         page_path: '/partner'
       });
     })();
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      if (!window.WMPincode || !window.WMPincode.attach) return;
+      var cityEl = document.getElementById('city');
+      var stateEl = document.getElementById('state');
+      var pinEl = document.getElementById('pincode');
+      window.WMPincode.attach({
+        city: cityEl,
+        pincode: pinEl,
+        onChange: function (info) {
+          if (info.source === 'pincode' || info.source === 'city') {
+            if (stateEl && info.state) stateEl.value = info.state;
+          } else if (info.source === 'clear') {
+            if (stateEl) stateEl.value = '';
+          }
+        }
+      });
+    });
   </script>
   <script src="js/seo-enhancer.js?v=20260520" defer></script>
   <script src="js/nav-tree.js?v=20260619" defer></script>
