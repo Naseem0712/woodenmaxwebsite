@@ -9,7 +9,7 @@ function walk(dir) {
     if (ent.isDirectory()) walk(p);
     else if (ent.name.endsWith('.html')) {
       let c = fs.readFileSync(p, 'utf8');
-      const next = c.replace(/nav-tree\.js\?v=20260519/g, 'nav-tree.js?v=20260520');
+      const next = c.replace(/nav-tree\.js\?v=20260520/g, 'nav-tree.js?v=20260619');
       if (next !== c) {
         fs.writeFileSync(p, next, 'utf8');
         n++;
