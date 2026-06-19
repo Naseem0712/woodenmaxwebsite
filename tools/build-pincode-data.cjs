@@ -3,8 +3,8 @@
  * Converts the 8 MB all-india-pincode CSV into two small JSON datasets used by
  * js/pincode-lookup.js for the enquiry-form auto-fetch feature.
  *
- *   data/pincodes.min.json  { "<pincode>": [office, region, district, state] }   (~19k keys)
- *   data/cities.min.json    [[city, pincode, region, state], ...]                 (district level)
+ *   data/pincodes.min.json  { "<pincode>": [district, region, state, [areas...]] }  (~19k keys)
+ *   data/cities.min.json    [[city, pincode, region, state], ...]                   (district level)
  *
  * Run:  node tools/build-pincode-data.cjs
  */
@@ -24,6 +24,15 @@ function titleCase(s) {
 }
 function clean(s) { return String(s == null ? '' : s).trim(); }
 
+// Strip the postal office-type suffix (B.O / S.O / H.O / G.P.O.) so users see a
+// friendly locality name, e.g. "Tejalhera B.O" -> "Tejalhera", keeping any (...) tag.
+function cleanArea(name) {
+  return clean(name)
+    .replace(/\s+(?:G\.?P\.?O\.?|H\.?P\.?O\.?|H\.?O|S\.?O|B\.?O|E\.?D\.?S\.?O|P\.?O)\.?(\s*\([^)]*\))?\s*$/i,
+      function (m, paren) { return paren ? (' ' + paren.trim()) : ''; })
+    .trim();
+}
+
 // Priority for picking the "main" office of a pincode / district (lower = better).
 function officeRank(name) {
   var n = name.toUpperCase();
@@ -42,8 +51,8 @@ function main() {
   var raw = fs.readFileSync(SRC, 'utf8');
   var lines = raw.split(/\r?\n/);
 
-  var pinBest = Object.create(null);   // pincode -> { office, region, district, state, rank }
-  var cityGroups = Object.create(null); // "district|state" -> { city, region, state, pinByRank, bestRank }
+  var pinData = Object.create(null);   // pincode -> { region, district, state, areas: [{name, rank}] }
+  var cityGroups = Object.create(null); // "district|state" -> { city, region, state, pin, bestRank }
 
   var skipped = 0;
   for (var i = 1; i < lines.length; i++) {
@@ -63,11 +72,17 @@ function main() {
 
     var rank = officeRank(office);
 
-    // --- pincode map: keep the best-ranked office per pincode ---
-    var prev = pinBest[pincode];
-    if (!prev || rank < prev.rank) {
-      pinBest[pincode] = { office: office, region: region, district: district, state: state, rank: rank };
+    // --- pincode map: collect every area (office) under each pincode ---
+    var pd = pinData[pincode];
+    if (!pd) {
+      pd = pinData[pincode] = { region: region, district: district, state: state, areas: [] };
     }
+    // The lowest-ranked office (GPO/HO) defines the canonical district/region/state.
+    if (rank < (pd._rank == null ? 99 : pd._rank)) {
+      pd._rank = rank; pd.region = region; pd.district = district; pd.state = state;
+    }
+    var area = cleanArea(office);
+    if (area) pd.areas.push({ name: area, rank: rank });
 
     // --- city (district) map: choose main pincode = best-ranked office's pincode ---
     var key = district + '|' + state;
@@ -81,12 +96,24 @@ function main() {
     }
   }
 
-  // Serialize pincode map
+  // Serialize pincode map: [district, region, state, [unique areas, main first]]
   var pinOut = Object.create(null);
-  var pinKeys = Object.keys(pinBest);
+  var pinKeys = Object.keys(pinData);
+  var totalAreas = 0;
   for (var k = 0; k < pinKeys.length; k++) {
-    var p = pinBest[pinKeys[k]];
-    pinOut[pinKeys[k]] = [p.office, p.region, p.district, p.state];
+    var p = pinData[pinKeys[k]];
+    p.areas.sort(function (a, b) { return a.rank - b.rank || (a.name < b.name ? -1 : 1); });
+    var seen = Object.create(null);
+    var areas = [];
+    for (var a = 0; a < p.areas.length; a++) {
+      var nm = p.areas[a].name;
+      var key2 = nm.toLowerCase();
+      if (seen[key2]) continue;
+      seen[key2] = 1;
+      areas.push(nm);
+    }
+    totalAreas += areas.length;
+    pinOut[pinKeys[k]] = [p.district, p.region, p.state, areas];
   }
 
   // Serialize cities (sorted alphabetically for stable diffs)
@@ -98,7 +125,7 @@ function main() {
   fs.writeFileSync(OUT_CITY, JSON.stringify(cityOut), 'utf8');
 
   function kb(file) { return (fs.statSync(file).size / 1024).toFixed(0) + ' KB'; }
-  console.log('pincodes.min.json:', pinKeys.length, 'pincodes,', kb(OUT_PIN));
+  console.log('pincodes.min.json:', pinKeys.length, 'pincodes,', totalAreas, 'areas,', kb(OUT_PIN));
   console.log('cities.min.json  :', cityOut.length, 'cities,', kb(OUT_CITY));
   console.log('skipped rows     :', skipped);
 }

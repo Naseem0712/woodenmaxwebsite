@@ -2,19 +2,22 @@
  * js/pincode-lookup.js — enquiry-form location auto-fetch for WoodenMax.
  *
  * Datasets (lazy-loaded only when a field is focused, so page speed is unaffected):
- *   data/pincodes.min.json  { "<pincode>": [office, region, district, state] }
+ *   data/pincodes.min.json  { "<pincode>": [district, region, state, [areas...]] }
  *   data/cities.min.json    [[city, pincode, region, state], ...]
  *
  * Usage:
  *   WMPincode.attach({
- *     pincode: document.getElementById('pincode'),  // optional <input>
- *     city:    document.getElementById('city'),     // optional <input> (gets autocomplete)
- *     onChange: function (info) { ... }             // info = {pincode, office, city, district, region, state, source}
+ *     pincode:  document.getElementById('pincode'),  // optional <input>
+ *     city:     document.getElementById('city'),     // optional <input> (gets autocomplete)
+ *     area:     document.getElementById('area'),     // optional <input list="..."> for locality
+ *     areaList: document.getElementById('areaList'),  // optional <datalist> populated per pincode
+ *     onChange: function (info) { ... }              // info = {pincode, office, city, district, region, state, source}
  *   });
  */
 (function () {
   'use strict';
 
+  var DATA_VER = '20260620b';
   var pinMap = null, pinPromise = null;
   var cities = null, citiesPromise = null;
   var stylesInjected = false;
@@ -31,7 +34,7 @@
   function loadPins() {
     if (pinMap) return Promise.resolve(pinMap);
     if (pinPromise) return pinPromise;
-    pinPromise = fetch(PREFIX + 'data/pincodes.min.json')
+    pinPromise = fetch(PREFIX + 'data/pincodes.min.json?v=' + DATA_VER)
       .then(function (r) { if (!r.ok) throw new Error('pin fetch ' + r.status); return r.json(); })
       .then(function (j) { pinMap = j; return j; })
       .catch(function (e) { pinPromise = null; throw e; });
@@ -41,7 +44,7 @@
   function loadCities() {
     if (cities) return Promise.resolve(cities);
     if (citiesPromise) return citiesPromise;
-    citiesPromise = fetch(PREFIX + 'data/cities.min.json')
+    citiesPromise = fetch(PREFIX + 'data/cities.min.json?v=' + DATA_VER)
       .then(function (r) { if (!r.ok) throw new Error('city fetch ' + r.status); return r.json(); })
       .then(function (j) { cities = j; return j; })
       .catch(function (e) { citiesPromise = null; throw e; });
@@ -72,7 +75,16 @@
     opts = opts || {};
     var pinEl = opts.pincode || null;
     var cityEl = opts.city || null;
+    var areaEl = opts.area || null;
+    var areaList = opts.areaList || null;
     var onChange = typeof opts.onChange === 'function' ? opts.onChange : function () {};
+
+    function fillAreaList(areas) {
+      if (!areaList) return;
+      areaList.innerHTML = (areas || []).map(function (a) {
+        return '<option value="' + a.replace(/"/g, '&quot;') + '"></option>';
+      }).join('');
+    }
 
     var info = { pincode: '', office: '', city: '', district: '', region: '', state: '', source: '' };
     function emit(src) { info.source = src; onChange(Object.assign({}, info)); }
@@ -82,27 +94,51 @@
     if (pinEl) pinEl.addEventListener('focus', warm, { once: true });
     if (cityEl) cityEl.addEventListener('focus', warm, { once: true });
 
-    // ---- Pincode -> details ----
+    // ---- Pincode -> details + area list ----
     if (pinEl) {
       pinEl.addEventListener('input', function () {
         var v = (pinEl.value || '').replace(/\D/g, '').slice(0, 6);
         if (pinEl.value !== v) pinEl.value = v;
-        if (v.length !== 6) return;
+        if (v.length < 6) {
+          // PIN cleared/incomplete: clear auto-filled values so user isn't stuck.
+          if (info.source === 'pincode' || info.source === 'area') {
+            info.pincode = v; info.office = ''; info.district = ''; info.region = ''; info.state = '';
+            if (areaEl && areaEl.dataset.wmAuto === '1') { areaEl.value = ''; areaEl.dataset.wmAuto = ''; }
+            fillAreaList([]);
+            emit('clear');
+          }
+          return;
+        }
         loadPins().then(function (map) {
           var rec = map[v];
-          if (!rec) { info.pincode = v; emit('pincode-unknown'); return; }
+          if (!rec) { info.pincode = v; info.district = ''; info.region = ''; info.state = ''; info.office = ''; fillAreaList([]); emit('pincode-unknown'); return; }
+          var areas = rec[3] || [];
           info.pincode = v;
-          info.office = rec[0] || '';
+          info.district = rec[0] || '';
           info.region = rec[1] || '';
-          info.district = rec[2] || '';
-          info.state = rec[3] || '';
+          info.state = rec[2] || '';
           info.city = info.district;
+          fillAreaList(areas);
+          if (areaEl && (!areaEl.value.trim() || areaEl.dataset.wmAuto === '1')) {
+            areaEl.value = areas[0] || '';
+            areaEl.dataset.wmAuto = '1';
+          }
+          info.office = areaEl ? areaEl.value.trim() : (areas[0] || '');
           if (cityEl && (!cityEl.value.trim() || cityEl.dataset.wmAuto === '1')) {
             cityEl.value = info.district;
             cityEl.dataset.wmAuto = '1';
           }
           emit('pincode');
         }).catch(function () {});
+      });
+    }
+
+    // ---- Area / locality (free text + datalist) ----
+    if (areaEl) {
+      areaEl.addEventListener('input', function () {
+        areaEl.dataset.wmAuto = '';
+        info.office = areaEl.value.trim();
+        emit('area');
       });
     }
 
@@ -137,6 +173,12 @@
           pinEl.value = rec[1];
           pinEl.dataset.wmAuto = '1';
         }
+        // City pick is district-level: refresh the area list for that PIN so the user can still pick a locality.
+        if (areaEl && areaEl.dataset.wmAuto === '1') { areaEl.value = ''; areaEl.dataset.wmAuto = ''; }
+        loadPins().then(function (map) {
+          var r2 = map[rec[1]];
+          fillAreaList(r2 ? (r2[3] || []) : []);
+        }).catch(function () {});
         closeList();
         emit('city');
       }

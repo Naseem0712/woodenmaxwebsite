@@ -699,19 +699,22 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="pincode">Pincode</label>
-                <input type="text" id="pincode" name="pincode" inputmode="numeric" maxlength="6" autocomplete="postal-code" placeholder="e.g. 500032">
-                <span class="form-hint">6-digit PIN — city, district &amp; state auto-fill</span>
+                <input type="text" id="pincode" name="pincode" inputmode="numeric" maxlength="6" autocomplete="postal-code" placeholder="e.g. 251310">
+                <span class="form-hint">6-digit PIN — area, district &amp; state auto-fill</span>
               </div>
               <div class="form-group">
-                <label for="locality">District / State</label>
-                <input type="text" id="locality" name="locality" autocomplete="off" readonly placeholder="Auto-detected from PIN / city">
-                <span class="form-hint">Helps us route your site visit to the nearest team</span>
+                <label for="area">Area / Locality</label>
+                <input type="text" id="area" name="area" list="wmAreaList" autocomplete="off" placeholder="Pick your area after entering PIN">
+                <datalist id="wmAreaList"></datalist>
+                <span class="form-hint">Choose your exact locality for this PIN (editable)</span>
               </div>
             </div>
-            <input type="hidden" id="wmOffice" name="office">
-            <input type="hidden" id="wmDistrict" name="district">
+            <div class="form-group">
+              <label for="locality">District / State</label>
+              <input type="text" id="locality" name="locality" autocomplete="off" placeholder="Auto-detected — you can edit or clear">
+              <span class="form-hint">Helps us route your site visit to the nearest team</span>
+            </div>
             <input type="hidden" id="wmRegion" name="region">
-            <input type="hidden" id="wmState" name="state">
             
             <div class="form-group">
               <label for="leadType">I am a *</label>
@@ -816,7 +819,7 @@
 
   <!-- FOOTER -->
   <script defer src="js/email-submitter.js"></script>
-  <script defer src="js/pincode-lookup.js?v=20260620"></script>
+  <script defer src="js/pincode-lookup.js?v=20260620b"></script>
   <script defer src="js/main.js?v=20260601"></script>
   
   <script>
@@ -940,10 +943,9 @@
       const email = document.getElementById('email').value.trim() || '';
       const city = document.getElementById('city').value.trim() || '';
       const pincode = (document.getElementById('pincode') ? document.getElementById('pincode').value.trim() : '') || '';
-      const office = (document.getElementById('wmOffice') ? document.getElementById('wmOffice').value : '') || '';
-      const district = (document.getElementById('wmDistrict') ? document.getElementById('wmDistrict').value : '') || '';
+      const area = (document.getElementById('area') ? document.getElementById('area').value.trim() : '') || '';
+      const locality = (document.getElementById('locality') ? document.getElementById('locality').value.trim() : '') || '';
       const region = (document.getElementById('wmRegion') ? document.getElementById('wmRegion').value : '') || '';
-      const state = (document.getElementById('wmState') ? document.getElementById('wmState').value : '') || '';
       const leadType = document.getElementById('leadType').value || '';
       const product = document.getElementById('product').value;
       const visitDate = document.getElementById('visitDate') ? document.getElementById('visitDate').value : '';
@@ -976,10 +978,9 @@
               { label: 'Email', value: email || 'Not provided' },
               { label: 'City', value: city || 'Not provided' },
               { label: 'Pincode', value: pincode || 'Not provided' },
-              { label: 'Post office', value: office || 'Not provided' },
-              { label: 'District', value: district || 'Not provided' },
+              { label: 'Area / Locality', value: area || 'Not provided' },
+              { label: 'District / State', value: locality || 'Not provided' },
               { label: 'Region', value: region || 'Not provided' },
-              { label: 'State', value: state || 'Not provided' },
               { label: 'I am', value: leadType || 'Not provided' },
             ],
           },
@@ -1000,10 +1001,9 @@
           'Email: ' + (email || 'Not provided'),
           'City: ' + (city || 'Not provided'),
           'Pincode: ' + (pincode || 'Not provided'),
-          'Post office: ' + (office || 'Not provided'),
-          'District: ' + (district || 'Not provided'),
+          'Area / Locality: ' + (area || 'Not provided'),
+          'District / State: ' + (locality || 'Not provided'),
           'Region: ' + (region || 'Not provided'),
-          'State: ' + (state || 'Not provided'),
           'Product: ' + product,
           'Details: ' + message,
         ].join('\n');
@@ -1028,8 +1028,8 @@
             name: name,
             city: city,
             pincode: pincode,
-            district: district,
-            state: state,
+            area: area,
+            locality: locality,
             mobile: phone,
             email: email,
             leadType: leadType
@@ -1094,20 +1094,24 @@
       if (!window.WMPincode) return;
       var pinEl = document.getElementById('pincode');
       var cityEl = document.getElementById('city');
+      var areaEl = document.getElementById('area');
+      var areaList = document.getElementById('wmAreaList');
       var loc = document.getElementById('locality');
-      var fOffice = document.getElementById('wmOffice');
-      var fDistrict = document.getElementById('wmDistrict');
       var fRegion = document.getElementById('wmRegion');
-      var fState = document.getElementById('wmState');
       window.WMPincode.attach({
         pincode: pinEl,
         city: cityEl,
+        area: areaEl,
+        areaList: areaList,
         onChange: function (info) {
-          if (fOffice) fOffice.value = info.office || '';
-          if (fDistrict) fDistrict.value = info.district || '';
           if (fRegion) fRegion.value = info.region || '';
-          if (fState) fState.value = info.state || '';
-          if (loc) loc.value = [info.district, info.state].filter(Boolean).join(', ');
+          // Keep the editable District/State field in sync, but don't fight the user:
+          // only overwrite it when values changed via PIN/city, or clear it on reset.
+          if (info.source === 'clear') {
+            if (loc) loc.value = '';
+          } else if (info.source === 'pincode' || info.source === 'city') {
+            if (loc) loc.value = [info.district, info.state].filter(Boolean).join(', ');
+          }
         }
       });
     });
