@@ -691,10 +691,27 @@
               </div>
               <div class="form-group">
                 <label for="city">City / Site Location *</label>
-                <input type="text" id="city" name="city" autocomplete="address-level2" placeholder="e.g. Hyderabad, Gachibowli" required>
-                <span class="form-hint">City + area / landmark for site visit routing</span>
+                <input type="text" id="city" name="city" autocomplete="off" placeholder="Start typing — e.g. Hyderabad, Adilabad" required>
+                <span class="form-hint">Type your city — pick from the list to auto-fill PIN &amp; district</span>
               </div>
             </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="pincode">Pincode</label>
+                <input type="text" id="pincode" name="pincode" inputmode="numeric" maxlength="6" autocomplete="postal-code" placeholder="e.g. 500032">
+                <span class="form-hint">6-digit PIN — city, district &amp; state auto-fill</span>
+              </div>
+              <div class="form-group">
+                <label for="locality">District / State</label>
+                <input type="text" id="locality" name="locality" autocomplete="off" readonly placeholder="Auto-detected from PIN / city">
+                <span class="form-hint">Helps us route your site visit to the nearest team</span>
+              </div>
+            </div>
+            <input type="hidden" id="wmOffice" name="office">
+            <input type="hidden" id="wmDistrict" name="district">
+            <input type="hidden" id="wmRegion" name="region">
+            <input type="hidden" id="wmState" name="state">
             
             <div class="form-group">
               <label for="leadType">I am a *</label>
@@ -799,6 +816,7 @@
 
   <!-- FOOTER -->
   <script defer src="js/email-submitter.js"></script>
+  <script defer src="js/pincode-lookup.js?v=20260620"></script>
   <script defer src="js/main.js?v=20260601"></script>
   
   <script>
@@ -921,6 +939,11 @@
       const phone = document.getElementById('phone').value.trim();
       const email = document.getElementById('email').value.trim() || '';
       const city = document.getElementById('city').value.trim() || '';
+      const pincode = (document.getElementById('pincode') ? document.getElementById('pincode').value.trim() : '') || '';
+      const office = (document.getElementById('wmOffice') ? document.getElementById('wmOffice').value : '') || '';
+      const district = (document.getElementById('wmDistrict') ? document.getElementById('wmDistrict').value : '') || '';
+      const region = (document.getElementById('wmRegion') ? document.getElementById('wmRegion').value : '') || '';
+      const state = (document.getElementById('wmState') ? document.getElementById('wmState').value : '') || '';
       const leadType = document.getElementById('leadType').value || '';
       const product = document.getElementById('product').value;
       const visitDate = document.getElementById('visitDate') ? document.getElementById('visitDate').value : '';
@@ -952,6 +975,11 @@
               { label: 'Phone', value: phone },
               { label: 'Email', value: email || 'Not provided' },
               { label: 'City', value: city || 'Not provided' },
+              { label: 'Pincode', value: pincode || 'Not provided' },
+              { label: 'Post office', value: office || 'Not provided' },
+              { label: 'District', value: district || 'Not provided' },
+              { label: 'Region', value: region || 'Not provided' },
+              { label: 'State', value: state || 'Not provided' },
               { label: 'I am', value: leadType || 'Not provided' },
             ],
           },
@@ -971,6 +999,11 @@
           'Phone: ' + phone,
           'Email: ' + (email || 'Not provided'),
           'City: ' + (city || 'Not provided'),
+          'Pincode: ' + (pincode || 'Not provided'),
+          'Post office: ' + (office || 'Not provided'),
+          'District: ' + (district || 'Not provided'),
+          'Region: ' + (region || 'Not provided'),
+          'State: ' + (state || 'Not provided'),
           'Product: ' + product,
           'Details: ' + message,
         ].join('\n');
@@ -994,6 +1027,9 @@
           userDetails: {
             name: name,
             city: city,
+            pincode: pincode,
+            district: district,
+            state: state,
             mobile: phone,
             email: email,
             leadType: leadType
@@ -1051,6 +1087,30 @@
         window.location.href = `mailto:info@woodenmax.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
       }
     }
+  </script>
+  <script>
+    // Wire pincode/city auto-fetch (data lazy-loads on first focus).
+    document.addEventListener('DOMContentLoaded', function () {
+      if (!window.WMPincode) return;
+      var pinEl = document.getElementById('pincode');
+      var cityEl = document.getElementById('city');
+      var loc = document.getElementById('locality');
+      var fOffice = document.getElementById('wmOffice');
+      var fDistrict = document.getElementById('wmDistrict');
+      var fRegion = document.getElementById('wmRegion');
+      var fState = document.getElementById('wmState');
+      window.WMPincode.attach({
+        pincode: pinEl,
+        city: cityEl,
+        onChange: function (info) {
+          if (fOffice) fOffice.value = info.office || '';
+          if (fDistrict) fDistrict.value = info.district || '';
+          if (fRegion) fRegion.value = info.region || '';
+          if (fState) fState.value = info.state || '';
+          if (loc) loc.value = [info.district, info.state].filter(Boolean).join(', ');
+        }
+      });
+    });
   </script>
   <script src="js/seo-enhancer.js?v=20260520" defer></script>
   <script src="js/nav-tree.js?v=20260619" defer></script>

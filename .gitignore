@@ -54,6 +54,10 @@ __pycache__/
 *.pyc
 products-feed.generated.csv
 
+# Pincode build source (8 MB) — kept local only; generates data/pincodes.min.json + data/cities.min.json
+# Rebuild with: node tools/build-pincode-data.cjs
+all-india-pincode-html-csv.csv
+
 # Editor backups
 *.sublime-project
 *.sublime-workspace
