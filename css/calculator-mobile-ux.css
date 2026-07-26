@@ -817,6 +817,10 @@ body.grills-product-page .calc-sticky-exact {
 
 .cart-item-actions button:hover { background: #FEE2E2; }
 
+/* Edit is not destructive — keep the red reserved for Remove. */
+.cart-item-actions button[data-cart-action="edit"] { color: #B45309; }
+.cart-item-actions button[data-cart-action="edit"]:hover { background: #FEF3C7; }
+
 /* Empty cart state */
 .cart-empty {
   text-align: center;

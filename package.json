@@ -7,10 +7,17 @@
     "optimize:speed:dry": "node tools/optimize-speed.cjs --dry",
     "fix:head": "node tools/fix-head-assets.cjs",
     "fix:seo-urls": "node tools/fix-seo-urls.cjs",
-    "payments:dev": "node server/index.mjs",
+    "payments:dev": "npx wrangler dev",
     "payments:deploy": "npx wrangler deploy",
     "payments:health": "node -e \"fetch('https://jolly-field-be49.finilexnaseem.workers.dev/health').then(r=>r.json()).then(console.log).catch(console.error)\"",
     "payments:setup-live": "powershell -ExecutionPolicy Bypass -File tools/set-razorpay-live-secrets.ps1",
+    "db:create": "npx wrangler d1 create woodenmax",
+    "db:migrate": "npx wrangler d1 migrations apply woodenmax --remote",
+    "db:migrate:local": "npx wrangler d1 migrations apply woodenmax --local",
+    "audit:storage": "node tools/audit-quote-storage.cjs",
+    "test:quote": "node --test tools/test-quote-isolation.mjs",
+    "test:orders": "node --test tools/test-order-pipeline.mjs",
+    "test": "node --test tools/test-quote-isolation.mjs tools/test-order-pipeline.mjs",
     "merchant:feed": "python tools/generate_merchant_feed.py"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@
  * Wires the new patterns introduced in css/calculator-mobile-ux.css:
  *
  *   • Live-updating sticky bottom price bar
- *   • Add-to-Cart from the calculator (multi-item, localStorage-persisted)
+ *   • Add-to-Cart from the calculator (multi-item)
  *   • Bottom-sheet "Quote Cart"
  *   • Gated lead form modal (intent = "exact" | "export-pdf")
  *   • Print-stage builder → branded WoodenMax quote PDF via window.print()
@@ -12,6 +12,10 @@
  * The original calculator engine (js/calculator/*) is untouched —
  * we observe its output (`#calc-result-total`, `#calc-area-display`,
  * and visible `.calc-price-row` items) and never write to its state.
+ *
+ * Quote state lives in js/quote-store.js, which must load first. A saved item
+ * is frozen at save time: printing and emailing show exactly what the customer
+ * saved, never what the calculator currently displays.
  */
 (function () {
   'use strict';
@@ -25,8 +29,6 @@
   window.__wmCalcMobileUxLoaded = true;
 
   // ---------- Constants ----------
-  var STORAGE_KEY     = 'woodenmax_quote_cart_v1';
-  var LEAD_STORAGE    = 'woodenmax_lead_cache_v1';
   var BODY_FLAG       = 'has-calc-sticky-bar';
   var BAR_VISIBLE     = 'is-visible';
   var SHEET_OPEN      = 'is-open';
@@ -306,13 +308,45 @@
     return finalizeCartItemForPrint(Object.assign({}, it, patch || {}));
   }
 
-  function cartItemMatchesLivePage (it) {
+  /**
+   * True only when the item was saved from the exact page we are on now.
+   *
+   * The old version also returned true whenever `productKey` matched. That key
+   * falls back to 'product' on most pages (and some pages share a `data-product`
+   * outright), so unrelated saved items were treated as "this page" and got
+   * overwritten with the live calculator's sizes and rates at print time.
+   */
+  function livePagePath () {
+    if (typeof location === 'undefined') return '';
+    return location.pathname.replace(/\.html$/, '').replace(/\/$/, '').toLowerCase();
+  }
+
+  function cartItemIsFromLivePage (it) {
     if (!it || typeof location === 'undefined') return false;
-    var meta = readProductMeta();
-    if (it.productKey && meta.key && it.productKey === meta.key) return true;
     var savedPath = cartItemPagePath(it);
-    var livePath = location.pathname.replace(/\.html$/, '').replace(/\/$/, '').toLowerCase();
-    return !!(savedPath && savedPath === livePath);
+    if (!savedPath) return false;
+    return savedPath === livePagePath();
+  }
+
+  /**
+   * A saved configuration is frozen at save time: the PDF and the email must
+   * show exactly what the customer saved, never what the calculator happens to
+   * display right now. Only the unsaved live-calc placeholder (`_virtual`) may
+   * be rebuilt from the calculator on screen — that item *is* the live state.
+   */
+  function canRebuildFromLiveCalc (it) {
+    return !!(it && it._virtual && cartItemIsFromLivePage(it));
+  }
+
+  /**
+   * Legacy rows saved before we captured full spec details have nothing to
+   * print. Rebuilding those from the DOM is still allowed, but only when the
+   * saved page is literally the page on screen.
+   */
+  function canBackfillFromLiveCalc (it) {
+    if (!it) return false;
+    if (canRebuildFromLiveCalc(it)) return true;
+    return !hasSubstantiveCartDetails(it) && cartItemIsFromLivePage(it);
   }
 
   function productNameFromCalc (calc, meta) {
@@ -805,7 +839,7 @@
   function enrichPergolaCartItem (it) {
     if (!it || resolveCartCategory(it) !== 'Pergolas') return finalizeCartItemForPrint(it);
     var live = window.__pergolaLastEstimate;
-    if (live && cartItemMatchesLivePage(it)) {
+    if (live && canBackfillFromLiveCalc(it)) {
       return patchPrintItem(it, {
         productName: live.pergolaLineLabel || it.productName,
         details: buildPergolaCalcDetails(live),
@@ -831,7 +865,7 @@
     if (!it || !isMirrorCartItem(it)) return it;
     var catalog = $('#wmCatalogCalc');
     var live = catalog && catalog._lastCalc;
-    if (live && cartItemMatchesLivePage(it) && (!it.productKey || it.productKey === live.slug)) {
+    if (live && canBackfillFromLiveCalc(it) && (!it.productKey || it.productKey === live.slug)) {
       return patchPrintItem(it, {
         productName: live.pageTitle || it.productName,
         details: buildMirrorCalcDetails(live),
@@ -869,7 +903,7 @@
       var snapDetails = it.calcSnapshot.details.filter(function (d) {
         return d && d.label !== 'Product' && d.label !== 'Category';
       });
-      if (cartItemMatchesLivePage(it) && isShowerCalcDom()) {
+      if (canRebuildFromLiveCalc(it) && isShowerCalcDom()) {
         var liveShower = buildShowerCalcDetails(getCalcContainer(), itemExactAmount(it));
         if (liveShower.length) snapDetails = liveShower;
       }
@@ -882,7 +916,7 @@
         )
       });
     }
-    if (cartItemMatchesLivePage(it)) {
+    if (canBackfillFromLiveCalc(it)) {
       var liveCalc = getCalcContainer();
       if (liveCalc && liveCalc.id !== 'wmCatalogCalc' && liveCalc.id !== 'product-pricing-root' &&
           liveCalc.getAttribute('data-grill-calculator') == null) {
@@ -904,7 +938,7 @@
         }
       }
     }
-    if ((hasSubstantiveCartDetails(it) && !it._virtual) || !cartItemMatchesLivePage(it)) {
+    if ((hasSubstantiveCartDetails(it) && !it._virtual) || !canBackfillFromLiveCalc(it)) {
       return finalizeCartItemForPrint(it);
     }
     var calc = getCalcContainer();
@@ -929,11 +963,11 @@
 
   function enrichGlassRailingCartItem (it) {
     if (!it || it.category !== 'Glass Railing') return finalizeCartItemForPrint(it);
-    if (hasSubstantiveCartDetails(it) && !cartItemMatchesLivePage(it)) {
+    if (hasSubstantiveCartDetails(it) && !canBackfillFromLiveCalc(it)) {
       return finalizeCartItemForPrint(it);
     }
     var live = readGlassRailingQuoteSnapshot();
-    if (live && cartItemMatchesLivePage(it)) {
+    if (live && canBackfillFromLiveCalc(it)) {
       return patchPrintItem(it, {
         productName: live.productName || it.productName,
         details: live.details,
@@ -1045,20 +1079,27 @@
     return merged;
   }
 
-  function addGrillSnapToCart (cart, snap) {
-    snap = enrichGrillCartItem(snap);
-    var fp = grillCartFingerprint(snap);
-    if (!fp) {
-      cart.push(Object.assign({ id: uid() }, snap));
-      return;
-    }
-    for (var i = 0; i < cart.length; i++) {
-      if (grillCartFingerprint(cart[i]) === fp) {
-        cart[i] = mergeGrillCartLine(cart[i], snap);
-        return;
-      }
-    }
-    cart.push(Object.assign({ id: uid() }, snap));
+  /**
+   * Identical grill lines (same size, profile, pattern, finish) merge into one
+   * row with a higher quantity. The merge is an update on the existing item, so
+   * the row keeps its itemId instead of being deleted and recreated.
+   */
+  function addGrillSnapToStore (snap) {
+    var s = store();
+    if (!s) return null;
+    var enriched = enrichGrillCartItem(snap);
+    var fp = grillCartFingerprint(enriched);
+    if (!fp) return s.add(enriched);
+    var snapPath = cartItemPagePath(enriched);
+    return s.upsert(
+      enriched,
+      function (existing) {
+        // Same page only — an identical grill saved on a different product page
+        // is a separate line item, not a quantity bump.
+        return grillCartFingerprint(existing) === fp && cartItemPagePath(existing) === snapPath;
+      },
+      function (existing, incoming) { return mergeGrillCartLine(existing, incoming); }
+    );
   }
 
   function collapseGrillCartLines (cart) {
@@ -1136,40 +1177,52 @@
     }, meta, null);
   }
 
+  /**
+   * Mirror the grill calculator's own quotation list into the shared estimate.
+   *
+   * This used to delete every grill row in the cart and rebuild from the page
+   * on screen, which silently destroyed grills the customer had saved on other
+   * grill pages. Now it reconciles: rows are upserted by fingerprint, and only
+   * this page's grill rows that the calculator no longer lists get removed.
+   */
   function syncGrillQuotationToCart (quotationItems) {
-    var cart = readCart().filter(function (it) { return !isGrillCartItem(it); });
+    var s = store();
+    if (!s) return;
     var meta = readProductMeta();
+    var pagePath = livePagePath();
+    var kept = {};
     (quotationItems || []).forEach(function (it) {
-      addGrillSnapToCart(cart, cartSnapFromGrillQuotationItem(it, meta));
+      var saved = addGrillSnapToStore(cartSnapFromGrillQuotationItem(it, meta));
+      if (saved && saved.itemId) kept[saved.itemId] = true;
     });
-    writeCart(cart);
+    s.removeWhere(function (item) {
+      return isGrillCartItem(item) &&
+        !kept[item.itemId] &&
+        cartItemPagePath(item) === pagePath;
+    });
+    syncCartBadges();
   }
 
   // ---------- Storage ----------
-  function readCart () {
-    var raw = null;
-    try { raw = localStorage.getItem(STORAGE_KEY); } catch (e) {}
-    if (!raw) {
-      try { raw = sessionStorage.getItem(STORAGE_KEY); } catch (e2) {}
-      if (raw) {
-        try { localStorage.setItem(STORAGE_KEY, raw); } catch (e3) {}
-      }
-    }
-    try {
-      var arr = raw ? JSON.parse(raw) : [];
-      return Array.isArray(arr) ? arr : [];
-    } catch (e4) { return []; }
+  /**
+   * All quote state lives in js/quote-store.js. Every read hands back a fresh
+   * deep clone and every write deep-clones on the way in, so one calculator can
+   * no longer reach into another saved item's nested config.
+   */
+  function store () {
+    return window.WoodenMaxQuoteStore || null;
   }
+
+  function readCart () {
+    var s = store();
+    return s ? s.list() : [];
+  }
+
   function writeCart (items) {
-    var json = JSON.stringify(items);
-    try { localStorage.setItem(STORAGE_KEY, json); } catch (e) {}
-    try { sessionStorage.setItem(STORAGE_KEY, json); } catch (e2) {}
+    var s = store();
+    if (!s) return;
+    s.replaceAll(items || []);
     syncCartBadges();
-    try {
-      document.dispatchEvent(new CustomEvent('wm-cart-updated', {
-        detail: { count: items.length, items: items }
-      }));
-    } catch (e3) {}
   }
 
   function syncCartBadges () {
@@ -1199,13 +1252,12 @@
     if (bar) updateStickyViewEstimate(bar, readPrice() || '');
   }
   function readLead () {
-    try {
-      var raw = localStorage.getItem(LEAD_STORAGE);
-      return raw ? JSON.parse(raw) : null;
-    } catch (e) { return null; }
+    var s = store();
+    return s ? s.getCustomer() : null;
   }
   function writeLead (data) {
-    try { localStorage.setItem(LEAD_STORAGE, JSON.stringify(data)); } catch (e) {}
+    var s = store();
+    if (s) s.setCustomer(data);
   }
 
   // ---------- Calculator context ----------
@@ -2201,6 +2253,42 @@
   }
 
   // ---------- Cart ----------
+  /**
+   * Send the customer back to the page this item was configured on, and
+   * remember which row they are editing. Re-saving there replaces that row.
+   * The price always comes from the real calculator — we never recompute it.
+   */
+  function startItemEdit (itemId) {
+    var s = store();
+    if (!s || !itemId) return;
+    var item = s.get(itemId);
+    if (!item || !item.pageUrl) return;
+    s.setEditing(itemId);
+    if (cartItemPagePath(item) === livePagePath()) {
+      closeSheet();
+      showToast('info', 'Change the sizes / options below, then tap <strong>' + UI.saveSticky + '</strong> to update this line.');
+      var c = getCalcContainer();
+      if (c) setTimeout(function () { c.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 250);
+      return;
+    }
+    window.location.href = item.pageUrl;
+  }
+
+  /**
+   * The row being edited, but only if it belongs to this page — otherwise a
+   * stale edit flag from another product would swallow a new configuration.
+   */
+  function pendingEditTarget () {
+    var s = store();
+    if (!s) return null;
+    var id = s.getEditing();
+    if (!id) return null;
+    var item = s.get(id);
+    if (!item) { s.clearEditing(); return null; }
+    if (cartItemPagePath(item) !== livePagePath()) return null;
+    return item;
+  }
+
   function addCurrentToCart () {
     var snaps = readAllRowSnapshots();
     if (!snaps.length) {
@@ -2208,21 +2296,31 @@
       if (single) snaps = [single];
     }
     if (!snaps.length) return null;
-    var cart = readCart();
-    snaps.forEach(function (snap) {
+    var s = store();
+    if (!s) return null;
+
+    var editTarget = pendingEditTarget();
+    snaps.forEach(function (snap, i) {
+      if (editTarget && i === 0) {
+        s.update(editTarget.itemId, snap);
+        s.clearEditing();
+        return;
+      }
       if (isGrillCartItem(snap)) {
-        addGrillSnapToCart(cart, snap);
+        addGrillSnapToStore(snap);
       } else {
-        cart.push(Object.assign({ id: uid() }, snap));
+        s.add(snap);
       }
     });
-    writeCart(cart);
+    syncCartBadges();
     return snaps[snaps.length - 1];
   }
 
   function removeFromCart (id) {
-    var cart = readCart().filter(function (it) { return it.id !== id; });
-    writeCart(cart);
+    var s = store();
+    if (s) s.remove(id);
+    var cart = readCart();
+    syncCartBadges();
     try {
       if (typeof window.trackEstimateItemRemoved === 'function') {
         window.trackEstimateItemRemoved(cart.length);
@@ -2364,6 +2462,9 @@
           }).join('') +
         '</dl>' +
         '<div class="cart-item-actions">' +
+          (it.pageUrl
+            ? '<button type="button" data-cart-action="edit" data-cart-id="' + escapeHtml(it.id) + '">Edit</button>'
+            : '') +
           '<button type="button" data-cart-action="remove" data-cart-id="' + escapeHtml(it.id) + '">Remove</button>' +
         '</div>' +
       '</div>';
@@ -2701,14 +2802,20 @@
 
     // intent === 'exact'
     if (live && cart.length) {
-      // De-dup: drop cart entries that perfectly match the live snapshot
-      // (same product key + specs + area), otherwise stack live first.
-      var sig = function (it) {
-        return [it.productKey, it.area, (it.specs || []).join('|')].join('::');
-      };
-      var liveSig = sig(live);
-      var extras = cart.filter(function (it) { return sig(it) !== liveSig; });
-      return [live].concat(extras);
+      // If this exact configuration is already saved from this page, show the
+      // saved rows only — otherwise stack the unsaved live config on top.
+      //
+      // The old check compared `productKey::area::specs`, and productKey falls
+      // back to 'product' on most pages, so unrelated saved items were dropped
+      // from the enquiry. Matching now requires the same source page too.
+      var livePath = livePagePath();
+      var alreadySaved = cart.some(function (it) {
+        return cartItemPagePath(it) === livePath &&
+          it.area === live.area &&
+          itemExactAmount(it) === itemExactAmount(live) &&
+          (it.specs || []).join('|') === (live.specs || []).join('|');
+      });
+      return alreadySaved ? cart : [live].concat(cart);
     }
     if (live)        return [live];
     if (cart.length) return cart;
@@ -2945,9 +3052,11 @@
         onError:   function (err) { resolve({ ok: false, reason: (err && err.message) || 'Submit failed' }); }
       });
 
-      // Safety: don't let a slow/hung transport block the PDF print for
-      // more than 4s.  EmailSubmitter usually resolves in <1s.
-      setTimeout(function () { resolve({ ok: false, reason: 'timeout' }); }, 4000);
+      // A slow transport must not hang the UI, but 4s used to report a
+      // perfectly good send as "failed" and scare the customer. Wait long
+      // enough to know the answer, and say "still sending" rather than
+      // "failed" if it really is slow.
+      setTimeout(function () { resolve({ ok: false, reason: 'pending' }); }, 20000);
     });
   }
 
@@ -3587,35 +3696,56 @@
       }
     }).then(function (result) {
       var plan = result.plan || getCartPaymentPlan(items, payChoice);
+      var verified = result.verified || {};
+      var paymentId = (result.payment && result.payment.razorpay_payment_id) || verified.payment_id;
+
+      if (submit) submit.classList.remove('is-loading');
+      closeForm();
+      closeSheet();
+
+      // The server has already recorded the order, rendered the PDF and queued
+      // both emails by the time verify-payment returns, so the browser only
+      // has to hand the customer their copy.
+      if (verified.order_no) {
+        var paidMsg = plan.mode === 'mirror_full'
+          ? ('<strong>Order confirmed.</strong> ' + fmtINR(plan.amountInr) + ' received. ')
+          : ('<strong>Order confirmed.</strong> ₹1,000 received. Balance after site size check. ');
+        showToast(
+          'success',
+          paidMsg + 'Order <strong>' + escapeHtml(verified.order_no) + '</strong>. ' +
+            'Your PDF is downloading and has been emailed to you' +
+            (lead.email ? ' (<strong>' + escapeHtml(lead.email) + '</strong>)' : '') + '.'
+        );
+        return window.WoodenMaxRazorpay.downloadOrderPdf(verified.order_no).then(function (ok) {
+          if (!ok) {
+            showToast(
+              'warn',
+              'Payment received (order <strong>' + escapeHtml(verified.order_no) + '</strong>). Your PDF is still being prepared — ' +
+                'it will arrive by email shortly. Any issue: <strong>+91 78953 28080</strong>.'
+            );
+          }
+        });
+      }
+
+      // No server-side order (older cached script or a quote that failed to
+      // save). Fall back to the client receipt so a paid customer still leaves
+      // with proof of payment.
       var paymentMeta = {
-        payment_id: result.payment && result.payment.razorpay_payment_id,
+        payment_id: paymentId,
         order_id: result.payment && result.payment.razorpay_order_id,
         payment_mode: plan.mode,
         paid_amount_inr: plan.amountInr,
         paid_amount_paise: plan.amountPaise,
         receipt_no: makeReceiptNumber()
       };
-      return sendLeadEmail(lead, items, 'order-booking', paymentMeta).then(function (emailRes) {
-        if (submit) submit.classList.remove('is-loading');
-        closeForm();
-        closeSheet();
-        printPaymentReceipt(lead, items, paymentMeta);
-        var paidMsg = plan.mode === 'mirror_full'
-          ? ('<strong>Mirror order confirmed.</strong> ' + fmtINR(plan.amountInr) + ' received. Receipt opened — save or print. ')
-          : ('<strong>Order confirmed.</strong> ₹1,000 received. Receipt opened. Balance after site size check. ');
-        showToast(
-          'success',
-          paidMsg + 'Details emailed to you' +
-            (lead.email ? ' (<strong>' + escapeHtml(lead.email) + '</strong>)' : '') +
-            ' &amp; WoodenMax. Payment ID: <strong>' + escapeHtml(paymentMeta.payment_id || '—') + '</strong>.'
-        );
-        if (!emailRes || !emailRes.ok) {
-          showToast(
-            'warn',
-            'Payment succeeded but email failed — keep your receipt print &amp; WhatsApp +91 78953 28080.'
-          );
-        }
-      });
+      printPaymentReceipt(lead, items, paymentMeta);
+      showToast(
+        'success',
+        '<strong>Payment received.</strong> Receipt opened — please save it. ' +
+          'Payment ID: <strong>' + escapeHtml(paymentMeta.payment_id || '—') + '</strong>. ' +
+          'Call <strong>+91 78953 28080</strong> if you do not receive your order PDF by email.'
+      );
+      return sendLeadEmail(lead, items, 'order-booking', paymentMeta);
     }).catch(function (err) {
       if (submit) submit.classList.remove('is-loading');
       var msg = (err && err.message) ? err.message : 'Payment could not be completed';
@@ -3681,6 +3811,12 @@
           'Quote details emailed to <strong>info@woodenmax.com</strong>' +
             (lead.email ? ' with a copy to <strong>' + escapeHtml(lead.email) + '</strong>' : '') +
             '. Our team will reach you on <strong>' + escapeHtml(lead.mobile || '—') + '</strong> within 2 working hours.'
+        );
+      } else if (result && result.reason === 'pending') {
+        showToast(
+          'info',
+          'Your quote is still being sent — it usually lands within a minute. ' +
+          'Nothing more to do; we will call you on <strong>' + escapeHtml(lead.mobile || '—') + '</strong>.'
         );
       } else {
         var reason = (result && result.reason) ? result.reason : 'unknown';
@@ -4024,6 +4160,8 @@
           removeFromCart(t.getAttribute('data-cart-id'));
           if (bar) updateStickyBar(bar);
           renderSheet();
+        } else if (action === 'edit') {
+          startItemEdit(t.getAttribute('data-cart-id'));
         } else if (action === 'add-more' || action === 'close') {
           closeSheet();
           var c = getCalcContainer();
@@ -4111,9 +4249,8 @@
       });
     }
 
-    window.addEventListener('storage', function (e) {
-      if (e.key === STORAGE_KEY) syncCartBadges();
-    });
+    // The store owns cross-tab sync; it re-broadcasts as wm-cart-updated.
+    document.addEventListener('wm-cart-updated', function () { syncCartBadges(); });
     window.addEventListener('pageshow', function () {
       syncCartBadges();
       var b = $('#calcStickyBar');

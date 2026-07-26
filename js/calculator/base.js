@@ -815,7 +815,7 @@ class PriceCalculatorBase {
     }
     
     
-    // Email body — plain text (Web3Forms shows message as text, not HTML)
+    // Email body — plain text (the inbox shows message as text, not HTML)
     const matRows = [
       { label: 'Glass type', value: selections.glass },
       { label: 'Coating', value: selections.coating },
@@ -1138,53 +1138,36 @@ class PriceCalculatorBase {
     }
   }
   
+  /**
+   * Fallback used when EmailSubmitter has not loaded. It posts to the same
+   * Worker, so mail always leaves from our verified domain — the old direct
+   * Web3Forms call put an API key in page source and sent `from` as the
+   * customer's own address, which fails SPF/DKIM/DMARC.
+   */
   submitEmailDirect(emailBody, userDetails) {
-    // Direct submission method (fallback when EmailSubmitter not loaded)
-    const web3formsAccessKey = window.WEB3FORMS_ACCESS_KEY || 'fd9946a6-03dd-4f6f-bad8-c430f7c6d351';
-    
-    if (web3formsAccessKey && !web3formsAccessKey.includes('YOUR_')) {
-      const emailData = {
-        access_key: web3formsAccessKey,
-        subject: `New Quote Request - ${this.config.name || this.productId}`,
-        from_name: userDetails.name || 'WoodenMax Website',
-        from_email: userDetails.email || 'noreply@woodenmax.in',
-        to_email: 'info@woodenmax.com',
-        message: emailBody,
-      };
-      
-      fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(emailData),
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          if (typeof trackCalculatorFormSubmit === 'function') {
-            const hasPrice = this.lastCalculatedAmounts && this.lastCalculatedAmounts.subtotal > 0;
-            trackCalculatorFormSubmit('quote_request', hasPrice);
-          }
-          this.showSuccessMessage();
-        } else {
-          throw new Error(data.message || 'Failed to send email');
+    const workerEndpoint = window.EMAIL_WORKER_URL || 'https://jolly-field-be49.finilexnaseem.workers.dev';
+
+    const formData = new FormData();
+    formData.append('_subject', `New Quote Request - ${this.config.name || this.productId}`);
+    formData.append('message', emailBody);
+    formData.append('Name', userDetails.name || '');
+    formData.append('Email', userDetails.email || '');
+    formData.append('City', userDetails.city || '');
+    formData.append('Mobile', userDetails.mobile || '');
+
+    fetch(workerEndpoint, { method: 'POST', body: formData })
+      .then(response => response.json().then(data => ({ ok: response.ok, data })))
+      .then(({ ok, data }) => {
+        if (!ok || !data.success) throw new Error(data.error || data.message || 'Failed to send email');
+        if (typeof trackCalculatorFormSubmit === 'function') {
+          const hasPrice = this.lastCalculatedAmounts && this.lastCalculatedAmounts.subtotal > 0;
+          trackCalculatorFormSubmit('quote_request', hasPrice);
         }
+        this.showSuccessMessage();
       })
       .catch(error => {
         this.showEmailSubmitFailed(error);
       });
-    } else {
-      this.showEmailSubmitFailed(new Error('Web3Forms key not configured'));
-    }
-  }
-  
-  // Legacy fallback method - kept for compatibility but not used anymore
-  submitEmailViaFormSubmitFallback(emailBody, userDetails, selections, amounts) {
-    const web3formsAccessKey = window.WEB3FORMS_ACCESS_KEY || 'YOUR_WEB3FORMS_ACCESS_KEY';
-    if (web3formsAccessKey && !web3formsAccessKey.includes('YOUR_')) {
-      this.submitViaWeb3Forms(emailBody, userDetails, selections, amounts, web3formsAccessKey);
-    } else {
-      this.showSuccessMessage(); // Show success anyway
-    }
   }
   
   showEmailSubmitFailed(error) {

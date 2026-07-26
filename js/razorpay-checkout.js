@@ -160,6 +160,57 @@
     });
   }
 
+  /**
+   * Persist the estimate server-side before opening the payment modal.
+   *
+   * This is what lets the server price the order itself, generate the PDF and
+   * email it — none of which is possible while the cart lives only in the
+   * customer's browser. The quote id is reused across edits so the server keeps
+   * versions (v1, v2, …) instead of a pile of unrelated quotes.
+   */
+  function saveQuoteOnServer (lead, items) {
+    var store = window.WoodenMaxQuoteStore;
+    var meta = store ? store.meta() : null;
+    return postJson('/api/quote', {
+      quote_id: meta ? meta.quoteId : null,
+      customer: lead || {},
+      items: items || [],
+      source_url: location.href,
+    }).then(function (saved) {
+      if (store && saved && saved.quote_no) {
+        try { store.setQuoteNo(saved.quote_no); } catch (e) { /* non-fatal */ }
+      }
+      return saved;
+    });
+  }
+
+  /**
+   * Pull the freshly generated PDF down for the customer. Called after a
+   * successful payment; a failure here is never fatal because the same PDF is
+   * also emailed and stays available at the order URL.
+   */
+  function downloadOrderPdf (orderNo) {
+    if (!orderNo) return Promise.resolve(false);
+    var url = paymentsApiBase() + '/api/order/' + encodeURIComponent(orderNo) + '/pdf';
+    return fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error('PDF not ready (HTTP ' + res.status + ')');
+        return res.blob();
+      })
+      .then(function (blob) {
+        var href = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = href;
+        a.download = 'WoodenMax-' + orderNo + '.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(href); }, 30000);
+        return true;
+      })
+      .catch(function () { return false; });
+  }
+
   function isRazorpayTestKey (keyId) {
     return /^rzp_test_/i.test(String(keyId || ''));
   }
@@ -253,6 +304,8 @@
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
+            quote_id: order.quote_id || null,
+            purpose: (plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'order_full_pay' : 'order_booking',
           })
             .then(function (verified) {
               done(resolve, {
@@ -312,13 +365,23 @@
 
     onStatus('loading', 'Preparing secure payment…');
 
+    var purpose = (plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'order_full_pay' : 'order_booking';
+    var quoteId = null;
+
     return loadCheckoutScript()
       .then(function () {
+        // The server prices the order from this saved quote, so the browser no
+        // longer decides what the customer is charged.
+        return saveQuoteOnServer(lead, items);
+      })
+      .then(function (saved) {
+        quoteId = saved && saved.quote_id;
+        if (!quoteId) throw new Error('Could not save your estimate. Please check your connection and try again.');
         return postJson('/api/create-order', {
-          purpose: (plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'order_full_pay' : 'order_booking',
-          amount: plan.amountPaise,
+          purpose: purpose,
+          quote_id: quoteId,
           currency: 'INR',
-          receipt: ((plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'wm_full_' : 'wm_book_') + Date.now(),
+          receipt: (purpose === 'order_full_pay' ? 'wm_full_' : 'wm_book_') + Date.now(),
           notes: {
             lead_name: lead.name || '',
             lead_mobile: lead.mobile || '',
@@ -327,7 +390,6 @@
             item_count: String(items.length),
             payment_mode: plan.mode,
             cart_kind: plan.cartKind,
-            amount_inr: String(plan.amountInr),
           },
         });
       })
@@ -335,6 +397,7 @@
         if (!order || !order.order_id || !order.key_id) {
           throw new Error('Invalid order response from server');
         }
+        order.quote_id = quoteId;
         var liveMode = isRazorpayLiveKey(order.key_id) || order.razorpay_mode === 'live';
         if (liveMode) {
           onStatus('live', 'Live payment — real amount will be charged');
@@ -368,5 +431,7 @@
     isCartMixed: isCartMixed,
     startCheckout: startCheckout,
     startBookingCheckout: startBookingCheckout,
+    saveQuoteOnServer: saveQuoteOnServer,
+    downloadOrderPdf: downloadOrderPdf,
   };
 })();

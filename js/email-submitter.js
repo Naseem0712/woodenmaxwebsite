@@ -1,7 +1,8 @@
 /**
  * Email & WhatsApp Submission Utility
- * Replaces formsubmit.co with Cloudflare Worker / Web3Forms
- * Bodies are plain text: Web3Forms shows the `message` field as text, not rendered HTML.
+ * Posts enquiries to the Cloudflare Worker, which sends them through Resend
+ * from our verified domain. Bodies are plain text so specs read clearly in the
+ * inbox without depending on HTML rendering.
  * Optional WhatsApp copy (off by default — set sendWhatsAppCopy: true to enable)
  */
 
@@ -52,7 +53,7 @@ window.EmailSubmitter = {
   },
 
   /**
-   * Web3Forms / inbox: always send plain text so product & materials read clearly.
+   * Inbox: always send plain text so product & materials read clearly.
    * @param {{ title?: string, rows: { label: string, value?: string, valueHtml?: string }[] }[]} sections
    */
   buildStructuredPlainText(mainTitle, sections) {
@@ -126,7 +127,7 @@ window.EmailSubmitter = {
   },
 
   /**
-   * Submit email via Cloudflare Worker or Web3Forms
+   * Submit an enquiry through the Cloudflare Worker, retrying transport faults.
    * @param {Object} options
    * @param {string} options.message - Plain text (recommended). HTML is stripped automatically.
    */
@@ -145,15 +146,16 @@ window.EmailSubmitter = {
 
     const defaultWorkerUrl = 'https://jolly-field-be49.finilexnaseem.workers.dev';
     const workerEndpoint = window.EMAIL_WORKER_URL || defaultWorkerUrl;
-    const web3formsAccessKey = window.WEB3FORMS_ACCESS_KEY || 'fd9946a6-03dd-4f6f-bad8-c430f7c6d351';
-    const useWeb3FormsDirect =
-      workerEndpoint.includes('YOUR_') || workerEndpoint.includes('woodenmax.in/api');
 
-    // WhatsApp copy-on-submit disabled (was causing form submission issues on some devices).
-    // Form now sends email only. Keep the sendWhatsApp method below for backward compatibility
-    // but do not invoke it from the submit flow.
+    // The Worker is the only send path. The old direct-to-Web3Forms fallback
+    // shipped an API key in page source and put the customer's own address in
+    // `from`, which fails SPF/DKIM/DMARC and is why so much of this mail was
+    // filed as spam or dropped outright. The Worker sends from our verified
+    // domain via Resend instead.
+    const MAX_ATTEMPTS = 3;
+    let lastError = null;
 
-    if (!useWeb3FormsDirect) {
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       try {
         const formData = new FormData();
         formData.append('_subject', subject);
@@ -164,65 +166,30 @@ window.EmailSubmitter = {
         formData.append('Mobile', userDetails.mobile || '');
         if (ccEmail) formData.append('CC', ccEmail);
 
-        const response = await fetch(workerEndpoint, {
-          method: 'POST',
-          body: formData
-        });
+        const response = await fetch(workerEndpoint, { method: 'POST', body: formData });
+        const data = await response.json().catch(() => ({}));
 
-        if (!response.ok) {
-          throw new Error('Worker HTTP ' + response.status);
-        }
-
-        const data = await response.json();
-        if (data.success) {
+        if (response.ok && data.success) {
           onSuccess();
           return;
-        } else {
-          throw new Error(data.message || 'Worker returned error');
         }
+        // A rejected payload will be rejected again — only retry transport and
+        // server-side faults.
+        if (response.status >= 400 && response.status < 500) {
+          throw new Error(data.error || data.message || ('Rejected (HTTP ' + response.status + ')'));
+        }
+        lastError = new Error(data.error || data.message || ('Worker HTTP ' + response.status));
       } catch (error) {
-        /* Cloudflare Worker failed, trying Web3Forms */
+        lastError = error;
+        if (/Rejected \(HTTP/.test(error.message || '')) break;
+      }
+
+      if (attempt < MAX_ATTEMPTS) {
+        await new Promise((r) => setTimeout(r, attempt * 1200));
       }
     }
 
-    if (web3formsAccessKey && !web3formsAccessKey.includes('YOUR_')) {
-      try {
-        const emailData = {
-          access_key: web3formsAccessKey,
-          subject: subject,
-          from_name: userDetails.name || 'WoodenMax Website',
-          from_email: userDetails.email || 'noreply@woodenmax.in',
-          to_email: 'info@woodenmax.com',
-          message: outboundMessage
-        };
-        if (ccEmail && /^[^\s@]+@[^\s@]+\.[^\s@]+/.test(ccEmail)) {
-          emailData.cc = ccEmail;
-        }
-        if (userDetails.email) {
-          emailData.reply_to = userDetails.email;
-        }
-
-        const response = await fetch('https://api.web3forms.com/submit', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(emailData),
-        });
-
-        const data = await response.json();
-        if (data.success) {
-          onSuccess();
-          return;
-        } else {
-          throw new Error(data.message || 'Failed to send email');
-        }
-      } catch (error) {
-        onError(error);
-      }
-    } else {
-      onError(new Error('Email not configured'));
-    }
+    onError(lastError || new Error('Email could not be sent'));
   },
 
   // Deprecated: no-op. WhatsApp copy-on-submit removed because the hidden-iframe wa.me hack

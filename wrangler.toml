@@ -1,9 +1,36 @@
-# Cloudflare Worker — email relay (Web3Forms) + Razorpay API
-# Deploy: npm run payments:deploy
-# Set secrets: npx wrangler secret put RAZORPAY_KEY_ID
-#              npx wrangler secret put RAZORPAY_KEY_SECRET
-# https://developers.cloudflare.com/workers/wrangler/configuration/
+# Cloudflare Worker — quotes, Razorpay, order PDFs and transactional email.
+#
+# Deploy:
+#   npx wrangler d1 migrations apply woodenmax --remote
+#   npx wrangler deploy
+#
+# Secrets (npx wrangler secret put NAME):
+#   RAZORPAY_KEY_ID          rzp_live_… / rzp_test_…
+#   RAZORPAY_KEY_SECRET
+#   RAZORPAY_WEBHOOK_SECRET  the secret set on the Razorpay webhook
+#   RESEND_API_KEY           Resend, sending from a verified woodenmax.in
+#   CF_ACCOUNT_ID            for Browser Rendering
+#   CF_BROWSER_TOKEN         API token with Browser Rendering: Edit
+#
+# GET /health reports which of these are still missing.
 
 name = "jolly-field-be49"
-main = "worker.js"
+main = "worker/index.js"
 compatibility_date = "2024-11-01"
+
+[vars]
+ADMIN_EMAIL = "info@woodenmax.com"
+REPLY_TO_EMAIL = "info@woodenmax.com"
+ORDER_FROM_EMAIL = "WoodenMax Orders <orders@woodenmax.in>"
+SITE_ORIGIN = "https://woodenmax.in"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "woodenmax"
+# npx wrangler d1 create woodenmax  ->  paste the id it prints here
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+# Retries any order email the queue still owes.
+[triggers]
+crons = ["*/15 * * * *"]

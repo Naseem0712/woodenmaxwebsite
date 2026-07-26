@@ -18,50 +18,53 @@ After payment: **printable receipt** + **email to WoodenMax and customer** (if e
 | **Full order amount** | **Non-refundable after 3 calendar days** from payment — material cutting & factory processing typically starts within 3 days. After that: **only products** are supplied; **no cash refund**. |
 | **Within 3 days (full order)** | Cancellation only if factory work has **not** started — contact +91 78953 28080 immediately. |
 
-## Cloudflare Dashboard deploy (Quick Edit — ONE file only)
+## Deploy — Wrangler only
 
-Dashboard editor mein **sirf `worker.js`** paste karo. **`import './lib/razorpay-handlers.mjs'` mat rakho** — woh file Dashboard par upload nahi hoti, isliye error:
+Dashboard Quick Edit **ab kaam nahi karega**. Worker ek single file nahi raha: usko D1 database binding, cron trigger aur `worker/` ke modules chahiye, jo sirf `wrangler.toml` se aate hain.
 
-`No such module "lib/razorpay-handlers.mjs"`
+```bash
+npm run db:create          # pehli baar — printed database_id ko wrangler.toml me paste karein
+npm run db:migrate         # schema
+npx wrangler secret put RAZORPAY_KEY_ID
+npx wrangler secret put RAZORPAY_KEY_SECRET
+npx wrangler secret put RAZORPAY_WEBHOOK_SECRET
+npx wrangler secret put RESEND_API_KEY
+npx wrangler secret put CF_ACCOUNT_ID
+npx wrangler secret put CF_BROWSER_TOKEN
+npm run payments:deploy
+```
 
-Repo ka `worker.js` ab **sab code ek hi file** mein hai (no import).
+Phir `https://jolly-field-be49.finilexnaseem.workers.dev/health` kholein. `ok:true` tab aata hai jab saare checks pass hon; jo missing hai wo `missing` array aur `fix` line me naam se dikhta hai:
 
-1. [Cloudflare Dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **jolly-field-be49** → **Edit code**
-2. Purana code delete → apne PC se latest `worker.js` **poora copy-paste**
-3. **Settings → Variables** (Secrets):
-   - `RAZORPAY_KEY_ID`
-   - `RAZORPAY_KEY_SECRET`
-   - `WEB3FORMS_ACCESS_KEY` (optional)
-   - `RECIPIENT_EMAIL` (optional)
-4. **Deploy** button
-5. Test: `https://jolly-field-be49.finilexnaseem.workers.dev/health`
+```json
+{"ok":true,"razorpay_mode":"live","checks":{"razorpay":true,"razorpay_webhook":true,"database":true,"pdf":true,"email":true},"missing":[]}
+```
 
-   Success looks like:
-
-   ```json
-   {"ok":true,"razorpay":true,"has_key_id":true,"has_key_secret":true}
-   ```
-
-   If `razorpay:false` — check `has_key_id` / `has_key_secret` (which one is false), fix that secret name, **Deploy** again.
-
-Preview mein **GET** se `Method not allowed` normal hai — payment **POST** se chalti hai.
+Razorpay Dashboard → **Webhooks** → URL `https://jolly-field-be49.finilexnaseem.workers.dev/api/razorpay-webhook`, event **payment.captured**, secret wahi jo `RAZORPAY_WEBHOOK_SECRET` me daala.
 
 ## Architecture
 
 | Layer | File | Role |
 |-------|------|------|
-| API (production) | `worker.js` (single file) | `POST /api/create-order`, `POST /api/verify-payment` |
-| API (local dev) | `server/index.mjs` | Same routes on `http://localhost:8787` |
+| Router | `worker/index.js` | saare routes + cron |
+| Razorpay | `worker/razorpay.js` | order create, payment + webhook signature |
+| Orders | `worker/orders.js` | D1, quote versioning, idempotent `fulfilOrder` |
+| PDF | `worker/pdf.js` + `worker/quote-html.js` | Browser Rendering se order confirmation |
+| Email | `worker/email.js` | Resend + `email_queue` retry |
+| Schema | `migrations/0001_init.sql` | quotes, orders, order_events, email_queue |
 | Frontend | `js/razorpay-checkout.js` | Razorpay modal + verify |
+| Quote state | `js/quote-store.js` | per-item UUID cart (single source of truth) |
 | Cart UI | `js/calculator-mobile-ux.js` | **Book order — Pay ₹1,000** in quote cart |
 
-Email relay still works on `POST` to the worker root URL (unchanged).
+Local dev: `npm run payments:dev` (`wrangler dev`, local D1 ke saath). Purana express shim (`server/index.mjs`) hata diya gaya hai — wo payment logic ki doosri copy thi aur drift kar rahi thi.
+
+Endpoints: `POST /api/quote`, `POST /api/create-order`, `POST /api/verify-payment`, `POST /api/razorpay-webhook`, `GET /api/order/:orderNo`, `GET /api/order/:orderNo/pdf`. Enquiry form ab bhi worker root par `POST` (multipart) se chalta hai, par email Web3Forms ki jagah **Resend** se jaati hai.
 
 ## Setup
 
 1. Copy `.env.example` → `.env` and add keys from [Razorpay Dashboard](https://dashboard.razorpay.com/app/keys).
 2. `npm install`
-3. Local API: `npm run payments:dev`
+3. Local API + local D1: `npm run db:migrate:local` phir `npm run payments:dev`
 4. On static pages (optional, for localhost):
 
    ```html
@@ -69,16 +72,6 @@ Email relay still works on `POST` to the worker root URL (unchanged).
      window.WOODENMAX_PAYMENTS = { apiBase: 'http://localhost:8787' };
    </script>
    ```
-
-5. **Option B** — PC se Wrangler (poora project upload):
-
-   ```bash
-   npx wrangler secret put RAZORPAY_KEY_ID
-   npx wrangler secret put RAZORPAY_KEY_SECRET
-   npm run payments:deploy
-   ```
-
-   (Yeh bhi sirf `worker.js` deploy karta hai — `lib/` ab worker ke andar merged hai.)
 
 **Never** commit `.env` or put `KEY_SECRET` in frontend JS.
 

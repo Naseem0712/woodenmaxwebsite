@@ -372,12 +372,28 @@
 
     function afterRzp () {
       if (needUx) {
-        loadScript('/js/calculator-mobile-ux.js?v=' + WM_ASSET_V, function () {
-          window.__wmQuoteCartAssetsLoading = false;
+        // quote-store owns the estimate state; the UX layer reads it on init.
+        ensureQuoteStore(function () {
+          loadScript('/js/calculator-mobile-ux.js?v=' + WM_ASSET_V, function () {
+            window.__wmQuoteCartAssetsLoading = false;
+          });
         });
       } else {
         window.__wmQuoteCartAssetsLoading = false;
       }
+    }
+
+    function ensureQuoteStore (cb) {
+      if (window.WoodenMaxQuoteStore) { cb(); return; }
+      if (document.querySelector('script[src*="quote-store.js"]')) {
+        var waited = 0;
+        var poll = setInterval(function () {
+          waited += 40;
+          if (window.WoodenMaxQuoteStore || waited > 4000) { clearInterval(poll); cb(); }
+        }, 40);
+        return;
+      }
+      loadScript('/js/quote-store.js?v=' + WM_ASSET_V, cb);
     }
 
     if (needRzp) {
