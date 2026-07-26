@@ -268,13 +268,8 @@
     ensureMeta('geo.placename', 'Hyderabad');
     ensureMeta('geo.position', BRAND.geoLat + ';' + BRAND.geoLng);
     ensureMeta('ICBM', BRAND.geoLat + ', ' + BRAND.geoLng);
-    // Find manifest + favicon path relative to current page depth.
-    var depth = location.pathname.split('/').length - 2;
-    if (depth < 0) depth = 0;
-    var prefix = depth === 0 ? './' : new Array(depth + 1).join('../');
-
     if (!document.querySelector('link[rel="manifest"]')) {
-      ensureLink('manifest', prefix + 'manifest.json');
+      ensureLink('manifest', '/manifest.json');
     }
 
     // Favicon — the brand has placed the official PNG at /favicon.png
@@ -282,9 +277,9 @@
     // <link rel="icon"> tags if the page doesn't already carry them.
     var hasIcon  = !!document.querySelector('link[rel*="icon" i]');
     if (!hasIcon) {
-      ensureLink('icon',             prefix + 'favicon.png', { attrs: { type: 'image/png' } });
-      ensureLink('shortcut icon',    prefix + 'favicon.png', { attrs: { type: 'image/png' } });
-      ensureLink('apple-touch-icon', prefix + 'favicon.png');
+      ensureLink('icon',             '/favicon.png', { attrs: { type: 'image/png' } });
+      ensureLink('shortcut icon',    '/favicon.png', { attrs: { type: 'image/png' } });
+      ensureLink('apple-touch-icon', '/favicon.png');
     }
   }
 
@@ -573,19 +568,14 @@
     if (path.indexOf('/products/') === -1) return;
     if (document.querySelector('.wm-auto-related, .cluster-related-section, .related-products-section, .related-products')) return;
 
-    // Compute prefix to root.
-    var parts = location.pathname.replace(/^\/+/, '').split('/').filter(Boolean);
-    var last = parts[parts.length - 1] || '';
-    var depth = (last && last.indexOf('.') !== -1) ? parts.length - 1 : parts.length;
-    var prefix = depth <= 0 ? '' : new Array(depth + 1).join('../');
-
+    // Root-absolute, extension-less: the .html forms only 301 onward.
     var links = [
-      { label: 'Warranty Policy',                    href: prefix + 'policies/warranty-policy.html',           sub: '10-yr profile, 5-yr hardware' },
-      { label: 'GST &amp; Transport',                href: prefix + 'policies/gst-transport-policy.html',      sub: 'Free transport on &#8377;15L+ orders' },
-      { label: 'Factory Tour',                       href: prefix + 'about/factory-tour-hyderabad.html',       sub: 'In-house fabrication · Nampally, HYD' },
-      { label: 'Quality &amp; Testing',              href: prefix + 'about/quality-testing-process.html',      sub: 'Powder, weathering, MTC, hardware' },
-      { label: 'Case Study — Makobrew Cafe',         href: prefix + 'about/case-study-makobrew-jubilee-hills.html', sub: 'Jubilee Hills + Himayat Nagar' },
-      { label: 'Case Study — Hyderabad villa',       href: prefix + 'about/case-study-villa-hyderabad.html',   sub: 'Premium 5-BHK in Banjara Hills' }
+      { label: 'Warranty Policy',                    href: '/policies/warranty-policy',                   sub: '10-yr profile, 5-yr hardware' },
+      { label: 'GST &amp; Transport',                href: '/policies/gst-transport-policy',              sub: 'Free transport on &#8377;15L+ orders' },
+      { label: 'Factory Tour',                       href: '/about/factory-tour-hyderabad',               sub: 'In-house fabrication · Nampally, HYD' },
+      { label: 'Quality &amp; Testing',              href: '/about/quality-testing-process',              sub: 'Powder, weathering, MTC, hardware' },
+      { label: 'Case Study — Makobrew Cafe',         href: '/about/case-study-makobrew-jubilee-hills',    sub: 'Jubilee Hills + Himayat Nagar' },
+      { label: 'Case Study — Hyderabad villa',       href: '/about/case-study-villa-hyderabad',           sub: 'Premium 5-BHK in Banjara Hills' }
     ];
 
     var section = document.createElement('section');
@@ -609,22 +599,19 @@
   function injectLocalLandingLinks () {
     if (document.querySelector('.wm-local-landing-links')) return;
     var path = location.pathname.toLowerCase();
-    var parts = path.replace(/^\/+/, '').split('/').filter(Boolean);
-    var depth = parts.length;
-    var prefix = depth <= 0 ? '' : new Array(depth + 1).join('../');
     var links = [];
 
     if (/aluminium-window-price-(bangalore|delhi|mumbai|pune|hyderabad|jaipur|chandigarh|vijayawada|visakhapatnam|warangal)$/.test(path)) {
       var citySlug = path.match(/aluminium-window-price-([a-z]+)$/)[1];
-      links.push({ label: 'Aluminium windows hub', href: prefix + 'products/aluminium-windows' });
-      links.push({ label: 'Homepage', href: prefix + 'index' });
-      if (citySlug) links.push({ label: citySlug.charAt(0).toUpperCase() + citySlug.slice(1) + ' city hub', href: prefix + 'city/' + citySlug });
+      links.push({ label: 'Aluminium windows hub', href: '/products/aluminium-windows' });
+      links.push({ label: 'Homepage', href: '/' });
+      if (citySlug) links.push({ label: citySlug.charAt(0).toUpperCase() + citySlug.slice(1) + ' city hub', href: '/city/' + citySlug });
     } else if (/glass-elevation-price-/.test(path)) {
-      links.push({ label: 'Glass elevation hub', href: prefix + 'products/glass-elevation' });
-      links.push({ label: 'Homepage', href: prefix + 'index' });
+      links.push({ label: 'Glass elevation hub', href: '/products/glass-elevation' });
+      links.push({ label: 'Homepage', href: '/' });
     } else if (/louver-price-/.test(path)) {
-      links.push({ label: 'Metal louvers hub', href: prefix + 'products/metal-louvers' });
-      links.push({ label: 'Homepage', href: prefix + 'index' });
+      links.push({ label: 'Metal louvers hub', href: '/products/metal-louvers' });
+      links.push({ label: 'Homepage', href: '/' });
     }
 
     if (!links.length) return;

@@ -9,51 +9,48 @@
 (function () {
   'use strict';
 
-  var BRAND_LOGO   = 'images/woodenmax-logo.webp';
+  var BRAND_LOGO   = '/images/woodenmax-logo.webp';
   var BRAND_NAME   = 'WoodenMax';
   var BRAND_PHONE  = '+91 78953 28080';
-  var BRAND_HREF_CONTACT = 'contact';
+  var BRAND_HREF_CONTACT = '/contact';
+  var BRAND_HREF_HOME    = '/';
 
   var CATEGORIES = [
-    { slug: 'aluminium-windows',  label: 'Aluminium',  href: 'products/aluminium-windows' },
-    { slug: 'telescope-windows',  label: 'Telescope',  href: 'products/telescope-windows' },
-    { slug: 'folding-systems',    label: 'Folding',    href: 'products/folding-systems'   },
-    { slug: 'pergola',            label: 'Pergola',    href: 'products/pergola' },
-    { slug: 'metal-louvers',      label: 'Louvers',    href: 'products/metal-louvers'     },
-    { slug: 'mirror-profiles',    label: 'Mirrors',    href: 'products/mirror-profiles/'       },
-    { slug: 'shower-partitions',  label: 'Shower',     href: 'products/shower-partitions' },
-    { slug: 'elevation-cladding', label: 'Elevation',  href: 'products/elevation-cladding'},
-    { slug: 'glass-elevation',    label: 'Glass',      href: 'products/glass-elevation'   },
-    { slug: 'glass-railing',      label: 'Railing',    href: 'products/glass-railing'     },
-    { slug: 'grills',             label: 'Grills',     href: 'products/grills'            }
+    { slug: 'aluminium-windows',  label: 'Aluminium',  href: '/products/aluminium-windows' },
+    { slug: 'telescope-windows',  label: 'Telescope',  href: '/products/telescope-windows' },
+    { slug: 'folding-systems',    label: 'Folding',    href: '/products/folding-systems'   },
+    { slug: 'pergola',            label: 'Pergola',    href: '/products/pergola' },
+    { slug: 'metal-louvers',      label: 'Louvers',    href: '/products/metal-louvers'     },
+    { slug: 'mirror-profiles',    label: 'Mirrors',    href: '/products/mirror-profiles'   },
+    { slug: 'shower-partitions',  label: 'Shower',     href: '/products/shower-partitions' },
+    { slug: 'elevation-cladding', label: 'Elevation',  href: '/products/elevation-cladding'},
+    { slug: 'glass-elevation',    label: 'Glass',      href: '/products/glass-elevation'   },
+    { slug: 'glass-railing',      label: 'Railing',    href: '/products/glass-railing'     },
+    { slug: 'grills',             label: 'Grills',     href: '/products/grills'            }
   ];
 
   var UTILITY = [
     { label: 'System Windows', href: 'https://systemwindows.woodenmax.in/', cls: 'nav-link-secondary' },
-    { label: 'Calculators', href: 'calculators',                  cls: 'nav-link-secondary' },
-    { label: 'Blog',        href: 'blog',                         cls: 'nav-link-secondary' },
-    { label: 'About',       href: 'about',                        cls: 'nav-link-secondary' },
-    { label: 'Partner Program', href: 'partner',                 cls: 'nav-link-secondary' }
+    { label: 'Calculators', href: '/calculators',                 cls: 'nav-link-secondary' },
+    { label: 'Blog',        href: '/blog',                        cls: 'nav-link-secondary' },
+    { label: 'About',       href: '/about',                       cls: 'nav-link-secondary' },
+    { label: 'Partner Program', href: '/partner',                cls: 'nav-link-secondary' }
   ];
 
   var NAV_TREE = window.WM_NAV_TREE || null;
 
-  function computePrefix () {
-    var pathname = window.location.pathname.replace(/\\/g, '/');
-    var parts = pathname.replace(/^\/+/, '').split('/').filter(Boolean);
-    var last = parts[parts.length - 1] || '';
-    var depth = (last && last.indexOf('.') !== -1) ? parts.length - 1 : parts.length;
-    if (depth < 0) depth = 0;
-    return depth === 0 ? '' : new Array(depth + 1).join('../');
-  }
-
-  function abs (href) {
+  /**
+   * Navigation emits root-absolute URLs only. There is deliberately no
+   * path-depth prefix calculation here: the old ../ logic produced a different
+   * target depending on which URL the page happened to be served at, which is
+   * how duplicate crawl paths were being generated. This only guarantees a
+   * leading slash for internal links.
+   */
+  function url (href) {
     if (!href) return '#';
-    if (/^(?:[a-z]+:|\/\/|tel:|mailto:|#)/i.test(href)) return href;
-    return PREFIX + href;
+    if (/^(?:[a-z]+:|\/\/|tel:|mailto:|#|\/)/i.test(href)) return href;
+    return '/' + href.replace(/^\.\/+/, '');
   }
-
-  var PREFIX = computePrefix();
 
   function normPath (p) {
     return String(p || '')
@@ -121,7 +118,7 @@
     var panelId = opts.panelId;
     var children = (opts.children || []).map(function (child) {
       var activeCls = isActiveHref(child.href) ? ' is-active' : '';
-      return '<a class="wm-drawer-link' + activeCls + '" href="' + abs(child.href) + '">' + child.label + '</a>';
+      return '<a class="wm-drawer-link' + activeCls + '" href="' + url(child.href) + '">' + child.label + '</a>';
     }).join('');
 
     return (
@@ -140,10 +137,10 @@
       return { slug: c.slug, label: c.label, href: c.href, children: [{ label: c.label, href: c.href }] };
     });
     var cityLinks = (NAV_TREE && NAV_TREE.cities) ? NAV_TREE.cities : [];
-    var blogLinks = (NAV_TREE && NAV_TREE.blog) ? NAV_TREE.blog : [{ label: 'All blog posts', href: 'blog' }];
+    var blogLinks = (NAV_TREE && NAV_TREE.blog) ? NAV_TREE.blog : [{ label: 'All blog posts', href: '/blog' }];
     var siteLinks = (NAV_TREE && NAV_TREE.site) ? NAV_TREE.site : UTILITY.concat([
-      { label: 'Warranty', href: 'policies/warranty-policy' },
-      { label: 'GST & Transport', href: 'policies/gst-transport-policy' }
+      { label: 'Warranty', href: '/policies/warranty-policy' },
+      { label: 'GST & Transport', href: '/policies/gst-transport-policy' }
     ]);
 
     var hubHtml = hubs.map(function (hub) {
@@ -174,7 +171,7 @@
 
     var siteHtml = siteLinks.map(function (link) {
       var activeCls = isActiveHref(link.href) ? ' is-active' : '';
-      return '<a class="wm-drawer-link wm-drawer-link--site' + activeCls + '" href="' + abs(link.href) + '">' + link.label + '</a>';
+      return '<a class="wm-drawer-link wm-drawer-link--site' + activeCls + '" href="' + url(link.href) + '">' + link.label + '</a>';
     }).join('');
 
     return (
@@ -202,7 +199,7 @@
             '<div class="wm-drawer-heading">Site pages</div>' +
             siteHtml +
           '</div>' +
-          '<a class="wm-drawer-cta" href="' + abs(BRAND_HREF_CONTACT) + '?intent=site-visit&amp;source=nav-mobile">Get free quote</a>' +
+          '<a class="wm-drawer-cta" href="' + url(BRAND_HREF_CONTACT) + '?intent=site-visit&amp;source=nav-mobile">Get free quote</a>' +
           '<a class="wm-drawer-call" href="tel:+917895328080">' + BRAND_PHONE + '</a>' +
         '</div>' +
       '</aside>'
@@ -214,18 +211,18 @@
 
     var catItems = CATEGORIES.map(function (c) {
       var activeCls = (c.slug === activeSlug) ? ' active' : '';
-      return '<a href="' + abs(c.href) + '" class="cat-item' + activeCls + '" data-slug="' + c.slug + '">' + c.label + '</a>';
+      return '<a href="' + url(c.href) + '" class="cat-item' + activeCls + '" data-slug="' + c.slug + '">' + c.label + '</a>';
     }).join('');
 
     var utilHtml = UTILITY.map(function (u) {
-      return '<a href="' + abs(u.href) + '" class="' + (u.cls || 'nav-link') + '">' + u.label + '</a>';
+      return '<a href="' + url(u.href) + '" class="' + (u.cls || 'nav-link') + '">' + u.label + '</a>';
     }).join('');
 
     return (
       '<nav class="wm-navbar" id="wmNavbar" role="navigation" aria-label="Main navigation">' +
         '<div class="wm-navbar-inner container">' +
-          '<a class="wm-logo" href="' + abs('index') + '" aria-label="' + BRAND_NAME + ' — home">' +
-            '<img src="' + abs(BRAND_LOGO) + '" alt="' + BRAND_NAME + ' logo" width="36" height="36" loading="eager" decoding="async">' +
+          '<a class="wm-logo" href="' + BRAND_HREF_HOME + '" aria-label="' + BRAND_NAME + ' — home">' +
+            '<img src="' + url(BRAND_LOGO) + '" alt="' + BRAND_NAME + ' logo" width="36" height="36" loading="eager" decoding="async">' +
             '<span class="wm-logo-text">' + BRAND_NAME + '</span>' +
           '</a>' +
 
@@ -241,7 +238,7 @@
 
           '<div class="wm-utility">' + utilHtml + '</div>' +
 
-          '<a class="wm-cta" href="' + abs(BRAND_HREF_CONTACT) + '?intent=site-visit&amp;source=nav">' +
+          '<a class="wm-cta" href="' + url(BRAND_HREF_CONTACT) + '?intent=site-visit&amp;source=nav">' +
             '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>' +
             ' Get free quote' +
           '</a>' +

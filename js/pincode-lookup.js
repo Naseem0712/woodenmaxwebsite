@@ -22,19 +22,10 @@
   var cities = null, citiesPromise = null;
   var stylesInjected = false;
 
-  function basePrefix() {
-    var parts = window.location.pathname.replace(/\\/g, '/').replace(/^\/+/, '').split('/').filter(Boolean);
-    var last = parts[parts.length - 1] || '';
-    var depth = (last && last.indexOf('.') !== -1) ? parts.length - 1 : parts.length;
-    if (depth < 0) depth = 0;
-    return depth === 0 ? '' : new Array(depth + 1).join('../');
-  }
-  var PREFIX = basePrefix();
-
   function loadPins() {
     if (pinMap) return Promise.resolve(pinMap);
     if (pinPromise) return pinPromise;
-    pinPromise = fetch(PREFIX + 'data/pincodes.min.json?v=' + DATA_VER)
+    pinPromise = fetch('/data/pincodes.min.json?v=' + DATA_VER)
       .then(function (r) { if (!r.ok) throw new Error('pin fetch ' + r.status); return r.json(); })
       .then(function (j) { pinMap = j; return j; })
       .catch(function (e) { pinPromise = null; throw e; });
@@ -44,7 +35,7 @@
   function loadCities() {
     if (cities) return Promise.resolve(cities);
     if (citiesPromise) return citiesPromise;
-    citiesPromise = fetch(PREFIX + 'data/cities.min.json?v=' + DATA_VER)
+    citiesPromise = fetch('/data/cities.min.json?v=' + DATA_VER)
       .then(function (r) { if (!r.ok) throw new Error('city fetch ' + r.status); return r.json(); })
       .then(function (j) { cities = j; return j; })
       .catch(function (e) { citiesPromise = null; throw e; });

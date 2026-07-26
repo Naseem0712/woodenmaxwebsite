@@ -277,7 +277,7 @@
             'Add to cart' +
           '</button>' +
         '</div>' +
-        '<p class="catalog-buy-policy">Refund before production · <a href="../../policies/cancellation-refund-policy">Cancellation policy</a></p>';
+        '<p class="catalog-buy-policy">Refund before production · <a href="/policies/cancellation-refund-policy">Cancellation policy</a></p>';
       result.insertAdjacentElement('afterend', box);
       box.addEventListener('click', function (e) {
         var btn = e.target.closest && e.target.closest('[data-catalog-pay]');

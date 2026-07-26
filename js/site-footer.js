@@ -5,8 +5,8 @@
  *  1. Removes any existing <footer> (45 different variants are in the wild).
  *  2. Rebuilds the canonical 5-column footer (Brand · Products · Resources · Policies · Contact).
  *  3. Adds a "cities we serve" strip + final bottom bar (©, social, compliance).
- *  4. Computes the right "../" prefix from the current pathname so internal
- *     links work at every folder depth.
+ *  4. Emits root-absolute URLs everywhere, so every link is identical no
+ *     matter which URL the page is served at.
  *  5. Wires the newsletter form (writes to localStorage; production should POST to API).
  *
  * Result: 130 pages × 45 footer variants → 130 pages × 1 footer.
@@ -23,7 +23,7 @@
   var BRAND = {
     name:    'WoodenMax',
     legal:   'WoodenMax Architectural Elements',
-    logo:    'images/woodenmax-logo.webp',
+    logo:    '/images/woodenmax-logo.webp',
     tagline: 'Premium architectural aluminium — manufactured in our own 28,000 sq ft Hyderabad facility. Site visits, transparent pricing, 10-year warranty.',
     phone:       '+91 78953 28080',
     phoneDigits: '917895328080',
@@ -61,50 +61,50 @@
     {
       heading: 'Products',
       links: [
-        { label: 'Aluminium Windows',  href: 'products/aluminium-windows'   },
+        { label: 'Aluminium Windows',  href: '/products/aluminium-windows'   },
         { label: 'System Windows Calculator', href: 'https://systemwindows.woodenmax.in/' },
-        { label: 'Telescope Windows',  href: 'products/telescope-windows'   },
-        { label: 'Folding Systems',    href: 'products/folding-systems'     },
-        { label: 'Pergola',            href: 'products/pergola' },
-        { label: 'Metal Louvers',      href: 'products/metal-louvers'       },
-        { label: 'Mirror Profiles',    href: 'products/mirror-profiles/'         },
-        { label: 'Shower Partitions',  href: 'products/shower-partitions'   },
-        { label: 'Elevation Cladding', href: 'products/elevation-cladding'  },
-        { label: 'Glass Elevation',    href: 'products/glass-elevation'     },
-        { label: 'Glass Railing',      href: 'products/glass-railing'       },
-        { label: 'Grills',             href: 'products/grills'              }
+        { label: 'Telescope Windows',  href: '/products/telescope-windows'   },
+        { label: 'Folding Systems',    href: '/products/folding-systems'     },
+        { label: 'Pergola',            href: '/products/pergola' },
+        { label: 'Metal Louvers',      href: '/products/metal-louvers'       },
+        { label: 'Mirror Profiles',    href: '/products/mirror-profiles'         },
+        { label: 'Shower Partitions',  href: '/products/shower-partitions'   },
+        { label: 'Elevation Cladding', href: '/products/elevation-cladding'  },
+        { label: 'Glass Elevation',    href: '/products/glass-elevation'     },
+        { label: 'Glass Railing',      href: '/products/glass-railing'       },
+        { label: 'Grills',             href: '/products/grills'              }
       ]
     },
     {
       heading: 'Resources',
       links: [
-        { label: 'About WoodenMax',         href: 'about'                                 },
-        { label: 'Factory Tour',            href: 'about/factory-tour-hyderabad'          },
-        { label: 'Manufacturing Process',   href: 'about/manufacturing-process'           },
-        { label: 'Quality &amp; Testing',   href: 'about/quality-testing-process'         },
-        { label: 'Certifications',          href: 'about/certifications-iso-qualicoat'    },
-        { label: 'Case Study — Makobrew',   href: 'about/case-study-makobrew-jubilee-hills' },
-        { label: 'Case Study — Hyderabad',  href: 'about/case-study-villa-hyderabad'      },
-        { label: 'Case Study — Delhi',      href: 'about/case-study-luxury-bungalow-delhi' },
-        { label: 'Case Study — Mumbai',     href: 'about/case-study-commercial-tower-mumbai' },
-        { label: 'Material sourcing',       href: 'about/material-sourcing-india'       },
-        { label: 'Team &amp; leadership',   href: 'about/team-leadership'                 },
-        { label: 'Calculators',             href: 'calculators'                           },
-        { label: 'Blog',                    href: 'blog'                                  },
-        { label: 'Catalog',                 href: 'catalog'                               },
-        { label: 'Partner Program',         href: 'partner'                               }
+        { label: 'About WoodenMax',         href: '/about'                                 },
+        { label: 'Factory Tour',            href: '/about/factory-tour-hyderabad'          },
+        { label: 'Manufacturing Process',   href: '/about/manufacturing-process'           },
+        { label: 'Quality &amp; Testing',   href: '/about/quality-testing-process'         },
+        { label: 'Certifications',          href: '/about/certifications-iso-qualicoat'    },
+        { label: 'Case Study — Makobrew',   href: '/about/case-study-makobrew-jubilee-hills' },
+        { label: 'Case Study — Hyderabad',  href: '/about/case-study-villa-hyderabad'      },
+        { label: 'Case Study — Delhi',      href: '/about/case-study-luxury-bungalow-delhi' },
+        { label: 'Case Study — Mumbai',     href: '/about/case-study-commercial-tower-mumbai' },
+        { label: 'Material sourcing',       href: '/about/material-sourcing-india'       },
+        { label: 'Team &amp; leadership',   href: '/about/team-leadership'                 },
+        { label: 'Calculators',             href: '/calculators'                           },
+        { label: 'Blog',                    href: '/blog'                                  },
+        { label: 'Catalog',                 href: '/catalog'                               },
+        { label: 'Partner Program',         href: '/partner'                               }
       ]
     },
     {
       heading: 'Policies',
       links: [
-        { label: 'Warranty Policy',                   href: 'policies/warranty-policy'              },
-        { label: 'Installation Policy',               href: 'policies/installation-policy'          },
-        { label: 'GST &amp; Transport',               href: 'policies/gst-transport-policy'         },
-        { label: 'Cancellation &amp; Refund',         href: 'policies/cancellation-refund-policy'   },
-        { label: 'Privacy Policy',                    href: 'policies/privacy-policy'               },
-        { label: 'Return Policy',                     href: 'return-policy'                         },
-        { label: 'Partner Program Terms',             href: 'policies/partner-terms'               }
+        { label: 'Warranty Policy',                   href: '/policies/warranty-policy'              },
+        { label: 'Installation Policy',               href: '/policies/installation-policy'          },
+        { label: 'GST &amp; Transport',               href: '/policies/gst-transport-policy'         },
+        { label: 'Cancellation &amp; Refund',         href: '/policies/cancellation-refund-policy'   },
+        { label: 'Privacy Policy',                    href: '/policies/privacy-policy'               },
+        { label: 'Return Policy',                     href: '/return-policy'                         },
+        { label: 'Partner Program Terms',             href: '/policies/partner-terms'               }
       ]
     },
     {
@@ -114,13 +114,13 @@
   ];
 
   var CITIES = [
-    { label: 'Hyderabad',     href: 'city/hyderabad'  },
-    { label: 'Bengaluru',     href: 'city/bangalore'  },
-    { label: 'Mumbai',        href: 'city/mumbai'     },
-    { label: 'Delhi NCR',     href: 'city/delhi'      },
-    { label: 'Pune',          href: 'city/pune'       },
-    { label: 'Jaipur',        href: 'city/jaipur'     },
-    { label: 'Lucknow',       href: 'city/lucknow'    }
+    { label: 'Hyderabad',     href: '/city/hyderabad'  },
+    { label: 'Bengaluru',     href: '/city/bangalore'  },
+    { label: 'Mumbai',        href: '/city/mumbai'     },
+    { label: 'Delhi NCR',     href: '/city/delhi'      },
+    { label: 'Pune',          href: '/city/pune'       },
+    { label: 'Jaipur',        href: '/city/jaipur'     },
+    { label: 'Lucknow',       href: '/city/lucknow'    }
   ];
 
   // EEAT trust pills shown in the brand column.
@@ -134,20 +134,15 @@
   // ----------------------------------------------------------------------
   //  2. Path utility
   // ----------------------------------------------------------------------
-  function computePrefix () {
-    var pathname = window.location.pathname.replace(/\\/g, '/');
-    var parts = pathname.replace(/^\/+/, '').split('/').filter(Boolean);
-    var last = parts[parts.length - 1] || '';
-    var depth = (last && last.indexOf('.') !== -1) ? parts.length - 1 : parts.length;
-    if (depth < 0) depth = 0;
-    return depth === 0 ? '' : new Array(depth + 1).join('../');
-  }
-  var PREFIX = computePrefix();
-
-  function abs (href) {
+  /**
+   * The footer emits root-absolute URLs only. The old ../-depth calculation is
+   * gone: it resolved to a different target depending on which URL the page was
+   * served at, which is how duplicate crawl paths were created.
+   */
+  function url (href) {
     if (!href) return '#';
-    if (/^(?:[a-z]+:|\/\/|tel:|mailto:|#)/i.test(href)) return href;
-    return PREFIX + href;
+    if (/^(?:[a-z]+:|\/\/|tel:|mailto:|#|\/)/i.test(href)) return href;
+    return '/' + href.replace(/^\.\/+/, '');
   }
 
   // ----------------------------------------------------------------------
@@ -159,7 +154,7 @@
         '<h4 class="wmf-heading">' + col.heading + '</h4>' +
         '<ul class="wmf-list">' +
           col.links.map(function (l) {
-            return '<li><a href="' + abs(l.href) + '">' + l.label + '</a></li>';
+            return '<li><a href="' + url(l.href) + '">' + l.label + '</a></li>';
           }).join('') +
         '</ul>' +
       '</div>'
@@ -169,8 +164,8 @@
   function buildBrandColumn () {
     return (
       '<div class="wmf-col wmf-brand">' +
-        '<a class="wmf-logo" href="' + abs('index') + '" aria-label="' + BRAND.name + ' home">' +
-          '<img src="' + abs(BRAND.logo) + '" alt="' + BRAND.name + ' logo" width="44" height="44" loading="lazy" decoding="async">' +
+        '<a class="wmf-logo" href="' + url('/') + '" aria-label="' + BRAND.name + ' home">' +
+          '<img src="' + url(BRAND.logo) + '" alt="' + BRAND.name + ' logo" width="44" height="44" loading="lazy" decoding="async">' +
           '<span class="wmf-logo-text">' + BRAND.name + '</span>' +
         '</a>' +
         '<p class="wmf-tagline">' + BRAND.tagline + '</p>' +
@@ -221,7 +216,7 @@
             '<span>' + BRAND.hours + '</span>' +
           '</li>' +
         '</ul>' +
-        '<a class="wmf-cta" href="' + abs('contact') + '?intent=site-visit&amp;source=footer">' +
+        '<a class="wmf-cta" href="' + url('/contact') + '?intent=site-visit&amp;source=footer">' +
           'Book site visit' +
           '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>' +
         '</a>' +
@@ -235,7 +230,7 @@
         '<span class="wmf-cities-label">Cities we serve:</span>' +
         '<span class="wmf-cities-list">' +
           CITIES.map(function (c) {
-            return '<a href="' + abs(c.href) + '">' + c.label + '</a>';
+            return '<a href="' + url(c.href) + '">' + c.label + '</a>';
           }).join('<span aria-hidden="true">·</span>') +
         '<span aria-hidden="true">·</span> &amp; 7 more' +
         '</span>' +
@@ -330,7 +325,7 @@
   function ensureAnalyticsEvents () {
     if (document.querySelector('script[src*="analytics-events.js"]')) return;
     var s = document.createElement('script');
-    s.src = PREFIX + 'js/analytics-events.js?v=' + WM_ASSET_V;
+    s.src = '/js/analytics-events.js?v=' + WM_ASSET_V;
     s.defer = true;
     document.body.appendChild(s);
   }
@@ -361,7 +356,7 @@
     if (!document.querySelector('link[href*="calculator-mobile-ux.css"]')) {
       var link = document.createElement('link');
       link.rel = 'stylesheet';
-      link.href = PREFIX + 'css/calculator-mobile-ux.css?v=' + WM_ASSET_V;
+      link.href = '/css/calculator-mobile-ux.css?v=' + WM_ASSET_V;
       document.head.appendChild(link);
     }
 
@@ -377,7 +372,7 @@
 
     function afterRzp () {
       if (needUx) {
-        loadScript(PREFIX + 'js/calculator-mobile-ux.js?v=' + WM_ASSET_V, function () {
+        loadScript('/js/calculator-mobile-ux.js?v=' + WM_ASSET_V, function () {
           window.__wmQuoteCartAssetsLoading = false;
         });
       } else {
@@ -386,7 +381,7 @@
     }
 
     if (needRzp) {
-      loadScript(PREFIX + 'js/razorpay-checkout.js?v=' + WM_ASSET_V, afterRzp);
+      loadScript('/js/razorpay-checkout.js?v=' + WM_ASSET_V, afterRzp);
     } else {
       afterRzp();
     }
@@ -396,12 +391,12 @@
     if (!document.querySelector('link[href*="product-image-gallery.css"]')) {
       var css = document.createElement('link');
       css.rel = 'stylesheet';
-      css.href = PREFIX + 'css/product-image-gallery.css?v=' + WM_ASSET_V;
+      css.href = '/css/product-image-gallery.css?v=' + WM_ASSET_V;
       document.head.appendChild(css);
     }
     if (!document.querySelector('script[src*="product-image-gallery.js"]')) {
       var s = document.createElement('script');
-      s.src = PREFIX + 'js/product-image-gallery.js?v=' + WM_ASSET_V;
+      s.src = '/js/product-image-gallery.js?v=' + WM_ASSET_V;
       s.defer = true;
       s.onload = function () {
         if (typeof window.wmBootProductGalleries === 'function') window.wmBootProductGalleries();

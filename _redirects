@@ -8,13 +8,13 @@ https://www.woodenmax.in/* https://woodenmax.in/:splat 301
 /index / 301
 /index/ / 301
 /products/metal-louvers /products/metal-louvers/index.html 200
-/products/metal-louvers/ /products/metal-louvers/index.html 200
+/products/metal-louvers/ /products/metal-louvers 301
 /products/metal-louvers/index /products/metal-louvers 301
 /products/metal-louvers/index/ /products/metal-louvers 301
 /products/mirror-profiles/index /products/mirror-profiles 301
 /products/mirror-profiles/index/ /products/mirror-profiles 301
 /products/pergola /products/pergola.html 200
-/products/pergola/ /products/pergola.html 200
+/products/pergola/ /products/pergola 301
 
 # Pricing API (clean URL)
 /api/calculate /api/calculate/ 200
@@ -22,35 +22,35 @@ https://www.woodenmax.in/* https://woodenmax.in/:splat 301
 
 # Shower SEO cluster — short URLs (200 = serve target without changing browser URL on CF Pages)
 /glass-shower-partition-price /products/shower-partitions/glass-shower-partition-price 200
-/glass-shower-partition-price/ /products/shower-partitions/glass-shower-partition-price 200
+/glass-shower-partition-price/ /glass-shower-partition-price 301
 /sliding-shower-door-price /products/shower-partitions/sliding-shower-door-price 200
-/sliding-shower-door-price/ /products/shower-partitions/sliding-shower-door-price 200
+/sliding-shower-door-price/ /sliding-shower-door-price 301
 /fixed-glass-shower-panel-price /products/shower-partitions/fixed-glass-shower-panel-price 200
-/fixed-glass-shower-panel-price/ /products/shower-partitions/fixed-glass-shower-panel-price 200
+/fixed-glass-shower-panel-price/ /fixed-glass-shower-panel-price 301
 /shower-enclosure-price /products/shower-partitions/shower-enclosure-price 200
-/shower-enclosure-price/ /products/shower-partitions/shower-enclosure-price 200
+/shower-enclosure-price/ /shower-enclosure-price 301
 /frameless-glass-shower-price /products/shower-partitions/frameless-glass-shower-price 200
-/frameless-glass-shower-price/ /products/shower-partitions/frameless-glass-shower-price 200
+/frameless-glass-shower-price/ /frameless-glass-shower-price 301
 /bathroom-shower-design-price /products/shower-partitions/bathroom-shower-design-price 200
-/bathroom-shower-design-price/ /products/shower-partitions/bathroom-shower-design-price 200
+/bathroom-shower-design-price/ /bathroom-shower-design-price 301
 /small-bathroom-shower-design /products/shower-partitions/small-bathroom-shower-design 200
-/small-bathroom-shower-design/ /products/shower-partitions/small-bathroom-shower-design 200
+/small-bathroom-shower-design/ /small-bathroom-shower-design 301
 /corner-shower-partition-price /products/shower-partitions/corner-shower-partition-price 200
-/corner-shower-partition-price/ /products/shower-partitions/corner-shower-partition-price 200
+/corner-shower-partition-price/ /corner-shower-partition-price 301
 /walk-in-shower-glass-price /products/shower-partitions/walk-in-shower-glass-price 200
-/walk-in-shower-glass-price/ /products/shower-partitions/walk-in-shower-glass-price 200
+/walk-in-shower-glass-price/ /walk-in-shower-glass-price 301
 /shower-curtain-vs-glass-partition /products/shower-partitions/shower-curtain-vs-glass-partition 200
-/shower-curtain-vs-glass-partition/ /products/shower-partitions/shower-curtain-vs-glass-partition 200
+/shower-curtain-vs-glass-partition/ /shower-curtain-vs-glass-partition 301
 /framed-vs-frameless-shower /products/shower-partitions/framed-vs-frameless-shower 200
-/framed-vs-frameless-shower/ /products/shower-partitions/framed-vs-frameless-shower 200
+/framed-vs-frameless-shower/ /framed-vs-frameless-shower 301
 /shower-glass-thickness /products/shower-partitions/shower-glass-thickness 200
-/shower-glass-thickness/ /products/shower-partitions/shower-glass-thickness 200
+/shower-glass-thickness/ /shower-glass-thickness 301
 /shower-glass-types /products/shower-partitions/shower-glass-types 200
-/shower-glass-types/ /products/shower-partitions/shower-glass-types 200
+/shower-glass-types/ /shower-glass-types 301
 /shower-installation-cost /products/shower-partitions/shower-installation-cost 200
-/shower-installation-cost/ /products/shower-partitions/shower-installation-cost 200
+/shower-installation-cost/ /shower-installation-cost 301
 /shower-glass-maintenance /products/shower-partitions/shower-glass-maintenance 200
-/shower-glass-maintenance/ /products/shower-partitions/shower-glass-maintenance 200
+/shower-glass-maintenance/ /shower-glass-maintenance 301
 
 # Same shower guides — canonical short URL (avoid duplicate indexing)
 /products/shower-partitions/glass-shower-partition-price /glass-shower-partition-price 301
@@ -422,3 +422,12 @@ http://www.woodenmax.in/* https://woodenmax.in/:splat 301
 /products/aluminium-pergola-glass-roof-price-india.html/ /products/pergola/aluminium-pergola-glass-roof-price-india 301
 /products/pergola/aluminium-pergola-glass-roof-price-india.html /products/pergola/aluminium-pergola-glass-roof-price-india 301
 /products/pergola/aluminium-pergola-glass-roof-price-india.html/ /products/pergola/aluminium-pergola-glass-roof-price-india 301
+
+# Legacy pergola slugs (files removed from repo). These rules only existed in
+# .htaccess, which Cloudflare Pages ignores, so the old URLs were 404ing.
+/products/pergola/motorized-pergola /products/pergola/retractable-pergola 301
+/products/pergola/motorized-pergola/ /products/pergola/retractable-pergola 301
+/products/pergola/motorized-pergola.html /products/pergola/retractable-pergola 301
+/products/pergola/louver-pergola /products/pergola/profile-pergola 301
+/products/pergola/louver-pergola/ /products/pergola/profile-pergola 301
+/products/pergola/louver-pergola.html /products/pergola/profile-pergola 301

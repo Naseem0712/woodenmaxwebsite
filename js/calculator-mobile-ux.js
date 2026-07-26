@@ -3304,20 +3304,13 @@
   }
 
   function pdfAssetUrl (relPath) {
-    var clean = String(relPath || '').replace(/^\//, '');
-    var pathname = (location.pathname || '').replace(/\\/g, '/');
-    var parts = pathname.replace(/^\/+/, '').split('/').filter(Boolean);
-    if (parts.length && /^[a-zA-Z]:$/.test(parts[0])) parts.shift();
-    var last = parts[parts.length - 1] || '';
-    var depth = (last && last.indexOf('.') !== -1) ? parts.length - 1 : parts.length;
-    var prefix = depth <= 0 ? '' : new Array(depth + 1).join('../');
-    var rel = prefix + clean;
+    var abs = '/' + String(relPath || '').replace(/^\/+/, '');
     try {
       if (/^https?:$/i.test(location.protocol) && location.href) {
-        return new URL(rel, location.href).href;
+        return new URL(abs, location.origin).href;
       }
     } catch (e) {}
-    return rel;
+    return abs;
   }
 
   /** Original full-colour WoodenMax logo — reliable in print iframe on mobile */
@@ -3524,12 +3517,7 @@
     if (s && s.src) {
       return s.src.replace(/calculator-mobile-ux\.js(?:\?.*)?$/i, '');
     }
-    var pathname = window.location.pathname.replace(/\\/g, '/');
-    var parts = pathname.replace(/^\/+/, '').split('/').filter(Boolean);
-    var last = parts[parts.length - 1] || '';
-    var depth = (last && last.indexOf('.') !== -1) ? parts.length - 1 : parts.length;
-    if (depth < 0) depth = 0;
-    return (depth === 0 ? '' : new Array(depth + 1).join('../')) + 'js/';
+    return '/js/';
   }
 
   function ensureRazorpayModule () {
