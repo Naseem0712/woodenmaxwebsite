@@ -558,7 +558,8 @@
       "wooden": 29.2215
     },
     "wastage_rate_per_kg": 422.625,
-    "notes": "Z louvers for plumbing duct shafts. Horizontal pattern, 45° angle, 60mm gaps. Package includes Z louvers + outer frame. Coating applies to both."
+    "trap_door_per_floor_inr": 11800,
+    "notes": "Z louvers for plumbing duct shafts. Horizontal pattern, 45° angle, 60mm gaps. Package includes Z louvers + outer frame. Coating applies to both. Trap door allowance per floor for plumbing access."
   },
   "duct_shaft_perforated": {
     "sheet_sizes": [

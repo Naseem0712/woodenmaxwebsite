@@ -1,0 +1,170 @@
+{
+  "scannedPages": 176,
+  "links": {
+    "total": 10045,
+    "relative": 8,
+    "rootAbsolute": 8439,
+    "external": 1388,
+    "hash": 140,
+    "scheme": 70
+  },
+  "multiBasePages": [
+    {
+      "page": "api/calculate/index.html",
+      "servedAt": [
+        "/api/calculate/",
+        "/api/calculate"
+      ],
+      "bases": [
+        "/api/calculate/",
+        "/api/"
+      ]
+    }
+  ],
+  "ambiguousLinks": [],
+  "brokenLinks": [
+    {
+      "page": "about/case-study-commercial-tower-mumbai.html",
+      "attr": "src",
+      "href": "../images/eeat/case-tower-mum-hero.webp",
+      "resolved": "/images/eeat/case-tower-mum-hero.webp",
+      "kind": "relative"
+    },
+    {
+      "page": "about/case-study-luxury-bungalow-delhi.html",
+      "attr": "src",
+      "href": "../images/eeat/case-delhi-bungalow-hero.webp",
+      "resolved": "/images/eeat/case-delhi-bungalow-hero.webp",
+      "kind": "relative"
+    },
+    {
+      "page": "about/case-study-makobrew-jubilee-hills.html",
+      "attr": "src",
+      "href": "../images/eeat/case-makobrew-hero.webp",
+      "resolved": "/images/eeat/case-makobrew-hero.webp",
+      "kind": "relative"
+    },
+    {
+      "page": "about/case-study-villa-hyderabad.html",
+      "attr": "src",
+      "href": "../images/eeat/case-villa-hyd-hero.webp",
+      "resolved": "/images/eeat/case-villa-hyd-hero.webp",
+      "kind": "relative"
+    },
+    {
+      "page": "about/factory-tour-hyderabad.html",
+      "attr": "src",
+      "href": "../images/eeat/factory-hero.webp",
+      "resolved": "/images/eeat/factory-hero.webp",
+      "kind": "relative"
+    },
+    {
+      "page": "about/manufacturing-process.html",
+      "attr": "src",
+      "href": "../images/eeat/manufacturing-hero.webp",
+      "resolved": "/images/eeat/manufacturing-hero.webp",
+      "kind": "relative"
+    },
+    {
+      "page": "policies/cancellation-refund-policy.html",
+      "attr": "href",
+      "href": "../policies/dispute-redressal",
+      "resolved": "/policies/dispute-redressal",
+      "kind": "relative"
+    },
+    {
+      "page": "products/grills/staircase-balustrade-grills.html",
+      "attr": "src",
+      "href": "../../images/products/Grills/staircase-balustrade-grill-design.webp",
+      "resolved": "/images/products/Grills/staircase-balustrade-grill-design.webp",
+      "kind": "relative"
+    }
+  ],
+  "canonicalIssues": [
+    {
+      "page": "calculator-design-preview.html",
+      "issue": "missing canonical"
+    }
+  ],
+  "robotsIssues": [
+    {
+      "page": "api/calculate/index.html",
+      "issue": "NOINDEX",
+      "values": [
+        "noindex, nofollow"
+      ]
+    },
+    {
+      "page": "calculator-design-preview.html",
+      "issue": "NOINDEX",
+      "values": [
+        "noindex, nofollow"
+      ]
+    }
+  ],
+  "perPageRelative": {
+    "about/case-study-commercial-tower-mumbai.html": [
+      {
+        "attr": "src",
+        "href": "../images/eeat/case-tower-mum-hero.webp",
+        "primary": "/images/eeat/case-tower-mum-hero.webp"
+      }
+    ],
+    "about/case-study-luxury-bungalow-delhi.html": [
+      {
+        "attr": "src",
+        "href": "../images/eeat/case-delhi-bungalow-hero.webp",
+        "primary": "/images/eeat/case-delhi-bungalow-hero.webp"
+      }
+    ],
+    "about/case-study-makobrew-jubilee-hills.html": [
+      {
+        "attr": "src",
+        "href": "../images/eeat/case-makobrew-hero.webp",
+        "primary": "/images/eeat/case-makobrew-hero.webp"
+      }
+    ],
+    "about/case-study-villa-hyderabad.html": [
+      {
+        "attr": "src",
+        "href": "../images/eeat/case-villa-hyd-hero.webp",
+        "primary": "/images/eeat/case-villa-hyd-hero.webp"
+      }
+    ],
+    "about/factory-tour-hyderabad.html": [
+      {
+        "attr": "src",
+        "href": "../images/eeat/factory-hero.webp",
+        "primary": "/images/eeat/factory-hero.webp"
+      }
+    ],
+    "about/manufacturing-process.html": [
+      {
+        "attr": "src",
+        "href": "../images/eeat/manufacturing-hero.webp",
+        "primary": "/images/eeat/manufacturing-hero.webp"
+      }
+    ],
+    "policies/cancellation-refund-policy.html": [
+      {
+        "attr": "href",
+        "href": "../policies/dispute-redressal",
+        "primary": "/policies/dispute-redressal"
+      }
+    ],
+    "products/grills/staircase-balustrade-grills.html": [
+      {
+        "attr": "src",
+        "href": "../../images/products/Grills/staircase-balustrade-grill-design.webp",
+        "primary": "/images/products/Grills/staircase-balustrade-grill-design.webp"
+      }
+    ]
+  },
+  "redirectIssues": [],
+  "sitemap": {
+    "total": 175,
+    "missing": [],
+    "notInSitemap": [],
+    "duplicates": []
+  }
+}

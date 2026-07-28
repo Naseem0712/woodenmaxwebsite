@@ -1,0 +1,82 @@
+[
+  {
+    "page": "about/case-study-commercial-tower-mumbai.html",
+    "href": "../images/eeat/case-tower-mum-hero.webp",
+    "wouldBe": "/images/eeat/case-tower-mum-hero.webp"
+  },
+  {
+    "page": "about/case-study-luxury-bungalow-delhi.html",
+    "href": "../images/eeat/case-delhi-bungalow-hero.webp",
+    "wouldBe": "/images/eeat/case-delhi-bungalow-hero.webp"
+  },
+  {
+    "page": "about/case-study-luxury-bungalow-delhi.html",
+    "href": "../products/aluminium-windows/aluminium-arch-window",
+    "wouldBe": "/products/aluminium-windows/aluminium-arch-window"
+  },
+  {
+    "page": "about/case-study-luxury-bungalow-delhi.html",
+    "href": "../products/aluminium-windows/aluminium-window-with-georgian-bar-design",
+    "wouldBe": "/products/aluminium-windows/aluminium-window-with-georgian-bar-design"
+  },
+  {
+    "page": "about/case-study-makobrew-jubilee-hills.html",
+    "href": "../images/eeat/case-makobrew-hero.webp",
+    "wouldBe": "/images/eeat/case-makobrew-hero.webp"
+  },
+  {
+    "page": "about/case-study-villa-hyderabad.html",
+    "href": "../images/eeat/case-villa-hyd-hero.webp",
+    "wouldBe": "/images/eeat/case-villa-hyd-hero.webp"
+  },
+  {
+    "page": "about/factory-tour-hyderabad.html",
+    "href": "../images/eeat/factory-hero.webp",
+    "wouldBe": "/images/eeat/factory-hero.webp"
+  },
+  {
+    "page": "about/manufacturing-process.html",
+    "href": "../images/eeat/manufacturing-hero.webp",
+    "wouldBe": "/images/eeat/manufacturing-hero.webp"
+  },
+  {
+    "page": "policies/cancellation-refund-policy.html",
+    "href": "../policies/",
+    "wouldBe": "/policies/"
+  },
+  {
+    "page": "policies/cancellation-refund-policy.html",
+    "href": "../policies/dispute-redressal",
+    "wouldBe": "/policies/dispute-redressal"
+  },
+  {
+    "page": "policies/gst-transport-policy.html",
+    "href": "./",
+    "wouldBe": "/policies/"
+  },
+  {
+    "page": "policies/installation-policy.html",
+    "href": "../policies/",
+    "wouldBe": "/policies/"
+  },
+  {
+    "page": "policies/partner-terms.html",
+    "href": "../policies/",
+    "wouldBe": "/policies/"
+  },
+  {
+    "page": "policies/privacy-policy.html",
+    "href": "../policies/",
+    "wouldBe": "/policies/"
+  },
+  {
+    "page": "policies/warranty-policy.html",
+    "href": "../policies/",
+    "wouldBe": "/policies/"
+  },
+  {
+    "page": "products/grills/staircase-balustrade-grills.html",
+    "href": "../../images/products/Grills/staircase-balustrade-grill-design.webp",
+    "wouldBe": "/images/products/Grills/staircase-balustrade-grill-design.webp"
+  }
+]

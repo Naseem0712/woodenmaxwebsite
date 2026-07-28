@@ -75,18 +75,32 @@ Google kabhi **naya GMC same business** allow karta hai jab purana permanently d
 
 | File | Use |
 |------|-----|
-| `products-feed.xml` | Merchant Center **Scheduled fetch URL** |
-| `products-feed.csv` | Google Sheets import / manual edit |
+| `products-feed.xml` | Merchant Center **Scheduled fetch URL** (page scrape — `generate_merchant_feed.py`) |
+| `products-feed.csv` | Sheets / manual; may include package rows after merge |
+| `products-packages-feed.csv` | **Standard-size package SKUs** (live calculator rates) — preferred for Shopping packages |
 
 **Live URL (deploy ke baad):** https://woodenmax.in/products-feed.xml
 
-**Abhi feed mein:** **102 sellable products** (windows, grills, shower, mirrors, louvers, pergola, city pages, etc.)
+**Package feed (calculator W×H SKUs):**
 
-**Regenerate (jab nayi product pages add hon):**
+```bash
+node tools/generate-package-merchant-feed.cjs
+```
+
+- Links **only** point at real HTML landings (`tools/product-landing-map.cjs`) — soft-404 calculator slugs are never emitted.
+- Re-running **replaces** prior `standard-size-package` rows in `products-feed.csv` (does not leave stale broken links).
+- After generate, merge `tools/_package-slug-redirects.txt` into `_redirects` if new calculator slugs appear (crawler 301 → real page).
+
+**Do not** re-run `python tools/generate_merchant_feed.py` and then upload CSV without re-running the package generator — the Python scrape can overwrite package-aware CSV. Preferred upload for packages: `products-packages-feed.csv` as a supplementary feed.
+
+**Regenerate page feed (jab nayi product pages add hon):**
 
 ```bash
 python tools/generate_merchant_feed.py
+node tools/generate-package-merchant-feed.cjs
 ```
+
+**Abhi feed mein:** sellable hub products + standard-size package SKUs (only when landing HTML exists).
 
 Ya: `npm run merchant:feed` (agar script add ho)
 

@@ -140,14 +140,24 @@ function safeParse (raw, fallback) {
 }
 
 /**
- * The amount to charge, derived from the stored quote — never from the browser.
- * A booking is a fixed server-side constant; a full payment is the quote's own
- * pre-GST subtotal, recomputed from the saved line items.
+ * The amount to charge, derived from the stored quote — never trust unbounded
+ * browser amounts. Booking is a fixed constant. Full pay is the quote subtotal.
+ * Custom advance must be between ₹100 and the pre-GST subtotal (inclusive).
  */
-export function resolveAmountPaise (quote, purpose) {
+export function resolveAmountPaise (quote, purpose, clientAmountInr) {
   if (purpose === 'order_booking') return BOOKING_AMOUNT_INR * 100;
   const recomputed = computeTotals(quote.items).subtotal_inr;
   if (recomputed < 1) throw workerErr('Quote total is too low to charge', 'VALIDATION');
+  if (purpose === 'order_custom_pay') {
+    const n = Math.round(Number(clientAmountInr) || 0);
+    if (!Number.isFinite(n) || n < 100) {
+      throw workerErr('Custom advance must be at least ₹100', 'VALIDATION');
+    }
+    if (n > recomputed) {
+      throw workerErr('Custom advance cannot exceed the quote subtotal (₹' + recomputed + ')', 'VALIDATION');
+    }
+    return n * 100;
+  }
   return recomputed * 100;
 }
 
@@ -168,11 +178,12 @@ export async function recordPendingOrder (env, { quoteId, quoteVersion, razorpay
   const ts = now();
   const id = uuid();
   const orderNo = await nextNumber(env, 'order', 'WM-O');
+  const expectedPaidInr = Math.round((Number(amountPaise) || 0) / 100);
   await d
     .prepare(
-      'INSERT INTO orders (id, order_no, quote_id, quote_version, razorpay_order_id, payment_mode, amount_paid_inr, order_total_inr, balance_due_inr, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 0, 0, 0, ?, ?, ?)'
+      'INSERT INTO orders (id, order_no, quote_id, quote_version, razorpay_order_id, payment_mode, amount_paid_inr, order_total_inr, balance_due_inr, status, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, 0, 0, ?, ?, ?)'
     )
-    .bind(id, orderNo, quoteId, quoteVersion || 1, razorpayOrderId, purpose, 'created', ts, ts)
+    .bind(id, orderNo, quoteId, quoteVersion || 1, razorpayOrderId, purpose, expectedPaidInr, 'created', ts, ts)
     .run();
   await logEvent(env, 'OrderCreated', { razorpayOrderId, amountPaise, purpose }, { orderNo, quoteId });
   return { id, orderNo };
@@ -198,16 +209,28 @@ export async function fulfilOrder (env, ctx, { paymentId, razorpayOrderId, quote
   if (!quote) throw workerErr('Quote not found for this payment: ' + quoteId, 'VALIDATION');
 
   const totals = computeTotals(quote.items);
-  const paidInr = purpose === 'order_booking' ? BOOKING_AMOUNT_INR : totals.subtotal_inr;
-  const balance = Math.max(0, totals.total_inr - paidInr);
   const ts = now();
 
   // Attach the payment to the order row that create-order made, or create one.
   let orderNo;
   const pending = await d
-    .prepare('SELECT order_no FROM orders WHERE razorpay_order_id = ? AND payment_id IS NULL')
+    .prepare('SELECT order_no, amount_paid_inr FROM orders WHERE razorpay_order_id = ? AND payment_id IS NULL')
     .bind(razorpayOrderId || '')
     .first();
+
+  // Prefer the amount agreed at create-order (stored on the pending row).
+  // Custom advances must NOT silently become the full subtotal.
+  let paidInr;
+  if (purpose === 'order_booking') {
+    paidInr = BOOKING_AMOUNT_INR;
+  } else if (purpose === 'order_custom_pay') {
+    const pendingAmt = pending && Number(pending.amount_paid_inr);
+    if (pendingAmt >= 100) paidInr = Math.round(pendingAmt);
+    else throw workerErr('Custom advance amount missing for fulfilment', 'VALIDATION');
+  } else {
+    paidInr = totals.subtotal_inr;
+  }
+  const balance = Math.max(0, totals.total_inr - paidInr);
 
   if (pending) {
     orderNo = pending.order_no;

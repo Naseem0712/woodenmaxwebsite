@@ -1,0 +1,289 @@
+# WebP SERP Image Audit
+# Generated: 2026-06-10T20:08:55.766Z
+# Total images: 282
+# >=1200px: 84
+# <1200px: 198
+
+file	width	height	>=1200
+images/Founder-Naseem.webp	1420	1776	YES
+images/hero/architectural-louvers-slim-frame-windows-structure-glazing-hpl-exterior.webp	1200	890	YES
+images/hero/hpl-acp-sheet-facade-calading.webp	1024	576	NO
+images/hero/modern-elevation-louvers-slim-window-structure-glazing-hpl-cladding.webp	1080	810	NO
+images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp	1200	596	YES
+images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp	1200	800	YES
+images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home.webp	1024	1024	NO
+images/products/2 Track Aluminium Window/2-track-window-frame-glass-detail.webp	1200	799	YES
+images/products/2 Track Aluminium Window/budget-aluminium-window-2-track-design.webp	1200	1006	YES
+images/products/2track hardwares pic/2track-sliding-window-inside.webp	600	800	NO
+images/products/2track hardwares pic/Aluminium-sliding-window-outside.webp	600	800	NO
+images/products/2track hardwares pic/handle-sliding-window.webp	600	680	NO
+images/products/2track hardwares pic/mortise-window-lock.webp	600	800	NO
+images/products/2track hardwares pic/touch-type-lock.webp	600	800	NO
+images/products/2track hardwares pic/touch-type-window-lock.webp	600	800	NO
+images/products/3track-sliding-window/inside-sliding-window-maximum-opning.webp	700	700	NO
+images/products/3track-sliding-window/outside-sliding-window-with-mess.webp	600	522	NO
+images/products/3track-sliding-window/small-luxury-type-sliding-window-lock.webp	600	800	NO
+images/products/3track-sliding-window/touch-type-lock.webp	600	800	NO
+images/products/3track-sliding-window/touch-type-window-lock.webp	600	800	NO
+images/products/3track-sliding-window/tranding-sliding-window-handle-lock.webp	600	563	NO
+images/products/4 Track Sliding Window/4-track-aluminium-sliding-window-wide-opening.webp	837	1280	NO
+images/products/4 Track Sliding Window/4-track-window-design-living-room.webp	1200	795	YES
+images/products/4 Track Sliding Window/multi-track-aluminium-window-system.webp	1200	800	YES
+images/products/acp-sheets-pic/acp-elevation-cladding-aluminium-composite-panel-for-commercial-buildings.webp	600	400	NO
+images/products/acp-sheets-pic/hotel-exterior-hpl-acp-cladding.webp	600	600	NO
+images/products/acp-sheets-pic/hpl-exterior-cladding-premium-wood-finish.webp	600	400	NO
+images/products/acp-sheets-pic/premium-hpl-acp-cladding-for-commercial-building.webp	600	400	NO
+images/products/Aluminium System Window Price/aluminium-system-window-modern-design.webp	965	1280	NO
+images/products/Aluminium System Window Price/system-window-frame-detail-premium.webp	720	1280	NO
+images/products/aluminium-pergola/glass-pergola-manufacturer.webp	832	1248	NO
+images/products/aluminium-pergola/luxury-wood-glass-roof-pergola-design.webp	1200	903	YES
+images/products/aluminium-pergola/luxury-wooden-glass-terrace-pergola.webp	1200	1299	YES
+images/products/aluminium-pergola/modern-outdoor-glass-structure.webp	1200	903	YES
+images/products/aluminium-pergola/motorized-glass-pergola.webp	800	800	NO
+images/products/aluminium-pergola/terrece-luxury-glass-pergola.webp	480	640	NO
+images/products/aluminium-window-pic/balcony-sliding-window-slim-interlock.webp	632	666	NO
+images/products/aluminium-window-pic/bedroom-sliding-window-slim-profiles.webp	1200	799	YES
+images/products/aluminium-window-pic/handle-sliding-window.webp	600	680	NO
+images/products/aluminium-window-pic/luxuty-slim-handle-lock.webp	600	800	NO
+images/products/aluminium-window-pic/sliding-window-with-mosqutonett.webp	700	700	NO
+images/products/aluminium-window-pic/touch-type-window-lock.webp	600	800	NO
+images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp	1024	682	NO
+images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp	1024	1024	NO
+images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp	508	1109	NO
+images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp	960	720	NO
+images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp	720	1280	NO
+images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp	1200	800	YES
+images/products/aluminium-windows/top-hung-aluminium-casement-window.webp	1024	1536	NO
+images/products/balcony-glass-railing-system/architectural-glass-railing-system.webp	1200	708	YES
+images/products/balcony-glass-railing-system/glass-railing-terrace-with-profile.webp	1200	708	YES
+images/products/balcony-glass-railing-system/glass-stair-railing-staicase-ramp-with-aluminium-profile.webp	1200	708	YES
+images/products/balcony-glass-railing-system/luxury-balcony-glass-railing-2.webp	1200	708	YES
+images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp	1200	708	YES
+images/products/balcony-glass-railing-system/modern-balcony-glass-railing.webp	1200	708	YES
+images/products/balcony-glass-railing-system/outdoor-glass-railing-staicase-balcony-with-profile.webp	1200	708	YES
+images/products/Best Window for Home/living-room-window-design-aluminium.webp	1200	800	YES
+images/products/Best Window for Home/window-cost-per-sqft-visual-guide.webp	1080	1080	NO
+images/products/Casement Window/aluminium-casement-window-open-style.webp	853	1280	NO
+images/products/Casement Window/casement-window-side-hinged-design.webp	1200	1233	YES
+images/products/Casement Window/modern-casement-window-home.webp	960	1280	NO
+images/products/City Price Page/best-aluminium-window-for-home-design.webp	1200	900	YES
+images/products/City Price Page/window-project-site-installation.webp	1200	789	YES
+images/products/Corner Shower Partition/corner-glass-shower-partition.webp	960	1280	NO
+images/products/Corner Shower Partition/corner-shower-glass-fitting.webp	1200	960	YES
+images/products/Curtain vs Glass/bathroom-partition-difference.webp	1200	960	YES
+images/products/Curtain vs Glass/shower-curtain-vs-glass.webp	1200	800	YES
+images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp	640	480	NO
+images/products/elevation-cladding/hpl-acp-sheet-facade-calading.webp	1200	1413	YES
+images/products/elevation-cladding/hpl-exterior-cladding-natural-finish.webp	960	540	NO
+images/products/elevation-cladding/img-6436-small.webp	854	425	NO
+images/products/Fixed Glass Shower Panel/fixed-glass-shower-panel-bathroom.webp	900	1200	NO
+images/products/Fixed Glass Shower Panel/frameless-fixed-shower-glass.webp	784	1168	NO
+images/products/fold-&-befold-pic/aluminium-bifold-glass-door-for-balcony-opening.webp	600	800	NO
+images/products/fold-&-befold-pic/fold-bifold-aluminium-glass-door-balcony-india.webp	600	600	NO
+images/products/fold-&-befold-pic/folding-glass-door-aluminium-frame-interior-partition-system.webp	600	451	NO
+images/products/fold-&-befold-pic/living-room-folding-glass-door-partition.webp	600	800	NO
+images/products/fold-&-befold-pic/outdoor-indoor-folding-aluminium-glass-door.webp	600	800	NO
+images/products/fold-&-befold-pic/slim-profile-aluminium-bifold-glass-door.webp	1200	906	YES
+images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles.webp	600	450	NO
+images/products/fold-sliding-window-pic/garden-access-bifold-aluminium-glass-door.webp	600	836	NO
+images/products/fold-sliding-window-pic/showroom-front-aluminium-bifold-glass-door.webp	600	799	NO
+images/products/fold-sliding-window-pic/terrace-folding-aluminium-glass-door.webp	600	800	NO
+images/products/fold-sliding-window-pic/whatsapp-image-2025-12-30-at-7-19-23-pm-2.webp	600	800	NO
+images/products/folding-systems/fold-and-sliding-window-imported-profiles.webp	1200	1200	YES
+images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp	1200	900	YES
+images/products/Framed vs Frameless/framed-vs-frameless-shower.webp	1200	800	YES
+images/products/Framed vs Frameless/shower-frame-vs-no-frame.webp	1200	960	YES
+images/products/Frameless Shower/frameless-glass-shower-design.webp	860	1280	NO
+images/products/Frameless Shower/minimal-shower-glass-pane.webp	960	1280	NO
+images/products/french-door-georgian-bar-pic/Custom-Made Aluminium System Window Installation.webp	784	1168	NO
+images/products/french-door-georgian-bar-pic/doors-invisible-lock-latch.webp	600	800	NO
+images/products/french-door-georgian-bar-pic/french-doors-lock-handle.webp	600	800	NO
+images/products/french-door-georgian-bar-pic/Minimalist Black Aluminium System Window Design.webp	1024	1024	NO
+images/products/french-door-georgian-bar-pic/outside-georgian-bar-door.webp	600	800	NO
+images/products/french-door-georgian-bar-pic/slim-aluminium-profile-door-design.webp	768	1152	NO
+images/products/full-elevation-facade-pic/elavation-glass-villa.webp	960	1280	NO
+images/products/full-elevation-facade-pic/elevation-window-glass-facades.webp	719	695	NO
+images/products/full-elevation-facade-pic/glazing-glass-design.webp	784	1168	NO
+images/products/full-elevation-facade-pic/villas-glass-design.webp	600	800	NO
+images/products/Glass Options/riple-glass-window-section.webp	1080	1583	NO
+images/products/Glass Options/system-window-double-glass-dgu.webp	1200	900	YES
+images/products/Glass Price Breakdown/aluminium-window-glass-types.webp	1200	800	YES
+images/products/Glass Price Breakdown/double-glass-dgu-window-section.webp	1200	900	YES
+images/products/Glass Shower Partition Price/frameless-shower-partition-glass.webp	784	1168	NO
+images/products/Glass Shower Partition Price/glass-shower-partition-modern-bathroom.webp	500	667	NO
+images/products/Glass Thickness/glass-thickness-section-view.webp	1200	800	YES
+images/products/Glass Thickness/shower-glass-thickness-chart.webp	1200	800	YES
+images/products/Glass Types/bathroom-glass-options.webp	1200	800	YES
+images/products/Glass Types/shower-glass-types-comparison.webp	1200	800	YES
+images/products/Glazing/aluminium-curtain-wall-glass-elevatio.webp	768	1024	NO
+images/products/Glazing/architectural-glass-elevation.webp	600	600	NO
+images/products/Glazing/commercial-glazing-facade.webp	600	450	NO
+images/products/Glazing/curtain-wall-glazing-system.webp	600	600	NO
+images/products/Glazing/elevation-glass-facade.webp	600	600	NO
+images/products/Glazing/structural-glazing-facade.webp	600	600	NO
+images/products/Grills/aluminium balcony grill price per sqft.webp	1024	1536	NO
+images/products/Grills/aluminium grill fabricators near me.webp	1024	1365	NO
+images/products/Grills/aluminium-child-safety-balcony-grill.webp	1024	1536	NO
+images/products/Grills/aluminium-window-grill-design-modern.webp	1024	1536	NO
+images/products/Grills/safety grill for balcony with children.webp	1024	1024	NO
+images/products/Grills/window grill design.webp	1024	1536	NO
+images/products/hpl-sheet-pic/balcony-hpl-acp-wall-cladding.webp	500	281	NO
+images/products/hpl-sheet-pic/best-hpl-acp-cladding-manufacturer-india.webp	600	706	NO
+images/products/hpl-sheet-pic/bungalow-hpl-acp-facade.webp	600	450	NO
+images/products/hpl-sheet-pic/hpl-acp-exterior-cladding-india.webp	600	395	NO
+images/products/hpl-sheet-pic/walnut-finish-hpl-acp-exterior-panels.webp	600	800	NO
+images/products/hpl-sheet-pic/wood-texture-hpl-acp-cladding.webp	600	400	NO
+images/products/Installation Cost/bathroom-shower-installation-work.webp	1200	800	YES
+images/products/Installation Cost/shower-glass-installation-site.webp	1200	800	YES
+images/products/Installation Process/system-window-installation-site.webp	1200	800	YES
+images/products/Installation Process/window-installation-frame-fixing.webp	1200	900	YES
+images/products/Maintenance/bathroom-glass-maintenance.webp	1200	800	YES
+images/products/Maintenance/shower-glass-cleaning.webp	1200	800	YES
+images/products/metal-louvers/aluminium-ceiling-louver-pergola-design.webp	1080	1080	NO
+images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp	1080	719	NO
+images/products/metal-louvers/Aluminium-elevation-twisted-louvers.webp	1179	2556	NO
+images/products/metal-louvers/aluminium-facade-louver-75x38mm-wooden-finish-delhi.webp	960	1280	NO
+images/products/metal-louvers/aluminium-louver-75x38mm-profile-close-up.webp	600	900	NO
+images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp	721	480	NO
+images/products/metal-louvers/aluminium-louver-canopy-entrance-design.webp	1200	800	YES
+images/products/metal-louvers/aluminium-louver-curved-architectural-design.webp	794	777	NO
+images/products/metal-louvers/aluminium-louver-installation-ncr-project.webp	641	960	NO
+images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp	768	432	NO
+images/products/metal-louvers/black-powder-coat-aluminium-louver-facade.webp	478	453	NO
+images/products/metal-louvers/blacony-seafty-railing-rafters.webp	600	900	NO
+images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india.webp	717	960	NO
+images/products/metal-louvers/commercial-building-aluminium-louver-installation.webp	1000	666	NO
+images/products/metal-louvers/elevation-louvers-rafters-3d.webp	595	878	NO
+images/products/metal-louvers/fixed-aluminium-luxury-louver-ventilation-panel.webp	900	1600	NO
+images/products/metal-louvers/img-4033.webp	1200	1800	YES
+images/products/metal-louvers/luxury-villa-ceiling-rafters.webp	1200	800	YES
+images/products/metal-louvers/residential-aluminium-facade-louver-hyderabad.webp	183	275	NO
+images/products/metal-louvers/wooden-finish-aluminium-louver-building-exterior.webp	720	1081	NO
+images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp	720	480	NO
+images/products/mirror-profiles/aluminium-mirror-frame-profile-gold-finish.webp	800	800	NO
+images/products/mirror-profiles/aluminium-mirror-profile-price-per-foot-india.webp	1088	1088	NO
+images/products/mirror-profiles/backlit-led-mirror-profile-bedroom-design.webp	784	1168	NO
+images/products/mirror-profiles/custom-shape-led-mirror-profile-design.webp	736	736	NO
+images/products/mirror-profiles/double-strip-led-mirror-profile-premium.webp	784	784	NO
+images/products/mirror-profiles/led-aluminium-mirror-profile-bathroom-price-india.webp	784	784	NO
+images/products/mirror-profiles/led-bathroom-mirror-waterproof-profile.webp	1200	1200	YES
+images/products/mirror-profiles/led-mirror-profile-installation-hyderabad.webp	1080	1351	NO
+images/products/mirror-profiles/matt-black-aluminium-mirror-frame-profile.webp	603	603	NO
+images/products/mirror-profiles/motion-sensor-mirror-auto-on-bathroom.webp	1200	1200	YES
+images/products/mirror-profiles/rectangular-backlit-mirror-profile-india.webp	595	887	NO
+images/products/mirror-profiles/round-led-mirror-profile-bathroom-design.webp	784	784	NO
+images/products/mirror-profiles/touch-sensor-led-mirror-bathroom-india.webp	720	720	NO
+images/products/mirror-profiles/wooden-finish-mirror-profile-wardrobe-design.webp	736	1104	NO
+images/products/new mirror/anti-fog-bathroom-mirror-design.webp	1200	960	YES
+images/products/new mirror/backlit-bathroom-mirror.webp	1122	1402	NO
+images/products/new mirror/D-shape-bathroom-LED-mirror.webp	1200	800	YES
+images/products/new mirror/designer-LED-mirror-India.webp	1024	1536	NO
+images/products/new mirror/designer-led-mirror.webp	1200	960	YES
+images/products/new mirror/horizon-oval-horizontal-led-mirror.webp	1122	1402	NO
+images/products/new mirror/leaf-glow-designer-led-mirror.webp	1122	1402	NO
+images/products/new mirror/luxe-motion-smart-led-mirror.webp	1122	1402	NO
+images/products/new mirror/luxury-led-mirror-design.webp	1200	1094	YES
+images/products/new mirror/luxury-led-mirror.webp	1122	1402	NO
+images/products/new mirror/modern-bathroom-mirror.webp	1122	1402	NO
+images/products/new mirror/motion-sensor-mirror.webp	1122	1402	NO
+images/products/new mirror/organic-shape-led-mirror.webp	1122	1402	NO
+images/products/new mirror/oval-led-mirror.webp	1122	1402	NO
+images/products/new mirror/premium-led-mirror-india.webp	1122	1402	NO
+images/products/new mirror/round-led-touch-mirror.webp	1122	1402	NO
+images/products/new mirror/smart-LED-mirror.webp	1200	1068	YES
+images/products/new mirror/u-shape-luxe-led-mirror.webp	1200	960	YES
+images/products/new mirror/verti-glow-vertical-oval-led-mirror.webp	1122	1402	NO
+images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india.webp	1024	683	NO
+images/products/profile-and-iron-canopy/iron-pergola-terrece-design.webp	600	900	NO
+images/products/profile-and-iron-canopy/luxury-wooden-car-parking-pergola.webp	691	983	NO
+images/products/profile-and-iron-canopy/modern-aluminium-polycarbonate-coffy-bar-pergola.webp	1200	1200	YES
+images/products/profile-and-iron-canopy/rooftop-pergola-canopy-structure.webp	1024	682	NO
+images/products/profile-pergola/aluminium-pergola-hyderabad.webp	1152	1440	NO
+images/products/profile-pergola/best-pergola-company-india.webp	1079	1326	NO
+images/products/profile-pergola/custom-aluminium-louvers-pergola.webp	960	1440	NO
+images/products/profile-pergola/decorative-iron-pergola.webp	900	1153	NO
+images/products/profile-pergola/iron-pergola-installation.webp	960	720	NO
+images/products/profile-pergola/modern-outdoor-garden-pergola-design.webp	710	651	NO
+images/products/retractble-pergola/automatic-pergola.webp	1024	1024	NO
+images/products/retractble-pergola/folding-pergola-system.webp	1200	800	YES
+images/products/retractble-pergola/motorized-rooftop-pergola.webp	1200	800	YES
+images/products/retractble-pergola/sliding-roof-pergola.webp	1080	1350	NO
+images/products/retractble-pergola/villa-pergola-design.webp	1200	800	YES
+images/products/retractble-pergola/waterproof-retractable-pergola.webp	1080	855	NO
+images/products/Shower Design Page/luxury-bathroom-shower-glass.webp	800	800	NO
+images/products/Shower Design Page/modern-bathroom-shower-design.webp	1200	1600	YES
+images/products/Shower Enclosure/corner-shower-enclosure-design.webp	1024	1024	NO
+images/products/Shower Enclosure/glass-shower-enclosure-bathroom.webp	225	225	NO
+images/products/shower-partitions/black-profile-shower-glass-partition.webp	848	1024	NO
+images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp	480	480	NO
+images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp	750	1000	NO
+images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp	720	480	NO
+images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp	357	480	NO
+images/products/skylight/automatic-roof-system-manufacturer.webp	963	640	NO
+images/products/skylight/automatic-skylight-system.webp	640	960	NO
+images/products/skylight/skylight-installation-india.webp	737	1000	NO
+images/products/skylight/skylight-roof-hyderabad.webp	1200	1852	YES
+images/products/skylight/skylight-roof-system.webp	736	981	NO
+images/products/Sliding Shower Door/shower-door-track-system-detail.webp	1080	1350	NO
+images/products/Sliding Shower Door/sliding-glass-shower-door-design.webp	1024	1024	NO
+images/products/Sliding vs Casement/casement-and-sliding-window-side-by-side.webp	1200	800	YES
+images/products/Sliding vs Casement/sliding-vs-casement-window-comparison.webp	853	1280	NO
+images/products/slim aluminium window/minimal-slim-window-frame-design.webp	1200	799	YES
+images/products/slim aluminium window/slim-aluminium-window-luxury-villa.webp	784	1168	NO
+images/products/slim aluminium window/slim-profile-window-modern-elevation.webp	1035	1280	NO
+images/products/Slim System Window/minimal-slim-window-frame-profile.webp	1024	1024	NO
+images/products/Slim System Window/slim-system-window-luxury-villa.webp	880	587	NO
+images/products/slimline-glass-doors-pic/aluminium-glass-doors-minimal-profiles.webp	600	392	NO
+images/products/slimline-glass-doors-pic/entrance-glass-door-with-modern-design-mortice-lock.webp	600	900	NO
+images/products/slimline-glass-doors-pic/Heavy-Duty-System-Window-Frame-with-Toughened-Glass-elevation-doors.webp	1200	823	YES
+images/products/slimline-glass-doors-pic/slim-profile-backyard-doors.webp	600	675	NO
+images/products/slimline-glass-doors-pic/top-tranding-luxury-design-balcony-glass-doors.webp	600	900	NO
+images/products/slimline-profile-window-pic/Clear Glass Hinged Door – Stylish Entrance Design.webp	784	1168	NO
+images/products/slimline-profile-window-pic/High-Quality Entrance Glass Wall – Clear View Design.webp	784	1168	NO
+images/products/slimline-profile-window-pic/Modern Entrance Glass Panel for Home Entry.webp	784	1168	NO
+images/products/slimline-profile-window-pic/slim_security_glass_window_white_canopy_hpl_cladding_lucknow.webp	1024	576	NO
+images/products/slimline-profile-window-pic/woodenmax-profiles-windows-glass-pergola.webp	600	400	NO
+images/products/Small Bathroom Shower/compact-shower-partition-design.webp	960	1280	NO
+images/products/Small Bathroom Shower/small-bathroom-glass-shower.webp	960	1280	NO
+images/products/soundproof-window/double-glazed-sound-proof-window.webp	1200	1200	YES
+images/products/soundproof-window/noise-reduction-single-glass-window.webp	700	700	NO
+images/products/soundproof-window/single-glazed-soundproof-window.webp	1024	1024	NO
+images/products/soundproof-window/sound-proof-window-single-glass.webp	1200	1200	YES
+images/products/staircase-glass-railing/glass-stair-railing-with-aluminium-profile.webp	1200	708	YES
+images/products/staircase-glass-railing/interior-glass-staircase-railing.webp	1200	708	YES
+images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp	1200	708	YES
+images/products/staircase-glass-railing/minimal-glass-railing-balcony-design.webp	1200	708	YES
+images/products/staircase-glass-railing/outdoor-glass-railing-with-profile.webp	1200	708	YES
+images/products/structural-glazing-building-elevation.webp	960	640	NO
+images/products/System Casement Window/premium-casement-window-hinge-detail.webp	853	1280	NO
+images/products/System Casement Window/system-casement-window-open-style.webp	1200	1500	YES
+images/products/System Sliding Window/system-sliding-window-large-opening.webp	1200	900	YES
+images/products/System Sliding Window/system-sliding-window-large-sliding-opening.webp	720	960	NO
+images/products/System vs Normal Window/premium-vs-regular-window-difference.webp	964	861	NO
+images/products/System vs Normal Window/system-window-vs-normal-window-comparison.webp	800	800	NO
+images/products/System Window Brands/aluminium-system-window-brands-india.webp	1200	900	YES
+images/products/System Window Brands/premium-window-brand-installation.webp	720	960	NO
+images/products/telescope-windows/aluminium-telescopic-sliding-window.webp	907	1353	NO
+images/products/telescope-windows/large-opening-telescopic-sliding-window.webp	540	431	NO
+images/products/telescope-windows/multi-panel-telescopic-window.webp	1200	1584	YES
+images/products/telescope-windows/synchro-sliding-window.webp	1080	1583	NO
+images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp	1200	900	YES
+images/products/top-hung-casment-window-pic/aluminium-profile-corner-window-fix.webp	600	1006	NO
+images/products/top-hung-casment-window-pic/aluminium-profile-door-modern-design.webp	600	910	NO
+images/products/top-hung-casment-window-pic/backyard-opnable-window.webp	600	901	NO
+images/products/top-hung-casment-window-pic/kitchen-casments-window.webp	600	740	NO
+images/products/top-hung-casment-window-pic/top-hung-aluminium-casement-window-lucknow.webp	540	960	NO
+images/products/top-hung-casment-window-pic/woodenmax-profiles-windows-glass-pergola.webp	1200	900	YES
+images/products/upvc-windows/UPVC_sliding_window_white_frame_glass.webp	1024	1024	NO
+images/products/upvc-windows/UPVC_Sliding_Window_With_Mess_sai_innovation.webp	1024	1024	NO
+images/products/villa luxury window/premium-window-large-glass-view.webp	1200	800	YES
+images/products/villa luxury window/system-window-villa-design.webp	1200	800	YES
+images/products/Walk-in Shower/open-shower-area-glass.webp	900	1350	NO
+images/products/Walk-in Shower/walk-in-shower-glass-design.webp	800	800	NO
+images/products/What is System Window/system-window-components-breakdown.webp	960	954	NO
+images/products/What is System Window/what-is-aluminium-system-window-diagram.webp	1536	1024	YES
+images/products/Window Calculator Page/aluminium-window-size-calculator-tool.webp	1200	800	YES
+images/products/Window Calculator Page/calculate-sliding-window-cost-online.webp	1200	800	YES
+images/products/Window Price Per Sqft/aluminium-window-price-comparison-chart.webp	1109	1024	NO
+images/products/Window Price Per Sqft/sliding-window-price-range-india.webp	720	1280	NO
+images/woodenmax-logo.webp	640	500	NO

@@ -1,0 +1,257 @@
+/**
+ * Standard Size Package Cards — premium look, lightweight CSS only
+ * (no images, no filters beyond cheap opacity, no layout thrash)
+ */
+
+.wm-std-pkg {
+  margin: 0 0 1.5rem;
+  padding: 0 0.15rem;
+  scroll-margin-top: 1rem;
+}
+
+.wm-std-pkg--premium {
+  --pkg-ink: #0f172a;
+  --pkg-muted: #64748b;
+  --pkg-line: #e2e8f0;
+  --pkg-soft: #f8fafc;
+  --pkg-accent: #1e3a5f;
+}
+
+.seo-shower-calculator-wrap .wm-std-pkg,
+.price-calculator-container ~ .wm-std-pkg {
+  width: 100%;
+  max-width: 100%;
+}
+
+.wm-std-pkg-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.wm-std-pkg-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--pkg-line, #e2e8f0);
+}
+
+.wm-std-pkg-header-text {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.wm-std-pkg-eyebrow {
+  margin: 0 0 0.25rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pkg-accent, #1e3a5f);
+}
+
+.wm-std-pkg-h2 {
+  margin: 0 0 0.35rem;
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  font-weight: 700;
+  color: var(--pkg-ink, #0f172a);
+  letter-spacing: -0.02em;
+}
+
+.wm-std-pkg-sub {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--pkg-muted, #64748b);
+}
+
+.wm-std-pkg-btn--custom-top {
+  flex: 0 0 auto;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+  background: #fff;
+  color: var(--pkg-ink, #0f172a);
+  border: 1px solid var(--pkg-ink, #0f172a);
+}
+
+.wm-std-pkg-btn--custom-top:hover {
+  background: var(--pkg-ink, #0f172a);
+  color: #fff;
+}
+
+.wm-std-pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.85rem;
+}
+
+.wm-std-pkg--scroll-grid .wm-std-pkg-grid {
+  max-height: min(72vh, 760px);
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  scroll-behavior: smooth;
+}
+
+.wm-std-pkg-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1rem 1rem 0.9rem;
+  background: linear-gradient(180deg, #ffffff 0%, var(--pkg-soft, #f8fafc) 100%);
+  border: 1px solid var(--pkg-line, #e2e8f0);
+  border-radius: 12px;
+  border-top: 2px solid var(--pkg-accent, #1e3a5f);
+  transition: border-color 0.15s ease;
+  contain: content;
+}
+
+.wm-std-pkg-card:hover {
+  border-color: #cbd5e1;
+}
+
+.wm-std-pkg-title {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--pkg-ink, #0f172a);
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.wm-std-pkg-card-top {
+  flex: 1 1 auto;
+  min-height: 4.2rem;
+}
+
+.wm-std-pkg-specs {
+  margin: 0.25rem 0 0;
+  font-size: 0.76rem;
+  line-height: 1.45;
+  color: var(--pkg-muted, #64748b);
+}
+
+.wm-std-pkg-price {
+  margin: 0.4rem 0 0;
+  font-size: 1.32rem;
+  font-weight: 800;
+  color: var(--pkg-ink, #0f172a);
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.wm-std-pkg-note {
+  margin: 0;
+  font-size: 0.7rem;
+  color: #94a3b8;
+}
+
+.wm-std-pkg-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem;
+  margin-top: 0.4rem;
+}
+
+.wm-std-pkg-btn {
+  appearance: none;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 0.4rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+
+.wm-std-pkg-btn:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.wm-std-pkg-btn--quote {
+  background: #fff;
+  color: var(--pkg-ink, #0f172a);
+  border: 1px solid #cbd5e1;
+}
+
+.wm-std-pkg-btn--quote:hover {
+  background: var(--pkg-soft, #f8fafc);
+}
+
+.wm-std-pkg-btn--buy {
+  background: var(--pkg-accent, #1e3a5f);
+  color: #fff;
+  border: 1px solid var(--pkg-accent, #1e3a5f);
+}
+
+.wm-std-pkg-btn--buy:hover {
+  background: #0f2744;
+}
+
+.wm-std-pkg-btn--custom {
+  grid-column: 1 / -1;
+  background: #fff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.wm-std-pkg-btn--custom:hover {
+  background: #eff6ff;
+}
+
+.price-calculator-container.wm-std-pkg-calc-flash {
+  outline: 2px solid #3b82f6;
+  outline-offset: 4px;
+  border-radius: 8px;
+}
+
+.wm-std-pkg-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 5.5rem;
+  transform: translateX(-50%) translateY(12px);
+  z-index: 10050;
+  max-width: min(92vw, 380px);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.wm-std-pkg-toast.is-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.wm-std-pkg-toast--ok { background: #14532d; }
+.wm-std-pkg-toast--warn { background: #7c2d12; }
+
+@media (max-width: 560px) {
+  .wm-std-pkg-grid {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
+  }
+  .wm-std-pkg-actions { grid-template-columns: 1fr; }
+  .wm-std-pkg-btn--custom { grid-column: auto; }
+  .wm-std-pkg-btn--custom-top { width: 100%; }
+  .wm-std-pkg-price { font-size: 1.18rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wm-std-pkg-card,
+  .wm-std-pkg-btn,
+  .wm-std-pkg-toast { transition: none; }
+}

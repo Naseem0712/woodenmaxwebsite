@@ -1,0 +1,3883 @@
+{
+  "images": [
+    {
+      "file": "images/Founder-Naseem.webp",
+      "width": 1420,
+      "height": 1776,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/architectural-louvers-slim-frame-windows-structure-glazing-hpl-exterior.webp",
+      "width": 1200,
+      "height": 890,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/hpl-acp-sheet-facade-calading.webp",
+      "width": 1024,
+      "height": 576,
+      "meets1200": false
+    },
+    {
+      "file": "images/hero/modern-elevation-louvers-slim-window-structure-glazing-hpl-cladding.webp",
+      "width": 1080,
+      "height": 810,
+      "meets1200": false
+    },
+    {
+      "file": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-window-frame-glass-detail.webp",
+      "width": 1200,
+      "height": 799,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/budget-aluminium-window-2-track-design.webp",
+      "width": 1200,
+      "height": 1006,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2track hardwares pic/2track-sliding-window-inside.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/2track hardwares pic/Aluminium-sliding-window-outside.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/2track hardwares pic/handle-sliding-window.webp",
+      "width": 600,
+      "height": 680,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/2track hardwares pic/mortise-window-lock.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/2track hardwares pic/touch-type-lock.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/2track hardwares pic/touch-type-window-lock.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/3track-sliding-window/inside-sliding-window-maximum-opning.webp",
+      "width": 700,
+      "height": 700,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/3track-sliding-window/outside-sliding-window-with-mess.webp",
+      "width": 600,
+      "height": 522,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/3track-sliding-window/small-luxury-type-sliding-window-lock.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/3track-sliding-window/touch-type-lock.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/3track-sliding-window/touch-type-window-lock.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/3track-sliding-window/tranding-sliding-window-handle-lock.webp",
+      "width": 600,
+      "height": 563,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/4 Track Sliding Window/4-track-aluminium-sliding-window-wide-opening.webp",
+      "width": 837,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/4 Track Sliding Window/4-track-window-design-living-room.webp",
+      "width": 1200,
+      "height": 795,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/4 Track Sliding Window/multi-track-aluminium-window-system.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/acp-sheets-pic/acp-elevation-cladding-aluminium-composite-panel-for-commercial-buildings.webp",
+      "width": 600,
+      "height": 400,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/acp-sheets-pic/hotel-exterior-hpl-acp-cladding.webp",
+      "width": 600,
+      "height": 600,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/acp-sheets-pic/hpl-exterior-cladding-premium-wood-finish.webp",
+      "width": 600,
+      "height": 400,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/acp-sheets-pic/premium-hpl-acp-cladding-for-commercial-building.webp",
+      "width": 600,
+      "height": 400,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Aluminium System Window Price/aluminium-system-window-modern-design.webp",
+      "width": 965,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Aluminium System Window Price/system-window-frame-detail-premium.webp",
+      "width": 720,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-pergola/glass-pergola-manufacturer.webp",
+      "width": 832,
+      "height": 1248,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-pergola/luxury-wood-glass-roof-pergola-design.webp",
+      "width": 1200,
+      "height": 903,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-pergola/luxury-wooden-glass-terrace-pergola.webp",
+      "width": 1200,
+      "height": 1299,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-pergola/modern-outdoor-glass-structure.webp",
+      "width": 1200,
+      "height": 903,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-pergola/motorized-glass-pergola.webp",
+      "width": 800,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-pergola/terrece-luxury-glass-pergola.webp",
+      "width": 480,
+      "height": 640,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-window-pic/balcony-sliding-window-slim-interlock.webp",
+      "width": 632,
+      "height": 666,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-window-pic/bedroom-sliding-window-slim-profiles.webp",
+      "width": 1200,
+      "height": 799,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-window-pic/handle-sliding-window.webp",
+      "width": 600,
+      "height": 680,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-window-pic/luxuty-slim-handle-lock.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-window-pic/sliding-window-with-mosqutonett.webp",
+      "width": 700,
+      "height": 700,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-window-pic/touch-type-window-lock.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window.webp",
+      "width": 1024,
+      "height": 682,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-windows/aluminium-casement-door-georgian-grill.webp",
+      "width": 508,
+      "height": 1109,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-windows/french-aluminium-door-georgian-bar.webp",
+      "width": 960,
+      "height": 720,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp",
+      "width": 720,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/top-hung-aluminium-casement-window.webp",
+      "width": 1024,
+      "height": 1536,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/balcony-glass-railing-system/architectural-glass-railing-system.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/balcony-glass-railing-system/glass-railing-terrace-with-profile.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/balcony-glass-railing-system/glass-stair-railing-staicase-ramp-with-aluminium-profile.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/balcony-glass-railing-system/luxury-balcony-glass-railing-2.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/balcony-glass-railing-system/modern-balcony-glass-railing.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/balcony-glass-railing-system/outdoor-glass-railing-staicase-balcony-with-profile.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Best Window for Home/living-room-window-design-aluminium.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Best Window for Home/window-cost-per-sqft-visual-guide.webp",
+      "width": 1080,
+      "height": 1080,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Casement Window/aluminium-casement-window-open-style.webp",
+      "width": 853,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Casement Window/casement-window-side-hinged-design.webp",
+      "width": 1200,
+      "height": 1233,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Casement Window/modern-casement-window-home.webp",
+      "width": 960,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/City Price Page/best-aluminium-window-for-home-design.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/City Price Page/window-project-site-installation.webp",
+      "width": 1200,
+      "height": 789,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Corner Shower Partition/corner-glass-shower-partition.webp",
+      "width": 960,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Corner Shower Partition/corner-shower-glass-fitting.webp",
+      "width": 1200,
+      "height": 960,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Curtain vs Glass/bathroom-partition-difference.webp",
+      "width": 1200,
+      "height": 960,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Curtain vs Glass/shower-curtain-vs-glass.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp",
+      "width": 640,
+      "height": 480,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/elevation-cladding/hpl-acp-sheet-facade-calading.webp",
+      "width": 1200,
+      "height": 1413,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/elevation-cladding/hpl-exterior-cladding-natural-finish.webp",
+      "width": 960,
+      "height": 540,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/elevation-cladding/img-6436-small.webp",
+      "width": 854,
+      "height": 425,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Fixed Glass Shower Panel/fixed-glass-shower-panel-bathroom.webp",
+      "width": 900,
+      "height": 1200,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Fixed Glass Shower Panel/frameless-fixed-shower-glass.webp",
+      "width": 784,
+      "height": 1168,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/fold-&-befold-pic/aluminium-bifold-glass-door-for-balcony-opening.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/fold-&-befold-pic/fold-bifold-aluminium-glass-door-balcony-india.webp",
+      "width": 600,
+      "height": 600,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/fold-&-befold-pic/folding-glass-door-aluminium-frame-interior-partition-system.webp",
+      "width": 600,
+      "height": 451,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/fold-&-befold-pic/living-room-folding-glass-door-partition.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/fold-&-befold-pic/outdoor-indoor-folding-aluminium-glass-door.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/fold-&-befold-pic/slim-profile-aluminium-bifold-glass-door.webp",
+      "width": 1200,
+      "height": 906,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles.webp",
+      "width": 600,
+      "height": 450,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/fold-sliding-window-pic/garden-access-bifold-aluminium-glass-door.webp",
+      "width": 600,
+      "height": 836,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/fold-sliding-window-pic/showroom-front-aluminium-bifold-glass-door.webp",
+      "width": 600,
+      "height": 799,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/fold-sliding-window-pic/terrace-folding-aluminium-glass-door.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/fold-sliding-window-pic/whatsapp-image-2025-12-30-at-7-19-23-pm-2.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/folding-systems/fold-and-sliding-window-imported-profiles.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Framed vs Frameless/framed-vs-frameless-shower.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Framed vs Frameless/shower-frame-vs-no-frame.webp",
+      "width": 1200,
+      "height": 960,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Frameless Shower/frameless-glass-shower-design.webp",
+      "width": 860,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Frameless Shower/minimal-shower-glass-pane.webp",
+      "width": 960,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/french-door-georgian-bar-pic/Custom-Made Aluminium System Window Installation.webp",
+      "width": 784,
+      "height": 1168,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/french-door-georgian-bar-pic/doors-invisible-lock-latch.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/french-door-georgian-bar-pic/french-doors-lock-handle.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/french-door-georgian-bar-pic/Minimalist Black Aluminium System Window Design.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/french-door-georgian-bar-pic/outside-georgian-bar-door.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/french-door-georgian-bar-pic/slim-aluminium-profile-door-design.webp",
+      "width": 768,
+      "height": 1152,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/full-elevation-facade-pic/elavation-glass-villa.webp",
+      "width": 960,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/full-elevation-facade-pic/elevation-window-glass-facades.webp",
+      "width": 719,
+      "height": 695,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/full-elevation-facade-pic/glazing-glass-design.webp",
+      "width": 784,
+      "height": 1168,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/full-elevation-facade-pic/villas-glass-design.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Glass Options/riple-glass-window-section.webp",
+      "width": 1080,
+      "height": 1583,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Glass Options/system-window-double-glass-dgu.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Price Breakdown/aluminium-window-glass-types.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Price Breakdown/double-glass-dgu-window-section.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Shower Partition Price/frameless-shower-partition-glass.webp",
+      "width": 784,
+      "height": 1168,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Glass Shower Partition Price/glass-shower-partition-modern-bathroom.webp",
+      "width": 500,
+      "height": 667,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Glass Thickness/glass-thickness-section-view.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Thickness/shower-glass-thickness-chart.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Types/bathroom-glass-options.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Types/shower-glass-types-comparison.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glazing/aluminium-curtain-wall-glass-elevatio.webp",
+      "width": 768,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Glazing/architectural-glass-elevation.webp",
+      "width": 600,
+      "height": 600,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Glazing/commercial-glazing-facade.webp",
+      "width": 600,
+      "height": 450,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Glazing/curtain-wall-glazing-system.webp",
+      "width": 600,
+      "height": 600,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Glazing/elevation-glass-facade.webp",
+      "width": 600,
+      "height": 600,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Glazing/structural-glazing-facade.webp",
+      "width": 600,
+      "height": 600,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Grills/aluminium balcony grill price per sqft.webp",
+      "width": 1024,
+      "height": 1536,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Grills/aluminium grill fabricators near me.webp",
+      "width": 1024,
+      "height": 1365,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Grills/aluminium-child-safety-balcony-grill.webp",
+      "width": 1024,
+      "height": 1536,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Grills/aluminium-window-grill-design-modern.webp",
+      "width": 1024,
+      "height": 1536,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Grills/safety grill for balcony with children.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Grills/window grill design.webp",
+      "width": 1024,
+      "height": 1536,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/hpl-sheet-pic/balcony-hpl-acp-wall-cladding.webp",
+      "width": 500,
+      "height": 281,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/hpl-sheet-pic/best-hpl-acp-cladding-manufacturer-india.webp",
+      "width": 600,
+      "height": 706,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/hpl-sheet-pic/bungalow-hpl-acp-facade.webp",
+      "width": 600,
+      "height": 450,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/hpl-sheet-pic/hpl-acp-exterior-cladding-india.webp",
+      "width": 600,
+      "height": 395,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/hpl-sheet-pic/walnut-finish-hpl-acp-exterior-panels.webp",
+      "width": 600,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/hpl-sheet-pic/wood-texture-hpl-acp-cladding.webp",
+      "width": 600,
+      "height": 400,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Installation Cost/bathroom-shower-installation-work.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Installation Cost/shower-glass-installation-site.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Installation Process/system-window-installation-site.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Installation Process/window-installation-frame-fixing.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Maintenance/bathroom-glass-maintenance.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Maintenance/shower-glass-cleaning.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-ceiling-louver-pergola-design.webp",
+      "width": 1080,
+      "height": 1080,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard.webp",
+      "width": 1080,
+      "height": 719,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/Aluminium-elevation-twisted-louvers.webp",
+      "width": 1179,
+      "height": 2556,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-facade-louver-75x38mm-wooden-finish-delhi.webp",
+      "width": 960,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-louver-75x38mm-profile-close-up.webp",
+      "width": 600,
+      "height": 900,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-louver-canopy-elevation-facade.webp",
+      "width": 721,
+      "height": 480,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-louver-canopy-entrance-design.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-louver-curved-architectural-design.webp",
+      "width": 794,
+      "height": 777,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-louver-installation-ncr-project.webp",
+      "width": 641,
+      "height": 960,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp",
+      "width": 768,
+      "height": 432,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/black-powder-coat-aluminium-louver-facade.webp",
+      "width": 478,
+      "height": 453,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/blacony-seafty-railing-rafters.webp",
+      "width": 600,
+      "height": 900,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india.webp",
+      "width": 717,
+      "height": 960,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/commercial-building-aluminium-louver-installation.webp",
+      "width": 1000,
+      "height": 666,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/elevation-louvers-rafters-3d.webp",
+      "width": 595,
+      "height": 878,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/fixed-aluminium-luxury-louver-ventilation-panel.webp",
+      "width": 900,
+      "height": 1600,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/img-4033.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/luxury-villa-ceiling-rafters.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/residential-aluminium-facade-louver-hyderabad.webp",
+      "width": 183,
+      "height": 275,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/wooden-finish-aluminium-louver-building-exterior.webp",
+      "width": 720,
+      "height": 1081,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation.webp",
+      "width": 720,
+      "height": 480,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/aluminium-mirror-frame-profile-gold-finish.webp",
+      "width": 800,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/aluminium-mirror-profile-price-per-foot-india.webp",
+      "width": 1088,
+      "height": 1088,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/backlit-led-mirror-profile-bedroom-design.webp",
+      "width": 784,
+      "height": 1168,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/custom-shape-led-mirror-profile-design.webp",
+      "width": 736,
+      "height": 736,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/double-strip-led-mirror-profile-premium.webp",
+      "width": 784,
+      "height": 784,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/led-aluminium-mirror-profile-bathroom-price-india.webp",
+      "width": 784,
+      "height": 784,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/led-bathroom-mirror-waterproof-profile.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/led-mirror-profile-installation-hyderabad.webp",
+      "width": 1080,
+      "height": 1351,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/matt-black-aluminium-mirror-frame-profile.webp",
+      "width": 603,
+      "height": 603,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/motion-sensor-mirror-auto-on-bathroom.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/rectangular-backlit-mirror-profile-india.webp",
+      "width": 595,
+      "height": 887,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/round-led-mirror-profile-bathroom-design.webp",
+      "width": 784,
+      "height": 784,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/touch-sensor-led-mirror-bathroom-india.webp",
+      "width": 720,
+      "height": 720,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/mirror-profiles/wooden-finish-mirror-profile-wardrobe-design.webp",
+      "width": 736,
+      "height": 1104,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/anti-fog-bathroom-mirror-design.webp",
+      "width": 1200,
+      "height": 960,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/new mirror/backlit-bathroom-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/D-shape-bathroom-LED-mirror.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/new mirror/designer-LED-mirror-India.webp",
+      "width": 1024,
+      "height": 1536,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/designer-led-mirror.webp",
+      "width": 1200,
+      "height": 960,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/new mirror/horizon-oval-horizontal-led-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/leaf-glow-designer-led-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/luxe-motion-smart-led-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/luxury-led-mirror-design.webp",
+      "width": 1200,
+      "height": 1094,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/new mirror/luxury-led-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/modern-bathroom-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/motion-sensor-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/organic-shape-led-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/oval-led-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/premium-led-mirror-india.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/round-led-touch-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/new mirror/smart-LED-mirror.webp",
+      "width": 1200,
+      "height": 1068,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/new mirror/u-shape-luxe-led-mirror.webp",
+      "width": 1200,
+      "height": 960,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/new mirror/verti-glow-vertical-oval-led-mirror.webp",
+      "width": 1122,
+      "height": 1402,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india.webp",
+      "width": 1024,
+      "height": 683,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/profile-and-iron-canopy/iron-pergola-terrece-design.webp",
+      "width": 600,
+      "height": 900,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/profile-and-iron-canopy/luxury-wooden-car-parking-pergola.webp",
+      "width": 691,
+      "height": 983,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/profile-and-iron-canopy/modern-aluminium-polycarbonate-coffy-bar-pergola.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/profile-and-iron-canopy/rooftop-pergola-canopy-structure.webp",
+      "width": 1024,
+      "height": 682,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/profile-pergola/aluminium-pergola-hyderabad.webp",
+      "width": 1152,
+      "height": 1440,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/profile-pergola/best-pergola-company-india.webp",
+      "width": 1079,
+      "height": 1326,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/profile-pergola/custom-aluminium-louvers-pergola.webp",
+      "width": 960,
+      "height": 1440,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/profile-pergola/decorative-iron-pergola.webp",
+      "width": 900,
+      "height": 1153,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/profile-pergola/iron-pergola-installation.webp",
+      "width": 960,
+      "height": 720,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/profile-pergola/modern-outdoor-garden-pergola-design.webp",
+      "width": 710,
+      "height": 651,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/retractble-pergola/automatic-pergola.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/retractble-pergola/folding-pergola-system.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/retractble-pergola/motorized-rooftop-pergola.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/retractble-pergola/sliding-roof-pergola.webp",
+      "width": 1080,
+      "height": 1350,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/retractble-pergola/villa-pergola-design.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/retractble-pergola/waterproof-retractable-pergola.webp",
+      "width": 1080,
+      "height": 855,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Shower Design Page/luxury-bathroom-shower-glass.webp",
+      "width": 800,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Shower Design Page/modern-bathroom-shower-design.webp",
+      "width": 1200,
+      "height": 1600,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Shower Enclosure/corner-shower-enclosure-design.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Shower Enclosure/glass-shower-enclosure-bathroom.webp",
+      "width": 225,
+      "height": 225,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/shower-partitions/black-profile-shower-glass-partition.webp",
+      "width": 848,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india.webp",
+      "width": 480,
+      "height": 480,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india.webp",
+      "width": 750,
+      "height": 1000,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door.webp",
+      "width": 720,
+      "height": 480,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition.webp",
+      "width": 357,
+      "height": 480,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/skylight/automatic-roof-system-manufacturer.webp",
+      "width": 963,
+      "height": 640,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/skylight/automatic-skylight-system.webp",
+      "width": 640,
+      "height": 960,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/skylight/skylight-installation-india.webp",
+      "width": 737,
+      "height": 1000,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/skylight/skylight-roof-hyderabad.webp",
+      "width": 1200,
+      "height": 1852,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/skylight/skylight-roof-system.webp",
+      "width": 736,
+      "height": 981,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Sliding Shower Door/shower-door-track-system-detail.webp",
+      "width": 1080,
+      "height": 1350,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Sliding Shower Door/sliding-glass-shower-door-design.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Sliding vs Casement/casement-and-sliding-window-side-by-side.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Sliding vs Casement/sliding-vs-casement-window-comparison.webp",
+      "width": 853,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slim aluminium window/minimal-slim-window-frame-design.webp",
+      "width": 1200,
+      "height": 799,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/slim aluminium window/slim-aluminium-window-luxury-villa.webp",
+      "width": 784,
+      "height": 1168,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slim aluminium window/slim-profile-window-modern-elevation.webp",
+      "width": 1035,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Slim System Window/minimal-slim-window-frame-profile.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Slim System Window/slim-system-window-luxury-villa.webp",
+      "width": 880,
+      "height": 587,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slimline-glass-doors-pic/aluminium-glass-doors-minimal-profiles.webp",
+      "width": 600,
+      "height": 392,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slimline-glass-doors-pic/entrance-glass-door-with-modern-design-mortice-lock.webp",
+      "width": 600,
+      "height": 900,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slimline-glass-doors-pic/Heavy-Duty-System-Window-Frame-with-Toughened-Glass-elevation-doors.webp",
+      "width": 1200,
+      "height": 823,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/slimline-glass-doors-pic/slim-profile-backyard-doors.webp",
+      "width": 600,
+      "height": 675,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slimline-glass-doors-pic/top-tranding-luxury-design-balcony-glass-doors.webp",
+      "width": 600,
+      "height": 900,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slimline-profile-window-pic/Clear Glass Hinged Door – Stylish Entrance Design.webp",
+      "width": 784,
+      "height": 1168,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slimline-profile-window-pic/High-Quality Entrance Glass Wall – Clear View Design.webp",
+      "width": 784,
+      "height": 1168,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slimline-profile-window-pic/Modern Entrance Glass Panel for Home Entry.webp",
+      "width": 784,
+      "height": 1168,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slimline-profile-window-pic/slim_security_glass_window_white_canopy_hpl_cladding_lucknow.webp",
+      "width": 1024,
+      "height": 576,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/slimline-profile-window-pic/woodenmax-profiles-windows-glass-pergola.webp",
+      "width": 600,
+      "height": 400,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Small Bathroom Shower/compact-shower-partition-design.webp",
+      "width": 960,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Small Bathroom Shower/small-bathroom-glass-shower.webp",
+      "width": 960,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/soundproof-window/double-glazed-sound-proof-window.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/soundproof-window/noise-reduction-single-glass-window.webp",
+      "width": 700,
+      "height": 700,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/soundproof-window/single-glazed-soundproof-window.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/soundproof-window/sound-proof-window-single-glass.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/staircase-glass-railing/glass-stair-railing-with-aluminium-profile.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/staircase-glass-railing/interior-glass-staircase-railing.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/staircase-glass-railing/minimal-glass-railing-balcony-design.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/staircase-glass-railing/outdoor-glass-railing-with-profile.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/structural-glazing-building-elevation.webp",
+      "width": 960,
+      "height": 640,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/System Casement Window/premium-casement-window-hinge-detail.webp",
+      "width": 853,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/System Casement Window/system-casement-window-open-style.webp",
+      "width": 1200,
+      "height": 1500,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/System Sliding Window/system-sliding-window-large-opening.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/System Sliding Window/system-sliding-window-large-sliding-opening.webp",
+      "width": 720,
+      "height": 960,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/System vs Normal Window/premium-vs-regular-window-difference.webp",
+      "width": 964,
+      "height": 861,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/System vs Normal Window/system-window-vs-normal-window-comparison.webp",
+      "width": 800,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/System Window Brands/aluminium-system-window-brands-india.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/System Window Brands/premium-window-brand-installation.webp",
+      "width": 720,
+      "height": 960,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/telescope-windows/aluminium-telescopic-sliding-window.webp",
+      "width": 907,
+      "height": 1353,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/telescope-windows/large-opening-telescopic-sliding-window.webp",
+      "width": 540,
+      "height": 431,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/telescope-windows/multi-panel-telescopic-window.webp",
+      "width": 1200,
+      "height": 1584,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/telescope-windows/synchro-sliding-window.webp",
+      "width": 1080,
+      "height": 1583,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/top-hung-casment-window-pic/aluminium-profile-corner-window-fix.webp",
+      "width": 600,
+      "height": 1006,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/top-hung-casment-window-pic/aluminium-profile-door-modern-design.webp",
+      "width": 600,
+      "height": 910,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/top-hung-casment-window-pic/backyard-opnable-window.webp",
+      "width": 600,
+      "height": 901,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/top-hung-casment-window-pic/kitchen-casments-window.webp",
+      "width": 600,
+      "height": 740,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/top-hung-casment-window-pic/top-hung-aluminium-casement-window-lucknow.webp",
+      "width": 540,
+      "height": 960,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/top-hung-casment-window-pic/woodenmax-profiles-windows-glass-pergola.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/upvc-windows/UPVC_sliding_window_white_frame_glass.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/upvc-windows/UPVC_Sliding_Window_With_Mess_sai_innovation.webp",
+      "width": 1024,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/villa luxury window/premium-window-large-glass-view.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/villa luxury window/system-window-villa-design.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Walk-in Shower/open-shower-area-glass.webp",
+      "width": 900,
+      "height": 1350,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Walk-in Shower/walk-in-shower-glass-design.webp",
+      "width": 800,
+      "height": 800,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/What is System Window/system-window-components-breakdown.webp",
+      "width": 960,
+      "height": 954,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/What is System Window/what-is-aluminium-system-window-diagram.webp",
+      "width": 1536,
+      "height": 1024,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Window Calculator Page/aluminium-window-size-calculator-tool.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Window Calculator Page/calculate-sliding-window-cost-online.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Window Price Per Sqft/aluminium-window-price-comparison-chart.webp",
+      "width": 1109,
+      "height": 1024,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/Window Price Per Sqft/sliding-window-price-range-india.webp",
+      "width": 720,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/woodenmax-logo.webp",
+      "width": 640,
+      "height": 500,
+      "meets1200": false
+    },
+    {
+      "file": "images/products/metal-louvers/commercial-building-aluminium-louver-installation-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp",
+      "width": 720,
+      "height": 1280,
+      "meets1200": false
+    },
+    {
+      "file": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "meets1200": true
+    },
+    {
+      "file": "images/Founder-Naseem.webp",
+      "width": 1420,
+      "height": 1776,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Installation Process/window-installation-frame-fixing.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/Founder-Naseem.webp",
+      "width": 1420,
+      "height": 1776,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Installation Process/window-installation-frame-fixing.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/What is System Window/system-window-components-breakdown-1200.webp",
+      "width": 1200,
+      "height": 1193,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Thickness/glass-thickness-section-view.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/Founder-Naseem.webp",
+      "width": 1420,
+      "height": 1776,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "meets1200": true
+    },
+    {
+      "file": "free-aluminium-window-price-calculator.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "blog/Aluminium Sliding Glass Door for Balcony-1200.webp",
+      "width": 1200,
+      "height": 1788,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "blog/Frameless Sliding Glass Door for Interior Partition-1200.webp",
+      "width": 1200,
+      "height": 1788,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/soundproof-window/double-glazed-sound-proof-window.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "meets1200": true
+    },
+    {
+      "file": "free-aluminium-window-price-calculator.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/architectural-louvers-slim-frame-windows-structure-glazing-hpl-exterior.webp",
+      "width": 1200,
+      "height": 890,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "meets1200": true
+    },
+    {
+      "file": "glass-elevation-price-calculator.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/structural-glazing-building-elevation-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/woodenmax-logo-1200.webp",
+      "width": 1200,
+      "height": 938,
+      "meets1200": true
+    },
+    {
+      "file": "images/woodenmax-logo-1200.webp",
+      "width": 1200,
+      "height": 938,
+      "meets1200": true
+    },
+    {
+      "file": "images/woodenmax-logo-1200.webp",
+      "width": 1200,
+      "height": 938,
+      "meets1200": true
+    },
+    {
+      "file": "images/woodenmax-logo-1200.webp",
+      "width": 1200,
+      "height": 938,
+      "meets1200": true
+    },
+    {
+      "file": "images/woodenmax-logo-1200.webp",
+      "width": 1200,
+      "height": 938,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/4 Track Sliding Window/4-track-aluminium-sliding-window-wide-opening-1200.webp",
+      "width": 1200,
+      "height": 1835,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Casement Window/modern-casement-window-home-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Window Calculator Page/aluminium-window-size-calculator-tool.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-window-pic/sliding-window-with-mosqutonett-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/System Window Brands/aluminium-system-window-brands-india.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Aluminium System Window Price/aluminium-system-window-modern-design-1200.webp",
+      "width": 1200,
+      "height": 1592,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Price Breakdown/double-glass-dgu-window-section.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/City Price Page/window-project-site-installation.webp",
+      "width": 1200,
+      "height": 789,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Window Price Per Sqft/sliding-window-price-range-india-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Best Window for Home/living-room-window-design-aluminium.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/french-aluminium-door-georgian-bar-1200.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/aluminium-casement-door-georgian-grill-1200.webp",
+      "width": 1200,
+      "height": 2620,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Sliding vs Casement/sliding-vs-casement-window-comparison-1200.webp",
+      "width": 1200,
+      "height": 1801,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/slim aluminium window/slim-aluminium-window-luxury-villa-1200.webp",
+      "width": 1200,
+      "height": 1788,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Slim System Window/slim-system-window-luxury-villa-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/top-hung-aluminium-casement-window-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/System Casement Window/system-casement-window-open-style.webp",
+      "width": 1200,
+      "height": 1500,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/System Sliding Window/system-sliding-window-large-opening.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/villa luxury window/system-window-villa-design.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Options/system-window-double-glass-dgu.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Installation Process/system-window-installation-site.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/System vs Normal Window/system-window-vs-normal-window-comparison-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/top-hung-aluminium-casement-window-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/What is System Window/what-is-aluminium-system-window-diagram.webp",
+      "width": 1536,
+      "height": 1024,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-windows/top-hung-aluminium-casement-window-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/acp-sheets-pic/acp-elevation-cladding-aluminium-composite-panel-for-commercial-buildings-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/hpl-sheet-pic/hpl-acp-exterior-cladding-india-1200.webp",
+      "width": 1200,
+      "height": 790,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/elevation-cladding/hpl-acp-elevation-house-cladding-1200.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/fold-&-befold-pic/fold-bifold-aluminium-glass-door-balcony-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles-1200.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp",
+      "width": 1200,
+      "height": 708,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Grills/aluminium-window-grill-design-modern-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Grills/aluminium-child-safety-balcony-grill-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Grills/aluminium grill fabricators near me-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Grills/safety grill for balcony with children-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Grills/window grill design-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Grills/aluminium balcony grill price per sqft-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Grills/aluminium-window-grill-design-modern-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-facade-louver-75x38mm-wooden-finish-delhi-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/commercial-building-aluminium-louver-installation-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/elevation-louvers-rafters-3d-1200.webp",
+      "width": 1200,
+      "height": 1771,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-louver-75x38mm-profile-close-up-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/commercial-building-aluminium-louver-installation-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/architectural-curved-aluminium-louvers-facade-1200.webp",
+      "width": 1200,
+      "height": 675,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-louver-curved-architectural-design-1200.webp",
+      "width": 1200,
+      "height": 1174,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india-1200.webp",
+      "width": 1200,
+      "height": 1607,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-louver-canopy-elevation-facade-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-louver-installation-ncr-project-1200.webp",
+      "width": 1200,
+      "height": 1797,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/aluminium-louver-installation-ncr-project-1200.webp",
+      "width": 1200,
+      "height": 1797,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/residential-aluminium-facade-louver-hyderabad-1200.webp",
+      "width": 1200,
+      "height": 1803,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/wooden-finish-aluminium-louver-building-exterior-1200.webp",
+      "width": 1200,
+      "height": 1802,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india-1200.webp",
+      "width": 1200,
+      "height": 1607,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/Aluminium-elevation-twisted-louvers-1200.webp",
+      "width": 1200,
+      "height": 2602,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/black-powder-coat-aluminium-louver-facade-1200.webp",
+      "width": 1200,
+      "height": 1137,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/fixed-aluminium-luxury-louver-ventilation-panel-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/matt-black-aluminium-mirror-frame-profile-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/backlit-led-mirror-profile-bedroom-design-1200.webp",
+      "width": 1200,
+      "height": 1788,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/custom-shape-led-mirror-profile-design-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/led-aluminium-mirror-profile-bathroom-price-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/led-bathroom-mirror-waterproof-profile.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/led-mirror-profile-installation-hyderabad-1200.webp",
+      "width": 1200,
+      "height": 1501,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/led-mirror-profile-installation-hyderabad-1200.webp",
+      "width": 1200,
+      "height": 1501,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/double-strip-led-mirror-profile-premium-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/aluminium-mirror-profile-price-per-foot-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/aluminium-mirror-frame-profile-gold-finish-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/motion-sensor-mirror-auto-on-bathroom.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/rectangular-backlit-mirror-profile-india-1200.webp",
+      "width": 1200,
+      "height": 1789,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/round-led-mirror-profile-bathroom-design-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/touch-sensor-led-mirror-bathroom-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/mirror-profiles/wooden-finish-mirror-profile-wardrobe-design-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-pergola/luxury-wooden-glass-terrace-pergola.webp",
+      "width": 1200,
+      "height": 1299,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-pergola/glass-pergola-manufacturer-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/skylight/automatic-roof-system-manufacturer-1200.webp",
+      "width": 1200,
+      "height": 798,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/profile-pergola/aluminium-pergola-hyderabad-1200.webp",
+      "width": 1200,
+      "height": 1500,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/retractble-pergola/automatic-pergola-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/aluminium-pergola/glass-pergola-manufacturer-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Shower Design Page/modern-bathroom-shower-design.webp",
+      "width": 1200,
+      "height": 1600,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/shower-partitions/black-profile-shower-glass-partition-1200.webp",
+      "width": 1200,
+      "height": 1449,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Corner Shower Partition/corner-glass-shower-partition-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Fixed Glass Shower Panel/fixed-glass-shower-panel-bathroom-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Framed vs Frameless/framed-vs-frameless-shower.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Frameless Shower/frameless-glass-shower-design-1200.webp",
+      "width": 1200,
+      "height": 1786,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Shower Partition Price/glass-shower-partition-modern-bathroom-1200.webp",
+      "width": 1200,
+      "height": 1601,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Curtain vs Glass/shower-curtain-vs-glass.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Shower Enclosure/glass-shower-enclosure-bathroom-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Maintenance/shower-glass-cleaning.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Thickness/shower-glass-thickness-chart.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Glass Types/shower-glass-types-comparison.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Installation Cost/shower-glass-installation-site.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Sliding Shower Door/sliding-glass-shower-door-design-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition-1200.webp",
+      "width": 1200,
+      "height": 1613,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Small Bathroom Shower/small-bathroom-glass-shower-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/Walk-in Shower/walk-in-shower-glass-design-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp",
+      "width": 1200,
+      "height": 900,
+      "meets1200": true
+    },
+    {
+      "file": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "meets1200": true
+    }
+  ],
+  "small": [
+    {
+      "original": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa.webp",
+      "serp": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa-1200.webp",
+      "originalW": 720,
+      "serpW": 1200
+    }
+  ],
+  "created": [],
+  "errors": [],
+  "pagesFixed": [
+    {
+      "file": "about/case-study-commercial-tower-mumbai.html",
+      "image": "images/products/metal-louvers/commercial-building-aluminium-louver-installation-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "resized": false
+    },
+    {
+      "file": "about/case-study-luxury-bungalow-delhi.html",
+      "image": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "about/case-study-makobrew-jubilee-hills.html",
+      "image": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "resized": true
+    },
+    {
+      "file": "about/case-study-villa-hyderabad.html",
+      "image": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "resized": false
+    },
+    {
+      "file": "about/certifications-iso-qualicoat.html",
+      "image": "images/Founder-Naseem.webp",
+      "width": 1420,
+      "height": 1776,
+      "resized": false
+    },
+    {
+      "file": "about/factory-tour-hyderabad.html",
+      "image": "images/products/Installation Process/window-installation-frame-fixing.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "about/founder-story-woodenmax.html",
+      "image": "images/Founder-Naseem.webp",
+      "width": 1420,
+      "height": 1776,
+      "resized": false
+    },
+    {
+      "file": "about/manufacturing-process.html",
+      "image": "images/products/Installation Process/window-installation-frame-fixing.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "about/material-sourcing-india.html",
+      "image": "images/products/What is System Window/system-window-components-breakdown-1200.webp",
+      "width": 1200,
+      "height": 1193,
+      "resized": false
+    },
+    {
+      "file": "about/quality-testing-process.html",
+      "image": "images/products/Glass Thickness/glass-thickness-section-view.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "about/team-leadership.html",
+      "image": "images/Founder-Naseem.webp",
+      "width": 1420,
+      "height": 1776,
+      "resized": false
+    },
+    {
+      "file": "about.html",
+      "image": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "resized": false
+    },
+    {
+      "file": "aluminium-window-price-calculator.html",
+      "image": "free-aluminium-window-price-calculator.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "blog/aluminium-sliding-glass-door-complete-guide.html",
+      "image": "blog/Aluminium Sliding Glass Door for Balcony-1200.webp",
+      "width": 1200,
+      "height": 1788,
+      "resized": false
+    },
+    {
+      "file": "blog/complete-woodenmax-products-guide.html",
+      "image": "images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "blog/energy-efficient-windows-guide.html",
+      "image": "images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "blog/frameless-sliding-doors-interior-partitions.html",
+      "image": "blog/Frameless Sliding Glass Door for Interior Partition-1200.webp",
+      "width": 1200,
+      "height": 1788,
+      "resized": false
+    },
+    {
+      "file": "blog/pergola-design-ideas-india.html",
+      "image": "images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "resized": false
+    },
+    {
+      "file": "blog/sliding-window-vs-folding-door-comparison.html",
+      "image": "images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "blog/soundproof-windows-Hyderabad.html",
+      "image": "images/products/soundproof-window/double-glazed-sound-proof-window.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "blog/window-maintenance-tips.html",
+      "image": "images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "blog.html",
+      "image": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "resized": false
+    },
+    {
+      "file": "calculators.html",
+      "image": "free-aluminium-window-price-calculator.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "catalog.html",
+      "image": "images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "city/bangalore.html",
+      "image": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "city/delhi.html",
+      "image": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "resized": false
+    },
+    {
+      "file": "city/hyderabad.html",
+      "image": "images/hero/architectural-louvers-slim-frame-windows-structure-glazing-hpl-exterior.webp",
+      "width": 1200,
+      "height": 890,
+      "resized": false
+    },
+    {
+      "file": "city/jaipur.html",
+      "image": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "city/lucknow.html",
+      "image": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "city/mumbai.html",
+      "image": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "resized": false
+    },
+    {
+      "file": "city/pune.html",
+      "image": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "resized": false
+    },
+    {
+      "file": "contact.html",
+      "image": "images/hero/premium-front-elevation-louvers-slim-glass-windows-hpl-facade-india.webp",
+      "width": 1200,
+      "height": 596,
+      "resized": false
+    },
+    {
+      "file": "glass-elevation-price-calculator.html",
+      "image": "glass-elevation-price-calculator.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "index.html",
+      "image": "images/products/structural-glazing-building-elevation-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "policies/cancellation-refund-policy.html",
+      "image": "images/woodenmax-logo-1200.webp",
+      "width": 1200,
+      "height": 938,
+      "resized": false
+    },
+    {
+      "file": "policies/gst-transport-policy.html",
+      "image": "images/woodenmax-logo-1200.webp",
+      "width": 1200,
+      "height": 938,
+      "resized": false
+    },
+    {
+      "file": "policies/installation-policy.html",
+      "image": "images/woodenmax-logo-1200.webp",
+      "width": 1200,
+      "height": 938,
+      "resized": false
+    },
+    {
+      "file": "policies/privacy-policy.html",
+      "image": "images/woodenmax-logo-1200.webp",
+      "width": 1200,
+      "height": 938,
+      "resized": false
+    },
+    {
+      "file": "policies/warranty-policy.html",
+      "image": "images/woodenmax-logo-1200.webp",
+      "width": 1200,
+      "height": 938,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/2-track-aluminium-window-price.html",
+      "image": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/2-track-french-sliding-door.html",
+      "image": "images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/3-track-sliding-window.html",
+      "image": "images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/4-track-sliding-window-price.html",
+      "image": "images/products/4 Track Sliding Window/4-track-aluminium-sliding-window-wide-opening-1200.webp",
+      "width": 1200,
+      "height": 1835,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-casement-window-price.html",
+      "image": "images/products/Casement Window/modern-casement-window-home-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-sliding-window-price-calculator.html",
+      "image": "images/products/Window Calculator Page/aluminium-window-size-calculator-tool.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-sliding-window.html",
+      "image": "images/products/aluminium-window-pic/sliding-window-with-mosqutonett-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-system-window-brands-india.html",
+      "image": "images/products/System Window Brands/aluminium-system-window-brands-india.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-system-window-price.html",
+      "image": "images/products/Aluminium System Window Price/aluminium-system-window-modern-design-1200.webp",
+      "width": 1200,
+      "height": 1592,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-glass-price-breakdown.html",
+      "image": "images/products/Glass Price Breakdown/double-glass-dgu-window-section.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-price-bangalore.html",
+      "image": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-price-chandigarh.html",
+      "image": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-price-delhi.html",
+      "image": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-price-hyderabad.html",
+      "image": "images/products/City Price Page/window-project-site-installation.webp",
+      "width": 1200,
+      "height": 789,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-price-mumbai.html",
+      "image": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-price-per-sqft.html",
+      "image": "images/products/Window Price Per Sqft/sliding-window-price-range-india-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-price-pune.html",
+      "image": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-price-vijayawada.html",
+      "image": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-price-visakhapatnam.html",
+      "image": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/aluminium-window-price-warangal.html",
+      "image": "images/products/2 Track Aluminium Window/2-track-aluminium-sliding-window-modern-home-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/best-aluminium-window-for-home.html",
+      "image": "images/products/Best Window for Home/living-room-window-design-aluminium.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/french-door-georgian-bar.html",
+      "image": "images/products/aluminium-windows/french-aluminium-door-georgian-bar-1200.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/full-elevation-villa-facade.html",
+      "image": "images/products/aluminium-windows/luxury-aluminium-elevation-windows-doors-villa-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/georgian-grill-casement-door.html",
+      "image": "images/products/aluminium-windows/aluminium-casement-door-georgian-grill-1200.webp",
+      "width": 1200,
+      "height": 2620,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/sliding-vs-casement-window.html",
+      "image": "images/products/Sliding vs Casement/sliding-vs-casement-window-comparison-1200.webp",
+      "width": 1200,
+      "height": 1801,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/slim-aluminium-window-price-luxury.html",
+      "image": "images/products/slim aluminium window/slim-aluminium-window-luxury-villa-1200.webp",
+      "width": 1200,
+      "height": 1788,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/slim-entrance-glass-door.html",
+      "image": "images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/slim-system-window-price.html",
+      "image": "images/products/Slim System Window/slim-system-window-luxury-villa-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/slimline-aluminium-window.html",
+      "image": "images/products/aluminium-windows/top-hung-aluminium-casement-window-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/system-casement-window-price.html",
+      "image": "images/products/System Casement Window/system-casement-window-open-style.webp",
+      "width": 1200,
+      "height": 1500,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/system-sliding-window-price.html",
+      "image": "images/products/System Sliding Window/system-sliding-window-large-opening.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/system-window-for-villa.html",
+      "image": "images/products/villa luxury window/system-window-villa-design.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/system-window-glass-options.html",
+      "image": "images/products/Glass Options/system-window-double-glass-dgu.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/system-window-installation.html",
+      "image": "images/products/Installation Process/system-window-installation-site.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/system-window-vs-normal-window.html",
+      "image": "images/products/System vs Normal Window/system-window-vs-normal-window-comparison-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/top-hung-casement-window.html",
+      "image": "images/products/aluminium-windows/top-hung-aluminium-casement-window-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows/what-is-aluminium-system-window.html",
+      "image": "images/products/What is System Window/what-is-aluminium-system-window-diagram.webp",
+      "width": 1536,
+      "height": 1024,
+      "resized": false
+    },
+    {
+      "file": "products/aluminium-windows.html",
+      "image": "images/products/aluminium-windows/top-hung-aluminium-casement-window-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/elevation-cladding/hpl-acp-elevation-cladding.html",
+      "image": "images/products/acp-sheets-pic/acp-elevation-cladding-aluminium-composite-panel-for-commercial-buildings-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/elevation-cladding/hpl-exterior-cladding.html",
+      "image": "images/products/hpl-sheet-pic/hpl-acp-exterior-cladding-india-1200.webp",
+      "width": 1200,
+      "height": 790,
+      "resized": false
+    },
+    {
+      "file": "products/elevation-cladding.html",
+      "image": "images/products/elevation-cladding/hpl-acp-elevation-house-cladding-1200.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "products/folding-systems/fold-bifold-aluminium-doors.html",
+      "image": "images/products/fold-&-befold-pic/fold-bifold-aluminium-glass-door-balcony-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/folding-systems/fold-sliding-window-system.html",
+      "image": "images/products/fold-sliding-window-pic/fold-sliding-window-system-slim-aluminium-profiles-1200.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "products/folding-systems.html",
+      "image": "images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "products/glass-elevation/glass-elevation-price-bangalore.html",
+      "image": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/glass-elevation/glass-elevation-price-chandigarh.html",
+      "image": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/glass-elevation/glass-elevation-price-delhi.html",
+      "image": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/glass-elevation/glass-elevation-price-mumbai.html",
+      "image": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/glass-elevation/glass-elevation-price-pune.html",
+      "image": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/glass-elevation/glass-elevation-price-vijayawada.html",
+      "image": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/glass-elevation/glass-elevation-price-visakhapatnam.html",
+      "image": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/glass-elevation/glass-elevation-price-warangal.html",
+      "image": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/glass-elevation.html",
+      "image": "images/products/Glazing/architectural-glass-elevation-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/glass-railing/balcony-glass-railing.html",
+      "image": "images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp",
+      "width": 1200,
+      "height": 708,
+      "resized": false
+    },
+    {
+      "file": "products/glass-railing/staircase-glass-railing.html",
+      "image": "images/products/staircase-glass-railing/luxury-frameless-glass-staircase.webp",
+      "width": 1200,
+      "height": 708,
+      "resized": false
+    },
+    {
+      "file": "products/glass-railing.html",
+      "image": "images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp",
+      "width": 1200,
+      "height": 708,
+      "resized": false
+    },
+    {
+      "file": "products/grills/aluminium-window-grills.html",
+      "image": "images/products/Grills/aluminium-window-grill-design-modern-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/grills/balcony-safety-grills.html",
+      "image": "images/products/Grills/aluminium-child-safety-balcony-grill-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/grills/iron-safety-grills.html",
+      "image": "images/products/Grills/aluminium grill fabricators near me-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "resized": false
+    },
+    {
+      "file": "products/grills/staircase-balustrade-grills.html",
+      "image": "images/products/Grills/safety grill for balcony with children-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/grills/window-safety-grills.html",
+      "image": "images/products/Grills/window grill design-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/grills-tools-guide.html",
+      "image": "images/products/Grills/aluminium balcony grill price per sqft-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/grills.html",
+      "image": "images/products/Grills/aluminium-window-grill-design-modern-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/aluminium-facade-louver-price.html",
+      "image": "images/products/metal-louvers/aluminium-facade-louver-75x38mm-wooden-finish-delhi-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/aluminium-louver-design-building.html",
+      "image": "images/products/metal-louvers/commercial-building-aluminium-louver-installation-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/aluminium-louvre-100x50mm-price.html",
+      "image": "images/products/metal-louvers/elevation-louvers-rafters-3d-1200.webp",
+      "width": 1200,
+      "height": 1771,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/aluminium-louvre-75x38mm-price.html",
+      "image": "images/products/metal-louvers/aluminium-louver-75x38mm-profile-close-up-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/ceiling-pergola-louvers.html",
+      "image": "images/products/metal-louvers/aluminium-ceiling-louvers-pergola-backyard-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/commercial-building-louvers.html",
+      "image": "images/products/metal-louvers/commercial-building-aluminium-louver-installation-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/curved-architectural-louvers.html",
+      "image": "images/products/metal-louvers/architectural-curved-aluminium-louvers-facade-1200.webp",
+      "width": 1200,
+      "height": 675,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/fixed-vs-motorized-louver.html",
+      "image": "images/products/metal-louvers/aluminium-louver-curved-architectural-design-1200.webp",
+      "width": 1200,
+      "height": 1174,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/index.html",
+      "image": "images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india-1200.webp",
+      "width": 1200,
+      "height": 1607,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/louver-canopy-facade.html",
+      "image": "images/products/metal-louvers/aluminium-louver-canopy-elevation-facade-1200.webp",
+      "width": 1200,
+      "height": 799,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/louver-installation-guide.html",
+      "image": "images/products/metal-louvers/aluminium-louver-installation-ncr-project-1200.webp",
+      "width": 1200,
+      "height": 1797,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/louver-price-delhi.html",
+      "image": "images/products/metal-louvers/aluminium-louver-installation-ncr-project-1200.webp",
+      "width": 1200,
+      "height": 1797,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/louver-price-hyderabad.html",
+      "image": "images/products/metal-louvers/residential-aluminium-facade-louver-hyderabad-1200.webp",
+      "width": 1200,
+      "height": 1803,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/louver-price-jaipur.html",
+      "image": "images/products/metal-louvers/wooden-finish-aluminium-louver-building-exterior-1200.webp",
+      "width": 1200,
+      "height": 1802,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/louver-vs-acp-cladding.html",
+      "image": "images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india-1200.webp",
+      "width": 1200,
+      "height": 1607,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/motorized-louver-price-india.html",
+      "image": "images/products/metal-louvers/Aluminium-elevation-twisted-louvers-1200.webp",
+      "width": 1200,
+      "height": 2602,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/perforated-aluminium-panel-price.html",
+      "image": "images/products/metal-louvers/black-powder-coat-aluminium-louver-facade-1200.webp",
+      "width": 1200,
+      "height": 1137,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/ventilation-louver-price-per-sqft.html",
+      "image": "images/products/metal-louvers/fixed-aluminium-luxury-louver-ventilation-panel-1200.webp",
+      "width": 1200,
+      "height": 2133,
+      "resized": false
+    },
+    {
+      "file": "products/metal-louvers/wooden-finish-aluminium-louvers.html",
+      "image": "images/products/metal-louvers/wooden-finish-aluminium-louvers-elevation-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/aluminium-mirror-frame-designs.html",
+      "image": "images/products/mirror-profiles/matt-black-aluminium-mirror-frame-profile-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/backlit-mirror-profile-price.html",
+      "image": "images/products/mirror-profiles/backlit-led-mirror-profile-bedroom-design-1200.webp",
+      "width": 1200,
+      "height": 1788,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/custom-mirror-profile.html",
+      "image": "images/products/mirror-profiles/custom-shape-led-mirror-profile-design-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/index.html",
+      "image": "images/products/mirror-profiles/led-aluminium-mirror-profile-bathroom-price-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/led-bathroom-mirror-profile.html",
+      "image": "images/products/mirror-profiles/led-bathroom-mirror-waterproof-profile.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/led-mirror-profile-delhi.html",
+      "image": "images/products/mirror-profiles/led-mirror-profile-installation-hyderabad-1200.webp",
+      "width": 1200,
+      "height": 1501,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/led-mirror-profile-hyderabad.html",
+      "image": "images/products/mirror-profiles/led-mirror-profile-installation-hyderabad-1200.webp",
+      "width": 1200,
+      "height": 1501,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/led-mirror-profile-price.html",
+      "image": "images/products/mirror-profiles/double-strip-led-mirror-profile-premium-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/mirror-profile-price-per-foot.html",
+      "image": "images/products/mirror-profiles/aluminium-mirror-profile-price-per-foot-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/mirror-profile-without-led.html",
+      "image": "images/products/mirror-profiles/aluminium-mirror-frame-profile-gold-finish-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/motion-sensor-mirror-profile.html",
+      "image": "images/products/mirror-profiles/motion-sensor-mirror-auto-on-bathroom.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/rectangular-mirror-profile.html",
+      "image": "images/products/mirror-profiles/rectangular-backlit-mirror-profile-india-1200.webp",
+      "width": 1200,
+      "height": 1789,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/round-mirror-profile.html",
+      "image": "images/products/mirror-profiles/round-led-mirror-profile-bathroom-design-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/touch-sensor-mirror-profile.html",
+      "image": "images/products/mirror-profiles/touch-sensor-led-mirror-bathroom-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/mirror-profiles/wardrobe-mirror-profile.html",
+      "image": "images/products/mirror-profiles/wooden-finish-mirror-profile-wardrobe-design-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/pergola/aluminium-pergola-glass-roof-price-india.html",
+      "image": "images/products/aluminium-pergola/luxury-wooden-glass-terrace-pergola.webp",
+      "width": 1200,
+      "height": 1299,
+      "resized": false
+    },
+    {
+      "file": "products/pergola/aluminium-pergola.html",
+      "image": "images/products/aluminium-pergola/glass-pergola-manufacturer-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/pergola/glass-skylight.html",
+      "image": "images/products/skylight/automatic-roof-system-manufacturer-1200.webp",
+      "width": 1200,
+      "height": 798,
+      "resized": false
+    },
+    {
+      "file": "products/pergola/profile-iron-canopy.html",
+      "image": "images/products/profile-and-iron-canopy/aluminium-glass-entrance-pergola-india-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/pergola/profile-pergola.html",
+      "image": "images/products/profile-pergola/aluminium-pergola-hyderabad-1200.webp",
+      "width": 1200,
+      "height": 1500,
+      "resized": false
+    },
+    {
+      "file": "products/pergola/retractable-pergola.html",
+      "image": "images/products/retractble-pergola/automatic-pergola-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/pergola.html",
+      "image": "images/products/aluminium-pergola/glass-pergola-manufacturer-1200.webp",
+      "width": 1200,
+      "height": 1800,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/bathroom-shower-design-price.html",
+      "image": "images/products/Shower Design Page/modern-bathroom-shower-design.webp",
+      "width": 1200,
+      "height": 1600,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/black-profile-shower-partition.html",
+      "image": "images/products/shower-partitions/black-profile-shower-glass-partition-1200.webp",
+      "width": 1200,
+      "height": 1449,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/corner-shower-partition-price.html",
+      "image": "images/products/Corner Shower Partition/corner-glass-shower-partition-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/fixed-glass-shower-panel-price.html",
+      "image": "images/products/Fixed Glass Shower Panel/fixed-glass-shower-panel-bathroom-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/framed-vs-frameless-shower.html",
+      "image": "images/products/Framed vs Frameless/framed-vs-frameless-shower.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/frameless-glass-shower-price.html",
+      "image": "images/products/Frameless Shower/frameless-glass-shower-design-1200.webp",
+      "width": 1200,
+      "height": 1786,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/frameless-shower-partition.html",
+      "image": "images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/frosted-glass-bathroom-door.html",
+      "image": "images/products/shower-partitions/frosted-glass-bathroom-door-aluminium-frame-openable-india-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/glass-shower-partition-price.html",
+      "image": "images/products/Glass Shower Partition Price/glass-shower-partition-modern-bathroom-1200.webp",
+      "width": 1200,
+      "height": 1601,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/premium-black-profile-shower.html",
+      "image": "images/products/shower-partitions/premium-black-profile-bathroom-shower-glass-sliding-soft-close-door-1200.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/shower-curtain-vs-glass-partition.html",
+      "image": "images/products/Curtain vs Glass/shower-curtain-vs-glass.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/shower-enclosure-price.html",
+      "image": "images/products/Shower Enclosure/glass-shower-enclosure-bathroom-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/shower-glass-maintenance.html",
+      "image": "images/products/Maintenance/shower-glass-cleaning.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/shower-glass-thickness.html",
+      "image": "images/products/Glass Thickness/shower-glass-thickness-chart.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/shower-glass-types.html",
+      "image": "images/products/Glass Types/shower-glass-types-comparison.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/shower-installation-cost.html",
+      "image": "images/products/Installation Cost/shower-glass-installation-site.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/sliding-shower-door-price.html",
+      "image": "images/products/Sliding Shower Door/sliding-glass-shower-door-design-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/slim-frame-shower-partition.html",
+      "image": "images/products/shower-partitions/slim-gold-profile-fluted-shower-glass-partition-1200.webp",
+      "width": 1200,
+      "height": 1613,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/small-bathroom-shower-design.html",
+      "image": "images/products/Small Bathroom Shower/small-bathroom-glass-shower-1200.webp",
+      "width": 1200,
+      "height": 1600,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions/walk-in-shower-glass-price.html",
+      "image": "images/products/Walk-in Shower/walk-in-shower-glass-design-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/shower-partitions.html",
+      "image": "images/products/shower-partitions/frameless-shower-glass-door-openable-sliding-india-1200.webp",
+      "width": 1200,
+      "height": 1200,
+      "resized": false
+    },
+    {
+      "file": "products/telescope-windows/telescopic-slim-sliding-door.html",
+      "image": "images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "products/telescope-windows.html",
+      "image": "images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp",
+      "width": 1200,
+      "height": 900,
+      "resized": false
+    },
+    {
+      "file": "return-policy.html",
+      "image": "images/hero/villa-front-elevation-louvers-slim-profile-glazing-hpl-premium-design.webp",
+      "width": 1200,
+      "height": 800,
+      "resized": false
+    }
+  ],
+  "pagesSkipped": [],
+  "pagesNoImage": [
+    "products/metal-louvers.html"
+  ]
+}

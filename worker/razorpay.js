@@ -2,8 +2,9 @@
  * Razorpay: order creation, payment signature verification and webhook
  * signature verification.
  *
- * Amounts are never taken from the browser — see worker/orders.js, which
- * recomputes them from the stored quote before an order is created.
+ * Amounts: booking is a server constant; full pay is recomputed from the stored
+ * quote; custom advance is clamped between ₹100 and the quote subtotal
+ * (see worker/orders.js resolveAmountPaise).
  */
 import { workerErr, timingSafeEqual, hmacSha256Hex } from './http.js';
 

@@ -59,9 +59,10 @@
 
   /**
    * @param {object[]} items
-   * @param {'booking'|'mirror_full'} payChoice
+   * @param {'booking'|'mirror_full'|'order_full'|'custom'} payChoice
+   * @param {number} [customAmountInr]
    */
-  function buildPaymentPlan (items, payChoice) {
+  function buildPaymentPlan (items, payChoice, customAmountInr) {
     var list = items || [];
     var sub = cartSubtotalInr(list);
     var allMirror = isCartAllMirror(list);
@@ -72,26 +73,44 @@
       choice = 'booking';
     }
 
-    if (choice === 'mirror_full' && allMirror && sub >= 1) {
-      return {
-        mode: 'mirror_full',
-        amountInr: sub,
-        amountPaise: sub * 100,
-        label: 'Confirm order — Pay ' + fmtInr(sub),
-        description: 'Mirror order — exact sizes (pre-GST). Non-refundable after 3 days. GST & transit extra.',
-        cartKind: 'mirror_only',
-      };
+    if (choice === 'custom' && !mixed) {
+      var custom = Math.round(Number(customAmountInr) || 0);
+      if (custom >= 100) {
+        return {
+          mode: 'custom',
+          amountInr: custom,
+          amountPaise: custom * 100,
+          label: 'Pay custom amount — ' + fmtInr(custom),
+          description: 'Custom advance / part payment (pre-GST). Balance after site approval. Non-refundable after 3 days once processing starts.',
+          cartKind: mixed ? 'mixed' : (allMirror ? 'mirror_only' : 'other'),
+        };
+      }
+      choice = 'booking';
     }
 
-    if (choice === 'order_full' && !mixed && !allMirror && sub >= 1) {
-      return {
-        mode: 'order_full',
-        amountInr: sub,
-        amountPaise: sub * 100,
-        label: 'Confirm order — Pay ' + fmtInr(sub),
-        description: 'Full order — calculator total (pre-GST). Non-refundable after 3 days once processing starts. GST & transport extra.',
-        cartKind: 'other',
-      };
+    if ((choice === 'mirror_full' || choice === 'order_full') && !mixed && sub >= 1) {
+      if (allMirror || choice === 'mirror_full') {
+        if (allMirror) {
+          return {
+            mode: 'mirror_full',
+            amountInr: sub,
+            amountPaise: sub * 100,
+            label: 'Confirm order — Pay ' + fmtInr(sub),
+            description: 'Mirror order — exact sizes (pre-GST). Non-refundable after 3 days. GST & transit extra.',
+            cartKind: 'mirror_only',
+          };
+        }
+      }
+      if (!allMirror) {
+        return {
+          mode: 'order_full',
+          amountInr: sub,
+          amountPaise: sub * 100,
+          label: 'Confirm order — Pay ' + fmtInr(sub),
+          description: 'Full order — calculator / package total (pre-GST). Non-refundable after 3 days once processing starts. GST & transport extra.',
+          cartKind: 'other',
+        };
+      }
     }
 
     return {
@@ -357,15 +376,17 @@
       options.payChoice = 'booking';
     }
 
-    var plan = buildPaymentPlan(items, options.payChoice);
+    var plan = buildPaymentPlan(items, options.payChoice, options.customAmountInr);
 
-    if ((plan.mode === 'mirror_full' || plan.mode === 'order_full') && plan.amountPaise < 100) {
-      return Promise.reject(new Error('Calculator total is too low. Check sizes & options.'));
+    if ((plan.mode === 'mirror_full' || plan.mode === 'order_full' || plan.mode === 'custom') && plan.amountPaise < 100) {
+      return Promise.reject(new Error('Payment amount is too low. Check sizes or enter at least ₹100.'));
     }
 
     onStatus('loading', 'Preparing secure payment…');
 
-    var purpose = (plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'order_full_pay' : 'order_booking';
+    var purpose =
+      (plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'order_full_pay' :
+      (plan.mode === 'custom' ? 'order_custom_pay' : 'order_booking');
     var quoteId = null;
 
     return loadCheckoutScript()
@@ -377,11 +398,11 @@
       .then(function (saved) {
         quoteId = saved && saved.quote_id;
         if (!quoteId) throw new Error('Could not save your estimate. Please check your connection and try again.');
-        return postJson('/api/create-order', {
+        var payload = {
           purpose: purpose,
           quote_id: quoteId,
           currency: 'INR',
-          receipt: (purpose === 'order_full_pay' ? 'wm_full_' : 'wm_book_') + Date.now(),
+          receipt: (purpose === 'order_full_pay' ? 'wm_full_' : (purpose === 'order_custom_pay' ? 'wm_custom_' : 'wm_book_')) + Date.now(),
           notes: {
             lead_name: lead.name || '',
             lead_mobile: lead.mobile || '',
@@ -391,7 +412,12 @@
             payment_mode: plan.mode,
             cart_kind: plan.cartKind,
           },
-        });
+        };
+        if (plan.mode === 'custom') {
+          payload.amount_inr = plan.amountInr;
+          payload.notes.custom_amount_inr = String(plan.amountInr);
+        }
+        return postJson('/api/create-order', payload);
       })
       .then(function (order) {
         if (!order || !order.order_id || !order.key_id) {

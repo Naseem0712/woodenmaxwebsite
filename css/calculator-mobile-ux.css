@@ -935,6 +935,41 @@ body.grills-product-page .calc-sticky-exact {
   margin-right: 0.4rem;
 }
 
+.calc-pay-custom-wrap {
+  margin-top: 0.65rem;
+  padding-top: 0.65rem;
+  border-top: 1px dashed #86efac;
+}
+
+.calc-pay-custom-wrap label {
+  display: block;
+  margin: 0 0 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #166534;
+}
+
+.calc-pay-custom-wrap input[type="number"] {
+  width: 100%;
+  max-width: 220px;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #86efac;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #0f172a;
+}
+
+.calc-pay-custom-wrap input[type="number"]:focus {
+  outline: 2px solid #22c55e;
+  outline-offset: 1px;
+  border-color: #16a34a;
+}
+
+.cart-slot-footer .cart-action-btn + .cart-action-btn {
+  margin-top: 0.45rem;
+}
+
 .calc-pay-help {
   margin: 0 0 0.85rem;
   padding: 0.7rem 0.85rem;

@@ -533,10 +533,33 @@
     if (btn) btn.addEventListener('click', function () { submitInquiry(root); });
   }
 
+  function loadStandardSizePackages() {
+    function mount() {
+      if (window.WMStandardPackages && typeof window.WMStandardPackages.mountAll === 'function') {
+        try { window.WMStandardPackages.mountAll(); } catch (eMount) { /* ignore */ }
+      }
+    }
+    if (window.WMStandardPackages) {
+      mount();
+      return;
+    }
+    if (document.getElementById('wm-std-pkg-script')) {
+      document.getElementById('wm-std-pkg-script').addEventListener('load', mount);
+      return;
+    }
+    var s = document.createElement('script');
+    s.id = 'wm-std-pkg-script';
+    s.src = '/js/standard-size-packages.js?v=20260728i';
+    s.defer = true;
+    s.onload = mount;
+    document.head.appendChild(s);
+  }
+
   function init() {
     var root = document.getElementById('wmCatalogCalc');
     if (!root) return;
     if (root.getAttribute('data-calc-mode')) initMirror(root);
+    loadStandardSizePackages();
   }
 
   if (document.readyState === 'loading') {

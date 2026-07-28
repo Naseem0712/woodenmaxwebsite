@@ -1,6 +1,6 @@
 # Shower glass — Title & Meta audit
 
-Pages: **21** (1 hub + 20 cluster/products)
+Pages: **24** (1 hub + 23 cluster/products)
 
 | Page | T len | D len | Issues |
 |------|-------|-------|--------|
@@ -8,13 +8,16 @@ Pages: **21** (1 hub + 20 cluster/products)
 | shower-partitions/slim-frame-shower-partition.html | 129 | 230 | title 129>60; desc 230>160; stuffed product title |
 | shower-partitions/frosted-glass-bathroom-door.html | 124 | 223 | title 124>60; desc 223>160 |
 | shower-partitions/premium-black-profile-shower.html | 122 | 249 | title 122>60; desc 249>160; stuffed product title |
-| shower-partitions.html | 119 | 359 | title 119>60; desc 359>160 |
-| shower-partitions/frameless-shower-partition.html | 115 | 238 | title 115>60; desc 238>160; stuffed product title |
+| shower-partitions/frameless-shower-partition.html | 89 | 166 | title 89>60; desc 166>160 |
+| shower-partitions/shower-partition-bangalore.html | 86 | 149 | title 86>60; no Live Calculator |
+| shower-partitions/shower-partition-hyderabad.html | 86 | 160 | title 86>60; no Live Calculator |
+| shower-partitions/glass-shower-partition-price.html | 85 | 172 | title 85>60; desc 172>160 |
+| shower-partitions/shower-partition-delhi.html | 82 | 143 | title 82>60; no Live Calculator |
+| shower-partitions.html | 79 | 181 | title 79>60; desc 181>160 |
 | shower-partitions/shower-enclosure-price.html | 67 | 193 | title 67>60; desc 193>160; no Live Calculator; robotic meta |
 | shower-partitions/fixed-glass-shower-panel-price.html | 62 | 186 | title 62>60; desc 186>160; no Live Calculator; robotic meta |
 | shower-partitions/frameless-glass-shower-price.html | 61 | 186 | title 61>60; desc 186>160; no Live Calculator; robotic meta |
 | shower-partitions/bathroom-shower-design-price.html | 60 | 190 | desc 190>160; no Live Calculator; robotic meta |
-| shower-partitions/glass-shower-partition-price.html | 60 | 177 | desc 177>160; no Live Calculator |
 | shower-partitions/shower-curtain-vs-glass-partition.html | 60 | 171 | desc 171>160; no Live Calculator; robotic meta |
 | shower-partitions/shower-installation-cost.html | 60 | 163 | desc 163>160; no Live Calculator; robotic meta |
 | shower-partitions/sliding-shower-door-price.html | 59 | 192 | desc 192>160; no Live Calculator; robotic meta |
@@ -48,15 +51,35 @@ Pages: **21** (1 hub + 20 cluster/products)
 
 **Meta (249):** Premium black profile openable shower — designer matte-black hinged shower partition priced ₹660–₹1,320/sqft. 10mm toughened glass, imported 16x45 / 16x35 slim aluminium profiles, towel handle &amp; 3-pc hinges. Matt black, gold, rose-gold, mill finish.
 
-### products/shower-partitions.html
-**Title (119):** Bathroom Shower Partitions &amp; Luxury Frameless Shower Glass Enclosures Price ₹440–1320/sqft 2026 | Live Calculator — Hub
-
-**Meta (359):** Bathroom shower partitions &amp; luxury frameless shower glass enclosures — price ₹440–1320/sqft. Compare frameless walk-in shower, hinged shower partitions, soft-close sliding shower, black profile shower doors, slim gold-frame fluted shower &amp; fold-and-slide frosted glass bathroom doors. 8–10mm toughened glass, hotel-grade imported hardware. Live ₹ calculator.
-
 ### products/shower-partitions/frameless-shower-partition.html
-**Title (115):** Luxury Frameless Shower Enclosure — Walk-in Frameless Shower Glass Door Price ₹440–1320/sqft 2026 | Live Calculator
+**Title (89):** Frameless Shower Price India (2026) — Walk-in Glass Enclosure ₹440–1,320/sqft | WoodenMax
 
-**Meta (238):** Luxury frameless shower enclosure &amp; walk-in frameless shower glass door priced ₹440–₹1,320/sqft. 10mm toughened glass, hinged or sliding, L-corner &amp; straight configurations. Hotel-grade imported hinges / clamps / handles. Live calculator.
+**Meta (166):** Frameless shower price India — walk-in glass enclosure from ₹440/sqft. 10mm toughened, hinged or sliding, L-corner & straight. Live calculator. Free site measurement.
+
+### products/shower-partitions/shower-partition-bangalore.html
+**Title (86):** Shower Glass Partition Bangalore ₹440–1,320/sqft (2026) — Free Measurement | WoodenMax
+
+**Meta (149):** Shower glass partition Bangalore ₹440–1,320/sqft. Whitefield, Koramangala, Indiranagar, HSR. 3×5 ft ≈ ₹11,000–18,000. Free site visit, 1-day install.
+
+### products/shower-partitions/shower-partition-hyderabad.html
+**Title (86):** Shower Glass Partition Hyderabad ₹440–1,320/sqft (2026) — Free Measurement | WoodenMax
+
+**Meta (160):** Shower glass partition Hyderabad ₹440–1,320/sqft. Gachibowli, Banjara Hills, Jubilee Hills, Kukatpally. 3×5 ft ≈ ₹11,000–18,000. Free site visit, 1-day install.
+
+### products/shower-partitions/glass-shower-partition-price.html
+**Title (85):** Glass Shower Partition Price Per Sqft (2026) — 8mm vs 10mm Rate Breakdown | WoodenMax
+
+**Meta (172):** Glass shower partition price per sqft India 2026 — ₹440–1,320/sqft rate breakdown for 8mm vs 10mm toughened glass. Standard 3×5 ft shower ≈ ₹11,000–18,000. Live calculator.
+
+### products/shower-partitions/shower-partition-delhi.html
+**Title (82):** Shower Glass Partition Delhi ₹440–1,320/sqft (2026) — Free Measurement | WoodenMax
+
+**Meta (143):** Shower glass partition Delhi NCR ₹440–1,320/sqft. Gurgaon, Noida, Dwarka, South Delhi. 3×5 ft ≈ ₹11,000–18,000. Free site visit, 1-day install.
+
+### products/shower-partitions.html
+**Title (79):** Bathroom Glass Partition Price ₹440–1,320/sqft (2026) | Shower Calculator India
+
+**Meta (181):** Bathroom partition glass price India — shower glass partition from ₹440/sqft. Frameless, sliding, frosted &amp; black profile. 3×5 ft ≈ ₹11,000–18,000 total. Live calculator, no signup.
 
 ### products/shower-partitions/shower-enclosure-price.html
 **Title (67):** Glass Shower Enclosure Price India — Corners, Doors &amp; Full Cubicles
@@ -77,11 +100,6 @@ Pages: **21** (1 hub + 20 cluster/products)
 **Title (60):** Bathroom Shower Design with Price — Layouts for Indian Homes
 
 **Meta (190):** Bathroom shower design with price: planning sequence, wet zone logic, budget vs premium paths, glass and hardware choices — calculator and links to small bath, walk-in, and enclosure guides.
-
-### products/shower-partitions/glass-shower-partition-price.html
-**Title (60):** Glass Shower Partition Price in India | Per Sqft &amp; Thickness
-
-**Meta (177):** Glass shower partition price India 2026: per-sqft bands, 8mm vs 10mm cost, fixed vs sliding vs frameless, installation charges, maintenance — with calculator and internal links.
 
 ### products/shower-partitions/shower-curtain-vs-glass-partition.html
 **Title (60):** Shower Curtain vs Glass Partition — Cost, Hygiene &amp; Lifespan

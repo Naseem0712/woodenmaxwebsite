@@ -1358,7 +1358,13 @@
         '<p class="cart-slot-footer-note">' + UI.bookSlotNote + '</p>' +
         '<button type="button" class="cart-action-btn cart-action-btn--slot cart-action-btn--full cart-action-btn--muted" data-cart-action="book-order" data-pay-choice="booking">' +
           '<svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>' +
-          '<span>' + UI.bookSlotLabel + '</span>' +
+          '<span>₹1,000 Booking</span>' +
+        '</button>' +
+        '<button type="button" class="cart-action-btn cart-action-btn--buy cart-action-btn--full" data-cart-action="book-order" data-pay-choice="order_full">' +
+          '<span>Pay Full Amount</span>' +
+        '</button>' +
+        '<button type="button" class="cart-action-btn cart-action-btn--slot cart-action-btn--full cart-action-btn--muted" data-cart-action="book-order" data-pay-choice="custom">' +
+          '<span>Custom Advance</span>' +
         '</button>' +
       '</div>'
     );
@@ -1990,16 +1996,16 @@
     return hm && ho;
   }
 
-  function getCartPaymentPlan (cart, payChoice) {
+  function getCartPaymentPlan (cart, payChoice, customAmountInr) {
     if (window.WoodenMaxRazorpay && typeof window.WoodenMaxRazorpay.buildPaymentPlan === 'function') {
-      return window.WoodenMaxRazorpay.buildPaymentPlan(cart, payChoice || 'booking');
+      return window.WoodenMaxRazorpay.buildPaymentPlan(cart, payChoice || 'booking', customAmountInr);
     }
     return {
       mode: 'booking',
       amountInr: 1000,
       amountPaise: 100000,
       label: 'Book order — Pay ₹1,000',
-      description: 'Order confirmation',
+      description: 'Order confirmation — ₹1,000 booking',
       cartKind: 'other'
     };
   }
@@ -2615,17 +2621,32 @@
     if (modal) modal.setAttribute('data-pay-choice', choice);
 
     var block = $('#calcPayChoiceBlock');
+    var customWrap = $('#calcPayCustomWrap');
+    var customInput = $('#calcPayCustomAmount');
+    var customAmt = customInput ? parseInt(customInput.value, 10) : 0;
     if (block) {
-      block.hidden = !allMirror || mixed;
+      // Show for every non-mixed cart: booking / full / custom
+      block.hidden = !!mixed || !cart.length;
       if (!block.hidden) {
+        var titleEl = block.querySelector('.calc-pay-choice-title');
+        if (titleEl) titleEl.textContent = allMirror ? 'Mirror payment option' : 'Payment option';
+        var fullRadio = block.querySelector('input[name="pay_choice"][value="order_full"]');
+        var mirrorFull = block.querySelector('input[name="pay_choice"][value="mirror_full"]');
+        if (fullRadio) fullRadio.closest('label').hidden = !!allMirror;
+        if (mirrorFull) mirrorFull.closest('label').hidden = !allMirror;
         var radios = block.querySelectorAll('input[name="pay_choice"]');
         Array.prototype.forEach.call(radios, function (r) {
+          if (allMirror && r.value === 'order_full') return;
+          if (!allMirror && r.value === 'mirror_full') return;
           r.checked = r.value === choice;
         });
       }
     }
+    if (customWrap) {
+      customWrap.hidden = mixed || choice !== 'custom';
+    }
 
-    var plan = getCartPaymentPlan(cart, choice);
+    var plan = getCartPaymentPlan(cart, choice, customAmt);
     var title = $('#calcFormTitle');
     var intro = $('#calcFormIntro');
     var payHelp = $('#calcPayHelp');
@@ -2644,6 +2665,10 @@
       if (title) title.textContent = plan.mode === 'mirror_full' ? 'Confirm Mirror Order' : 'Confirm Order — Full Payment';
       if (intro) intro.textContent = 'Pay ' + fmtINR(plan.amountInr) + ' for your configured sizes. Refund: not possible after 3 days once factory processing starts. GST & transport extra. Receipt + policy emailed to you & WoodenMax.';
       if (submitLabel) submitLabel.textContent = 'Pay ' + fmtINR(plan.amountInr) + ' & Get Receipt';
+    } else if (plan.mode === 'custom') {
+      if (title) title.textContent = 'Pay Custom Amount — ' + fmtINR(plan.amountInr);
+      if (intro) intro.textContent = 'Pay ' + fmtINR(plan.amountInr) + ' as custom advance / part payment. Balance after site visit & approval. Non-refundable after 3 days once processing starts.';
+      if (submitLabel) submitLabel.textContent = 'Pay ' + fmtINR(plan.amountInr);
     } else if (allMirror) {
       if (title) title.textContent = 'Book Mirror Order — ₹1,000';
       if (intro) intro.textContent = '₹1,000 booking is RETURNABLE if you cancel before production starts. Balance + GST before factory. Full order amount: non-refundable after 3 days once processing begins.';
@@ -2654,7 +2679,7 @@
       if (submitLabel) submitLabel.textContent = 'Pay ₹1,000 Booking';
     } else {
       if (title) title.textContent = 'Book Order — Pay ₹1,000';
-      if (intro) intro.textContent = 'Pay ₹1,000 to confirm your slot. Balance after site visit & final site approval. Secure Razorpay payment.';
+      if (intro) intro.textContent = 'Pay ₹1,000 to confirm your slot. Or choose full payment / custom advance above. Balance after site visit & final approval.';
       if (submitLabel) submitLabel.textContent = 'Pay ₹1,000 & Confirm Order';
     }
   }
@@ -3679,23 +3704,33 @@
     var checkoutFn = window.WoodenMaxRazorpay.startCheckout || window.WoodenMaxRazorpay.startBookingCheckout;
     var modal = $('#calcFormModal');
     var payChoice = 'booking';
+    var customAmountInr = 0;
     if (modal) {
       payChoice = modal.getAttribute('data-pay-choice') || 'booking';
       var picked = modal.querySelector('input[name="pay_choice"]:checked');
       if (picked && !isCartMixed(items)) payChoice = picked.value;
+      var customInput = modal.querySelector('#calcPayCustomAmount');
+      if (customInput) customAmountInr = parseInt(customInput.value, 10) || 0;
     }
     if (isCartMixed(items)) payChoice = 'booking';
+
+    if (payChoice === 'custom' && customAmountInr < 100) {
+      if (submit) submit.classList.remove('is-loading');
+      showToast('warn', '<strong>Enter custom amount</strong> of at least ₹100.');
+      return;
+    }
 
     checkoutFn({
       lead: lead,
       items: items,
       payChoice: payChoice,
+      customAmountInr: customAmountInr,
       onStatus: function (_phase, msg) {
         var label = submit && submit.querySelector('.calc-form-submit-label');
         if (label && msg) label.textContent = msg;
       }
     }).then(function (result) {
-      var plan = result.plan || getCartPaymentPlan(items, payChoice);
+      var plan = result.plan || getCartPaymentPlan(items, payChoice, customAmountInr);
       var verified = result.verified || {};
       var paymentId = (result.payment && result.payment.razorpay_payment_id) || verified.payment_id;
 
@@ -4009,9 +4044,15 @@
           '<form id="calcLeadForm" class="calc-form-body" onsubmit="return false;">' +
             '<p class="calc-form-intro" id="calcFormIntro">Fill your details to download a branded quote PDF. We will email a copy too if you share it.</p>' +
             '<div class="calc-pay-choice-block" id="calcPayChoiceBlock" hidden>' +
-              '<p class="calc-pay-choice-title">Mirror payment option</p>' +
-              '<label class="calc-pay-choice-opt"><input type="radio" name="pay_choice" value="mirror_full"> Pay full order (exact total) — <strong>non-refundable after 3 days</strong></label>' +
+              '<p class="calc-pay-choice-title">Payment option</p>' +
               '<label class="calc-pay-choice-opt"><input type="radio" name="pay_choice" value="booking" checked> ₹1,000 booking — <strong>returnable</strong> before production starts</label>' +
+              '<label class="calc-pay-choice-opt"><input type="radio" name="pay_choice" value="order_full"> Pay full order (exact total) — <strong>non-refundable after 3 days</strong></label>' +
+              '<label class="calc-pay-choice-opt"><input type="radio" name="pay_choice" value="mirror_full"> Pay full mirror order (exact total) — <strong>non-refundable after 3 days</strong></label>' +
+              '<label class="calc-pay-choice-opt"><input type="radio" name="pay_choice" value="custom"> Custom advance amount</label>' +
+              '<div class="calc-pay-custom-wrap" id="calcPayCustomWrap" hidden>' +
+                '<label for="calcPayCustomAmount">Enter amount (₹)</label>' +
+                '<input type="number" id="calcPayCustomAmount" name="custom_amount" min="100" step="100" placeholder="e.g. 5000" inputmode="numeric">' +
+              '</div>' +
             '</div>' +
             '<div class="calc-pay-help calc-pay-help--loading" id="calcPayHelp" hidden>Loading payment mode…</div>' +
             '<div class="calc-form-grid">' +
@@ -4187,7 +4228,10 @@
             openForm('book-order', 'booking');
             return;
           }
-          openForm('book-order', t.getAttribute('data-pay-choice') || 'booking');
+          var choice = t.getAttribute('data-pay-choice') || 'booking';
+          if (choice === 'order_full' && isCartAllMirror(cartItems)) choice = 'mirror_full';
+          if (choice === 'mirror_full' && !isCartAllMirror(cartItems)) choice = 'order_full';
+          openForm('book-order', choice);
         } else if (action === 'share-whatsapp') {
           shareCartWhatsApp();
         } else if (action === 'share-email') {
@@ -4235,6 +4279,12 @@
             syncBookOrderFormUi(r.value);
           });
         });
+        var customInput = modal.querySelector('#calcPayCustomAmount');
+        if (customInput) {
+          customInput.addEventListener('input', function () {
+            syncBookOrderFormUi('custom');
+          });
+        }
       }
     }
 
@@ -4597,10 +4647,38 @@
     }
   };
 
+  /** Live standard-size package cards (windows + showers) — rates from products.json */
+  function loadStandardSizePackages () {
+    function mount () {
+      if (window.WMStandardPackages && typeof window.WMStandardPackages.mountAll === 'function') {
+        try { window.WMStandardPackages.mountAll(); } catch (eMount) { /* ignore */ }
+      }
+    }
+    if (window.WMStandardPackages) {
+      mount();
+      return;
+    }
+    if (document.getElementById('wm-std-pkg-script')) {
+      document.getElementById('wm-std-pkg-script').addEventListener('load', mount);
+      return;
+    }
+    var s = document.createElement('script');
+    s.id = 'wm-std-pkg-script';
+    s.src = '/js/standard-size-packages.js?v=20260728i';
+    s.defer = true;
+    s.onload = mount;
+    document.head.appendChild(s);
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function () { init(); siteCleanupInit(); });
+    document.addEventListener('DOMContentLoaded', function () {
+      init();
+      siteCleanupInit();
+      loadStandardSizePackages();
+    });
   } else {
     init();
     siteCleanupInit();
+    loadStandardSizePackages();
   }
 })();

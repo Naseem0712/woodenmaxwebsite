@@ -121,7 +121,7 @@ async function handleCreateOrder (request, env) {
   if (quoteId) {
     quote = await getQuote(env, quoteId);
     if (!quote) return jsonResponse({ success: false, error: 'Quote not found. Please rebuild your estimate.' }, 400, request);
-    amountPaise = resolveAmountPaise(quote, purpose);
+    amountPaise = resolveAmountPaise(quote, purpose, body.amount_inr);
   } else if (purpose === 'order_booking') {
     // The booking fee is a server-side constant, so it is safe without a quote.
     amountPaise = BOOKING_AMOUNT_INR * 100;
