@@ -36,6 +36,7 @@ import {
   getQuoteIdByRazorpayOrderId,
 } from './orders.js';
 import { drainEmailQueue, sendPlainEmail, alertAdmin } from './email.js';
+import { probeBrowserRendering } from './pdf.js';
 
 function normalizeApiPath (pathname) {
   return String(pathname || '/').replace(/\/+$/, '') || '/';
@@ -325,6 +326,15 @@ async function handleOrderPdf (request, env, orderNo) {
   if ((!record.blob || record.status !== 'ready') && url.searchParams.get('regenerate') === '1') {
     const bytes = await regenerateOrderPdf(env, orderNo);
     record = { blob: bytes, status: 'ready' };
+    // PDF is ready now — attach it on pending rows and flush the queue for this order.
+    try {
+      await env.DB.prepare(
+        "UPDATE email_queue SET attach_pdf = 1, status = 'pending', next_attempt_at = 0, updated_at = ? WHERE order_no = ? AND status IN ('pending', 'failed')"
+      ).bind(Date.now(), orderNo).run();
+      await drainEmailQueue(env, { orderNo, limit: 10 });
+    } catch (e) {
+      console.error('post-regenerate email drain failed', e && e.message);
+    }
   }
 
   if (!record.blob || record.status !== 'ready') {
@@ -417,29 +427,59 @@ async function handleEnquiryForm (request, env) {
 
 // ---------- health ----------
 
-function handleHealth (request, env) {
+async function handleHealth (request, env) {
+  const url = new URL(request.url);
   const keyId = String(env.RAZORPAY_KEY_ID || '').trim();
   const resendKey = String(env.RESEND_API_KEY || '').trim();
+  const accountId = String(env.CF_ACCOUNT_ID || '').trim();
+  const browserToken = String(env.CF_BROWSER_TOKEN || '').trim();
   const mode = razorpayMode(keyId);
   const checks = {
     razorpay: Boolean(keyId && env.RAZORPAY_KEY_SECRET),
     razorpay_webhook: Boolean(env.RAZORPAY_WEBHOOK_SECRET),
     database: Boolean(env.DB),
-    pdf: Boolean(env.CF_ACCOUNT_ID && env.CF_BROWSER_TOKEN),
+    pdf: Boolean((env.BROWSER && typeof env.BROWSER.quickAction === 'function') || (accountId && browserToken)),
     email: Boolean(resendKey) && /^re_/i.test(resendKey),
   };
   const missing = Object.keys(checks).filter((k) => !checks[k]);
   const emailHint = resendKey && !/^re_/i.test(resendKey)
     ? 'RESEND_API_KEY is set but invalid (Resend keys start with re_). Run: npx wrangler secret put RESEND_API_KEY'
     : null;
+
+  let pdf_probe = null;
+  if (url.searchParams.get('probe') === 'pdf' && checks.pdf) {
+    pdf_probe = await probeBrowserRendering(env);
+  }
+
   return jsonResponse({
-    ok: missing.length === 0,
+    ok: missing.length === 0 && (!pdf_probe || pdf_probe.ok),
     razorpay_mode: mode,
     checks,
     missing,
-    email_from: String(env.ORDER_FROM_EMAIL || 'WoodenMax <info@woodenmax.com>').trim(),
+    email_from: String(env.ORDER_FROM_EMAIL || 'WoodenMax <orders@woodenmax.in>').trim(),
     email_admin: String(env.ADMIN_EMAIL || 'info@woodenmax.com').trim(),
     email_hint: emailHint,
+    // Help diagnose wrong-account tokens without dumping secrets.
+    cf_account_id_prefix: /^[a-f0-9]{32}$/i.test(accountId) ? accountId.slice(0, 8) + '…' : (accountId ? 'INVALID_NOT_HEX' : null),
+    cf_browser_token_set: Boolean(browserToken),
+    browser_binding: Boolean(env.BROWSER && typeof env.BROWSER.quickAction === 'function'),
+    pdf_probe,
+    browser_rendering_setup: [
+      '1. Cloudflare Dashboard → account that owns this Worker',
+      '2. Workers & Pages → Browser Rendering → enable if prompted',
+      '3. My Profile → API Tokens → Create Token → Custom token',
+      '4. Permission: Account → Browser Rendering → Edit (Write)',
+      '5. Account Resources: include this account (' + (accountId ? accountId.slice(0, 8) + '…' : 'see wrangler whoami') + ')',
+      '6. npx wrangler secret put CF_ACCOUNT_ID   (full account id from wrangler whoami)',
+      '7. npx wrangler secret put CF_BROWSER_TOKEN',
+      '8. GET /health?probe=pdf to verify a tiny PDF renders',
+    ],
+    resend_setup: [
+      '1. https://resend.com/domains → Add woodenmax.in (or woodenmax.com)',
+      '2. Add Resend SPF + DKIM DNS records and wait until Verified',
+      '3. ORDER_FROM_EMAIL must use that domain (e.g. WoodenMax <orders@woodenmax.in>)',
+      '4. Until verified, customer Gmail is blocked (403); Worker forwards copy to ADMIN via sandbox when possible',
+    ],
     fix: missing.length
       ? 'Set these as Worker secrets, then `npx wrangler deploy`: ' + missing.map((m) => ({
         razorpay: 'RAZORPAY_KEY_ID + RAZORPAY_KEY_SECRET',
@@ -476,7 +516,7 @@ export default {
       }
 
       if (request.method === 'GET') {
-        if (path === '/health') return handleHealth(request, env);
+        if (path === '/health') return await handleHealth(request, env);
         const pdfMatch = path.match(/^\/api\/order\/([A-Za-z0-9-]+)\/pdf$/);
         if (pdfMatch) return await handleOrderPdf(request, env, pdfMatch[1]);
         const orderMatch = path.match(/^\/api\/order\/([A-Za-z0-9-]+)$/);

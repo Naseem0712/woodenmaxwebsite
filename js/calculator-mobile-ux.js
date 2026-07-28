@@ -2160,14 +2160,16 @@
     return (
       '<div class="pdf-doc wm-receipt-doc">' +
         '<div class="pdf-header">' +
-          '<div class="pdf-brand-text"><strong>WoodenMax</strong><br>Payment Receipt</div>' +
+          '<div class="pdf-brand-text"><strong>WoodenMax</strong><br>Order confirmation</div>' +
           '<div class="pdf-meta-block">' +
-            '<div class="row"><span class="label">Receipt No.</span><span class="value">' + escapeHtml(paymentMeta.receipt_no || '—') + '</span></div>' +
+            '<div class="row"><span class="label">Order No.</span><span class="value">' + escapeHtml(paymentMeta.receipt_no || paymentMeta.order_no || '—') + '</span></div>' +
             '<div class="row"><span class="label">Date</span><span class="value">' + escapeHtml(dateStr) + '</span></div>' +
             '<div class="row"><span class="label">Payment ID</span><span class="value">' + escapeHtml(paymentMeta.payment_id || '—') + '</span></div>' +
           '</div>' +
         '</div>' +
+        '<p><strong>This is your paid order receipt</strong> (not a product page). Keep it for your records.</p>' +
         '<p><strong>Bill to:</strong> ' + escapeHtml(lead.name || '—') + ' · ' + escapeHtml(lead.mobile || '—') +
+          (lead.email ? ' · ' + escapeHtml(lead.email) : '') +
           (lead.city ? ' · ' + escapeHtml(lead.city) : '') + '</p>' +
         '<table class="pdf-spec-mini"><thead><tr><th>#</th><th>Item</th><th>Amount</th></tr></thead><tbody>' + rows + '</tbody></table>' +
         '<p><strong>Amount paid online:</strong> ' + fmtINR(paidInr) +
@@ -2202,11 +2204,15 @@
     var html = buildPaymentReceiptHtml(lead, items, paymentMeta);
     var stage = ensurePaymentReceiptStage();
     stage.innerHTML = html;
+    var orderLabel = (paymentMeta && (paymentMeta.receipt_no || paymentMeta.order_no)) || 'order';
     printHtmlInIframe({
-      title: 'WoodenMax Payment Receipt',
+      title: 'WoodenMax Order ' + orderLabel,
       containerId: 'wmPaymentReceiptStage',
       containerClass: 'wm-payment-receipt-stage',
       innerHtml: html,
+      // Never fall back to window.print() — that prints the product SEO page
+      // and Save-as-PDF gets a filename like "Aluminium Sliding Window Price…".
+      allowPagePrintFallback: false,
       trackKind: 'payment_receipt',
       itemCount: (items && items.length) || 0,
       totalInr: paymentMeta && paymentMeta.paid_amount_inr
@@ -3489,8 +3495,9 @@
     var containerId = opts.containerId || 'wmPrintDoc';
     var containerClass = opts.containerClass || '';
     var innerHtml = opts.innerHtml || '';
+    var allowPagePrintFallback = opts.allowPagePrintFallback !== false;
     if (!innerHtml.trim()) {
-      window.print();
+      if (allowPagePrintFallback) window.print();
       return;
     }
 
@@ -3513,6 +3520,24 @@
       '</head><body>' +
       '<div id="' + escapeHtml(containerId) + '" class="' + escapeHtml(containerClass) + '">' + innerHtml + '</div>' +
       '</body></html>';
+
+    function openReceiptWindowFallback () {
+      try {
+        var w = window.open('', '_blank', 'noopener,noreferrer,width=900,height=1100');
+        if (!w) {
+          showToast('warn', 'Allow pop-ups to view your <strong>order confirmation</strong>, then use Print → Save as PDF.');
+          return;
+        }
+        w.document.open();
+        w.document.write(docHtml);
+        w.document.close();
+        setTimeout(function () {
+          try { w.focus(); w.print(); } catch (e2) { /* user can print manually */ }
+        }, 400);
+      } catch (e3) {
+        showToast('warn', 'Could not open order confirmation print view. Call <strong>+91 78953 28080</strong>.');
+      }
+    }
 
     document.body.appendChild(iframe);
 
@@ -3545,7 +3570,9 @@
       } catch (err) {
         if (iframe.parentNode) iframe.parentNode.removeChild(iframe);
         _wmPrintFrame = null;
-        window.print();
+        // Product-page window.print() produces SEO-titled PDFs — avoid for receipts.
+        if (allowPagePrintFallback) window.print();
+        else openReceiptWindowFallback();
       }
     }
 

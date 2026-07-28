@@ -5,34 +5,40 @@
  * pending and the cron trigger retries with exponential backoff, so a paid
  * order can no longer end with nobody being told about it.
  *
- * `from` is always our own verified domain. The previous implementation put the
- * customer's Gmail address in `from`, which fails SPF/DKIM/DMARC and is a large
- * part of why these mails never arrived.
+ * `from` must be an address on a domain verified in Resend
+ * (Dashboard → Domains). Prefer woodenmax.in (orders@…). info@woodenmax.com
+ * only works after woodenmax.com is verified — otherwise Resend 403s and
+ * customer Gmail never arrives.
  */
 import { bytesToBase64, fmtInr, workerErr } from './http.js';
 
 const RESEND_ENDPOINT = 'https://api.resend.com/emails';
 const MAX_ATTEMPTS = 6;
 const BACKOFF_MS = [0, 60000, 300000, 900000, 3600000, 21600000];
+const SANDBOX_FROM = 'WoodenMax <onboarding@resend.dev>';
+const DOMAIN_FROM_FALLBACKS = [
+  'WoodenMax <orders@woodenmax.in>',
+  'WoodenMax <noreply@woodenmax.in>',
+];
 
 function now () { return Date.now(); }
 
 function cfg (env) {
   return {
     apiKey: String(env.RESEND_API_KEY || '').trim(),
-    // Prefer .com — matches the public inbox. Override via ORDER_FROM_EMAIL only
-    // when that exact address is verified in Resend.
-    from: String(env.ORDER_FROM_EMAIL || 'WoodenMax <info@woodenmax.com>').trim(),
+    // Prefer a verified woodenmax.in mailbox. Override via ORDER_FROM_EMAIL
+    // only when that exact address/domain is verified in Resend.
+    from: String(env.ORDER_FROM_EMAIL || 'WoodenMax <orders@woodenmax.in>').trim(),
     admin: String(env.ADMIN_EMAIL || 'info@woodenmax.com').trim(),
     replyTo: String(env.REPLY_TO_EMAIL || 'info@woodenmax.com').trim(),
   };
 }
 
 async function readResendError (res) {
-  const raw = await res.text().catch(() => '');
   const bits = [
     'HTTP ' + res.status + (res.statusText ? ' ' + res.statusText : ''),
   ];
+  const raw = await res.text().catch(() => '');
   if (raw) {
     try {
       const j = JSON.parse(raw);
@@ -64,6 +70,31 @@ async function postResend (apiKey, payload) {
     throw workerErr('Resend ' + (await readResendError(res)) + ' (from=' + payload.from + ', to=' + (payload.to && payload.to[0]) + ')', 'EMAIL');
   }
   return true;
+}
+
+function isResendDomainBlock (msg) {
+  return /HTTP 403|HTTP 422|only send testing emails|verify a domain|domain is not verified|not verified/i.test(String(msg || ''));
+}
+
+function customerRedirectText (originalTo, body) {
+  return [
+    'ORIGINAL TO: ' + originalTo,
+    '',
+    'Resend blocked delivery to the customer because the sending domain is not verified',
+    '(or the account is still in testing mode).',
+    '',
+    'Fix (required for Gmail / any customer inbox):',
+    '  1. Open https://resend.com/domains',
+    '  2. Add and verify woodenmax.in (recommended) OR woodenmax.com',
+    '  3. Add the DNS records Resend shows (SPF / DKIM)',
+    '  4. Set Worker var ORDER_FROM_EMAIL to an address on that domain',
+    '     e.g. WoodenMax <orders@woodenmax.in>',
+    '  5. Redeploy / wait for cron — pending email_queue rows will retry',
+    '',
+    '——— customer copy below ———',
+    '',
+    body,
+  ].join('\n');
 }
 
 // ---------- message bodies ----------
@@ -245,6 +276,40 @@ async function logEmailEvent (env, orderNo, type, detail) {
   }
 }
 
+function clonePayload (payload) {
+  const next = {
+    from: payload.from,
+    to: payload.to.slice(),
+    subject: payload.subject,
+    text: payload.text,
+  };
+  if (payload.reply_to) next.reply_to = payload.reply_to;
+  if (payload.attachments) next.attachments = payload.attachments;
+  return next;
+}
+
+/**
+ * When the primary FROM domain is unverified / Resend is in testing mode:
+ *  1. Try woodenmax.in FROM addresses to the original recipient
+ *  2. Try Resend sandbox FROM to the original recipient (works if they are the
+ *     Resend account owner — common during live testing)
+ *  3. Forward the customer copy to ADMIN via sandbox so the paid lead is never lost
+ */
+function buildDomainFallbackCandidates (payloadFrom, kind) {
+  const candidates = [];
+  for (const from of DOMAIN_FROM_FALLBACKS) {
+    if (from !== payloadFrom) candidates.push({ from, mode: 'keep' });
+  }
+  // Sandbox → original recipient first (testing-mode owner can receive).
+  candidates.push({ from: SANDBOX_FROM, mode: 'keep' });
+  if (kind === 'customer') {
+    candidates.push({ from: SANDBOX_FROM, mode: 'admin_forward' });
+  } else {
+    candidates.push({ from: SANDBOX_FROM, mode: 'admin' });
+  }
+  return candidates;
+}
+
 async function sendQueuedEmail (env, row) {
   const c = cfg(env);
   if (!c.apiKey) throw workerErr('RESEND_API_KEY is not configured', 'CONFIG');
@@ -275,29 +340,50 @@ async function sendQueuedEmail (env, row) {
 
   try {
     await postResend(c.apiKey, payload);
+    return true;
   } catch (e) {
     const msg = String((e && e.message) || e);
-    // Unverified Resend domain: only the account owner can receive mail.
-    // Forward the customer copy to admin so the paid lead is never lost.
-    if (row.kind === 'customer' && /HTTP 403|only send testing emails|verify a domain/i.test(msg)) {
-      payload.to = [c.admin];
-      payload.subject = '[Customer copy — verify Resend domain] ' + row.subject + ' → ' + row.to_email;
-      payload.text = 'ORIGINAL TO: ' + row.to_email + '\n\n' +
-        'Resend blocked this address because the sending domain is not verified yet.\n' +
-        'Fix: https://resend.com/domains — then customer emails will deliver normally.\n\n' +
-        row.body_text;
-      await postResend(c.apiKey, payload);
-      return true;
+    if (!isResendDomainBlock(msg)) throw e;
+
+    const candidates = buildDomainFallbackCandidates(payload.from, row.kind);
+    let lastErr = e;
+    for (const cand of candidates) {
+      const alt = clonePayload(payload);
+      alt.from = cand.from;
+      if (/onboarding@resend\.dev/i.test(cand.from)) delete alt.reply_to;
+
+      if (cand.mode === 'admin_forward') {
+        alt.to = [c.admin];
+        alt.subject = '[Customer copy — verify Resend domain] ' + row.subject + ' → ' + row.to_email;
+        alt.text = customerRedirectText(row.to_email, row.body_text);
+      } else if (cand.mode === 'admin') {
+        alt.to = [c.admin];
+      }
+      // mode === 'keep' → leave original recipient
+
+      try {
+        await postResend(c.apiKey, alt);
+        if (row.kind === 'customer' && alt.to[0] !== row.to_email) {
+          await logEmailEvent(env, row.order_no, 'EmailCustomerRedirectedToAdmin', {
+            originalTo: row.to_email,
+            deliveredTo: alt.to[0],
+            from: alt.from,
+          });
+        } else if (alt.from !== payload.from) {
+          await logEmailEvent(env, row.order_no, 'EmailSentViaFallbackFrom', {
+            kind: row.kind,
+            to: alt.to[0],
+            from: alt.from,
+            primaryFrom: payload.from,
+          });
+        }
+        return true;
+      } catch (e2) {
+        lastErr = e2;
+      }
     }
-    if (/HTTP 40[03]/.test(msg) || /domain|verified|from/i.test(msg)) {
-      payload.from = 'WoodenMax <onboarding@resend.dev>';
-      delete payload.reply_to;
-      await postResend(c.apiKey, payload);
-      return true;
-    }
-    throw e;
+    throw lastErr;
   }
-  return true;
 }
 
 /** Non-order mail (enquiry forms) — same sender identity, no queue. */
@@ -322,13 +408,38 @@ export async function sendPlainEmail (env, { to, subject, text, replyTo }) {
     await postResend(c.apiKey, payload);
   } catch (e) {
     const msg = String((e && e.message) || e);
-    if (/HTTP 40[03]/.test(msg) || /domain|verified|from/i.test(msg)) {
-      payload.from = 'WoodenMax <onboarding@resend.dev>';
-      delete payload.reply_to;
-      await postResend(c.apiKey, payload);
-      return true;
+    if (!isResendDomainBlock(msg)) throw e;
+
+    const tryFrom = [payload.from, ...DOMAIN_FROM_FALLBACKS, SANDBOX_FROM]
+      .filter((v, i, a) => a.indexOf(v) === i);
+    let lastErr = e;
+    for (const from of tryFrom) {
+      if (from === payload.from && from !== SANDBOX_FROM) continue;
+      const alt = clonePayload(payload);
+      alt.from = from;
+      if (/onboarding@resend\.dev/i.test(from)) {
+        delete alt.reply_to;
+      }
+      try {
+        await postResend(c.apiKey, alt);
+        return true;
+      } catch (e2) {
+        lastErr = e2;
+      }
     }
-    throw e;
+    // Last resort: sandbox → admin
+    try {
+      const alt = clonePayload(payload);
+      alt.from = SANDBOX_FROM;
+      delete alt.reply_to;
+      alt.to = [c.admin];
+      alt.subject = '[Forwarded — verify Resend domain] ' + (payload.subject || '');
+      alt.text = customerRedirectText(recipient, payload.text);
+      await postResend(c.apiKey, alt);
+      return true;
+    } catch (e3) {
+      throw lastErr;
+    }
   }
   return true;
 }

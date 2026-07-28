@@ -16,14 +16,19 @@
 
 name = "jolly-field-be49"
 main = "worker/index.js"
-compatibility_date = "2024-11-01"
+# 2026-03-24+ required for env.BROWSER.quickAction() (PDF without API token).
+compatibility_date = "2026-03-24"
+
+[browser]
+binding = "BROWSER"
 
 [vars]
-# Must match the domain verified in Resend (Dashboard → Domains).
-# Site-wide contact is info@woodenmax.com — keep admin there so leads are not lost.
+# ORDER_FROM_EMAIL must be on a domain verified in Resend (Dashboard → Domains).
+# Prefer woodenmax.in — woodenmax.com is often unverified and causes Resend 403.
+# Site-wide contact stays info@woodenmax.com for admin/reply-to.
 ADMIN_EMAIL = "info@woodenmax.com"
 REPLY_TO_EMAIL = "info@woodenmax.com"
-ORDER_FROM_EMAIL = "WoodenMax <info@woodenmax.com>"
+ORDER_FROM_EMAIL = "WoodenMax <orders@woodenmax.in>"
 SITE_ORIGIN = "https://woodenmax.in"
 
 [[d1_databases]]
