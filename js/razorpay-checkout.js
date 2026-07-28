@@ -200,10 +200,21 @@
   function saveQuoteOnServer (lead, items) {
     var store = window.WoodenMaxQuoteStore;
     var meta = store ? store.meta() : null;
+    var list = Array.isArray(items) ? items : (items ? [items] : []);
+    // Strip frozen/prototype quirks so the Worker always receives plain JSON.
+    var safeItems;
+    try {
+      safeItems = JSON.parse(JSON.stringify(list));
+    } catch (e) {
+      return Promise.reject(new Error('Could not prepare your estimate items. Please re-save configurations and try again.'));
+    }
+    if (!safeItems.length) {
+      return Promise.reject(new Error('Save at least one configuration to your project estimate before paying.'));
+    }
     return postJson('/api/quote', {
       quote_id: meta ? meta.quoteId : null,
       customer: lead || {},
-      items: items || [],
+      items: safeItems,
       source_url: location.href,
     }).then(function (saved) {
       if (store && saved && saved.quote_no) {
@@ -279,26 +290,39 @@
       ? errOrDesc
       : (errOrDesc && errOrDesc.message) ? errOrDesc.message : 'Payment failed';
     var payload = errOrDesc && errOrDesc.payload;
+    var code = payload && payload.code;
+    if (code === 'QUOTE_REQUIRED' || /save your estimate|quote required/i.test(msg)) {
+      return '<strong>Could not prepare checkout.</strong> Refresh the page (Ctrl+F5), save your configurations again, then retry payment.';
+    }
+    if (/quote not found|rebuild your estimate/i.test(msg)) {
+      return '<strong>Estimate expired.</strong> Please rebuild your project estimate and try again.';
+    }
+    if (/quote needs at least one item|at least one item/i.test(msg)) {
+      return '<strong>Estimate is empty.</strong> Save at least one configuration, then pay.';
+    }
     if (/authentication failed/i.test(msg) || (errOrDesc && errOrDesc.status === 401)) {
       var hint = payload && payload.hint;
       var prefix = payload && payload.key_id_prefix;
-      return '<strong>Razorpay keys galat (Cloudflare Worker).</strong> ' +
-        (hint || 'Dashboard → API Keys se Key ID + Secret dubara copy karein, Deploy karein.') +
+      return '<strong>Payment gateway keys are misconfigured.</strong> ' +
+        (hint || 'Update Razorpay Key ID + Secret on the Cloudflare Worker and redeploy.') +
         (prefix ? ' Key: <code>' + prefix + '…</code>' : '') +
-        ' Test/Live dono same mode hon. Amount debit hua ho to +91 78953 28080.';
+        ' If money was debited, call +91 78953 28080.';
     }
     if (/international/i.test(msg)) {
-      return '<strong>Card rejected.</strong> Indian debit/credit card try karein. International cards ke liye Razorpay Dashboard → Payment methods → enable karein.';
+      return '<strong>Card declined.</strong> Please use an Indian debit/credit card, or enable international cards in Razorpay Dashboard → Payment methods.';
     }
     if (/invalid|incorrect|not correct|does not exist/i.test(msg) && /upi|vpa/i.test(msg)) {
       var live = payload && payload.razorpay_mode === 'live';
       if (live) {
-        return '<strong>UPI failed.</strong> QR dubara scan karein (PhonePe / GPay) aur phone par approve karein. Ya Netbanking / Card try karein. Issue rahe to +91 78953 28080.';
+        return '<strong>UPI failed.</strong> Scan the QR again with PhonePe / Google Pay and approve on your phone, or try netbanking / card. Help: +91 78953 28080.';
       }
-      return '<strong>UPI (test keys).</strong> Real PhonePe QR scan kaam nahi karta. Live keys lagao ya Netbanking / Card test karein.';
+      return '<strong>UPI (test mode).</strong> Real PhonePe QR scans do not work with test keys. Use live keys, or try netbanking / card.';
     }
     if (/upi/i.test(msg) && /qr|scan|timeout/i.test(msg)) {
-      return 'UPI: QR ko phone se scan karein (PhonePe / Google Pay / Paytm). Payment phone par approve karein, tab yahan success dikhega.';
+      return 'UPI: scan the QR with PhonePe / Google Pay / Paytm and approve the payment on your phone — success will show here afterwards.';
+    }
+    if (errOrDesc && errOrDesc.status === 400) {
+      return '<strong>Checkout rejected.</strong> ' + msg + ' Please refresh and try again, or call +91 78953 28080.';
     }
     return msg;
   }
@@ -395,7 +419,8 @@
   function startCheckout (options) {
     options = options || {};
     var lead = options.lead || {};
-    var items = options.items || [];
+    var rawItems = options.items || [];
+    var items = Array.isArray(rawItems) ? rawItems : (rawItems ? [rawItems] : []);
     var onStatus = typeof options.onStatus === 'function' ? options.onStatus : function () {};
 
     if (!items.length) {
@@ -416,7 +441,7 @@
       ));
     }
 
-    onStatus('loading', 'Preparing secure payment…');
+    onStatus('loading', 'Saving your estimate…');
 
     var purpose =
       (plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'order_full_pay' :
@@ -425,13 +450,12 @@
 
     return loadCheckoutScript()
       .then(function () {
-        // The server prices the order from this saved quote, so the browser no
-        // longer decides what the customer is charged.
         return saveQuoteOnServer(lead, items);
       })
       .then(function (saved) {
         quoteId = saved && saved.quote_id;
         if (!quoteId) throw new Error('Could not save your estimate. Please check your connection and try again.');
+        onStatus('order', 'Creating secure payment…');
         var payload = {
           purpose: purpose,
           quote_id: quoteId,
@@ -460,13 +484,16 @@
         order.quote_id = quoteId;
         var liveMode = isRazorpayLiveKey(order.key_id) || order.razorpay_mode === 'live';
         if (liveMode) {
-          onStatus('live', 'Live payment — real amount will be charged');
+          onStatus('live', 'Live payment — opening checkout…');
         } else if (isRazorpayTestKey(order.key_id)) {
-          onStatus('test', 'Test mode — no real money');
+          onStatus('test', 'Test mode — opening checkout…');
         }
-        onStatus('modal', (plan.mode === 'mirror_full' || plan.mode === 'order_full')
+        var payLabel = plan.mode === 'custom'
           ? ('Pay ' + fmtInr(plan.amountInr) + ' securely')
-          : 'Pay ₹1,000 booking securely');
+          : (plan.mode === 'mirror_full' || plan.mode === 'order_full')
+            ? ('Pay ' + fmtInr(plan.amountInr) + ' securely')
+            : 'Pay ₹1,000 booking securely';
+        onStatus('modal', payLabel);
         return openRazorpayModal(lead, plan, order);
       });
   }

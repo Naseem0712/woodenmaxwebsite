@@ -2583,11 +2583,11 @@
   function payHelpHtmlLive () {
     return (
       '<strong class="calc-pay-help-mode">Live payment</strong>' +
-      '<p class="calc-pay-help-note">Asli paise cut honge. Success ke baad receipt + email.</p>' +
+      '<p class="calc-pay-help-note">A real charge will be made. After a successful payment you will receive a receipt by email.</p>' +
       '<ul>' +
-        '<li><strong>UPI:</strong> Laptop par QR scan (PhonePe / Google Pay / Paytm). Mobile par UPI app.</li>' +
-        '<li><strong>Card / Netbanking:</strong> Indian debit, credit, aur bank login.</li>' +
-        '<li>Problem ho to Payment ID ke sath <strong>+91 78953 28080</strong> par call/WhatsApp.</li>' +
+        '<li><strong>UPI:</strong> On desktop, scan the QR code with PhonePe, Google Pay or Paytm. On mobile, complete payment in your UPI app.</li>' +
+        '<li><strong>Card / Netbanking:</strong> Use an Indian debit card, credit card, or netbanking login.</li>' +
+        '<li>Need help? Call or WhatsApp <strong>+91 78953 28080</strong> with your Payment ID.</li>' +
       '</ul>'
     );
   }
@@ -2595,10 +2595,10 @@
   function payHelpHtmlTest () {
     return (
       '<strong class="calc-pay-help-mode">Test mode</strong>' +
-      '<p class="calc-pay-help-note">Paisa cut nahi hota (test keys).</p>' +
+      '<p class="calc-pay-help-note">No real money is charged (Razorpay test keys).</p>' +
       '<ul>' +
-        '<li><strong>Netbanking / Card:</strong> reliable — test card <code>5267 3181 8797 5449</code>.</li>' +
-        '<li><strong>UPI QR + PhonePe:</strong> test par fail — live keys par chalega.</li>' +
+        '<li><strong>Netbanking / Card:</strong> Preferred for testing — use test card <code>5267 3181 8797 5449</code>.</li>' +
+        '<li><strong>UPI QR:</strong> Often fails in test mode; it works with live keys.</li>' +
       '</ul>'
     );
   }
@@ -2822,7 +2822,8 @@
 
     if (intent === 'export-pdf' || intent === 'book-order') {
       if (cart.length) return collapseGrillCartLines(cart).map(enrichCartItemForPrint);
-      return live ? enrichCartItemForPrint(live) : [];
+      // Always return an array — a bare object breaks checkout (/api/quote → 400).
+      return live ? [enrichCartItemForPrint(live)] : [];
     }
 
     // intent === 'exact'
@@ -3664,7 +3665,7 @@
         var tag = document.createElement('script');
         // Cache-bust: an old cached checkout.js was creating Razorpay orders
         // without /api/quote, which left live payments as PaymentWithoutQuote.
-        tag.src = jsPathPrefix() + 'razorpay-checkout.js?v=20260729b';
+        tag.src = jsPathPrefix() + 'razorpay-checkout.js?v=20260729c';
         tag.defer = true;
         tag.onload = tag.onerror = function () {
           if (window.WoodenMaxRazorpay) resolve();
@@ -3696,10 +3697,21 @@
     });
   }
 
+  function resetPaySubmitButton (submit, payChoice, customAmountInr) {
+    if (!submit) return;
+    submit.classList.remove('is-loading');
+    try {
+      syncBookOrderFormUi(payChoice || 'booking');
+    } catch (e) {
+      var label = submit.querySelector('.calc-form-submit-label');
+      if (label) label.textContent = 'Try payment again';
+    }
+  }
+
   function runBookOrderPayment (lead, items, submit) {
     if (!window.WoodenMaxRazorpay || typeof window.WoodenMaxRazorpay.startBookingCheckout !== 'function') {
-      if (submit) submit.classList.remove('is-loading');
-      showToast('warn', 'Payment module not loaded. Refresh the page or call <strong>+91 78953 28080</strong>.');
+      resetPaySubmitButton(submit);
+      showToast('warn', 'Payment module not loaded. Refresh the page (Ctrl+F5) or call <strong>+91 78953 28080</strong>.');
       return;
     }
 
@@ -3717,8 +3729,16 @@
     if (isCartMixed(items)) payChoice = 'booking';
 
     if (payChoice === 'custom' && (customAmountInr < 1 || customAmountInr > 500000)) {
-      if (submit) submit.classList.remove('is-loading');
+      resetPaySubmitButton(submit, payChoice, customAmountInr);
       showToast('warn', '<strong>Custom amount</strong> must be ₹1–₹5,00,000 (e.g. ₹1 for a test pay).');
+      return;
+    }
+
+    // Defensive: checkout + Worker both require a real array of line items.
+    if (!Array.isArray(items)) items = items ? [items] : [];
+    if (!items.length) {
+      resetPaySubmitButton(submit, payChoice, customAmountInr);
+      showToast('warn', '<strong>Estimate is empty.</strong> Save configurations from the calculator, then pay.');
       return;
     }
 
@@ -3736,7 +3756,7 @@
       var verified = result.verified || {};
       var paymentId = (result.payment && result.payment.razorpay_payment_id) || verified.payment_id;
 
-      if (submit) submit.classList.remove('is-loading');
+      resetPaySubmitButton(submit, payChoice, customAmountInr);
       closeForm();
       closeSheet();
 
@@ -3744,9 +3764,11 @@
       // both emails by the time verify-payment returns, so the browser only
       // has to hand the customer their copy.
       if (verified.order_no) {
-        var paidMsg = plan.mode === 'mirror_full'
+        var paidMsg = plan.mode === 'mirror_full' || plan.mode === 'order_full'
           ? ('<strong>Order confirmed.</strong> ' + fmtINR(plan.amountInr) + ' received. ')
-          : ('<strong>Order confirmed.</strong> ₹1,000 received. Balance after site size check. ');
+          : plan.mode === 'custom'
+            ? ('<strong>Payment received.</strong> ' + fmtINR(plan.amountInr) + ' received. ')
+            : ('<strong>Order confirmed.</strong> ₹1,000 received. Balance after site size check. ');
         showToast(
           'success',
           paidMsg + 'Order <strong>' + escapeHtml(verified.order_no) + '</strong>. ' +
@@ -3784,17 +3806,17 @@
       );
       return sendLeadEmail(lead, items, 'order-booking', paymentMeta);
     }).catch(function (err) {
-      if (submit) submit.classList.remove('is-loading');
+      resetPaySubmitButton(submit, payChoice, customAmountInr);
       var msg = (err && err.message) ? err.message : 'Payment could not be completed';
       if (window.WoodenMaxRazorpay && window.WoodenMaxRazorpay.formatPaymentError) {
         msg = window.WoodenMaxRazorpay.formatPaymentError(err || msg);
       }
       if (/cancel/i.test(msg)) {
         showToast('warn', 'Payment cancelled. You can try again when ready.');
-      } else if (/international/i.test(msg) || /authentication failed|keys galat/i.test(msg)) {
+      } else if (/<(strong|br|code|a)\b/i.test(msg)) {
         showToast('warn', msg);
       } else {
-        showToast('warn', escapeHtml(msg) + ' — call <strong>+91 78953 28080</strong> if amount was debited.');
+        showToast('warn', escapeHtml(msg) + ' — call <strong>+91 78953 28080</strong> if the amount was debited.');
       }
     });
   }
