@@ -75,7 +75,8 @@
 
     if (choice === 'custom' && !mixed) {
       var custom = Math.round(Number(customAmountInr) || 0);
-      if (custom >= 100) {
+      // ₹1 floor (Razorpay), ₹5L ceiling — no ₹100 / ₹1,000 gate on custom.
+      if (custom >= 1 && custom <= 500000) {
         return {
           mode: 'custom',
           amountInr: custom,
@@ -85,7 +86,16 @@
           cartKind: mixed ? 'mixed' : (allMirror ? 'mirror_only' : 'other'),
         };
       }
-      choice = 'booking';
+      // Invalid custom amount — keep mode=custom with 0 so UI can show the error
+      // instead of silently switching to ₹1,000 booking.
+      return {
+        mode: 'custom',
+        amountInr: 0,
+        amountPaise: 0,
+        label: 'Enter custom amount (₹1–₹5,00,000)',
+        description: 'Custom amount must be between ₹1 and ₹5,00,000.',
+        cartKind: mixed ? 'mixed' : (allMirror ? 'mirror_only' : 'other'),
+      };
     }
 
     if ((choice === 'mirror_full' || choice === 'order_full') && !mixed && sub >= 1) {
@@ -208,15 +218,24 @@
    * successful payment; a failure here is never fatal because the same PDF is
    * also emailed and stays available at the order URL.
    */
-  function downloadOrderPdf (orderNo) {
+  function downloadOrderPdf (orderNo, attempt) {
     if (!orderNo) return Promise.resolve(false);
+    var tries = typeof attempt === 'number' ? attempt : 0;
     var url = paymentsApiBase() + '/api/order/' + encodeURIComponent(orderNo) + '/pdf';
     return fetch(url)
       .then(function (res) {
+        if (res.status === 409 && tries < 4) {
+          return new Promise(function (resolve) {
+            setTimeout(function () {
+              resolve(downloadOrderPdf(orderNo, tries + 1));
+            }, 1200 * (tries + 1));
+          });
+        }
         if (!res.ok) throw new Error('PDF not ready (HTTP ' + res.status + ')');
         return res.blob();
       })
       .then(function (blob) {
+        if (!blob || typeof blob === 'boolean') return !!blob;
         var href = URL.createObjectURL(blob);
         var a = document.createElement('a');
         a.href = href;
@@ -284,6 +303,13 @@
     return msg;
   }
 
+  function purposeForPlan (plan) {
+    if (!plan) return 'order_booking';
+    if (plan.mode === 'mirror_full' || plan.mode === 'order_full') return 'order_full_pay';
+    if (plan.mode === 'custom') return 'order_custom_pay';
+    return 'order_booking';
+  }
+
   function openRazorpayModal (lead, plan, order) {
     return new Promise(function (resolve, reject) {
       var settled = false;
@@ -294,6 +320,8 @@
       }
 
       var testMode = isRazorpayTestKey(order.key_id);
+      var purpose = purposeForPlan(plan);
+      var quoteId = order.quote_id || null;
 
       var rzp = new window.Razorpay({
         key: order.key_id,
@@ -307,8 +335,10 @@
           email: lead.email || '',
           contact: lead.mobile || '',
         },
+        // Payment notes are what the webhook sees — quote_id MUST be here.
         notes: {
-          purpose: (plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'order_full_pay' : 'order_booking',
+          quote_id: quoteId || '',
+          purpose: purpose,
           env: testMode ? 'test' : 'live',
         },
         theme: { color: '#B45309' },
@@ -323,8 +353,8 @@
             razorpay_order_id: response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature: response.razorpay_signature,
-            quote_id: order.quote_id || null,
-            purpose: (plan.mode === 'mirror_full' || plan.mode === 'order_full') ? 'order_full_pay' : 'order_booking',
+            quote_id: quoteId,
+            purpose: purpose,
           })
             .then(function (verified) {
               done(resolve, {
@@ -379,7 +409,11 @@
     var plan = buildPaymentPlan(items, options.payChoice, options.customAmountInr);
 
     if ((plan.mode === 'mirror_full' || plan.mode === 'order_full' || plan.mode === 'custom') && plan.amountPaise < 100) {
-      return Promise.reject(new Error('Payment amount is too low. Check sizes or enter at least ₹100.'));
+      return Promise.reject(new Error(
+        plan.mode === 'custom'
+          ? 'Enter a custom amount of at least ₹1 (max ₹5,00,000).'
+          : 'Payment amount is too low. Check sizes or try again.'
+      ));
     }
 
     onStatus('loading', 'Preparing secure payment…');

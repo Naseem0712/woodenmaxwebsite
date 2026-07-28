@@ -20,10 +20,50 @@ function now () { return Date.now(); }
 function cfg (env) {
   return {
     apiKey: String(env.RESEND_API_KEY || '').trim(),
-    from: String(env.ORDER_FROM_EMAIL || 'WoodenMax Orders <orders@woodenmax.in>').trim(),
+    // Prefer .com — matches the public inbox. Override via ORDER_FROM_EMAIL only
+    // when that exact address is verified in Resend.
+    from: String(env.ORDER_FROM_EMAIL || 'WoodenMax <info@woodenmax.com>').trim(),
     admin: String(env.ADMIN_EMAIL || 'info@woodenmax.com').trim(),
     replyTo: String(env.REPLY_TO_EMAIL || 'info@woodenmax.com').trim(),
   };
+}
+
+async function readResendError (res) {
+  const raw = await res.text().catch(() => '');
+  const bits = [
+    'HTTP ' + res.status + (res.statusText ? ' ' + res.statusText : ''),
+  ];
+  if (raw) {
+    try {
+      const j = JSON.parse(raw);
+      bits.push((j && (j.message || j.error || JSON.stringify(j))) || raw.slice(0, 400));
+    } catch (e) {
+      bits.push(raw.slice(0, 400));
+    }
+  } else {
+    bits.push('empty body');
+  }
+  try {
+    const ct = res.headers && res.headers.get('content-type');
+    if (ct) bits.push('ct=' + ct);
+  } catch (e) { /* ignore */ }
+  return bits.join(' | ');
+}
+
+async function postResend (apiKey, payload) {
+  const res = await fetch(RESEND_ENDPOINT, {
+    method: 'POST',
+    headers: {
+      Authorization: 'Bearer ' + apiKey,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    throw workerErr('Resend ' + (await readResendError(res)) + ' (from=' + payload.from + ', to=' + (payload.to && payload.to[0]) + ')', 'EMAIL');
+  }
+  return true;
 }
 
 // ---------- message bodies ----------
@@ -208,6 +248,9 @@ async function logEmailEvent (env, orderNo, type, detail) {
 async function sendQueuedEmail (env, row) {
   const c = cfg(env);
   if (!c.apiKey) throw workerErr('RESEND_API_KEY is not configured', 'CONFIG');
+  if (!/^re_/i.test(c.apiKey)) {
+    throw workerErr('RESEND_API_KEY does not look like a Resend key (should start with re_)', 'CONFIG');
+  }
 
   const payload = {
     from: c.from,
@@ -230,15 +273,17 @@ async function sendQueuedEmail (env, row) {
     }
   }
 
-  const res = await fetch(RESEND_ENDPOINT, {
-    method: 'POST',
-    headers: { Authorization: 'Bearer ' + c.apiKey, 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  });
-
-  if (!res.ok) {
-    const detail = await res.text().catch(() => '');
-    throw workerErr('Resend ' + res.status + ': ' + detail.slice(0, 300), 'EMAIL');
+  try {
+    await postResend(c.apiKey, payload);
+  } catch (e) {
+    const msg = String((e && e.message) || e);
+    if (/HTTP 40[03]/.test(msg) || /domain|verified|from/i.test(msg)) {
+      payload.from = 'WoodenMax <onboarding@resend.dev>';
+      delete payload.reply_to;
+      await postResend(c.apiKey, payload);
+      return true;
+    }
+    throw e;
   }
   return true;
 }
@@ -247,20 +292,42 @@ async function sendQueuedEmail (env, row) {
 export async function sendPlainEmail (env, { to, subject, text, replyTo }) {
   const c = cfg(env);
   if (!c.apiKey) throw workerErr('RESEND_API_KEY is not configured', 'CONFIG');
-  const res = await fetch(RESEND_ENDPOINT, {
-    method: 'POST',
-    headers: { Authorization: 'Bearer ' + c.apiKey, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: c.from,
-      to: [to || c.admin],
-      reply_to: replyTo || c.replyTo,
-      subject,
-      text,
-    }),
-  });
-  if (!res.ok) {
-    const detail = await res.text().catch(() => '');
-    throw workerErr('Resend ' + res.status + ': ' + detail.slice(0, 300), 'EMAIL');
+  if (!/^re_/i.test(c.apiKey)) {
+    throw workerErr('RESEND_API_KEY does not look like a Resend key (should start with re_)', 'CONFIG');
+  }
+  const recipient = String(to || c.admin || '').trim();
+  if (!recipient || !/.+@.+\..+/.test(recipient)) {
+    throw workerErr('No valid recipient for outbound email', 'CONFIG');
+  }
+  const payload = {
+    from: c.from,
+    to: [recipient],
+    reply_to: replyTo || c.replyTo,
+    subject: subject || 'WoodenMax notification',
+    text: text || '(empty)',
+  };
+  try {
+    await postResend(c.apiKey, payload);
+  } catch (e) {
+    const msg = String((e && e.message) || e);
+    if (/HTTP 40[03]/.test(msg) || /domain|verified|from/i.test(msg)) {
+      payload.from = 'WoodenMax <onboarding@resend.dev>';
+      delete payload.reply_to;
+      await postResend(c.apiKey, payload);
+      return true;
+    }
+    throw e;
+  }
+  return true;
+}
+
+/** Fire-and-forget admin alert — never throws to the payment path. */
+export async function alertAdmin (env, subject, text) {
+  try {
+    await sendPlainEmail(env, { subject, text });
+  } catch (e) {
+    console.error('alertAdmin failed', e && e.message);
+    return false;
   }
   return true;
 }

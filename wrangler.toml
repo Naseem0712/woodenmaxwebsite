@@ -19,16 +19,18 @@ main = "worker/index.js"
 compatibility_date = "2024-11-01"
 
 [vars]
+# Must match the domain verified in Resend (Dashboard → Domains).
+# Site-wide contact is info@woodenmax.com — keep admin there so leads are not lost.
 ADMIN_EMAIL = "info@woodenmax.com"
 REPLY_TO_EMAIL = "info@woodenmax.com"
-ORDER_FROM_EMAIL = "WoodenMax Orders <orders@woodenmax.in>"
+ORDER_FROM_EMAIL = "WoodenMax <info@woodenmax.com>"
 SITE_ORIGIN = "https://woodenmax.in"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "woodenmax"
 # npx wrangler d1 create woodenmax  ->  paste the id it prints here
-database_id = "REPLACE_WITH_D1_DATABASE_ID"
+database_id = "22b0c0db-6e20-40f2-a2ba-f32ce69ab411"
 migrations_dir = "migrations"
 
 # Retries any order email the queue still owes.

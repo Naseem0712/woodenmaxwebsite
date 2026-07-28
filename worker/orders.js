@@ -139,10 +139,14 @@ function safeParse (raw, fallback) {
   try { return JSON.parse(raw); } catch (e) { return fallback; }
 }
 
+/** Custom advance: Razorpay floor ₹1, hard ceiling ₹5,00,000. */
+export const CUSTOM_MIN_INR = 1;
+export const CUSTOM_MAX_INR = 500000;
+
 /**
  * The amount to charge, derived from the stored quote — never trust unbounded
  * browser amounts. Booking is a fixed constant. Full pay is the quote subtotal.
- * Custom advance must be between ₹100 and the pre-GST subtotal (inclusive).
+ * Custom advance: ₹1–₹5,00,000 (no quote-subtotal cap — used for test ₹1 pays too).
  */
 export function resolveAmountPaise (quote, purpose, clientAmountInr) {
   if (purpose === 'order_booking') return BOOKING_AMOUNT_INR * 100;
@@ -150,11 +154,11 @@ export function resolveAmountPaise (quote, purpose, clientAmountInr) {
   if (recomputed < 1) throw workerErr('Quote total is too low to charge', 'VALIDATION');
   if (purpose === 'order_custom_pay') {
     const n = Math.round(Number(clientAmountInr) || 0);
-    if (!Number.isFinite(n) || n < 100) {
-      throw workerErr('Custom advance must be at least ₹100', 'VALIDATION');
+    if (!Number.isFinite(n) || n < CUSTOM_MIN_INR) {
+      throw workerErr('Enter a custom amount of at least ₹' + CUSTOM_MIN_INR, 'VALIDATION');
     }
-    if (n > recomputed) {
-      throw workerErr('Custom advance cannot exceed the quote subtotal (₹' + recomputed + ')', 'VALIDATION');
+    if (n > CUSTOM_MAX_INR) {
+      throw workerErr('Custom advance cannot exceed ₹' + CUSTOM_MAX_INR.toLocaleString('en-IN') + ' (₹5L)', 'VALIDATION');
     }
     return n * 100;
   }
@@ -171,6 +175,17 @@ export async function getOrderByNo (env, orderNo) {
 export async function getOrderByPaymentId (env, paymentId) {
   const row = await db(env).prepare('SELECT * FROM orders WHERE payment_id = ?').bind(paymentId).first();
   return row || null;
+}
+
+/** Recover quote_id when verify-payment forgot to send it (cached old JS). */
+export async function getQuoteIdByRazorpayOrderId (env, razorpayOrderId) {
+  const id = String(razorpayOrderId || '').trim();
+  if (!id) return null;
+  const row = await db(env)
+    .prepare('SELECT quote_id FROM orders WHERE razorpay_order_id = ? ORDER BY created_at DESC LIMIT 1')
+    .bind(id)
+    .first();
+  return row && row.quote_id ? String(row.quote_id) : null;
 }
 
 export async function recordPendingOrder (env, { quoteId, quoteVersion, razorpayOrderId, amountPaise, purpose }) {
@@ -225,7 +240,7 @@ export async function fulfilOrder (env, ctx, { paymentId, razorpayOrderId, quote
     paidInr = BOOKING_AMOUNT_INR;
   } else if (purpose === 'order_custom_pay') {
     const pendingAmt = pending && Number(pending.amount_paid_inr);
-    if (pendingAmt >= 100) paidInr = Math.round(pendingAmt);
+    if (pendingAmt >= CUSTOM_MIN_INR) paidInr = Math.round(pendingAmt);
     else throw workerErr('Custom advance amount missing for fulfilment', 'VALIDATION');
   } else {
     paidInr = totals.subtotal_inr;

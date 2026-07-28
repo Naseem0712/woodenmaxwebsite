@@ -3662,7 +3662,9 @@
       }
       if (!document.querySelector('script[src*="razorpay-checkout.js"]')) {
         var tag = document.createElement('script');
-        tag.src = jsPathPrefix() + 'razorpay-checkout.js';
+        // Cache-bust: an old cached checkout.js was creating Razorpay orders
+        // without /api/quote, which left live payments as PaymentWithoutQuote.
+        tag.src = jsPathPrefix() + 'razorpay-checkout.js?v=20260729b';
         tag.defer = true;
         tag.onload = tag.onerror = function () {
           if (window.WoodenMaxRazorpay) resolve();
@@ -3714,9 +3716,9 @@
     }
     if (isCartMixed(items)) payChoice = 'booking';
 
-    if (payChoice === 'custom' && customAmountInr < 100) {
+    if (payChoice === 'custom' && (customAmountInr < 1 || customAmountInr > 500000)) {
       if (submit) submit.classList.remove('is-loading');
-      showToast('warn', '<strong>Enter custom amount</strong> of at least ₹100.');
+      showToast('warn', '<strong>Custom amount</strong> must be ₹1–₹5,00,000 (e.g. ₹1 for a test pay).');
       return;
     }
 
@@ -3835,6 +3837,11 @@
           return;
         }
         buildPrintStage(lead, items);
+        showToast(
+          'info',
+          'Opening print dialog — choose <strong>Save as PDF</strong> / <strong>Microsoft Print to PDF</strong>. ' +
+            'On phone: Share → Print → PDF.'
+        );
         setTimeout(function () { printQuotePdf(); }, 400);
       } else {
         showExactPriceInline(lead);
@@ -4051,7 +4058,7 @@
               '<label class="calc-pay-choice-opt"><input type="radio" name="pay_choice" value="custom"> Custom advance amount</label>' +
               '<div class="calc-pay-custom-wrap" id="calcPayCustomWrap" hidden>' +
                 '<label for="calcPayCustomAmount">Enter amount (₹)</label>' +
-                '<input type="number" id="calcPayCustomAmount" name="custom_amount" min="100" step="100" placeholder="e.g. 5000" inputmode="numeric">' +
+                '<input type="number" id="calcPayCustomAmount" name="custom_amount" min="1" max="500000" step="1" placeholder="e.g. 1 or 5000" inputmode="numeric">' +
               '</div>' +
             '</div>' +
             '<div class="calc-pay-help calc-pay-help--loading" id="calcPayHelp" hidden>Loading payment mode…</div>' +

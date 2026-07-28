@@ -3,12 +3,12 @@
  * signature verification.
  *
  * Amounts: booking is a server constant; full pay is recomputed from the stored
- * quote; custom advance is clamped between ₹100 and the quote subtotal
- * (see worker/orders.js resolveAmountPaise).
+ * quote; custom advance is ₹1–₹5L (see worker/orders.js resolveAmountPaise).
  */
 import { workerErr, timingSafeEqual, hmacSha256Hex } from './http.js';
 
 export const BOOKING_AMOUNT_PAISE = 100000;
+/** ₹5,00,000 in paise — matches custom-pay ceiling. */
 export const MAX_ORDER_PAISE = 50000000;
 
 export function getRazorpayCredentials (env) {
@@ -73,6 +73,24 @@ export async function createRazorpayOrder (credentials, params) {
     currency: data.currency,
     key_id: credentials.keyId,
   };
+}
+
+/** Pull notes (quote_id / purpose) when the browser forgot to send them. */
+export async function fetchRazorpayOrder (credentials, orderId) {
+  const id = String(orderId || '').trim();
+  if (!id) throw workerErr('Missing Razorpay order id', 'VALIDATION');
+  const res = await fetch('https://api.razorpay.com/v1/orders/' + encodeURIComponent(id), {
+    method: 'GET',
+    headers: {
+      Authorization: 'Basic ' + btoa(credentials.keyId + ':' + credentials.keySecret),
+    },
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const desc = (data && data.error && data.error.description) || 'Razorpay order fetch failed';
+    throw workerErr(desc, res.status === 401 ? 'AUTH' : 'RAZORPAY');
+  }
+  return data;
 }
 
 export async function verifyRazorpayPayment (keySecret, fields) {

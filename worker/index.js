@@ -21,6 +21,7 @@ import {
   createRazorpayOrder,
   verifyRazorpayPayment,
   verifyWebhookSignature,
+  fetchRazorpayOrder,
 } from './razorpay.js';
 import {
   saveQuote,
@@ -32,9 +33,9 @@ import {
   getOrderPdf,
   regenerateOrderPdf,
   logEvent,
-  BOOKING_AMOUNT_INR,
+  getQuoteIdByRazorpayOrderId,
 } from './orders.js';
-import { drainEmailQueue, sendPlainEmail } from './email.js';
+import { drainEmailQueue, sendPlainEmail, alertAdmin } from './email.js';
 
 function normalizeApiPath (pathname) {
   return String(pathname || '/').replace(/\/+$/, '') || '/';
@@ -115,24 +116,27 @@ async function handleCreateOrder (request, env) {
   const purpose = body.purpose || 'order_full_pay';
   const quoteId = String(body.quote_id || body.quoteId || '').trim();
 
-  let amountPaise;
-  let quote = null;
-
-  if (quoteId) {
-    quote = await getQuote(env, quoteId);
-    if (!quote) return jsonResponse({ success: false, error: 'Quote not found. Please rebuild your estimate.' }, 400, request);
-    amountPaise = resolveAmountPaise(quote, purpose, body.amount_inr);
-  } else if (purpose === 'order_booking') {
-    // The booking fee is a server-side constant, so it is safe without a quote.
-    amountPaise = BOOKING_AMOUNT_INR * 100;
-  } else {
-    // Refusing the client-supplied amount is the price-tampering fix: a full
-    // payment must be backed by a quote this server stored and priced itself.
+  // Every paid flow needs a server-side quote — without it we cannot build the
+  // PDF or email the BOQ, which is exactly how earlier live payments ended up
+  // as PaymentWithoutQuote orphans.
+  if (!quoteId) {
     return jsonResponse({
       success: false,
-      error: 'This checkout needs a saved quote. Please refresh the page and try again.',
+      error: 'Save your estimate first, then pay. Refresh the page if this keeps happening.',
       code: 'QUOTE_REQUIRED',
     }, 400, request);
+  }
+
+  const quote = await getQuote(env, quoteId);
+  if (!quote) {
+    return jsonResponse({ success: false, error: 'Quote not found. Please rebuild your estimate.' }, 400, request);
+  }
+
+  let amountPaise;
+  try {
+    amountPaise = resolveAmountPaise(quote, purpose, body.amount_inr);
+  } catch (e) {
+    return jsonResponse({ success: false, error: (e && e.message) || 'Invalid amount', code: errCode(e) || null }, 400, request);
   }
 
   const creds = getRazorpayCredentials(env);
@@ -140,25 +144,48 @@ async function handleCreateOrder (request, env) {
     amount: amountPaise,
     currency: body.currency || 'INR',
     receipt: body.receipt,
-    notes: { ...(body.notes || {}), quote_id: quoteId || '', purpose },
+    notes: { ...(body.notes || {}), quote_id: quoteId, purpose },
   });
 
-  if (quoteId) {
-    await recordPendingOrder(env, {
-      quoteId,
-      quoteVersion: quote.version,
-      razorpayOrderId: order.order_id,
-      amountPaise,
-      purpose,
-    });
-  }
+  await recordPendingOrder(env, {
+    quoteId,
+    quoteVersion: quote.version,
+    razorpayOrderId: order.order_id,
+    amountPaise,
+    purpose,
+  });
 
   return jsonResponse({
     success: true,
     razorpay_mode: razorpayMode(creds.keyId),
-    quote_id: quoteId || null,
+    quote_id: quoteId,
     ...order,
   }, 200, request);
+}
+
+async function resolveQuoteId (env, creds, { quoteId, razorpayOrderId }) {
+  let id = String(quoteId || '').trim();
+  if (id) return id;
+
+  id = (await getQuoteIdByRazorpayOrderId(env, razorpayOrderId)) || '';
+  if (id) return id;
+
+  if (razorpayOrderId && creds) {
+    try {
+      const rzp = await fetchRazorpayOrder(creds, razorpayOrderId);
+      id = String((rzp.notes && (rzp.notes.quote_id || rzp.notes.quoteId)) || '').trim();
+      if (id) return id;
+    } catch (e) {
+      console.error('resolveQuoteId razorpay fetch failed', e && e.message);
+    }
+  }
+  return '';
+}
+
+function resolvePurpose (bodyPurpose, notesPurpose, fallback) {
+  const p = String(bodyPurpose || notesPurpose || fallback || 'order_full_pay').trim();
+  if (p === 'order_booking' || p === 'order_full_pay' || p === 'order_custom_pay') return p;
+  return fallback || 'order_full_pay';
 }
 
 async function handleVerifyPayment (request, env, ctx) {
@@ -170,19 +197,52 @@ async function handleVerifyPayment (request, env, ctx) {
   const creds = getRazorpayCredentials(env);
   const result = await verifyRazorpayPayment(creds.keySecret, body);
 
-  const quoteId = String(body.quote_id || body.quoteId || '').trim();
+  let purpose = resolvePurpose(body.purpose, null, 'order_full_pay');
+  const quoteId = await resolveQuoteId(env, creds, {
+    quoteId: body.quote_id || body.quoteId,
+    razorpayOrderId: result.order_id,
+  });
+
   if (!quoteId) {
-    // Signature is valid but we have no quote to build a document from. Record
-    // it so a paid customer is never invisible, and let the webhook retry.
     await logEvent(env, 'PaymentWithoutQuote', { paymentId: result.payment_id, orderId: result.order_id }, {});
-    return jsonResponse({ success: true, verified: true, ...result, order_no: null, pdf_status: 'unavailable' }, 200, request);
+    if (ctx && typeof ctx.waitUntil === 'function') {
+      ctx.waitUntil(alertAdmin(
+        env,
+        'URGENT: Paid but quote missing — ' + result.payment_id,
+        [
+          'A Razorpay payment succeeded but WoodenMax could not build the order PDF/email.',
+          '',
+          'Payment ID : ' + result.payment_id,
+          'Razorpay   : ' + result.order_id,
+          '',
+          'Action: open Razorpay dashboard for this payment, call the customer, and recreate the quote manually.',
+          'Root cause (fixed in latest deploy): checkout must save /api/quote before pay.',
+        ].join('\n')
+      ));
+    }
+    return jsonResponse({
+      success: true,
+      verified: true,
+      ...result,
+      order_no: null,
+      pdf_status: 'unavailable',
+      warning: 'Payment captured but quote was missing — admin has been alerted.',
+    }, 200, request);
   }
+
+  // Prefer purpose stored on the Razorpay order / pending row over a stale client value.
+  try {
+    const pending = await env.DB.prepare(
+      'SELECT payment_mode FROM orders WHERE razorpay_order_id = ? ORDER BY created_at DESC LIMIT 1'
+    ).bind(result.order_id).first();
+    if (pending && pending.payment_mode) purpose = resolvePurpose(pending.payment_mode, null, purpose);
+  } catch (e) { /* non-fatal */ }
 
   const fulfilled = await fulfilOrder(env, ctx, {
     paymentId: result.payment_id,
     razorpayOrderId: result.order_id,
     quoteId,
-    purpose: body.purpose || 'order_full_pay',
+    purpose,
   });
 
   return jsonResponse({
@@ -217,11 +277,31 @@ async function handleWebhook (request, env, ctx) {
   }
 
   const payment = (payload.payload && payload.payload.payment && payload.payload.payment.entity) || {};
-  const quoteId = (payment.notes && (payment.notes.quote_id || payment.notes.quoteId)) || '';
-  const purpose = (payment.notes && payment.notes.purpose) || 'order_full_pay';
+  const creds = getRazorpayCredentials(env);
+  const quoteId = await resolveQuoteId(env, creds, {
+    quoteId: (payment.notes && (payment.notes.quote_id || payment.notes.quoteId)) || '',
+    razorpayOrderId: payment.order_id,
+  });
+  const purpose = resolvePurpose(
+    payment.notes && payment.notes.purpose,
+    null,
+    'order_full_pay'
+  );
 
   if (!quoteId) {
     await logEvent(env, 'WebhookWithoutQuote', { event, paymentId: payment.id }, {});
+    if (ctx && typeof ctx.waitUntil === 'function') {
+      ctx.waitUntil(alertAdmin(
+        env,
+        'URGENT: Webhook paid but quote missing — ' + (payment.id || ''),
+        [
+          'Razorpay webhook payment.captured without a quote_id.',
+          'Payment ID : ' + (payment.id || '—'),
+          'Razorpay   : ' + (payment.order_id || '—'),
+          'Amount     : ' + ((payment.amount || 0) / 100) + ' INR',
+        ].join('\n')
+      ));
+    }
     return jsonResponse({ success: true, skipped: 'no quote_id in notes' }, 200, request);
   }
 
@@ -339,27 +419,34 @@ async function handleEnquiryForm (request, env) {
 
 function handleHealth (request, env) {
   const keyId = String(env.RAZORPAY_KEY_ID || '').trim();
+  const resendKey = String(env.RESEND_API_KEY || '').trim();
   const mode = razorpayMode(keyId);
   const checks = {
     razorpay: Boolean(keyId && env.RAZORPAY_KEY_SECRET),
     razorpay_webhook: Boolean(env.RAZORPAY_WEBHOOK_SECRET),
     database: Boolean(env.DB),
     pdf: Boolean(env.CF_ACCOUNT_ID && env.CF_BROWSER_TOKEN),
-    email: Boolean(env.RESEND_API_KEY),
+    email: Boolean(resendKey) && /^re_/i.test(resendKey),
   };
   const missing = Object.keys(checks).filter((k) => !checks[k]);
+  const emailHint = resendKey && !/^re_/i.test(resendKey)
+    ? 'RESEND_API_KEY is set but invalid (Resend keys start with re_). Run: npx wrangler secret put RESEND_API_KEY'
+    : null;
   return jsonResponse({
     ok: missing.length === 0,
     razorpay_mode: mode,
     checks,
     missing,
+    email_from: String(env.ORDER_FROM_EMAIL || 'WoodenMax <info@woodenmax.com>').trim(),
+    email_admin: String(env.ADMIN_EMAIL || 'info@woodenmax.com').trim(),
+    email_hint: emailHint,
     fix: missing.length
       ? 'Set these as Worker secrets, then `npx wrangler deploy`: ' + missing.map((m) => ({
         razorpay: 'RAZORPAY_KEY_ID + RAZORPAY_KEY_SECRET',
         razorpay_webhook: 'RAZORPAY_WEBHOOK_SECRET',
         database: 'D1 binding DB in wrangler.toml',
         pdf: 'CF_ACCOUNT_ID + CF_BROWSER_TOKEN',
-        email: 'RESEND_API_KEY',
+        email: 'RESEND_API_KEY (must start with re_ — create at resend.com)',
       }[m])).join('; ')
       : null,
   }, 200, request);
