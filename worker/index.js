@@ -9,7 +9,8 @@
  *   POST /api/create-order          Razorpay order; amount recomputed from D1
  *   POST /api/verify-payment        browser callback -> fulfilOrder
  *   POST /api/razorpay-webhook      Razorpay callback -> fulfilOrder
- *   GET  /api/order/:orderNo        order status
+ *   GET  /order/:orderNo            public HTML confirmation (PDF QR target)
+ *   GET  /api/order/:orderNo        order status JSON
  *   GET  /api/order/:orderNo/pdf    the order confirmation PDF
  *   POST /                          enquiry form (multipart) -> email
  *   GET  /health                    configuration probe
@@ -37,6 +38,7 @@ import {
 } from './orders.js';
 import { drainEmailQueue, sendPlainEmail, alertAdmin } from './email.js';
 import { probeBrowserRendering } from './pdf.js';
+import { buildOrderConfirmPageHtml } from './order-page.js';
 
 function normalizeApiPath (pathname) {
   return String(pathname || '/').replace(/\/+$/, '') || '/';
@@ -323,10 +325,11 @@ async function handleOrderPdf (request, env, orderNo) {
   let record = await getOrderPdf(env, orderNo);
   if (!record) return jsonResponse({ success: false, error: 'Order not found' }, 404, request);
 
-  if ((!record.blob || record.status !== 'ready') && url.searchParams.get('regenerate') === '1') {
+  // Force rebuild when asked — previously regenerate=1 was ignored whenever a
+  // ready blob already existed, so layout/QR fixes never appeared on old orders.
+  if (url.searchParams.get('regenerate') === '1') {
     const bytes = await regenerateOrderPdf(env, orderNo);
     record = { blob: bytes, status: 'ready' };
-    // PDF is ready now — attach it on pending rows and flush the queue for this order.
     try {
       await env.DB.prepare(
         "UPDATE email_queue SET attach_pdf = 1, status = 'pending', next_attempt_at = 0, updated_at = ? WHERE order_no = ? AND status IN ('pending', 'failed')"
@@ -350,9 +353,29 @@ async function handleOrderPdf (request, env, orderNo) {
   return new Response(bytes, {
     headers: {
       'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment; filename="WoodenMax-' + orderNo + '.pdf"',
+      'Content-Disposition': 'inline; filename="WoodenMax-' + orderNo + '.pdf"',
       'Cache-Control': 'private, max-age=300',
       ...corsHeaders(request),
+    },
+  });
+}
+
+async function handleOrderConfirmPage (request, env, orderNo) {
+  const row = await getOrderByNo(env, orderNo);
+  if (!row) {
+    return new Response(
+      '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Order not found</title></head>' +
+      '<body style="font-family:sans-serif;padding:2rem"><h1>Order not found</h1>' +
+      '<p>No WoodenMax order matches <code>' + String(orderNo).replace(/[<>&]/g, '') + '</code>.</p>' +
+      '<p><a href="https://woodenmax.in">woodenmax.in</a></p></body></html>',
+      { status: 404, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+    );
+  }
+  const html = buildOrderConfirmPageHtml(row, env);
+  return new Response(html, {
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'private, max-age=60',
     },
   });
 }
@@ -517,6 +540,8 @@ export default {
 
       if (request.method === 'GET') {
         if (path === '/health') return await handleHealth(request, env);
+        const confirmMatch = path.match(/^\/order\/([A-Za-z0-9-]+)$/);
+        if (confirmMatch) return await handleOrderConfirmPage(request, env, confirmMatch[1]);
         const pdfMatch = path.match(/^\/api\/order\/([A-Za-z0-9-]+)\/pdf$/);
         if (pdfMatch) return await handleOrderPdf(request, env, pdfMatch[1]);
         const orderMatch = path.match(/^\/api\/order\/([A-Za-z0-9-]+)$/);

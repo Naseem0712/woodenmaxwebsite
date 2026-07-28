@@ -2748,7 +2748,7 @@
     if (lead) {
       var form = $('#calcLeadForm');
       if (form) {
-        ['name','mobile','city','email','role','pincode','area','district','state'].forEach(function (k) {
+        ['name','mobile','city','email','role','address','pincode','area','district','state'].forEach(function (k) {
           var f = form.elements[k];
           if (f && lead[k]) f.value = lead[k];
         });
@@ -2789,7 +2789,7 @@
   // ---------- Form submit handlers ----------
   function collectLead (form) {
     var data = {};
-    ['name','mobile','city','email','role','pincode','area','district','state'].forEach(function (k) {
+    ['name','mobile','city','email','role','address','pincode','area','district','state'].forEach(function (k) {
       var f = form.elements[k];
       data[k] = f ? (f.value || '').trim() : '';
     });
@@ -2923,6 +2923,7 @@
         { label: 'Mobile',  value: lead.mobile || '—' },
         { label: 'City',    value: lead.city   || '—' }
       ];
+      if (lead.address) leadRows.push({ label: 'Address', value: lead.address });
       if (lead.pincode) leadRows.push({ label: 'Pincode',  value: lead.pincode });
       if (lead.area)    leadRows.push({ label: 'Area',     value: lead.area });
       if (lead.district || lead.state) {
@@ -3067,6 +3068,7 @@
           email:  lead.email || '',
           city:   lead.city || '',
           mobile: lead.mobile || '',
+          address:  lead.address  || '',
           pincode:  lead.pincode  || '',
           area:     lead.area     || '',
           district: lead.district || '',
@@ -3300,8 +3302,15 @@
             '<div class="pdf-party-row"><span class="k">Profile:</span> <span class="v">' + escapeHtml(lead.role || '—') + '</span></div>' +
           '</div>' +
           '<div class="pdf-party">' +
-            '<h2>Project / Site</h2>' +
-            '<div class="pdf-party-row"><span class="k">City:</span> <span class="v">' + escapeHtml([lead.city, (lead.district && lead.district !== lead.city ? lead.district : ''), lead.state, lead.pincode].filter(Boolean).join(', ') || '—') + '</span></div>' +
+            '<h2>Project / Site Address</h2>' +
+            (lead.address ? '<div class="pdf-party-row"><span class="k">Address:</span> <span class="v">' + escapeHtml(lead.address) + '</span></div>' : '') +
+            (lead.area ? '<div class="pdf-party-row"><span class="k">Area:</span> <span class="v">' + escapeHtml(lead.area) + '</span></div>' : '') +
+            '<div class="pdf-party-row"><span class="k">City:</span> <span class="v">' + escapeHtml(lead.district || lead.city || '—') + '</span></div>' +
+            (lead.district && lead.city && String(lead.city).toLowerCase() !== String(lead.district).toLowerCase() && !/\(\d{6}\)/.test(String(lead.city || ''))
+              ? '<div class="pdf-party-row"><span class="k">Locality:</span> <span class="v">' + escapeHtml(lead.city) + '</span></div>'
+              : '') +
+            (lead.state ? '<div class="pdf-party-row"><span class="k">State:</span> <span class="v">' + escapeHtml(lead.state) + '</span></div>' : '') +
+            (lead.pincode ? '<div class="pdf-party-row"><span class="k">PIN:</span> <span class="v">' + escapeHtml(lead.pincode) + '</span></div>' : '') +
             '<div class="pdf-party-row"><span class="k">Items:</span> <span class="v">' + cart.length + ' configuration' + (cart.length > 1 ? 's' : '') + '</span></div>' +
             '<div class="pdf-party-row"><span class="k">Site visit:</span> <span class="v">Scheduled · final approval on site</span></div>' +
             '<div class="pdf-party-row"><span class="k">Lead time:</span> <span class="v">3–4 weeks from approval</span></div>' +
@@ -4141,6 +4150,9 @@
               '<div class="calc-form-row"><label>City / Area / Pincode <em>*</em></label>' +
                 '<input type="text" name="city" placeholder="Type city, area or PIN — e.g. Tejalhera or 500001" required autocomplete="off">' +
                 '<input type="hidden" name="pincode"><input type="hidden" name="area"><input type="hidden" name="district"><input type="hidden" name="state">' +
+              '</div>' +
+              '<div class="calc-form-row calc-form-row-full"><label>Site address <small>(optional)</small></label>' +
+                '<input type="text" name="address" placeholder="Flat / street / landmark for delivery" autocomplete="street-address">' +
               '</div>' +
               '<div class="calc-form-row"><label>Email <small>(optional)</small></label><input type="email" name="email" placeholder="To receive the PDF copy" autocomplete="email"></div>' +
               '<div class="calc-form-row calc-form-row-full"><label>I am a <em>*</em></label>' +

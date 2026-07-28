@@ -81,10 +81,73 @@ function specRows (item) {
     (d) => d && d.label && d.value !== '' && d.value !== null && d.value !== undefined &&
       !/^(product|category)$/i.test(String(d.label))
   );
-  if (!rows.length && item.area) return '<div class="spec"><em>' + escapeHtml(item.area) + '</em></div>';
+  if (!rows.length && item.area) {
+    return '<div class="spec"><span class="sk">Size / area</span><span class="sv">' + escapeHtml(item.area) + '</span></div>';
+  }
   return rows
-    .map((d) => '<div class="spec"><span class="sk">' + escapeHtml(d.label) + '</span><span class="sv">' + escapeHtml(d.value) + '</span></div>')
+    .map((d) => '<div class="spec"><span class="sk">' + escapeHtml(d.label) + '</span><span class="sv">' + escapeHtml(String(d.value)) + '</span></div>')
     .join('');
+}
+
+/**
+ * Prefer structured location fields from the lead form / pincode widget.
+ * Autocomplete often stores a composite label in `city` (e.g. "Mansarovar,
+ * Jaipur (302020)") while also filling area/district/pincode — use the
+ * structured parts so the PDF prints a clear, complete party address.
+ */
+function locationParts (customer) {
+  const c = customer || {};
+  const address = String(c.address || c.site_address || c.street || '').trim();
+  const area = String(c.area || '').trim();
+  const district = String(c.district || '').trim();
+  const state = String(c.state || '').trim();
+  const pincode = String(c.pincode || '').trim();
+  let city = String(c.city || '').trim();
+
+  const looksComposite = Boolean(
+    city && (
+      /\(\d{6}\)\s*$/.test(city) ||
+      (area && city.toLowerCase().indexOf(area.toLowerCase()) === 0) ||
+      (pincode && city.indexOf(pincode) !== -1) ||
+      (district && area && new RegExp('^' + area.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ',\\s*' + district.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i').test(city))
+    )
+  );
+  if (looksComposite && (area || district || pincode)) city = '';
+
+  const cityDisplay = city || district || '';
+  const districtDisplay = district && cityDisplay &&
+    district.toLowerCase() !== cityDisplay.toLowerCase() ? district : '';
+
+  return { address, area, city: cityDisplay, district: districtDisplay, state, pincode };
+}
+
+function locationRowsHtml (customer) {
+  const loc = locationParts(customer);
+  const rows = [];
+  const push = (label, value) => {
+    if (value) {
+      rows.push(
+        '<div class="r"><span class="k">' + label + ':</span> <span class="v">' +
+          escapeHtml(value) + '</span></div>'
+      );
+    }
+  };
+  push('Address', loc.address);
+  push('Area', loc.area);
+  push('City', loc.city);
+  push('District', loc.district);
+  push('State', loc.state);
+  push('PIN', loc.pincode);
+  if (!rows.length) {
+    return '<div class="r"><span class="k">Address:</span> <span class="v">—</span></div>';
+  }
+  return rows.join('');
+}
+
+function itemHasSizeSpec (item) {
+  return (item.details || []).some(
+    (d) => d && /^(size|area|dimensions?|footprint|run length)$/i.test(String(d.label || ''))
+  );
 }
 
 function itemRowsHtml (items) {
@@ -93,13 +156,16 @@ function itemRowsHtml (items) {
       const amount = itemAmount(item);
       const qty = itemQty(item);
       const unit = Number(qty) > 0 ? Math.round(amount / Number(qty)) : amount;
+      const areaLine = item.area && !itemHasSizeSpec(item)
+        ? '<div class="iarea"><strong>Size / area:</strong> ' + escapeHtml(item.area) + '</div>'
+        : '';
       return (
         '<tr>' +
           '<td class="c">' + (i + 1) + '</td>' +
-          '<td>' +
+          '<td class="idesc">' +
             '<div class="iname">' + escapeHtml(item.productName || item.name || 'Configuration') + '</div>' +
             (item.category ? '<div class="icat">' + escapeHtml(item.category) + '</div>' : '') +
-            (item.area ? '<div class="iarea"><strong>Size / area:</strong> ' + escapeHtml(item.area) + '</div>' : '') +
+            areaLine +
             '<div class="specs">' + specRows(item) + '</div>' +
           '</td>' +
           '<td class="c">' + escapeHtml(qty) + '</td>' +
@@ -111,18 +177,33 @@ function itemRowsHtml (items) {
     .join('');
 }
 
+/** Public Worker origin used in QR codes and shareable order links. */
+export function workerPublicOrigin (env) {
+  const raw = (env && (env.WORKER_ORIGIN || env.PAYMENTS_ORIGIN)) ||
+    'https://jolly-field-be49.finilexnaseem.workers.dev';
+  return String(raw).replace(/\/$/, '');
+}
+
 /**
- * QR payload: the order verification page. Rendered by an image service at PDF
- * build time and rasterised into the file, so the finished PDF has no runtime
- * dependency. If the service is unreachable the block is simply omitted.
+ * Stable public URL for this order's confirmation page (HTML). Scanning the
+ * PDF QR opens this page — never the marketing homepage.
+ * Pattern: {WORKER_ORIGIN}/order/{orderNo}
  */
-function qrBlock (order) {
-  const payload = SITE + '/order-status?o=' + encodeURIComponent(order.orderNo);
+export function orderConfirmUrl (orderNo, env) {
+  return workerPublicOrigin(env) + '/order/' + encodeURIComponent(orderNo);
+}
+
+/**
+ * QR payload: absolute Worker confirmation URL for this order_no. Rendered by
+ * an image service at PDF build time and rasterised into the file.
+ */
+function qrBlock (order, env) {
+  const payload = orderConfirmUrl(order.orderNo, env);
   const src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&margin=0&data=' + encodeURIComponent(payload);
   return (
     '<div class="qr">' +
       '<img src="' + escapeHtml(src) + '" alt="" width="90" height="90" onerror="this.style.display=\'none\'">' +
-      '<span>Scan to verify<br>' + escapeHtml(order.orderNo) + '</span>' +
+      '<span>Scan to verify order<br>' + escapeHtml(order.orderNo) + '</span>' +
     '</div>'
   );
 }
@@ -130,67 +211,148 @@ function qrBlock (order) {
 const STYLES = `
   @page { size: A4; margin: 0; }
   * { box-sizing: border-box; }
-  body {
-    margin: 0; padding: 0;
-    font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 9.2pt; line-height: 1.45; color: #0F172A;
+  html, body {
+    margin: 0; padding: 0; width: 100%; max-width: 100%;
+    overflow-x: hidden;
+    font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    font-size: 9pt; line-height: 1.4; color: #0F172A;
     -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
-  .doc { padding: 0; }
-  .hdr { display: flex; justify-content: space-between; gap: 16pt; border-bottom: 2.5pt solid #0F172A; padding-bottom: 8pt; }
-  .brand img { height: 34pt; width: auto; display: block; margin-bottom: 5pt; }
-  .brand strong { display: block; font-size: 13pt; letter-spacing: -0.2pt; }
-  .tag { display: block; color: #475569; font-size: 7.8pt; margin-bottom: 3pt; }
-  .addr { display: block; color: #64748B; font-size: 7.4pt; line-height: 1.4; }
-  .meta { min-width: 175pt; }
-  .doctype { background: #0F172A; color: #fff; font-size: 10pt; font-weight: 700; padding: 4pt 8pt; text-align: center; letter-spacing: 0.4pt; }
-  .meta .row { display: flex; justify-content: space-between; border-bottom: 0.5pt solid #E2E8F0; padding: 2.6pt 2pt; font-size: 8pt; }
-  .meta .label { color: #64748B; }
-  .meta .value { font-weight: 700; }
-  .paidflag { margin-top: 5pt; text-align: center; font-weight: 800; font-size: 9pt; padding: 3.5pt; border-radius: 3pt; background: #DCFCE7; color: #065F46; border: 0.8pt solid #86EFAC; }
-  .parties { display: flex; gap: 10pt; margin-top: 10pt; }
-  .party { flex: 1; border: 0.8pt solid #E2E8F0; border-radius: 3pt; padding: 6pt 8pt; }
-  .party h2 { margin: 0 0 4pt; font-size: 8.4pt; text-transform: uppercase; letter-spacing: 0.5pt; color: #B45309; }
-  .party .r { font-size: 8.2pt; padding: 1pt 0; }
-  .party .k { color: #64748B; }
-  h3.sec { margin: 12pt 0 5pt; font-size: 9.6pt; text-transform: uppercase; letter-spacing: 0.5pt; border-left: 3pt solid #B45309; padding-left: 5pt; }
-  table.items { width: 100%; border-collapse: collapse; }
-  table.items th { background: #0F172A; color: #fff; font-size: 8pt; text-transform: uppercase; letter-spacing: 0.3pt; padding: 4.5pt 5pt; text-align: left; }
-  table.items td { border-bottom: 0.6pt solid #E2E8F0; padding: 5pt; vertical-align: top; font-size: 8.4pt; }
+  .doc {
+    width: 100%; max-width: 100%;
+    overflow-x: hidden;
+    padding: 0;
+  }
+  .hdr {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12pt; border-bottom: 2pt solid #0F172A; padding-bottom: 8pt;
+  }
+  .brand { flex: 1 1 auto; min-width: 0; max-width: 58%; }
+  .brand img { height: 30pt; width: auto; max-width: 140pt; display: block; margin-bottom: 4pt; }
+  .brand strong { display: block; font-size: 12pt; letter-spacing: -0.2pt; }
+  .tag { display: block; color: #475569; font-size: 7.2pt; margin: 1pt 0 3pt; word-break: break-word; }
+  .addr { display: block; color: #64748B; font-size: 7pt; line-height: 1.35; word-break: break-word; overflow-wrap: anywhere; }
+  .meta { flex: 0 0 168pt; width: 168pt; max-width: 42%; min-width: 0; }
+  .doctype {
+    background: #0F172A; color: #fff; font-size: 9pt; font-weight: 700;
+    padding: 4pt 6pt; text-align: center; letter-spacing: 0.35pt;
+  }
+  .meta .row {
+    display: flex; justify-content: space-between; gap: 6pt;
+    border-bottom: 0.5pt solid #E2E8F0; padding: 2.4pt 1pt; font-size: 7.6pt;
+  }
+  .meta .label { color: #64748B; flex: 0 0 auto; }
+  .meta .value { font-weight: 700; text-align: right; min-width: 0; word-break: break-all; overflow-wrap: anywhere; }
+  .paidflag {
+    margin-top: 5pt; text-align: center; font-weight: 800; font-size: 8.2pt;
+    padding: 3pt 4pt; border-radius: 2pt; background: #DCFCE7; color: #065F46;
+    border: 0.7pt solid #86EFAC; word-break: break-word;
+  }
+  .parties { display: flex; gap: 8pt; margin-top: 9pt; align-items: stretch; }
+  .party {
+    flex: 1 1 0; min-width: 0; max-width: 50%;
+    border: 0.7pt solid #CBD5E1; border-radius: 2pt; padding: 6pt 7pt;
+    background: #F8FAFC;
+  }
+  .party h2 {
+    margin: 0 0 4pt; font-size: 8pt; text-transform: uppercase;
+    letter-spacing: 0.45pt; color: #B45309; border-bottom: 0.5pt solid #E2E8F0; padding-bottom: 2pt;
+  }
+  .party .r {
+    font-size: 7.8pt; padding: 1.2pt 0; line-height: 1.35;
+    word-break: break-word; overflow-wrap: anywhere;
+  }
+  .party .k { color: #64748B; font-weight: 500; }
+  .party .v { color: #0F172A; font-weight: 600; }
+  h3.sec {
+    margin: 10pt 0 4pt; font-size: 9pt; text-transform: uppercase;
+    letter-spacing: 0.4pt; border-left: 2.5pt solid #B45309; padding-left: 5pt;
+  }
+  table.items {
+    width: 100%; max-width: 100%; border-collapse: collapse;
+    table-layout: fixed;
+  }
+  table.items th {
+    background: #0F172A; color: #fff; font-size: 7.4pt; text-transform: uppercase;
+    letter-spacing: 0.25pt; padding: 4pt 4pt; text-align: left;
+  }
+  table.items td {
+    border-bottom: 0.55pt solid #E2E8F0; padding: 4pt;
+    vertical-align: top; font-size: 7.8pt;
+    word-break: break-word; overflow-wrap: anywhere;
+  }
   table.items tr { page-break-inside: avoid; }
   td.c, th.c { text-align: center; }
   td.n, th.n { text-align: right; white-space: nowrap; }
-  .iname { font-weight: 700; font-size: 8.8pt; }
-  .icat { color: #B45309; font-size: 7.4pt; text-transform: uppercase; letter-spacing: 0.3pt; }
-  .iarea { font-size: 7.8pt; color: #334155; margin: 2pt 0; }
-  .specs { display: flex; flex-wrap: wrap; gap: 1pt 10pt; margin-top: 2pt; }
-  .spec { font-size: 7.4pt; width: 47%; display: flex; gap: 3pt; }
-  .sk { color: #64748B; } .sk::after { content: ":"; }
-  .sv { color: #0F172A; font-weight: 600; }
-  .totwrap { display: flex; justify-content: space-between; gap: 12pt; margin-top: 8pt; page-break-inside: avoid; }
-  .qr { text-align: center; font-size: 7pt; color: #64748B; }
-  .qr img { display: block; margin-bottom: 2pt; }
-  table.tot { min-width: 250pt; border-collapse: collapse; }
-  table.tot td { padding: 3.2pt 6pt; font-size: 8.6pt; border-bottom: 0.5pt solid #E2E8F0; }
-  table.tot td.value { text-align: right; font-weight: 700; white-space: nowrap; }
-  table.tot tr.grand td { background: #0F172A; color: #fff; font-size: 10pt; font-weight: 800; border: none; }
+  td.idesc { width: auto; }
+  .iname { font-weight: 700; font-size: 8.2pt; word-break: break-word; overflow-wrap: anywhere; }
+  .icat { color: #B45309; font-size: 7pt; text-transform: uppercase; letter-spacing: 0.25pt; }
+  .iarea { font-size: 7.2pt; color: #334155; margin: 2pt 0; word-break: break-word; }
+  .specs { margin-top: 3pt; display: block; width: 100%; }
+  .spec {
+    font-size: 7pt; display: grid; grid-template-columns: 72pt 1fr;
+    gap: 2pt 4pt; padding: 0.6pt 0; width: 100%; max-width: 100%;
+  }
+  .sk { color: #64748B; min-width: 0; }
+  .sk::after { content: ":"; }
+  .sv { color: #0F172A; font-weight: 600; min-width: 0; word-break: break-word; overflow-wrap: anywhere; }
+  .totwrap {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 10pt; margin-top: 8pt; page-break-inside: avoid;
+  }
+  .qr { flex: 0 0 auto; text-align: center; font-size: 6.5pt; color: #64748B; max-width: 100pt; }
+  .qr img { display: block; margin: 0 auto 2pt; width: 72pt; height: 72pt; }
+  table.tot { flex: 0 1 240pt; width: 240pt; max-width: 100%; border-collapse: collapse; table-layout: fixed; }
+  table.tot td {
+    padding: 2.8pt 5pt; font-size: 8pt; border-bottom: 0.5pt solid #E2E8F0;
+    word-break: break-word; overflow-wrap: anywhere;
+  }
+  table.tot td.value { text-align: right; font-weight: 700; white-space: nowrap; width: 38%; }
+  table.tot tr.grand td { background: #0F172A; color: #fff; font-size: 9pt; font-weight: 800; border: none; }
   table.tot tr.paid td { color: #065F46; }
   table.tot tr.bal td { color: #B45309; }
-  .words { margin-top: 6pt; font-size: 8pt; background: #F8FAFC; border-left: 2.5pt solid #B45309; padding: 4pt 7pt; }
-  .notice { margin-top: 7pt; font-size: 7.8pt; border: 0.8pt dashed #FCD34D; background: #FFFBEB; padding: 5pt 7pt; border-radius: 3pt; }
-  .notice p { margin: 0 0 2.5pt; }
-  .grid2 { display: flex; gap: 10pt; margin-top: 10pt; page-break-inside: avoid; }
-  .card { flex: 1; border: 0.8pt solid #E2E8F0; border-radius: 3pt; padding: 6pt 8pt; }
-  .card h3 { margin: 0 0 4pt; font-size: 8.4pt; text-transform: uppercase; letter-spacing: 0.4pt; color: #B45309; }
+  .words {
+    margin-top: 6pt; font-size: 7.6pt; background: #F8FAFC;
+    border-left: 2.5pt solid #B45309; padding: 4pt 6pt;
+    word-break: break-word; overflow-wrap: anywhere;
+  }
+  .notice {
+    margin-top: 6pt; font-size: 7.2pt; border: 0.7pt dashed #FCD34D;
+    background: #FFFBEB; padding: 5pt 6pt; border-radius: 2pt;
+    word-break: break-word; overflow-wrap: anywhere;
+  }
+  .notice p { margin: 0 0 2pt; }
+  .grid2 { display: flex; gap: 8pt; margin-top: 9pt; page-break-inside: avoid; }
+  .card {
+    flex: 1 1 0; min-width: 0; max-width: 50%;
+    border: 0.7pt solid #CBD5E1; border-radius: 2pt; padding: 6pt 7pt;
+  }
+  .card h3 {
+    margin: 0 0 4pt; font-size: 8pt; text-transform: uppercase;
+    letter-spacing: 0.35pt; color: #B45309;
+  }
   .card ol { margin: 0; padding-left: 11pt; }
-  .card li { font-size: 7.4pt; margin-bottom: 2.4pt; line-height: 1.4; }
-  .bank { display: flex; justify-content: space-between; font-size: 7.8pt; border-bottom: 0.4pt dotted #E2E8F0; padding: 1.6pt 0; }
-  .bank .k { color: #64748B; }
-  .bank .v { font-weight: 700; }
-  .signs { display: flex; justify-content: space-between; margin-top: 22pt; page-break-inside: avoid; }
-  .sign { width: 42%; border-top: 0.8pt solid #94A3B8; padding-top: 3pt; font-size: 7.6pt; color: #64748B; }
-  .sign strong { display: block; color: #0F172A; font-size: 8.2pt; }
-  .foot { margin-top: 10pt; border-top: 0.8pt solid #E2E8F0; padding-top: 5pt; text-align: center; font-size: 7pt; color: #94A3B8; }
+  .card li {
+    font-size: 7pt; margin-bottom: 2pt; line-height: 1.35;
+    word-break: break-word; overflow-wrap: anywhere;
+  }
+  .bank {
+    display: flex; justify-content: space-between; gap: 6pt;
+    font-size: 7.2pt; border-bottom: 0.4pt dotted #E2E8F0; padding: 1.4pt 0;
+  }
+  .bank .k { color: #64748B; flex: 0 0 auto; }
+  .bank .v { font-weight: 700; text-align: right; min-width: 0; word-break: break-word; overflow-wrap: anywhere; }
+  .signs { display: flex; justify-content: space-between; gap: 12pt; margin-top: 18pt; page-break-inside: avoid; }
+  .sign {
+    width: 42%; max-width: 46%; min-width: 0;
+    border-top: 0.7pt solid #94A3B8; padding-top: 3pt; font-size: 7.2pt; color: #64748B;
+  }
+  .sign strong { display: block; color: #0F172A; font-size: 7.8pt; }
+  .foot {
+    margin-top: 8pt; border-top: 0.7pt solid #E2E8F0; padding-top: 4pt;
+    text-align: center; font-size: 6.5pt; color: #94A3B8;
+    word-break: break-word; overflow-wrap: anywhere;
+  }
 `;
 
 export function buildOrderDocumentHtml (order, env) {
@@ -202,10 +364,6 @@ export function buildOrderDocumentHtml (order, env) {
   const isBooking = order.purpose === 'order_booking';
   const logo = (env && env.SITE_ORIGIN ? env.SITE_ORIGIN : SITE) + '/images/woodenmax-logo.webp';
   const freeTransport = totals.subtotal_inr >= 1500000;
-
-  const projectAddress = [customer.address, customer.city,
-    customer.district && customer.district !== customer.city ? customer.district : '',
-    customer.state, customer.pincode].filter(Boolean).join(', ');
 
   return `<!DOCTYPE html>
 <html lang="en"><head><meta charset="utf-8">
@@ -223,7 +381,7 @@ export function buildOrderDocumentHtml (order, env) {
     <div class="meta">
       <div class="doctype">ORDER CONFIRMATION</div>
       <div class="row"><span class="label">Order No.</span><span class="value">${escapeHtml(order.orderNo)}</span></div>
-      <div class="row"><span class="label">Quotation No.</span><span class="value">${escapeHtml(order.quoteNo || '—')}${order.quoteVersion ? ' v' + escapeHtml(order.quoteVersion) : ''}</span></div>
+      <div class="row"><span class="label">Quotation No.</span><span class="value">${escapeHtml(order.quoteNo || '—')}${order.quoteVersion ? ' v' + escapeHtml(String(order.quoteVersion)) : ''}</span></div>
       <div class="row"><span class="label">Date</span><span class="value">${escapeHtml(fmtDate(order.createdAt))}</span></div>
       <div class="row"><span class="label">Payment ID</span><span class="value">${escapeHtml(order.paymentId || '—')}</span></div>
       <div class="row"><span class="label">GSTIN</span><span class="value">${escapeHtml(COMPANY.gstin)}</span></div>
@@ -233,35 +391,38 @@ export function buildOrderDocumentHtml (order, env) {
 
   <div class="parties">
     <div class="party">
-      <h2>Customer</h2>
+      <h2>Bill To / Customer</h2>
       <div class="r"><strong>${escapeHtml(customer.name || '—')}</strong></div>
-      <div class="r"><span class="k">Mobile:</span> ${escapeHtml(customer.mobile || '—')}</div>
-      <div class="r"><span class="k">Email:</span> ${escapeHtml(customer.email || '—')}</div>
-      <div class="r"><span class="k">Profile:</span> ${escapeHtml(customer.role || '—')}</div>
+      <div class="r"><span class="k">Mobile:</span> <span class="v">${escapeHtml(customer.mobile || '—')}</span></div>
+      <div class="r"><span class="k">Email:</span> <span class="v">${escapeHtml(customer.email || '—')}</span></div>
+      <div class="r"><span class="k">Profile:</span> <span class="v">${escapeHtml(customer.role || '—')}</span></div>
     </div>
     <div class="party">
-      <h2>Project / Site</h2>
-      <div class="r"><span class="k">Address:</span> ${escapeHtml(projectAddress || '—')}</div>
-      <div class="r"><span class="k">Items:</span> ${items.length} configuration${items.length === 1 ? '' : 's'}</div>
-      <div class="r"><span class="k">Status:</span> ${isBooking ? 'Site visit slot booked' : 'Order confirmed'}</div>
-      <div class="r"><span class="k">Lead time:</span> 3&ndash;4 weeks from final measurement</div>
+      <h2>Project / Site Address</h2>
+      ${locationRowsHtml(customer)}
+      <div class="r"><span class="k">Items:</span> <span class="v">${items.length} configuration${items.length === 1 ? '' : 's'}</span></div>
+      <div class="r"><span class="k">Status:</span> <span class="v">${isBooking ? 'Site visit slot booked' : 'Order confirmed'}</span></div>
+      <div class="r"><span class="k">Lead time:</span> <span class="v">3&ndash;4 weeks from final measurement</span></div>
     </div>
   </div>
 
   <h3 class="sec">Ordered Configurations</h3>
   <table class="items">
+    <colgroup>
+      <col style="width:5%"><col style="width:51%"><col style="width:8%"><col style="width:18%"><col style="width:18%">
+    </colgroup>
     <thead><tr>
-      <th class="c" style="width:4%">#</th>
-      <th style="width:56%">Item &amp; Specifications</th>
-      <th class="c" style="width:8%">Qty</th>
-      <th class="n" style="width:16%">Unit Price</th>
-      <th class="n" style="width:16%">Amount</th>
+      <th class="c">#</th>
+      <th>Item &amp; Specifications</th>
+      <th class="c">Qty</th>
+      <th class="n">Unit Price</th>
+      <th class="n">Amount</th>
     </tr></thead>
     <tbody>${itemRowsHtml(items)}</tbody>
   </table>
 
   <div class="totwrap">
-    ${qrBlock(order)}
+    ${qrBlock(order, env)}
     <table class="tot">
       <tr><td>Subtotal (basic value)</td><td class="value">${fmtInr(totals.subtotal_inr)}</td></tr>
       <tr><td>GST @ 18% <span style="color:#B45309">(always extra)</span></td><td class="value">${fmtInr(totals.gst_inr)}</td></tr>

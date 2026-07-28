@@ -30,6 +30,8 @@ ADMIN_EMAIL = "info@woodenmax.com"
 REPLY_TO_EMAIL = "info@woodenmax.com"
 ORDER_FROM_EMAIL = "WoodenMax <orders@woodenmax.in>"
 SITE_ORIGIN = "https://woodenmax.in"
+# Public base for PDF QR codes and shareable order confirmation links.
+WORKER_ORIGIN = "https://jolly-field-be49.finilexnaseem.workers.dev"
 
 [[d1_databases]]
 binding = "DB"
