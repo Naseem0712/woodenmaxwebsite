@@ -1245,7 +1245,17 @@ body.grills-product-page .calc-sticky-exact {
 .calc-form-modal {
   position: fixed;
   inset: 0;
-  z-index: 970;
+  /* Above sticky .wm-navbar (1000) and drawer (1110) so title/close are not clipped */
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    max(0.75rem, env(safe-area-inset-top, 0px))
+    max(1rem, env(safe-area-inset-right, 0px))
+    max(0.75rem, env(safe-area-inset-bottom, 0px))
+    max(1rem, env(safe-area-inset-left, 0px));
+  box-sizing: border-box;
   pointer-events: none;
   visibility: hidden;
 }
@@ -1266,15 +1276,14 @@ body.grills-product-page .calc-sticky-exact {
 .calc-form-modal.is-open .calc-form-backdrop { opacity: 1; }
 
 .calc-form-panel {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: min(520px, calc(100% - 2rem));
-  max-height: 92vh;
+  position: relative;
+  z-index: 1;
+  width: min(520px, 100%);
+  max-height: 100%;
   background: #FFFFFF;
   border-radius: 18px;
   box-shadow: 0 24px 60px -10px rgba(15, 23, 42, 0.45);
-  transform: translate(-50%, -45%);
+  transform: translateY(12px);
   opacity: 0;
   transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
   display: flex;
@@ -1283,7 +1292,7 @@ body.grills-product-page .calc-sticky-exact {
 }
 
 .calc-form-modal.is-open .calc-form-panel {
-  transform: translate(-50%, -50%);
+  transform: translateY(0);
   opacity: 1;
 }
 
@@ -1323,6 +1332,9 @@ body.grills-product-page .calc-sticky-exact {
 .calc-form-body {
   padding: 1rem 1.25rem 1.25rem;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .calc-form-intro {
