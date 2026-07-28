@@ -2,27 +2,27 @@
   "globalRates": {
     "glass": {
       "6mm": 0,
-      "8mm": 32,
-      "10mm": 53,
-      "12mm": 85,
-      "dgu": 189,
-      "laminated": 231,
-      "safety": 231
+      "8mm": 35.2,
+      "10mm": 58.3,
+      "12mm": 93.5,
+      "dgu": 207.9,
+      "laminated": 254.1,
+      "safety": 254.1
     },
     "coating": {
-      "wooden": 68
+      "wooden": 74.8
     },
     "lock": {
       "singlePoint": 0,
-      "multiPoint": 1260,
-      "mortice": 1575
+      "multiPoint": 1386,
+      "mortice": 1732.5
     },
     "mesh": {
-      "standard": 127,
-      "openable": 370
+      "standard": 139.7,
+      "openable": 407
     },
     "grill": {
-      "aluminium12mm": 295
+      "aluminium12mm": 324.5
     }
   },
   "products": [
@@ -34,17 +34,19 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 869,
-        "hardwareCost": 2541,
+        "baseRate": 955.9,
+        "hardwareCost": 2795.1,
         "useGlobalRates": true,
         "glass": {},
         "coating": {},
         "lock": {},
         "mesh": {
-          "standard": 127
+          "standard": 139.7
         }
       },
-      "features": ["mesh"],
+      "features": [
+        "mesh"
+      ],
       "description": "Premium 29mm series sections with 1.2mm wall thickness, 29X65mm shutter dimensions, and slim interlock for luxury feel."
     },
     {
@@ -55,15 +57,19 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 825,
-        "hardwareCost": 2480,
+        "baseRate": 907.5,
+        "hardwareCost": 2728,
         "useGlobalRates": true,
         "glass": {},
         "coating": {},
         "lock": {},
-        "mesh": { "standard": 127 }
+        "mesh": {
+          "standard": 139.7
+        }
       },
-      "features": ["mesh"],
+      "features": [
+        "mesh"
+      ],
       "description": "30mm system sliding series for premium Indian projects: engineered interlock, tandem roller pockets, and gasket paths matched to OEM hardware. Use for system window BOQ where 29–31mm-class depth is specified."
     },
     {
@@ -74,15 +80,19 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 838,
-        "hardwareCost": 2492,
+        "baseRate": 921.8,
+        "hardwareCost": 2741.2,
         "useGlobalRates": true,
         "glass": {},
         "coating": {},
         "lock": {},
-        "mesh": { "standard": 127 }
+        "mesh": {
+          "standard": 139.7
+        }
       },
-      "features": ["mesh"],
+      "features": [
+        "mesh"
+      ],
       "description": "31mm system sliding line — common upgrade path from economy tracks; same calculator behaviour as 29mm class with project-specific base rate. Pair with 8mm / DGU / laminated choices in the tool."
     },
     {
@@ -93,15 +103,19 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 858,
-        "hardwareCost": 2510,
+        "baseRate": 943.8,
+        "hardwareCost": 2761,
         "useGlobalRates": true,
         "glass": {},
         "coating": {},
         "lock": {},
-        "mesh": { "standard": 127 }
+        "mesh": {
+          "standard": 139.7
+        }
       },
-      "features": ["mesh"],
+      "features": [
+        "mesh"
+      ],
       "description": "35mm Gulf interlock system sliding: deeper section for large panels, coastal and high-wind comfort when specified with the right glass. Rollers, drainage, and mesh options follow system catalogue details."
     },
     {
@@ -112,15 +126,19 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 878,
-        "hardwareCost": 2535,
+        "baseRate": 965.8,
+        "hardwareCost": 2788.5,
         "useGlobalRates": true,
         "glass": {},
         "coating": {},
         "lock": {},
-        "mesh": { "standard": 127 }
+        "mesh": {
+          "standard": 139.7
+        }
       },
-      "features": ["mesh"],
+      "features": [
+        "mesh"
+      ],
       "description": "40mm minimal-sightline system sliding: luxury villas and design-led elevations where mullion width must stay thin while still carrying DGU weight — hardware and track class scale with the glass schedule."
     },
     {
@@ -131,15 +149,19 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 848,
-        "hardwareCost": 2505,
+        "baseRate": 932.8,
+        "hardwareCost": 2755.5,
         "useGlobalRates": true,
         "glass": {},
         "coating": {},
         "lock": {},
-        "mesh": { "standard": 127 }
+        "mesh": {
+          "standard": 139.7
+        }
       },
-      "features": ["mesh"],
+      "features": [
+        "mesh"
+      ],
       "description": "31mm system sliding product used on glass-options guides: DGU, laminated, and 8–12mm upgrades show clearly in the same stack as 2-track premium lines."
     },
     {
@@ -150,17 +172,21 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 869,
-        "hardwareCost": 2541,
+        "baseRate": 955.9,
+        "hardwareCost": 2795.1,
         "useGlobalRates": true,
         "glass": {},
         "coating": {},
         "lock": {},
         "mesh": {
-          "standard": 127
+          "standard": 139.7
         }
       },
-      "features": ["mesh", "morticeLock", "topFixed"],
+      "features": [
+        "mesh",
+        "morticeLock",
+        "topFixed"
+      ],
       "description": "2 Track 4 Doors System - Side 2 doors fixed, middle 2 doors sliding. Optional mesh available."
     },
     {
@@ -171,19 +197,23 @@
       "subcategory": "sliding",
       "status": "active",
       "rates": {
-        "baseRate": 578,
-        "hardwareCost": 924,
-        "mesh": 105,
+        "baseRate": 693.6,
+        "hardwareCost": 1108.8,
+        "mesh": 126,
         "glass": {
-          "6mm": 16,
-          "8mm": 32
+          "6mm": 19.2,
+          "8mm": 38.4
         },
         "trackOptions": {
           "2track": 0,
-          "3track": 115
+          "3track": 138
         }
       },
-      "features": ["trackSelection", "heightValidation", "colorOptions"],
+      "features": [
+        "trackSelection",
+        "heightValidation",
+        "colorOptions"
+      ],
       "description": "27MM Domal Series - 2 Track (without mesh) or 3 Track (with mesh). Recommended height 6 feet, maximum 8 feet. Includes 5mm clear tuff glass, single point touch type lock, regular wheels, regular coating."
     },
     {
@@ -194,9 +224,9 @@
       "subcategory": "casement",
       "status": "active",
       "rates": {
-        "baseRate": 908,
-        "hardwareCost": 820,
-        "hardwareCostMultiPoint": 1680,
+        "baseRate": 998.8,
+        "hardwareCost": 902,
+        "hardwareCostMultiPoint": 1848,
         "useGlobalRates": true,
         "glass": {
           "6mm": 0,
@@ -207,17 +237,21 @@
           "laminated": 0
         },
         "grill": {
-          "aluminium12mm": 310
+          "aluminium12mm": 341
         },
         "mesh": {
-          "openable": 390
+          "openable": 429
         },
         "lock": {
           "singlePoint": 0,
           "multiPoint": 0
         }
       },
-      "features": ["mesh", "grill", "multiPointLock"],
+      "features": [
+        "mesh",
+        "grill",
+        "multiPointLock"
+      ],
       "description": "Premium slimline casement window with black powder coating. Hindalco or imported profiles, Saint-Gobain glass (5-12mm single or DGU 16-22mm), imported hardware. Base from ₹900/sq.ft."
     },
     {
@@ -228,9 +262,9 @@
       "subcategory": "casement",
       "status": "active",
       "rates": {
-        "baseRate": 754,
-        "hardwareCost": 751,
-        "hardwareCostMultiPoint": 1617,
+        "baseRate": 829.4,
+        "hardwareCost": 826.1,
+        "hardwareCostMultiPoint": 1778.7,
         "useGlobalRates": true,
         "glass": {
           "6mm": 0,
@@ -241,17 +275,21 @@
           "laminated": 0
         },
         "grill": {
-          "aluminium12mm": 295
+          "aluminium12mm": 324.5
         },
         "mesh": {
-          "openable": 370
+          "openable": 407
         },
         "lock": {
           "singlePoint": 0,
           "multiPoint": 0
         }
       },
-      "features": ["mesh", "grill", "multiPointLock"],
+      "features": [
+        "mesh",
+        "grill",
+        "multiPointLock"
+      ],
       "description": "40mm casement profile with 6mm clear toughened glass, single point lock (handle type), friction stay. Optional inside aluminium 12mm hollow pipes grills and openable mesh available."
     },
     {
@@ -262,109 +300,9 @@
       "subcategory": "casement",
       "status": "active",
       "rates": {
-        "baseRate": 748,
-        "hardwareCost": 748,
-        "hardwareCostMultiPoint": 1605,
-        "useGlobalRates": true,
-        "glass": { "6mm": 0, "8mm": 0, "10mm": 0, "12mm": 0, "dgu": 0, "laminated": 0 },
-        "grill": { "aluminium12mm": 295 },
-        "mesh": { "openable": 370 },
-        "lock": { "singlePoint": 0, "multiPoint": 0 }
-      },
-      "features": ["mesh", "grill", "multiPointLock"],
-      "description": "50mm Euro-class system casement: long hardware life, smooth operation with quality friction stays; same multipoint rules as our top-hung line when glass steps up. For “what is system window” education pages."
-    },
-    {
-      "id": "system-casement-52mm-gulf-brands",
-      "name": "52mm Gulf System Casement (brands & comparison)",
-      "slug": "system-casement-52mm-gulf-brands",
-      "category": "aluminium-windows",
-      "subcategory": "casement",
-      "status": "active",
-      "rates": {
-        "baseRate": 762,
-        "hardwareCost": 755,
-        "hardwareCostMultiPoint": 1620,
-        "useGlobalRates": true,
-        "glass": { "6mm": 0, "8mm": 0, "10mm": 0, "12mm": 0, "dgu": 0, "laminated": 0 },
-        "grill": { "aluminium12mm": 295 },
-        "mesh": { "openable": 370 },
-        "lock": { "singlePoint": 0, "multiPoint": 0 }
-      },
-      "features": ["mesh", "grill", "multiPointLock"],
-      "description": "52mm Gulf system casement: robust section for DGU and coastal projects; use when brand-OEM or wind-load needs extra stiffening. Operating feel stays smooth with correct stay rating."
-    },
-    {
-      "id": "system-casement-50mm-euro",
-      "name": "50mm Euro System Casement (standard quote)",
-      "slug": "system-casement-50mm-euro",
-      "category": "aluminium-windows",
-      "subcategory": "casement",
-      "status": "active",
-      "rates": {
-        "baseRate": 754,
-        "hardwareCost": 751,
-        "hardwareCostMultiPoint": 1617,
-        "useGlobalRates": true,
-        "glass": { "6mm": 0, "8mm": 0, "10mm": 0, "12mm": 0, "dgu": 0, "laminated": 0 },
-        "grill": { "aluminium12mm": 295 },
-        "mesh": { "openable": 370 },
-        "lock": { "singlePoint": 0, "multiPoint": 0 }
-      },
-      "features": ["mesh", "grill", "multiPointLock"],
-      "description": "50mm Euro system casement — primary system-casement price page. Long life, smooth operation; multipoint in tool when 10mm+ or DGU/laminated is selected."
-    },
-    {
-      "id": "system-casement-52mm-gulf-slim",
-      "name": "52mm Gulf System Casement (slim / luxury stack)",
-      "slug": "system-casement-52mm-gulf-slim",
-      "category": "aluminium-windows",
-      "subcategory": "casement",
-      "status": "active",
-      "rates": {
-        "baseRate": 768,
-        "hardwareCost": 760,
-        "hardwareCostMultiPoint": 1625,
-        "useGlobalRates": true,
-        "glass": { "6mm": 0, "8mm": 0, "10mm": 0, "12mm": 0, "dgu": 0, "laminated": 0 },
-        "grill": { "aluminium12mm": 295 },
-        "mesh": { "openable": 370 },
-        "lock": { "singlePoint": 0, "multiPoint": 0 }
-      },
-      "features": ["mesh", "grill", "multiPointLock"],
-      "description": "52mm Gulf casement for slim-sightline luxury work: laminated and heavy glass packages common; same calculator engine as 50/52 system lines."
-    },
-    {
-      "id": "system-casement-50mm-euro-villa",
-      "name": "50mm Euro System Casement (villa & large vent)",
-      "slug": "system-casement-50mm-euro-villa",
-      "category": "aluminium-windows",
-      "subcategory": "casement",
-      "status": "active",
-      "rates": {
-        "baseRate": 778,
-        "hardwareCost": 765,
-        "hardwareCostMultiPoint": 1635,
-        "useGlobalRates": true,
-        "glass": { "6mm": 0, "8mm": 0, "10mm": 0, "12mm": 0, "dgu": 0, "laminated": 0 },
-        "grill": { "aluminium12mm": 295 },
-        "mesh": { "openable": 370 },
-        "lock": { "singlePoint": 0, "multiPoint": 0 }
-      },
-      "features": ["mesh", "grill", "multiPointLock"],
-      "description": "50mm Euro for villa and luxury homes: 12mm and DGU on main vents, smooth long-cycle operation, multipoint when the glass schedule requires it."
-    },
-    {
-      "id": "georgian-bar-openable",
-      "name": "Georgian Bar Openable Window",
-      "slug": "georgian-grill-casement-door",
-      "category": "aluminium-windows",
-      "subcategory": "casement",
-      "status": "active",
-      "rates": {
-        "baseRate": 1045,
-        "hardwareCost": 751,
-        "hardwareCostMultiPoint": 1617,
+        "baseRate": 822.8,
+        "hardwareCost": 822.8,
+        "hardwareCostMultiPoint": 1765.5,
         "useGlobalRates": true,
         "glass": {
           "6mm": 0,
@@ -375,17 +313,211 @@
           "laminated": 0
         },
         "grill": {
-          "aluminium12mm": 295
+          "aluminium12mm": 324.5
         },
         "mesh": {
-          "openable": 370
+          "openable": 407
         },
         "lock": {
           "singlePoint": 0,
           "multiPoint": 0
         }
       },
-      "features": ["mesh", "grill", "multiPointLock"],
+      "features": [
+        "mesh",
+        "grill",
+        "multiPointLock"
+      ],
+      "description": "50mm Euro-class system casement: long hardware life, smooth operation with quality friction stays; same multipoint rules as our top-hung line when glass steps up. For “what is system window” education pages."
+    },
+    {
+      "id": "system-casement-52mm-gulf-brands",
+      "name": "52mm Gulf System Casement (brands & comparison)",
+      "slug": "system-casement-52mm-gulf-brands",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 838.2,
+        "hardwareCost": 830.5,
+        "hardwareCostMultiPoint": 1782,
+        "useGlobalRates": true,
+        "glass": {
+          "6mm": 0,
+          "8mm": 0,
+          "10mm": 0,
+          "12mm": 0,
+          "dgu": 0,
+          "laminated": 0
+        },
+        "grill": {
+          "aluminium12mm": 324.5
+        },
+        "mesh": {
+          "openable": 407
+        },
+        "lock": {
+          "singlePoint": 0,
+          "multiPoint": 0
+        }
+      },
+      "features": [
+        "mesh",
+        "grill",
+        "multiPointLock"
+      ],
+      "description": "52mm Gulf system casement: robust section for DGU and coastal projects; use when brand-OEM or wind-load needs extra stiffening. Operating feel stays smooth with correct stay rating."
+    },
+    {
+      "id": "system-casement-50mm-euro",
+      "name": "50mm Euro System Casement (standard quote)",
+      "slug": "system-casement-50mm-euro",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 829.4,
+        "hardwareCost": 826.1,
+        "hardwareCostMultiPoint": 1778.7,
+        "useGlobalRates": true,
+        "glass": {
+          "6mm": 0,
+          "8mm": 0,
+          "10mm": 0,
+          "12mm": 0,
+          "dgu": 0,
+          "laminated": 0
+        },
+        "grill": {
+          "aluminium12mm": 324.5
+        },
+        "mesh": {
+          "openable": 407
+        },
+        "lock": {
+          "singlePoint": 0,
+          "multiPoint": 0
+        }
+      },
+      "features": [
+        "mesh",
+        "grill",
+        "multiPointLock"
+      ],
+      "description": "50mm Euro system casement — primary system-casement price page. Long life, smooth operation; multipoint in tool when 10mm+ or DGU/laminated is selected."
+    },
+    {
+      "id": "system-casement-52mm-gulf-slim",
+      "name": "52mm Gulf System Casement (slim / luxury stack)",
+      "slug": "system-casement-52mm-gulf-slim",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 844.8,
+        "hardwareCost": 836,
+        "hardwareCostMultiPoint": 1787.5,
+        "useGlobalRates": true,
+        "glass": {
+          "6mm": 0,
+          "8mm": 0,
+          "10mm": 0,
+          "12mm": 0,
+          "dgu": 0,
+          "laminated": 0
+        },
+        "grill": {
+          "aluminium12mm": 324.5
+        },
+        "mesh": {
+          "openable": 407
+        },
+        "lock": {
+          "singlePoint": 0,
+          "multiPoint": 0
+        }
+      },
+      "features": [
+        "mesh",
+        "grill",
+        "multiPointLock"
+      ],
+      "description": "52mm Gulf casement for slim-sightline luxury work: laminated and heavy glass packages common; same calculator engine as 50/52 system lines."
+    },
+    {
+      "id": "system-casement-50mm-euro-villa",
+      "name": "50mm Euro System Casement (villa & large vent)",
+      "slug": "system-casement-50mm-euro-villa",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 855.8,
+        "hardwareCost": 841.5,
+        "hardwareCostMultiPoint": 1798.5,
+        "useGlobalRates": true,
+        "glass": {
+          "6mm": 0,
+          "8mm": 0,
+          "10mm": 0,
+          "12mm": 0,
+          "dgu": 0,
+          "laminated": 0
+        },
+        "grill": {
+          "aluminium12mm": 324.5
+        },
+        "mesh": {
+          "openable": 407
+        },
+        "lock": {
+          "singlePoint": 0,
+          "multiPoint": 0
+        }
+      },
+      "features": [
+        "mesh",
+        "grill",
+        "multiPointLock"
+      ],
+      "description": "50mm Euro for villa and luxury homes: 12mm and DGU on main vents, smooth long-cycle operation, multipoint when the glass schedule requires it."
+    },
+    {
+      "id": "georgian-bar-openable",
+      "name": "Georgian Bar Openable Window",
+      "slug": "georgian-grill-casement-door",
+      "category": "aluminium-windows",
+      "subcategory": "casement",
+      "status": "active",
+      "rates": {
+        "baseRate": 1149.5,
+        "hardwareCost": 826.1,
+        "hardwareCostMultiPoint": 1778.7,
+        "useGlobalRates": true,
+        "glass": {
+          "6mm": 0,
+          "8mm": 0,
+          "10mm": 0,
+          "12mm": 0,
+          "dgu": 0,
+          "laminated": 0
+        },
+        "grill": {
+          "aluminium12mm": 324.5
+        },
+        "mesh": {
+          "openable": 407
+        },
+        "lock": {
+          "singlePoint": 0,
+          "multiPoint": 0
+        }
+      },
+      "features": [
+        "mesh",
+        "grill",
+        "multiPointLock"
+      ],
       "description": "Georgian Bar Openable Window with 40mm casement profile, golden Georgian bar design, 6mm clear toughened glass, single point lock (handle type), friction stay. Optional inside aluminium 12mm hollow pipes grills and openable mesh available."
     },
     {
@@ -396,9 +528,9 @@
       "subcategory": "french-door",
       "status": "active",
       "rates": {
-        "baseRate": 1100,
-        "hardwareCost": 2079,
-        "hardwareCostMultiPoint": 2541,
+        "baseRate": 1210,
+        "hardwareCost": 2286.9,
+        "hardwareCostMultiPoint": 2795.1,
         "useGlobalRates": true,
         "glass": {
           "8mm": 0,
@@ -418,10 +550,15 @@
           "mortice": 0
         },
         "mesh": {
-          "security": 295
+          "security": 324.5
         }
       },
-      "features": ["mesh", "multiPointLock", "morticeLock", "heightValidation"],
+      "features": [
+        "mesh",
+        "multiPointLock",
+        "morticeLock",
+        "heightValidation"
+      ],
       "maxHeight": 9,
       "description": "Premium 35mm slim profile series French Aluminium Door with golden Georgian bar design. Includes 8mm toughened glass in base rate. Maximum height 9 feet. Optional security mesh, multipoint lock, and mortice lock available."
     },
@@ -433,9 +570,9 @@
       "subcategory": "entrance-door",
       "status": "active",
       "rates": {
-        "baseRate": 1447,
-        "hardwareCost": 2079,
-        "hardwareCostMultiPoint": 2541,
+        "baseRate": 1591.7,
+        "hardwareCost": 2286.9,
+        "hardwareCostMultiPoint": 2795.1,
         "useGlobalRates": true,
         "glass": {
           "8mm": 0,
@@ -455,10 +592,17 @@
           "mortice": 0
         },
         "mesh": {
-          "security": 295
+          "security": 324.5
         }
       },
-      "features": ["mesh", "multiPointLock", "morticeLock", "heightValidation", "coating", "colorOptions"],
+      "features": [
+        "mesh",
+        "multiPointLock",
+        "morticeLock",
+        "heightValidation",
+        "coating",
+        "colorOptions"
+      ],
       "maxHeight": 10,
       "description": "Premium 40mm super luxury slim series entrance glass door. Includes 8mm toughened glass and slim interlock in base rate. Maximum height 10 feet. Optional security mesh, multipoint lock, mortice lock, coating, and color options available."
     },
@@ -470,7 +614,7 @@
       "subcategory": "full-elevation",
       "status": "active",
       "rates": {
-        "baseRate": 578,
+        "baseRate": 635.8,
         "hardwareCost": 0,
         "useGlobalRates": true,
         "glass": {
@@ -483,12 +627,12 @@
           "5mm": 0
         },
         "flutedGlass": {
-          "6mm-clear-fluted": 68,
-          "8mm-clear-fluted": 89,
-          "6mm-brown-fluted": 89,
-          "8mm-brown-fluted": 121,
-          "6mm-grey-fluted": 89,
-          "8mm-grey-fluted": 121
+          "6mm-clear-fluted": 74.8,
+          "8mm-clear-fluted": 97.9,
+          "6mm-brown-fluted": 97.9,
+          "8mm-brown-fluted": 133.1,
+          "6mm-grey-fluted": 97.9,
+          "8mm-grey-fluted": 133.1
         },
         "flutedMaxHeights": {
           "clear": 10,
@@ -500,7 +644,12 @@
           "copper-gold": 68
         }
       },
-      "features": ["heightValidation", "colorOptions", "flutedGlass", "premiumColors"],
+      "features": [
+        "heightValidation",
+        "colorOptions",
+        "flutedGlass",
+        "premiumColors"
+      ],
       "maxHeight": 12,
       "description": "Full Elevation Aluminium Windows & Doors with fixed glass for luxury full glass view. Imported slim profiles with premium finishes. Base rate includes 6mm clear glass. Maximum height 12 feet. Options for Safety glass, DGU glass, 5mm-12mm clear glass, and imported fluted glass (6mm & 8mm in clear/brown/grey). Fluted glass height limits: Clear (10 ft), Brown/Grey (8 ft). Ready stock colors: Matt Black, Gold, Brush Gold, Grey, Mill Finish, Rose Gold, Copper Gold. Custom RAL colors available on order."
     },
@@ -512,7 +661,7 @@
       "subcategory": "telescopic",
       "status": "active",
       "rates": {
-        "baseRate": 1447,
+        "baseRate": 1591.7,
         "useGlobalRates": false,
         "profiles": {
           "ultra-slim-12x35": 0,
@@ -520,23 +669,29 @@
           "regular-slim-16x45": 0
         },
         "panelConfig": {
-          "1+1": 5203,
-          "2+1": 7513,
-          "3+1": 10978,
-          "4+1": 14438
+          "1+1": 5723.3,
+          "2+1": 8264.3,
+          "3+1": 12075.8,
+          "4+1": 15881.8
         },
         "glass": {
           "8mm-clear": 0,
-          "8mm-clear-fluted": 89,
-          "8mm-grey-fluted": 121,
-          "8mm-brown-fluted": 121
+          "8mm-clear-fluted": 97.9,
+          "8mm-grey-fluted": 133.1,
+          "8mm-brown-fluted": 133.1
         },
         "premiumColors": {
           "rose-gold": 68,
           "copper-gold": 68
         }
       },
-      "features": ["panelConfig", "profileOptions", "colorOptions", "flutedGlass", "premiumColors"],
+      "features": [
+        "panelConfig",
+        "profileOptions",
+        "colorOptions",
+        "flutedGlass",
+        "premiumColors"
+      ],
       "warranty": {
         "hardware": "2 years",
         "service": "1 year free"
@@ -551,35 +706,40 @@
       "subcategory": "bifold",
       "status": "active",
       "rates": {
-        "frameRate": 1050,
-        "baseRate": 1050,
+        "frameRate": 1155,
+        "baseRate": 1155,
         "useGlobalRates": false,
         "profiles": {
           "50mm": 0,
           "52mm": 0
         },
         "panelConfig": {
-          "2+1": 25000,
-          "3+1": 30000,
-          "5+1": 45000,
-          "2+2": 35000,
-          "3+3": 40000,
+          "2+1": 27500,
+          "3+1": 33000,
+          "5+1": 49500,
+          "2+2": 38500,
+          "3+3": 44000,
           "perDoor": 8500
         },
         "glass": {
-          "6mm-clear": 350,
-          "8mm-clear": 450,
-          "10mm-clear": 550,
-          "12mm-clear": 650,
+          "6mm-clear": 385,
+          "8mm-clear": 495,
+          "10mm-clear": 605,
+          "12mm-clear": 715,
           "laminated-5+5": 780
         },
         "coating": {
           "plain": 0,
           "texture": 0,
-          "wooden": 68
+          "wooden": 74.8
         }
       },
-      "features": ["profileOptions", "glassOptions", "coating", "ralColors"],
+      "features": [
+        "profileOptions",
+        "glassOptions",
+        "coating",
+        "ralColors"
+      ],
       "description": "Fold & Bi-Fold Aluminium Glass Doors with 50mm and 52mm profiles. Base rate includes 8mm clear tuff glass and mortice lock. RAL color powder coating available. Perfect for balcony doors, window openings, living room partitions, office cabins, showroom fronts. 95% opening with safety glass."
     },
     {
@@ -590,31 +750,35 @@
       "subcategory": "fold-sliding",
       "status": "active",
       "rates": {
-        "frameRate": 1050,
-        "baseRate": 1050,
+        "frameRate": 1155,
+        "baseRate": 1155,
         "useGlobalRates": false,
         "panelConfig": {
-          "2+1": 25000,
-          "3+1": 30000,
-          "5+1": 45000,
-          "2+2": 35000,
-          "3+3": 40000,
+          "2+1": 27500,
+          "3+1": 33000,
+          "5+1": 49500,
+          "2+2": 38500,
+          "3+3": 44000,
           "perDoor": 8500
         },
         "glass": {
-          "6mm-clear": 350,
-          "8mm-clear": 450,
-          "10mm-clear": 550,
-          "12mm-clear": 650,
+          "6mm-clear": 385,
+          "8mm-clear": 495,
+          "10mm-clear": 605,
+          "12mm-clear": 715,
           "laminated-5+5": 780
         },
         "coating": {
           "plain": 0,
           "texture": 0,
-          "wooden": 68
+          "wooden": 74.8
         }
       },
-      "features": ["glassOptions", "coating", "morticeLock"],
+      "features": [
+        "glassOptions",
+        "coating",
+        "morticeLock"
+      ],
       "description": "Fold & Sliding Window System with imported slim profiles. Panel configurations for wide openings — all panels fold open (no fixed panel). Base rate includes 8mm clear tuff glass and mortice lock. RAL powder coating: plain, texture, or wooden finish."
     },
     {
@@ -625,16 +789,23 @@
       "subcategory": "wooden-finish",
       "status": "active",
       "rates": {
-        "baseRate": 520,
+        "baseRate": 572,
         "useGlobalRates": false,
         "profileSize": "100x50x1.2MM",
         "profileGap": 12,
-        "profileLengths": [12, 16],
+        "profileLengths": [
+          12,
+          16
+        ],
         "profileWeight12ft": 5.5,
-        "aluminiumRatePerKg": 382,
-        "coatingRatePerFt": 58
+        "aluminiumRatePerKg": 420.2,
+        "coatingRatePerFt": 63.8
       },
-      "features": ["louverCalculation", "wastageCalculation", "colorOptions"],
+      "features": [
+        "louverCalculation",
+        "wastageCalculation",
+        "colorOptions"
+      ],
       "description": "Premium wooden finish aluminium louvers with 100x50x1.2MM profiles. Installed every 12 inches gap. Available in 12ft and 16ft sections. Multiple wooden texture colors available. Same rates apply for pergola."
     },
     {
@@ -645,17 +816,25 @@
       "subcategory": "sleek-curved",
       "status": "active",
       "rates": {
-        "baseRate": 567,
+        "baseRate": 623.7,
         "useGlobalRates": false,
         "profileSize": "60x40x1.2MM",
         "profileGap": 8,
-        "profileLengths": [12, 16],
+        "profileLengths": [
+          12,
+          16
+        ],
         "profileWeight12ft": 4.8,
-        "aluminiumRatePerKg": 382,
-        "coatingRatePerFt": 58,
+        "aluminiumRatePerKg": 420.2,
+        "coatingRatePerFt": 63.8,
         "extraWastagePercent": 10
       },
-      "features": ["louverCalculation", "wastageCalculation", "colorOptions", "sleekDesign"],
+      "features": [
+        "louverCalculation",
+        "wastageCalculation",
+        "colorOptions",
+        "sleekDesign"
+      ],
       "description": "Premium sleek design curved aluminium louvers with 60x40x1.2MM profiles. Installed every 8 inches gap. Available in 12ft and 16ft sections. All coating options included. Package rate includes all hardware, coating, profiles."
     },
     {
@@ -666,16 +845,24 @@
       "subcategory": "ceiling-pergola",
       "status": "active",
       "rates": {
-        "baseRate": 554,
+        "baseRate": 609.4,
         "useGlobalRates": false,
         "profileSize": "25x75MM",
         "profileGap": 6,
-        "profileLengths": [12, 16],
+        "profileLengths": [
+          12,
+          16
+        ],
         "profileWeight12ft": 3.7,
-        "aluminiumRatePerKg": 382,
-        "coatingRatePerFt": 58
+        "aluminiumRatePerKg": 420.2,
+        "coatingRatePerFt": 63.8
       },
-      "features": ["louverCalculation", "wastageCalculation", "colorOptions", "pergolaDesign"],
+      "features": [
+        "louverCalculation",
+        "wastageCalculation",
+        "colorOptions",
+        "pergolaDesign"
+      ],
       "description": "Premium ceiling aluminium louvers pergola with 25x75MM profiles. Installed every 6 inches gap. Available in 12ft and 16ft sections. All coating options included. Perfect for backyard, terrace, farmhouse, poolside."
     },
     {
@@ -686,16 +873,24 @@
       "subcategory": "canopy-sunshade",
       "status": "active",
       "rates": {
-        "baseRate": 601,
+        "baseRate": 661.1,
         "useGlobalRates": false,
         "profileSize": "50x50x1.5MM",
         "profileGap": 8,
-        "profileLengths": [12, 16],
+        "profileLengths": [
+          12,
+          16
+        ],
         "profileWeight12ft": 4.2,
-        "aluminiumRatePerKg": 382,
-        "coatingRatePerFt": 58
+        "aluminiumRatePerKg": 420.2,
+        "coatingRatePerFt": 63.8
       },
-      "features": ["louverCalculation", "wastageCalculation", "colorOptions", "canopyDesign"],
+      "features": [
+        "louverCalculation",
+        "wastageCalculation",
+        "colorOptions",
+        "canopyDesign"
+      ],
       "description": "Premium aluminium louver canopy sunshade with 50x50x1.5MM profiles. Installed every 8 inches gap. Available in 12ft and 16ft sections. All coating options included. Perfect for entry canopy, terrace roof, balcony sunshade."
     },
     {
@@ -711,27 +906,46 @@
         "maxHeight": 8,
         "standardHeight": 7,
         "hinged": {
-          "glassRate": 405,
+          "glassRate": 445.5,
           "hardware": {
             "mill-finish": 5203,
             "black": 6358,
             "gold": 6358,
             "rose-gold": 8668
           },
-          "sealTypes": ["T-seal", "F-seal", "Magnetic", "D-type"],
-          "sealColors": ["Black", "Clear"]
+          "sealTypes": [
+            "T-seal",
+            "F-seal",
+            "Magnetic",
+            "D-type"
+          ],
+          "sealColors": [
+            "Black",
+            "Clear"
+          ]
         },
         "sliding": {
-          "glassRate": 520,
+          "glassRate": 572,
           "hardware": {
             "mill-finish": 6358,
             "black": 7513,
             "gold": 7513
           },
-          "includes": ["D-seal", "Bottom Guide", "Round Knob Handle", "Top Track"]
+          "includes": [
+            "D-seal",
+            "Bottom Guide",
+            "Round Knob Handle",
+            "Top Track"
+          ]
         }
       },
-      "features": ["lCornerSupport", "hardwareSelection", "sealOptions", "heightLimit", "slidingOption"],
+      "features": [
+        "lCornerSupport",
+        "hardwareSelection",
+        "sealOptions",
+        "heightLimit",
+        "slidingOption"
+      ],
       "description": "Premium frameless shower glass door with 10mm clear toughened glass. Hinged and Sliding options. L-corner and straight configurations. Max height 8ft."
     },
     {
@@ -743,17 +957,32 @@
       "status": "active",
       "rates": {
         "useGlobalRates": false,
-        "glassRate": 751,
+        "glassRate": 826.1,
         "profiles": {
           "regular-slim": "16x45mm",
           "ultra-slim": "16x35mm"
         },
-        "glassOptions": ["8mm"],
+        "glassOptions": [
+          "8mm"
+        ],
         "hardwarePerDoor": 5203,
-        "hardwareFinishes": ["matt-black", "gold", "mill-finish"],
-        "hardwareIncludes": ["Towel Handle", "3pc Hinges", "Seals"]
+        "hardwareFinishes": [
+          "matt-black",
+          "gold",
+          "mill-finish"
+        ],
+        "hardwareIncludes": [
+          "Towel Handle",
+          "3pc Hinges",
+          "Seals"
+        ]
       },
-      "features": ["lCornerSupport", "profileSelection", "importedHardware", "openableOnly"],
+      "features": [
+        "lCornerSupport",
+        "profileSelection",
+        "importedHardware",
+        "openableOnly"
+      ],
       "description": "Premium black profile shower glass with imported slim profiles (16x45mm Regular, 16x35mm Ultra Slim). Openable doors with towel handle, 3pc hinges. 8mm toughened glass."
     },
     {
@@ -765,13 +994,15 @@
       "status": "active",
       "rates": {
         "useGlobalRates": false,
-        "baseGlassRate": 751,
-        "roseGoldExtraPerSqft": 116,
+        "baseGlassRate": 826.1,
+        "roseGoldExtraPerSqft": 127.6,
         "profiles": {
           "regular-slim": "16x45mm",
           "ultra-slim": "16x35mm"
         },
-        "glassOptions": ["8mm"],
+        "glassOptions": [
+          "8mm"
+        ],
         "hardware": {
           "sliding": {
             "matt-black": 7513,
@@ -780,9 +1011,20 @@
             "rose-gold": 8668
           }
         },
-        "hardwareIncludes": ["Top Track", "Soft-Close Wheels", "Towel Handle", "Seals"]
+        "hardwareIncludes": [
+          "Top Track",
+          "Soft-Close Wheels",
+          "Towel Handle",
+          "Seals"
+        ]
       },
-      "features": ["lCornerSupport", "profileSelection", "importedHardware", "softCloseSliding", "dualDoorLCorner"],
+      "features": [
+        "lCornerSupport",
+        "profileSelection",
+        "importedHardware",
+        "softCloseSliding",
+        "dualDoorLCorner"
+      ],
       "description": "Black profile shower glass partition with soft-close sliding doors. Imported slim profiles (16x45mm Regular, 16x35mm Ultra Slim). Top track with wheels. Single door for straight, dual sliding for L-corner. 8mm toughened glass."
     },
     {
@@ -794,19 +1036,37 @@
       "status": "active",
       "rates": {
         "useGlobalRates": false,
-        "baseRate": 1447,
-        "frostingExtra": 29,
+        "baseRate": 1591.7,
+        "frostingExtra": 31.9,
         "hardwarePerSet": 10978,
-        "lockExtra": 2893,
+        "lockExtra": 3182.3,
         "profiles": {
           "regular-slim": "16x45mm",
           "ultra-slim": "16x35mm"
         },
-        "glassOptions": ["8mm-clear", "8mm-frosted"],
-        "hardwareColors": ["white", "matt-black", "gold"],
-        "hardwareIncludes": ["Fold & Slide Track", "Rollers", "Gasket", "Handle", "Seals"]
+        "glassOptions": [
+          "8mm-clear",
+          "8mm-frosted"
+        ],
+        "hardwareColors": [
+          "white",
+          "matt-black",
+          "gold"
+        ],
+        "hardwareIncludes": [
+          "Fold & Slide Track",
+          "Rollers",
+          "Gasket",
+          "Handle",
+          "Seals"
+        ]
       },
-      "features": ["foldAndSlide", "95percentOpening", "lockOption", "multiUse"],
+      "features": [
+        "foldAndSlide",
+        "95percentOpening",
+        "lockOption",
+        "multiUse"
+      ],
       "description": "Frosted glass fold & slide door with 95% opening. Imported slim profiles (16x45mm Regular, 16x35mm Ultra Slim). 8mm clear or frosted glass. 2-door fold & slide mechanism. Optional lock. Perfect for bathroom, staircase, entrance, public toilet, mall."
     },
     {
@@ -818,18 +1078,36 @@
       "status": "active",
       "rates": {
         "useGlobalRates": false,
-        "baseRate": 982,
-        "flutedGlassExtra": 116,
+        "baseRate": 1080.2,
+        "flutedGlassExtra": 127.6,
         "hardwarePerDoor": 8668,
         "profiles": {
           "gold": "Gold PVD Coated",
           "rose-gold": "Rose Gold PVD Coated"
         },
-        "glassColors": ["clear", "grey", "black", "brown"],
-        "doorTypes": ["openable", "sliding"],
-        "hardwareIncludes": ["Soft-Close Track/Hinges", "Handle", "Seals", "Connectors"]
+        "glassColors": [
+          "clear",
+          "grey",
+          "black",
+          "brown"
+        ],
+        "doorTypes": [
+          "openable",
+          "sliding"
+        ],
+        "hardwareIncludes": [
+          "Soft-Close Track/Hinges",
+          "Handle",
+          "Seals",
+          "Connectors"
+        ]
       },
-      "features": ["goldProfile", "flutedGlass", "softClose", "multipleGlassColors"],
+      "features": [
+        "goldProfile",
+        "flutedGlass",
+        "softClose",
+        "multipleGlassColors"
+      ],
       "description": "Slim gold profile fluted shower glass partition with imported PVD coated aluminium. Fluted textured glass in Grey, Black, Brown, Clear. Soft-close openable & sliding options."
     },
     {
@@ -881,7 +1159,12 @@
           "coating": "Powder coating matching HPL color"
         }
       },
-      "features": ["brandSelection", "sheetCalculation", "wastageCalculation", "installationOptions"],
+      "features": [
+        "brandSelection",
+        "sheetCalculation",
+        "wastageCalculation",
+        "installationOptions"
+      ],
       "description": "Premium HPL exterior cladding with FunderMax, Greenlam, Newmika brands. 30+ color options. 6mm thickness. Includes aluminium framework installation with powder coating."
     },
     {
@@ -895,19 +1178,39 @@
         "useGlobalRates": false,
         "wastagePercent": 5,
         "standardSheetSqft": 48,
-        "sheetSizes": ["4x8ft", "4x10ft", "4x12ft"],
+        "sheetSizes": [
+          "4x8ft",
+          "4x10ft",
+          "4x12ft"
+        ],
         "commercial": {
-          "3mm": { "plain": 312, "wooden": 370 },
-          "4mm": { "plain": 359, "wooden": 439 },
-          "6mm": { "plain": 451, "wooden": 520 }
+          "3mm": {
+            "plain": 343.2,
+            "wooden": 407
+          },
+          "4mm": {
+            "plain": 394.9,
+            "wooden": 482.9
+          },
+          "6mm": {
+            "plain": 496.1,
+            "wooden": 572
+          }
         },
         "frGradeB": {
-          "4mm": { "plain": 601 },
+          "4mm": {
+            "plain": 661.1
+          },
           "brackets": {
             "gi": "75x75x6mm GI with 10x100mm anchor bolts",
             "aluminium": "50x50x50mm angles with screws"
           },
-          "applications": ["railways", "airports", "metro", "government"]
+          "applications": [
+            "railways",
+            "airports",
+            "metro",
+            "government"
+          ]
         },
         "coating": "PVDF on both wooden and plain colors",
         "framework": {
@@ -917,7 +1220,14 @@
           "note": "No rivets - concealed fixing"
         }
       },
-      "features": ["projectTypeSelection", "colorTypeSelection", "thicknessSelection", "sheetCalculation", "wastageCalculation", "frGradeOption"],
+      "features": [
+        "projectTypeSelection",
+        "colorTypeSelection",
+        "thicknessSelection",
+        "sheetCalculation",
+        "wastageCalculation",
+        "frGradeOption"
+      ],
       "description": "Premium ACP elevation cladding for commercial buildings. Aluminium coil both sides with PVDF coating. 3mm, 4mm, 6mm thickness. FR Grade B available for Railways/Airports/Govt projects. Includes 4x4 grid aluminium framework installation."
     },
     {
@@ -931,7 +1241,7 @@
         "useGlobalRates": false,
         "glassWastagePercent": 0,
         "glass": {
-          "12mm": 289,
+          "12mm": 317.9,
           "laminated_5_5": 508,
           "laminated_6_6": 554
         },
@@ -939,20 +1249,29 @@
           {
             "id": "121x45",
             "label": "121x45mm Bottom Profile",
-            "baseRate": 868,
-            "coatingRates": { "wooden": 208, "plain": 174 }
+            "baseRate": 954.8,
+            "coatingRates": {
+              "wooden": 228.8,
+              "plain": 191.4
+            }
           },
           {
             "id": "100x45",
             "label": "100x45mm Bottom Profile",
-            "baseRate": 751,
-            "coatingRates": { "wooden": 162, "plain": 151 }
+            "baseRate": 826.1,
+            "coatingRates": {
+              "wooden": 178.2,
+              "plain": 166.1
+            }
           },
           {
             "id": "80x40",
             "label": "80x40mm Bottom Profile",
-            "baseRate": 670,
-            "coatingRates": { "wooden": 139, "plain": 105 }
+            "baseRate": 737,
+            "coatingRates": {
+              "wooden": 152.9,
+              "plain": 115.5
+            }
           }
         ],
         "handrails": [
@@ -960,42 +1279,56 @@
             "id": "ss_14x12",
             "label": "14x12mm SS Handrail",
             "material": "ss",
-            "baseRate": 323
+            "baseRate": 355.3
           },
           {
             "id": "al_19x15",
             "label": "19x15mm Aluminium Handrail",
             "material": "aluminium",
-            "baseRate": 174,
-            "coatingRates": { "wooden": 46, "plain": 35 }
+            "baseRate": 191.4,
+            "coatingRates": {
+              "wooden": 50.6,
+              "plain": 38.5
+            }
           },
           {
             "id": "al_25x25",
             "label": "25x25mm Aluminium Handrail",
             "material": "aluminium",
-            "baseRate": 208,
-            "coatingRates": { "wooden": 75, "plain": 52 }
+            "baseRate": 228.8,
+            "coatingRates": {
+              "wooden": 82.5,
+              "plain": 57.2
+            }
           },
           {
             "id": "al_38x38",
             "label": "38x38mm Aluminium Handrail (Round/Square)",
             "material": "aluminium",
-            "baseRate": 277,
-            "coatingRates": { "wooden": 105, "plain": 81 }
+            "baseRate": 304.7,
+            "coatingRates": {
+              "wooden": 115.5,
+              "plain": 89.1
+            }
           },
           {
             "id": "al_50x50",
             "label": "50x50mm Aluminium Handrail (Round/Square)",
             "material": "aluminium",
-            "baseRate": 323,
-            "coatingRates": { "wooden": 139, "plain": 116 }
+            "baseRate": 355.3,
+            "coatingRates": {
+              "wooden": 152.9,
+              "plain": 127.6
+            }
           }
         ],
         "hardwarePackagePerRft": 116,
         "anchorBoltPerRft": 37,
         "installationPerRft": 174
       },
-      "features": ["glassRailingCalculator"],
+      "features": [
+        "glassRailingCalculator"
+      ],
       "description": "Balcony glass railing system with slim profiles, SS304 brackets, and luxury handrails. Rates are per running feet."
     },
     {
@@ -1009,7 +1342,7 @@
         "useGlobalRates": false,
         "glassWastagePercent": 20,
         "glass": {
-          "12mm": 289,
+          "12mm": 317.9,
           "laminated_5_5": 508,
           "laminated_6_6": 554
         },
@@ -1017,20 +1350,29 @@
           {
             "id": "121x45",
             "label": "121x45mm Bottom Profile",
-            "baseRate": 868,
-            "coatingRates": { "wooden": 208, "plain": 174 }
+            "baseRate": 954.8,
+            "coatingRates": {
+              "wooden": 228.8,
+              "plain": 191.4
+            }
           },
           {
             "id": "100x45",
             "label": "100x45mm Bottom Profile",
-            "baseRate": 751,
-            "coatingRates": { "wooden": 162, "plain": 151 }
+            "baseRate": 826.1,
+            "coatingRates": {
+              "wooden": 178.2,
+              "plain": 166.1
+            }
           },
           {
             "id": "80x40",
             "label": "80x40mm Bottom Profile",
-            "baseRate": 670,
-            "coatingRates": { "wooden": 139, "plain": 105 }
+            "baseRate": 737,
+            "coatingRates": {
+              "wooden": 152.9,
+              "plain": 115.5
+            }
           }
         ],
         "handrails": [
@@ -1038,35 +1380,47 @@
             "id": "ss_14x12",
             "label": "14x12mm SS Handrail",
             "material": "ss",
-            "baseRate": 323
+            "baseRate": 355.3
           },
           {
             "id": "al_19x15",
             "label": "19x15mm Aluminium Handrail",
             "material": "aluminium",
-            "baseRate": 174,
-            "coatingRates": { "wooden": 46, "plain": 35 }
+            "baseRate": 191.4,
+            "coatingRates": {
+              "wooden": 50.6,
+              "plain": 38.5
+            }
           },
           {
             "id": "al_25x25",
             "label": "25x25mm Aluminium Handrail",
             "material": "aluminium",
-            "baseRate": 208,
-            "coatingRates": { "wooden": 75, "plain": 52 }
+            "baseRate": 228.8,
+            "coatingRates": {
+              "wooden": 82.5,
+              "plain": 57.2
+            }
           },
           {
             "id": "al_38x38",
             "label": "38x38mm Aluminium Handrail (Round/Square)",
             "material": "aluminium",
-            "baseRate": 277,
-            "coatingRates": { "wooden": 105, "plain": 81 }
+            "baseRate": 304.7,
+            "coatingRates": {
+              "wooden": 115.5,
+              "plain": 89.1
+            }
           },
           {
             "id": "al_50x50",
             "label": "50x50mm Aluminium Handrail (Round/Square)",
             "material": "aluminium",
-            "baseRate": 323,
-            "coatingRates": { "wooden": 139, "plain": 116 }
+            "baseRate": 355.3,
+            "coatingRates": {
+              "wooden": 152.9,
+              "plain": 127.6
+            }
           }
         ],
         "pillarBrackets": [
@@ -1074,8 +1428,11 @@
             "id": "pillar_150mm",
             "label": "150mm SS Pillar/Bracket",
             "material": "ss",
-            "baseRate": 636,
-            "coatingRates": { "wooden": 174, "plain": 139 },
+            "baseRate": 699.6,
+            "coatingRates": {
+              "wooden": 191.4,
+              "plain": 152.9
+            },
             "spacing": 3,
             "description": "SS304 stainless steel pillar/bracket installed every 3 steps. For 6-7 feet glass: 3 pcs (2 corners + 1 middle)"
           },
@@ -1083,8 +1440,11 @@
             "id": "pillar_200mm",
             "label": "200mm SS Pillar/Bracket",
             "material": "ss",
-            "baseRate": 867,
-            "coatingRates": { "wooden": 33, "plain": 33 },
+            "baseRate": 953.7,
+            "coatingRates": {
+              "wooden": 36.3,
+              "plain": 36.3
+            },
             "spacing": 3,
             "description": "SS304 stainless steel pillar/bracket installed every 3 steps. For 6-7 feet glass: 3 pcs (2 corners + 1 middle)"
           }
@@ -1094,8 +1454,11 @@
             "id": "stud_50mm",
             "label": "50mm Stud (Side Support)",
             "material": "aluminium",
-            "baseRate": 405,
-            "coatingRates": { "wooden": 92, "plain": 69 },
+            "baseRate": 445.5,
+            "coatingRates": {
+              "wooden": 101.2,
+              "plain": 75.9
+            },
             "averagePerRft": 1,
             "pcsPerLocation": 2,
             "description": "Vertical studs installed on staircase sides. Average 1 pc per RFT. For 6-7 feet glass: 3 locations × 2 pcs each = 6 pcs total"
@@ -1104,8 +1467,11 @@
             "id": "stud_38mm",
             "label": "38mm Stud (Side Support)",
             "material": "aluminium",
-            "baseRate": 323,
-            "coatingRates": { "wooden": 92, "plain": 69 },
+            "baseRate": 355.3,
+            "coatingRates": {
+              "wooden": 101.2,
+              "plain": 75.9
+            },
             "averagePerRft": 1,
             "pcsPerLocation": 2,
             "description": "Vertical studs installed on staircase sides. Average 1 pc per RFT. For 6-7 feet glass: 3 locations × 2 pcs each = 6 pcs total"
@@ -1115,7 +1481,9 @@
         "anchorBoltPerRft": 37,
         "installationPerRft": 174
       },
-      "features": ["glassRailingCalculator"],
+      "features": [
+        "glassRailingCalculator"
+      ],
       "description": "Staircase glass railing system with slim profiles and luxury handrails. Includes 20% glass wastage in calculator. Supports pillar/brackets and studs for enhanced structural support."
     }
   ],
@@ -1157,4 +1525,3 @@
     }
   ]
 }
-

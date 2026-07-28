@@ -6,23 +6,70 @@
     "lastUpdated": "2026-05"
   },
   "profilePerFoot": {
-    "plain": { "min": 450, "max": 580, "label": "Plain silver anodized" },
-    "black": { "min": 520, "max": 650, "label": "Matt black powder coat" },
-    "gold": { "min": 580, "max": 720, "label": "Gold powder coat" },
-    "wood": { "min": 650, "max": 820, "label": "Wooden finish texture" },
-    "ledSingle": { "min": 720, "max": 980, "label": "LED backlit single strip" },
-    "ledDouble": { "min": 980, "max": 1280, "label": "LED backlit double strip" },
-    "ledRgb": { "min": 1180, "max": 1450, "label": "LED RGB profile" },
-    "ledPremium": { "min": 1280, "max": 1650, "label": "Premium LED profile" },
-    "ledUltra": { "min": 1450, "max": 1850, "label": "Ultra premium LED profile" }
+    "plain": {
+      "min": 495,
+      "max": 638,
+      "label": "Plain silver anodized"
+    },
+    "black": {
+      "min": 572,
+      "max": 715,
+      "label": "Matt black powder coat"
+    },
+    "gold": {
+      "min": 638,
+      "max": 792,
+      "label": "Gold powder coat"
+    },
+    "wood": {
+      "min": 715,
+      "max": 902,
+      "label": "Wooden finish texture"
+    },
+    "ledSingle": {
+      "min": 792,
+      "max": 1078,
+      "label": "LED backlit single strip"
+    },
+    "ledDouble": {
+      "min": 1078,
+      "max": 1408,
+      "label": "LED backlit double strip"
+    },
+    "ledRgb": {
+      "min": 1298,
+      "max": 1595,
+      "label": "LED RGB profile"
+    },
+    "ledPremium": {
+      "min": 1408,
+      "max": 1815,
+      "label": "Premium LED profile"
+    },
+    "ledUltra": {
+      "min": 1595,
+      "max": 2035,
+      "label": "Ultra premium LED profile"
+    }
   },
   "unitProducts": {
-    "touchSensorMirror": { "min": 8500, "max": 18000, "label": "Touch sensor mirror (per piece)" },
-    "motionSensorMirror": { "min": 9200, "max": 22000, "label": "Motion sensor mirror (per piece)" }
+    "touchSensorMirror": {
+      "min": 9350,
+      "max": 19800,
+      "label": "Touch sensor mirror (per piece)"
+    },
+    "motionSensorMirror": {
+      "min": 10120,
+      "max": 24200,
+      "label": "Motion sensor mirror (per piece)"
+    }
   },
   "profileColors": {
     "premiumPerSqft": 45,
-    "premiumIds": ["rose-gold", "brush-gold"],
+    "premiumIds": [
+      "rose-gold",
+      "brush-gold"
+    ],
     "labels": {
       "matt-black": "Matt Black",
       "matt-grey": "Matt Grey",
@@ -32,28 +79,65 @@
     }
   },
   "hardware": {
-    "touch5AUpgrade": 250,
-    "driver7AUpgrade": 350,
-    "driver10AUpgrade": 450,
-    "packingPerPiece": 500
+    "touch5AUpgrade": 275,
+    "driver7AUpgrade": 385,
+    "driver10AUpgrade": 495,
+    "packingPerPiece": 550
   },
   "calculators": {
-    "half-round": { "v120": 950, "v220Extra": 100 },
-    "round-touch": { "v120": 650, "v220": 750 },
-    "round-slim": { "v120": 750, "v220": 850, "slimPremiumPerSqft": 100 },
-    "square-touch": { "v120": 650, "v220": 750 },
-    "wooden-round": { "v120": 1350, "v220Extra": 100, "woodenCoat": true },
-    "rect-led": { "v120": 850, "v220": 950 },
-    "backlit-touch": { "v120": 850, "v220": 950 },
-    "bevel-modular": { "bevel": 850, "profileAdd": 250, "ledV120": 120, "ledV220": 200 },
-    "custom-rect-led": { "v120": 1750, "v220Extra": 150, "minWidth": 2, "maxHeight": 7 },
-    "imported-motion": { "v120": 1050, "v220": 1150, "packing": 500 },
+    "half-round": {
+      "v120": 1045,
+      "v220Extra": 110
+    },
+    "round-touch": {
+      "v120": 715,
+      "v220": 825
+    },
+    "round-slim": {
+      "v120": 825,
+      "v220": 935,
+      "slimPremiumPerSqft": 110
+    },
+    "square-touch": {
+      "v120": 715,
+      "v220": 825
+    },
+    "wooden-round": {
+      "v120": 1485,
+      "v220Extra": 110,
+      "woodenCoat": true
+    },
+    "rect-led": {
+      "v120": 935,
+      "v220": 1045
+    },
+    "backlit-touch": {
+      "v120": 935,
+      "v220": 1045
+    },
+    "bevel-modular": {
+      "bevel": 935,
+      "profileAdd": 275,
+      "ledV120": 132,
+      "ledV220": 220
+    },
+    "custom-rect-led": {
+      "v120": 1925,
+      "v220Extra": 165,
+      "minWidth": 2,
+      "maxHeight": 7
+    },
+    "imported-motion": {
+      "v120": 1155,
+      "v220": 1265,
+      "packing": 550
+    },
     "luxury-glass": {
-      "v120": 1850,
-      "v220Extra": 100,
+      "v120": 2035,
+      "v220Extra": 110,
       "wastage": 1.5,
-      "touchPc": 850,
-      "motionPerGlass": 1220,
+      "touchPc": 935,
+      "motionPerGlass": 1342,
       "defaultGlassCount": 2
     }
   },

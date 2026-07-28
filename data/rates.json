@@ -1,15 +1,15 @@
 {
-  "base_glass_rail_per_sqft": 1449,
-  "base_pergola_per_sqft": 1071,
-  "steel_rate_per_kg": 217.35,
-  "aluminium_rate_per_sqft": 1267.875,
-  "iron_rate_per_sqft": 1629.125,
+  "base_glass_rail_per_sqft": 1593.9,
+  "base_pergola_per_sqft": 1178.1,
+  "steel_rate_per_kg": 239.085,
+  "aluminium_rate_per_sqft": 1394.6625,
+  "iron_rate_per_sqft": 1792.0375,
   "iron_kg_per_sqft": 4.725,
-  "deco_paint_per_sqft": 422.625,
+  "deco_paint_per_sqft": 464.8875,
   "coating_price": {
-    "wooden": 181.125,
-    "plain": 96.6,
-    "textured": 144.9
+    "wooden": 199.2375,
+    "plain": 106.26,
+    "textured": 159.39
   },
   "thickness_multiplier": {
     "2": 1,
@@ -20,45 +20,45 @@
     "10": 1.25
   },
   "glass_unit_rates_per_sqft": {
-    "4mm_clr": 114.7125,
-    "5mm_clr": 138.8625,
-    "nr_hd_frosting_per_sqft": 150.9375,
-    "regular_frosting_per_sqft": 42.2625,
-    "back_paint_per_sqft": 181.125,
-    "toughening_charges_per_sqft": 36.225,
-    "4mm_color_black_brown_grey": 138.8625,
-    "5mm_color_black_brown_grey": 162.9125,
-    "5mm_fluted_clr": 175.0875,
-    "8mm_clr_fluted": 199.2375,
-    "5mm_fluted_color": 199.2375,
-    "8mm_fluted_color": 223.3875,
-    "6mm_clr": 162.9125,
-    "6mm_color_black_brown_grey": 187.1625,
-    "8mm_clr": 175.0875,
-    "8mm_color_black_brown_grey": 199.2375,
-    "10mm_clr": 199.2375,
-    "10mm_color_black_brown_grey": 223.3875,
-    "12mm_clr": 235.4625,
-    "12mm_color_black_brown_grey": 259.6125
+    "4mm_clr": 126.1838,
+    "5mm_clr": 152.7488,
+    "nr_hd_frosting_per_sqft": 166.0313,
+    "regular_frosting_per_sqft": 46.4888,
+    "back_paint_per_sqft": 199.2375,
+    "toughening_charges_per_sqft": 39.8475,
+    "4mm_color_black_brown_grey": 152.7488,
+    "5mm_color_black_brown_grey": 179.2038,
+    "5mm_fluted_clr": 192.5963,
+    "8mm_clr_fluted": 219.1613,
+    "5mm_fluted_color": 219.1613,
+    "8mm_fluted_color": 245.7263,
+    "6mm_clr": 179.2038,
+    "6mm_color_black_brown_grey": 205.8788,
+    "8mm_clr": 192.5963,
+    "8mm_color_black_brown_grey": 219.1613,
+    "10mm_clr": 219.1613,
+    "10mm_color_black_brown_grey": 245.7263,
+    "12mm_clr": 259.0088,
+    "12mm_color_black_brown_grey": 285.5738
   },
   "laminated_per_sqft": {
-    "13.52mm_6+1.52+6_clr": 495.075,
-    "11.52mm_5+1.52+5_clr": 458.85
+    "13.52mm_6+1.52+6_clr": 544.5825,
+    "11.52mm_5+1.52+5_clr": 504.735
   },
   "dgu_per_sqft": {
-    "24mm_6+12gap+6_clr": 398.475,
-    "22mm_5+12gap+5_clr": 350.175
+    "24mm_6+12gap+6_clr": 438.3225,
+    "22mm_5+12gap+5_clr": 385.1925
   },
   "perforated_panels": {
     "ceiling": {
-      "base_per_sqft": 175.0875,
+      "base_per_sqft": 192.5963,
       "1.2mm_per_sqft": 193.2,
       "1.5mm_per_sqft": 229.425,
-      "design_cnc_per_sqft": 84.525,
+      "design_cnc_per_sqft": 92.9775,
       "coating": {
-        "wooden_powder_per_sqft": 181.125,
-        "plain_powder_per_sqft": 96.6,
-        "texture_powder_per_sqft": 144.9,
+        "wooden_powder_per_sqft": 199.2375,
+        "plain_powder_per_sqft": 106.26,
+        "texture_powder_per_sqft": 159.39,
         "grade": "AkzoNobel/Zotun (exterior)"
       }
     },
@@ -66,7 +66,7 @@
       "2mm_per_sqft": 277.725,
       "2.5mm_per_sqft": 313.95,
       "3mm_per_sqft": 386.4,
-      "design_cnc_per_sqft": 96.6,
+      "design_cnc_per_sqft": 106.26,
       "coating_same_as_ceiling": true
     }
   },
@@ -232,35 +232,35 @@
     "bottom_rails": [
       {
         "size": "175x75mm",
-        "rate_per_rft": 1509.375,
+        "rate_per_rft": 1660.3125,
         "weight_kg_per_rft": 1.785,
         "max_height_inch": 48,
         "max_length_ft": 50
       },
       {
         "size": "120x75mm",
-        "rate_per_rft": 1147.125,
+        "rate_per_rft": 1261.8375,
         "weight_kg_per_rft": 1.47,
         "max_height_inch": 48,
         "max_length_ft": 40
       },
       {
         "size": "120x45mm",
-        "rate_per_rft": 1026.375,
+        "rate_per_rft": 1129.0125,
         "weight_kg_per_rft": 1.26,
         "max_height_inch": 42,
         "max_length_ft": 30
       },
       {
         "size": "100x35mm",
-        "rate_per_rft": 905.625,
+        "rate_per_rft": 996.1875,
         "weight_kg_per_rft": 0.9975,
         "max_height_inch": 30,
         "max_length_ft": 25
       },
       {
         "size": "80x50mm",
-        "rate_per_rft": 784.875,
+        "rate_per_rft": 863.3625,
         "weight_kg_per_rft": 0.84,
         "max_height_inch": 30,
         "max_length_ft": 25
@@ -273,15 +273,15 @@
       "options": [
         {
           "size": "8 inch",
-          "rate_per_pc": 1207.5
+          "rate_per_pc": 1328.25
         },
         {
           "size": "6 inch",
-          "rate_per_pc": 1026.375
+          "rate_per_pc": 1129.0125
         },
         {
           "size": "4 inch",
-          "rate_per_pc": 664.125
+          "rate_per_pc": 730.5375
         }
       ]
     },
@@ -290,50 +290,50 @@
       "options": [
         {
           "size": "50x50mm Round",
-          "rate_per_pc": 784.875
+          "rate_per_pc": 863.3625
         },
         {
           "size": "38x50mm Round",
-          "rate_per_pc": 664.125
+          "rate_per_pc": 730.5375
         }
       ]
     },
     "handrails_aluminium": [
       {
         "size": "12x19mm Slim",
-        "rate_per_rft": 205.275,
+        "rate_per_rft": 225.8025,
         "weight_kg_per_rft": 0.2415
       },
       {
         "size": "25x25mm Slim",
-        "rate_per_rft": 265.65,
+        "rate_per_rft": 292.215,
         "weight_kg_per_rft": 0.3465
       },
       {
         "size": "38x38mm Sqr/Round",
-        "rate_per_rft": 386.4,
+        "rate_per_rft": 425.04,
         "weight_kg_per_rft": 0.42
       },
       {
         "size": "50x50mm Sqr/Round",
-        "rate_per_rft": 543.375,
+        "rate_per_rft": 597.7125,
         "weight_kg_per_rft": 0.5355
       }
     ],
     "notes": "Measurements in running feet (RFT). Pillars every 3 ft. Bottom rail is continuous aluminium profile. All SS hardware is SS 304 grade.",
-    "installation_rate_per_sqft": 217.35,
+    "installation_rate_per_sqft": 239.085,
     "fasteners": {
       "pvc_gitti": {
         "size": "12×100mm",
-        "rate_per_pc": 36.225,
+        "rate_per_pc": 39.8475,
         "chemicals_needed": false
       },
       "ss_anchor": {
         "size": "10×100mm",
-        "rate_per_pc": 48.3,
+        "rate_per_pc": 53.13,
         "chemicals_needed": true,
         "chemical_bottle_per_15_fasteners": 1,
-        "chemical_bottle_rate": 1811.25
+        "chemical_bottle_rate": 1992.375
       }
     }
   },
@@ -351,11 +351,11 @@
         "options": [
           {
             "finish": "SS Finish",
-            "rate_per_door": 3018.75
+            "rate_per_door": 3320.625
           },
           {
             "finish": "Matt Black",
-            "rate_per_door": 4226.25
+            "rate_per_door": 4648.875
           }
         ]
       },
@@ -364,18 +364,18 @@
         "options": [
           {
             "finish": "Matt Black",
-            "rate_per_door": 5433.75
+            "rate_per_door": 5977.125
           },
           {
             "finish": "Regular Gold",
-            "rate_per_door": 5433.75
+            "rate_per_door": 5977.125
           },
           {
             "finish": "Mill Finish",
-            "rate_per_door": 5433.75
+            "rate_per_door": 5977.125
           }
         ],
-        "lock_extra_per_door": 1449
+        "lock_extra_per_door": 1593.9
       }
     },
     "profile_framed": {
@@ -397,19 +397,19 @@
       "frame_profiles": [
         {
           "size": "15x45mm",
-          "rate_per_sqft": 422.625
+          "rate_per_sqft": 464.8875
         },
         {
           "size": "16x35mm",
-          "rate_per_sqft": 422.625
+          "rate_per_sqft": 464.8875
         },
         {
           "size": "12x45mm",
-          "rate_per_sqft": 422.625
+          "rate_per_sqft": 464.8875
         },
         {
           "size": "12x35mm",
-          "rate_per_sqft": 422.625
+          "rate_per_sqft": 464.8875
         }
       ],
       "imported_hardware": {
@@ -417,30 +417,30 @@
         "options": [
           {
             "finish": "Matt Black",
-            "rate_per_door": 10263.75
+            "rate_per_door": 11290.125
           },
           {
             "finish": "Mill Finish",
-            "rate_per_door": 10263.75
+            "rate_per_door": 11290.125
           },
           {
             "finish": "Rose Gold",
-            "rate_per_door": 10263.75
+            "rate_per_door": 11290.125
           },
           {
             "finish": "Bronze Gold",
-            "rate_per_door": 10263.75
+            "rate_per_door": 11290.125
           },
           {
             "finish": "Cooper Gold",
-            "rate_per_door": 10263.75
+            "rate_per_door": 11290.125
           },
           {
             "finish": "Brush Gold",
-            "rate_per_door": 10263.75
+            "rate_per_door": 11290.125
           }
         ],
-        "mortise_lock_extra_per_door": 2173.5
+        "mortise_lock_extra_per_door": 2390.85
       },
       "color_options": [
         "Matt Black",
@@ -452,10 +452,10 @@
       ]
     },
     "coating_options": {
-      "plain": 96.6,
-      "textured": 144.9,
-      "wooden": 181.125,
-      "custom_color": 241.5,
+      "plain": 106.26,
+      "textured": 159.39,
+      "wooden": 199.2375,
+      "custom_color": 265.65,
       "rose_gold": 543.375,
       "cooper_gold": 543.375,
       "brush_gold": 543.375
@@ -466,35 +466,35 @@
     "profiles": [
       {
         "size": "25x25mm Sq",
-        "rate_per_sqft": 446.775,
+        "rate_per_sqft": 491.4525,
         "weight_kg_per_sqft": 0.504,
         "gap_mm": 25,
         "wall_mm": 1.2
       },
       {
         "size": "25x50mm Rec",
-        "rate_per_sqft": 543.375,
+        "rate_per_sqft": 597.7125,
         "weight_kg_per_sqft": 0.651,
         "gap_mm": 25,
         "wall_mm": 1.2
       },
       {
         "size": "40x40mm Sq",
-        "rate_per_sqft": 760.725,
+        "rate_per_sqft": 836.7975,
         "weight_kg_per_sqft": 0.7875,
         "gap_mm": 40,
         "wall_mm": 1.2
       },
       {
         "size": "75x38mm Rec",
-        "rate_per_sqft": 905.625,
+        "rate_per_sqft": 996.1875,
         "weight_kg_per_sqft": 0.8925,
         "gap_mm": 38,
         "wall_mm": 1.2
       },
       {
         "size": "100x50mm Rec",
-        "rate_per_sqft": 1026.375,
+        "rate_per_sqft": 1129.0125,
         "weight_kg_per_sqft": 1.155,
         "gap_mm": 50,
         "wall_mm": 1.2
@@ -517,18 +517,18 @@
         "multiplier": 1.67
       }
     ],
-    "pillar_cost_per_pc": 10263.75,
+    "pillar_cost_per_pc": 11290.125,
     "pillar_profile": "100x100mm",
-    "outer_frame_rate_per_sqft": 422.625,
+    "outer_frame_rate_per_sqft": 464.8875,
     "outer_frame_profile": "100x50mm",
     "pattern": "Profiles installed depth-side with gap equal to profile depth. Vertical and horizontal patterns available.",
     "notes": "All profiles are aluminium rectangular/square hollow sections. Wall thickness 1.2mm standard. Profiles + gap = equal spacing pattern for uniform light and air passage."
   },
   "duct_shaft_z_louvers": {
     "package_rate_per_sqft": {
-      "2": 766.7625,
-      "1.2": 458.85,
-      "1.5": 573.5625
+      "2": 843.4388,
+      "1.2": 504.735,
+      "1.5": 630.9188
     },
     "z_louver": {
       "size": "75mm",
@@ -553,9 +553,9 @@
       ]
     },
     "coating_per_rft": {
-      "plain": 14.49,
-      "textured": 19.32,
-      "wooden": 26.565
+      "plain": 15.939,
+      "textured": 21.252,
+      "wooden": 29.2215
     },
     "wastage_rate_per_kg": 422.625,
     "notes": "Z louvers for plumbing duct shafts. Horizontal pattern, 45° angle, 60mm gaps. Package includes Z louvers + outer frame. Coating applies to both."
@@ -581,24 +581,24 @@
       "2.5": 21.65625
     },
     "base_per_sqft": {
-      "1": 175.0875,
-      "2": 241.5,
-      "3": 464.8875,
-      "1.5": 207.69,
-      "2.5": 344.1375
+      "1": 192.5963,
+      "2": 265.65,
+      "3": 511.3763,
+      "1.5": 228.459,
+      "2.5": 378.5513
     },
     "perforation_design_per_sqft": {
-      "1": 42.2625,
-      "2": 48.3,
-      "3": 90.5625,
-      "1.5": 44.6775,
-      "2.5": 78.4875
+      "1": 46.4888,
+      "2": 53.13,
+      "3": 99.6188,
+      "1.5": 49.1453,
+      "2.5": 86.3363
     },
-    "installation_per_sqft": 132.825,
+    "installation_per_sqft": 146.1075,
     "coating_per_sqft": {
-      "plain": 30.1875,
-      "textured": 36.225,
-      "wooden": 54.3375
+      "plain": 33.2063,
+      "textured": 39.8475,
+      "wooden": 59.7713
     },
     "band_inch_1_1_5mm": 1.05,
     "carrier": {
@@ -620,32 +620,32 @@
       {
         "id": "fixed_aluminium_glass",
         "label": "Fixed aluminium + glass / poly roof",
-        "aluminium_structure_per_sqft": 1323,
-        "iron_structure_per_sqft": 1701
+        "aluminium_structure_per_sqft": 1455.3,
+        "iron_structure_per_sqft": 1871.1
       },
       {
         "id": "profile_louver",
         "label": "Profile / louver pergola",
-        "aluminium_structure_per_sqft": 1411.2,
-        "iron_structure_per_sqft": 1738.8
+        "aluminium_structure_per_sqft": 1552.32,
+        "iron_structure_per_sqft": 1912.68
       },
       {
         "id": "skylight_toplight",
         "label": "Glass skylight / top light",
-        "aluminium_structure_per_sqft": 1260,
-        "iron_structure_per_sqft": 1663.2
+        "aluminium_structure_per_sqft": 1386,
+        "iron_structure_per_sqft": 1829.52
       },
       {
         "id": "retractable_motorized",
         "label": "Retractable & motorized (frame + tracks; motors below)",
-        "aluminium_structure_per_sqft": 1537.2,
-        "iron_structure_per_sqft": 1764
+        "aluminium_structure_per_sqft": 1690.92,
+        "iron_structure_per_sqft": 1940.4
       },
       {
         "id": "iron_canopy_heavy",
         "label": "Iron / MS canopy (parking, entrance)",
-        "aluminium_structure_per_sqft": 1360.8,
-        "iron_structure_per_sqft": 1738.8
+        "aluminium_structure_per_sqft": 1496.88,
+        "iron_structure_per_sqft": 1912.68
       }
     ],
     "pillars": {
@@ -658,27 +658,27 @@
         {
           "id": "alu_80x80",
           "label": "Aluminium pillar 80×80 mm",
-          "rate_per_pc": 8190
+          "rate_per_pc": 9009
         },
         {
           "id": "alu_100x100",
           "label": "Aluminium pillar 100×100 mm",
-          "rate_per_pc": 10710
+          "rate_per_pc": 11781
         },
         {
           "id": "alu_120x120",
           "label": "Aluminium pillar 120×120 mm",
-          "rate_per_pc": 14112
+          "rate_per_pc": 15523.2
         },
         {
           "id": "ms_5in",
           "label": "MS pipe pillar 5″ (typ. parking)",
-          "rate_per_pc": 9072
+          "rate_per_pc": 9979.2
         },
         {
           "id": "ms_6in",
           "label": "MS pipe pillar 6″ heavy",
-          "rate_per_pc": 11970
+          "rate_per_pc": 13167
         }
       ]
     },
@@ -725,7 +725,10 @@
     },
     "profileColors": {
       "premiumPerSqft": 45,
-      "premiumIds": ["rose-gold", "brush-gold"],
+      "premiumIds": [
+        "rose-gold",
+        "brush-gold"
+      ],
       "labels": {
         "matt-black": "Matt Black",
         "matt-grey": "Matt Grey",
@@ -736,60 +739,60 @@
     },
     "profilePerFoot": {
       "plain": {
-        "min": 450,
-        "max": 580,
+        "min": 495,
+        "max": 638,
         "label": "Plain silver anodized"
       },
       "black": {
-        "min": 520,
-        "max": 650,
+        "min": 572,
+        "max": 715,
         "label": "Matt black powder coat"
       },
       "gold": {
-        "min": 580,
-        "max": 720,
+        "min": 638,
+        "max": 792,
         "label": "Gold powder coat"
       },
       "wood": {
-        "min": 650,
-        "max": 820,
+        "min": 715,
+        "max": 902,
         "label": "Wooden finish texture"
       },
       "ledSingle": {
-        "min": 720,
-        "max": 980,
+        "min": 792,
+        "max": 1078,
         "label": "LED backlit single strip"
       },
       "ledDouble": {
-        "min": 980,
-        "max": 1280,
+        "min": 1078,
+        "max": 1408,
         "label": "LED backlit double strip"
       },
       "ledRgb": {
-        "min": 1180,
-        "max": 1450,
+        "min": 1298,
+        "max": 1595,
         "label": "LED RGB profile"
       },
       "ledPremium": {
-        "min": 1280,
-        "max": 1650,
+        "min": 1408,
+        "max": 1815,
         "label": "Premium LED profile"
       },
       "ledUltra": {
-        "min": 1450,
-        "max": 1850,
+        "min": 1595,
+        "max": 2035,
         "label": "Ultra premium LED profile"
       }
     },
     "unitProducts": {
       "touchSensorMirror": {
-        "min": 8500,
-        "max": 18000,
+        "min": 9350,
+        "max": 19800,
         "label": "Touch sensor mirror (per piece)"
       },
       "motionSensorMirror": {
-        "min": 9200,
-        "max": 22000,
+        "min": 10120,
+        "max": 24200,
         "label": "Motion sensor mirror (per piece)"
       }
     },
@@ -798,14 +801,14 @@
         "included": true,
         "label": "3A capacitive touch (standard)"
       },
-      "touch5AUpgrade": 250,
+      "touch5AUpgrade": 275,
       "driver5A": {
         "included": true,
         "label": "5A LED driver (standard)"
       },
-      "driver7AUpgrade": 350,
-      "driver10AUpgrade": 450,
-      "packingPerPiece": 500,
+      "driver7AUpgrade": 385,
+      "driver10AUpgrade": 495,
+      "packingPerPiece": 550,
       "warrantyYears": {
         "electronics": 1,
         "profileManufacturing": 10
@@ -814,68 +817,68 @@
     },
     "calculators": {
       "half-round": {
-        "v120": 950,
-        "v220Extra": 100,
+        "v120": 1045,
+        "v220Extra": 110,
         "description": "C-type / D-type half-round LED mirror (bounding box sq.ft)"
       },
       "round-touch": {
-        "v120": 650,
-        "v220": 750,
+        "v120": 715,
+        "v220": 825,
         "description": "Standard round touch LED mirror"
       },
       "round-slim": {
-        "v120": 750,
-        "v220": 850,
-        "slimPremiumPerSqft": 100,
+        "v120": 825,
+        "v220": 935,
+        "slimPremiumPerSqft": 110,
         "description": "Slim profile round touch (+₹100/sq.ft vs standard round)"
       },
       "square-touch": {
-        "v120": 650,
-        "v220": 750,
+        "v120": 715,
+        "v220": 825,
         "description": "Rectangular / square touch — same rates as round touch"
       },
       "wooden-round": {
-        "v120": 1350,
-        "v220Extra": 100,
+        "v120": 1485,
+        "v220Extra": 110,
         "woodenCoat": true,
         "description": "Wooden texture powder coat round touch wardrobe mirror"
       },
       "rect-led": {
-        "v120": 850,
-        "v220": 950,
+        "v120": 935,
+        "v220": 1045,
         "description": "Large rectangle LED bathroom backlit mirror"
       },
       "backlit-touch": {
-        "v120": 850,
-        "v220": 950,
+        "v120": 935,
+        "v220": 1045,
         "description": "Rectangle touch backlit imported profile mirror"
       },
       "bevel-modular": {
-        "bevel": 850,
-        "profileAdd": 250,
-        "ledV120": 120,
-        "ledV220": 200,
+        "bevel": 935,
+        "profileAdd": 275,
+        "ledV120": 132,
+        "ledV220": 220,
         "description": "Custom beveled glass with optional profile and LED add-ons"
       },
       "custom-rect-led": {
-        "v120": 1750,
-        "v220Extra": 150,
+        "v120": 1925,
+        "v220Extra": 165,
         "minWidth": 2,
         "maxHeight": 7,
         "description": "Custom height mirror up to 7 ft"
       },
       "imported-motion": {
-        "v120": 1050,
-        "v220": 1150,
-        "packing": 500,
+        "v120": 1155,
+        "v220": 1265,
+        "packing": 550,
         "description": "Black oval imported profile with motion sensor"
       },
       "luxury-glass": {
-        "v120": 1850,
-        "v220Extra": 100,
+        "v120": 2035,
+        "v220Extra": 110,
         "wastage": 1.5,
-        "touchPc": 850,
-        "motionPerGlass": 1220,
+        "touchPc": 935,
+        "motionPerGlass": 1342,
         "defaultGlassCount": 2,
         "description": "Dual glass luxury backlit — profile-free, bevelled"
       }
