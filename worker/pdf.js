@@ -28,7 +28,7 @@ function buildPayloads (html) {
       pdfOptions: {
         format: 'a4',
         printBackground: true,
-        margin: { top: '12mm', right: '10mm', bottom: '14mm', left: '10mm' },
+        margin: { top: '12mm', right: '15mm', bottom: '14mm', left: '15mm' },
       },
     },
     {
@@ -123,7 +123,7 @@ async function renderViaBinding (env, html) {
       pdfOptions: {
         format: 'a4',
         printBackground: true,
-        margin: { top: '12mm', right: '10mm', bottom: '14mm', left: '10mm' },
+        margin: { top: '12mm', right: '15mm', bottom: '14mm', left: '15mm' },
       },
     },
     { html, pdfOptions: { format: 'a4', printBackground: true } },

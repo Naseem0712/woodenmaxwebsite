@@ -15,7 +15,7 @@
   'use strict';
 
   /** Bump after deploy so CDN/browser fetch new cart + payment JS (see _headers). */
-  var WM_ASSET_V = '20260729f';
+  var WM_ASSET_V = '20260729g';
 
   // ----------------------------------------------------------------------
   //  1. Canonical content (single source of truth)
@@ -330,11 +330,47 @@
     document.body.appendChild(s);
   }
 
+  /**
+   * Load quote store + FAB + checkout on any product/calculator surface, and on
+   * every other page once the customer already has items in their estimate.
+   * Mirror/catalog hubs use #wmCatalogCalc (not .price-calculator-container);
+   * pergola product pages use #product-pricing-root — both were previously skipped.
+   */
+  function peekQuoteCartHasItems () {
+    try {
+      var raw = null;
+      try { raw = localStorage.getItem('wm_quote_items_v2'); } catch (e0) {}
+      if (!raw) {
+        try { raw = sessionStorage.getItem('wm_quote_items_v2'); } catch (e1) {}
+      }
+      if (raw) {
+        var env = JSON.parse(raw);
+        if (env && Array.isArray(env.items) && env.items.length > 0) return true;
+      }
+      var legacy = null;
+      try { legacy = localStorage.getItem('woodenmax_quote_cart_v1'); } catch (e2) {}
+      if (!legacy) return false;
+      var old = JSON.parse(legacy);
+      if (Array.isArray(old)) return old.length > 0;
+      return !!(old && Array.isArray(old.items) && old.items.length > 0);
+    } catch (e) {
+      return false;
+    }
+  }
+
   function pageNeedsQuoteCartUx () {
     if (document.querySelector('[id^="price-calculator-"]')) return true;
     if (document.querySelector('.price-calculator-container')) return true;
     if (document.querySelector('[data-grill-calculator]')) return true;
+    if (document.querySelector('#wmCatalogCalc')) return true;
+    if (document.querySelector('#product-pricing-root')) return true;
     if (document.querySelector('script[src*="calculator-mobile-ux.js"]')) return true;
+    if (document.querySelector('script[src*="catalog-quick-calc.js"]')) return true;
+    if (document.querySelector('script[src*="pergola-product-pricing.js"]')) return true;
+    var path = (location.pathname || '').toLowerCase();
+    if (/^\/products(\/|$)/.test(path)) return true;
+    if (/^\/(catalog|calculator|glass-elevation-price)/.test(path)) return true;
+    if (peekQuoteCartHasItems()) return true;
     return false;
   }
 

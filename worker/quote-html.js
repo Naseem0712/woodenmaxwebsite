@@ -209,6 +209,8 @@ function qrBlock (order, env) {
 }
 
 const STYLES = `
+  /* Side margins come from worker/pdf.js pdfOptions (~15mm L/R).
+     Keep @page at 0 so Chromium does not double-apply CSS + pdfOptions. */
   @page { size: A4; margin: 0; }
   * { box-sizing: border-box; }
   html, body {
@@ -222,6 +224,7 @@ const STYLES = `
     width: 100%; max-width: 100%;
     overflow-x: hidden;
     padding: 0;
+    box-sizing: border-box;
   }
   .hdr {
     display: flex; justify-content: space-between; align-items: flex-start;

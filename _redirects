@@ -14,7 +14,9 @@ https://www.woodenmax.in/* https://woodenmax.in/:splat 301
 /products/mirror-profiles/index /products/mirror-profiles 301
 /products/mirror-profiles/index/ /products/mirror-profiles 301
 /products/pergola /products/pergola/ 301
-/products/pergola/ /products/pergola.html 200
+/products/pergola/ /products/pergola/index.html 200
+/products/pergola/index /products/pergola/ 301
+/products/pergola/index/ /products/pergola/ 301
 
 # Pricing API (clean URL)
 /api/calculate /api/calculate/ 200

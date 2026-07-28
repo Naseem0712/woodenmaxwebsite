@@ -3477,10 +3477,10 @@
   var _wmPrintFrame = null;
 
   var WM_RECEIPT_INLINE_PRINT_CSS =
-    '@page{size:A4 portrait;margin:8mm}' +
+    '@page{size:A4 portrait;margin:12mm 15mm 14mm 15mm}' +
     'html,body{margin:0!important;padding:0!important;width:100%!important;background:#fff;color:#0f172a;font:400 10pt/1.45 -apple-system,Segoe UI,Roboto,sans-serif}' +
     '#wmPaymentReceiptStage,#calcPrintStage{display:block!important;position:static!important;width:100%!important;max-width:100%!important;height:auto!important;overflow:visible!important}' +
-    '.pdf-doc{width:100%!important;max-width:100%!important;box-sizing:border-box;padding:0}' +
+    '.pdf-doc,.wm-receipt-doc{width:100%!important;max-width:100%!important;box-sizing:border-box;padding:0!important}' +
     '.pdf-header,.pdf-parties,.pdf-foot,.pdf-table{width:100%!important;max-width:100%!important;box-sizing:border-box}' +
     '.pdf-table{table-layout:fixed}' +
     '.pdf-brand-logo,.pdf-foot-logo{filter:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;object-fit:contain}' +
@@ -4583,10 +4583,13 @@
    * "Free Site Visit" + at least one removed Contact CTA inside.
    */
   function removeFinalCtaSection () {
+    var hubPage = !!document.querySelector('.catalog-hub-grid, .catalog-hub-section--priority, #pergola-products, #mirror-product-lines, #louver-products');
     var sections = document.querySelectorAll('section');
     Array.prototype.forEach.call(sections, function (sec) {
       if (sec.hasAttribute('data-final-cta-removed')) return;
       if (isCatalogHubSection(sec)) return;
+      /* Keep hub estimate / site-visit CTAs — we inject "View My Project Estimate" there */
+      if (hubPage && sec.classList.contains('cluster-final-cta')) return;
       var heading = sec.querySelector('h2, h3');
       var hText = heading ? (heading.textContent || '').trim() : '';
       var bodyText = (sec.textContent || '').toLowerCase();
@@ -4692,12 +4695,61 @@
     }
   }
 
+  /**
+   * Hub pages (mirror, pergola, louvers, …) often have product cards but no
+   * sticky calculator bar. Give a clear path to open the shared estimate /
+   * add configs from child product pages.
+   */
+  function injectHubEstimatePath () {
+    var isHub = document.querySelector('.catalog-hub-grid, .catalog-hub-section--priority, #pergola-products, #mirror-product-lines, #louver-products');
+    if (!isHub) return;
+
+    function openEstimate (e) {
+      if (e) e.preventDefault();
+      if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.openCart === 'function') {
+        window.WoodenMaxQuote.openCart();
+        return;
+      }
+      var fab = document.getElementById('wmGlobalQuoteCart');
+      if (fab) fab.click();
+    }
+
+    var hero = document.querySelector('.cluster-hero-cta');
+    if (hero && !hero.querySelector('[data-wm-hub-estimate]')) {
+      var heroBtn = document.createElement('button');
+      heroBtn.type = 'button';
+      heroBtn.className = 'cluster-cta-secondary';
+      heroBtn.setAttribute('data-wm-hub-estimate', '1');
+      heroBtn.textContent = 'View My Project Estimate';
+      heroBtn.addEventListener('click', openEstimate);
+      hero.appendChild(heroBtn);
+    }
+
+    var finalBox = document.querySelector('.cluster-final-cta .container');
+    if (finalBox && !finalBox.querySelector('[data-wm-hub-estimate]')) {
+      var note = document.createElement('p');
+      note.className = 'cluster-prose';
+      note.style.marginTop = '0.75rem';
+      note.innerHTML = 'Already configured products? Open your shared estimate to download PDF, WhatsApp or checkout. Or pick a product card above to add more sizes.';
+      var finalBtn = document.createElement('button');
+      finalBtn.type = 'button';
+      finalBtn.className = 'cluster-cta-secondary';
+      finalBtn.setAttribute('data-wm-hub-estimate', '1');
+      finalBtn.style.marginLeft = '0.5rem';
+      finalBtn.textContent = 'View My Project Estimate';
+      finalBtn.addEventListener('click', openEstimate);
+      finalBox.appendChild(note);
+      finalBox.appendChild(finalBtn);
+    }
+  }
+
   function siteCleanupInit () {
     try { cleanupBodyCtas(); } catch (e) {}
     try { removeFinalCtaSection(); } catch (e) {}
     try { injectEeatBlock(); } catch (e) {}
     try { enforceStrictFabHide(); } catch (e) {}
     try { hideLegacyInlineCalcForm(); } catch (e) {}
+    try { injectHubEstimatePath(); } catch (eHub) {}
   }
 
   window.WoodenMaxQuote = {
