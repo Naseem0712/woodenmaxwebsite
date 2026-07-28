@@ -3655,20 +3655,28 @@
     return '/js/';
   }
 
+  /** Bump whenever checkout contract changes (quote-before-pay, custom ₹1, …). */
+  var CHECKOUT_SCRIPT_V = '20260729d';
+
   function ensureRazorpayModule () {
     return new Promise(function (resolve, reject) {
-      if (window.WoodenMaxRazorpay && typeof window.WoodenMaxRazorpay.startCheckout === 'function') {
+      // site-footer used to inject an ancient razorpay-checkout.js?v=20260612 which
+      // skipped /api/quote and triggered Worker QUOTE_REQUIRED. Always prefer the
+      // versioned checkout that saves the estimate first.
+      if (window.WoodenMaxRazorpay &&
+          window.WoodenMaxRazorpay.SCRIPT_VERSION === CHECKOUT_SCRIPT_V &&
+          typeof window.WoodenMaxRazorpay.startCheckout === 'function') {
         resolve();
         return;
       }
-      if (!document.querySelector('script[src*="razorpay-checkout.js"]')) {
+      var existing = document.querySelector('script[src*="razorpay-checkout.js"][data-wm-checkout="' + CHECKOUT_SCRIPT_V + '"]');
+      if (!existing) {
         var tag = document.createElement('script');
-        // Cache-bust: an old cached checkout.js was creating Razorpay orders
-        // without /api/quote, which left live payments as PaymentWithoutQuote.
-        tag.src = jsPathPrefix() + 'razorpay-checkout.js?v=20260729c';
+        tag.src = jsPathPrefix() + 'razorpay-checkout.js?v=' + CHECKOUT_SCRIPT_V;
         tag.defer = true;
+        tag.setAttribute('data-wm-checkout', CHECKOUT_SCRIPT_V);
         tag.onload = tag.onerror = function () {
-          if (window.WoodenMaxRazorpay) resolve();
+          if (window.WoodenMaxRazorpay && typeof window.WoodenMaxRazorpay.startCheckout === 'function') resolve();
           else reject(new Error('Payment script could not load'));
         };
         document.body.appendChild(tag);
@@ -3677,7 +3685,8 @@
       var tries = 0;
       var wait = setInterval(function () {
         tries += 1;
-        if (window.WoodenMaxRazorpay) {
+        if (window.WoodenMaxRazorpay &&
+            window.WoodenMaxRazorpay.SCRIPT_VERSION === CHECKOUT_SCRIPT_V) {
           clearInterval(wait);
           resolve();
         } else if (tries > 100) {
