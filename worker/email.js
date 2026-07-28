@@ -277,6 +277,18 @@ async function sendQueuedEmail (env, row) {
     await postResend(c.apiKey, payload);
   } catch (e) {
     const msg = String((e && e.message) || e);
+    // Unverified Resend domain: only the account owner can receive mail.
+    // Forward the customer copy to admin so the paid lead is never lost.
+    if (row.kind === 'customer' && /HTTP 403|only send testing emails|verify a domain/i.test(msg)) {
+      payload.to = [c.admin];
+      payload.subject = '[Customer copy — verify Resend domain] ' + row.subject + ' → ' + row.to_email;
+      payload.text = 'ORIGINAL TO: ' + row.to_email + '\n\n' +
+        'Resend blocked this address because the sending domain is not verified yet.\n' +
+        'Fix: https://resend.com/domains — then customer emails will deliver normally.\n\n' +
+        row.body_text;
+      await postResend(c.apiKey, payload);
+      return true;
+    }
     if (/HTTP 40[03]/.test(msg) || /domain|verified|from/i.test(msg)) {
       payload.from = 'WoodenMax <onboarding@resend.dev>';
       delete payload.reply_to;

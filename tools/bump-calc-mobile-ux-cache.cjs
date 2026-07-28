@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const VER = '20260729d';
+const VER = '20260729e';
 let changed = 0, scanned = 0;
 const SKIP_DIRS = new Set(['node_modules', '.git', 'tools', 'data', 'GSC', 'SGC ISSUE']);
 

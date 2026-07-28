@@ -503,7 +503,7 @@
   }
 
   window.WoodenMaxRazorpay = {
-    SCRIPT_VERSION: '20260729d',
+    SCRIPT_VERSION: '20260729e',
     BOOKING_AMOUNT_INR: 1000,
     BOOKING_AMOUNT_PAISE: BOOKING_PAISE,
     apiBase: paymentsApiBase,

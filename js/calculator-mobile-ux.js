@@ -3656,7 +3656,7 @@
   }
 
   /** Bump whenever checkout contract changes (quote-before-pay, custom ₹1, …). */
-  var CHECKOUT_SCRIPT_V = '20260729d';
+  var CHECKOUT_SCRIPT_V = '20260729e';
 
   function ensureRazorpayModule () {
     return new Promise(function (resolve, reject) {
@@ -3780,18 +3780,33 @@
             : ('<strong>Order confirmed.</strong> ₹1,000 received. Balance after site size check. ');
         showToast(
           'success',
-          paidMsg + 'Order <strong>' + escapeHtml(verified.order_no) + '</strong>. ' +
-            'Your PDF is downloading and has been emailed to you' +
-            (lead.email ? ' (<strong>' + escapeHtml(lead.email) + '</strong>)' : '') + '.'
+          paidMsg + 'Order <strong>' + escapeHtml(verified.order_no) + '</strong>.'
         );
+        var paymentMetaOk = {
+          payment_id: paymentId,
+          order_id: result.payment && result.payment.razorpay_order_id,
+          payment_mode: plan.mode,
+          paid_amount_inr: plan.amountInr,
+          paid_amount_paise: plan.amountPaise,
+          receipt_no: verified.order_no || makeReceiptNumber()
+        };
         return window.WoodenMaxRazorpay.downloadOrderPdf(verified.order_no).then(function (ok) {
-          if (!ok) {
+          if (ok) {
             showToast(
-              'warn',
-              'Payment received (order <strong>' + escapeHtml(verified.order_no) + '</strong>). Your PDF is still being prepared — ' +
-                'it will arrive by email shortly. Any issue: <strong>+91 78953 28080</strong>.'
+              'success',
+              'Order <strong>' + escapeHtml(verified.order_no) + '</strong> PDF downloaded' +
+                (lead.email ? ' and emailed to <strong>' + escapeHtml(lead.email) + '</strong>' : '') + '.'
             );
+            return;
           }
+          // Server PDF failed (Browser Rendering) — still give the customer a printable sheet.
+          printPaymentReceipt(lead, items, paymentMetaOk);
+          showToast(
+            'warn',
+            'Payment received (order <strong>' + escapeHtml(verified.order_no) + '</strong>). ' +
+              'Server PDF is delayed — a printable receipt has opened. Use <strong>Save as PDF</strong>. ' +
+              'Email may follow shortly. Help: <strong>+91 78953 28080</strong>.'
+          );
         });
       }
 

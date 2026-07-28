@@ -35,9 +35,7 @@ export async function renderQuotePdf (env, html) {
       signal: controller.signal,
       body: JSON.stringify({
         html,
-        // Wait for the webfont so the rupee glyph and headings are not swapped
-        // for a fallback face mid-render.
-        gotoOptions: { waitUntil: 'networkidle0', timeout: 30000 },
+        // Do not pass gotoOptions with inline html — Cloudflare returns 400.
         pdfOptions: {
           format: 'A4',
           printBackground: true,
@@ -55,10 +53,21 @@ export async function renderQuotePdf (env, html) {
   if (!res.ok) {
     let detail = '';
     try {
-      const body = await res.json();
-      detail = (body && body.errors && body.errors[0] && body.errors[0].message) || JSON.stringify(body).slice(0, 300);
+      const raw = await res.text();
+      if (raw) {
+        try {
+          const body = JSON.parse(raw);
+          detail = (body && body.errors && body.errors[0] && body.errors[0].message)
+            || (body && body.message)
+            || raw.slice(0, 400);
+        } catch (e2) {
+          detail = raw.slice(0, 400);
+        }
+      } else {
+        detail = 'empty body';
+      }
     } catch (e) {
-      detail = (await res.text().catch(() => '')).slice(0, 300);
+      detail = 'unreadable body';
     }
     throw workerErr('Browser Rendering returned ' + res.status + ': ' + detail, 'PDF');
   }

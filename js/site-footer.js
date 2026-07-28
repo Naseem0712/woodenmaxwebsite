@@ -15,7 +15,7 @@
   'use strict';
 
   /** Bump after deploy so CDN/browser fetch new cart + payment JS (see _headers). */
-  var WM_ASSET_V = '20260729d';
+  var WM_ASSET_V = '20260729e';
 
   // ----------------------------------------------------------------------
   //  1. Canonical content (single source of truth)
