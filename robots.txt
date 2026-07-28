@@ -34,6 +34,7 @@ Allow: /llms.txt
 Allow: /llms-full.txt
 Disallow: /debug
 Disallow: /*?debug*
+Disallow: /*?wmPricingCountry=*
 Disallow: /tmp/
 Disallow: /cache/
 Disallow: /*.log$

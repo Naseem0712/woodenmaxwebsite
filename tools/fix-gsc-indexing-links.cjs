@@ -53,11 +53,11 @@ function upsertRobots(html, robots) {
 
 function buildDiscoverySection() {
   const cityLinks = CITY_HUBS.map(function (c) {
-    return '<a class="wm-discovery-link" href="city/' + c.slug + '"><strong>' + c.label + ' hub</strong><span>Windows, glass &amp; install</span></a>';
+    return '<a class="wm-discovery-link" href="/city/' + c.slug + '"><strong>' + c.label + ' hub</strong><span>Windows, glass &amp; install</span></a>';
   }).join('\n        ');
 
   const blogLinks = BLOG_POSTS.map(function (b) {
-    return '<a class="wm-discovery-link" href="blog/' + b.slug + '"><strong>' + b.label + '</strong><span>Expert guide</span></a>';
+    return '<a class="wm-discovery-link" href="/blog/' + b.slug + '"><strong>' + b.label + '</strong><span>Expert guide</span></a>';
   }).join('\n        ');
 
   return (
@@ -69,14 +69,14 @@ function buildDiscoverySection() {
     '          <p class="wm-index-discovery-lead">Local rate guides &amp; city hubs — linked for Google indexing from homepage.</p>\n' +
     '          <div class="wm-discovery-links">\n        ' + cityLinks + '\n' +
     '          </div>\n' +
-    '          <p class="wm-index-discovery-more"><a href="products/aluminium-windows#window-keywords">All city window rates →</a> · <a href="products/glass-elevation">Glass elevation cities →</a></p>\n' +
+    '          <p class="wm-index-discovery-more"><a href="/products/aluminium-windows#window-keywords">All city window rates →</a> · <a href="/products/glass-elevation">Glass elevation cities →</a></p>\n' +
     '        </div>\n' +
     '        <div class="wm-index-discovery-col">\n' +
     '          <h2>From our blog</h2>\n' +
     '          <p class="wm-index-discovery-lead">Guides on windows, glass, pergola &amp; maintenance — all indexable.</p>\n' +
     '          <div class="wm-discovery-links">\n        ' + blogLinks + '\n' +
     '          </div>\n' +
-    '          <p class="wm-index-discovery-more"><a href="blog">View all blog posts →</a></p>\n' +
+    '          <p class="wm-index-discovery-more"><a href="/blog">View all blog posts →</a></p>\n' +
     '        </div>\n' +
     '      </div>\n' +
     '    </div>\n' +
