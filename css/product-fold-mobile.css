@@ -1,0 +1,398 @@
+/**
+ * product-fold-mobile.css
+ * Mobile + shared layout for folding systems hub / product pages
+ * (body.silo-folding, body.page-fold-pro).
+ * Layout-only: titles, meta, JSON-LD, analytics, and crawlable
+ * copy stay in the DOM (visually tightened on small screens).
+ */
+
+/* ── Hub: product cards early on mobile ── */
+.fold-hub-main-flow {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body.silo-folding > div[style*="padding: 6rem 0 1rem"] {
+    padding: 4.55rem 0 0.25rem !important;
+  }
+
+  body.silo-folding > div[style*="padding: 6rem 0 1rem"] nav {
+    font-size: 0.72rem !important;
+  }
+
+  body.silo-folding .page-header {
+    padding-top: 0.55rem !important;
+    min-height: 0 !important;
+  }
+
+  body.silo-folding .page-header-content {
+    padding: 1rem 1rem 1.15rem !important;
+  }
+
+  body.silo-folding .page-header-content .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  body.silo-folding .page-header-content h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.22 !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  body.silo-folding .page-header-content > p {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+    max-height: 4.6em;
+    overflow: hidden;
+  }
+
+  body.silo-folding .page-header-content > div[style*="rgba(16, 185, 129"] {
+    margin: 0.55rem 0 0 !important;
+    padding: 0.55rem 0.65rem !important;
+    max-height: 4.2rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  body.silo-folding .page-header-content > div[style*="rgba(16, 185, 129"]::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1.5rem;
+    background: linear-gradient(transparent, rgba(10, 14, 23, 0.85));
+    pointer-events: none;
+  }
+
+  body.silo-folding .page-header-content > div[style*="rgba(16, 185, 129"] p {
+    font-size: 0.72rem !important;
+    line-height: 1.4 !important;
+  }
+
+  body.silo-folding .wm-fold-hub-cta {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    margin-top: 0.65rem !important;
+  }
+
+  body.silo-folding .wm-fold-hub-cta a {
+    text-align: center;
+    font-size: 0.72rem !important;
+    padding: 0.55rem 0.4rem !important;
+  }
+
+  body.silo-folding .page-header-content > div[style*="display: flex"][style*="gap: 1.5rem"] {
+    gap: 0.4rem !important;
+    margin-top: 0.65rem !important;
+  }
+
+  body.silo-folding .page-header-content > div[style*="display: flex"][style*="gap: 1.5rem"] > div {
+    padding: 0.4rem 0.55rem !important;
+    font-size: 0.68rem !important;
+  }
+
+  .fold-hub-main-flow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fold-hub-main-flow > #fold-hub-products {
+    order: 1;
+  }
+
+  .fold-hub-main-flow > #fold-hub-rates {
+    order: 2;
+  }
+
+  .fold-hub-main-flow > #folding-config-guide {
+    order: 3;
+  }
+
+  body.silo-folding #fold-hub-products.catalog-content {
+    padding: 0.55rem 0 0.85rem !important;
+  }
+
+  body.silo-folding #fold-hub-products .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.2rem !important;
+  }
+
+  body.silo-folding #fold-hub-products h2 {
+    font-size: 1.05rem !important;
+    line-height: 1.25 !important;
+  }
+
+  body.silo-folding #fold-hub-products > .container > div[style*="justify-content"] {
+    margin-bottom: 0.75rem !important;
+    gap: 0.35rem !important;
+  }
+
+  body.silo-folding #fold-hub-products > .container > div[style*="justify-content"] > p {
+    font-size: 0.75rem !important;
+    text-align: left !important;
+    max-width: 100% !important;
+  }
+
+  body.silo-folding .catalog-products-grid {
+    gap: 0.65rem !important;
+  }
+
+  body.silo-folding .product-card .product-image-container {
+    max-height: 140px;
+    overflow: hidden;
+  }
+
+  body.silo-folding .product-card .product-image {
+    max-height: 140px;
+    object-fit: cover;
+  }
+
+  body.silo-folding .product-card .product-title-row h3 {
+    font-size: 0.82rem !important;
+    line-height: 1.3 !important;
+  }
+
+  body.silo-folding .product-card .product-description {
+    font-size: 0.72rem !important;
+    line-height: 1.4 !important;
+    max-height: 3.2em;
+    overflow: hidden;
+  }
+
+  body.silo-folding #fold-hub-rates {
+    padding: 0.45rem 0 0.55rem !important;
+  }
+
+  body.silo-folding #fold-hub-rates h3 {
+    font-size: 0.95rem !important;
+  }
+
+  body.silo-folding #fold-hub-rates p {
+    font-size: 0.75rem !important;
+  }
+
+  body.silo-folding #folding-config-guide {
+    padding: 0.85rem 0 !important;
+  }
+
+  body.silo-folding #folding-config-guide h2 {
+    font-size: 1.05rem !important;
+  }
+
+  body.silo-folding #folding-config-guide p {
+    font-size: 0.8rem !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* ── Product calculator pages ── */
+@media (min-width: 769px) {
+  body.page-fold-pro .product-detail-hero > .container,
+  body.page-fold-pro section .container,
+  body.page-fold-pro .wm-page-content {
+    width: 90%;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  body.page-fold-pro > div[style*="padding: 6rem 0 1rem"] {
+    padding: 4.55rem 0 0.25rem !important;
+  }
+
+  body.page-fold-pro > div[style*="padding: 6rem 0 1rem"] nav {
+    font-size: 0.72rem !important;
+  }
+
+  body.page-fold-pro .product-detail-hero {
+    padding: 0.35rem 0 0.65rem !important;
+  }
+
+  body.page-fold-pro .seo-hub-back {
+    margin-bottom: 0.35rem !important;
+    font-size: 0.78rem !important;
+  }
+
+  body.page-fold-pro .product-detail-hero > .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.page-fold-pro .wm-fold-hero-intro {
+    order: 1;
+    margin-bottom: 0.45rem !important;
+  }
+
+  body.page-fold-pro .wm-fold-hero-intro .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  body.page-fold-pro .wm-fold-hero-intro h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  body.page-fold-pro .wm-fold-hero-intro h1 span {
+    font-size: 0.72rem !important;
+    margin-top: 0.15rem !important;
+  }
+
+  body.page-fold-pro .wm-fold-hero-intro > p {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+  }
+
+  body.page-fold-pro .wm-fold-hero-cta {
+    order: 2;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem !important;
+    margin: 0.35rem 0 0.5rem !important;
+  }
+
+  body.page-fold-pro .wm-fold-hero-cta .btn,
+  body.page-fold-pro .wm-fold-hero-cta a {
+    padding: 0.58rem 0.45rem !important;
+    font-size: 0.7rem !important;
+    text-align: center;
+    justify-content: center;
+  }
+
+  body.page-fold-pro .wm-fold-hero-cta .btn:nth-child(3),
+  body.page-fold-pro .wm-fold-hero-cta a:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  body.page-fold-pro .wm-fold-rate-panel {
+    order: 3;
+    margin-bottom: 0.5rem !important;
+    padding: 0.65rem 0.55rem !important;
+  }
+
+  body.page-fold-pro .wm-fold-rate-panel > p {
+    font-size: 0.78rem !important;
+    margin-bottom: 0.4rem !important;
+    line-height: 1.4 !important;
+  }
+
+  body.page-fold-pro .wm-fold-rate-panel table {
+    font-size: 0.7rem !important;
+  }
+
+  body.page-fold-pro .wm-fold-rate-panel th,
+  body.page-fold-pro .wm-fold-rate-panel td {
+    padding: 0.35rem 0.4rem !important;
+  }
+
+  body.page-fold-pro .fold-seo-keywords-rail {
+    order: 5;
+    margin: 0.45rem 0 0.35rem !important;
+    padding: 0.65rem 0.7rem !important;
+    max-height: 5.2rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  body.page-fold-pro .fold-seo-keywords-rail::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2rem;
+    background: linear-gradient(transparent, #fff);
+    pointer-events: none;
+  }
+
+  body.page-fold-pro .fold-seo-keywords-rail p {
+    font-size: 0.72rem !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+  }
+
+  body.page-fold-pro .product-detail-grid {
+    order: 4;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  body.page-fold-pro .product-detail-grid > .product-image-gallery {
+    order: 2 !important;
+  }
+
+  body.page-fold-pro .product-detail-grid > div:last-child,
+  body.page-fold-pro .product-detail-grid > div:nth-child(2) {
+    order: 1 !important;
+  }
+
+  body.page-fold-pro .product-main-image {
+    max-height: 150px !important;
+    object-fit: cover !important;
+    border-radius: 10px;
+  }
+
+  body.page-fold-pro .product-thumbnail-gallery {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 0.35rem !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-top: 0.4rem !important;
+  }
+
+  body.page-fold-pro .product-thumbnail-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.page-fold-pro .thumbnail-item {
+    flex: 0 0 56px !important;
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  body.page-fold-pro .thumbnail-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  body.page-fold-pro .product-detail-grid > div:nth-child(2) > p,
+  body.page-fold-pro .product-detail-grid > div:last-child > p:first-of-type {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.55rem !important;
+    max-height: 3.2em;
+    overflow: hidden;
+  }
+
+  body.page-fold-pro .product-detail-grid > div:nth-child(2) > h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  body.page-fold-pro .price-calculator-container {
+    margin-top: 0.25rem;
+  }
+
+  body.page-fold-pro .product-image-gallery .product-description-section,
+  body.page-fold-pro .product-image-gallery > div[style*="margin-top: 2rem"] {
+    margin-top: 0.55rem !important;
+    padding: 0.65rem !important;
+  }
+
+  body.page-fold-pro .product-image-gallery .product-description-section h2,
+  body.page-fold-pro .product-image-gallery > div[style*="margin-top: 2rem"] h2,
+  body.page-fold-pro .product-image-gallery > div[style*="margin-top: 2rem"] h3 {
+    font-size: 0.95rem !important;
+  }
+}

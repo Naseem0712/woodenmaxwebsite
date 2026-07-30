@@ -224,11 +224,33 @@
   // ---------- 4. Image CLS fix (width/height + lazy) ----------
   function ensureImageDimensions () {
     var imgs = $$('img');
+    var markedLcp = false;
     imgs.forEach(function (img) {
       // Skip hero / above-fold images so we don't lazy-load LCP candidates.
-      var isHero = img.closest('.alum-hero, .grills-hero, .glass-hero-section, .page-header, .hero, .calculator-hero') !== null;
+      var isHero = img.closest(
+        '.alum-hero, .grills-hero, .glass-hero-section, .page-header, .hero, ' +
+        '.calculator-hero, .cluster-hero, .product-hero, .slide.active, .hero-slider'
+      ) !== null;
+      var isMainProduct = img.classList.contains('product-main-image') ||
+        img.id === 'product-main-image' ||
+        img.fetchPriority === 'high' ||
+        img.getAttribute('fetchpriority') === 'high';
+      var inChrome = img.closest('nav, footer, .wm-footer, header, .wm-navbar, .wm-drawer') !== null;
+      var isLcpCandidate = isHero || isMainProduct;
+      if (!markedLcp && !isLcpCandidate && !inChrome) isLcpCandidate = true;
 
-      if (!img.hasAttribute('loading') && !isHero) img.setAttribute('loading', 'lazy');
+      if (isLcpCandidate) {
+        markedLcp = true;
+        if (isHero || isMainProduct) {
+          img.setAttribute('loading', 'eager');
+          if (!img.hasAttribute('fetchpriority')) img.setAttribute('fetchpriority', 'high');
+        } else if (!img.hasAttribute('loading')) {
+          img.setAttribute('loading', 'eager');
+        }
+      } else if (!img.hasAttribute('loading')) {
+        img.setAttribute('loading', 'lazy');
+      }
+
       if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
 
       if (!img.hasAttribute('width') || !img.hasAttribute('height')) {
@@ -252,6 +274,19 @@
           .replace(/[-_]+/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); });
         img.setAttribute('alt', nicer + ' — WoodenMax');
       }
+    });
+  }
+
+  // ---------- 4b. Non-blocking Google Fonts (shared runtime fix) ----------
+  function deferRenderBlockingFonts () {
+    $$('link[rel="stylesheet"][href*="fonts.googleapis.com"]').forEach(function (link) {
+      if (link.dataset.wmFontDeferred === '1') return;
+      if (link.media === 'print' && link.getAttribute('onload')) return;
+      link.dataset.wmFontDeferred = '1';
+      var activate = function () { link.media = 'all'; link.onload = null; };
+      link.onload = activate;
+      link.media = 'print';
+      if (link.sheet) activate();
     });
   }
 
@@ -636,7 +671,7 @@
       '.wm-verified-pill strong{color:#F8FAFC;font-weight:700;}' +
       '.cluster-final-trust{display:none!important;}' +
       '@media (max-width:720px){.wm-verified-strip{font-size:0.7rem;padding:0.3rem 0.5rem;}}' +
-      '.wm-auto-related{background:#F1F5F9;border-top:1px solid #E2E8F0;padding:0.65rem 0;margin-top:0.5rem;}' +
+      '.wm-auto-related{background:#F1F5F9;border-top:1px solid #E2E8F0;padding:0.65rem 0;margin-top:0.5rem;content-visibility:auto;contain-intrinsic-size:auto 140px;}' +
       '.wm-auto-related-title{font-family:inherit;font-size:0.8rem;font-weight:600;color:#475569;text-transform:uppercase;letter-spacing:0.04em;margin:0 0 0.4rem;}' +
       '.wm-auto-related-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:0.35rem;}' +
       '.wm-auto-related-card{display:flex;flex-direction:column;gap:0;padding:0.38rem 0.55rem;background:#FFFFFF;border:1px solid #E2E8F0;border-radius:6px;text-decoration:none;color:#0F172A;transition:background 0.15s ease,border-color 0.15s ease;}' +
@@ -660,6 +695,7 @@
 
   // ---------- Initialise ----------
   function init () {
+    try { deferRenderBlockingFonts(); } catch (e) {}
     try { injectDeepSeoCss();        } catch (e) {}
     try { ensureChromeMeta();        } catch (e) {}
     try { ensureHreflang();          } catch (e) {}
@@ -678,6 +714,9 @@
     try { injectLocalLandingLinks(); } catch (e) {}
     try { injectVerifiedBadge();     } catch (e) {}
   }
+
+  // Run font deferral as early as this defer script allows (document already parsed).
+  try { deferRenderBlockingFonts(); } catch (e) {}
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init, { once: true });

@@ -14,6 +14,9 @@ footer:not(.wm-footer) { display: none !important; }
   margin-top: 4rem;
   font-size: 0.93rem;
   line-height: 1.6;
+  /* Skip offscreen footer layout work until near viewport */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 520px;
 }
 .wm-footer::before {
   content: '';

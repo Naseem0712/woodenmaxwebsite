@@ -336,7 +336,8 @@
   
   <link rel="stylesheet" href="/css/calculator-mobile-ux.css?v=20260729g">
   
-  <link rel="stylesheet" href="/css/product-pages-global.css?v=20260728e">
+  <link rel="stylesheet" href="/css/product-pages-global.css?v=20260730l">
+  <link rel="stylesheet" href="/css/product-louver-mobile.css?v=20260730l">
   
   <link rel="stylesheet" href="/css/site-nav.css?v=20260728e">
   
@@ -362,7 +363,7 @@
   }
   </script>
 </head>
-<body>
+<body class="page-louver-pro">
   
   <!-- NAVBAR -->
   
@@ -378,13 +379,72 @@
   </div>
 
   <!-- PRODUCT HERO -->
-  <section class="product-detail-hero">
+    <section class="product-detail-hero">
     <div class="container">
+      <p class="seo-hub-back" style="margin:0 0 1rem;"><a href="/products/metal-louvers" style="color:#1E40AF;font-weight:600;text-decoration:none;">← All louvers &amp; rafters</a></p>
+      <div class="wm-louver-hero-intro" style="margin-bottom: 2rem;">
+        <span class="section-label" style="display: inline-block; margin-bottom: 0.5rem;">Signature Facade</span>
+        <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 0 0 0.5rem; color: #0F172A;">Curved Architectural Louvers <span style="font-size:0.55em; color:#64748b; display:block; margin-top:0.25rem;">Custom Arc 60×40 Aluminium Blades</span></h1>
+        <p style="color: #475569; font-size: 1.15rem; line-height: 1.6; margin: 0; max-width: 700px;">Custom-bent 60×40 aluminium architectural louvers for signature villa and commercial facades. Live BOQ calculator for arc length, finish and hardware.</p>
+      </div>
+      <div class="wm-louver-hero-cta" style="display:flex;flex-wrap:wrap;gap:0.75rem;margin:0 0 1.25rem;">
+        <a href="#price-calculator-curved-architectural-louvers" class="btn btn-primary" data-ga-event="wm_cta_click">Calculate Your Louver Cost</a>
+        <a href="https://wa.me/917895328080?text=Hi%20WoodenMax%20%E2%80%94%20curved%20architectural%20louvers%20quote.%20Arc%20__%20.%20City%3A%20__." class="btn btn-outline" data-ga-event="wm_cta_click" rel="noopener" target="_blank">Send Size on WhatsApp</a>
+        <a href="/contact?product=curved-architectural-louvers" class="btn btn-outline" data-ga-event="wm_cta_click">Get Exact Price</a>
+      </div>
+      <div class="wm-louver-rate-panel" style="margin-bottom: 2rem; padding: 1.5rem; background: linear-gradient(135deg, #F0FDF4, #ECFDF5); border-radius: 0.75rem; border: 1px solid #BBF7D0;">
+        <p style="font-size: 1.1rem; color: #166534; font-weight: 600; margin: 0 0 1rem;">Curved architectural louvers typically range <strong>₹1,100–2,750/piece</strong> depending on radius, length and finish.</p>
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+          <thead><tr style="background: #166534; color: #fff;"><th style="padding: 0.5rem 0.75rem; text-align: left;">Type</th><th style="padding: 0.5rem 0.75rem; text-align: left;">Price</th><th style="padding: 0.5rem 0.75rem; text-align: left;">Best For</th></tr></thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid #D1FAE5;"><td style="padding: 0.5rem 0.75rem;">Standard powder coat arc</td><td style="padding: 0.5rem 0.75rem;">₹1,100–1,800/pc</td><td style="padding: 0.5rem 0.75rem;">Soft curve facades</td></tr>
+            <tr style="border-bottom: 1px solid #D1FAE5;"><td style="padding: 0.5rem 0.75rem;">PVDF / wood texture</td><td style="padding: 0.5rem 0.75rem;">₹1,800–2,750/pc</td><td style="padding: 0.5rem 0.75rem;">Premium elevations</td></tr>
+            <tr><td style="padding: 0.5rem 0.75rem;">Custom radius BOQ</td><td style="padding: 0.5rem 0.75rem;">Quote</td><td style="padding: 0.5rem 0.75rem;">Architect drawings</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <aside class="wm-explore-next" aria-label="On-page internal links" style="margin:0 0 1rem;padding:0.75rem 0.85rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+        <p style="margin:0 0 0.35rem;font-size:0.85rem;color:#64748b;font-weight:600;">Explore next</p>
+        <p style="margin:0;font-size:0.88rem;line-height:1.7;">
+          <a href="/products/metal-louvers" style="color:#1d4ed8;font-weight:500;">Louvers hub</a>
+          <span style="color:#cbd5e1;"> · </span>
+          <a href="/products/metal-louvers/aluminium-facade-louver-price" style="color:#1d4ed8;font-weight:500;">Facade ₹/sqft</a>
+          <span style="color:#cbd5e1;"> · </span>
+          <a href="/products/metal-louvers/wooden-finish-aluminium-louvers" style="color:#1d4ed8;font-weight:500;">Wooden finish calc</a>
+          <span style="color:#cbd5e1;"> · </span>
+          <a href="/products/metal-louvers/ceiling-pergola-louvers" style="color:#1d4ed8;font-weight:500;">Ceiling louvers</a>
+        </p>
+      </aside>
       <div class="product-detail-grid">
         <div class="product-image-gallery">
-          <img loading="eager" fetchpriority="high" src="/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp" alt="Architectural louvers — sleek curved facade aluminium louvers on a signature building elevation – WoodenMax" class="product-main-image" width="1200" height="800" decoding="async">
-          
-          <!-- Product Description Below Image -->
+          <!-- Main Image Display -->
+          <div class="product-main-image-container">
+            <img loading="eager" fetchpriority="high" id="product-main-image" src="/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp" alt="Architectural louvers — sleek curved facade aluminium louvers on a signature building elevation – WoodenMax" class="product-main-image" width="1200" height="800" decoding="async">
+          </div>
+
+          <!-- Thumbnail Gallery -->
+          <div class="product-thumbnail-gallery">
+            <div class="thumbnail-item active" data-image="/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp" data-alt="Architectural louvers — sleek curved facade aluminium louvers on a signature building elevation – WoodenMax">
+              <img loading="lazy" src="/images/products/metal-louvers/architectural-curved-aluminium-louvers-facade.webp" alt="Architectural louvers — sleek curved facade aluminium louvers on a signature building elevation – WoodenMax" title="Architectural louvers — sleek curved facade aluminium louvers on a signature building elevation – WoodenMax" width="300" height="200" decoding="async">
+            </div>
+            <div class="thumbnail-item" data-image="/images/products/metal-louvers/aluminium-louver-curved-architectural-design.webp" data-alt="Curved architectural aluminium louver design detail">
+              <img loading="lazy" src="/images/products/metal-louvers/aluminium-louver-curved-architectural-design.webp" alt="Curved architectural aluminium louver design detail" title="Curved architectural aluminium louver design detail" width="300" height="200" decoding="async">
+            </div>
+            <div class="thumbnail-item" data-image="/images/products/metal-louvers/Aluminium-elevation-twisted-louvers.webp" data-alt="Twisted aluminium elevation louvers — sculptural facade">
+              <img loading="lazy" src="/images/products/metal-louvers/Aluminium-elevation-twisted-louvers.webp" alt="Twisted aluminium elevation louvers — sculptural facade" title="Twisted aluminium elevation louvers — sculptural facade" width="300" height="200" decoding="async">
+            </div>
+            <div class="thumbnail-item" data-image="/images/products/metal-louvers/black-powder-coat-aluminium-louver-facade.webp" data-alt="Black powder coat aluminium louver facade">
+              <img loading="lazy" src="/images/products/metal-louvers/black-powder-coat-aluminium-louver-facade.webp" alt="Black powder coat aluminium louver facade" title="Black powder coat aluminium louver facade" width="300" height="200" decoding="async">
+            </div>
+            <div class="thumbnail-item" data-image="/images/products/metal-louvers/commercial-building-aluminium-louver-installation.webp" data-alt="Commercial building aluminium louver installation">
+              <img loading="lazy" src="/images/products/metal-louvers/commercial-building-aluminium-louver-installation.webp" alt="Commercial building aluminium louver installation" title="Commercial building aluminium louver installation" width="300" height="200" decoding="async">
+            </div>
+            <div class="thumbnail-item" data-image="/images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india.webp" data-alt="Building exterior aluminium louver cladding India">
+              <img loading="lazy" src="/images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india.webp" alt="Building exterior aluminium louver cladding India" title="Building exterior aluminium louver cladding India" width="300" height="200" decoding="async">
+            </div>
+          </div>
+
+<!-- Product Description Below Image -->
           <div class="product-description-section" style="margin-top: 2rem; padding: 1.5rem; background: #FFFFFF; border-radius: 0.75rem; border: 1px solid #E5E7EB; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
               <h2 style="color: #0F172A; margin: 0; font-size: 1.5rem; font-weight: 600;">Architectural Louvers — Sleek Curved Facade Aluminium Louvers &middot; Features, Materials &amp; Specifications</h2>
@@ -444,9 +504,8 @@
             </div>
           </div>
         </div>
-        <div>
-          <span class="section-label" style="display: inline-block; margin-bottom: 1rem;">Luxury Premium</span>
-          <h1 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin-bottom: 1rem; color: #0F172A;">Architectural Louvers <span style="font-size:0.55em; color:#64748b; display:block; margin-top:0.25rem;">Sleek Curved Facade Aluminium Louvers &amp; Elevation Rafters</span></h1>
+        </div>
+        <div class="wm-louver-calc-col">
           <div style="margin-bottom: 1.5rem; padding: 1.25rem 1.5rem; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 12px; border-left: 4px solid #059669;">
             <p style="margin: 0 0 1rem; color: #0F172A; font-size: 1rem; line-height: 1.65;"><strong>Direct answer:</strong> Architectural louvers — sleek curved facade aluminium louvers price starts from ₹570 per sqft. Per-piece price ranges from ₹8,800 to ₹35,200 depending on size, radius and finish.</p>
             <div style="overflow-x: auto;">
@@ -984,5 +1043,5 @@
   <script src="/js/seo-enhancer.js?v=20260728e" defer></script>
   <script src="/js/nav-tree.js?v=20260728e" defer></script>
   <script src="/js/site-nav.js?v=20260728e" defer></script>
-  <script src="/js/site-footer.js?v=20260729g" defer></script></body>
+  <script src="/js/site-footer.js?v=20260730g2" defer></script></body>
 </html>

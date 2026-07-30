@@ -1,0 +1,203 @@
+/**
+ * product-glass-elevation-mobile.css
+ * Mobile + shared layout for glass elevation hub / city pages
+ * (body.silo-glass-elevation).
+ * Layout-only: titles, meta, JSON-LD, analytics, and crawlable
+ * copy stay in the DOM (visually tightened on small screens).
+ */
+
+.glass-hub-main-flow {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body.silo-glass-elevation > div[style*="padding: 6rem 0 1rem"] {
+    padding: 4.55rem 0 0.25rem !important;
+  }
+
+  body.silo-glass-elevation > div[style*="padding: 6rem 0 1rem"] nav {
+    font-size: 0.72rem !important;
+  }
+
+  body.silo-glass-elevation .cluster-breadcrumb {
+    padding-top: 0.35rem;
+  }
+
+  body.silo-glass-elevation .container > .cluster-prose[style] {
+    font-size: 0.78rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  /* Hub hero — slim + calc first */
+  body.silo-glass-elevation .glass-hero-section {
+    padding: 4.75rem 0 1.1rem !important;
+  }
+
+  body.silo-glass-elevation .glass-hero-title {
+    font-size: 1.22rem !important;
+    line-height: 1.22 !important;
+    margin-bottom: 0.55rem !important;
+  }
+
+  body.silo-glass-elevation .glass-hero-desc {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+    max-height: 4.6em;
+    overflow: hidden;
+    margin-bottom: 0.65rem !important;
+  }
+
+  body.silo-glass-elevation .glass-badge {
+    font-size: 0.68rem !important;
+    padding: 0.35rem 0.65rem !important;
+    margin-bottom: 0.55rem !important;
+  }
+
+  body.silo-glass-elevation .glass-hero-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  body.silo-glass-elevation .glass-hero-grid > div:first-child {
+    order: 2;
+  }
+
+  body.silo-glass-elevation .glass-hero-grid > #glass-calculator,
+  body.silo-glass-elevation .glass-hero-grid > .calc-card {
+    order: 1;
+  }
+
+  body.silo-glass-elevation #product-main-image,
+  body.silo-glass-elevation .product-main-image {
+    max-height: 150px !important;
+    object-fit: cover !important;
+    border-radius: 10px;
+  }
+
+  body.silo-glass-elevation .product-thumbnail-gallery {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 0.35rem !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  body.silo-glass-elevation .product-thumbnail-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.silo-glass-elevation .thumbnail-item {
+    flex: 0 0 56px !important;
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  .glass-hub-main-flow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .glass-hub-main-flow > #glass-city-rates {
+    order: 1;
+  }
+
+  /* City / cluster pages */
+  body.silo-glass-elevation .cluster-hero--hub-slim {
+    padding: 0.55rem 0 0.7rem;
+  }
+
+  body.silo-glass-elevation .cluster-hero--hub-slim h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.22 !important;
+  }
+
+  body.silo-glass-elevation .cluster-hero--hub-slim .cluster-hero-sub {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+  }
+
+  body.silo-glass-elevation .cluster-hero-cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    margin-top: 0.55rem;
+  }
+
+  body.silo-glass-elevation .cluster-hero-cta a {
+    text-align: center;
+    font-size: 0.72rem !important;
+    padding: 0.55rem 0.4rem !important;
+  }
+
+  body.silo-glass-elevation .cluster-hero--hub-slim .cluster-hero-media {
+    max-height: 140px;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  body.silo-glass-elevation .cluster-hero--hub-slim .catalog-hero-product-img,
+  body.silo-glass-elevation .cluster-hero--hub-slim .cluster-hero-media img {
+    max-height: 140px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  body.silo-glass-elevation .cluster-hero:not(.cluster-hero--hub-slim) {
+    padding: 0.65rem 0 0.85rem !important;
+  }
+
+  body.silo-glass-elevation .cluster-hero:not(.cluster-hero--hub-slim) h1 {
+    font-size: 1.28rem !important;
+    line-height: 1.22 !important;
+  }
+
+  body.silo-glass-elevation .cluster-hero:not(.cluster-hero--hub-slim) .cluster-hero-sub {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+  }
+
+  body.silo-glass-elevation .cluster-hero:not(.cluster-hero--hub-slim) .cluster-hero-media {
+    max-height: 150px;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  body.silo-glass-elevation .cluster-hero:not(.cluster-hero--hub-slim) .cluster-hero-media img {
+    max-height: 150px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  body.silo-glass-elevation .cluster-section,
+  body.silo-glass-elevation .cluster-section-alt,
+  body.silo-glass-elevation .cluster-faq-section {
+    padding-top: 0.85rem !important;
+    padding-bottom: 0.85rem !important;
+  }
+
+  body.silo-glass-elevation .cluster-h2 {
+    font-size: 1.08rem !important;
+  }
+
+  body.silo-glass-elevation .cluster-prose,
+  body.silo-glass-elevation .cluster-prose p,
+  body.silo-glass-elevation .cluster-body,
+  body.silo-glass-elevation .cluster-body p {
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+  }
+
+  body.silo-glass-elevation .cluster-hero-points {
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
+    margin: 0.45rem 0 !important;
+  }
+
+  body.silo-glass-elevation .cluster-table,
+  body.silo-glass-elevation .cluster-table th,
+  body.silo-glass-elevation .cluster-table td {
+    font-size: 0.72rem !important;
+  }
+}

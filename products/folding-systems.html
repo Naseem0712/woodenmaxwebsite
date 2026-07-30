@@ -322,7 +322,8 @@
   
   <link rel="stylesheet" href="/css/styles.css">
   
-  <link rel="stylesheet" href="/css/product-pages-global.css?v=20260728e">
+  <link rel="stylesheet" href="/css/product-pages-global.css?v=20260730f">
+  <link rel="stylesheet" href="/css/product-fold-mobile.css?v=20260730f">
   
   <link rel="stylesheet" href="/css/site-nav.css?v=20260728e">
   
@@ -342,7 +343,7 @@
 .wm-compare-table tbody td:first-child { font-weight: 600; color: #0F172A; white-space: nowrap; }
 </style>
 </head>
-<body>
+<body class="silo-folding catalog-seo-page">
   
   <!-- NAVBAR -->
   
@@ -367,6 +368,10 @@
       <span class="section-label">Maximum Opening</span>
       <h1>Folding Door Price: Bi-Fold vs Fold & Slide Comparison</h1>
       <p>Open up your space completely. Panels fold and stack to one side, giving you 95% clear opening. Perfect for connecting your balcony, patio, or garden with your living space.</p>
+      <div class="wm-fold-hub-cta" style="display:flex;flex-wrap:wrap;gap:0.75rem;margin:1rem 0 0;">
+        <a href="/products/folding-systems/fold-bifold-aluminium-doors#price-calculator-fold-bifold-aluminium-doors" class="btn btn-primary" data-ga-event="wm_cta_click" style="background:linear-gradient(135deg,var(--gold-500),var(--gold-600));color:#000;padding:0.65rem 1rem;border-radius:8px;font-weight:600;text-decoration:none;">Bi-Fold Calculator</a>
+        <a href="/products/folding-systems/fold-sliding-window-system#price-calculator-fold-sliding-window-system" class="btn btn-outline" data-ga-event="wm_cta_click" style="border:1px solid rgba(255,255,255,0.45);color:#fff;padding:0.65rem 1rem;border-radius:8px;font-weight:600;text-decoration:none;">Fold &amp; Slide Calculator</a>
+      </div>
       <div style="margin: 1.25rem 0 0; padding: 0.95rem 1.1rem; background: rgba(16, 185, 129, 0.12); border-left: 3px solid rgba(16, 185, 129, 0.6); border-radius: 0.4rem; max-width: 780px;">
         <p style="margin: 0; color: #d1fae5; font-size: 0.94rem; line-height: 1.6;">
           The pricing tool on this page is an India-specific fabrication calculator — it checks each bay individually, adds the right profile series, panels, hinges and mortice hardware for your opening, and accounts for fabrication wastage, so the figure is usable for real project budgeting. Built for homeowners, builders, architects, planners and purchase departments, not a generic per-sqft averaging script.
@@ -391,8 +396,11 @@
     </div>
   </div>
 
+  <!-- products before long SEO rails on mobile via .fold-hub-main-flow flex order -->
+  <div class="fold-hub-main-flow">
+
   <!-- Rate comparison (after hero) -->
-  <section style="padding: 2rem 0; background: #F3F4F6;">
+  <section id="fold-hub-rates" style="padding: 2rem 0; background: #F3F4F6;">
     <div class="container">
       <!-- Industry Expert: Rate Comparison Panel -->
       <div style="max-width: 1100px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E5E7EB; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.08);">
@@ -420,7 +428,7 @@
   </section>
 
   <!-- products-grid-lifted-by-reorder-hubs -->
-  <section class="catalog-content" style="padding: 4rem 0; background: #F3F4F6;">
+  <section id="fold-hub-products" class="catalog-content" style="padding: 4rem 0; background: #F3F4F6;">
     <div class="container">
       <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;">
         <div>
@@ -524,6 +532,7 @@
       </div>
     </div>
   </section>
+  </div><!-- /.fold-hub-main-flow -->
 
   <!-- THE FOLDING DOOR ADVANTAGE -->
   <section style="padding: 4rem 0; background: #F3F4F6;">
@@ -863,6 +872,6 @@
   <script src="/js/seo-enhancer.js?v=20260728e" defer></script>
   <script src="/js/nav-tree.js?v=20260728e" defer></script>
   <script src="/js/site-nav.js?v=20260728e" defer></script>
-  <script src="/js/site-footer.js?v=20260729g" defer></script></body>
+  <script src="/js/site-footer.js?v=20260730g2" defer></script></body>
 </html>
 

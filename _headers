@@ -62,7 +62,13 @@
   Cache-Control: public, max-age=300, must-revalidate
 /js/analytics.js
   Cache-Control: public, max-age=300, must-revalidate
+/js/seo-enhancer.js
+  Cache-Control: public, max-age=300, must-revalidate
+/js/product-image-gallery.js
+  Cache-Control: public, max-age=300, must-revalidate
 /css/calculator-mobile-ux.css
+  Cache-Control: public, max-age=300, must-revalidate
+/css/site-footer.css
   Cache-Control: public, max-age=300, must-revalidate
 
 /js/*

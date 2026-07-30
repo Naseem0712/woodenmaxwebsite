@@ -1,0 +1,377 @@
+/**
+ * product-pergola-mobile.css
+ * Mobile + shared layout for pergola hub / product pages
+ * (body.silo-pergola, body.page-pergola-pro).
+ * Layout-only: titles, meta, JSON-LD, analytics, and crawlable
+ * copy stay in the DOM (visually tightened on small screens).
+ */
+
+/* ── Hub: product cards early on mobile ── */
+.pergola-hub-main-flow {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body.silo-pergola .cluster-breadcrumb {
+    padding-top: 0.35rem;
+  }
+
+  body.silo-pergola .container > .cluster-prose[style] {
+    font-size: 0.78rem !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  body.silo-pergola .cluster-hero--hub-slim {
+    padding: 0.55rem 0 0.7rem;
+  }
+
+  body.silo-pergola .cluster-hero--hub-slim h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.22 !important;
+  }
+
+  body.silo-pergola .cluster-hero--hub-slim .cluster-hero-sub {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+  }
+
+  body.silo-pergola .cluster-hero-cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    margin-top: 0.55rem;
+  }
+
+  body.silo-pergola .cluster-hero-cta a {
+    text-align: center;
+    font-size: 0.72rem !important;
+    padding: 0.55rem 0.4rem !important;
+  }
+
+  body.silo-pergola .cluster-hero--hub-slim .cluster-hero-media {
+    margin-top: 0.55rem;
+  }
+
+  body.silo-pergola .cluster-hero--hub-slim .catalog-hero-product-img {
+    max-height: 140px !important;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  body.silo-pergola .cluster-hero--hub-slim .cluster-hero-caption {
+    font-size: 0.68rem !important;
+    margin-top: 0.35rem !important;
+  }
+
+  .pergola-hub-main-flow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pergola-hub-main-flow > #pergola-products {
+    order: 1;
+  }
+
+  .pergola-hub-main-flow > #pergola-price-compare {
+    order: 2;
+  }
+
+  .pergola-hub-main-flow > #pergola-choose {
+    order: 3;
+  }
+
+  body.silo-pergola .catalog-hub-section--priority {
+    padding-top: 0.45rem !important;
+    padding-bottom: 0.85rem !important;
+  }
+
+  body.silo-pergola .catalog-hub-lead {
+    font-size: 0.78rem !important;
+    margin-bottom: 0.55rem !important;
+  }
+
+  body.silo-pergola .catalog-hub-group-title {
+    font-size: 0.92rem !important;
+    margin: 0.65rem 0 0.4rem !important;
+  }
+
+  body.silo-pergola .catalog-hub-grid--square {
+    gap: 0.45rem !important;
+  }
+
+  body.silo-pergola .catalog-hub-card--square .catalog-hub-card-body {
+    padding: 0.45rem 0.5rem !important;
+  }
+
+  body.silo-pergola .catalog-hub-card--square .catalog-hub-card-body strong {
+    font-size: 0.78rem !important;
+  }
+
+  body.silo-pergola .catalog-hub-card--square .catalog-hub-card-body span {
+    font-size: 0.68rem !important;
+  }
+
+  body.silo-pergola .cluster-section .cluster-h2 {
+    font-size: 1.1rem !important;
+  }
+
+  body.silo-pergola .cluster-prose {
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+  }
+}
+
+/* ── Product calculator pages ── */
+.pergola-product-main-flow {
+  display: block;
+}
+
+@media (min-width: 769px) {
+  body.page-pergola-pro .pergola-hero-block,
+  body.page-pergola-pro .pergola-gallery-block,
+  body.page-pergola-pro section .container,
+  body.page-pergola-pro .wm-page-content {
+    width: 90%;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  body.page-pergola-pro > div[style*="padding: 6rem 0 1rem"] {
+    padding: 4.55rem 0 0.25rem !important;
+  }
+
+  body.page-pergola-pro > div[style*="padding: 6rem 0 1rem"] nav {
+    font-size: 0.72rem !important;
+  }
+
+  .pergola-product-main-flow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pergola-product-main-flow > .pergola-hero-block {
+    order: 1;
+  }
+
+  .pergola-product-main-flow > .pergola-gallery-block {
+    order: 2;
+  }
+
+  .pergola-product-main-flow > #price-calculator-pergola {
+    order: 3;
+  }
+
+  .pergola-product-main-flow > #pergola-price-breakdown {
+    order: 4;
+  }
+
+  .pergola-product-main-flow > .pergola-seo-rail {
+    order: 5;
+  }
+
+  .pergola-product-main-flow > .pergola-deep-content {
+    order: 6;
+  }
+
+  body.page-pergola-pro .pergola-hero-block {
+    padding: 0.35rem 0 0.55rem !important;
+  }
+
+  body.page-pergola-pro .seo-hub-back {
+    margin-bottom: 0.35rem !important;
+    font-size: 0.78rem !important;
+  }
+
+  body.page-pergola-pro .wm-pergola-hero-intro h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  body.page-pergola-pro .wm-pergola-hero-intro h1 span {
+    font-size: 0.72rem !important;
+    margin-top: 0.15rem !important;
+  }
+
+  body.page-pergola-pro .wm-pergola-hero-intro > p {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    max-height: 4.6em;
+    overflow: hidden;
+  }
+
+  body.page-pergola-pro .wm-pergola-hero-cta {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem !important;
+    margin: 0.4rem 0 0.55rem !important;
+  }
+
+  body.page-pergola-pro .wm-pergola-hero-cta .btn,
+  body.page-pergola-pro .wm-pergola-hero-cta a {
+    padding: 0.58rem 0.45rem !important;
+    font-size: 0.7rem !important;
+    text-align: center;
+    justify-content: center;
+  }
+
+  body.page-pergola-pro .wm-pergola-hero-cta .btn:nth-child(3),
+  body.page-pergola-pro .wm-pergola-hero-cta a:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  body.page-pergola-pro .wm-pergola-rate-panel {
+    margin: 0.35rem 0 0.55rem !important;
+    padding: 0.65rem 0.55rem !important;
+  }
+
+  body.page-pergola-pro .wm-pergola-rate-panel > h3 {
+    font-size: 0.88rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  body.page-pergola-pro .wm-pergola-rate-panel > p {
+    font-size: 0.72rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  body.page-pergola-pro .wm-pergola-rate-panel table {
+    font-size: 0.7rem !important;
+  }
+
+  body.page-pergola-pro .wm-pergola-rate-panel th,
+  body.page-pergola-pro .wm-pergola-rate-panel td {
+    padding: 0.35rem 0.4rem !important;
+  }
+
+  body.page-pergola-pro .pergola-gallery-block {
+    padding: 0.25rem 0 0.55rem !important;
+  }
+
+  body.page-pergola-pro .pergola-gallery-block .product-main-image,
+  body.page-pergola-pro .pergola-gallery-block .product-main-image-container img {
+    max-height: 150px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    border-radius: 10px;
+  }
+
+  body.page-pergola-pro .pergola-gallery-block .product-thumbnail-gallery {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 0.35rem !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-top: 0.4rem !important;
+  }
+
+  body.page-pergola-pro .pergola-gallery-block .product-thumbnail-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.page-pergola-pro .pergola-gallery-block .thumbnail-item {
+    flex: 0 0 56px !important;
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  body.page-pergola-pro .pergola-gallery-block .thumbnail-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  body.page-pergola-pro #price-calculator-pergola {
+    padding: 0.65rem 0 0.85rem !important;
+  }
+
+  body.page-pergola-pro #price-calculator-pergola .section-title {
+    font-size: 1.05rem !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  body.page-pergola-pro #price-calculator-pergola > .container > p {
+    font-size: 0.78rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.55rem !important;
+  }
+
+  body.page-pergola-pro #pergola-price-breakdown {
+    padding: 0.55rem 0 0.75rem !important;
+  }
+
+  body.page-pergola-pro #pergola-price-breakdown h2 {
+    font-size: 1.05rem !important;
+  }
+
+  /* Long SEO keyword rail — keep in DOM, visually tighten */
+  body.page-pergola-pro .pergola-seo-rail {
+    max-height: 5.2rem;
+    overflow: hidden;
+    position: relative;
+    padding: 0.35rem 0 0.55rem !important;
+    margin: 0 !important;
+  }
+
+  body.page-pergola-pro .pergola-seo-rail::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2rem;
+    background: linear-gradient(transparent, #fff);
+    pointer-events: none;
+  }
+
+  body.page-pergola-pro .pergola-seo-rail h2 {
+    font-size: 0.92rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  body.page-pergola-pro .pergola-seo-rail h3 {
+    font-size: 0.82rem !important;
+    margin: 0.35rem 0 0.15rem !important;
+  }
+
+  body.page-pergola-pro .pergola-seo-rail p {
+    font-size: 0.72rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  body.page-pergola-pro .pergola-deep-content {
+    padding: 0.85rem 0 !important;
+  }
+
+  body.page-pergola-pro .pergola-deep-content h2,
+  body.page-pergola-pro .pergola-seo-article h2 {
+    font-size: 1.05rem !important;
+    margin-bottom: 0.45rem !important;
+  }
+
+  body.page-pergola-pro .pergola-deep-content h3 {
+    font-size: 0.9rem !important;
+  }
+
+  body.page-pergola-pro .pergola-deep-content p,
+  body.page-pergola-pro .pergola-seo-article p,
+  body.page-pergola-pro .pergola-deep-content li {
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+  }
+
+  body.page-pergola-pro .pergola-faq-wrap {
+    padding: 1rem 0 1.5rem !important;
+  }
+
+  body.page-pergola-pro .pergola-faq-q {
+    font-size: 0.85rem !important;
+  }
+}

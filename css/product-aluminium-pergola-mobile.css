@@ -1,0 +1,59 @@
+/**
+ * Gold-standard mobile polish for
+ * products/pergola/aluminium-pergola.html
+ * (body.page-pergola-pro.page-aluminium-pergola)
+ *
+ * Imports shared pergola mobile rules, then page-specific layout.
+ * SEO: titles/meta/JSON-LD untouched structurally; long copy stays in DOM.
+ */
+@import url('product-pergola-mobile.css?v=20260730p');
+
+@media (max-width: 768px) {
+  body.page-pergola-pro.page-aluminium-pergola .wm-pergola-rate-panel {
+    box-shadow: 0 4px 14px -10px rgba(15, 23, 42, 0.12);
+  }
+
+  body.page-pergola-pro.page-aluminium-pergola .wm-pergola-hero-cta a.btn-primary,
+  body.page-pergola-pro.page-aluminium-pergola .wm-pergola-hero-cta a.cluster-cta-primary {
+    background: #1e40af;
+    color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  body.page-pergola-pro.page-aluminium-pergola .wm-pergola-hero-cta a.btn-outline,
+  body.page-pergola-pro.page-aluminium-pergola .wm-pergola-hero-cta a.cluster-cta-secondary {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    color: #1e40af;
+    text-decoration: none;
+    font-weight: 600;
+    background: #fff;
+  }
+
+  body.page-pergola-pro.page-aluminium-pergola #price-calculator-pergola {
+    background: #f8fafc !important;
+    border-radius: 0;
+  }
+
+  body.page-pergola-pro.page-aluminium-pergola .pergola-related-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0.65rem 0 0;
+  }
+
+  body.page-pergola-pro.page-aluminium-pergola .pergola-related-grid a {
+    font-size: 0.72rem;
+    display: block;
+    padding: 0.45rem 0.5rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    color: #1e40af;
+    text-decoration: none;
+  }
+}

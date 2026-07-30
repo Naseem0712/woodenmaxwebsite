@@ -164,6 +164,18 @@ ABS_IMG_RE = re.compile(r'https://woodenmax\.in/images/[^"\'<>]+', re.I)
 
 SCAN_CHARS = 350_000
 EXTRA_IMAGE_CAP = 10
+IMAGE_STOP_TOKENS = frozenset({
+    "price", "india", "aluminium", "aluminum", "window", "windows", "glass",
+    "door", "doors", "the", "and", "for", "with", "per", "sqft", "rft",
+    "product", "products", "modern", "design", "premium", "home", "bathroom",
+    "partition", "partitions",
+})
+DATA_IMAGE_RE = re.compile(r"""data-image=["']([^"']+)["']""", re.I)
+MAIN_IMAGE_RE = re.compile(
+    r"""id=["']product-main-image["'][^>]*src=["']([^"']+)["']"""
+    r"""|src=["']([^"']+)["'][^>]*id=["']product-main-image["']""",
+    re.I,
+)
 
 # Verified on-disk product heroes — used when og:image / page imgs 404 on deploy.
 SILO_FALLBACK_IMAGES: dict[str, str] = {
@@ -568,7 +580,8 @@ def abs_img_url(src: str, rel: str) -> str | None:
 
 
 def dedupe_image_key(url: str) -> str:
-    return url.split("?")[0].rstrip("/").lower()
+    base = url.split("?")[0].rstrip("/").lower()
+    return re.sub(r"-1200(\.[a-z0-9]+)$", r"\1", base)
 
 
 def should_skip_image_url(url: str) -> bool:
@@ -595,7 +608,23 @@ def local_path_for_site_url(url: str) -> Path | None:
 
 def feed_image_exists(url: str) -> bool:
     p = local_path_for_site_url(url)
-    return bool(p and p.is_file())
+    if p and p.is_file():
+        return True
+    # Accept -1200 twin when only one variant is on disk
+    u = normalize_feed_image_url(url)
+    try:
+        rel = unquote(urlparse(u).path.lstrip("/"))
+    except Exception:
+        return False
+    if not rel.startswith("images/"):
+        return False
+    twin = re.sub(r"-1200(\.[a-z0-9]+)$", r"\1", rel, flags=re.I)
+    if twin != rel and (ROOT / twin).is_file():
+        return True
+    with1200 = re.sub(r"(\.[a-z0-9]+)$", r"-1200\1", rel, flags=re.I)
+    if with1200 != rel and (ROOT / with1200).is_file():
+        return True
+    return False
 
 
 def silo_fallback_image(rel: str) -> str:
@@ -606,48 +635,38 @@ def silo_fallback_image(rel: str) -> str:
     return normalize_feed_image_url(DEFAULT_FEED_LOGO)
 
 
-def pick_feed_primary_image(text: str, rel: str, meta: dict) -> str:
-    """First fetchable product image: og → in-page imgs → silo hero → logo."""
-    img_candidates = collect_product_image_urls(text, rel)
-    og_raw = (meta.get("image") or "").strip()
-    if og_raw.startswith("/"):
-        og_raw = SITE_ORIGIN + og_raw
-    primary_og = normalize_feed_image_url(og_raw) if og_raw else ""
-    if primary_og and should_skip_image_url(primary_og):
-        primary_og = ""
-
-    ordered: list[str] = []
-    if primary_og and "woodenmax-logo" not in primary_og.lower():
-        ordered.append(primary_og)
-    ordered.extend(img_candidates)
-
-    seen: set[str] = set()
-    for u in ordered:
-        k = dedupe_image_key(u)
-        if k in seen:
-            continue
-        seen.add(k)
-        if feed_image_exists(u):
-            return u
-
-    fb = silo_fallback_image(rel)
-    if feed_image_exists(fb):
-        return fb
-    return normalize_feed_image_url(DEFAULT_FEED_LOGO)
+def slug_image_tokens(rel: str) -> list[str]:
+    stem = Path(rel).stem
+    if stem == "index":
+        stem = Path(rel).parent.name
+    return [
+        t for t in re.split(r"[^a-z0-9]+", stem.lower())
+        if len(t) >= 3 and t not in IMAGE_STOP_TOKENS
+    ]
 
 
-def pick_feed_extra_images(text: str, rel: str, primary: str) -> list[str]:
-    pk = dedupe_image_key(primary)
-    out: list[str] = []
-    for u in collect_product_image_urls(text, rel):
-        if dedupe_image_key(u) == pk:
-            continue
-        if not feed_image_exists(u):
-            continue
-        out.append(u)
-        if len(out) >= EXTRA_IMAGE_CAP:
-            break
-    return out
+def image_relevance(url: str, tokens: list[str]) -> int:
+    if not tokens:
+        return 0
+    path = unquote(urlparse(url).path).lower()
+    return sum(10 for t in tokens if t in path)
+
+
+def strip_related_product_blocks(text: str) -> str:
+    """Drop related-product cards so sibling heroes never enter additional_image_link."""
+    low = text.lower()
+    markers = (
+        'class="related-products"',
+        "class='related-products'",
+        'class="related-product-card"',
+        "class='related-product-card'",
+    )
+    cut = -1
+    for m in markers:
+        i = low.find(m)
+        if i >= 0 and (cut < 0 or i < cut):
+            cut = i
+    return text[:cut] if cut >= 0 else text
 
 
 def normalize_feed_image_url(url: str) -> str:
@@ -663,10 +682,11 @@ def normalize_feed_image_url(url: str) -> str:
     host = p.netloc.lower()
     if host.startswith("www.woodenmax.in"):
         host = "woodenmax.in"
-    scheme = "https" if "woodenmax.in" in host else p.scheme
+    if "woodenmax.in" not in host:
+        return u
     raw_path = unquote(p.path)
     enc_path = quote(raw_path, safe="/")
-    return urlunparse((scheme, host, enc_path, "", p.query, ""))
+    return urlunparse(("https", host, enc_path, "", p.query, ""))
 
 
 def resolve_product_image(raw: str, rel: str) -> str | None:
@@ -690,36 +710,80 @@ def resolve_product_image(raw: str, rel: str) -> str | None:
     return out
 
 
-def collect_product_image_urls(text: str, rel: str) -> list[str]:
-    """Ordered unique on-site product images: visible imgs, srcset, JSON-LD, preload, CSS backgrounds."""
-    blob = text[:SCAN_CHARS]
+def _push_image(raw: str, rel: str, seen: set[str], out: list[str]) -> None:
+    u = resolve_product_image(raw, rel)
+    if not u:
+        return
+    # Prefer on-disk twin when -1200 missing or vice versa
+    if not feed_image_exists(u):
+        return
+    # Normalize to an existing file URL when twin swap needed
+    p = local_path_for_site_url(u)
+    if not (p and p.is_file()):
+        rel_path = unquote(urlparse(u).path.lstrip("/"))
+        twin = re.sub(r"-1200(\.[a-z0-9]+)$", r"\1", rel_path, flags=re.I)
+        if twin != rel_path and (ROOT / twin).is_file():
+            u = normalize_feed_image_url(f"{SITE_ORIGIN}/{twin}")
+        else:
+            with1200 = re.sub(r"(\.[a-z0-9]+)$", r"-1200\1", rel_path, flags=re.I)
+            if with1200 != rel_path and (ROOT / with1200).is_file():
+                u = normalize_feed_image_url(f"{SITE_ORIGIN}/{with1200}")
+    k = dedupe_image_key(u)
+    if k in seen:
+        return
+    seen.add(k)
+    out.append(u)
+
+
+def collect_gallery_image_urls(text: str, rel: str) -> list[str]:
+    """Highest-trust images: main image, data-image thumbs, thumbnail strip, Product JSON-LD."""
+    clean = strip_related_product_blocks(text)
     seen: set[str] = set()
     out: list[str] = []
 
-    def push(raw: str) -> None:
-        u = resolve_product_image(raw, rel)
-        if not u:
-            return
+    for m in MAIN_IMAGE_RE.finditer(clean):
+        _push_image(m.group(1) or m.group(2) or "", rel, seen, out)
+    for m in DATA_IMAGE_RE.finditer(clean):
+        _push_image(m.group(1), rel, seen, out)
+    for block in re.finditer(r"product-thumbnail-gallery[\s\S]{0,25000}", clean, re.I):
+        chunk = block.group(0)
+        for m in IMG_SRC_RE.finditer(chunk):
+            _push_image(m.group(1), rel, seen, out)
+        for m in IMG_DATA_SRC_RE.finditer(chunk):
+            _push_image(m.group(1), rel, seen, out)
+
+    head = clean[:SCAN_CHARS]
+    for m in JSONLD_IMG_ESC_RE.finditer(head):
+        _push_image(m.group(0).replace("\\/", "/"), rel, seen, out)
+    # Early absolute image URLs from Product schema (not related cards — those are relative)
+    for m in ABS_IMG_RE.finditer(head[:80_000]):
+        _push_image(m.group(0), rel, seen, out)
+        if len(out) >= EXTRA_IMAGE_CAP + 4:
+            break
+    return out
+
+
+def collect_product_image_urls(text: str, rel: str) -> list[str]:
+    """Ordered unique on-site product images: gallery first, then meta, then slug-relevant imgs."""
+    clean = strip_related_product_blocks(text)
+    tokens = slug_image_tokens(rel)
+    seen: set[str] = set()
+    gallery: list[str] = []
+    meta: list[str] = []
+    rest: list[str] = []
+
+    for u in collect_gallery_image_urls(clean, rel):
         k = dedupe_image_key(u)
         if k in seen:
-            return
+            continue
         seen.add(k)
-        out.append(u)
+        gallery.append(u)
 
-    for m in JSONLD_IMG_ESC_RE.finditer(blob):
-        push(m.group(0).replace("\\/", "/"))
-    for m in ABS_IMG_RE.finditer(blob):
-        push(m.group(0))
-    for m in IMG_SRC_RE.finditer(blob):
-        push(m.group(1))
-    for m in IMG_DATA_SRC_RE.finditer(blob):
-        push(m.group(1))
-    for m in IMG_SRCSET_RE.finditer(blob):
-        for part in m.group(1).split(","):
-            tok = part.strip().split()
-            if tok:
-                push(tok[0])
-    for m in LINK_TAG_RE.finditer(blob):
+    head = clean[:50000]
+    og = OG_IMAGE_RE.search(head)
+    if og:
+        _push_image(og.group(1), rel, seen, meta)
+    for m in LINK_TAG_RE.finditer(head):
         inner = m.group(1)
         if "preload" not in inner.lower():
             continue
@@ -727,9 +791,113 @@ def collect_product_image_urls(text: str, rel: str) -> list[str]:
             continue
         hm = re.search(r'\bhref\s*=\s*["\']([^"\']+)["\']', inner, re.I)
         if hm:
-            push(hm.group(1))
+            _push_image(hm.group(1), rel, seen, meta)
+
+    blob = clean[:SCAN_CHARS]
+    for m in DATA_IMAGE_RE.finditer(blob):
+        _push_image(m.group(1), rel, seen, rest)
+    for m in IMG_SRC_RE.finditer(blob):
+        _push_image(m.group(1), rel, seen, rest)
+    for m in IMG_DATA_SRC_RE.finditer(blob):
+        _push_image(m.group(1), rel, seen, rest)
+    for m in IMG_SRCSET_RE.finditer(blob):
+        for part in m.group(1).split(","):
+            tok = part.strip().split()
+            if tok:
+                _push_image(tok[0], rel, seen, rest)
     for m in CSS_BG_URL_RE.finditer(blob):
-        push(m.group(1))
+        _push_image(m.group(1), rel, seen, rest)
+
+    scored_rest = [
+        u for u in rest
+        if (not tokens) or image_relevance(u, tokens) > 0
+    ]
+    scored_rest.sort(key=lambda u: image_relevance(u, tokens), reverse=True)
+
+    ordered: list[str] = []
+    order_seen: set[str] = set()
+    for bucket in (gallery, meta, scored_rest):
+        for u in bucket:
+            k = dedupe_image_key(u)
+            if k in order_seen:
+                continue
+            order_seen.add(k)
+            ordered.append(u)
+
+    # Prefer slug-relevant / dedicated *-pic folders as primary when available
+    if tokens:
+        def _score(u: str) -> int:
+            path_l = unquote(urlparse(u).path).lower()
+            bonus = 15 if ("-pic/" in path_l or "/pic/" in path_l or "-gallery/" in path_l) else 0
+            return image_relevance(u, tokens) + bonus
+        ordered.sort(key=_score, reverse=True)
+    return ordered
+
+
+def pick_feed_primary_image(text: str, rel: str, meta: dict) -> str:
+    """First fetchable product image: gallery → og → slug-relevant imgs → silo hero."""
+    img_candidates = collect_product_image_urls(text, rel)
+    og_raw = (meta.get("image") or "").strip()
+    if og_raw.startswith("/"):
+        og_raw = SITE_ORIGIN + og_raw
+    primary_og = normalize_feed_image_url(og_raw) if og_raw else ""
+    if primary_og and should_skip_image_url(primary_og):
+        primary_og = ""
+
+    # Gallery / page candidates first (product-specific), then og as backup
+    ordered: list[str] = list(img_candidates)
+    if primary_og and "woodenmax-logo" not in primary_og.lower():
+        # Insert og after gallery hits if not already present
+        if dedupe_image_key(primary_og) not in {dedupe_image_key(u) for u in ordered}:
+            if feed_image_exists(primary_og):
+                # Prefer page gallery when present; otherwise og leads
+                if ordered:
+                    ordered.insert(min(1, len(ordered)), primary_og)
+                else:
+                    ordered.insert(0, primary_og)
+
+    seen: set[str] = set()
+    for u in ordered:
+        k = dedupe_image_key(u)
+        if k in seen:
+            continue
+        seen.add(k)
+        if feed_image_exists(u):
+            return u
+
+    fb = silo_fallback_image(rel)
+    if feed_image_exists(fb):
+        return fb
+    return normalize_feed_image_url(DEFAULT_FEED_LOGO)
+
+
+def pick_feed_extra_images(text: str, rel: str, primary: str) -> list[str]:
+    """Additional images from this product's gallery — not related-product cards."""
+    pk = dedupe_image_key(primary)
+    tokens = slug_image_tokens(rel)
+    # Trust set: anything harvested as gallery/data-image/main/json-ld
+    trusted = {dedupe_image_key(u) for u in collect_gallery_image_urls(text, rel)}
+    out: list[str] = []
+    for u in collect_product_image_urls(text, rel):
+        if dedupe_image_key(u) == pk:
+            continue
+        if not feed_image_exists(u):
+            continue
+        uk = dedupe_image_key(u)
+        if uk not in trusted:
+            if tokens and image_relevance(u, tokens) <= 0:
+                path_l = unquote(urlparse(u).path).lower()
+                if "-pic/" not in path_l and "/pic/" not in path_l and "-gallery/" not in path_l:
+                    try:
+                        primary_dir = unquote(urlparse(primary).path).rsplit("/", 1)[0].lower()
+                        u_dir = unquote(urlparse(u).path).rsplit("/", 1)[0].lower()
+                    except Exception:
+                        primary_dir = u_dir = ""
+                    if u_dir != primary_dir:
+                        continue
+        out.append(u)
+        if len(out) >= EXTRA_IMAGE_CAP:
+            break
     return out
 
 
@@ -963,7 +1131,7 @@ def main() -> None:
                 f"Powered by {BRAND} Pricing Engine v1.0."
             )[:4990],
             "link": f"{SITE_ORIGIN}/api/calculate",
-            "image_link": SILO_FALLBACK_IMAGES["aluminium-windows"],
+            "image_link": normalize_feed_image_url(DEFAULT_FEED_LOGO),
             "additional_image_link": "",
             "availability": "in stock",
             "price": "578.00 INR",
@@ -1065,6 +1233,15 @@ def main() -> None:
             print(f"  {r['id']}: {r['image_link']}", file=sys.stderr)
     else:
         print(f"\n✓ All {len(rows)} feed image_link URLs resolve to files on disk.")
+
+    from collections import Counter
+    img_counts = Counter(r["image_link"] for r in rows)
+    with_extras = sum(1 for r in rows if (r.get("additional_image_link") or "").strip())
+    print(f"\nDistinct image_link URLs: {len(img_counts)}")
+    print(f"Rows with additional_image_link: {with_extras}/{len(rows)}")
+    print("Most reused image_link values:")
+    for u, n in img_counts.most_common(10):
+        print(f"  {n}×  {u.replace(SITE_ORIGIN, '')}")
 
 
 if __name__ == "__main__":

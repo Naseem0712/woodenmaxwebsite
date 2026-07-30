@@ -497,4 +497,44 @@
   body.page-window-pro #comparison .section-title {
     font-size: 1.05rem !important;
   }
+
+  /* Non-gold SEO pages: calculator visually before price-range copy */
+  body.page-window-pro .wm-window-primary-flow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.page-window-pro .wm-window-primary-flow > #window-price-calculator {
+    order: 1;
+  }
+
+  body.page-window-pro .wm-window-primary-flow > #aluminium-window-price-range,
+  body.page-window-pro .wm-window-primary-flow > #aluminium-system-intro {
+    order: 2;
+  }
+
+  body.page-window-pro .wm-window-primary-flow > #system-rate-comparison {
+    order: 3;
+  }
+
+  /* Product-detail pages: options/calc before gallery photos */
+  body.page-window-pro .product-detail-grid {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  body.page-window-pro .product-detail-grid > .product-image-gallery {
+    order: 2 !important;
+  }
+
+  body.page-window-pro .product-detail-grid > .product-image-gallery ~ div,
+  body.page-window-pro .product-detail-grid > div:not(.product-image-gallery) {
+    order: 1 !important;
+  }
+
+  body.page-window-pro .product-main-image,
+  body.page-window-pro .product-main-image-container img {
+    max-height: 168px !important;
+    object-fit: cover !important;
+  }
 }

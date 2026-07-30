@@ -1,1 +1,152 @@
-@import url('product-window-mobile.css');
+/**
+ * Gold-standard mobile polish for
+ * products/aluminium-windows/2-track-aluminium-window-price.html
+ * (body.page-window-pro.morning-seo-page)
+ *
+ * Imports shared window product mobile rules, then page-specific layout.
+ * SEO: titles/meta/JSON-LD untouched; long copy stays in DOM (visually tightened).
+ */
+@import url('product-window-mobile.css?v=20260730a');
+
+/* Calculator immediately after hero (SEO copy stays in DOM below) */
+.wm-2track-primary-flow {
+  display: flex;
+  flex-direction: column;
+}
+
+.wm-2track-primary-flow > #window-price-calculator {
+  order: 1;
+}
+
+.wm-2track-primary-flow > #aluminium-window-price-range {
+  order: 2;
+}
+
+/* Desktop: keep config panel tidy beside hero CTAs */
+@media (min-width: 769px) {
+  body.page-window-pro.morning-seo-page .wm-hero-rate-strip {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    margin: 0.75rem 0 1rem;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-hero-photo-rail {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-hero-photo-rail img {
+    max-width: 100% !important;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+  }
+}
+
+@media (max-width: 768px) {
+  body.page-window-pro.morning-seo-page .wm-breadcrumb-wrap {
+    padding: 4.55rem 0 0.25rem !important;
+    background: #f3f4f6;
+  }
+
+  body.page-window-pro.morning-seo-page .product-detail-hero {
+    padding: 0.4rem 0 0.7rem !important;
+  }
+
+  body.page-window-pro.morning-seo-page .seo-page-h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.2 !important;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-hero-cta-row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem !important;
+    margin: 0.5rem 0 0.55rem !important;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-hero-cta-row .btn {
+    padding: 0.58rem 0.45rem !important;
+    font-size: 0.7rem !important;
+    text-align: center;
+    justify-content: center;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-hero-cta-row .btn:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  /* Inline rate strip — reachable before any scroll story */
+  body.page-window-pro.morning-seo-page .wm-config-price-panel {
+    margin: 0.35rem 0 0.55rem;
+    padding: 0.65rem 0.55rem;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-config-price-panel > h2 {
+    font-size: 0.88rem !important;
+    margin: 0 0 0.4rem !important;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-hero-photo-rail {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0.45rem 0 0.35rem;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-hero-photo-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-hero-photo-rail figure {
+    margin: 0;
+    flex: 0 0 auto;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-hero-photo-rail img {
+    width: 132px !important;
+    max-width: 132px !important;
+    height: 96px !important;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+  }
+
+  body.page-window-pro.morning-seo-page .wm-explore-next {
+    margin: 0.35rem 0 0 !important;
+    padding: 0.55rem 0.6rem !important;
+  }
+
+  /* Calculator immediately after hero */
+  body.page-window-pro.morning-seo-page .seo-shower-calculator-section {
+    padding: 0.65rem 0 0.85rem !important;
+    background: #f8fafc;
+  }
+
+  body.page-window-pro.morning-seo-page .seo-shower-calculator-section > .container > .section-title {
+    font-size: 1.02rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  body.page-window-pro.morning-seo-page .seo-shower-calculator-intro {
+    font-size: 0.74rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 0.45rem !important;
+  }
+
+  /* Deep SEO sections after calc — denser, still fully crawlable */
+  body.page-window-pro.morning-seo-page #aluminium-window-price-range,
+  body.page-window-pro.morning-seo-page #types-design-options,
+  body.page-window-pro.morning-seo-page #price-breakdown,
+  body.page-window-pro.morning-seo-page #comparison,
+  body.page-window-pro.morning-seo-page #best-use-cases {
+    padding: 1rem 0 !important;
+  }
+}

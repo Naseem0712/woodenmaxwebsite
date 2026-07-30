@@ -1,0 +1,259 @@
+/**
+ * product-mirror-mobile.css
+ * Mobile + shared layout for mirror profiles hub / product pages
+ * (body.silo-mirror-profiles, body.page-mirror-pro).
+ * Layout-only: titles, meta, JSON-LD, analytics, and crawlable
+ * copy stay in the DOM (visually tightened on small screens).
+ */
+
+/* ── Hub: product cards + calc early on mobile ── */
+.mirror-hub-main-flow {
+  display: block;
+}
+
+.mirror-product-main-flow {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body.silo-mirror-profiles .cluster-breadcrumb {
+    padding-top: 0.35rem;
+  }
+
+  body.silo-mirror-profiles .cluster-hero--hub-slim {
+    padding: 0.55rem 0 0.7rem;
+  }
+
+  body.silo-mirror-profiles .cluster-hero--hub-slim h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.22 !important;
+  }
+
+  body.silo-mirror-profiles .cluster-hero--hub-slim .cluster-hero-sub {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+  }
+
+  body.silo-mirror-profiles .cluster-hero-cta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    margin-top: 0.55rem;
+  }
+
+  body.silo-mirror-profiles .cluster-hero-cta a {
+    text-align: center;
+    font-size: 0.72rem !important;
+    padding: 0.55rem 0.4rem !important;
+  }
+
+  body.silo-mirror-profiles .cluster-hero--hub-slim .cluster-hero-media {
+    margin-top: 0.55rem;
+  }
+
+  body.silo-mirror-profiles .cluster-hero--hub-slim .catalog-hero-product-img {
+    max-height: 140px !important;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  body.silo-mirror-profiles .cluster-hero--hub-slim .cluster-hero-caption {
+    font-size: 0.68rem !important;
+    margin-top: 0.35rem !important;
+  }
+
+  .mirror-hub-main-flow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mirror-hub-main-flow > #mirror-product-lines {
+    order: 1;
+  }
+
+  .mirror-hub-main-flow > #wmCatalogCalc {
+    order: 2;
+  }
+
+  .mirror-hub-main-flow > .wm-per-piece-prices {
+    order: 3;
+  }
+
+  body.silo-mirror-profiles .catalog-hub-section--priority {
+    padding-top: 0.45rem !important;
+    padding-bottom: 0.85rem !important;
+  }
+
+  body.silo-mirror-profiles .catalog-hub-lead {
+    font-size: 0.78rem !important;
+    margin-bottom: 0.55rem !important;
+  }
+
+  body.silo-mirror-profiles .catalog-hub-grid--compact {
+    gap: 0.45rem !important;
+  }
+
+  body.silo-mirror-profiles .catalog-hub-card {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  body.silo-mirror-profiles .catalog-hub-card img {
+    max-height: 88px !important;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  body.silo-mirror-profiles .catalog-hub-card-body {
+    padding: 0.45rem 0.5rem !important;
+  }
+
+  body.silo-mirror-profiles .catalog-hub-card-body strong {
+    font-size: 0.78rem !important;
+  }
+
+  body.silo-mirror-profiles .catalog-hub-card-body span {
+    font-size: 0.68rem !important;
+  }
+
+  body.silo-mirror-profiles .catalog-calc-section {
+    padding: 0.65rem 0 0.75rem !important;
+  }
+
+  body.silo-mirror-profiles .catalog-calc-section .cluster-h2 {
+    font-size: 1.05rem !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  body.silo-mirror-profiles .catalog-calc-intro,
+  body.silo-mirror-profiles .catalog-calc-intro--short {
+    font-size: 0.75rem !important;
+    line-height: 1.4 !important;
+  }
+
+  body.silo-mirror-profiles .wm-per-piece-prices {
+    padding-top: 0.55rem !important;
+    padding-bottom: 0.55rem !important;
+  }
+
+  body.silo-mirror-profiles .wm-per-piece-prices .cluster-h2 {
+    font-size: 1.05rem !important;
+  }
+
+  body.silo-mirror-profiles .cluster-table {
+    font-size: 0.72rem !important;
+  }
+
+  body.silo-mirror-profiles .cluster-section,
+  body.silo-mirror-profiles .cluster-section-alt,
+  body.silo-mirror-profiles .catalog-eeat-block,
+  body.silo-mirror-profiles .cluster-faq-section {
+    padding-top: 0.85rem !important;
+    padding-bottom: 0.85rem !important;
+  }
+
+  body.silo-mirror-profiles .cluster-h2 {
+    font-size: 1.08rem !important;
+  }
+
+  body.silo-mirror-profiles .cluster-prose,
+  body.silo-mirror-profiles .cluster-prose p {
+    font-size: 0.82rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Product pages (non-hub-slim heroes) */
+  body.silo-mirror-profiles .cluster-hero:not(.cluster-hero--hub-slim) {
+    padding: 0.55rem 0 0.75rem !important;
+  }
+
+  body.silo-mirror-profiles .cluster-hero:not(.cluster-hero--hub-slim) h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.2 !important;
+  }
+
+  body.silo-mirror-profiles .cluster-hero:not(.cluster-hero--hub-slim) .cluster-hero-sub {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    max-height: 4.6em;
+    overflow: hidden;
+  }
+
+  body.silo-mirror-profiles .cluster-hero:not(.cluster-hero--hub-slim) .cluster-hero-media {
+    max-height: 150px;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  body.silo-mirror-profiles .cluster-hero:not(.cluster-hero--hub-slim) .catalog-hero-product-img {
+    max-height: 150px;
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .mirror-product-main-flow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mirror-product-main-flow > #wmCatalogCalc {
+    order: 1;
+  }
+
+  .mirror-product-main-flow > .wm-mirror-gallery-block {
+    order: 2;
+  }
+
+  .mirror-product-main-flow > .wm-per-piece-prices {
+    order: 3;
+  }
+
+  body.silo-mirror-profiles .wm-mirror-gallery-block {
+    padding: 0.35rem 0 0.55rem !important;
+  }
+
+  body.silo-mirror-profiles .wm-mirror-gallery-block .product-main-image {
+    max-height: 150px !important;
+    width: 100% !important;
+    object-fit: cover !important;
+    border-radius: 10px;
+  }
+
+  body.silo-mirror-profiles .wm-mirror-gallery-block .product-thumbnail-gallery {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 0.35rem !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-top: 0.4rem !important;
+  }
+
+  body.silo-mirror-profiles .wm-mirror-gallery-block .product-thumbnail-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.silo-mirror-profiles .wm-mirror-gallery-block .thumbnail-item {
+    flex: 0 0 56px !important;
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  body.silo-mirror-profiles .wm-mirror-gallery-block .thumbnail-item img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+@media (min-width: 769px) {
+  body.page-mirror-pro .cluster-hero > .container,
+  body.page-mirror-pro section .container,
+  body.page-mirror-pro .wm-page-content {
+    width: 90%;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

@@ -1,0 +1,19 @@
+/**
+ * Gold-standard mobile polish for
+ * products/glass-railing/balcony-glass-railing.html
+ * (body.page-railing-pro.page-balcony-railing)
+ */
+@import url('/css/product-railing-mobile.css?v=20260730r');
+
+@media (max-width: 768px) {
+  body.page-railing-pro.page-balcony-railing .wm-railing-hero-intro .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  body.page-railing-pro.page-balcony-railing .product-image-gallery .product-description-section,
+  body.page-railing-pro.page-balcony-railing .product-image-gallery .key-features-section {
+    margin-top: 0.55rem !important;
+    padding: 0.65rem !important;
+  }
+}

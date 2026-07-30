@@ -1,0 +1,35 @@
+/**
+ * Gold-standard mobile polish for
+ * products/mirror-profiles/led-mirror-profile-price.html
+ * (body.silo-mirror-profiles.page-mirror-pro.page-led-mirror-gold)
+ */
+@import url('/css/product-mirror-mobile.css?v=20260730m');
+
+@media (max-width: 768px) {
+  body.page-led-mirror-gold .cluster-hero {
+    padding: 0.45rem 0 0.65rem !important;
+  }
+
+  body.page-led-mirror-gold .wm-mirror-hero-cta {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    margin: 0.45rem 0 0.55rem !important;
+  }
+
+  body.page-led-mirror-gold .wm-mirror-hero-cta a {
+    text-align: center;
+    font-size: 0.72rem !important;
+    padding: 0.55rem 0.4rem !important;
+  }
+
+  body.page-led-mirror-gold .wm-mirror-hero-cta a:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  body.page-led-mirror-gold .wm-explore-next {
+    margin: 0.35rem 0 0.55rem !important;
+    padding: 0.5rem 0.55rem !important;
+    font-size: 0.72rem !important;
+  }
+}

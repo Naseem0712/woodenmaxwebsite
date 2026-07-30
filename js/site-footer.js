@@ -15,7 +15,7 @@
   'use strict';
 
   /** Bump after deploy so CDN/browser fetch new cart + payment JS (see _headers). */
-  var WM_ASSET_V = '20260729g';
+  var WM_ASSET_V = '20260730p1';
 
   // ----------------------------------------------------------------------
   //  1. Canonical content (single source of truth)
@@ -359,6 +359,9 @@
   }
 
   function pageNeedsQuoteCartUx () {
+    /* Heavy stack (~260KB JS+CSS). Only load when a calculator/estimate surface
+       exists, the page already ships cart UX, or the visitor has cart items.
+       Do NOT blanket-load on every /products/* SEO page. */
     if (document.querySelector('[id^="price-calculator-"]')) return true;
     if (document.querySelector('.price-calculator-container')) return true;
     if (document.querySelector('[data-grill-calculator]')) return true;
@@ -367,9 +370,10 @@
     if (document.querySelector('script[src*="calculator-mobile-ux.js"]')) return true;
     if (document.querySelector('script[src*="catalog-quick-calc.js"]')) return true;
     if (document.querySelector('script[src*="pergola-product-pricing.js"]')) return true;
+    if (document.querySelector('script[src*="standard-size-packages.js"]')) return true;
+    if (document.querySelector('script[src*="shower-seo-quick-estimate.js"]')) return true;
     var path = (location.pathname || '').toLowerCase();
-    if (/^\/products(\/|$)/.test(path)) return true;
-    if (/^\/(catalog|calculator|glass-elevation-price)/.test(path)) return true;
+    if (/^\/(catalog|calculators|calculator|glass-elevation-price|aluminium-window-price)/.test(path)) return true;
     if (peekQuoteCartHasItems()) return true;
     return false;
   }
@@ -439,8 +443,31 @@
     }
   }
 
+  /**
+   * Gallery JS/CSS were previously injected on every page (home, blog, about…).
+   * Only load when a gallery marker exists, or on product leaf pages that rely
+   * on auto-upgrade of stacked image grids.
+   */
+  function pageNeedsProductGallery () {
+    if (document.querySelector(
+      '.product-image-gallery, .product-main-image, .product-thumbnail-gallery, ' +
+      '[data-gallery-images], .alum-seo-hero-compact, .thumbnail-item'
+    )) return true;
+    var path = (location.pathname || '').toLowerCase().replace(/\/$/, '');
+    if (!/^\/products\//.test(path)) return false;
+    // Category hubs (/products/aluminium-windows) — skip unless markers above.
+    if (/^\/products\/[^/]+$/.test(path)) return false;
+    return true;
+  }
+
   function ensureProductGalleryAssets () {
-    if (!document.querySelector('link[href*="product-image-gallery.css"]')) {
+    if (!pageNeedsProductGallery()) return;
+
+    // product-pages-global.css already ships gallery rules on most product pages.
+    var hasGalleryCss = document.querySelector(
+      'link[href*="product-image-gallery.css"], link[href*="product-pages-global.css"]'
+    );
+    if (!hasGalleryCss) {
       var css = document.createElement('link');
       css.rel = 'stylesheet';
       css.href = '/css/product-image-gallery.css?v=' + WM_ASSET_V;
@@ -459,6 +486,34 @@
     }
   }
 
+  /** Convert render-blocking Google Fonts <link> tags to non-blocking load. */
+  function deferRenderBlockingFonts () {
+    var links = document.querySelectorAll('link[rel="stylesheet"][href*="fonts.googleapis.com"]');
+    for (var i = 0; i < links.length; i++) {
+      var link = links[i];
+      if (link.dataset.wmFontDeferred === '1') continue;
+      if (link.media === 'print' && link.getAttribute('onload')) continue;
+      link.dataset.wmFontDeferred = '1';
+      var activate = function (el) {
+        return function () { el.media = 'all'; el.onload = null; };
+      }(link);
+      link.onload = activate;
+      link.media = 'print';
+      // Already downloaded — onload will not fire again.
+      if (link.sheet) activate();
+    }
+  }
+
+  /** Mobile FAQ accordion for aluminium window product pages (page-window-pro). */
+  function ensureWindowPagesMobile () {
+    if (!document.body || !document.body.classList.contains('page-window-pro')) return;
+    if (document.querySelector('script[src*="window-pages-mobile.js"]')) return;
+    var s = document.createElement('script');
+    s.src = '/js/window-pages-mobile.js?v=' + WM_ASSET_V;
+    s.defer = true;
+    document.body.appendChild(s);
+  }
+
   function init () {
     purgeLegacyFooter();
 
@@ -470,7 +525,11 @@
     ensureAnalyticsEvents();
     ensureQuoteCartAssets();
     ensureProductGalleryAssets();
+    ensureWindowPagesMobile();
   }
+
+  // Fonts are in <head>; defer script runs after parse — unblock ASAP.
+  deferRenderBlockingFonts();
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

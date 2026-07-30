@@ -1,0 +1,249 @@
+/**
+ * product-cladding-mobile.css
+ * Mobile + shared layout for elevation cladding hub / product pages
+ * (body.silo-elevation-cladding, body.page-cladding-pro).
+ * Layout-only: SEO copy stays crawlable; visually tightened on mobile.
+ */
+
+.cladding-hub-main-flow {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body.silo-elevation-cladding > div[style*="padding: 6rem 0 1rem"],
+  body.page-cladding-pro > div[style*="padding: 6rem 0 1rem"] {
+    padding: 4.55rem 0 0.25rem !important;
+  }
+
+  body.silo-elevation-cladding > div[style*="padding: 6rem 0 1rem"] nav,
+  body.page-cladding-pro > div[style*="padding: 6rem 0 1rem"] nav {
+    font-size: 0.72rem !important;
+  }
+
+  body.silo-elevation-cladding .page-header {
+    padding-top: 0.55rem !important;
+    min-height: 0 !important;
+  }
+
+  body.silo-elevation-cladding .page-header-bg {
+    min-height: 120px !important;
+  }
+
+  body.silo-elevation-cladding .page-header-content {
+    padding: 1rem 1rem 1.15rem !important;
+  }
+
+  body.silo-elevation-cladding .page-header-content .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  body.silo-elevation-cladding .page-header-content h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.22 !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  body.silo-elevation-cladding .page-header-content > p {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+    max-height: 4.6em;
+    overflow: hidden;
+  }
+
+  body.silo-elevation-cladding .wm-cladding-hub-cta {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    margin-top: 0.65rem !important;
+  }
+
+  body.silo-elevation-cladding .wm-cladding-hub-cta a {
+    text-align: center;
+    font-size: 0.72rem !important;
+    padding: 0.55rem 0.4rem !important;
+  }
+
+  .cladding-hub-main-flow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cladding-hub-main-flow > #cladding-hub-products {
+    order: 1;
+  }
+
+  .cladding-hub-main-flow > #cladding-hub-rates {
+    order: 2;
+  }
+
+  body.silo-elevation-cladding #cladding-hub-products.catalog-content {
+    padding: 0.55rem 0 0.85rem !important;
+  }
+
+  body.silo-elevation-cladding #cladding-hub-products h2 {
+    font-size: 1.05rem !important;
+    line-height: 1.25 !important;
+  }
+
+  body.silo-elevation-cladding #cladding-hub-products .category-section-header p {
+    font-size: 0.78rem !important;
+    line-height: 1.45 !important;
+    max-height: 4.6em;
+    overflow: hidden;
+  }
+
+  body.silo-elevation-cladding .catalog-products-grid {
+    gap: 0.65rem !important;
+  }
+
+  body.silo-elevation-cladding .product-card .product-image-container {
+    max-height: 140px;
+    overflow: hidden;
+  }
+
+  body.silo-elevation-cladding .product-card .product-image {
+    max-height: 140px;
+    object-fit: cover;
+  }
+
+  body.silo-elevation-cladding .product-card .product-title-row h3,
+  body.silo-elevation-cladding .product-card h3 {
+    font-size: 0.82rem !important;
+  }
+
+  body.silo-elevation-cladding #cladding-hub-rates {
+    padding: 0.45rem 0 0.55rem !important;
+  }
+
+  body.silo-elevation-cladding #cladding-hub-rates h3 {
+    font-size: 0.95rem !important;
+  }
+
+  body.silo-elevation-cladding #cladding-hub-rates p,
+  body.silo-elevation-cladding #cladding-hub-rates td,
+  body.silo-elevation-cladding #cladding-hub-rates th {
+    font-size: 0.72rem !important;
+  }
+}
+
+@media (min-width: 769px) {
+  body.page-cladding-pro .product-detail-hero > .container,
+  body.page-cladding-pro section .container {
+    width: 90%;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  body.page-cladding-pro .product-detail-hero {
+    padding: 0.35rem 0 0.65rem !important;
+  }
+
+  body.page-cladding-pro .product-detail-hero > .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.page-cladding-pro .wm-cladding-hero-intro {
+    order: 1;
+    margin-bottom: 0.45rem !important;
+  }
+
+  body.page-cladding-pro .wm-cladding-hero-intro .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  body.page-cladding-pro .wm-cladding-hero-intro h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.35rem !important;
+  }
+
+  body.page-cladding-pro .wm-cladding-hero-intro h1 span {
+    font-size: 0.72rem !important;
+    margin-top: 0.15rem !important;
+  }
+
+  body.page-cladding-pro .wm-cladding-hero-intro > p {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    max-height: 4.6em;
+    overflow: hidden;
+  }
+
+  body.page-cladding-pro .wm-cladding-rate-panel,
+  body.page-cladding-pro .direct-answer-price-snippet {
+    order: 2;
+    margin-bottom: 0.5rem !important;
+    padding: 0.65rem 0.55rem !important;
+  }
+
+  body.page-cladding-pro .wm-cladding-rate-panel > p,
+  body.page-cladding-pro .direct-answer-price-snippet > p {
+    font-size: 0.78rem !important;
+    margin-bottom: 0.4rem !important;
+    line-height: 1.4 !important;
+  }
+
+  body.page-cladding-pro .wm-cladding-rate-panel table,
+  body.page-cladding-pro .direct-answer-price-snippet table {
+    font-size: 0.7rem !important;
+  }
+
+  body.page-cladding-pro .product-detail-grid {
+    order: 3;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  body.page-cladding-pro .product-detail-grid > .product-image-gallery {
+    order: 2 !important;
+  }
+
+  body.page-cladding-pro .product-detail-grid > div:last-child,
+  body.page-cladding-pro .product-detail-grid > .wm-cladding-calc-col {
+    order: 1 !important;
+  }
+
+  body.page-cladding-pro .product-main-image {
+    max-height: 150px !important;
+    object-fit: cover !important;
+    border-radius: 10px;
+  }
+
+  body.page-cladding-pro .product-thumbnail-gallery {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 0.35rem !important;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin-top: 0.4rem !important;
+  }
+
+  body.page-cladding-pro .product-thumbnail-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.page-cladding-pro .thumbnail-item {
+    flex: 0 0 56px !important;
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  body.page-cladding-pro .price-calculator-container {
+    margin-top: 0.25rem;
+  }
+
+  body.page-cladding-pro .product-image-gallery .product-description-section,
+  body.page-cladding-pro .product-image-gallery .key-features-section,
+  body.page-cladding-pro .product-image-gallery > div[style*="margin-top: 2rem"] {
+    margin-top: 0.55rem !important;
+    padding: 0.65rem !important;
+  }
+}

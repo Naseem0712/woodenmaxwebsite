@@ -1,0 +1,29 @@
+/**
+ * Gold-standard mobile polish for
+ * products/telescope-windows/telescopic-slim-sliding-door.html
+ * (body.page-telescope-pro.page-telescopic-slim)
+ *
+ * Imports shared telescope mobile rules, then page-specific layout.
+ * SEO: titles/meta/JSON-LD untouched structurally; long copy stays in DOM.
+ */
+@import url('/css/product-telescope-mobile.css?v=20260730f');
+
+@media (max-width: 768px) {
+  body.page-telescope-pro.page-telescopic-slim .wm-telescope-hero-intro .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  body.page-telescope-pro.page-telescopic-slim .wm-explore-next {
+    order: 6;
+    margin: 0.35rem 0 0 !important;
+    padding: 0.5rem 0.55rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  body.page-telescope-pro.page-telescopic-slim .product-image-gallery .product-description-section,
+  body.page-telescope-pro.page-telescopic-slim .product-image-gallery > div[style*="margin-top: 2rem"] {
+    margin-top: 0.55rem !important;
+    padding: 0.65rem !important;
+  }
+}

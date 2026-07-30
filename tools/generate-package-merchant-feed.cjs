@@ -2,14 +2,21 @@
  * Generate Google Shopping package SKUs from live products.json + mirror.json
  * using the same formulas as js/standard-size-packages.js
  *
- * Landing links ALWAYS resolve to an existing .html page (via product-landing-map).
+ * Landing links ALWAYS resolve to an existing .html page (via product-landing-map),
+ * preferring <link rel=canonical> so GMC matches the live page URL.
  * Rows without a real landing are skipped — never emit soft-404 Shopping URLs.
+ *
+ * Images: gallery-first (product-main-image, thumbnail data-image, Product JSON-LD),
+ * then og/meta, then slug-relevant page images. Related-product card heroes are
+ * stripped so sibling products do not share photos. Emits additional_image_link
+ * (up to 10) for Google Merchant.
  *
  * Outputs:
  *   products-packages-feed.csv  — package-only rows
  *   Merges into products-feed.csv by REPLACING prior standard-size-package rows
  *
- * Run: node tools/generate-package-merchant-feed.cjs
+ * Run: npm run merchant:packages
+ *      node tools/generate-package-merchant-feed.cjs
  */
 const fs = require('fs');
 const path = require('path');
@@ -83,22 +90,292 @@ function band(price) {
   return 'luxury';
 }
 
-/** Real crawlable landing only — never products.json slug if HTML missing */
+const EXTRA_IMAGE_CAP = 10;
+const IMAGE_STOP_TOKENS = new Set([
+  'price', 'india', 'aluminium', 'aluminum', 'window', 'windows', 'glass', 'door',
+  'doors', 'the', 'and', 'for', 'with', 'per', 'sqft', 'rft', 'product', 'products',
+  'modern', 'design', 'premium', 'home', 'bathroom', 'partition', 'partitions'
+]);
+
+/** Real crawlable landing only — prefer <link rel=canonical>, never soft-404 slugs */
 function productLink(p) {
   const landing = LANDING_BY_ID[p.id];
   if (!landing || !landingExists(landing)) return null;
+  const disk = path.join(ROOT, landing.replace(/^\//, '').replace(/\//g, path.sep) + '.html');
+  try {
+    const head = fs.readFileSync(disk, 'utf8').slice(0, 40000);
+    const m = head.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
+    if (m && m[1]) {
+      let href = m[1].trim().split('#')[0];
+      if (href.startsWith('/')) href = SITE + href;
+      const parsed = new URL(href);
+      const host = parsed.hostname.replace(/^www\./i, '').toLowerCase();
+      if (host === 'woodenmax.in') {
+        let pth = decodeURIComponent(parsed.pathname || '/');
+        if (pth.length > 1 && pth.endsWith('/')) pth = pth.replace(/\/+$/, '');
+        return SITE + pth;
+      }
+    }
+  } catch (e) { /* fall through */ }
   return SITE + landing;
 }
 
-function imageFor(cat) {
-  const map = {
-    'aluminium-windows': SITE + '/images/products/Window%20Price%20Per%20Sqft/sliding-window-price-range-india-1200.webp',
-    'shower-partitions': SITE + '/images/products/Glass%20Shower%20Partition%20Price/glass-shower-partition-modern-bathroom-1200.webp',
-    'metal-louvers': SITE + '/images/products/Window%20Price%20Per%20Sqft/sliding-window-price-range-india-1200.webp',
-    'glass-railing': SITE + '/images/products/Window%20Price%20Per%20Sqft/sliding-window-price-range-india-1200.webp',
-    'mirror-profiles': SITE + '/images/products/mirror-profiles/aluminium-mirror-profile-price-per-foot-india.webp'
+/** Category heroes — must be category-accurate (never reuse sliding-window for louvers/railings). */
+const CATEGORY_FALLBACK_IMAGES = {
+  'aluminium-windows': SITE + '/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home.webp',
+  'shower-partitions': SITE + '/images/products/Glass%20Shower%20Partition%20Price/glass-shower-partition-modern-bathroom.webp',
+  'metal-louvers': SITE + '/images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india.webp',
+  'glass-railing': SITE + '/images/products/balcony-glass-railing-system/luxury-balcony-glass-railing.webp',
+  'mirror-profiles': SITE + '/images/products/mirror-profiles/led-aluminium-mirror-profile-bathroom-price-india.webp',
+  'folding-systems': SITE + '/images/products/folding-systems/folding-aluminium-balcony-door-toughened-glass-india.webp',
+  'telescope-windows': SITE + '/images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp',
+  'elevation-cladding': SITE + '/images/products/elevation-cladding/hpl-acp-elevation-house-cladding.webp',
+  'grills': SITE + '/images/products/Grills/aluminium-window-grill-design-modern.webp',
+  'glass-elevation': SITE + '/images/products/Glazing/architectural-glass-elevation.webp',
+  'pergola': SITE + '/images/products/metal-louvers/aluminium-ceiling-louver-pergola-design.webp'
+};
+
+const DEFAULT_FEED_IMAGE = CATEGORY_FALLBACK_IMAGES['aluminium-windows'];
+const imageCache = new Map(); // productId → { primary, extras }
+
+function normalizeFeedImageUrl(raw) {
+  if (!raw) return '';
+  let u = String(raw).trim().replace(/\\\//g, '/').replace(/&amp;/g, '&');
+  if (u.startsWith('//')) u = 'https:' + u;
+  if (u.startsWith('/')) u = SITE + u;
+  u = u.replace(/^http:\/\//i, 'https://').split('#')[0];
+  try {
+    const parsed = new URL(u);
+    const host = parsed.hostname.replace(/^www\./i, '').toLowerCase();
+    if (host !== 'woodenmax.in') return '';
+    if (!parsed.pathname.toLowerCase().includes('/images/')) return '';
+    if (/woodenmax-logo/i.test(parsed.pathname) || /\.svg$/i.test(parsed.pathname)) return '';
+    parsed.pathname = parsed.pathname
+      .split('/')
+      .map((seg) => {
+        try { return encodeURIComponent(decodeURIComponent(seg)); } catch (e) { return encodeURIComponent(seg); }
+      })
+      .join('/');
+    return 'https://woodenmax.in' + parsed.pathname + (parsed.search || '');
+  } catch (e) {
+    return '';
+  }
+}
+
+function feedImageExists(url) {
+  const u = normalizeFeedImageUrl(url);
+  if (!u || !u.includes('/images/')) return false;
+  let pathname;
+  try { pathname = decodeURIComponent(new URL(u).pathname); } catch (e) { return false; }
+  const rel = pathname.replace(/^\//, '').replace(/\//g, path.sep);
+  const disk = path.join(ROOT, rel);
+  if (fs.existsSync(disk)) return true;
+  const twin = disk.replace(/-1200(\.[a-z0-9]+)$/i, '$1');
+  if (twin !== disk && fs.existsSync(twin)) return true;
+  const with1200 = disk.replace(/(\.[a-z0-9]+)$/i, '-1200$1');
+  if (with1200 !== disk && fs.existsSync(with1200)) return true;
+  return false;
+}
+
+function resolveExistingFeedImage(url) {
+  const u = normalizeFeedImageUrl(url);
+  if (!u) return '';
+  if (!feedImageExists(u)) return '';
+  let pathname;
+  try { pathname = decodeURIComponent(new URL(u).pathname); } catch (e) { return u; }
+  const rel = pathname.replace(/^\//, '');
+  const disk = path.join(ROOT, rel.replace(/\//g, path.sep));
+  if (fs.existsSync(disk)) {
+    return SITE + '/' + rel.split('/').map((s) => encodeURIComponent(s)).join('/');
+  }
+  const twinRel = rel.replace(/-1200(\.[a-z0-9]+)$/i, '$1');
+  const twinDisk = path.join(ROOT, twinRel.replace(/\//g, path.sep));
+  if (fs.existsSync(twinDisk)) {
+    return SITE + '/' + twinRel.split('/').map((s) => encodeURIComponent(s)).join('/');
+  }
+  const with1200 = rel.replace(/(\.[a-z0-9]+)$/i, '-1200$1');
+  const wDisk = path.join(ROOT, with1200.replace(/\//g, path.sep));
+  if (fs.existsSync(wDisk)) {
+    return SITE + '/' + with1200.split('/').map((s) => encodeURIComponent(s)).join('/');
+  }
+  return '';
+}
+
+function dedupeImageKey(url) {
+  return String(url || '').split('?')[0].replace(/-1200(\.[a-z0-9]+)$/i, '$1').toLowerCase();
+}
+
+function slugImageTokens(slug) {
+  return String(slug || '')
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter((t) => t.length >= 3 && !IMAGE_STOP_TOKENS.has(t));
+}
+
+function imageRelevance(url, tokens) {
+  if (!tokens.length) return 0;
+  let path = '';
+  try { path = decodeURIComponent(new URL(url).pathname).toLowerCase(); } catch (e) { path = url.toLowerCase(); }
+  let score = 0;
+  tokens.forEach((t) => { if (path.includes(t)) score += 10; });
+  return score;
+}
+
+function stripRelatedProductBlocks(html) {
+  const s = String(html || '');
+  const low = s.toLowerCase();
+  const markers = [
+    'class="related-products"',
+    "class='related-products'",
+    'related-products "',
+    "related-products '",
+    'class="related-product-card"',
+    "class='related-product-card'"
+  ];
+  let cut = -1;
+  markers.forEach((m) => {
+    const i = low.indexOf(m);
+    if (i >= 0 && (cut < 0 || i < cut)) cut = i;
+  });
+  return cut >= 0 ? s.slice(0, cut) : s;
+}
+
+function pushUniqueResolved(list, seen, raw) {
+  const resolved = resolveExistingFeedImage(raw);
+  if (!resolved) return;
+  const key = dedupeImageKey(resolved);
+  if (seen.has(key)) return;
+  seen.add(key);
+  list.push(resolved);
+}
+
+function isDedicatedGalleryPath(url) {
+  let path = '';
+  try { path = decodeURIComponent(new URL(url).pathname).toLowerCase(); } catch (e) { path = String(url).toLowerCase(); }
+  return /-(?:pic|gallery)\//.test(path) || /\/(?:pic|gallery)\//.test(path);
+}
+
+/**
+ * Gallery-first image harvest from a product landing page.
+ * Prefer product-main-image, thumbnail data-image, Product JSON-LD, then og/meta.
+ * Related-product cards are stripped so sibling heroes do not pollute the feed.
+ */
+function extractImagesFromHtml(html, slugHint) {
+  const tokens = slugImageTokens(slugHint);
+  const clean = stripRelatedProductBlocks(html);
+  const head = clean.slice(0, 80000);
+  const gallery = [];
+  const meta = [];
+  const rest = [];
+  const seen = new Set();
+
+  // 1) Main product image + every thumbnail data-image (live gallery)
+  let m;
+  const mainImgRe = /id=["']product-main-image["'][^>]*src=["']([^"']+)["']|src=["']([^"']+)["'][^>]*id=["']product-main-image["']/gi;
+  while ((m = mainImgRe.exec(clean))) pushUniqueResolved(gallery, seen, m[1] || m[2]);
+  const dataImageRe = /data-image=["']([^"']+)["']/gi;
+  while ((m = dataImageRe.exec(clean))) pushUniqueResolved(gallery, seen, m[1]);
+  // Thumbnail <img> inside product-thumbnail-gallery
+  const thumbBlockRe = /product-thumbnail-gallery[\s\S]{0,25000}/gi;
+  const thumbBlocks = clean.match(thumbBlockRe) || [];
+  thumbBlocks.forEach((block) => {
+    const imgRe = /<img[^>]+src=["']([^"']*\/images\/[^"']+)["']/gi;
+    let mm;
+    while ((mm = imgRe.exec(block))) pushUniqueResolved(gallery, seen, mm[1]);
+  });
+
+  // 2) JSON-LD Product / ImageObject URLs (escaped or plain) — early head only
+  const jsonLdImgRe = /https:\\\/\\\/woodenmax\.in\\\/images\\\/[^"\\]+|https:\/\/woodenmax\.in\/images\/[^"'\s<>]+/gi;
+  while ((m = jsonLdImgRe.exec(head))) {
+    pushUniqueResolved(gallery, seen, m[0].replace(/\\\//g, '/'));
+  }
+
+  // 3) Meta / preload heroes
+  const metaPatterns = [
+    /<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/gi,
+    /<meta\s+name=["']twitter:image["']\s+content=["']([^"']+)["']/gi,
+    /<meta\s+name=["']image["']\s+content=["']([^"']+)["']/gi,
+    /<meta\s+itemprop=["']image["']\s+content=["']([^"']+)["']/gi,
+    /<link\s+rel=["']image_src["']\s+href=["']([^"']+)["']/gi,
+    /<link[^>]+as=["']image["'][^>]+href=["']([^"']+)["']/gi,
+    /<link[^>]+href=["']([^"']+)["'][^>]+as=["']image["']/gi
+  ];
+  metaPatterns.forEach((re) => {
+    let mm;
+    while ((mm = re.exec(head))) pushUniqueResolved(meta, seen, mm[1]);
+  });
+
+  // 4) Remaining in-page product images, scored by slug / dedicated gallery folder
+  const imgSrcRe = /<(?:img|source)[^>]+(?:src|data-src|data-lazy-src)=["']([^"']*\/images\/products\/[^"']+)["']/gi;
+  while ((m = imgSrcRe.exec(clean))) pushUniqueResolved(rest, seen, m[1]);
+
+  const scoredRest = rest
+    .map((u) => ({
+      u,
+      score: imageRelevance(u, tokens) + (isDedicatedGalleryPath(u) ? 25 : 0)
+    }))
+    .filter((x) => !tokens.length || x.score > 0 || isDedicatedGalleryPath(x.u))
+    .sort((a, b) => b.score - a.score)
+    .map((x) => x.u);
+
+  const ordered = [];
+  const orderSeen = new Set();
+  [gallery, meta, scoredRest].forEach((bucket) => {
+    bucket.forEach((u) => {
+      const k = dedupeImageKey(u);
+      if (orderSeen.has(k)) return;
+      orderSeen.add(k);
+      ordered.push(u);
+    });
+  });
+  // Prefer slug-relevant / dedicated *-pic gallery folders as primary when available
+  if (tokens.length) {
+    ordered.sort((a, b) => {
+      const sa = imageRelevance(a, tokens) + (isDedicatedGalleryPath(a) ? 15 : 0);
+      const sb = imageRelevance(b, tokens) + (isDedicatedGalleryPath(b) ? 15 : 0);
+      return sb - sa;
+    });
+  }
+  return ordered;
+}
+
+function imagesFromLanding(landingPath, slugHint) {
+  if (!landingPath) return [];
+  const disk = path.join(ROOT, landingPath.replace(/^\//, '').replace(/\//g, path.sep) + '.html');
+  if (!fs.existsSync(disk)) return [];
+  const hint = slugHint || landingPath.split('/').pop() || '';
+  return extractImagesFromHtml(fs.readFileSync(disk, 'utf8'), hint);
+}
+
+/**
+ * Per-product images: gallery / data-image / JSON-LD first, then og:image,
+ * then slug-relevant page images. Related-product heroes are excluded.
+ * Returns { primary, extrasCsv }.
+ */
+function imageForProduct(p) {
+  const key = p.id || p.slug || p.category || 'unknown';
+  if (imageCache.has(key)) return imageCache.get(key);
+
+  const landing = LANDING_BY_ID[p.id];
+  const slugHint = p.slug || (landing ? landing.split('/').pop() : '') || p.id || '';
+  const fromPage = imagesFromLanding(landing, slugHint);
+  let primary = fromPage[0] || '';
+  const extras = fromPage.slice(1, EXTRA_IMAGE_CAP + 1);
+
+  if (!primary) {
+    const fb = CATEGORY_FALLBACK_IMAGES[p.category] || DEFAULT_FEED_IMAGE;
+    primary = resolveExistingFeedImage(fb) || fb;
+  }
+
+  const primaryKey = dedupeImageKey(primary);
+  const extraClean = extras.filter((u) => dedupeImageKey(u) !== primaryKey);
+
+  const result = {
+    primary,
+    extrasCsv: extraClean.join(', ')
   };
-  return map[cat] || map['aluminium-windows'];
+  imageCache.set(key, result);
+  return result;
 }
 
 const FIELDNAMES = [
@@ -135,13 +412,14 @@ function rowFromPkg(p, pkg, link) {
     pkg.specs + '. Live package rate from WoodenMax calculator. GST 18% extra. ' +
     'Hyderabad factory. India-wide supply. Configure custom sizes on product page.'
   ).slice(0, 4990);
+  const imgs = imageForProduct(p);
   return {
     id: fid,
     title,
     description: desc,
     link,
-    image_link: imageFor(p.category),
-    additional_image_link: '',
+    image_link: imgs.primary,
+    additional_image_link: imgs.extrasCsv,
     availability: 'in stock',
     price: price.toFixed(2) + ' INR',
     sale_price: '',
@@ -229,6 +507,18 @@ const pkgPath = path.join(ROOT, 'products-packages-feed.csv');
 fs.writeFileSync(pkgPath, toCsv(rows), 'utf8');
 console.log('Wrote', rows.length, 'package SKUs →', path.relative(ROOT, pkgPath));
 console.log('Skipped products with no HTML landing:', skippedNoLanding);
+const imgCounts = {};
+rows.forEach((r) => {
+  imgCounts[r.image_link] = (imgCounts[r.image_link] || 0) + 1;
+});
+const uniqueImgs = Object.keys(imgCounts).length;
+console.log('Distinct package image_link URLs:', uniqueImgs, '(was ~3 before fix)');
+Object.entries(imgCounts)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 12)
+  .forEach(([u, n]) => console.log(' ', n, u.replace(SITE, '')));
+const withExtras = rows.filter((r) => (r.additional_image_link || '').trim()).length;
+console.log('Package rows with additional_image_link:', withExtras + '/' + rows.length);
 
 // Merge: strip previous package rows, then append fresh set
 const mainPath = path.join(ROOT, 'products-feed.csv');

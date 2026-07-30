@@ -1,0 +1,84 @@
+/**
+ * city-mobile.css
+ * Mobile polish for city hub pages (body.city-page).
+ * Layout-only: SEO copy stays crawlable; slim hero + reachable CTAs.
+ */
+
+@media (max-width: 768px) {
+  body.city-page .product-hero {
+    padding: 4.75rem 0 1.1rem !important;
+  }
+
+  body.city-page .product-hero .breadcrumb {
+    margin-bottom: 0.55rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  body.city-page .product-hero .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  body.city-page .product-hero h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.22 !important;
+    margin-bottom: 0.4rem !important;
+  }
+
+  body.city-page .product-hero > .container > p {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+    max-height: 4.6em;
+    overflow: hidden;
+  }
+
+  body.city-page .wm-city-hero-cta {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    margin-top: 0.65rem;
+  }
+
+  body.city-page .wm-city-hero-cta a {
+    text-align: center;
+    font-size: 0.72rem !important;
+    padding: 0.55rem 0.45rem !important;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  body.city-page .wm-city-hero-cta a.wm-city-cta-primary {
+    background: #1e40af;
+    color: #fff;
+  }
+
+  body.city-page .wm-city-hero-cta a.wm-city-cta-secondary {
+    background: #f1f5f9;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+  }
+
+  body.city-page section[style*="padding: 4rem 0"],
+  body.city-page section[style*="padding:4rem 0"] {
+    padding: 0.85rem 0 !important;
+  }
+
+  body.city-page section[style*="padding: 2rem 0"] {
+    padding: 0.65rem 0 !important;
+  }
+
+  body.city-page h2 {
+    font-size: 1.08rem !important;
+    line-height: 1.25 !important;
+  }
+
+  body.city-page table {
+    font-size: 0.72rem !important;
+  }
+
+  body.city-page table th,
+  body.city-page table td {
+    padding: 0.45rem 0.5rem !important;
+  }
+}

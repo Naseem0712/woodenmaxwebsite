@@ -1,80 +1,53 @@
 /**
  * Lazy Loading Script for Images
- * Improves page load speed by deferring image loading until they're near viewport
+ * Only handles data-src / data-srcset progressive enhancement.
+ * Native loading="lazy" images are left alone (no opacity flicker).
  */
 
 (function() {
   'use strict';
 
-  // Check if browser supports Intersection Observer
-  if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          
-          // Handle data-src for lazy loading
-          if (img.dataset.src) {
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-          }
-          
-          // Handle data-srcset for responsive images
-          if (img.dataset.srcset) {
-            img.srcset = img.dataset.srcset;
-            img.removeAttribute('data-srcset');
-          }
-          
-          // Add loaded class for styling
-          img.classList.add('lazy-loaded');
-          img.classList.remove('lazy-loading');
-          
-          // Stop observing this image
-          observer.unobserve(img);
-        }
-      });
-    }, {
-      rootMargin: '50px' // Start loading 50px before image enters viewport
-    });
+  function reveal (img) {
+    if (img.dataset.src) {
+      img.src = img.dataset.src;
+      img.removeAttribute('data-src');
+    }
+    if (img.dataset.srcset) {
+      img.srcset = img.dataset.srcset;
+      img.removeAttribute('data-srcset');
+    }
+    img.classList.add('lazy-loaded');
+    img.classList.remove('lazy-loading');
+  }
 
-    // Observe all images with lazy loading
-    document.addEventListener('DOMContentLoaded', function() {
-      const lazyImages = document.querySelectorAll('img[loading="lazy"], img[data-src]');
-      lazyImages.forEach(img => {
+  if ('IntersectionObserver' in window) {
+    var imageObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var img = entry.target;
+        reveal(img);
+        observer.unobserve(img);
+      });
+    }, { rootMargin: '200px' });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('img[data-src], img[data-srcset]').forEach(function (img) {
         img.classList.add('lazy-loading');
         imageObserver.observe(img);
       });
     });
   } else {
-    // Fallback for older browsers - load all images immediately
-    document.addEventListener('DOMContentLoaded', function() {
-      const lazyImages = document.querySelectorAll('img[data-src]');
-      lazyImages.forEach(img => {
-        if (img.dataset.src) {
-          img.src = img.dataset.src;
-        }
-        if (img.dataset.srcset) {
-          img.srcset = img.dataset.srcset;
-        }
-        img.classList.add('lazy-loaded');
-      });
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('img[data-src], img[data-srcset]').forEach(reveal);
     });
   }
 
-  // Add loading placeholder style if not exists
   if (!document.getElementById('lazy-load-styles')) {
-    const style = document.createElement('style');
+    var style = document.createElement('style');
     style.id = 'lazy-load-styles';
-    style.textContent = `
-      img.lazy-loading {
-        opacity: 0.3;
-        transition: opacity 0.3s;
-      }
-      img.lazy-loaded {
-        opacity: 1;
-      }
-    `;
+    style.textContent =
+      'img.lazy-loading{opacity:0.3;transition:opacity 0.3s}' +
+      'img.lazy-loaded{opacity:1}';
     document.head.appendChild(style);
   }
 })();
-

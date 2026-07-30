@@ -1,0 +1,43 @@
+/**
+ * Gold-standard mobile polish for
+ * products/metal-louvers/wooden-finish-aluminium-louvers.html
+ * (body.page-louver-pro.page-wooden-finish-louver)
+ *
+ * Imports shared louver mobile rules, then page-specific layout.
+ * SEO: titles/meta/JSON-LD untouched structurally; long copy stays in DOM.
+ */
+@import url('product-louver-mobile.css?v=20260730l');
+
+@media (max-width: 768px) {
+  body.page-louver-pro.page-wooden-finish-louver .wm-louver-hero-intro .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  body.page-louver-pro.page-wooden-finish-louver .wm-louver-hero-intro h1 span {
+    font-size: 0.72rem !important;
+    margin-top: 0.15rem !important;
+  }
+
+  body.page-louver-pro.page-wooden-finish-louver .wm-explore-next {
+    order: 6;
+    margin: 0.35rem 0 0 !important;
+    padding: 0.5rem 0.55rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  body.page-louver-pro.page-wooden-finish-louver .product-image-gallery .product-description-section,
+  body.page-louver-pro.page-wooden-finish-louver .product-image-gallery .key-features-section,
+  body.page-louver-pro.page-wooden-finish-louver .product-image-gallery > div[style*="margin-top"] {
+    margin-top: 0.55rem !important;
+    padding: 0.65rem !important;
+  }
+
+  body.page-louver-pro.page-wooden-finish-louver .wm-louver-calc-col > h1 {
+    display: none !important;
+  }
+
+  body.page-louver-pro.page-wooden-finish-louver .wm-louver-calc-col > .section-label {
+    display: none !important;
+  }
+}

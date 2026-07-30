@@ -1,0 +1,29 @@
+/**
+ * Gold-standard mobile polish for
+ * products/folding-systems/fold-bifold-aluminium-doors.html
+ * (body.page-fold-pro.page-bifold-fold)
+ *
+ * Imports shared fold mobile rules, then page-specific layout.
+ * SEO: titles/meta/JSON-LD untouched structurally; long copy stays in DOM.
+ */
+@import url('/css/product-fold-mobile.css?v=20260730f');
+
+@media (max-width: 768px) {
+  body.page-fold-pro.page-bifold-fold .wm-fold-hero-intro .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  body.page-fold-pro.page-bifold-fold .wm-explore-next {
+    order: 6;
+    margin: 0.35rem 0 0 !important;
+    padding: 0.5rem 0.55rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  body.page-fold-pro.page-bifold-fold .product-image-gallery .product-description-section,
+  body.page-fold-pro.page-bifold-fold .product-image-gallery > div[style*="margin-top: 2rem"] {
+    margin-top: 0.55rem !important;
+    padding: 0.65rem !important;
+  }
+}

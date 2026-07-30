@@ -1,0 +1,34 @@
+/**
+ * Gold-standard mobile polish for
+ * products/shower-partitions/frameless-shower-partition.html
+ * (body.page-shower-pro)
+ *
+ * Imports shared shower mobile rules, then page-specific layout.
+ * SEO: titles/meta/JSON-LD untouched structurally; long copy stays in DOM.
+ */
+@import url('product-shower-mobile.css?v=20260730s');
+
+@media (max-width: 768px) {
+  body.page-shower-pro.page-frameless-shower .wm-shower-hero-intro .section-label {
+    font-size: 0.68rem !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  body.page-shower-pro.page-frameless-shower .wm-shower-hero-intro h1 span {
+    font-size: 0.72rem !important;
+    margin-top: 0.15rem !important;
+  }
+
+  body.page-shower-pro.page-frameless-shower .wm-explore-next {
+    order: 6;
+    margin: 0.35rem 0 0 !important;
+    padding: 0.5rem 0.55rem !important;
+    font-size: 0.72rem !important;
+  }
+
+  body.page-shower-pro.page-frameless-shower .product-image-gallery .product-description-section,
+  body.page-shower-pro.page-frameless-shower .product-image-gallery .key-features-section {
+    margin-top: 0.55rem !important;
+    padding: 0.65rem !important;
+  }
+}

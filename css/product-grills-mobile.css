@@ -1,0 +1,149 @@
+/**
+ * product-grills-mobile.css
+ * Mobile polish for grills hub / product / guide pages
+ * (body.grills-hub-page, body.grills-product-page, body.grills-guide-page).
+ * Complements grills-shared.css / grills-product-page.css — layout-only.
+ */
+
+.grills-hub-main-flow {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  body.grills-hub-page .grills-hero {
+    padding: 4.75rem 0 1rem !important;
+  }
+
+  body.grills-hub-page .grills-hero h1,
+  body.grills-hub-page .grills-hero-title {
+    font-size: 1.22rem !important;
+    line-height: 1.22 !important;
+  }
+
+  body.grills-hub-page .grills-hero p,
+  body.grills-hub-page .grills-hero-sub {
+    font-size: 0.8rem !important;
+    line-height: 1.45 !important;
+    max-height: 4.6em;
+    overflow: hidden;
+  }
+
+  body.grills-hub-page .grills-hero-cta,
+  body.grills-hub-page .grills-hero .cluster-hero-cta {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4rem;
+    margin-top: 0.55rem;
+  }
+
+  body.grills-hub-page .grills-hero-cta a,
+  body.grills-hub-page .grills-hero .cluster-hero-cta a {
+    text-align: center;
+    font-size: 0.72rem !important;
+    padding: 0.55rem 0.4rem !important;
+  }
+
+  body.grills-hub-page .grills-hero-visual,
+  body.grills-hub-page .grills-hero-visual img {
+    max-height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .grills-hub-main-flow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grills-hub-main-flow > #grills-hub-products {
+    order: 1;
+  }
+
+  .grills-hub-main-flow > #grills-calculators {
+    order: 2;
+  }
+
+  .grills-hub-main-flow > #window-grill-designs-gallery {
+    order: 3;
+  }
+
+  .grills-hub-main-flow > #grill-keywords {
+    order: 4;
+  }
+
+  body.grills-hub-page #grills-calculators {
+    padding: 0.65rem 0 0.75rem !important;
+  }
+
+  body.grills-hub-page #grills-hub-products {
+    padding: 0.55rem 0 0.85rem !important;
+  }
+
+  body.grills-hub-page #grills-hub-products h2 {
+    font-size: 1.05rem !important;
+  }
+
+  body.grills-hub-page .product-card .product-image-container,
+  body.grills-hub-page .grills-type-card img {
+    max-height: 140px;
+    overflow: hidden;
+    object-fit: cover;
+  }
+
+  /* Product pages — hero already compact; tighten further */
+  body.grills-product-page .grills-product-hero {
+    padding: 4.55rem 0 0.55rem !important;
+  }
+
+  body.grills-product-page .grills-hero-head h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.2 !important;
+  }
+
+  body.grills-product-page .grills-hero-intro {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    max-height: 4.6em;
+    overflow: hidden;
+  }
+
+  body.grills-product-page .grills-hero-photo,
+  body.grills-product-page .grills-hero-photo img {
+    max-height: 150px !important;
+    object-fit: cover !important;
+    border-radius: 10px;
+  }
+
+  body.grills-product-page .grills-calc-section {
+    padding: 0.55rem 0 0.85rem !important;
+  }
+
+  body.grills-product-page .grills-calc-section h2 {
+    font-size: 1.05rem !important;
+  }
+
+  /* Guide page */
+  body.grills-guide-page > section[style*="background:#0F172A"],
+  body.grills-guide-page > section[style*="background: #0F172A"],
+  body.grills-guide-page .grills-guide-hero {
+    padding: 4.75rem 1rem 1.1rem !important;
+  }
+
+  body.grills-guide-page h1 {
+    font-size: 1.22rem !important;
+    line-height: 1.22 !important;
+  }
+
+  body.grills-guide-page .hero-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.65rem !important;
+  }
+
+  body.grills-guide-page .hero-grid img {
+    max-height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+}

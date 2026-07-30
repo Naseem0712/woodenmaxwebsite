@@ -87,7 +87,7 @@ module.exports.pageConfig = {
     { q: 'My builder cancelled the project, can I cancel?',
       a: 'Yes, the cancellation policy applies regardless of the reason. If your builder agreement compensates you for vendor commitments, we are happy to provide a notarised acceptance letter to support your claim.' },
     { q: 'You took my 50% advance and never installed. How do I get a refund?',
-      a: 'That would be an exceptional service failure — not in our memory, but the path is: email <a href="mailto:info@woodenmax.com">info@woodenmax.com</a>. Founder-level review and refund within 3 working days. Beyond that, every order is also covered under our <a href="../policies/dispute-redressal">dispute redressal mechanism</a>.' },
+      a: 'That would be an exceptional service failure — not in our memory, but the path is: email <a href="mailto:info@woodenmax.com">info@woodenmax.com</a>. Founder-level review and refund within 3 working days. Beyond that, every order is also covered under our <a href="/policies/privacy-policy#contact">dispute redressal mechanism</a>.' },
     { q: 'Can you give the refund in cash?',
       a: 'No. All refunds are by bank transfer back to the original payment source. This is required by RBI and GST regulations.' },
     { q: 'I want to change colour of my windows after token but before production. Charge?',
