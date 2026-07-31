@@ -1220,19 +1220,23 @@ document.addEventListener('DOMContentLoaded', function() {
           document.body.style.overflow = '';
         }
         
-        // Scroll to top of catalog
-        window.scrollTo({ top: 200, behavior: 'smooth' });
+        // Scroll to top of catalog only on real user clicks (not URL restore on load)
+        if (!btn._wmSilentActivate) {
+          window.scrollTo({ top: 200, behavior: 'smooth' });
+        }
       });
     });
     
-    // Check URL params on load
+    // Check URL params on load — apply filter without scrolling the page
     const urlParams = new URLSearchParams(window.location.search);
     const categoryParam = urlParams.get('category');
     
     if (categoryParam) {
       const targetBtn = document.querySelector('.category-btn[data-category="' + categoryParam + '"]');
       if (targetBtn) {
+        targetBtn._wmSilentActivate = true;
         targetBtn.click();
+        delete targetBtn._wmSilentActivate;
       }
     }
   }

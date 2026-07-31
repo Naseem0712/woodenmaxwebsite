@@ -264,33 +264,14 @@ function extractImagesFromHtml(html, slugHint) {
   const tokens = slugImageTokens(slugHint);
   const clean = stripRelatedProductBlocks(html);
   const head = clean.slice(0, 80000);
-  const gallery = [];
-  const meta = [];
+  const heroes = []; // og / twitter / image_src / preload — best primary
+  const gallery = []; // product-main-image + thumbnail data-image
+  const jsonLd = [];
   const rest = [];
   const seen = new Set();
 
-  // 1) Main product image + every thumbnail data-image (live gallery)
   let m;
-  const mainImgRe = /id=["']product-main-image["'][^>]*src=["']([^"']+)["']|src=["']([^"']+)["'][^>]*id=["']product-main-image["']/gi;
-  while ((m = mainImgRe.exec(clean))) pushUniqueResolved(gallery, seen, m[1] || m[2]);
-  const dataImageRe = /data-image=["']([^"']+)["']/gi;
-  while ((m = dataImageRe.exec(clean))) pushUniqueResolved(gallery, seen, m[1]);
-  // Thumbnail <img> inside product-thumbnail-gallery
-  const thumbBlockRe = /product-thumbnail-gallery[\s\S]{0,25000}/gi;
-  const thumbBlocks = clean.match(thumbBlockRe) || [];
-  thumbBlocks.forEach((block) => {
-    const imgRe = /<img[^>]+src=["']([^"']*\/images\/[^"']+)["']/gi;
-    let mm;
-    while ((mm = imgRe.exec(block))) pushUniqueResolved(gallery, seen, mm[1]);
-  });
-
-  // 2) JSON-LD Product / ImageObject URLs (escaped or plain) — early head only
-  const jsonLdImgRe = /https:\\\/\\\/woodenmax\.in\\\/images\\\/[^"\\]+|https:\/\/woodenmax\.in\/images\/[^"'\s<>]+/gi;
-  while ((m = jsonLdImgRe.exec(head))) {
-    pushUniqueResolved(gallery, seen, m[0].replace(/\\\//g, '/'));
-  }
-
-  // 3) Meta / preload heroes
+  // 1) Meta / preload heroes FIRST (canonical product photo for Merchant)
   const metaPatterns = [
     /<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/gi,
     /<meta\s+name=["']twitter:image["']\s+content=["']([^"']+)["']/gi,
@@ -302,14 +283,33 @@ function extractImagesFromHtml(html, slugHint) {
   ];
   metaPatterns.forEach((re) => {
     let mm;
-    while ((mm = re.exec(head))) pushUniqueResolved(meta, seen, mm[1]);
+    while ((mm = re.exec(head))) pushUniqueResolved(heroes, seen, mm[1]);
   });
+
+  // 2) Live gallery: main image + thumbnail data-image
+  const mainImgRe = /id=["']product-main-image["'][^>]*src=["']([^"']+)["']|src=["']([^"']+)["'][^>]*id=["']product-main-image["']/gi;
+  while ((m = mainImgRe.exec(clean))) pushUniqueResolved(gallery, seen, m[1] || m[2]);
+  const dataImageRe = /data-image=["']([^"']+)["']/gi;
+  while ((m = dataImageRe.exec(clean))) pushUniqueResolved(gallery, seen, m[1]);
+  const thumbBlockRe = /product-thumbnail-gallery[\s\S]{0,25000}/gi;
+  const thumbBlocks = clean.match(thumbBlockRe) || [];
+  thumbBlocks.forEach((block) => {
+    const imgRe = /<img[^>]+src=["']([^"']*\/images\/[^"']+)["']/gi;
+    let mm;
+    while ((mm = imgRe.exec(block))) pushUniqueResolved(gallery, seen, mm[1]);
+  });
+
+  // 3) JSON-LD — extras only (often mixes sibling product URLs)
+  const jsonLdImgRe = /https:\\\/\\\/woodenmax\.in\\\/images\\\/[^"\\]+|https:\/\/woodenmax\.in\/images\/[^"'\s<>]+/gi;
+  while ((m = jsonLdImgRe.exec(head))) {
+    pushUniqueResolved(jsonLd, seen, m[0].replace(/\\\//g, '/'));
+  }
 
   // 4) Remaining in-page product images, scored by slug / dedicated gallery folder
   const imgSrcRe = /<(?:img|source)[^>]+(?:src|data-src|data-lazy-src)=["']([^"']*\/images\/products\/[^"']+)["']/gi;
   while ((m = imgSrcRe.exec(clean))) pushUniqueResolved(rest, seen, m[1]);
 
-  const scoredRest = rest
+  const scoredSecondary = [...jsonLd, ...rest]
     .map((u) => ({
       u,
       score: imageRelevance(u, tokens) + (isDedicatedGalleryPath(u) ? 25 : 0)
@@ -320,7 +320,7 @@ function extractImagesFromHtml(html, slugHint) {
 
   const ordered = [];
   const orderSeen = new Set();
-  [gallery, meta, scoredRest].forEach((bucket) => {
+  [heroes, gallery, scoredSecondary].forEach((bucket) => {
     bucket.forEach((u) => {
       const k = dedupeImageKey(u);
       if (orderSeen.has(k)) return;
@@ -328,14 +328,6 @@ function extractImagesFromHtml(html, slugHint) {
       ordered.push(u);
     });
   });
-  // Prefer slug-relevant / dedicated *-pic gallery folders as primary when available
-  if (tokens.length) {
-    ordered.sort((a, b) => {
-      const sa = imageRelevance(a, tokens) + (isDedicatedGalleryPath(a) ? 15 : 0);
-      const sb = imageRelevance(b, tokens) + (isDedicatedGalleryPath(b) ? 15 : 0);
-      return sb - sa;
-    });
-  }
   return ordered;
 }
 
@@ -358,9 +350,21 @@ function imageForProduct(p) {
 
   const landing = LANDING_BY_ID[p.id];
   const slugHint = p.slug || (landing ? landing.split('/').pop() : '') || p.id || '';
+  const tokens = slugImageTokens(slugHint);
   const fromPage = imagesFromLanding(landing, slugHint);
   let primary = fromPage[0] || '';
-  const extras = fromPage.slice(1, EXTRA_IMAGE_CAP + 1);
+
+  // If page hero/og is a borrowed sibling photo (low slug score) but a dedicated
+  // *-pic gallery image matches this product, promote the better match.
+  if (primary && fromPage.length > 1 && tokens.length) {
+    const ranked = fromPage.map((u) => ({
+      u,
+      score: imageRelevance(u, tokens) + (isDedicatedGalleryPath(u) ? 20 : 0)
+    }));
+    const best = ranked.slice().sort((a, b) => b.score - a.score)[0];
+    const primaryScore = ranked[0].score;
+    if (best && best.score >= primaryScore + 15) primary = best.u;
+  }
 
   if (!primary) {
     const fb = CATEGORY_FALLBACK_IMAGES[p.category] || DEFAULT_FEED_IMAGE;
@@ -368,7 +372,9 @@ function imageForProduct(p) {
   }
 
   const primaryKey = dedupeImageKey(primary);
-  const extraClean = extras.filter((u) => dedupeImageKey(u) !== primaryKey);
+  const extraClean = fromPage
+    .filter((u) => dedupeImageKey(u) !== primaryKey)
+    .slice(0, EXTRA_IMAGE_CAP);
 
   const result = {
     primary,

@@ -55,6 +55,87 @@
   border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
+/* Thumbnail strip (desktop + mobile): small horizontal scroller under main photo.
+   Prevents full-size stacked thumbs when product-image-gallery.css is late/missing. */
+.product-thumbnail-gallery {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 0 1.25rem;
+  padding: 0.2rem 0.05rem 0.4rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  box-sizing: border-box;
+}
+
+.product-thumbnail-gallery::-webkit-scrollbar {
+  height: 4px;
+}
+
+.product-thumbnail-gallery::-webkit-scrollbar-thumb {
+  background: rgba(184, 137, 61, 0.45);
+  border-radius: 4px;
+}
+
+.product-thumbnail-gallery .thumbnail-item {
+  flex: 0 0 64px !important;
+  width: 64px !important;
+  height: 64px !important;
+  min-width: 64px !important;
+  min-height: 64px !important;
+  max-width: 64px !important;
+  max-height: 64px !important;
+  aspect-ratio: 1;
+  cursor: zoom-in;
+  border: 2px solid transparent;
+  border-radius: 0.35rem;
+  overflow: hidden;
+  opacity: 0.72;
+  background: #1a1a1a;
+  position: relative;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  transition: opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.product-thumbnail-gallery .thumbnail-item img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 0.25s ease;
+  pointer-events: none;
+}
+
+.product-thumbnail-gallery .thumbnail-item:hover {
+  opacity: 1 !important;
+  transform: translateY(-2px) scale(1.08);
+  border-color: var(--gold-500, #d4af37) !important;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+.product-thumbnail-gallery .thumbnail-item:hover img {
+  transform: scale(1.14);
+}
+
+.product-thumbnail-gallery .thumbnail-item.active {
+  opacity: 1 !important;
+  border-color: var(--gold-400, #b8893d) !important;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+}
+
 /* ============================================
    PRODUCT OPTIONS
    ============================================ */

@@ -18,9 +18,11 @@
     "test:quote": "node --test tools/test-quote-isolation.mjs",
     "test:orders": "node --test tools/test-order-pipeline.mjs",
     "test": "node --test tools/test-quote-isolation.mjs tools/test-order-pipeline.mjs",
+    "rates:sync": "node tools/sync-package-rates-html.cjs",
+    "rates:verify": "node tools/inject-standard-packages-ssr.cjs --verify && node tools/_verify-ssr-prices.cjs",
     "merchant:feed": "python tools/generate_merchant_feed.py",
     "merchant:packages": "node tools/generate-package-merchant-feed.cjs",
-    "merchant:all": "python tools/generate_merchant_feed.py && node tools/generate-package-merchant-feed.cjs",
+    "merchant:all": "npm run rates:sync && python tools/generate_merchant_feed.py && node tools/generate-package-merchant-feed.cjs",
     "merchant:verify": "node tools/verify-package-feed-images.cjs"
   },
   "devDependencies": {

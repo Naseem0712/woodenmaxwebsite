@@ -57,10 +57,12 @@
     { w: 1.5, h: 2 }, { w: 2, h: 2 }, { w: 2.5, h: 3 }
   ];
 
-  var CSS_HREF = '/css/standard-size-packages.css?v=20260728i';
+  var CSS_HREF = '/css/standard-size-packages.css?v=20260801a';
   var MIRROR_JSON = '/data/mirror.json';
   var RATES_JSON = '/data/rates.json';
   var cachedRates = null;
+  /** sectionId → { product, packages, anchorEl } for click handlers + live price updates */
+  var sectionState = Object.create(null);
 
   function setRates(r) { cachedRates = r || null; }
   function getRatesSync() { return cachedRates; }
@@ -1034,12 +1036,9 @@
     setTimeout(function () { calcEl.classList.remove('wm-std-pkg-calc-flash'); }, 1400);
   }
 
-  function injectPackageJsonLd(product, packages) {
-    if (typeof document === 'undefined' || !packages || !packages.length) return;
-    var existing = document.getElementById('wm-std-pkg-jsonld');
-    if (existing) existing.remove();
-    var pageUrl = (typeof location !== 'undefined' ? location.href : '').split('#')[0];
-    var cap = packages.slice(0, 24);
+  function buildPackageJsonLd(product, packages, sectionId, pageUrl) {
+    var cap = (packages || []).slice(0, 24);
+    var hash = '#' + (sectionId || 'wm-standard-packages');
     var itemList = cap.map(function (pkg, i) {
       return {
         '@type': 'ListItem',
@@ -1050,19 +1049,30 @@
           price: String(Math.max(1, Math.round(pkg.amount))),
           priceCurrency: 'INR',
           availability: 'https://schema.org/InStock',
-          url: pageUrl + '#wm-standard-packages',
+          url: (pageUrl || '') + hash,
           description: pkg.specs,
           seller: { '@type': 'Organization', name: 'WoodenMax', url: 'https://woodenmax.in' }
         }
       };
     });
-    var schema = {
+    return {
       '@context': 'https://schema.org',
       '@type': 'ItemList',
       name: (product && product.name ? product.name + ' — ' : '') + 'Standard size packages',
       numberOfItems: cap.length,
       itemListElement: itemList
     };
+  }
+
+  function injectPackageJsonLd(product, packages, sectionId) {
+    if (typeof document === 'undefined' || !packages || !packages.length) return;
+    var pageUrl = (typeof location !== 'undefined' ? location.href : '').split('#')[0];
+    var schema = buildPackageJsonLd(product, packages, sectionId, pageUrl);
+    var existing = document.getElementById('wm-std-pkg-jsonld');
+    if (existing) {
+      existing.textContent = JSON.stringify(schema);
+      return;
+    }
     var script = document.createElement('script');
     script.type = 'application/ld+json';
     script.id = 'wm-std-pkg-jsonld';
@@ -1070,75 +1080,152 @@
     document.head.appendChild(script);
   }
 
-  function renderSection(anchorEl, product, packages, opts) {
+  function cardHtml(pkg, i) {
+    return (
+      '<article class="wm-std-pkg-card" data-pkg-index="' + i + '"' +
+        (pkg.kind ? ' data-pkg-kind="' + escapeHtml(pkg.kind) + '"' : '') +
+        (pkg.size && pkg.size.w != null ? ' data-w="' + escapeHtml(pkg.size.w) + '"' : '') +
+        (pkg.size && pkg.size.h != null ? ' data-h="' + escapeHtml(pkg.size.h) + '"' : '') +
+        (typeof pkg.withMesh === 'boolean' ? ' data-mesh="' + (pkg.withMesh ? '1' : '0') + '"' : '') +
+        (pkg.mode ? ' data-mode="' + escapeHtml(pkg.mode) + '"' : '') +
+        (pkg.glassMm != null ? ' data-glass="' + escapeHtml(pkg.glassMm) + '"' : '') +
+      '>' +
+        '<div class="wm-std-pkg-card-top">' +
+          '<h3 class="wm-std-pkg-title">' + escapeHtml(pkg.title) + '</h3>' +
+          '<p class="wm-std-pkg-specs">' + escapeHtml(pkg.specs) + '</p>' +
+        '</div>' +
+        '<p class="wm-std-pkg-price" data-package-price data-price="' + escapeHtml(Math.round(pkg.amount)) + '" data-amount="' + escapeHtml(Math.round(pkg.amount)) + '">' +
+          escapeHtml(fmtINR(pkg.amount)) +
+        '</p>' +
+        '<p class="wm-std-pkg-note">Before GST \u00b7 Live rate</p>' +
+        '<div class="wm-std-pkg-actions">' +
+          '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--quote" data-action="pkg-quote">Add to Quotations</button>' +
+          '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--buy" data-action="pkg-buy">Buy Now</button>' +
+          '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--custom" data-action="pkg-custom">Try Custom Size</button>' +
+        '</div>' +
+      '</article>'
+    );
+  }
+
+  /** Full section HTML for SSR inject + JS fallback create. */
+  function buildSectionHtml(product, packages, opts) {
     opts = opts || {};
-    var existing = document.getElementById(opts.sectionId || 'wm-standard-packages');
-    if (existing) existing.remove();
-
-    var section = document.createElement('section');
-    section.id = opts.sectionId || 'wm-standard-packages';
-    section.className = 'wm-std-pkg wm-std-pkg--premium';
-    if (product && product.id) section.setAttribute('data-product-id', product.id);
-    if (packages.length > 12) section.classList.add('wm-std-pkg--scroll-grid');
-    section.setAttribute('aria-label', 'Standard size packages');
-
+    var sectionId = opts.sectionId || 'wm-standard-packages';
     var heading = opts.heading || 'Standard packages';
     var sub = opts.sub || 'Live calculator rates \u00b7 Update automatically when prices change.';
+    var scrollCls = packages.length > 12 ? ' wm-std-pkg--scroll-grid' : '';
+    var productAttr = product && product.id ? ' data-product-id="' + escapeHtml(product.id) + '"' : '';
+    var gridHtml = packages.map(cardHtml).join('');
+    return (
+      '<section id="' + escapeHtml(sectionId) + '" class="wm-std-pkg wm-std-pkg--premium' + scrollCls + '"' +
+        productAttr +
+        ' data-ssr="1" aria-label="Standard size packages">' +
+        '<div class="wm-std-pkg-inner">' +
+          '<header class="wm-std-pkg-header">' +
+            '<div class="wm-std-pkg-header-text">' +
+              '<p class="wm-std-pkg-eyebrow">WoodenMax packages</p>' +
+              '<h2 class="wm-std-pkg-h2">' + escapeHtml(heading) + '</h2>' +
+              '<p class="wm-std-pkg-sub">' + escapeHtml(sub) + '</p>' +
+            '</div>' +
+            '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--custom-top" data-action="pkg-custom-top">Try Custom Size</button>' +
+          '</header>' +
+          '<div class="wm-std-pkg-grid">' + gridHtml + '</div>' +
+        '</div>' +
+      '</section>'
+    );
+  }
 
-    var gridHtml = packages.map(function (pkg, i) {
-      return (
-        '<article class="wm-std-pkg-card" data-pkg-index="' + i + '">' +
-          '<div class="wm-std-pkg-card-top">' +
-            '<h3 class="wm-std-pkg-title">' + escapeHtml(pkg.title) + '</h3>' +
-            '<p class="wm-std-pkg-specs">' + escapeHtml(pkg.specs) + '</p>' +
-          '</div>' +
-          '<p class="wm-std-pkg-price" data-package-price>' + escapeHtml(fmtINR(pkg.amount)) + '</p>' +
-          '<p class="wm-std-pkg-note">Before GST \u00b7 Live rate</p>' +
-          '<div class="wm-std-pkg-actions">' +
-            '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--quote" data-action="pkg-quote">Add to Quotations</button>' +
-            '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--buy" data-action="pkg-buy">Buy Now</button>' +
-            '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--custom" data-action="pkg-custom">Try Custom Size</button>' +
-          '</div>' +
-        '</article>'
-      );
-    }).join('');
+  function updateSectionPrices(section, packages) {
+    if (!section || !packages) return;
+    var cards = section.querySelectorAll('.wm-std-pkg-card[data-pkg-index]');
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      var idx = parseInt(card.getAttribute('data-pkg-index'), 10);
+      var pkg = packages[idx];
+      if (!pkg) continue;
+      var priceEl = card.querySelector('[data-package-price], [data-price]');
+      if (priceEl) {
+        var rounded = String(Math.round(pkg.amount));
+        priceEl.textContent = fmtINR(pkg.amount);
+        priceEl.setAttribute('data-amount', rounded);
+        priceEl.setAttribute('data-price', rounded);
+      }
+    }
+  }
 
-    section.innerHTML =
-      '<div class="wm-std-pkg-inner">' +
-        '<header class="wm-std-pkg-header">' +
-          '<div class="wm-std-pkg-header-text">' +
-            '<p class="wm-std-pkg-eyebrow">WoodenMax packages</p>' +
-            '<h2 class="wm-std-pkg-h2">' + escapeHtml(heading) + '</h2>' +
-            '<p class="wm-std-pkg-sub">' + escapeHtml(sub) + '</p>' +
-          '</div>' +
-          '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--custom-top" data-action="pkg-custom-top">Try Custom Size</button>' +
-        '</header>' +
-        '<div class="wm-std-pkg-grid">' + gridHtml + '</div>' +
-      '</div>';
+  function bindSectionClicks(section, sectionId) {
+    if (!section || section.getAttribute('data-pkg-bound') === '1') return;
+    section.setAttribute('data-pkg-bound', '1');
+    section.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      var state = sectionState[sectionId];
+      if (!state) return;
+      var action = btn.getAttribute('data-action');
+      if (action === 'pkg-custom-top') {
+        goToCustomSize(state.anchorEl, state.product, null);
+        return;
+      }
+      var card = btn.closest('.wm-std-pkg-card');
+      if (!card) return;
+      var pkg = state.packages[parseInt(card.getAttribute('data-pkg-index'), 10)];
+      if (!pkg) return;
+      if (action === 'pkg-quote') addPackageToQuote(state.product, pkg, state.anchorEl, false);
+      else if (action === 'pkg-buy') addPackageToQuote(state.product, pkg, state.anchorEl, true);
+      else if (action === 'pkg-custom') goToCustomSize(state.anchorEl, state.product, pkg);
+    });
+  }
 
+  /** Hydrate SSR (or already-present) cards: update rates only, never rebuild markup. */
+  function hydrateSection(section, anchorEl, product, packages, opts) {
+    opts = opts || {};
+    var sectionId = section.id || opts.sectionId || 'wm-standard-packages';
+    sectionState[sectionId] = { product: product, packages: packages, anchorEl: anchorEl };
+    updateSectionPrices(section, packages);
+    bindSectionClicks(section, sectionId);
+    try { injectPackageJsonLd(product, packages, sectionId); } catch (eLd) { /* ignore */ }
+  }
+
+  function isStaticPackageSection(el) {
+    if (!el) return false;
+    if (el.getAttribute('data-ssr') === '1') return true;
+    return !!el.querySelector('.wm-std-pkg-card');
+  }
+
+  function renderSection(anchorEl, product, packages, opts) {
+    opts = opts || {};
+    var sectionId = opts.sectionId || 'wm-standard-packages';
+    var existing = typeof document !== 'undefined' ? document.getElementById(sectionId) : null;
+
+    /* Prefer crawlable HTML already in the page — JS only refreshes ₹ amounts. */
+    if (existing && isStaticPackageSection(existing)) {
+      hydrateSection(existing, anchorEl, product, packages, opts);
+      return existing;
+    }
+    /* Also hydrate any nearby SSR section (id mismatch / legacy). */
+    var nearby = anchorEl && anchorEl.parentNode
+      ? anchorEl.parentNode.querySelector('.wm-std-pkg[data-ssr="1"]')
+      : null;
+    if (nearby && isStaticPackageSection(nearby)) {
+      hydrateSection(nearby, anchorEl, product, packages, opts);
+      return nearby;
+    }
+    if (existing) existing.remove();
+
+    if (!anchorEl || !anchorEl.parentNode) return null;
+
+    /* Fallback only when page was not build-synced yet. */
+    var wrap = document.createElement('div');
+    wrap.innerHTML = buildSectionHtml(product, packages, opts);
+    var section = wrap.firstChild;
+    section.setAttribute('data-ssr', '0');
     if (anchorEl.nextSibling) {
       anchorEl.parentNode.insertBefore(section, anchorEl.nextSibling);
     } else {
       anchorEl.parentNode.appendChild(section);
     }
-    try { injectPackageJsonLd(product, packages); } catch (eLd) { /* ignore */ }
-
-    section.addEventListener('click', function (e) {
-      var btn = e.target.closest('[data-action]');
-      if (!btn) return;
-      var action = btn.getAttribute('data-action');
-      if (action === 'pkg-custom-top') {
-        goToCustomSize(anchorEl, product, null);
-        return;
-      }
-      var card = btn.closest('.wm-std-pkg-card');
-      if (!card) return;
-      var pkg = packages[parseInt(card.getAttribute('data-pkg-index'), 10)];
-      if (!pkg) return;
-      if (action === 'pkg-quote') addPackageToQuote(product, pkg, anchorEl, false);
-      else if (action === 'pkg-buy') addPackageToQuote(product, pkg, anchorEl, true);
-      else if (action === 'pkg-custom') goToCustomSize(anchorEl, product, pkg);
-    });
+    hydrateSection(section, anchorEl, product, packages, opts);
+    return section;
   }
 
   function headingFor(product) {
@@ -1282,17 +1369,37 @@
     });
   }
 
+  /** Re-run mount; existing SSR / card markup is hydrated (prices only), never wiped. */
   function remountAll() {
+    var run = function () {
+      try {
+        document.querySelectorAll('.price-calculator-container[data-std-pkg-mounted]').forEach(function (el) {
+          el.removeAttribute('data-std-pkg-mounted');
+        });
+        var mir = document.getElementById('wmCatalogCalc');
+        if (mir) mir.removeAttribute('data-std-pkg-mounted');
+        var perg = document.getElementById('product-pricing-root');
+        if (perg) perg.removeAttribute('data-std-pkg-mounted');
+        mountAll();
+      } catch (eR) { /* ignore */ }
+    };
+    if (typeof window !== 'undefined' && window.WMScrollStable && typeof window.WMScrollStable.around === 'function') {
+      window.WMScrollStable.around(run);
+    } else {
+      run();
+    }
+  }
+
+  /** Soft refresh: update ₹ on already-present cards without clearing mount flags first. */
+  function refreshPrices() {
     try {
-      document.querySelectorAll('.price-calculator-container[data-std-pkg-mounted]').forEach(function (el) {
-        el.removeAttribute('data-std-pkg-mounted');
+      Object.keys(sectionState).forEach(function (id) {
+        var st = sectionState[id];
+        var section = document.getElementById(id);
+        if (section && st && st.packages) updateSectionPrices(section, st.packages);
       });
-      var mir = document.getElementById('wmCatalogCalc');
-      if (mir) mir.removeAttribute('data-std-pkg-mounted');
-      var perg = document.getElementById('product-pricing-root');
-      if (perg) perg.removeAttribute('data-std-pkg-mounted');
-      mountAll();
-    } catch (eR) { /* ignore */ }
+      remountAll();
+    } catch (eRp) { /* ignore */ }
   }
 
   function hasCalcAnchor() {
@@ -1334,6 +1441,8 @@
   root.WMStandardPackages = {
     mountAll: mountAll,
     mountOne: mountOne,
+    remountAll: remountAll,
+    refreshPrices: refreshPrices,
     setRates: setRates,
     getRatesSync: getRatesSync,
     buildPackages: buildPackages,
@@ -1341,6 +1450,11 @@
     buildMirrorCatalogPackages: buildMirrorCatalogPackages,
     buildPergolaGlassPackages: buildPergolaGlassPackages,
     buildDuctShaftZPackages: buildDuctShaftZPackages,
+    buildSectionHtml: buildSectionHtml,
+    buildPackageJsonLd: buildPackageJsonLd,
+    headingFor: headingFor,
+    hydrateSection: hydrateSection,
+    updateSectionPrices: updateSectionPrices,
     pricePergolaGlass: pricePergolaGlass,
     priceDuctShaftZ: priceDuctShaftZ,
     priceWindow: priceWindow,

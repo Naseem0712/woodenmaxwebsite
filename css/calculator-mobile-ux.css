@@ -6,314 +6,314 @@
  * page that has a `.price-calculator-container` and the new UX
  * elements appear automatically.
  *
- *   1. EEAT manufacturer trust strip (above the calculator)
- *   2. Sticky bottom 3-segment bar: Live Price · Get Exact · Cart
- *   3. Bottom-sheet "Quote Cart" — multi-item, persisted
- *   4. PDF / Get-Exact form modal — single gated lead form,
- *      shared by both flows ("show exact" + "export PDF")
- *   5. Print stylesheet — branded WoodenMax PDF via window.print()
- *   6. Compact mobile calculator container
+ * 1. EEAT manufacturer trust strip (above the calculator)
+ * 2. Sticky bottom 3-segment bar: Live Price · Get Exact · Cart
+ * 3. Bottom-sheet "Quote Cart" — multi-item, persisted
+ * 4. PDF / Get-Exact form modal — single gated lead form,
+ * shared by both flows ("show exact" + "export PDF")
+ * 5. Print stylesheet — branded WoodenMax PDF via window.print()
+ * 6. Compact mobile calculator container
  *
  * v2 changes from v1 (per owner feedback):
- *   - Removed the in-page Hero CTA banner (the existing FAB already
- *     handles discovery on 72+ pages — no duplicate signage).
- *   - Sticky bar now exposes a Cart icon + the Get-Exact CTA.
- *   - Bottom sheet became a multi-item Cart, not a single breakdown.
- *   - Lead form is gated: it appears only inside the form modal,
- *     opened from "Save & Export PDF" or "Get Exact Price".
+ * - Removed the in-page Hero CTA banner (the existing FAB already
+ * handles discovery on 72+ pages — no duplicate signage).
+ * - Sticky bar now exposes a Cart icon + the Get-Exact CTA.
+ * - Bottom sheet became a multi-item Cart, not a single breakdown.
+ * - Lead form is gated: it appears only inside the form modal,
+ * opened from "Save & Export PDF" or "Get Exact Price".
  */
 
 /* ============================================
-   1. EEAT MANUFACTURER TRUST STRIP
-   ============================================ */
+ 1. EEAT MANUFACTURER TRUST STRIP
+ ============================================ */
 .eeat-block {
-  background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
-  border-top: 1px solid #E5E7EB;
-  border-bottom: 1px solid #E5E7EB;
-  padding: 1.25rem 0;
+ background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
+ border-top: 1px solid #E5E7EB;
+ border-bottom: 1px solid #E5E7EB;
+ padding: 1.25rem 0;
 }
 
 .eeat-strip {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1.25rem;
-  max-width: 1100px;
-  margin: 0 auto;
+ display: grid;
+ grid-template-columns: repeat(4, minmax(0, 1fr));
+ gap: 1.25rem;
+ max-width: 1100px;
+ margin: 0 auto;
 }
 
 .eeat-strip-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 0.65rem 0.85rem;
-  background: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-radius: 10px;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+ display: flex;
+ align-items: flex-start;
+ gap: 0.75rem;
+ padding: 0.65rem 0.85rem;
+ background: #FFFFFF;
+ border: 1px solid #E5E7EB;
+ border-radius: 10px;
+ box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+ transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .eeat-strip-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px -6px rgba(30, 64, 175, 0.18);
+ transform: translateY(-2px);
+ box-shadow: 0 6px 14px -6px rgba(30, 64, 175, 0.18);
 }
 
 .eeat-strip-icon {
-  flex-shrink: 0;
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #0a0e17, #3B82F6);
-  color: #FFFFFF;
-  display: grid;
-  place-items: center;
+ flex-shrink: 0;
+ width: 38px;
+ height: 38px;
+ border-radius: 10px;
+ background: linear-gradient(135deg, #0a0e17, #3B82F6);
+ color: #FFFFFF;
+ display: grid;
+ place-items: center;
 }
 
 .eeat-strip-item > div { min-width: 0; }
 
 .eeat-strip-item strong {
-  display: block;
-  font-size: 0.92rem;
-  color: #0F172A;
-  font-weight: 700;
-  line-height: 1.25;
+ display: block;
+ font-size: 0.92rem;
+ color: #0F172A;
+ font-weight: 700;
+ line-height: 1.25;
 }
 
 .eeat-strip-item small {
-  display: block;
-  font-size: 0.76rem;
-  color: #475569;
-  margin-top: 0.15rem;
-  line-height: 1.35;
+ display: block;
+ font-size: 0.76rem;
+ color: #475569;
+ margin-top: 0.15rem;
+ line-height: 1.35;
 }
 
 @media (max-width: 900px) {
-  .eeat-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+ .eeat-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
 }
 @media (max-width: 520px) {
-  .eeat-strip { grid-template-columns: 1fr; }
-  .eeat-strip-item { padding: 0.55rem 0.75rem; }
+ .eeat-strip { grid-template-columns: 1fr; }
+ .eeat-strip-item { padding: 0.55rem 0.75rem; }
 }
 
 /* Compact trust bar — directly below the 4 EEAT cards.
-   Knocks out the three biggest objections to clicking "Get Exact". */
+ Knocks out the three biggest objections to clicking "Get Exact". */
 .eeat-trust-bar {
-  margin-top: 0.75rem;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem 1.25rem;
-  padding: 0.65rem 1rem;
-  background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
-  border: 1px solid #BBF7D0;
-  border-radius: 12px;
-  font-size: 0.82rem;
-  color: #064E3B;
-  line-height: 1.4;
+ margin-top: 0.75rem;
+ display: flex;
+ flex-wrap: wrap;
+ align-items: center;
+ justify-content: center;
+ gap: 0.5rem 1.25rem;
+ padding: 0.65rem 1rem;
+ background: linear-gradient(135deg, #ECFDF5 0%, #F0FDF4 100%);
+ border: 1px solid #BBF7D0;
+ border-radius: 12px;
+ font-size: 0.82rem;
+ color: #064E3B;
+ line-height: 1.4;
 }
 .eeat-trust-bar span {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  white-space: nowrap;
+ display: inline-flex;
+ align-items: center;
+ gap: 0.4rem;
+ white-space: nowrap;
 }
 .eeat-trust-bar svg {
-  flex-shrink: 0;
-  color: #047857;
+ flex-shrink: 0;
+ color: #047857;
 }
 .eeat-trust-bar strong { color: #065F46; font-weight: 700; }
 .eeat-trust-bar em { font-style: normal; color: #047857; font-weight: 500; opacity: 0.9; font-size: 0.95em; }
 @media (max-width: 640px) {
-  .eeat-trust-bar { font-size: 0.76rem; gap: 0.4rem 0.85rem; padding: 0.55rem 0.75rem; }
-  .eeat-trust-bar span { font-size: 0.76rem; white-space: normal; }
+ .eeat-trust-bar { font-size: 0.76rem; gap: 0.4rem 0.85rem; padding: 0.55rem 0.75rem; }
+ .eeat-trust-bar span { font-size: 0.76rem; white-space: normal; }
 }
 
 /* ============================================
-   2. STICKY BOTTOM 3-SEGMENT BAR
-   (Live price · Get-Exact CTA · Cart)
-   ============================================ */
+ 2. STICKY BOTTOM 3-SEGMENT BAR
+ (Live price · Get-Exact CTA · Cart)
+ ============================================ */
 .calc-sticky-bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 950;
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: saturate(180%) blur(14px);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  border-top: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 -8px 24px -8px rgba(15, 23, 42, 0.18);
-  padding: 0.6rem 0.85rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
-  transform: translateY(110%);
-  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
-  opacity: 0;
-  pointer-events: none;
-  display: none;
+ position: fixed;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ z-index: 950;
+ background: rgba(255, 255, 255, 0.97);
+ backdrop-filter: saturate(180%) blur(14px);
+ -webkit-backdrop-filter: saturate(180%) blur(14px);
+ border-top: 1px solid rgba(15, 23, 42, 0.08);
+ box-shadow: 0 -8px 24px -8px rgba(15, 23, 42, 0.18);
+ padding: 0.6rem 0.85rem calc(0.6rem + env(safe-area-inset-bottom, 0px));
+ transform: translateY(110%);
+ transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+ opacity: 0;
+ pointer-events: none;
+ display: none;
 }
 
 .calc-sticky-bar.is-visible {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
+ transform: translateY(0);
+ opacity: 1;
+ pointer-events: auto;
 }
 
 .calc-sticky-bar-content {
-  display: flex;
-  align-items: stretch;
-  gap: 0.6rem;
-  max-width: 760px;
-  margin: 0 auto;
-  width: 100%;
+ display: flex;
+ align-items: stretch;
+ gap: 0.6rem;
+ max-width: 760px;
+ margin: 0 auto;
+ width: 100%;
 }
 
 .calc-sticky-view-stack {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.08rem;
-  min-width: 0;
-  flex: 1 1 auto;
+ display: flex;
+ flex-direction: column;
+ align-items: flex-start;
+ gap: 0.08rem;
+ min-width: 0;
+ flex: 1 1 auto;
 }
 
 .calc-sticky-info {
-  flex: 1 1 auto;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
+ flex: 1 1 auto;
+ min-width: 0;
+ display: flex;
+ flex-direction: column;
+ gap: 0.1rem;
 }
 
 .calc-sticky-view-estimate {
-  flex: 1 1 auto;
-  min-width: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.65rem;
-  padding: 0.72rem 0.95rem;
-  border: none;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 55%, #2563EB 100%);
-  color: #FFFFFF;
-  cursor: pointer;
-  text-align: left;
-  box-shadow: 0 8px 22px rgba(30, 64, 175, 0.35), inset 0 1px 0 rgba(255,255,255,0.12);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+ flex: 1 1 auto;
+ min-width: 0;
+ width: 100%;
+ display: flex;
+ flex-direction: row;
+ align-items: center;
+ justify-content: space-between;
+ gap: 0.65rem;
+ padding: 0.72rem 0.95rem;
+ border: none;
+ border-radius: 14px;
+ background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 55%, #2563EB 100%);
+ color: #FFFFFF;
+ cursor: pointer;
+ text-align: left;
+ box-shadow: 0 8px 22px rgba(30, 64, 175, 0.35), inset 0 1px 0 rgba(255,255,255,0.12);
+ transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
 
 .calc-sticky-view-estimate::after {
-  content: '→';
-  flex: 0 0 auto;
-  font-size: 1.1rem;
-  font-weight: 800;
-  opacity: 0.9;
+ content: '→';
+ flex: 0 0 auto;
+ font-size: 1.1rem;
+ font-weight: 800;
+ opacity: 0.9;
 }
 
 .calc-sticky-view-estimate:hover,
 .calc-sticky-view-estimate:focus-visible {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(30, 64, 175, 0.42), inset 0 1px 0 rgba(255,255,255,0.16);
-  filter: brightness(1.04);
-  outline: none;
+ transform: translateY(-2px);
+ box-shadow: 0 12px 28px rgba(30, 64, 175, 0.42), inset 0 1px 0 rgba(255,255,255,0.16);
+ filter: brightness(1.04);
+ outline: none;
 }
 
 .calc-sticky-view-label {
-  font-size: 0.82rem;
-  font-weight: 800;
-  color: #FFFFFF;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
+ font-size: 0.82rem;
+ font-weight: 800;
+ color: #FFFFFF;
+ line-height: 1.2;
+ letter-spacing: 0.01em;
 }
 
 .calc-sticky-view-meta {
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: rgba(255,255,255,0.88);
-  line-height: 1.15;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 100%;
+ font-size: 0.78rem;
+ font-weight: 700;
+ color: rgba(255,255,255,0.88);
+ line-height: 1.15;
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ max-width: 100%;
 }
 
 .calc-sticky-view-meta.is-placeholder {
-  font-size: 0.76rem;
-  font-weight: 600;
-  color: rgba(255,255,255,0.72);
+ font-size: 0.76rem;
+ font-weight: 600;
+ color: rgba(255,255,255,0.72);
 }
 
 .calc-sticky-label {
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: #64748B;
-  letter-spacing: 0.6px;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
+ font-size: 0.68rem;
+ font-weight: 700;
+ color: #64748B;
+ letter-spacing: 0.6px;
+ text-transform: uppercase;
+ display: flex;
+ align-items: center;
+ gap: 0.35rem;
 }
 
 .calc-sticky-label::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #22C55E;
-  box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
-  animation: calc-pulse 1.8s ease-out infinite;
+ content: '';
+ width: 6px;
+ height: 6px;
+ border-radius: 50%;
+ background: #22C55E;
+ box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+ animation: calc-pulse 1.8s ease-out infinite;
 }
 
 @keyframes calc-pulse {
-  0%   { box-shadow: 0 0 0 0   rgba(34, 197, 94, 0.55); }
-  70%  { box-shadow: 0 0 0 9px rgba(34, 197, 94, 0); }
-  100% { box-shadow: 0 0 0 0   rgba(34, 197, 94, 0); }
+ 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); }
+ 70% { box-shadow: 0 0 0 9px rgba(34, 197, 94, 0); }
+ 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
 }
 
 .calc-sticky-price {
-  font-size: 1rem;
-  font-weight: 800;
-  color: #0F172A;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+ font-size: 1rem;
+ font-weight: 800;
+ color: #0F172A;
+ line-height: 1.15;
+ letter-spacing: -0.01em;
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
 }
 
 .calc-sticky-price.is-placeholder {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #475569;
-  letter-spacing: 0;
+ font-size: 0.85rem;
+ font-weight: 600;
+ color: #475569;
+ letter-spacing: 0;
 }
 
 /* Get Exact — shown only when price > 0 */
 .calc-sticky-exact {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.6rem 0.95rem;
-  background: linear-gradient(135deg, #0a0e17, #2563EB);
-  color: #FFFFFF;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
-  box-shadow: 0 4px 12px -4px rgba(30, 64, 175, 0.55);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+ flex-shrink: 0;
+ display: inline-flex;
+ align-items: center;
+ gap: 0.35rem;
+ padding: 0.6rem 0.95rem;
+ background: linear-gradient(135deg, #0a0e17, #2563EB);
+ color: #FFFFFF;
+ border: none;
+ border-radius: 10px;
+ font-size: 0.85rem;
+ font-weight: 700;
+ cursor: pointer;
+ white-space: nowrap;
+ box-shadow: 0 4px 12px -4px rgba(30, 64, 175, 0.55);
+ transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
 .calc-sticky-exact:hover,
 .calc-sticky-exact:focus-visible {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px -4px rgba(30, 64, 175, 0.6);
-  outline: none;
+ transform: translateY(-1px);
+ box-shadow: 0 8px 18px -4px rgba(30, 64, 175, 0.6);
+ outline: none;
 }
 
 .calc-sticky-exact:active { transform: translateY(0); }
@@ -321,498 +321,498 @@
 .calc-sticky-exact[hidden] { display: none !important; }
 
 .calc-sticky-add {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.6rem 0.85rem;
-  background: linear-gradient(135deg, #b8893d, #EA580C);
-  color: #FFFFFF;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
+ flex-shrink: 0;
+ display: inline-flex;
+ align-items: center;
+ gap: 0.35rem;
+ padding: 0.6rem 0.85rem;
+ background: linear-gradient(135deg, #b8893d, #EA580C);
+ color: #FFFFFF;
+ border: none;
+ border-radius: 10px;
+ font-size: 0.82rem;
+ font-weight: 700;
+ cursor: pointer;
+ white-space: nowrap;
 }
 .calc-sticky-add[hidden] { display: none !important; }
 .calc-sticky-add:hover { transform: translateY(-1px); }
 
 .calc-sticky-add--cart {
-  padding: 0.6rem 0.75rem;
-  background: linear-gradient(135deg, #047857 0%, #059669 100%);
-  box-shadow: 0 4px 12px -4px rgba(5, 150, 105, 0.45);
-  font-size: 0.74rem;
-  line-height: 1.15;
-  max-width: 42%;
-  white-space: normal;
-  text-align: center;
+ padding: 0.6rem 0.75rem;
+ background: linear-gradient(135deg, #047857 0%, #059669 100%);
+ box-shadow: 0 4px 12px -4px rgba(5, 150, 105, 0.45);
+ font-size: 0.74rem;
+ line-height: 1.15;
+ max-width: 42%;
+ white-space: normal;
+ text-align: center;
 }
 
 .calc-sticky-add--cart:hover {
-  box-shadow: 0 8px 18px -4px rgba(5, 150, 105, 0.5);
+ box-shadow: 0 8px 18px -4px rgba(5, 150, 105, 0.5);
 }
 
 body.grills-product-page .calc-sticky-exact {
-  display: none !important;
+ display: none !important;
 }
 
 .calc-sticky-buy {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  padding: 0.6rem 0.9rem;
-  background: linear-gradient(135deg, #0f766e, #059669);
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  cursor: pointer;
-  white-space: nowrap;
+ flex-shrink: 0;
+ display: inline-flex;
+ align-items: center;
+ padding: 0.6rem 0.9rem;
+ background: linear-gradient(135deg, #0f766e, #059669);
+ color: #fff;
+ border: none;
+ border-radius: 10px;
+ font-size: 0.82rem;
+ font-weight: 700;
+ cursor: pointer;
+ white-space: nowrap;
 }
 .calc-sticky-buy[hidden] { display: none !important; }
 .calc-sticky-buy:hover { transform: translateY(-1px); }
 
 /* Cart toggle button */
 .calc-sticky-cart {
-  flex-shrink: 0;
-  position: relative;
-  display: inline-grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  background: #0F172A;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 4px 10px -4px rgba(15, 23, 42, 0.5);
-  transition: transform 0.2s ease, background 0.2s ease;
+ flex-shrink: 0;
+ position: relative;
+ display: inline-grid;
+ place-items: center;
+ width: 44px;
+ height: 44px;
+ background: #0F172A;
+ color: #FFFFFF;
+ border: none;
+ border-radius: 12px;
+ cursor: pointer;
+ box-shadow: 0 4px 10px -4px rgba(15, 23, 42, 0.5);
+ transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .calc-sticky-cart:hover { background: #1E293B; transform: translateY(-1px); }
 .calc-sticky-cart:active { transform: translateY(0); }
 
 .calc-sticky-cart-count {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 5px;
-  border-radius: 999px;
-  background: #b8893d;
-  color: #0F172A;
-  font-size: 0.7rem;
-  font-weight: 800;
-  line-height: 20px;
-  text-align: center;
-  border: 2px solid #FFFFFF;
-  box-shadow: 0 2px 4px rgba(245, 158, 11, 0.4);
-  transform: scale(0);
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+ position: absolute;
+ top: -6px;
+ right: -6px;
+ min-width: 20px;
+ height: 20px;
+ padding: 0 5px;
+ border-radius: 999px;
+ background: #b8893d;
+ color: #0F172A;
+ font-size: 0.7rem;
+ font-weight: 800;
+ line-height: 20px;
+ text-align: center;
+ border: 2px solid #FFFFFF;
+ box-shadow: 0 2px 4px rgba(245, 158, 11, 0.4);
+ transform: scale(0);
+ transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .calc-sticky-cart-count.is-active { transform: scale(1); }
 
 @media (max-width: 768px) {
-  .calc-sticky-bar { display: block; }
-  body.has-calc-sticky-bar { padding-bottom: 82px; }
+ .calc-sticky-bar { display: block; }
+ body.has-calc-sticky-bar { padding-bottom: 82px; }
 }
 
 /* On wider screens we still show the bar (compact) so desktop visitors
-   also get the cart + get-exact affordances. Bar sits inside a centered
-   container width with rounded edges. */
+ also get the cart + get-exact affordances. Bar sits inside a centered
+ container width with rounded edges. */
 @media (min-width: 769px) {
-  .calc-sticky-bar {
-    display: block;
-    left: 50%;
-    right: auto;
-    bottom: 1.25rem;
-    transform: translate(-50%, 130%);
-    width: min(720px, calc(100% - 3rem));
-    border-radius: 16px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
-  }
-  .calc-sticky-bar.is-visible { transform: translate(-50%, 0); }
-  body.has-calc-sticky-bar { padding-bottom: 0; }
+ .calc-sticky-bar {
+ display: block;
+ left: 50%;
+ right: auto;
+ bottom: 1.25rem;
+ transform: translate(-50%, 130%);
+ width: min(720px, calc(100% - 3rem));
+ border-radius: 16px;
+ border: 1px solid rgba(15, 23, 42, 0.08);
+ }
+ .calc-sticky-bar.is-visible { transform: translate(-50%, 0); }
+ body.has-calc-sticky-bar { padding-bottom: 0; }
 }
 
 /* ============================================
-   3. BOTTOM SHEET — "QUOTE CART"
-   ============================================ */
+ 3. BOTTOM SHEET — "QUOTE CART"
+ ============================================ */
 .calc-bottom-sheet {
-  position: fixed;
-  inset: 0;
-  z-index: 960;
-  pointer-events: none;
-  visibility: hidden;
+ position: fixed;
+ inset: 0;
+ z-index: 960;
+ pointer-events: none;
+ visibility: hidden;
 }
 
 .calc-bottom-sheet.is-open {
-  pointer-events: auto;
-  visibility: visible;
+ pointer-events: auto;
+ visibility: visible;
 }
 
 .calc-sheet-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.55);
-  opacity: 0;
-  transition: opacity 0.35s ease;
+ position: absolute;
+ inset: 0;
+ background: rgba(15, 23, 42, 0.55);
+ opacity: 0;
+ transition: opacity 0.35s ease;
 }
 
 .calc-bottom-sheet.is-open .calc-sheet-backdrop { opacity: 1; }
 
 .calc-sheet-panel {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  max-height: 88vh;
-  background: #FFFFFF;
-  border-radius: 22px 22px 0 0;
-  box-shadow: 0 -20px 60px -10px rgba(15, 23, 42, 0.45);
-  transform: translateY(100%);
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+ position: absolute;
+ left: 0;
+ right: 0;
+ bottom: 0;
+ max-height: 88vh;
+ background: #FFFFFF;
+ border-radius: 22px 22px 0 0;
+ box-shadow: 0 -20px 60px -10px rgba(15, 23, 42, 0.45);
+ transform: translateY(100%);
+ transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+ display: flex;
+ flex-direction: column;
+ overflow: hidden;
+ padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .calc-bottom-sheet.is-open .calc-sheet-panel { transform: translateY(0); }
 
 @media (min-width: 769px) {
-  .calc-sheet-panel {
-    left: 50%;
-    right: auto;
-    bottom: 50%;
-    width: min(560px, calc(100% - 3rem));
-    max-height: 80vh;
-    border-radius: 18px;
-    transform: translate(-50%, calc(50% + 30px));
-  }
-  .calc-bottom-sheet.is-open .calc-sheet-panel {
-    transform: translate(-50%, 50%);
-  }
+ .calc-sheet-panel {
+ left: 50%;
+ right: auto;
+ bottom: 50%;
+ width: min(560px, calc(100% - 3rem));
+ max-height: 80vh;
+ border-radius: 18px;
+ transform: translate(-50%, calc(50% + 30px));
+ }
+ .calc-bottom-sheet.is-open .calc-sheet-panel {
+ transform: translate(-50%, 50%);
+ }
 }
 
 .calc-sheet-grabber {
-  width: 42px;
-  height: 4px;
-  border-radius: 4px;
-  background: #CBD5E1;
-  margin: 10px auto 6px;
-  flex-shrink: 0;
+ width: 42px;
+ height: 4px;
+ border-radius: 4px;
+ background: #CBD5E1;
+ margin: 10px auto 6px;
+ flex-shrink: 0;
 }
 
 @media (min-width: 769px) {
-  .calc-sheet-grabber { display: none; }
+ .calc-sheet-grabber { display: none; }
 }
 
 .calc-sheet-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 1.25rem 0.75rem;
-  border-bottom: 1px solid #E5E7EB;
-  flex-shrink: 0;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 0.5rem 1.25rem 0.75rem;
+ border-bottom: 1px solid #E5E7EB;
+ flex-shrink: 0;
 }
 
 .calc-sheet-header h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #0F172A;
-  display: flex;
-  align-items: baseline;
-  gap: 0.45rem;
+ margin: 0;
+ font-size: 1.1rem;
+ font-weight: 700;
+ color: #0F172A;
+ display: flex;
+ align-items: baseline;
+ gap: 0.45rem;
 }
 
 .calc-sheet-count {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #64748B;
+ font-size: 0.85rem;
+ font-weight: 600;
+ color: #64748B;
 }
 
 .calc-sheet-close {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: 1px solid #E5E7EB;
-  background: #F8FAFC;
-  color: #475569;
-  font-size: 1.25rem;
-  line-height: 1;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: background 0.2s ease;
+ width: 32px;
+ height: 32px;
+ border-radius: 8px;
+ border: 1px solid #E5E7EB;
+ background: #F8FAFC;
+ color: #475569;
+ font-size: 1.25rem;
+ line-height: 1;
+ cursor: pointer;
+ display: grid;
+ place-items: center;
+ transition: background 0.2s ease;
 }
 
 .calc-sheet-close:hover {
-  background: #E2E8F0;
-  color: #0F172A;
+ background: #E2E8F0;
+ color: #0F172A;
 }
 
 /* Sticky action bar — PDF / Buy / Book always visible at top */
 .calc-sheet-actions {
-  flex-shrink: 0;
-  border-bottom: 1px solid #E5E7EB;
-  background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
-  z-index: 2;
+ flex-shrink: 0;
+ border-bottom: 1px solid #E5E7EB;
+ background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
+ box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+ z-index: 2;
 }
 
 .calc-sheet-scroll {
-  flex: 1 1 auto;
-  min-height: 0;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
+ flex: 1 1 auto;
+ min-height: 0;
+ overflow-y: auto;
+ -webkit-overflow-scrolling: touch;
 }
 
 .calc-sheet-body {
-  padding: 0.85rem 1.25rem 1.5rem;
+ padding: 0.85rem 1.25rem 1.5rem;
 }
 
 .cart-actions-bar {
-  padding: 0.75rem 1.25rem 0.85rem;
+ padding: 0.75rem 1.25rem 0.85rem;
 }
 
 .cart-actions-summary {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.75rem;
-  margin-bottom: 0.65rem;
-  padding-bottom: 0.55rem;
-  border-bottom: 1px dashed #E2E8F0;
+ display: flex;
+ align-items: baseline;
+ justify-content: space-between;
+ gap: 0.75rem;
+ margin-bottom: 0.65rem;
+ padding-bottom: 0.55rem;
+ border-bottom: 1px dashed #E2E8F0;
 }
 
 .cart-actions-summary-label {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #64748B;
+ font-size: 0.82rem;
+ font-weight: 600;
+ color: #64748B;
 }
 
 .cart-actions-summary-value {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: #0F172A;
-  letter-spacing: -0.02em;
+ font-size: 1.2rem;
+ font-weight: 800;
+ color: #0F172A;
+ letter-spacing: -0.02em;
 }
 
 .cart-actions-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 0.5rem;
 }
 
 .cart-action-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  padding: 0.72rem 0.65rem;
-  border-radius: 10px;
-  border: none;
-  font-size: 0.84rem;
-  font-weight: 700;
-  line-height: 1.25;
-  cursor: pointer;
-  text-align: center;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.4rem;
+ padding: 0.72rem 0.65rem;
+ border-radius: 10px;
+ border: none;
+ font-size: 0.84rem;
+ font-weight: 700;
+ line-height: 1.25;
+ cursor: pointer;
+ text-align: center;
+ transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 
 .cart-action-btn:active {
-  transform: scale(0.98);
+ transform: scale(0.98);
 }
 
 .cart-action-btn--pdf {
-  background: #0F172A;
-  color: #FFFFFF;
-  box-shadow: 0 3px 10px rgba(15, 23, 42, 0.22);
+ background: #0F172A;
+ color: #FFFFFF;
+ box-shadow: 0 3px 10px rgba(15, 23, 42, 0.22);
 }
 
 .cart-action-btn--pdf:hover {
-  background: #1E293B;
-  transform: translateY(-1px);
+ background: #1E293B;
+ transform: translateY(-1px);
 }
 
 .cart-action-btn--buy {
-  background: linear-gradient(135deg, #047857 0%, #059669 100%);
-  color: #FFFFFF;
-  box-shadow: 0 3px 12px rgba(5, 150, 105, 0.32);
+ background: linear-gradient(135deg, #047857 0%, #059669 100%);
+ color: #FFFFFF;
+ box-shadow: 0 3px 12px rgba(5, 150, 105, 0.32);
 }
 
 .cart-action-btn--buy:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 5px 16px rgba(5, 150, 105, 0.38);
+ transform: translateY(-1px);
+ box-shadow: 0 5px 16px rgba(5, 150, 105, 0.38);
 }
 
 .cart-action-btn--slot {
-  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
-  color: #FFFFFF;
-  box-shadow: 0 3px 12px rgba(20, 184, 166, 0.28);
+ background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+ color: #FFFFFF;
+ box-shadow: 0 3px 12px rgba(20, 184, 166, 0.28);
 }
 
 .cart-action-btn--slot:hover {
-  transform: translateY(-1px);
+ transform: translateY(-1px);
 }
 
 .cart-action-btn--full {
-  width: 100%;
-  margin-top: 0.5rem;
-  padding: 0.78rem 0.85rem;
+ width: 100%;
+ margin-top: 0.5rem;
+ padding: 0.78rem 0.85rem;
 }
 
 .cart-action-btn--muted {
-  background: #F8FAFC;
-  color: #475569;
-  border: 1px solid #E2E8F0;
-  box-shadow: none;
-  font-weight: 600;
+ background: #F8FAFC;
+ color: #475569;
+ border: 1px solid #E2E8F0;
+ box-shadow: none;
+ font-weight: 600;
 }
 
 .cart-action-btn--muted:hover {
-  background: #F1F5F9;
-  color: #334155;
+ background: #F1F5F9;
+ color: #334155;
 }
 
 .cart-slot-footer {
-  margin-top: 1.25rem;
-  padding-top: 1rem;
-  border-top: 1px dashed #E2E8F0;
+ margin-top: 1.25rem;
+ padding-top: 1rem;
+ border-top: 1px dashed #E2E8F0;
 }
 
 .cart-slot-footer-note {
-  margin: 0 0 0.75rem;
-  font-size: 0.82rem;
-  line-height: 1.45;
-  color: #64748B;
+ margin: 0 0 0.75rem;
+ font-size: 0.82rem;
+ line-height: 1.45;
+ color: #64748B;
 }
 
 .cart-action-btn--ghost {
-  background: #F1F5F9;
-  color: #475569;
-  border: 1px solid #E2E8F0;
-  box-shadow: none;
+ background: #F1F5F9;
+ color: #475569;
+ border: 1px solid #E2E8F0;
+ box-shadow: none;
 }
 
 .cart-action-btn--ghost:hover {
-  background: #E2E8F0;
-  color: #0F172A;
+ background: #E2E8F0;
+ color: #0F172A;
 }
 
 .cart-action-btn--mini {
-  padding: 0.55rem 0.65rem;
-  font-size: 0.78rem;
-  white-space: nowrap;
+ padding: 0.55rem 0.65rem;
+ font-size: 0.78rem;
+ white-space: nowrap;
 }
 
 .cart-actions-share {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  margin-top: 0.55rem;
-  align-items: stretch;
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0.45rem;
+ margin-top: 0.55rem;
+ align-items: stretch;
 }
 
 .cart-share-wa--compact,
 .cart-share-email--compact {
-  flex: 1 1 calc(50% - 0.25rem);
-  min-width: 0;
-  padding: 0.55rem 0.5rem;
-  font-size: 0.78rem;
-  border-radius: 8px;
+ flex: 1 1 calc(50% - 0.25rem);
+ min-width: 0;
+ padding: 0.55rem 0.5rem;
+ font-size: 0.78rem;
+ border-radius: 8px;
 }
 
 .cart-items-heading {
-  font-size: 0.72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #94A3B8;
-  margin: 0 0 0.55rem;
+ font-size: 0.72rem;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.06em;
+ color: #94A3B8;
+ margin: 0 0 0.55rem;
 }
 
 .cart-cta-stack--empty {
-  margin-top: 1rem;
+ margin-top: 1rem;
 }
 
 /* Cart item card */
 .cart-item {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-areas:
-    "title  amount"
-    "specs  amount"
-    "actions actions";
-  gap: 0.3rem 0.75rem;
-  padding: 0.85rem 1rem;
-  background: #F8FAFC;
-  border: 1px solid #E5E7EB;
-  border-radius: 12px;
-  margin-bottom: 0.65rem;
+ display: grid;
+ grid-template-columns: 1fr auto;
+ grid-template-areas:
+ "title amount"
+ "specs amount"
+ "actions actions";
+ gap: 0.3rem 0.75rem;
+ padding: 0.85rem 1rem;
+ background: #F8FAFC;
+ border: 1px solid #E5E7EB;
+ border-radius: 12px;
+ margin-bottom: 0.65rem;
 }
 
 .cart-item-title {
-  grid-area: title;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #0F172A;
-  line-height: 1.25;
+ grid-area: title;
+ font-size: 0.95rem;
+ font-weight: 700;
+ color: #0F172A;
+ line-height: 1.25;
 }
 
 .cart-item-amount {
-  grid-area: amount;
-  font-size: 0.95rem;
-  font-weight: 800;
-  color: #0a0e17;
-  white-space: nowrap;
-  align-self: center;
+ grid-area: amount;
+ font-size: 0.95rem;
+ font-weight: 800;
+ color: #0a0e17;
+ white-space: nowrap;
+ align-self: center;
 }
 
 .cart-item-specs {
-  grid-area: specs;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: 0.2rem;
+ grid-area: specs;
+ display: flex;
+ flex-wrap: wrap;
+ gap: 0.35rem;
+ margin-top: 0.2rem;
 }
 
 .cart-item-specs span {
-  font-size: 0.72rem;
-  padding: 2px 8px;
-  background: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-radius: 999px;
-  color: #475569;
-  font-weight: 600;
-  letter-spacing: 0.15px;
+ font-size: 0.72rem;
+ padding: 2px 8px;
+ background: #FFFFFF;
+ border: 1px solid #E5E7EB;
+ border-radius: 999px;
+ color: #475569;
+ font-weight: 600;
+ letter-spacing: 0.15px;
 }
 
 .cart-item-actions {
-  grid-area: actions;
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.55rem;
-  padding-top: 0.55rem;
-  border-top: 1px dashed #E5E7EB;
+ grid-area: actions;
+ display: flex;
+ gap: 0.5rem;
+ margin-top: 0.55rem;
+ padding-top: 0.55rem;
+ border-top: 1px dashed #E5E7EB;
 }
 
 .cart-item-actions button {
-  background: none;
-  border: none;
-  color: #DC2626;
-  font-size: 0.78rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 2px 4px;
-  border-radius: 4px;
-  transition: background 0.15s ease;
+ background: none;
+ border: none;
+ color: #DC2626;
+ font-size: 0.78rem;
+ font-weight: 600;
+ cursor: pointer;
+ padding: 2px 4px;
+ border-radius: 4px;
+ transition: background 0.15s ease;
 }
 
 .cart-item-actions button:hover { background: #FEE2E2; }
@@ -823,9 +823,9 @@ body.grills-product-page .calc-sticky-exact {
 
 /* Empty cart state */
 .cart-empty {
-  text-align: center;
-  padding: 2rem 1rem 1.5rem;
-  color: #64748B;
+ text-align: center;
+ padding: 2rem 1rem 1.5rem;
+ color: #64748B;
 }
 
 .cart-empty svg { color: #CBD5E1; margin-bottom: 0.5rem; }
@@ -836,210 +836,210 @@ body.grills-product-page .calc-sticky-exact {
 
 /* Grand total + CTAs */
 .cart-total-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 0.75rem;
-  padding: 0.75rem 0;
-  border-top: 2px solid #0a0e17;
-  border-bottom: 1px dashed #E5E7EB;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-top: 0.75rem;
+ padding: 0.75rem 0;
+ border-top: 2px solid #0a0e17;
+ border-bottom: 1px dashed #E5E7EB;
 }
 
 .cart-total-label {
-  font-size: 0.95rem;
-  color: #0F172A;
-  font-weight: 700;
+ font-size: 0.95rem;
+ color: #0F172A;
+ font-weight: 700;
 }
 
 .cart-total-value {
-  font-size: 1.3rem;
-  color: #0a0e17;
-  font-weight: 800;
+ font-size: 1.3rem;
+ color: #0a0e17;
+ font-weight: 800;
 }
 
 .cart-cta-stack {
-  display: flex;
-  gap: 0.55rem;
-  margin-top: 1rem;
+ display: flex;
+ gap: 0.55rem;
+ margin-top: 1rem;
 }
 
 .cart-cta-stack > * {
-  flex: 1;
-  padding: 0.85rem 0.95rem;
-  border-radius: 10px;
-  font-size: 0.92rem;
-  font-weight: 700;
-  text-align: center;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+ flex: 1;
+ padding: 0.85rem 0.95rem;
+ border-radius: 10px;
+ font-size: 0.92rem;
+ font-weight: 700;
+ text-align: center;
+ text-decoration: none;
+ border: none;
+ cursor: pointer;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.35rem;
+ transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cart-cta-book {
-  width: 100%;
-  padding: 0.85rem 1rem;
-  border: none;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 0.92rem;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  background: linear-gradient(135deg, #047857 0%, #059669 100%);
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
+ width: 100%;
+ padding: 0.85rem 1rem;
+ border: none;
+ border-radius: 10px;
+ font-weight: 700;
+ font-size: 0.92rem;
+ cursor: pointer;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.45rem;
+ background: linear-gradient(135deg, #047857 0%, #059669 100%);
+ color: #fff;
+ box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
 }
 
 .cart-cta-book:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 18px rgba(5, 150, 105, 0.4);
+ transform: translateY(-1px);
+ box-shadow: 0 6px 18px rgba(5, 150, 105, 0.4);
 }
 
 .cart-cta-book--alt {
-  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
-  box-shadow: 0 4px 14px rgba(20, 184, 166, 0.3);
+ background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+ box-shadow: 0 4px 14px rgba(20, 184, 166, 0.3);
 }
 
 .calc-pay-choice-block {
-  margin: 0 0 0.85rem;
-  padding: 0.75rem 0.85rem;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: 10px;
+ margin: 0 0 0.85rem;
+ padding: 0.75rem 0.85rem;
+ background: #f0fdf4;
+ border: 1px solid #bbf7d0;
+ border-radius: 10px;
 }
 
 .calc-pay-choice-title {
-  margin: 0 0 0.5rem;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #166534;
+ margin: 0 0 0.5rem;
+ font-size: 0.82rem;
+ font-weight: 700;
+ color: #166534;
 }
 
 .calc-pay-choice-opt {
-  display: block;
-  margin: 0.35rem 0;
-  font-size: 0.84rem;
-  line-height: 1.35;
-  color: #334155;
-  cursor: pointer;
+ display: block;
+ margin: 0.35rem 0;
+ font-size: 0.84rem;
+ line-height: 1.35;
+ color: #334155;
+ cursor: pointer;
 }
 
 .calc-pay-choice-opt input {
-  margin-right: 0.4rem;
+ margin-right: 0.4rem;
 }
 
 .calc-pay-custom-wrap {
-  margin-top: 0.65rem;
-  padding-top: 0.65rem;
-  border-top: 1px dashed #86efac;
+ margin-top: 0.65rem;
+ padding-top: 0.65rem;
+ border-top: 1px dashed #86efac;
 }
 
 .calc-pay-custom-wrap label {
-  display: block;
-  margin: 0 0 0.35rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #166534;
+ display: block;
+ margin: 0 0 0.35rem;
+ font-size: 0.8rem;
+ font-weight: 600;
+ color: #166534;
 }
 
 .calc-pay-custom-wrap input[type="number"] {
-  width: 100%;
-  max-width: 220px;
-  padding: 0.55rem 0.7rem;
-  border: 1px solid #86efac;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  background: #fff;
-  color: #0f172a;
+ width: 100%;
+ max-width: 220px;
+ padding: 0.55rem 0.7rem;
+ border: 1px solid #86efac;
+ border-radius: 8px;
+ font-size: 0.95rem;
+ background: #fff;
+ color: #0f172a;
 }
 
 .calc-pay-custom-wrap input[type="number"]:focus {
-  outline: 2px solid #22c55e;
-  outline-offset: 1px;
-  border-color: #16a34a;
+ outline: 2px solid #22c55e;
+ outline-offset: 1px;
+ border-color: #16a34a;
 }
 
 .cart-slot-footer .cart-action-btn + .cart-action-btn {
-  margin-top: 0.45rem;
+ margin-top: 0.45rem;
 }
 
 .calc-pay-help {
-  margin: 0 0 0.85rem;
-  padding: 0.7rem 0.85rem;
-  background: #fffbeb;
-  border: 1px solid #fde68a;
-  border-radius: 10px;
-  font-size: 0.8rem;
-  line-height: 1.45;
-  color: #78350f;
+ margin: 0 0 0.85rem;
+ padding: 0.7rem 0.85rem;
+ background: #fffbeb;
+ border: 1px solid #fde68a;
+ border-radius: 10px;
+ font-size: 0.8rem;
+ line-height: 1.45;
+ color: #78350f;
 }
 
 .calc-pay-help ul {
-  margin: 0.35rem 0 0;
-  padding-left: 1.1rem;
+ margin: 0.35rem 0 0;
+ padding-left: 1.1rem;
 }
 
 .calc-pay-help li {
-  margin: 0.2rem 0;
+ margin: 0.2rem 0;
 }
 
 .calc-pay-help code {
-  font-size: 0.78rem;
-  background: #fef3c7;
-  padding: 0.1rem 0.25rem;
-  border-radius: 4px;
+ font-size: 0.78rem;
+ background: #fef3c7;
+ padding: 0.1rem 0.25rem;
+ border-radius: 4px;
 }
 
 .calc-pay-help--live {
-  background: #ecfdf5;
-  border-color: #6ee7b7;
-  color: #065f46;
+ background: #ecfdf5;
+ border-color: #6ee7b7;
+ color: #065f46;
 }
 
 .calc-pay-help--live .calc-pay-help-mode {
-  color: #047857;
+ color: #047857;
 }
 
 .calc-pay-help--live code {
-  background: #d1fae5;
+ background: #d1fae5;
 }
 
 .calc-pay-help-note {
-  margin: 0.25rem 0 0.35rem;
-  font-size: 0.78rem;
+ margin: 0.25rem 0 0.35rem;
+ font-size: 0.78rem;
 }
 
 .wm-payment-receipt-stage {
-  display: none;
+ display: none;
 }
 
 .wm-receipt-doc .wm-receipt-timeline {
-  margin: 0.5rem 0 1rem;
-  padding-left: 1.2rem;
-  font-size: 0.88rem;
-  line-height: 1.45;
-  color: #334155;
+ margin: 0.5rem 0 1rem;
+ padding-left: 1.2rem;
+ font-size: 0.88rem;
+ line-height: 1.45;
+ color: #334155;
 }
 
 /* Payment receipt prints via iframe (printHtmlInIframe) — avoids conflict with #calcPrintStage rules below */
 
 .cart-cta-primary {
-  background: linear-gradient(135deg, #0a0e17, #2563EB);
-  color: #FFFFFF;
-  box-shadow: 0 4px 12px -4px rgba(30, 64, 175, 0.55);
+ background: linear-gradient(135deg, #0a0e17, #2563EB);
+ color: #FFFFFF;
+ box-shadow: 0 4px 12px -4px rgba(30, 64, 175, 0.55);
 }
 
 .cart-cta-secondary {
-  background: #F1F5F9;
-  color: #0F172A;
-  border: 1px solid #E5E7EB !important;
+ background: #F1F5F9;
+ color: #0F172A;
+ border: 1px solid #E5E7EB !important;
 }
 
 .cart-cta-primary:hover,
@@ -1047,709 +1047,709 @@ body.grills-product-page .calc-sticky-exact {
 
 .cart-cta-primary[disabled],
 .cart-cta-secondary[disabled] {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
+ opacity: 0.5;
+ cursor: not-allowed;
+ transform: none;
 }
 
 .cart-foot-note {
-  margin-top: 0.65rem;
-  font-size: 0.76rem;
-  color: #64748B;
-  text-align: center;
-  line-height: 1.45;
+ margin-top: 0.65rem;
+ font-size: 0.76rem;
+ color: #64748B;
+ text-align: center;
+ line-height: 1.45;
 }
 .cart-foot-note a {
-  color: #0a0e17;
-  font-weight: 600;
-  text-decoration: none;
-  border-bottom: 1px dashed #93C5FD;
+ color: #0a0e17;
+ font-weight: 600;
+ text-decoration: none;
+ border-bottom: 1px dashed #93C5FD;
 }
 .cart-foot-note a:hover { color: #131a28; border-bottom-style: solid; }
 
 /* GST + Transport policy block inside cart sheet */
 .cart-policy-block {
-  margin: 0.75rem 0 1rem;
-  padding: 0.85rem 1rem;
-  background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
-  border: 1px solid #E2E8F0;
-  border-radius: 12px;
+ margin: 0.75rem 0 1rem;
+ padding: 0.85rem 1rem;
+ background: linear-gradient(135deg, #F8FAFC 0%, #F1F5F9 100%);
+ border: 1px solid #E2E8F0;
+ border-radius: 12px;
 }
 .cart-policy-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.85rem;
-  padding: 0.3rem 0;
-  border-bottom: 1px dashed #E2E8F0;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ font-size: 0.85rem;
+ padding: 0.3rem 0;
+ border-bottom: 1px dashed #E2E8F0;
 }
 .cart-policy-row:last-of-type { border-bottom: none; }
 .cart-policy-key {
-  color: #475569;
-  font-weight: 500;
+ color: #475569;
+ font-weight: 500;
 }
 .cart-policy-key em {
-  font-style: normal;
-  font-size: 0.75rem;
-  color: #B45309;
-  font-weight: 600;
+ font-style: normal;
+ font-size: 0.75rem;
+ color: #B45309;
+ font-weight: 600;
 }
 .cart-policy-val {
-  font-weight: 700;
-  color: #0F172A;
-  white-space: nowrap;
+ font-weight: 700;
+ color: #0F172A;
+ white-space: nowrap;
 }
-.cart-policy-val.is-free  { color: #047857; display: inline-flex; align-items: center; }
+.cart-policy-val.is-free { color: #047857; display: inline-flex; align-items: center; }
 .cart-policy-val.is-extra { color: #B45309; }
 .cart-policy-note {
-  margin: 0.5rem 0 0;
-  font-size: 0.75rem;
-  color: #475569;
-  line-height: 1.5;
-  padding: 0.5rem 0.65rem;
-  background: #FFFFFF;
-  border-radius: 8px;
-  border-left: 3px solid #0a0e17;
+ margin: 0.5rem 0 0;
+ font-size: 0.75rem;
+ color: #475569;
+ line-height: 1.5;
+ padding: 0.5rem 0.65rem;
+ background: #FFFFFF;
+ border-radius: 8px;
+ border-left: 3px solid #0a0e17;
 }
 .cart-policy-note strong { color: #0F172A; }
 
 /* ============================================
-   4. ADD-TO-CART BUTTON (inside calculator)
-   ============================================ */
+ 4. ADD-TO-CART BUTTON (inside calculator)
+ ============================================ */
 .calc-action-row {
-  margin-top: 1.5rem;
-  padding: 1.25rem;
-  background: linear-gradient(135deg, #FEF3C7 0%, #FFEDD5 100%);
-  border: 1px solid #FCD34D;
-  border-radius: 12px;
-  text-align: center;
+ margin-top: 1.5rem;
+ padding: 1.25rem;
+ background: linear-gradient(135deg, #FEF3C7 0%, #FFEDD5 100%);
+ border: 1px solid #FCD34D;
+ border-radius: 12px;
+ text-align: center;
 }
 
 .calc-add-cart-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.9rem 1.5rem;
-  background: linear-gradient(135deg, #b8893d, #EA580C);
-  color: #FFFFFF;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 14px -4px rgba(234, 88, 12, 0.55);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  letter-spacing: 0.2px;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.5rem;
+ padding: 0.9rem 1.5rem;
+ background: linear-gradient(135deg, #b8893d, #EA580C);
+ color: #FFFFFF;
+ border: none;
+ border-radius: 10px;
+ font-size: 1rem;
+ font-weight: 700;
+ cursor: pointer;
+ box-shadow: 0 4px 14px -4px rgba(234, 88, 12, 0.55);
+ transition: transform 0.2s ease, box-shadow 0.2s ease;
+ letter-spacing: 0.2px;
 }
 
 .calc-add-cart-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px -4px rgba(234, 88, 12, 0.65);
+ transform: translateY(-2px);
+ box-shadow: 0 8px 22px -4px rgba(234, 88, 12, 0.65);
 }
 
 .calc-add-cart-btn:active { transform: translateY(0); }
 
 .calc-add-cart-btn.is-success {
-  background: linear-gradient(135deg, #16A34A, #15803D);
-  box-shadow: 0 4px 14px -4px rgba(22, 163, 74, 0.5);
+ background: linear-gradient(135deg, #16A34A, #15803D);
+ box-shadow: 0 4px 14px -4px rgba(22, 163, 74, 0.5);
 }
 
 .calc-action-note {
-  margin: 0.6rem 0 0;
-  font-size: 0.82rem;
-  color: #92400E;
-  font-weight: 500;
+ margin: 0.6rem 0 0;
+ font-size: 0.82rem;
+ color: #92400E;
+ font-weight: 500;
 }
 
 .cart-item-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.5rem;
-  margin-bottom: 0.35rem;
+ display: flex;
+ align-items: flex-start;
+ justify-content: space-between;
+ gap: 0.5rem;
+ margin-bottom: 0.35rem;
 }
 .cart-item-cat {
-  font-size: 0.7rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #64748B;
-  background: #F1F5F9;
-  padding: 0.2rem 0.45rem;
-  border-radius: 4px;
-  flex-shrink: 0;
+ font-size: 0.7rem;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.04em;
+ color: #64748B;
+ background: #F1F5F9;
+ padding: 0.2rem 0.45rem;
+ border-radius: 4px;
+ flex-shrink: 0;
 }
 .cart-item-area {
-  font-size: 0.82rem;
-  color: #334155;
-  margin: 0.35rem 0 0.5rem;
+ font-size: 0.82rem;
+ color: #334155;
+ margin: 0.35rem 0 0.5rem;
 }
 .cart-item-details {
-  margin: 0.5rem 0 0;
-  padding: 0.65rem 0.75rem;
-  background: #F8FAFC;
-  border-radius: 8px;
-  border: 1px solid #E2E8F0;
+ margin: 0.5rem 0 0;
+ padding: 0.65rem 0.75rem;
+ background: #F8FAFC;
+ border-radius: 8px;
+ border: 1px solid #E2E8F0;
 }
 .cart-detail-row {
-  display: grid;
-  grid-template-columns: minmax(88px, 38%) 1fr;
-  gap: 0.35rem 0.65rem;
-  font-size: 0.78rem;
-  padding: 0.2rem 0;
-  border-bottom: 1px dashed #E2E8F0;
+ display: grid;
+ grid-template-columns: minmax(88px, 38%) 1fr;
+ gap: 0.35rem 0.65rem;
+ font-size: 0.78rem;
+ padding: 0.2rem 0;
+ border-bottom: 1px dashed #E2E8F0;
 }
 .cart-detail-row:last-child { border-bottom: none; }
 .cart-detail-row dt {
-  margin: 0;
-  font-weight: 600;
-  color: #64748B;
+ margin: 0;
+ font-weight: 600;
+ color: #64748B;
 }
 .cart-detail-row dd {
-  margin: 0;
-  color: #0F172A;
-  font-weight: 500;
+ margin: 0;
+ color: #0F172A;
+ font-weight: 500;
 }
 .cart-share-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.65rem;
-  margin-top: 0.75rem;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 0.65rem;
+ margin-top: 0.75rem;
 }
 .cart-share-wa,
 .cart-share-email {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4rem;
-  padding: 0.75rem 0.65rem;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border: none;
-  cursor: pointer;
+ display: inline-flex;
+ align-items: center;
+ justify-content: center;
+ gap: 0.4rem;
+ padding: 0.75rem 0.65rem;
+ border-radius: 10px;
+ font-size: 0.85rem;
+ font-weight: 700;
+ border: none;
+ cursor: pointer;
 }
 .cart-share-wa {
-  background: #25D366;
-  color: #fff;
+ background: #25D366;
+ color: #fff;
 }
 .cart-share-email {
-  background: #0F172A;
-  color: #fff;
+ background: #0F172A;
+ color: #fff;
 }
 
 /* ============================================
-   5. FORM MODAL — gated PDF / Get-Exact form
-   ============================================ */
+ 5. FORM MODAL — gated PDF / Get-Exact form
+ ============================================ */
 .calc-form-modal {
-  position: fixed;
-  inset: 0;
-  /* Above sticky .wm-navbar (1000) and drawer (1110) so title/close are not clipped */
-  z-index: 1200;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding:
-    max(0.75rem, env(safe-area-inset-top, 0px))
-    max(1rem, env(safe-area-inset-right, 0px))
-    max(0.75rem, env(safe-area-inset-bottom, 0px))
-    max(1rem, env(safe-area-inset-left, 0px));
-  box-sizing: border-box;
-  pointer-events: none;
-  visibility: hidden;
+ position: fixed;
+ inset: 0;
+ /* Above sticky .wm-navbar (1000) and drawer (1110) so title/close are not clipped */
+ z-index: 1200;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ padding:
+ max(0.75rem, env(safe-area-inset-top, 0px))
+ max(1rem, env(safe-area-inset-right, 0px))
+ max(0.75rem, env(safe-area-inset-bottom, 0px))
+ max(1rem, env(safe-area-inset-left, 0px));
+ box-sizing: border-box;
+ pointer-events: none;
+ visibility: hidden;
 }
 
 .calc-form-modal.is-open {
-  pointer-events: auto;
-  visibility: visible;
+ pointer-events: auto;
+ visibility: visible;
 }
 
 .calc-form-backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.6);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+ position: absolute;
+ inset: 0;
+ background: rgba(15, 23, 42, 0.6);
+ opacity: 0;
+ transition: opacity 0.3s ease;
 }
 
 .calc-form-modal.is-open .calc-form-backdrop { opacity: 1; }
 
 .calc-form-panel {
-  position: relative;
-  z-index: 1;
-  width: min(520px, 100%);
-  max-height: 100%;
-  background: #FFFFFF;
-  border-radius: 18px;
-  box-shadow: 0 24px 60px -10px rgba(15, 23, 42, 0.45);
-  transform: translateY(12px);
-  opacity: 0;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+ position: relative;
+ z-index: 1;
+ width: min(520px, 100%);
+ max-height: 100%;
+ background: #FFFFFF;
+ border-radius: 18px;
+ box-shadow: 0 24px 60px -10px rgba(15, 23, 42, 0.45);
+ transform: translateY(12px);
+ opacity: 0;
+ transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+ display: flex;
+ flex-direction: column;
+ overflow: hidden;
 }
 
 .calc-form-modal.is-open .calc-form-panel {
-  transform: translateY(0);
-  opacity: 1;
+ transform: translateY(0);
+ opacity: 1;
 }
 
 .calc-form-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.1rem 1.25rem 0.9rem;
-  border-bottom: 1px solid #E5E7EB;
-  flex-shrink: 0;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
+ padding: 1.1rem 1.25rem 0.9rem;
+ border-bottom: 1px solid #E5E7EB;
+ flex-shrink: 0;
 }
 
 .calc-form-header h3 {
-  margin: 0;
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: #0F172A;
+ margin: 0;
+ font-size: 1.15rem;
+ font-weight: 700;
+ color: #0F172A;
 }
 
 .calc-form-close {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: 1px solid #E5E7EB;
-  background: #F8FAFC;
-  color: #475569;
-  font-size: 1.25rem;
-  line-height: 1;
-  cursor: pointer;
-  display: grid;
-  place-items: center;
-  transition: background 0.2s ease;
+ width: 32px;
+ height: 32px;
+ border-radius: 8px;
+ border: 1px solid #E5E7EB;
+ background: #F8FAFC;
+ color: #475569;
+ font-size: 1.25rem;
+ line-height: 1;
+ cursor: pointer;
+ display: grid;
+ place-items: center;
+ transition: background 0.2s ease;
 }
 
 .calc-form-close:hover { background: #E2E8F0; color: #0F172A; }
 
 .calc-form-body {
-  padding: 1rem 1.25rem 1.25rem;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  flex: 1 1 auto;
-  min-height: 0;
+ padding: 1rem 1.25rem 1.25rem;
+ overflow-y: auto;
+ -webkit-overflow-scrolling: touch;
+ flex: 1 1 auto;
+ min-height: 0;
 }
 
 .calc-form-intro {
-  margin: 0 0 1rem;
-  font-size: 0.88rem;
-  color: #475569;
-  line-height: 1.5;
+ margin: 0 0 1rem;
+ font-size: 0.88rem;
+ color: #475569;
+ line-height: 1.5;
 }
 
 .calc-form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.85rem;
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 0.85rem;
 }
 
 .calc-form-row { display: flex; flex-direction: column; gap: 0.3rem; }
 .calc-form-row-full { grid-column: 1 / -1; }
 
 .calc-form-row label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #0F172A;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
+ font-size: 0.75rem;
+ font-weight: 700;
+ color: #0F172A;
+ letter-spacing: 0.4px;
+ text-transform: uppercase;
 }
 
 .calc-form-row label em {
-  color: #DC2626;
-  font-style: normal;
-  margin-left: 2px;
+ color: #DC2626;
+ font-style: normal;
+ margin-left: 2px;
 }
 
 .calc-form-row label small {
-  color: #64748B;
-  font-size: 0.7rem;
-  font-weight: 500;
-  text-transform: none;
-  letter-spacing: 0;
-  margin-left: 4px;
+ color: #64748B;
+ font-size: 0.7rem;
+ font-weight: 500;
+ text-transform: none;
+ letter-spacing: 0;
+ margin-left: 4px;
 }
 
 .calc-form-row input,
 .calc-form-row select {
-  width: 100%;
-  padding: 0.7rem 0.85rem;
-  background: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  border-radius: 8px;
-  font-size: 0.92rem;
-  color: #0F172A;
-  font-family: inherit;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-  box-sizing: border-box;
+ width: 100%;
+ padding: 0.7rem 0.85rem;
+ background: #FFFFFF;
+ border: 1px solid #E5E7EB;
+ border-radius: 8px;
+ font-size: 0.92rem;
+ color: #0F172A;
+ font-family: inherit;
+ transition: border-color 0.2s ease, box-shadow 0.2s ease;
+ box-sizing: border-box;
 }
 
 .calc-form-row input:focus,
 .calc-form-row select:focus {
-  outline: none;
-  border-color: #0a0e17;
-  box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.12);
+ outline: none;
+ border-color: #0a0e17;
+ box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.12);
 }
 
 .calc-form-submit {
-  width: 100%;
-  margin-top: 1.1rem;
-  padding: 0.95rem 1rem;
-  background: linear-gradient(135deg, #0a0e17, #2563EB);
-  color: #FFFFFF;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 6px 16px -6px rgba(30, 64, 175, 0.6);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+ width: 100%;
+ margin-top: 1.1rem;
+ padding: 0.95rem 1rem;
+ background: linear-gradient(135deg, #0a0e17, #2563EB);
+ color: #FFFFFF;
+ border: none;
+ border-radius: 10px;
+ font-size: 1rem;
+ font-weight: 700;
+ cursor: pointer;
+ box-shadow: 0 6px 16px -6px rgba(30, 64, 175, 0.6);
+ transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .calc-form-submit:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 22px -6px rgba(30, 64, 175, 0.6);
+ transform: translateY(-1px);
+ box-shadow: 0 10px 22px -6px rgba(30, 64, 175, 0.6);
 }
 
 .calc-form-submit.is-loading {
-  background: #94A3B8;
-  cursor: progress;
+ background: #94A3B8;
+ cursor: progress;
 }
 
 .calc-form-trust {
-  margin: 0.8rem 0 0;
-  font-size: 0.74rem;
-  color: #64748B;
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  justify-content: center;
+ margin: 0.8rem 0 0;
+ font-size: 0.74rem;
+ color: #64748B;
+ display: flex;
+ align-items: center;
+ gap: 0.4rem;
+ justify-content: center;
 }
 
 @media (max-width: 520px) {
-  .calc-form-grid { grid-template-columns: 1fr; }
-  .calc-form-header h3 { font-size: 1.05rem; }
+ .calc-form-grid { grid-template-columns: 1fr; }
+ .calc-form-header h3 { font-size: 1.05rem; }
 }
 
 /* ============================================
-   6. ENHANCED FAB — sit above sticky bar, below estimate sheet (960)
-   ============================================ */
+ 6. ENHANCED FAB — sit above sticky bar, below estimate sheet (960)
+ ============================================ */
 .floating-calc-button {
-  z-index: 940;
+ z-index: 940;
 }
 
 @media (max-width: 768px) {
-  .floating-calc-button {
-    bottom: calc(82px + env(safe-area-inset-bottom, 0px) + 0.5rem) !important;
-    right: 1rem !important;
-  }
+ .floating-calc-button {
+ bottom: calc(82px + env(safe-area-inset-bottom, 0px) + 0.5rem) !important;
+ right: 1rem !important;
+ }
 }
 
 @media (min-width: 769px) {
-  .floating-calc-button {
-    bottom: calc(1.25rem + 60px) !important;
-    right: 2rem !important;
-  }
+ .floating-calc-button {
+ bottom: calc(1.25rem + 60px) !important;
+ right: 2rem !important;
+ }
 }
 
 /* ============================================
-   7. MOBILE CALCULATOR — fit-to-screen layout
-   (phones + narrow tablets; desktop ≥769px unchanged)
-   ============================================ */
+ 7. MOBILE CALCULATOR — fit-to-screen layout
+ (phones + narrow tablets; desktop ≥769px unchanged)
+ ============================================ */
 @media (max-width: 768px) {
-  section:has(.price-calculator-container) {
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
-  }
+ section:has(.price-calculator-container) {
+ padding-top: 2rem !important;
+ padding-bottom: 2rem !important;
+ }
 
-  section:has(.price-calculator-container) > .container {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    max-width: 100%;
-  }
+ section:has(.price-calculator-container) > .container {
+ padding-left: 0.75rem;
+ padding-right: 0.75rem;
+ max-width: 100%;
+ }
 
-  .price-calculator-container {
-    padding: 1rem 0.75rem 1.25rem !important;
-    border-radius: 12px !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    overflow-x: hidden;
-    box-sizing: border-box;
-  }
+ .price-calculator-container {
+ padding: 1rem 0.75rem 1.25rem !important;
+ border-radius: 12px !important;
+ max-width: 100% !important;
+ width: 100% !important;
+ overflow-x: hidden;
+ box-sizing: border-box;
+ }
 
-  /* Trust strip above calculator header */
-  .price-calculator-container > div[style*="text-align: center"] {
-    padding: 0.6rem 0.5rem !important;
-    margin-bottom: 1rem !important;
-  }
+ /* Trust strip above calculator header */
+ .price-calculator-container > div[style*="text-align: center"] {
+ padding: 0.6rem 0.5rem !important;
+ margin-bottom: 1rem !important;
+ }
 
-  .price-calculator-container > div[style*="text-align: center"] p {
-    font-size: 0.78rem !important;
-    line-height: 1.45 !important;
-  }
+ .price-calculator-container > div[style*="text-align: center"] p {
+ font-size: 0.78rem !important;
+ line-height: 1.45 !important;
+ }
 
-  .price-calculator-container .calc-header {
-    padding: 0.75rem 0.85rem !important;
-    margin-bottom: 1rem !important;
-    flex-wrap: wrap;
-    gap: 0.5rem !important;
-  }
+ .price-calculator-container .calc-header {
+ padding: 0.75rem 0.85rem !important;
+ margin-bottom: 1rem !important;
+ flex-wrap: wrap;
+ gap: 0.5rem !important;
+ }
 
-  .price-calculator-container .calc-header svg {
-    width: 22px !important;
-    height: 22px !important;
-  }
+ .price-calculator-container .calc-header svg {
+ width: 22px !important;
+ height: 22px !important;
+ }
 
-  .price-calculator-container .calc-header h2,
-  .price-calculator-container .calc-header h3 {
-    font-size: 1.1rem !important;
-    line-height: 1.25 !important;
-  }
+ .price-calculator-container .calc-header h2,
+ .price-calculator-container .calc-header h3 {
+ font-size: 1.1rem !important;
+ line-height: 1.25 !important;
+ }
 
-  .price-calculator-container .calc-group {
-    margin-bottom: 1rem !important;
-    min-width: 0;
-  }
+ .price-calculator-container .calc-group {
+ margin-bottom: 1rem !important;
+ min-width: 0;
+ }
 
-  .price-calculator-container .calc-group label {
-    font-size: 0.78rem !important;
-    margin-bottom: 0.45rem !important;
-    letter-spacing: 0.35px !important;
-  }
+ .price-calculator-container .calc-group label {
+ font-size: 0.78rem !important;
+ margin-bottom: 0.45rem !important;
+ letter-spacing: 0.35px !important;
+ }
 
-  .price-calculator-container .calc-input,
-  .price-calculator-container .calc-select,
-  .price-calculator-container .calc-user-form input,
-  .price-calculator-container .calc-user-form select {
-    padding: 0.75rem 0.85rem !important;
-    font-size: 16px !important;
-    min-height: 44px !important;
-    max-width: 100% !important;
-  }
+ .price-calculator-container .calc-input,
+ .price-calculator-container .calc-select,
+ .price-calculator-container .calc-user-form input,
+ .price-calculator-container .calc-user-form select {
+ padding: 0.75rem 0.85rem !important;
+ font-size: 16px !important;
+ min-height: 44px !important;
+ max-width: 100% !important;
+ }
 
-  .price-calculator-container .calc-select {
-    padding-right: 2.5rem !important;
-  }
+ .price-calculator-container .calc-select {
+ padding-right: 2.5rem !important;
+ }
 
-  /* Size rows: 2×2 grid instead of 4 cramped columns */
-  .price-calculator-container .calc-size-row {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    grid-template-areas:
-      "width height"
-      "qty remove"
-      "amount amount" !important;
-    gap: 0.5rem 0.65rem !important;
-    padding: 0.75rem !important;
-    align-items: end !important;
-    min-width: 0;
-  }
+ /* Size rows: 2×2 grid instead of 4 cramped columns */
+ .price-calculator-container .calc-size-row {
+ display: grid !important;
+ grid-template-columns: 1fr 1fr !important;
+ grid-template-areas:
+ "width height"
+ "qty remove"
+ "amount amount" !important;
+ gap: 0.5rem 0.65rem !important;
+ padding: 0.75rem !important;
+ align-items: end !important;
+ min-width: 0;
+ }
 
-  .price-calculator-container .calc-size-row > div {
-    min-width: 0;
-  }
+ .price-calculator-container .calc-size-row > div {
+ min-width: 0;
+ }
 
-  .price-calculator-container .calc-size-row > div:nth-child(1) { grid-area: width; }
-  .price-calculator-container .calc-size-row > div:nth-child(2) { grid-area: height; }
-  .price-calculator-container .calc-size-row > div:nth-child(3) { grid-area: qty; }
+ .price-calculator-container .calc-size-row > div:nth-child(1) { grid-area: width; }
+ .price-calculator-container .calc-size-row > div:nth-child(2) { grid-area: height; }
+ .price-calculator-container .calc-size-row > div:nth-child(3) { grid-area: qty; }
 
-  .price-calculator-container .calc-size-row > .remove-size-btn {
-    grid-area: remove;
-    justify-self: end;
-    align-self: end;
-    width: 40px !important;
-    height: 40px !important;
-  }
+ .price-calculator-container .calc-size-row > .remove-size-btn {
+ grid-area: remove;
+ justify-self: end;
+ align-self: end;
+ width: 40px !important;
+ height: 40px !important;
+ }
 
-  .price-calculator-container .calc-size-row > .row-amount {
-    grid-area: amount;
-    text-align: right;
-    padding-top: 0.5rem !important;
-    margin-top: 0.35rem !important;
-  }
+ .price-calculator-container .calc-size-row > .row-amount {
+ grid-area: amount;
+ text-align: right;
+ padding-top: 0.5rem !important;
+ margin-top: 0.35rem !important;
+ }
 
-  .price-calculator-container .calc-size-width,
-  .price-calculator-container .calc-size-height,
-  .price-calculator-container .calc-size-qty {
-    width: 100% !important;
-    min-width: 0 !important;
-    padding: 0.65rem 0.75rem !important;
-    font-size: 16px !important;
-  }
+ .price-calculator-container .calc-size-width,
+ .price-calculator-container .calc-size-height,
+ .price-calculator-container .calc-size-qty {
+ width: 100% !important;
+ min-width: 0 !important;
+ padding: 0.65rem 0.75rem !important;
+ font-size: 16px !important;
+ }
 
-  .price-calculator-container .calc-size-row .size-label {
-    font-size: 0.68rem !important;
-    margin-bottom: 0.35rem !important;
-  }
+ .price-calculator-container .calc-size-row .size-label {
+ font-size: 0.68rem !important;
+ margin-bottom: 0.35rem !important;
+ }
 
-  .price-calculator-container #calc-area-display {
-    display: block !important;
-    width: 100% !important;
-    box-sizing: border-box;
-    font-size: 0.88rem !important;
-    padding: 0.6rem 0.75rem !important;
-    margin-top: 0.65rem !important;
-  }
+ .price-calculator-container #calc-area-display {
+ display: block !important;
+ width: 100% !important;
+ box-sizing: border-box;
+ font-size: 0.88rem !important;
+ padding: 0.6rem 0.75rem !important;
+ margin-top: 0.65rem !important;
+ }
 
-  .price-calculator-container .calc-checkbox-group {
-    flex-wrap: wrap;
-    gap: 0.5rem !important;
-    padding: 0.65rem 0.75rem !important;
-  }
+ .price-calculator-container .calc-checkbox-group {
+ flex-wrap: wrap;
+ gap: 0.5rem !important;
+ padding: 0.65rem 0.75rem !important;
+ }
 
-  .price-calculator-container .calc-checkbox-group label {
-    font-size: 0.85rem !important;
-    line-height: 1.35 !important;
-  }
+ .price-calculator-container .calc-checkbox-group label {
+ font-size: 0.85rem !important;
+ line-height: 1.35 !important;
+ }
 
-  .price-calculator-container .calc-price-display {
-    padding: 1rem 0.85rem !important;
-    margin-top: 1.25rem !important;
-  }
+ .price-calculator-container .calc-price-display {
+ padding: 1rem 0.85rem !important;
+ margin-top: 1.25rem !important;
+ }
 
-  .price-calculator-container .calc-price-row {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 0.3rem !important;
-    padding: 0.75rem 0 !important;
-  }
+ .price-calculator-container .calc-price-row {
+ flex-direction: column !important;
+ align-items: flex-start !important;
+ gap: 0.3rem !important;
+ padding: 0.75rem 0 !important;
+ }
 
-  .price-calculator-container .calc-price-row:hover {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-  }
+ .price-calculator-container .calc-price-row:hover {
+ padding-left: 0 !important;
+ padding-right: 0 !important;
+ }
 
-  .price-calculator-container .calc-price-label {
-    font-size: 0.82rem !important;
-    line-height: 1.35 !important;
-    max-width: 100% !important;
-  }
+ .price-calculator-container .calc-price-label {
+ font-size: 0.82rem !important;
+ line-height: 1.35 !important;
+ max-width: 100% !important;
+ }
 
-  .price-calculator-container .calc-price-value {
-    font-size: 1.2rem !important;
-    word-break: break-word !important;
-    width: 100% !important;
-  }
+ .price-calculator-container .calc-price-value {
+ font-size: 1.2rem !important;
+ word-break: break-word !important;
+ width: 100% !important;
+ }
 
-  .price-calculator-container .calc-user-form {
-    padding: 1rem 0.85rem !important;
-    margin-top: 1.25rem !important;
-  }
+ .price-calculator-container .calc-user-form {
+ padding: 1rem 0.85rem !important;
+ margin-top: 1.25rem !important;
+ }
 
-  .price-calculator-container .calc-user-form h4 {
-    font-size: 1rem !important;
-  }
+ .price-calculator-container .calc-user-form h4 {
+ font-size: 1rem !important;
+ }
 
-  .price-calculator-container .calc-info-box {
-    padding: 1rem 0.85rem !important;
-    margin-top: 1.25rem !important;
-    font-size: 0.82rem !important;
-  }
+ .price-calculator-container .calc-info-box {
+ padding: 1rem 0.85rem !important;
+ margin-top: 1.25rem !important;
+ font-size: 0.82rem !important;
+ }
 
-  .price-calculator-container .calc-action-row {
-    padding: 1rem 0.85rem !important;
-    margin-top: 1rem !important;
-  }
+ .price-calculator-container .calc-action-row {
+ padding: 1rem 0.85rem !important;
+ margin-top: 1rem !important;
+ }
 
-  .price-calculator-container .calc-add-cart-btn {
-    width: 100%;
-    padding: 0.85rem 1rem !important;
-    font-size: 0.92rem !important;
-  }
+ .price-calculator-container .calc-add-cart-btn {
+ width: 100%;
+ padding: 0.85rem 1rem !important;
+ font-size: 0.92rem !important;
+ }
 
-  .price-calculator-container button[id^="calc-add-size-btn"],
-  .price-calculator-container button[id^="calc-sync-selections-btn"] {
-    font-size: 0.85rem !important;
-    padding: 0.7rem 0.75rem !important;
-  }
+ .price-calculator-container button[id^="calc-add-size-btn"],
+ .price-calculator-container button[id^="calc-sync-selections-btn"] {
+ font-size: 0.85rem !important;
+ padding: 0.7rem 0.75rem !important;
+ }
 
-  /* Sticky bar shows live price — hide duplicate in-page total on phones */
-  body.has-calc-sticky-bar .price-calculator-container .calc-price-display {
-    display: none;
-  }
+ /* Sticky bar shows live price — hide duplicate in-page total on phones */
+ body.has-calc-sticky-bar .price-calculator-container .calc-price-display {
+ display: none;
+ }
 }
 
 @media (max-width: 400px) {
-  .price-calculator-container {
-    padding: 0.85rem 0.6rem 1rem !important;
-  }
+ .price-calculator-container {
+ padding: 0.85rem 0.6rem 1rem !important;
+ }
 
-  .price-calculator-container .calc-header h2,
-  .price-calculator-container .calc-header h3 {
-    font-size: 1rem !important;
-  }
+ .price-calculator-container .calc-header h2,
+ .price-calculator-container .calc-header h3 {
+ font-size: 1rem !important;
+ }
 }
 
 /* Scroll-margin so anchor jumps land below sticky navbar. */
 .price-calculator-container,
 [id^="price-calculator"] {
-  scroll-margin-top: 96px;
+ scroll-margin-top: 96px;
 }
 
 /* ============================================
-   9. SITE-WIDE DESIGN OVERRIDES (light theme)
-   ============================================
-   Several existing product pages have a dark "Related Products"
-   strip (#1a1a1a) and a dark final-CTA section ("Want a Secure /
-   Want a Luxury / Get Free Quote") that clash with the standard
-   light page background. These overrides force them into the
-   standard light theme without touching individual HTML files.
+ 9. SITE-WIDE DESIGN OVERRIDES (light theme)
+ ============================================
+ Several existing product pages have a dark "Related Products"
+ strip (#1a1a1a) and a dark final-CTA section ("Want a Secure /
+ Want a Luxury / Get Free Quote") that clash with the standard
+ light page background. These overrides force them into the
+ standard light theme without touching individual HTML files.
 
-   Owner request: light theme everywhere, only the calculator's
-   Get-Exact button is the conversion CTA — no parallel "Get Free
-   Quote / Contact / WhatsApp" CTAs.
-   ============================================ */
+ Owner request: light theme everywhere, only the calculator's
+ Get-Exact button is the conversion CTA — no parallel "Get Free
+ Quote / Contact / WhatsApp" CTAs.
+ ============================================ */
 
 /* 9a. Related Products section — force light theme.
-   Targets the dark section that wraps a .related-products grid. */
+ Targets the dark section that wraps a .related-products grid. */
 section:has(> .container > .related-products),
 section:has(> .container > * > .related-products) {
-  background: #F8FAFC !important;
+ background: #F8FAFC !important;
 }
 section:has(> .container > .related-products) h2,
 section:has(> .container > * > .related-products) h2 {
-  color: #0F172A !important;
+ color: #0F172A !important;
 }
 section:has(> .container > .related-products) > .container > p,
 section:has(> .container > * > .related-products) > .container > p {
-  color: #475569 !important;
+ color: #475569 !important;
 }
 .related-products { background: transparent !important; }
 
 .related-product-card {
-  background: #FFFFFF !important;
-  border: 1px solid #E5E7EB !important;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05) !important;
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
+ background: #FFFFFF !important;
+ border: 1px solid #E5E7EB !important;
+ box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05) !important;
+ transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease !important;
 }
 .related-product-card:hover {
-  border-color: #0a0e17 !important;
-  box-shadow: 0 8px 20px -6px rgba(30, 64, 175, 0.18) !important;
-  transform: translateY(-3px) !important;
+ border-color: #0a0e17 !important;
+ box-shadow: 0 8px 20px -6px rgba(30, 64, 175, 0.18) !important;
+ transform: translateY(-3px) !important;
 }
 .related-product-card h4 { color: #0F172A !important; }
 .related-product-card p,
 .related-product-card .related-product-card-content p { color: #475569 !important; }
 
-/* 9b. Final "Want a … / Book Free Site Visit / Get Free Quote"
-   CTA section — hidden by JS, but also force-light here in case
-   JS is disabled, so the page never shows dark blocks. */
+/* 9b. Final "Want a … / Get Quote / Get Free Quote"
+ CTA section — hidden by JS, but also force-light here in case
+ JS is disabled, so the page never shows dark blocks. */
 .site-final-cta-deprecated { display: none !important; }
 
 /* 9c. Hide any leftover Contact / WhatsApp body-level buttons.
-   These selectors are intentionally tight: nav, navbar, mobile menu
-   and footer are excluded so legitimate navigation links remain. */
+ These selectors are intentionally tight: nav, navbar, mobile menu
+ and footer are excluded so legitimate navigation links remain. */
 body a[href*="wa.me"],
 body a[href*="whatsapp.com"],
 body a[href*="api.whatsapp"] {
-  /* default: hidden, JS un-hides nav/footer instances if needed */
-  display: none !important;
+ /* default: hidden, JS un-hides nav/footer instances if needed */
+ display: none !important;
 }
 .navbar a[href*="wa.me"],
 .navbar a[href*="whatsapp.com"],
@@ -1757,722 +1757,722 @@ body a[href*="api.whatsapp"] {
 .mobile-menu a[href*="wa.me"],
 footer a[href*="wa.me"],
 .footer a[href*="wa.me"] {
-  display: inline-flex !important;
+ display: inline-flex !important;
 }
 
 /* 9d. Make sure dark inline-style sections never break the light
-   theme that wraps related-products / final CTA. */
+ theme that wraps related-products / final CTA. */
 section[style*="background: #1a1a1a"]:has(.related-products),
 section[style*="background:#1a1a1a"]:has(.related-products),
 section[style*="background: #0f0f0f"]:has(.related-products),
 section[style*="background:#0f0f0f"]:has(.related-products) {
-  background: #F8FAFC !important;
+ background: #F8FAFC !important;
 }
 
 /* 9e. Pricing-info box inside calculator: kill any dark variants. */
 .price-calculator-container .calc-info-box {
-  background: #F8FAFC !important;
-  border: 1px solid #E5E7EB !important;
-  color: #0F172A !important;
+ background: #F8FAFC !important;
+ border: 1px solid #E5E7EB !important;
+ color: #0F172A !important;
 }
 .price-calculator-container .calc-info-box p { color: #475569 !important; }
 
 /* ============================================
-   8. PRINT STYLESHEET — invoice-grade branded quote
-   ============================================
-   Produces a professional A4 quote document when the user clicks
-   "Save & Export PDF" (form submit → JS builds the print stage →
-   window.print() → user saves as PDF).
+ 8. PRINT STYLESHEET — invoice-grade branded quote
+ ============================================
+ Produces a professional A4 quote document when the user clicks
+ "Save & Export PDF" (form submit → JS builds the print stage →
+ window.print() → user saves as PDF).
 */
 .calc-print-stage {
-  display: none !important;
+ display: none !important;
 }
 
 @media print {
-  /* Only #calcPrintStage is a direct child of body (see ensurePrintStage). */
-  html, body {
-    margin: 0 !important;
-    padding: 0 !important;
-    height: auto !important;
-    overflow: visible !important;
-  }
-
-  body > *:not(#calcPrintStage):not(#wmPaymentReceiptStage) {
-    display: none !important;
-  }
-
-  #wmPaymentReceiptStage {
-    display: block !important;
-    position: static !important;
-  }
-
-  #wmPaymentReceiptStage .wm-receipt-doc {
-    padding: 0;
-    font-size: 10pt;
-  }
-
-  #calcPrintStage,
-  .calc-print-stage {
-    position: static !important;
-    left: auto !important;
-    top: auto !important;
-    width: auto !important;
-    height: auto !important;
-    min-height: 0 !important;
-    overflow: visible !important;
-    display: block !important;
-    visibility: visible !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    page-break-before: avoid !important;
-    break-before: avoid-page !important;
-  }
-
-  @page {
-    /* ~15mm left/right so content never touches page edges (all pages) */
-    margin: 12mm 15mm 14mm 15mm;
-    size: A4 portrait;
-  }
-
-  body {
-    background: #FFFFFF !important;
-    color: #0F172A !important;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
-    font-size: 9pt;
-    line-height: 1.4;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  /* ---------- Document frame ---------- */
-  .pdf-doc {
-    max-width: 100%;
-    color: #0F172A;
-    position: relative;
-    margin: 0;
-    padding: 0;
-  }
-
-  .pdf-block {
-    margin: 0;
-    padding: 0;
-    page-break-inside: auto;
-    break-inside: auto;
-  }
-
-  .pdf-block--legal,
-  .pdf-block--closing {
-    page-break-before: auto;
-    break-before: auto;
-  }
-
-  /* Subtle brand stripe along the top edge */
-  .pdf-doc::before {
-    content: '';
-    display: block;
-    height: 4pt;
-    background: linear-gradient(90deg, #0a0e17 0%, #0a0e17 60%, #b8893d 60%, #b8893d 100%);
-    margin-bottom: 8pt;
-    border-radius: 1pt;
-  }
-
-  /* ---------- Header band ---------- */
-  .pdf-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    padding-bottom: 8pt;
-    border-bottom: 0.5pt solid #0F172A;
-    margin-bottom: 10pt;
-    page-break-after: avoid;
-    break-after: avoid-page;
-  }
-
-  .pdf-brand-block {
-    display: flex;
-    align-items: center;
-    gap: 10pt;
-    max-width: 62%;
-  }
-
-  .pdf-brand-mark {
-    flex-shrink: 0;
-    width: auto;
-    min-width: 52pt;
-    height: auto;
-    max-height: 40pt;
-    border-radius: 0;
-    overflow: visible;
-    background: transparent;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: none;
-  }
-
-  .pdf-brand-logo {
-    width: auto;
-    max-width: 120pt;
-    height: auto;
-    max-height: 40pt;
-    object-fit: contain;
-    display: block;
-    filter: none !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .pdf-foot-logo {
-    display: block;
-    max-height: 28pt;
-    width: auto;
-    max-width: 100pt;
-    margin: 0 0 6pt;
-    object-fit: contain;
-    filter: none !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
-  }
-
-  .pdf-brand-text strong {
-    display: block;
-    font-size: 17pt;
-    color: #0F172A;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 1.05;
-    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
-  }
-
-  .pdf-brand-text .pdf-tagline {
-    display: block;
-    color: #475569;
-    font-size: 8.5pt;
-    margin-top: 2pt;
-    font-weight: 500;
-  }
-
-  .pdf-brand-text .pdf-addr {
-    display: block;
-    color: #475569;
-    font-size: 8pt;
-    margin-top: 4pt;
-    line-height: 1.4;
-  }
-
-  /* Meta block (Quote #, Date, Valid till, GSTIN) */
-  .pdf-meta-block {
-    text-align: right;
-    min-width: 38%;
-    font-size: 8.5pt;
-  }
-
-  .pdf-meta-doctype {
-    display: inline-block;
-    padding: 2pt 8pt;
-    background: #0a0e17;
-    color: #FFFFFF;
-    font-size: 8.5pt;
-    font-weight: 700;
-    letter-spacing: 0.6pt;
-    text-transform: uppercase;
-    border-radius: 3pt;
-    margin-bottom: 6pt;
-  }
-
-  .pdf-meta-table {
-    display: inline-block;
-    text-align: left;
-    font-size: 8.5pt;
-    line-height: 1.55;
-  }
-
-  .pdf-meta-table .row {
-    display: flex;
-    justify-content: space-between;
-    gap: 10pt;
-  }
-
-  .pdf-meta-table .label {
-    color: #64748B;
-    text-transform: uppercase;
-    letter-spacing: 0.3pt;
-    font-size: 7.5pt;
-    font-weight: 600;
-  }
-
-  .pdf-meta-table .value { color: #0F172A; font-weight: 700; }
-
-  /* ---------- Customer & site address ---------- */
-  .pdf-parties {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8pt;
-    margin: 0 0 10pt;
-    page-break-after: avoid;
-    break-after: avoid-page;
-  }
-
-  .pdf-party {
-    padding: 8pt 10pt;
-    background: #FFFFFF;
-    border: 0.25pt solid #CBD5E1;
-    border-left: 1pt solid #0F172A;
-    border-radius: 3pt;
-  }
-
-  .pdf-party h2 {
-    font-size: 7.5pt;
-    color: #0a0e17;
-    margin: 0 0 4pt;
-    text-transform: uppercase;
-    letter-spacing: 0.5pt;
-    font-weight: 700;
-  }
-
-  .pdf-party-row { font-size: 9pt; line-height: 1.5; }
-  .pdf-party-row span.k { color: #64748B; }
-  .pdf-party-row span.v { color: #0F172A; font-weight: 600; }
-
-  /* ---------- Section heading ---------- */
-  .pdf-section-title {
-    font-size: 9pt;
-    color: #0F172A;
-    background: #FFFFFF;
-    padding: 4pt 0 3pt;
-    margin: 8pt 0 0;
-    text-transform: uppercase;
-    letter-spacing: 0.5pt;
-    font-weight: 700;
-    border: none;
-    border-bottom: 0.5pt solid #0F172A;
-    border-radius: 0;
-    page-break-after: avoid;
-    break-after: avoid-page;
-  }
-
-  /* ---------- Itemised quote table ---------- */
-  .pdf-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0 0 8pt;
-    border: 0.25pt solid #CBD5E1;
-    page-break-inside: auto;
-    break-inside: auto;
-    background: #FFFFFF;
-  }
-
-  .pdf-table thead {
-    display: table-header-group;
-  }
-
-  .pdf-table tbody tr {
-    page-break-inside: avoid;
-    break-inside: avoid-page;
-  }
-
-  .pdf-table th,
-  .pdf-table td {
-    text-align: left;
-    padding: 5pt 7pt;
-    border-bottom: 0.25pt solid #E2E8F0;
-    font-size: 8.5pt;
-    vertical-align: top;
-    background: #FFFFFF;
-    color: #0F172A;
-  }
-
-  .pdf-table th {
-    background: #FFFFFF;
-    color: #0F172A;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 7.5pt;
-    letter-spacing: 0.35pt;
-    padding-top: 4pt;
-    padding-bottom: 4pt;
-    border-bottom: 0.5pt solid #0F172A;
-  }
-
-  .pdf-table tbody tr:nth-child(even) td,
-  .pdf-table tbody tr:nth-child(odd) td {
-    background: #FFFFFF;
-  }
-
-  .pdf-table td.is-numeric,
-  .pdf-table th.is-numeric { text-align: right; white-space: nowrap; }
-  .pdf-table td.is-center,
-  .pdf-table th.is-center { text-align: center; }
-
-  .pdf-row-title {
-    font-weight: 700;
-    color: #0F172A;
-    font-size: 9pt;
-  }
-
-  .pdf-specs {
-    color: #475569;
-    font-size: 7.8pt;
-    line-height: 1.4;
-    margin-top: 2pt;
-  }
-
-  .pdf-row-cat {
-    font-size: 7pt;
-    font-weight: 600;
-    color: #64748B;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    margin-top: 1pt;
-  }
-
-  .pdf-spec-line {
-    font-size: 7.8pt;
-    color: #334155;
-    margin-top: 3pt;
-  }
-
-  .pdf-spec-mini {
-    width: 100%;
-    margin-top: 4pt;
-    border-collapse: collapse;
-    font-size: 7.5pt;
-  }
-
-  .pdf-spec-mini td {
-    padding: 1.5pt 3pt;
-    vertical-align: top;
-    border-bottom: 0.2pt solid #E2E8F0;
-    background: #FFFFFF;
-  }
-
-  .pdf-spec-mini .pdf-spec-k {
-    width: 38%;
-    font-weight: 600;
-    color: #64748B;
-  }
-
-  .pdf-spec-mini .pdf-spec-v {
-    color: #0F172A;
-    font-weight: 500;
-  }
-
-  /* ---------- Totals block ---------- */
-  .pdf-totals {
-    margin: 0 0 14pt;
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .pdf-totals-table {
-    width: 60%;
-    border-collapse: collapse;
-    font-size: 9pt;
-  }
-
-  .pdf-totals-table td {
-    padding: 4pt 8pt;
-    border-bottom: 0.5pt dashed #E5E7EB;
-  }
-
-  .pdf-totals-table .label {
-    color: #475569;
-    text-align: right;
-  }
-
-  .pdf-totals-table .value {
-    color: #0F172A;
-    text-align: right;
-    font-weight: 700;
-    white-space: nowrap;
-    min-width: 100pt;
-  }
-
-  .pdf-totals-table tr.grand td {
-    border-bottom: none;
-    border-top: 0.5pt solid #0F172A;
-    padding-top: 6pt;
-  }
-
-  .pdf-totals-table tr.grand .label {
-    color: #0F172A;
-    font-size: 10pt;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.4pt;
-  }
-
-  .pdf-totals-table tr.grand .value {
-    color: #0a0e17;
-    font-size: 12pt;
-    font-weight: 800;
-  }
-
-  .pdf-amount-words {
-    font-size: 8.5pt;
-    color: #475569;
-    padding: 5pt 8pt;
-    background: #FFFFFF;
-    border: 0.25pt solid #CBD5E1;
-    border-left: 1pt solid #0F172A;
-    border-radius: 2pt;
-    margin-bottom: 10pt;
-  }
-
-  .pdf-amount-words strong { color: #0F172A; }
-
-  /* GST + Transport policy notice (always visible above T&C) */
-  .pdf-policy-notice {
-    margin: 0 0 14pt;
-    padding: 6pt 8pt;
-    border: 0.25pt solid #CBD5E1;
-    background: #FFFFFF;
-    border-radius: 2pt;
-    font-size: 8.5pt;
-    color: #0F172A;
-    line-height: 1.5;
-  }
-  .pdf-policy-row { margin-bottom: 3pt; }
-  .pdf-policy-row:last-child { margin-bottom: 0; }
-  .pdf-policy-row strong { color: #0F172A; }
-
-  /* ---------- Terms / Bank / Signatures ---------- */
-  .pdf-grid-2 {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 10pt;
-    margin-top: 8pt;
-  }
-
-  .pdf-card {
-    border: 0.25pt solid #CBD5E1;
-    border-radius: 3pt;
-    padding: 8pt 10pt;
-    background: #FFFFFF;
-  }
-
-  .pdf-card h3 {
-    font-size: 8pt;
-    color: #0a0e17;
-    margin: 0 0 5pt;
-    text-transform: uppercase;
-    letter-spacing: 0.5pt;
-    font-weight: 700;
-    border-bottom: 0.5pt solid #E5E7EB;
-    padding-bottom: 3pt;
-  }
-
-  .pdf-terms-list {
-    margin: 0;
-    padding: 0 0 0 12pt;
-    font-size: 8pt;
-    color: #334155;
-    line-height: 1.55;
-  }
-
-  .pdf-terms-list li { margin-bottom: 2pt; }
-
-  .pdf-bank-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 8pt;
-    padding: 1.5pt 0;
-    border-bottom: 0.3pt dotted #E5E7EB;
-  }
-
-  .pdf-bank-row:last-child { border-bottom: none; }
-
-  .pdf-bank-row .k { color: #64748B; font-weight: 500; }
-  .pdf-bank-row .v { color: #0F172A; font-weight: 600; }
-
-  /* Signatures */
-  .pdf-signatures {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10pt;
-    margin-top: 18pt;
-  }
-
-  .pdf-sign-box {
-    border-top: 0.5pt solid #0F172A;
-    padding-top: 4pt;
-    font-size: 8pt;
-    color: #475569;
-    min-height: 36pt;
-  }
-
-  .pdf-sign-box strong {
-    display: block;
-    color: #0F172A;
-    font-size: 9pt;
-    margin-bottom: 1pt;
-  }
-
-  /* ---------- EEAT trust strip ---------- */
-  .pdf-eeat {
-    margin-top: 12pt;
-    padding: 8pt 10pt;
-    background: #FFFFFF;
-    border: 0.25pt solid #CBD5E1;
-    border-left: 1pt solid #0F172A;
-    border-radius: 3pt;
-  }
-
-  .pdf-eeat-title {
-    font-size: 8pt;
-    color: #0a0e17;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.5pt;
-    margin: 0 0 5pt;
-  }
-
-  .pdf-eeat-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6pt;
-  }
-
-  .pdf-eeat-item {
-    font-size: 7.8pt;
-    line-height: 1.35;
-  }
-
-  .pdf-eeat-item strong {
-    display: block;
-    color: #0F172A;
-    font-size: 8.2pt;
-    margin-bottom: 1pt;
-  }
-
-  .pdf-eeat-item span { color: #475569; }
-
-  .pdf-eeat-founder {
-    margin-top: 8pt;
-    padding-top: 7pt;
-    border-top: 0.5pt dashed #C7D2FE;
-    display: grid;
-    grid-template-columns: 46pt 1fr;
-    gap: 8pt;
-    align-items: center;
-  }
-  .pdf-eeat-founder-photo {
-    width: 46pt;
-    height: 46pt;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center 42%;
-    border: 0.5pt solid #CBD5E1;
-    box-shadow: none;
-  }
-  .pdf-eeat-founder-text strong {
-    display: block;
-    color: #0F172A;
-    font-size: 9pt;
-    margin: 0 0 1pt;
-  }
-  .pdf-eeat-founder-text span {
-    display: block;
-    color: #475569;
-    font-size: 7.5pt;
-    margin: 0 0 1pt;
-  }
-  .pdf-eeat-founder-text em {
-    display: block;
-    color: #0a0e17;
-    font-size: 7.2pt;
-    font-style: normal;
-    font-weight: 600;
-  }
-
-  /* ---------- Foot rule + page-end address ---------- */
-  .pdf-foot {
-    margin-top: 12pt;
-    padding-top: 8pt;
-    border-top: 0.25pt solid #CBD5E1;
-    font-size: 7.5pt;
-    color: #64748B;
-    line-height: 1.5;
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 10pt;
-    align-items: center;
-  }
-
-  .pdf-foot .left   { text-align: left; }
-  .pdf-foot .center { text-align: center; font-weight: 600; color: #0a0e17; letter-spacing: 0.3pt; text-transform: uppercase; font-size: 7pt; }
-  .pdf-foot .right  { text-align: right; }
-  .pdf-foot strong  { color: #0F172A; }
-
-  /* Pagination: let long sections flow; keep small groups together */
-  .pdf-totals,
-  .pdf-policy-notice,
-  .pdf-amount-words {
-    page-break-inside: avoid;
-    break-inside: avoid-page;
-  }
-
-  .pdf-totals-table tr.grand {
-    page-break-inside: avoid;
-    break-inside: avoid-page;
-  }
-
-  .pdf-grid-2,
-  .pdf-card,
-  .pdf-eeat,
-  .pdf-eeat-grid {
-    page-break-inside: auto;
-    break-inside: auto;
-  }
-
-  .pdf-signatures {
-    page-break-inside: avoid;
-    break-inside: avoid-page;
-  }
-
-  .pdf-terms-list {
-    font-size: 7.2pt;
-    line-height: 1.35;
-    margin: 0;
-    padding-left: 12pt;
-  }
-
-  .pdf-terms-list li {
-    margin-bottom: 2pt;
-  }
-
-  .pdf-spec-mini td {
-    padding: 1.5pt 3pt;
-    font-size: 7pt;
-  }
-
-  .pdf-row-title { font-size: 8.5pt; }
+ /* Only #calcPrintStage is a direct child of body (see ensurePrintStage). */
+ html, body {
+ margin: 0 !important;
+ padding: 0 !important;
+ height: auto !important;
+ overflow: visible !important;
+ }
+
+ body > *:not(#calcPrintStage):not(#wmPaymentReceiptStage) {
+ display: none !important;
+ }
+
+ #wmPaymentReceiptStage {
+ display: block !important;
+ position: static !important;
+ }
+
+ #wmPaymentReceiptStage .wm-receipt-doc {
+ padding: 0;
+ font-size: 10pt;
+ }
+
+ #calcPrintStage,
+ .calc-print-stage {
+ position: static !important;
+ left: auto !important;
+ top: auto !important;
+ width: auto !important;
+ height: auto !important;
+ min-height: 0 !important;
+ overflow: visible !important;
+ display: block !important;
+ visibility: visible !important;
+ margin: 0 !important;
+ padding: 0 !important;
+ page-break-before: avoid !important;
+ break-before: avoid-page !important;
+ }
+
+ @page {
+ /* ~15mm left/right so content never touches page edges (all pages) */
+ margin: 12mm 15mm 14mm 15mm;
+ size: A4 portrait;
+ }
+
+ body {
+ background: #FFFFFF !important;
+ color: #0F172A !important;
+ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif !important;
+ font-size: 9pt;
+ line-height: 1.4;
+ -webkit-print-color-adjust: exact;
+ print-color-adjust: exact;
+ }
+
+ /* ---------- Document frame ---------- */
+ .pdf-doc {
+ max-width: 100%;
+ color: #0F172A;
+ position: relative;
+ margin: 0;
+ padding: 0;
+ }
+
+ .pdf-block {
+ margin: 0;
+ padding: 0;
+ page-break-inside: auto;
+ break-inside: auto;
+ }
+
+ .pdf-block--legal,
+ .pdf-block--closing {
+ page-break-before: auto;
+ break-before: auto;
+ }
+
+ /* Subtle brand stripe along the top edge */
+ .pdf-doc::before {
+ content: '';
+ display: block;
+ height: 4pt;
+ background: linear-gradient(90deg, #0a0e17 0%, #0a0e17 60%, #b8893d 60%, #b8893d 100%);
+ margin-bottom: 8pt;
+ border-radius: 1pt;
+ }
+
+ /* ---------- Header band ---------- */
+ .pdf-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: flex-start;
+ padding-bottom: 8pt;
+ border-bottom: 0.5pt solid #0F172A;
+ margin-bottom: 10pt;
+ page-break-after: avoid;
+ break-after: avoid-page;
+ }
+
+ .pdf-brand-block {
+ display: flex;
+ align-items: center;
+ gap: 10pt;
+ max-width: 62%;
+ }
+
+ .pdf-brand-mark {
+ flex-shrink: 0;
+ width: auto;
+ min-width: 52pt;
+ height: auto;
+ max-height: 40pt;
+ border-radius: 0;
+ overflow: visible;
+ background: transparent;
+ border: none;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ box-shadow: none;
+ }
+
+ .pdf-brand-logo {
+ width: auto;
+ max-width: 120pt;
+ height: auto;
+ max-height: 40pt;
+ object-fit: contain;
+ display: block;
+ filter: none !important;
+ -webkit-print-color-adjust: exact;
+ print-color-adjust: exact;
+ }
+
+ .pdf-foot-logo {
+ display: block;
+ max-height: 28pt;
+ width: auto;
+ max-width: 100pt;
+ margin: 0 0 6pt;
+ object-fit: contain;
+ filter: none !important;
+ -webkit-print-color-adjust: exact;
+ print-color-adjust: exact;
+ }
+
+ .pdf-brand-text strong {
+ display: block;
+ font-size: 17pt;
+ color: #0F172A;
+ font-weight: 700;
+ letter-spacing: -0.01em;
+ line-height: 1.05;
+ font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
+ }
+
+ .pdf-brand-text .pdf-tagline {
+ display: block;
+ color: #475569;
+ font-size: 8.5pt;
+ margin-top: 2pt;
+ font-weight: 500;
+ }
+
+ .pdf-brand-text .pdf-addr {
+ display: block;
+ color: #475569;
+ font-size: 8pt;
+ margin-top: 4pt;
+ line-height: 1.4;
+ }
+
+ /* Meta block (Quote #, Date, Valid till, GSTIN) */
+ .pdf-meta-block {
+ text-align: right;
+ min-width: 38%;
+ font-size: 8.5pt;
+ }
+
+ .pdf-meta-doctype {
+ display: inline-block;
+ padding: 2pt 8pt;
+ background: #0a0e17;
+ color: #FFFFFF;
+ font-size: 8.5pt;
+ font-weight: 700;
+ letter-spacing: 0.6pt;
+ text-transform: uppercase;
+ border-radius: 3pt;
+ margin-bottom: 6pt;
+ }
+
+ .pdf-meta-table {
+ display: inline-block;
+ text-align: left;
+ font-size: 8.5pt;
+ line-height: 1.55;
+ }
+
+ .pdf-meta-table .row {
+ display: flex;
+ justify-content: space-between;
+ gap: 10pt;
+ }
+
+ .pdf-meta-table .label {
+ color: #64748B;
+ text-transform: uppercase;
+ letter-spacing: 0.3pt;
+ font-size: 7.5pt;
+ font-weight: 600;
+ }
+
+ .pdf-meta-table .value { color: #0F172A; font-weight: 700; }
+
+ /* ---------- Customer & site address ---------- */
+ .pdf-parties {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 8pt;
+ margin: 0 0 10pt;
+ page-break-after: avoid;
+ break-after: avoid-page;
+ }
+
+ .pdf-party {
+ padding: 8pt 10pt;
+ background: #FFFFFF;
+ border: 0.25pt solid #CBD5E1;
+ border-left: 1pt solid #0F172A;
+ border-radius: 3pt;
+ }
+
+ .pdf-party h2 {
+ font-size: 7.5pt;
+ color: #0a0e17;
+ margin: 0 0 4pt;
+ text-transform: uppercase;
+ letter-spacing: 0.5pt;
+ font-weight: 700;
+ }
+
+ .pdf-party-row { font-size: 9pt; line-height: 1.5; }
+ .pdf-party-row span.k { color: #64748B; }
+ .pdf-party-row span.v { color: #0F172A; font-weight: 600; }
+
+ /* ---------- Section heading ---------- */
+ .pdf-section-title {
+ font-size: 9pt;
+ color: #0F172A;
+ background: #FFFFFF;
+ padding: 4pt 0 3pt;
+ margin: 8pt 0 0;
+ text-transform: uppercase;
+ letter-spacing: 0.5pt;
+ font-weight: 700;
+ border: none;
+ border-bottom: 0.5pt solid #0F172A;
+ border-radius: 0;
+ page-break-after: avoid;
+ break-after: avoid-page;
+ }
+
+ /* ---------- Itemised quote table ---------- */
+ .pdf-table {
+ width: 100%;
+ border-collapse: collapse;
+ margin: 0 0 8pt;
+ border: 0.25pt solid #CBD5E1;
+ page-break-inside: auto;
+ break-inside: auto;
+ background: #FFFFFF;
+ }
+
+ .pdf-table thead {
+ display: table-header-group;
+ }
+
+ .pdf-table tbody tr {
+ page-break-inside: avoid;
+ break-inside: avoid-page;
+ }
+
+ .pdf-table th,
+ .pdf-table td {
+ text-align: left;
+ padding: 5pt 7pt;
+ border-bottom: 0.25pt solid #E2E8F0;
+ font-size: 8.5pt;
+ vertical-align: top;
+ background: #FFFFFF;
+ color: #0F172A;
+ }
+
+ .pdf-table th {
+ background: #FFFFFF;
+ color: #0F172A;
+ font-weight: 700;
+ text-transform: uppercase;
+ font-size: 7.5pt;
+ letter-spacing: 0.35pt;
+ padding-top: 4pt;
+ padding-bottom: 4pt;
+ border-bottom: 0.5pt solid #0F172A;
+ }
+
+ .pdf-table tbody tr:nth-child(even) td,
+ .pdf-table tbody tr:nth-child(odd) td {
+ background: #FFFFFF;
+ }
+
+ .pdf-table td.is-numeric,
+ .pdf-table th.is-numeric { text-align: right; white-space: nowrap; }
+ .pdf-table td.is-center,
+ .pdf-table th.is-center { text-align: center; }
+
+ .pdf-row-title {
+ font-weight: 700;
+ color: #0F172A;
+ font-size: 9pt;
+ }
+
+ .pdf-specs {
+ color: #475569;
+ font-size: 7.8pt;
+ line-height: 1.4;
+ margin-top: 2pt;
+ }
+
+ .pdf-row-cat {
+ font-size: 7pt;
+ font-weight: 600;
+ color: #64748B;
+ text-transform: uppercase;
+ letter-spacing: 0.04em;
+ margin-top: 1pt;
+ }
+
+ .pdf-spec-line {
+ font-size: 7.8pt;
+ color: #334155;
+ margin-top: 3pt;
+ }
+
+ .pdf-spec-mini {
+ width: 100%;
+ margin-top: 4pt;
+ border-collapse: collapse;
+ font-size: 7.5pt;
+ }
+
+ .pdf-spec-mini td {
+ padding: 1.5pt 3pt;
+ vertical-align: top;
+ border-bottom: 0.2pt solid #E2E8F0;
+ background: #FFFFFF;
+ }
+
+ .pdf-spec-mini .pdf-spec-k {
+ width: 38%;
+ font-weight: 600;
+ color: #64748B;
+ }
+
+ .pdf-spec-mini .pdf-spec-v {
+ color: #0F172A;
+ font-weight: 500;
+ }
+
+ /* ---------- Totals block ---------- */
+ .pdf-totals {
+ margin: 0 0 14pt;
+ display: flex;
+ justify-content: flex-end;
+ }
+
+ .pdf-totals-table {
+ width: 60%;
+ border-collapse: collapse;
+ font-size: 9pt;
+ }
+
+ .pdf-totals-table td {
+ padding: 4pt 8pt;
+ border-bottom: 0.5pt dashed #E5E7EB;
+ }
+
+ .pdf-totals-table .label {
+ color: #475569;
+ text-align: right;
+ }
+
+ .pdf-totals-table .value {
+ color: #0F172A;
+ text-align: right;
+ font-weight: 700;
+ white-space: nowrap;
+ min-width: 100pt;
+ }
+
+ .pdf-totals-table tr.grand td {
+ border-bottom: none;
+ border-top: 0.5pt solid #0F172A;
+ padding-top: 6pt;
+ }
+
+ .pdf-totals-table tr.grand .label {
+ color: #0F172A;
+ font-size: 10pt;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.4pt;
+ }
+
+ .pdf-totals-table tr.grand .value {
+ color: #0a0e17;
+ font-size: 12pt;
+ font-weight: 800;
+ }
+
+ .pdf-amount-words {
+ font-size: 8.5pt;
+ color: #475569;
+ padding: 5pt 8pt;
+ background: #FFFFFF;
+ border: 0.25pt solid #CBD5E1;
+ border-left: 1pt solid #0F172A;
+ border-radius: 2pt;
+ margin-bottom: 10pt;
+ }
+
+ .pdf-amount-words strong { color: #0F172A; }
+
+ /* GST + Transport policy notice (always visible above T&C) */
+ .pdf-policy-notice {
+ margin: 0 0 14pt;
+ padding: 6pt 8pt;
+ border: 0.25pt solid #CBD5E1;
+ background: #FFFFFF;
+ border-radius: 2pt;
+ font-size: 8.5pt;
+ color: #0F172A;
+ line-height: 1.5;
+ }
+ .pdf-policy-row { margin-bottom: 3pt; }
+ .pdf-policy-row:last-child { margin-bottom: 0; }
+ .pdf-policy-row strong { color: #0F172A; }
+
+ /* ---------- Terms / Bank / Signatures ---------- */
+ .pdf-grid-2 {
+ display: grid;
+ grid-template-columns: 1.4fr 1fr;
+ gap: 10pt;
+ margin-top: 8pt;
+ }
+
+ .pdf-card {
+ border: 0.25pt solid #CBD5E1;
+ border-radius: 3pt;
+ padding: 8pt 10pt;
+ background: #FFFFFF;
+ }
+
+ .pdf-card h3 {
+ font-size: 8pt;
+ color: #0a0e17;
+ margin: 0 0 5pt;
+ text-transform: uppercase;
+ letter-spacing: 0.5pt;
+ font-weight: 700;
+ border-bottom: 0.5pt solid #E5E7EB;
+ padding-bottom: 3pt;
+ }
+
+ .pdf-terms-list {
+ margin: 0;
+ padding: 0 0 0 12pt;
+ font-size: 8pt;
+ color: #334155;
+ line-height: 1.55;
+ }
+
+ .pdf-terms-list li { margin-bottom: 2pt; }
+
+ .pdf-bank-row {
+ display: flex;
+ justify-content: space-between;
+ font-size: 8pt;
+ padding: 1.5pt 0;
+ border-bottom: 0.3pt dotted #E5E7EB;
+ }
+
+ .pdf-bank-row:last-child { border-bottom: none; }
+
+ .pdf-bank-row .k { color: #64748B; font-weight: 500; }
+ .pdf-bank-row .v { color: #0F172A; font-weight: 600; }
+
+ /* Signatures */
+ .pdf-signatures {
+ display: grid;
+ grid-template-columns: 1fr 1fr;
+ gap: 10pt;
+ margin-top: 18pt;
+ }
+
+ .pdf-sign-box {
+ border-top: 0.5pt solid #0F172A;
+ padding-top: 4pt;
+ font-size: 8pt;
+ color: #475569;
+ min-height: 36pt;
+ }
+
+ .pdf-sign-box strong {
+ display: block;
+ color: #0F172A;
+ font-size: 9pt;
+ margin-bottom: 1pt;
+ }
+
+ /* ---------- EEAT trust strip ---------- */
+ .pdf-eeat {
+ margin-top: 12pt;
+ padding: 8pt 10pt;
+ background: #FFFFFF;
+ border: 0.25pt solid #CBD5E1;
+ border-left: 1pt solid #0F172A;
+ border-radius: 3pt;
+ }
+
+ .pdf-eeat-title {
+ font-size: 8pt;
+ color: #0a0e17;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.5pt;
+ margin: 0 0 5pt;
+ }
+
+ .pdf-eeat-grid {
+ display: grid;
+ grid-template-columns: repeat(4, 1fr);
+ gap: 6pt;
+ }
+
+ .pdf-eeat-item {
+ font-size: 7.8pt;
+ line-height: 1.35;
+ }
+
+ .pdf-eeat-item strong {
+ display: block;
+ color: #0F172A;
+ font-size: 8.2pt;
+ margin-bottom: 1pt;
+ }
+
+ .pdf-eeat-item span { color: #475569; }
+
+ .pdf-eeat-founder {
+ margin-top: 8pt;
+ padding-top: 7pt;
+ border-top: 0.5pt dashed #C7D2FE;
+ display: grid;
+ grid-template-columns: 46pt 1fr;
+ gap: 8pt;
+ align-items: center;
+ }
+ .pdf-eeat-founder-photo {
+ width: 46pt;
+ height: 46pt;
+ border-radius: 50%;
+ object-fit: cover;
+ object-position: center 42%;
+ border: 0.5pt solid #CBD5E1;
+ box-shadow: none;
+ }
+ .pdf-eeat-founder-text strong {
+ display: block;
+ color: #0F172A;
+ font-size: 9pt;
+ margin: 0 0 1pt;
+ }
+ .pdf-eeat-founder-text span {
+ display: block;
+ color: #475569;
+ font-size: 7.5pt;
+ margin: 0 0 1pt;
+ }
+ .pdf-eeat-founder-text em {
+ display: block;
+ color: #0a0e17;
+ font-size: 7.2pt;
+ font-style: normal;
+ font-weight: 600;
+ }
+
+ /* ---------- Foot rule + page-end address ---------- */
+ .pdf-foot {
+ margin-top: 12pt;
+ padding-top: 8pt;
+ border-top: 0.25pt solid #CBD5E1;
+ font-size: 7.5pt;
+ color: #64748B;
+ line-height: 1.5;
+ display: grid;
+ grid-template-columns: 1fr auto 1fr;
+ gap: 10pt;
+ align-items: center;
+ }
+
+ .pdf-foot .left { text-align: left; }
+ .pdf-foot .center { text-align: center; font-weight: 600; color: #0a0e17; letter-spacing: 0.3pt; text-transform: uppercase; font-size: 7pt; }
+ .pdf-foot .right { text-align: right; }
+ .pdf-foot strong { color: #0F172A; }
+
+ /* Pagination: let long sections flow; keep small groups together */
+ .pdf-totals,
+ .pdf-policy-notice,
+ .pdf-amount-words {
+ page-break-inside: avoid;
+ break-inside: avoid-page;
+ }
+
+ .pdf-totals-table tr.grand {
+ page-break-inside: avoid;
+ break-inside: avoid-page;
+ }
+
+ .pdf-grid-2,
+ .pdf-card,
+ .pdf-eeat,
+ .pdf-eeat-grid {
+ page-break-inside: auto;
+ break-inside: auto;
+ }
+
+ .pdf-signatures {
+ page-break-inside: avoid;
+ break-inside: avoid-page;
+ }
+
+ .pdf-terms-list {
+ font-size: 7.2pt;
+ line-height: 1.35;
+ margin: 0;
+ padding-left: 12pt;
+ }
+
+ .pdf-terms-list li {
+ margin-bottom: 2pt;
+ }
+
+ .pdf-spec-mini td {
+ padding: 1.5pt 3pt;
+ font-size: 7pt;
+ }
+
+ .pdf-row-title { font-size: 8.5pt; }
 }
 
 /* ============================================
-   10. SITE-WIDE WIDTH DEFENSE — no empty space at wide viewports
-   ============================================
-   Many legacy hero/intro/CTA sections were authored with inline
-   max-width: 700px / 800px / 900px / 1100px which leave large
-   whitespace on >= 1440px screens. This block relaxes those caps
-   only when the section is wide enough to benefit (>= 1024px).
+ 10. SITE-WIDE WIDTH DEFENSE — no empty space at wide viewports
+ ============================================
+ Many legacy hero/intro/CTA sections were authored with inline
+ max-width: 700px / 800px / 900px / 1100px which leave large
+ whitespace on >= 1440px screens. This block relaxes those caps
+ only when the section is wide enough to benefit (>= 1024px).
 */
 @media (min-width: 1024px) {
-  /* Inline narrow text columns (intro, hero p, CTA p) — relax to readable wide. */
-  section [style*="max-width: 700px"],
-  section [style*="max-width: 800px"],
-  section [style*="max-width: 900px"]:not(.seo-faq-item):not(.faq-item) {
-    max-width: 1080px !important;
-  }
-  section [style*="max-width: 1100px"],
-  section [style*="max-width: 1200px"] {
-    max-width: 1320px !important;
-  }
+ /* Inline narrow text columns (intro, hero p, CTA p) — relax to readable wide. */
+ section [style*="max-width: 700px"],
+ section [style*="max-width: 800px"],
+ section [style*="max-width: 900px"]:not(.seo-faq-item):not(.faq-item) {
+ max-width: 1080px !important;
+ }
+ section [style*="max-width: 1100px"],
+ section [style*="max-width: 1200px"] {
+ max-width: 1320px !important;
+ }
 
-  /* Anything inside a .container that uses its own max-width
-     shouldn't exceed the container itself. */
-  .container > [style*="max-width"] { width: 100%; }
+ /* Anything inside a .container that uses its own max-width
+ shouldn't exceed the container itself. */
+ .container > [style*="max-width"] { width: 100%; }
 }
 
 /* Ensure no horizontal scroll on any screen due to over-wide children. */
@@ -2480,100 +2480,100 @@ html, body { overflow-x: hidden; }
 
 /* Calculator container should always sit inside the responsive container. */
 .price-calculator-container {
-  max-width: 100% !important;
-  width: 100% !important;
+ max-width: 100% !important;
+ width: 100% !important;
 }
 
 /* Site-wide quote cart — single compact FAB, bottom-right */
 .wm-global-quote-cart {
-  position: fixed;
-  right: 0.85rem;
-  bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
-  z-index: 9993;
-  display: inline-flex;
-  align-items: center;
-  gap: 0;
-  max-width: min(92vw, 16rem);
-  padding: 0;
-  border: none;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
-  color: #FFFFFF;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
-  cursor: pointer;
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+ position: fixed;
+ right: 0.85rem;
+ bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+ z-index: 9993;
+ display: inline-flex;
+ align-items: center;
+ gap: 0;
+ max-width: min(92vw, 16rem);
+ padding: 0;
+ border: none;
+ border-radius: 999px;
+ background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+ color: #FFFFFF;
+ box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
+ cursor: pointer;
+ overflow: hidden;
+ transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 body.has-calc-sticky-bar .wm-global-quote-cart {
-  bottom: calc(5.35rem + env(safe-area-inset-bottom, 0px));
+ bottom: calc(5.35rem + env(safe-area-inset-bottom, 0px));
 }
 .wm-global-quote-cart:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.2);
+ transform: translateY(-2px);
+ box-shadow: 0 10px 22px rgba(15, 23, 42, 0.2);
 }
 .wm-quote-cart-total {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.55rem 0.65rem;
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: #FFFFFF;
-  white-space: nowrap;
-  background: rgba(255,255,255,0.08);
-  border-right: 1px solid rgba(255,255,255,0.12);
-  letter-spacing: -0.02em;
+ display: inline-flex;
+ align-items: center;
+ padding: 0.55rem 0.65rem;
+ font-size: 0.72rem;
+ font-weight: 800;
+ color: #FFFFFF;
+ white-space: nowrap;
+ background: rgba(255,255,255,0.08);
+ border-right: 1px solid rgba(255,255,255,0.12);
+ letter-spacing: -0.02em;
 }
 .wm-quote-cart-total[hidden] {
-  display: none !important;
+ display: none !important;
 }
 .wm-quote-cart-fab-main {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  padding: 0.55rem 0.85rem 0.55rem 0.65rem;
-  background: transparent;
-  color: #FFFFFF;
+ display: inline-flex;
+ align-items: center;
+ gap: 0.35rem;
+ padding: 0.55rem 0.85rem 0.55rem 0.65rem;
+ background: transparent;
+ color: #FFFFFF;
 }
 .wm-global-quote-cart-label {
-  font-size: 0.76rem;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: 0.01em;
+ font-size: 0.76rem;
+ font-weight: 800;
+ line-height: 1;
+ letter-spacing: 0.01em;
 }
 .wm-global-quote-cart-count {
-  min-width: 1.15rem;
-  height: 1.15rem;
-  padding: 0 0.32rem;
-  border-radius: 999px;
-  background: #F59E0B;
-  color: #0F172A;
-  font-size: 0.65rem;
-  font-weight: 900;
-  line-height: 1.15rem;
-  text-align: center;
-  box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.35);
+ min-width: 1.15rem;
+ height: 1.15rem;
+ padding: 0 0.32rem;
+ border-radius: 999px;
+ background: #F59E0B;
+ color: #0F172A;
+ font-size: 0.65rem;
+ font-weight: 900;
+ line-height: 1.15rem;
+ text-align: center;
+ box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.35);
 }
 .wm-global-quote-cart:not(.has-items) .wm-global-quote-cart-count {
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  box-shadow: none;
+ background: rgba(255, 255, 255, 0.2);
+ color: #fff;
+ box-shadow: none;
 }
 @media (max-width: 768px) {
-  .wm-global-quote-cart-label { display: none; }
-  .wm-quote-cart-total { font-size: 0.68rem; max-width: 6.5rem; overflow: hidden; text-overflow: ellipsis; }
+ .wm-global-quote-cart-label { display: none; }
+ .wm-quote-cart-total { font-size: 0.68rem; max-width: 6.5rem; overflow: hidden; text-overflow: ellipsis; }
 }
 
 /* On calculator pages the sticky bar opens the estimate — hide duplicate floating pill on mobile */
 @media (max-width: 768px) {
-  body.has-calc-sticky-bar .wm-global-quote-cart {
-    display: none !important;
-  }
+ body.has-calc-sticky-bar .wm-global-quote-cart {
+ display: none !important;
+ }
 }
 
 /* Keep calculator scroll-FAB above the quote-cart pill (non-calc pages) */
 body:has(.wm-global-quote-cart) .floating-calc-button {
-  bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px)) !important;
+ bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px)) !important;
 }
 body.has-calc-sticky-bar:has(.wm-global-quote-cart) .floating-calc-button {
-  bottom: calc(9.5rem + env(safe-area-inset-bottom, 0px)) !important;
+ bottom: calc(9.5rem + env(safe-area-inset-bottom, 0px)) !important;
 }

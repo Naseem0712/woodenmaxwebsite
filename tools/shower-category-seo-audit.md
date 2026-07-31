@@ -54,17 +54,17 @@ Pages: **24** (1 hub + 23 cluster/products)
 ### products/shower-partitions/frameless-shower-partition.html
 **Title (89):** Frameless Shower Price India (2026) — Walk-in Glass Enclosure ₹440–1,320/sqft | WoodenMax
 
-**Meta (166):** Frameless shower price India — walk-in glass enclosure from ₹440/sqft. 10mm toughened, hinged or sliding, L-corner & straight. Live calculator. Free site measurement.
+**Meta (166):** Frameless shower price India — walk-in glass enclosure from ₹440/sqft. 10mm toughened, hinged or sliding, L-corner & straight. Live calculator. Site measurement.
 
 ### products/shower-partitions/shower-partition-bangalore.html
-**Title (86):** Shower Glass Partition Bangalore ₹440–1,320/sqft (2026) — Free Measurement | WoodenMax
+**Title (86):** Shower Glass Partition Bangalore ₹440–1,320/sqft (2026) — Site Measurement | WoodenMax
 
-**Meta (149):** Shower glass partition Bangalore ₹440–1,320/sqft. Whitefield, Koramangala, Indiranagar, HSR. 3×5 ft ≈ ₹11,000–18,000. Free site visit, 1-day install.
+**Meta (149):** Shower glass partition Bangalore ₹440–1,320/sqft. Whitefield, Koramangala, Indiranagar, HSR. 3×5 ft ≈ ₹11,000–18,000. 1-day install.
 
 ### products/shower-partitions/shower-partition-hyderabad.html
-**Title (86):** Shower Glass Partition Hyderabad ₹440–1,320/sqft (2026) — Free Measurement | WoodenMax
+**Title (86):** Shower Glass Partition Hyderabad ₹440–1,320/sqft (2026) — Site Measurement | WoodenMax
 
-**Meta (160):** Shower glass partition Hyderabad ₹440–1,320/sqft. Gachibowli, Banjara Hills, Jubilee Hills, Kukatpally. 3×5 ft ≈ ₹11,000–18,000. Free site visit, 1-day install.
+**Meta (160):** Shower glass partition Hyderabad ₹440–1,320/sqft. Gachibowli, Banjara Hills, Jubilee Hills, Kukatpally. 3×5 ft ≈ ₹11,000–18,000. 1-day install.
 
 ### products/shower-partitions/glass-shower-partition-price.html
 **Title (85):** Glass Shower Partition Price Per Sqft (2026) — 8mm vs 10mm Rate Breakdown | WoodenMax
@@ -72,9 +72,9 @@ Pages: **24** (1 hub + 23 cluster/products)
 **Meta (172):** Glass shower partition price per sqft India 2026 — ₹440–1,320/sqft rate breakdown for 8mm vs 10mm toughened glass. Standard 3×5 ft shower ≈ ₹11,000–18,000. Live calculator.
 
 ### products/shower-partitions/shower-partition-delhi.html
-**Title (82):** Shower Glass Partition Delhi ₹440–1,320/sqft (2026) — Free Measurement | WoodenMax
+**Title (82):** Shower Glass Partition Delhi ₹440–1,320/sqft (2026) — Site Measurement | WoodenMax
 
-**Meta (143):** Shower glass partition Delhi NCR ₹440–1,320/sqft. Gurgaon, Noida, Dwarka, South Delhi. 3×5 ft ≈ ₹11,000–18,000. Free site visit, 1-day install.
+**Meta (143):** Shower glass partition Delhi NCR ₹440–1,320/sqft. Gurgaon, Noida, Dwarka, South Delhi. 3×5 ft ≈ ₹11,000–18,000. 1-day install.
 
 ### products/shower-partitions.html
 **Title (79):** Bathroom Glass Partition Price ₹440–1,320/sqft (2026) | Shower Calculator India

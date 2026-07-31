@@ -56,6 +56,12 @@
   Cache-Control: public, max-age=300, must-revalidate
 /js/site-footer.js
   Cache-Control: public, max-age=300, must-revalidate
+/js/scroll-stable.js
+  Cache-Control: public, max-age=300, must-revalidate
+/js/site-nav.js
+  Cache-Control: public, max-age=300, must-revalidate
+/js/main.js
+  Cache-Control: public, max-age=300, must-revalidate
 /js/mirror-page-analytics.js
   Cache-Control: public, max-age=300, must-revalidate
 /js/analytics-events.js

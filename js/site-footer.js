@@ -8,6 +8,7 @@
  *  4. Emits root-absolute URLs everywhere, so every link is identical no
  *     matter which URL the page is served at.
  *  5. Wires the newsletter form (writes to localStorage; production should POST to API).
+ *  6. Boots WMScrollStable so refresh/load does not auto-scroll or jump.
  *
  * Result: 130 pages × 45 footer variants → 130 pages × 1 footer.
  */
@@ -15,7 +16,110 @@
   'use strict';
 
   /** Bump after deploy so CDN/browser fetch new cart + payment JS (see _headers). */
-  var WM_ASSET_V = '20260730p1';
+  var WM_ASSET_V = '20260801s1';
+
+  /**
+   * Inlined scroll stabilizer (keep in sync with js/scroll-stable.js).
+   * Must run synchronously here so nav/footer DOM swaps can use around().
+   */
+  (function (global) {
+    if (global.WMScrollStable) return;
+
+    var html = document.documentElement;
+    var userInteracted = false;
+    var armedUntil = 0;
+    var pinnedY = 0;
+    var pinTimer = null;
+    var settleTimer = null;
+    var settling = true;
+
+    function now () { return Date.now(); }
+    function readY () { return global.scrollY || global.pageYOffset || html.scrollTop || 0; }
+    function writeY (y) {
+      var top = Math.max(0, Math.round(Number(y) || 0));
+      try { global.scrollTo({ top: top, left: 0, behavior: 'auto' }); }
+      catch (e) { global.scrollTo(0, top); }
+    }
+    function disableSmoothScroll () {
+      try { html.style.setProperty('scroll-behavior', 'auto'); } catch (e) { /* ignore */ }
+    }
+    function stopPin () {
+      armedUntil = 0;
+      if (pinTimer) { clearInterval(pinTimer); pinTimer = null; }
+    }
+    function markInteracted () {
+      userInteracted = true;
+      settling = false;
+      stopPin();
+      if (settleTimer) { clearTimeout(settleTimer); settleTimer = null; }
+    }
+    function capture () { return readY(); }
+    function restore (y) {
+      if (userInteracted) return;
+      if (typeof y !== 'number' || isNaN(y)) return;
+      writeY(y);
+    }
+    function around (fn) {
+      var y = capture();
+      var result;
+      try { result = typeof fn === 'function' ? fn() : undefined; }
+      finally {
+        restore(y);
+        if (global.requestAnimationFrame) {
+          global.requestAnimationFrame(function () { restore(y); });
+        }
+      }
+      return result;
+    }
+    function arm (ms) {
+      if (userInteracted) return;
+      pinnedY = readY();
+      armedUntil = now() + (typeof ms === 'number' ? ms : 1600);
+      if (pinTimer) clearInterval(pinTimer);
+      pinTimer = setInterval(function () {
+        if (userInteracted || now() > armedUntil) { stopPin(); return; }
+        if (Math.abs(readY() - pinnedY) > 4) writeY(pinnedY);
+      }, 50);
+    }
+    function beginSettleWatch () {
+      settling = true;
+      pinnedY = readY();
+      function onScroll () {
+        if (userInteracted || !settling) return;
+        pinnedY = readY();
+        if (settleTimer) clearTimeout(settleTimer);
+        settleTimer = setTimeout(function () { settling = false; arm(1600); }, 140);
+      }
+      global.addEventListener('scroll', onScroll, { passive: true });
+      settleTimer = setTimeout(function () { settling = false; arm(1600); }, 220);
+    }
+    function boot () {
+      disableSmoothScroll();
+      if ('scrollRestoration' in global.history) {
+        try { global.history.scrollRestoration = 'auto'; } catch (e2) { /* ignore */ }
+      }
+      ['wheel', 'touchstart', 'pointerdown', 'keydown'].forEach(function (evt) {
+        global.addEventListener(evt, markInteracted, { passive: true, capture: true });
+      });
+      function afterLoad () { disableSmoothScroll(); beginSettleWatch(); }
+      if (document.readyState === 'complete') afterLoad();
+      else global.addEventListener('load', afterLoad, { once: true });
+      global.addEventListener('pageshow', function (e) {
+        disableSmoothScroll();
+        if (e && e.persisted && !userInteracted) beginSettleWatch();
+      });
+    }
+
+    global.WMScrollStable = {
+      disableSmoothScroll: disableSmoothScroll,
+      capture: capture,
+      restore: restore,
+      around: around,
+      arm: arm,
+      markInteracted: markInteracted
+    };
+    boot();
+  })(typeof window !== 'undefined' ? window : this);
 
   // ----------------------------------------------------------------------
   //  1. Canonical content (single source of truth)
@@ -463,11 +567,10 @@
   function ensureProductGalleryAssets () {
     if (!pageNeedsProductGallery()) return;
 
-    // product-pages-global.css already ships gallery rules on most product pages.
-    var hasGalleryCss = document.querySelector(
-      'link[href*="product-image-gallery.css"], link[href*="product-pages-global.css"]'
-    );
-    if (!hasGalleryCss) {
+    // Always load dedicated gallery CSS (thumb strip). Do not skip when
+    // product-pages-global.css is present — that file alone used to leave
+    // desktop thumbs unstyled (full-size stacked images).
+    if (!document.querySelector('link[href*="product-image-gallery.css"]')) {
       var css = document.createElement('link');
       css.rel = 'stylesheet';
       css.href = '/css/product-image-gallery.css?v=' + WM_ASSET_V;
@@ -515,17 +618,24 @@
   }
 
   function init () {
-    purgeLegacyFooter();
+    var run = function () {
+      purgeLegacyFooter();
 
-    var holder = document.createElement('div');
-    holder.innerHTML = buildHtml();
-    var footer = holder.firstChild;
-    document.body.appendChild(footer);
-    wireNewsletter(footer);
-    ensureAnalyticsEvents();
-    ensureQuoteCartAssets();
-    ensureProductGalleryAssets();
-    ensureWindowPagesMobile();
+      var holder = document.createElement('div');
+      holder.innerHTML = buildHtml();
+      var footer = holder.firstChild;
+      document.body.appendChild(footer);
+      wireNewsletter(footer);
+      ensureAnalyticsEvents();
+      ensureQuoteCartAssets();
+      ensureProductGalleryAssets();
+      ensureWindowPagesMobile();
+    };
+    if (window.WMScrollStable && typeof window.WMScrollStable.around === 'function') {
+      window.WMScrollStable.around(run);
+    } else {
+      run();
+    }
   }
 
   // Fonts are in <head>; defer script runs after parse — unblock ASAP.

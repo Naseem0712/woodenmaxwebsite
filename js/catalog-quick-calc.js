@@ -549,7 +549,7 @@
     }
     var s = document.createElement('script');
     s.id = 'wm-std-pkg-script';
-    s.src = '/js/standard-size-packages.js?v=20260728i';
+    s.src = '/js/standard-size-packages.js?v=20260801a';
     s.defer = true;
     s.onload = mount;
     document.head.appendChild(s);

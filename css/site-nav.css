@@ -108,6 +108,11 @@ body.wm-nav-open .floating-calc-button {
 .wm-cat-arrow:hover    { background: rgba(184,137,61,0.15); color: #d4b170; }
 .wm-cat-arrow:disabled { opacity: 0.35; cursor: default; }
 
+/* Fixed navbar offset for in-page anchors (set in CSS, not late via JS). */
+html {
+  scroll-padding-top: 76px;
+}
+
 .wm-cats {
   flex: 1 1 auto;
   display: flex;

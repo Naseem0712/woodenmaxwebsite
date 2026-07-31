@@ -130,8 +130,10 @@ img:not([width]):not([height]) {
   aspect-ratio: attr(width) / attr(height);
 }
 
+/* auto — not smooth: smooth on <html> animates browser scroll restoration on refresh */
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+  scroll-padding-top: 76px;
 }
 
 body {

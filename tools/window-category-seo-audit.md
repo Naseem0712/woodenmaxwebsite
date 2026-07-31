@@ -206,7 +206,7 @@ Total pages: **39** (1 hub + 38 cluster)
 > Aluminium Window Price in Bengaluru 2026 | ₹550-2250/sqft | WoodenMax
 
 **Meta description (162 chars):**
-> Live aluminium window price in Bengaluru from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
+> Live aluminium window price in Bengaluru from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. Free transport on orders ≥ ₹15 L.
 
 **H1:** Aluminium Window price in Bengaluru (2026) — ₹550–₹2250/sqft
 
@@ -220,7 +220,7 @@ Total pages: **39** (1 hub + 38 cluster)
 > Aluminium Window Price in Chandigarh 2026 | ₹550-2250/sqft | WoodenMax
 
 **Meta description (160 chars):**
-> Live aluminium window price in Chandigarh from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Transparent transport pricing.
+> Live aluminium window price in Chandigarh from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. Transparent transport pricing.
 
 **H1:** Aluminium Window price in Chandigarh (2026) — ₹550–₹2250/sqft
 
@@ -234,7 +234,7 @@ Total pages: **39** (1 hub + 38 cluster)
 > Aluminium Window Price in Delhi NCR 2026 | ₹550-2250/sqft | WoodenMax
 
 **Meta description (159 chars):**
-> Live aluminium window price in Delhi NCR from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Transparent transport pricing.
+> Live aluminium window price in Delhi NCR from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. Transparent transport pricing.
 
 **H1:** Aluminium Window price in Delhi NCR (2026) — ₹550–₹2250/sqft
 
@@ -262,7 +262,7 @@ Total pages: **39** (1 hub + 38 cluster)
 > Aluminium Window Price in Mumbai 2026 | ₹550-2250/sqft | WoodenMax
 
 **Meta description (159 chars):**
-> Live aluminium window price in Mumbai from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
+> Live aluminium window price in Mumbai from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. Free transport on orders ≥ ₹15 L.
 
 **H1:** Aluminium Window price in Mumbai (2026) — ₹550–₹2250/sqft
 
@@ -290,7 +290,7 @@ Total pages: **39** (1 hub + 38 cluster)
 > Aluminium Window Price in Pune 2026 | ₹550-2250/sqft | WoodenMax
 
 **Meta description (157 chars):**
-> Live aluminium window price in Pune from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
+> Live aluminium window price in Pune from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. Free transport on orders ≥ ₹15 L.
 
 **H1:** Aluminium Window price in Pune (2026) — ₹550–₹2250/sqft
 
@@ -304,7 +304,7 @@ Total pages: **39** (1 hub + 38 cluster)
 > Aluminium Window Price in Vijayawada 2026 | ₹550-2250/sqft | WoodenMax
 
 **Meta description (163 chars):**
-> Live aluminium window price in Vijayawada from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
+> Live aluminium window price in Vijayawada from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. Free transport on orders ≥ ₹15 L.
 
 **H1:** Aluminium Window price in Vijayawada (2026) — ₹550–₹2250/sqft
 
@@ -318,7 +318,7 @@ Total pages: **39** (1 hub + 38 cluster)
 > Aluminium Window Price in Visakhapatnam 2026 | ₹550-2250/sqft | WoodenMax
 
 **Meta description (166 chars):**
-> Live aluminium window price in Visakhapatnam from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
+> Live aluminium window price in Visakhapatnam from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. Free transport on orders ≥ ₹15 L.
 
 **H1:** Aluminium Window price in Visakhapatnam (2026) — ₹550–₹2250/sqft
 
@@ -332,7 +332,7 @@ Total pages: **39** (1 hub + 38 cluster)
 > Aluminium Window Price in Warangal 2026 | ₹550-2250/sqft | WoodenMax
 
 **Meta description (161 chars):**
-> Live aluminium window price in Warangal from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines, free site visit. Free transport on orders ≥ ₹15 L.
+> Live aluminium window price in Warangal from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. Free transport on orders ≥ ₹15 L.
 
 **H1:** Aluminium Window price in Warangal (2026) — ₹550–₹2250/sqft
 

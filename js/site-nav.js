@@ -9,6 +9,9 @@
 (function () {
   'use strict';
 
+  // Prevent CSS smooth-scroll from animating refresh restoration before nav mounts.
+  try { document.documentElement.style.setProperty('scroll-behavior', 'auto'); } catch (eScroll0) { /* ignore */ }
+
   var BRAND_LOGO   = '/images/woodenmax-logo.webp';
   var BRAND_NAME   = 'WoodenMax';
   var BRAND_PHONE  = '+91 78953 28080';
@@ -366,22 +369,33 @@
 
   function init () {
     if (document.getElementById('wmNavbar')) return;
-    purgeLegacyNav();
 
-    var skel = document.getElementById('wmNavSkel');
-    if (skel && skel.parentNode) skel.parentNode.removeChild(skel);
+    var run = function () {
+      purgeLegacyNav();
 
-    var holder = document.createElement('div');
-    holder.innerHTML = buildHtml();
-    while (holder.firstChild) {
-      if (document.body.firstChild) document.body.insertBefore(holder.firstChild, document.body.firstChild);
-      else document.body.appendChild(holder.firstChild);
+      var skel = document.getElementById('wmNavSkel');
+      if (skel && skel.parentNode) skel.parentNode.removeChild(skel);
+
+      var holder = document.createElement('div');
+      holder.innerHTML = buildHtml();
+      while (holder.firstChild) {
+        if (document.body.firstChild) document.body.insertBefore(holder.firstChild, document.body.firstChild);
+        else document.body.appendChild(holder.firstChild);
+      }
+
+      // scroll-padding-top lives in css/site-nav.css so hash jumps don't reflow after JS sets it.
+      document.body.classList.add('has-wm-navbar');
+
+      wireInteractivity(document.body);
+    };
+
+    if (window.WMScrollStable && typeof window.WMScrollStable.around === 'function') {
+      window.WMScrollStable.around(run);
+    } else {
+      var y = window.scrollY || window.pageYOffset || 0;
+      run();
+      try { window.scrollTo({ top: y, left: 0, behavior: 'auto' }); } catch (eY) { window.scrollTo(0, y); }
     }
-
-    document.documentElement.style.scrollPaddingTop = '76px';
-    document.body.classList.add('has-wm-navbar');
-
-    wireInteractivity(document.body);
   }
 
   if (document.readyState === 'loading') {
