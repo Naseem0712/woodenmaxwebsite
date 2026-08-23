@@ -7,16 +7,24 @@ https://www.woodenmax.in/* https://woodenmax.in/:splat 301
 # GSC: index + hub cleanup (fix-gsc-url-issues.cjs)
 /index / 301
 /index/ / 301
-/products/metal-louvers /products/metal-louvers/ 301
-/products/metal-louvers/ /products/metal-louvers/index.html 200
-/products/metal-louvers/index /products/metal-louvers/ 301
-/products/metal-louvers/index/ /products/metal-louvers/ 301
+/products/metal-louvers /products/metal-louvers/ 200
+/products/metal-louvers/ /products/metal-louvers 301
+/products/metal-louvers/index /products/metal-louvers 301
+/products/metal-louvers/index/ /products/metal-louvers 301
+/products/metal-louvers/index.html /products/metal-louvers 301
+/products/metal-louvers/index.html/ /products/metal-louvers 301
+/products/metal-louvers.html /products/metal-louvers 301
+/products/metal-louvers.html/ /products/metal-louvers 301
 /products/mirror-profiles/index /products/mirror-profiles 301
 /products/mirror-profiles/index/ /products/mirror-profiles 301
-/products/pergola /products/pergola/ 301
-/products/pergola/ /products/pergola/index.html 200
-/products/pergola/index /products/pergola/ 301
-/products/pergola/index/ /products/pergola/ 301
+/products/pergola /products/pergola/ 200
+/products/pergola/ /products/pergola 301
+/products/pergola/index /products/pergola 301
+/products/pergola/index/ /products/pergola 301
+/products/pergola/index.html /products/pergola 301
+/products/pergola/index.html/ /products/pergola 301
+/products/pergola.html /products/pergola 301
+/products/pergola.html/ /products/pergola 301
 
 # Pricing API (clean URL)
 /api/calculate /api/calculate/ 200
@@ -269,8 +277,6 @@ http://www.woodenmax.in/* https://woodenmax.in/:splat 301
 /products/grills/staircase-balustrade-grills.html/ /products/grills/staircase-balustrade-grills 301
 /products/grills/window-safety-grills.html /products/grills/window-safety-grills 301
 /products/grills/window-safety-grills.html/ /products/grills/window-safety-grills 301
-/products/metal-louvers.html /products/metal-louvers 301
-/products/metal-louvers.html/ /products/metal-louvers 301
 /products/metal-louvers/aluminium-facade-louver-price.html /products/metal-louvers/aluminium-facade-louver-price 301
 /products/metal-louvers/aluminium-facade-louver-price.html/ /products/metal-louvers/aluminium-facade-louver-price 301
 /products/metal-louvers/aluminium-louver-design-building.html /products/metal-louvers/aluminium-louver-design-building 301
@@ -287,8 +293,6 @@ http://www.woodenmax.in/* https://woodenmax.in/:splat 301
 /products/metal-louvers/curved-architectural-louvers.html/ /products/metal-louvers/curved-architectural-louvers 301
 /products/metal-louvers/fixed-vs-motorized-louver.html /products/metal-louvers/fixed-vs-motorized-louver 301
 /products/metal-louvers/fixed-vs-motorized-louver.html/ /products/metal-louvers/fixed-vs-motorized-louver 301
-/products/metal-louvers/index.html /products/metal-louvers/ 301
-/products/metal-louvers/index.html/ /products/metal-louvers/ 301
 /products/metal-louvers/louver-canopy-facade.html /products/metal-louvers/louver-canopy-facade 301
 /products/metal-louvers/louver-canopy-facade.html/ /products/metal-louvers/louver-canopy-facade 301
 /products/metal-louvers/louver-installation-guide.html /products/metal-louvers/louver-installation-guide 301
@@ -399,8 +403,6 @@ http://www.woodenmax.in/* https://woodenmax.in/:splat 301
 /return-policy.html/ /return-policy 301
 # END AUTO: .html → clean URL
 
-/products/pergola.html /products/pergola/ 301
-/products/pergola.html/ /products/pergola/ 301
 /products/aluminium-pergola-glass-roof-price-india /products/pergola/aluminium-pergola-glass-roof-price-india 301
 /products/aluminium-pergola-glass-roof-price-india/ /products/pergola/aluminium-pergola-glass-roof-price-india 301
 /products/aluminium-pergola-glass-roof-price-india.html /products/pergola/aluminium-pergola-glass-roof-price-india 301

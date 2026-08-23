@@ -17,10 +17,10 @@ if (fs.existsSync(dest) && fs.readFileSync(dest, 'utf8').includes('Domal Window 
 let html = fs.readFileSync(src, 'utf8');
 
 const replacements = [
-  ['3 Track Sliding Window Price ₹550–950/sqft (2026) — Domal 27mm | WoodenMax',
-   'Domal Window Price (27x65) — Honest Guide & Per Sq Ft Rate (2026) | WoodenMax'],
-  ['Premium 3 track aluminium sliding window with mesh — 27mm Domal profile. Live calculator for instant price. ₹550–950/sqft. Hyderabad, Delhi, Bangalore, Pune, Jaipur.',
-   'Domal window (27mm / 27x65) price per sq ft — honest limitations, when to upgrade, live calculator. India\'s most common budget aluminium sliding window. ₹550–950/sqft.'],
+  ['3 Track Aluminium Sliding Window with Mesh Price ₹650–950/sqft | WoodenMax',
+   'Domal Window Price ₹550–950/sqft (2026) — 27mm / 27x65 | WoodenMax'],
+  ['3-track aluminium sliding window with mesh ₹650–950/sqft; without mesh ₹550–850/sqft. Compare track configuration and calculate an instant size-based quote.',
+   'Domal aluminium window price ₹550–950/sqft for the 27mm / 27x65 sliding series. See supported sizes, practical limitations, upgrade guidance and live quote calculator.'],
   ['domal window price, domal window price per sq ft, 3 track aluminium sliding window price, domal sliding window, aluminium 3 track sliding window, 27mm domal window rate',
    'domal window price, domal window price per sq ft, 27x65 domal window, 27mm domal window rate, domal sliding window price india'],
   ['https://woodenmax.in/products/aluminium-windows/3-track-sliding-window',
@@ -40,6 +40,16 @@ const replacements = [
 replacements.forEach(function (pair) {
   html = html.split(pair[0]).join(pair[1]);
 });
+
+// Keep search and social metadata distinct even when the source page wording changes.
+html = html.replace(/<title>[\s\S]*?<\/title>/i,
+  '<title>Domal Window Price ₹550–950/sqft (2026) — 27mm / 27x65 | WoodenMax</title>');
+html = html.replace(/<meta name="description" content="[^"]*" \/>/i,
+  '<meta name="description" content="Domal aluminium window price ₹550–950/sqft for the 27mm / 27x65 sliding series. See supported sizes, practical limitations, upgrade guidance and live quote calculator." />');
+html = html.replace(/<meta property="og:title" content="[^"]*" \/>/i,
+  '<meta property="og:title" content="Domal Window Price per Sqft — 27mm / 27x65 Aluminium Series" />');
+html = html.replace(/<meta property="og:description" content="[^"]*" \/>/i,
+  '<meta property="og:description" content="Domal aluminium window price ₹550–950/sqft for the 27mm / 27x65 sliding series, with practical limitations, upgrade guidance and a live calculator." />');
 
 const domalSection = `
   <!-- DOMAL GUIDE -->

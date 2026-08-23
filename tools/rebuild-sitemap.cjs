@@ -9,6 +9,7 @@
  *   - <priority>      — 1.0 home, 0.9 hubs, 0.85 money, 0.8 product child pages, 0.7 EEAT/cluster, 0.6 policies/blog, 0.5 misc
  *
  * Run:  node tools/rebuild-sitemap.cjs
+ * Safe sitemap-only update: node tools/rebuild-sitemap.cjs --sitemap-only
  */
 
 const fs   = require('fs');
@@ -16,6 +17,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const BASE = 'https://woodenmax.in';
+const SITEMAP_ONLY = process.argv.includes('--sitemap-only');
 
 const SKIP_FILES = new Set([
   'calculator-design-preview.html',
@@ -142,6 +144,44 @@ function escapeXml (s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
 }
 
+function writeIncrementalSitemap (deduped, extraSitemapUrls) {
+  const sitemapPath = path.join(ROOT, 'sitemap.xml');
+  const existing = fs.readFileSync(sitemapPath, 'utf8');
+  const desired = new Set(deduped.map(o => o.loc).concat(extraSitemapUrls.map(o => o.loc)));
+  const nodes = [...existing.matchAll(/  <url>[\s\S]*?  <\/url>/g)].map(match => match[0]);
+  const kept = [];
+  const seen = new Set();
+
+  for (const node of nodes) {
+    const loc = (node.match(/<loc>([^<]+)<\/loc>/) || [])[1];
+    if (!loc || !desired.has(loc) || seen.has(loc)) continue;
+    kept.push(node);
+    seen.add(loc);
+  }
+
+  for (const o of deduped) {
+    if (seen.has(o.loc)) continue;
+    kept.push(
+      '  <url>\n' +
+      '    <loc>' + escapeXml(o.loc) + '</loc>\n' +
+      '    <lastmod>' + isoDate(o.abs) + '</lastmod>\n' +
+      '    <changefreq>' + changefreqFor(o.rel) + '</changefreq>\n' +
+      '    <priority>' + priorityFor(o.rel) + '</priority>\n' +
+      '  </url>'
+    );
+    seen.add(o.loc);
+  }
+
+  const sitemap =
+    '<?xml version="1.0" encoding="UTF-8"?>\n' +
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n' +
+    '        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' +
+    kept.join('\n') + '\n' +
+    '</urlset>\n';
+  fs.writeFileSync(sitemapPath, sitemap, 'utf8');
+  return kept.length;
+}
+
 function main () {
   const files = listHtml(ROOT)
     .map(f => ({
@@ -161,10 +201,13 @@ function main () {
     deduped.push(o);
   }
 
-  const extraSitemapUrls = [
-    { loc: BASE + '/api/calculate', priority: '0.8', changefreq: 'monthly' },
-    { loc: BASE + '/llms.txt', priority: '0.6', changefreq: 'monthly' },
-  ];
+  const extraSitemapUrls = [];
+
+  if (SITEMAP_ONLY) {
+    const totalLoc = writeIncrementalSitemap(deduped, extraSitemapUrls);
+    console.log('✓ sitemap.xml         ' + totalLoc + ' URLs (incremental sitemap-only build)');
+    return;
+  }
 
   // --------- sitemap.xml ---------
   const urlNodes = deduped.map(o => (
@@ -193,6 +236,8 @@ function main () {
     '</urlset>\n';
   fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap, 'utf8');
 
+  const totalLoc = deduped.length + extraSitemapUrls.length;
+  console.log('✓ sitemap.xml         ' + totalLoc + ' URLs (' + deduped.length + ' pages + ' + extraSitemapUrls.length + ' extras)' + (deduped.length < files.length ? '; ' + (files.length - deduped.length) + ' dup canonicals skipped' : ''));
   // --------- sitemap-images.xml ---------
   let withImages = 0;
   const imageNodes = deduped.map(o => {
@@ -219,8 +264,6 @@ function main () {
     '</urlset>\n';
   fs.writeFileSync(path.join(ROOT, 'sitemap-images.xml'), sitemapImg, 'utf8');
 
-  const totalLoc = deduped.length + extraSitemapUrls.length;
-  console.log('✓ sitemap.xml         ' + totalLoc + ' URLs (' + deduped.length + ' pages + ' + extraSitemapUrls.length + ' extras)' + (deduped.length < files.length ? '; ' + (files.length - deduped.length) + ' dup canonicals skipped' : ''));
   console.log('✓ sitemap-images.xml  ' + withImages   + ' URLs with images');
 
   // ALL_URLS.txt — flat list for GSC bulk indexing

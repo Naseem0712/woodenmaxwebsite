@@ -17,6 +17,12 @@ const DRY = process.argv.includes('--dry');
 
 const SKIP_DIRS = new Set(['node_modules', '.git', 'mcps', 'agent-transcripts', 'terminals', '.snapshots', '_grills-source']);
 const SKIP_HTML = new Set(['calculator-design-preview.html', 'api/calculate/index.html']);
+const MANAGED_HUB_HTML = new Set([
+  'products/pergola.html',
+  'products/pergola/index.html',
+  'products/metal-louvers.html',
+  'products/metal-louvers/index.html',
+]);
 
 let stats = { redirects: 0, filesPatched: 0, hrefFixes: 0 };
 
@@ -32,6 +38,8 @@ function walkHtml(dir, out) {
 
 function cleanUrlFromHtml(relPosix) {
   if (relPosix === 'index.html') return '/';
+  if (relPosix === 'products/pergola/index.html') return '/products/pergola';
+  if (relPosix === 'products/metal-louvers/index.html') return '/products/metal-louvers';
   return '/' + relPosix.replace(/\.html$/, '');
 }
 
@@ -49,7 +57,7 @@ function buildRedirectRules(htmlFiles) {
 
   for (const abs of htmlFiles) {
     const rel = path.relative(ROOT, abs).split(path.sep).join('/');
-    if (SKIP_HTML.has(rel)) continue;
+    if (SKIP_HTML.has(rel) || MANAGED_HUB_HTML.has(rel)) continue;
     const clean = cleanUrlFromHtml(rel);
     add('/' + rel, clean);
     add('/' + rel + '/', clean);

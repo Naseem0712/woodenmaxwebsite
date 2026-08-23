@@ -13,7 +13,7 @@ const {
 
 const SILO = 'metal-louvers';
 const OUT_DIR = 'products/metal-louvers';
-const BC_PARENT = { label: 'Metal louvers', href: '/products/metal-louvers/' };
+const BC_PARENT = { label: 'Metal louvers', href: '/products/metal-louvers' };
 
 function p(cfg) {
  var base = {
@@ -775,7 +775,7 @@ pages.forEach(function (pg) {
  if (pg.isHub) return;
  var extra = LINK_MAP[pg.slug] || [];
  pg.internalLinks = [
- { href: '/products/metal-louvers/', title: 'Louvers price hub', desc: 'All 15 guides' },
+ { href: '/products/metal-louvers', title: 'Louvers price hub', desc: 'All 15 guides' },
  ].concat(extra).concat([
  { href: '/products/metal-louvers/aluminium-facade-louver-price', title: 'Facade louver', desc: '₹580–820/sqft' },
  { href: '/products/metal-louvers/fixed-vs-motorized-louver', title: 'Fixed vs motorized', desc: 'Compare' },
