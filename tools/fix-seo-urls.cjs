@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * tools/fix-seo-urls.cjs
- * - 301 redirects: every *.html → clean URL (append to _redirects)
+ * - 301 redirects: every *.html → clean URL (kept in the static _redirects section)
  * - Internal links: strip .html from hrefs in HTML + JS
  * - robots.txt: block Cloudflare junk + parameterized contact URLs
  *
@@ -14,6 +14,8 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const DRY = process.argv.includes('--dry');
+const REDIRECTS_ONLY = process.argv.includes('--redirects-only');
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 const SKIP_DIRS = new Set(['node_modules', '.git', 'mcps', 'agent-transcripts', 'terminals', '.snapshots', '_grills-source']);
 const SKIP_HTML = new Set(['calculator-design-preview.html', 'api/calculate/index.html']);
@@ -22,6 +24,8 @@ const MANAGED_HUB_HTML = new Set([
   'products/pergola/index.html',
   'products/metal-louvers.html',
   'products/metal-louvers/index.html',
+  // The live historical identity for this directory hub is the trailing-slash URL.
+  'products/mirror-profiles/index.html',
 ]);
 
 let stats = { redirects: 0, filesPatched: 0, hrefFixes: 0 };
@@ -43,14 +47,14 @@ function cleanUrlFromHtml(relPosix) {
   return '/' + relPosix.replace(/\.html$/, '');
 }
 
-function buildRedirectRules(htmlFiles) {
+function buildRedirectRules(htmlFiles, allowedSources) {
   const lines = [];
-  const seen = new Set();
+  const seenSources = new Set();
 
   const add = (from, to) => {
-    const key = from + '→' + to;
-    if (seen.has(key)) return;
-    seen.add(key);
+    if (!allowedSources.has(from)) return;
+    if (seenSources.has(from)) return;
+    seenSources.add(from);
     lines.push(`${from} ${to} 301`);
     stats.redirects++;
   };
@@ -82,6 +86,23 @@ function buildRedirectRules(htmlFiles) {
   return lines.sort();
 }
 
+function autoManagedSources() {
+  const content = fs.readFileSync(path.join(ROOT, '_redirects'), 'utf8');
+  const marker = '# AUTO: .html → clean URL (fix-seo-urls.cjs)';
+  const endMarker = '# END AUTO: .html → clean URL';
+  const start = content.indexOf(marker);
+  const end = content.indexOf(endMarker);
+  if (start === -1 || end === -1 || end < start) return new Set();
+  return new Set(
+    content
+      .slice(start + marker.length, end)
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith('#'))
+      .map((line) => line.split(/\s+/)[0])
+  );
+}
+
 function mergeRedirects(newRules) {
   const file = path.join(ROOT, '_redirects');
   let content = fs.readFileSync(file, 'utf8');
@@ -90,22 +111,33 @@ function mergeRedirects(newRules) {
 
   if (content.includes(marker)) {
     content = content.replace(
-      new RegExp(`${marker}[\\s\\S]*?${endMarker}\\n?`, 'm'),
+      new RegExp(`${escapeRegExp(marker)}[\\s\\S]*?${escapeRegExp(endMarker)}\\r?\\n?`, 'g'),
       ''
     );
   }
 
+  const existingSources = new Set(
+    content
+      .split(/\r?\n/)
+      .map((line) => line.trim())
+      .filter((line) => line && !line.startsWith('#'))
+      .map((line) => line.split(/\s+/)[0])
+  );
+  const uniqueRules = newRules.filter((rule) => !existingSources.has(rule.split(/\s+/)[0]));
   const block = [
     '',
     marker,
-    'http://woodenmax.in/* https://woodenmax.in/:splat 301',
-    'http://www.woodenmax.in/* https://woodenmax.in/:splat 301',
-    ...newRules,
+    ...uniqueRules,
     endMarker,
     '',
   ].join('\n');
 
-  if (!DRY) fs.writeFileSync(file, content.trimEnd() + block, 'utf8');
+  const dynamicMarker = '# GSC junk URL cleanup (relative-link crawl pollution + wrong slugs)';
+  const insertion = content.indexOf(dynamicMarker);
+  const next = insertion === -1
+    ? content.trimEnd() + block
+    : content.slice(0, insertion).trimEnd() + block + '\n' + content.slice(insertion);
+  if (!DRY) fs.writeFileSync(file, next, 'utf8');
 }
 
 /** Strip .html from href: '…' constants in site-nav.js / site-footer.js (not matched by href= regex). */
@@ -204,8 +236,13 @@ function patchContactNoindex() {
 function main() {
   console.log(`\nfix-seo-urls ${DRY ? '(DRY)' : ''}\n`);
   const htmlFiles = walkHtml(ROOT, []);
-  const rules = buildRedirectRules(htmlFiles);
+  const rules = buildRedirectRules(htmlFiles, autoManagedSources());
   mergeRedirects(rules);
+  if (REDIRECTS_ONLY) {
+    console.log(`Redirects added : ${stats.redirects}`);
+    console.log(DRY ? '\n(dry run)\n' : '\nDone.\n');
+    return;
+  }
   patchFiles();
   patchRobots();
   patchContactNoindex();

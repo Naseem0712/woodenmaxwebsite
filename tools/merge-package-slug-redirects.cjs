@@ -10,6 +10,7 @@ const snippetPath = path.join(ROOT, 'tools', '_package-slug-redirects.txt');
 
 const START = '# BEGIN package-slug-landing redirects (auto)';
 const END = '# END package-slug-landing redirects (auto)';
+const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 if (!fs.existsSync(snippetPath)) {
   console.error('Missing', snippetPath, '— run generate-package-merchant-feed.cjs first');
@@ -23,13 +24,16 @@ const snippetBody = fs
   .join('\n');
 
 let text = fs.readFileSync(redirectsPath, 'utf8');
+const dynamicMarker = '# GSC junk URL cleanup (relative-link crawl pollution + wrong slugs)';
 const block = START + '\n' + snippetBody + (snippetBody ? '\n' : '') + END;
 
 if (text.includes(START) && text.includes(END)) {
-  text = text.replace(new RegExp(START + '[\\s\\S]*?' + END), block);
+  text = text.replace(new RegExp(escapeRegExp(START) + '[\\s\\S]*?' + escapeRegExp(END), 'g'), block);
 } else {
-  if (!text.endsWith('\n')) text += '\n';
-  text += '\n' + block + '\n';
+  const insertion = text.indexOf(dynamicMarker);
+  text = insertion === -1
+    ? text.trimEnd() + '\n\n' + block + '\n'
+    : text.slice(0, insertion).trimEnd() + '\n\n' + block + '\n\n' + text.slice(insertion);
 }
 
 fs.writeFileSync(redirectsPath, text, 'utf8');

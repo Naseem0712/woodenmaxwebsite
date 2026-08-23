@@ -1,0 +1,3072 @@
+{
+  "version": 1,
+  "generatedFrom": "_redirects",
+  "architecture": {
+    "static": 425,
+    "dynamic": 5,
+    "effective": 430,
+    "ignoredRequired": 0
+  },
+  "exactRules": [
+    {
+      "source": "/images/products/Grills/aluminium%20grill%20fabricators%20near%20me.webp",
+      "expectedStatus": 301,
+      "expectedDestination": "/images/products/Grills/aluminium-grill-fabricators-near-me.webp",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/index",
+      "expectedStatus": 301,
+      "expectedDestination": "/",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/index/",
+      "expectedStatus": 301,
+      "expectedDestination": "/",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers",
+      "expectedStatus": 200,
+      "expectedDestination": "/products/metal-louvers/",
+      "allowedHops": 0,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/index",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/index/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/index.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/index.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/index",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/index/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/index.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/index.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola",
+      "expectedStatus": 200,
+      "expectedDestination": "/products/pergola/",
+      "allowedHops": 0,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/index",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/index/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/index.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/index.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/api/calculate",
+      "expectedStatus": 200,
+      "expectedDestination": "/api/calculate/",
+      "allowedHops": 0,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/api/calculate.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/api/calculate/",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/glass-shower-partition-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/glass-shower-partition-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/glass-shower-partition-price/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/glass-shower-partition-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/sliding-shower-door-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/sliding-shower-door-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/sliding-shower-door-price/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/sliding-shower-door-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/fixed-glass-shower-panel-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/fixed-glass-shower-panel-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/fixed-glass-shower-panel-price/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/fixed-glass-shower-panel-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-enclosure-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-enclosure-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-enclosure-price/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-enclosure-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/frameless-glass-shower-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/frameless-glass-shower-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/frameless-glass-shower-price/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/frameless-glass-shower-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/bathroom-shower-design-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/bathroom-shower-design-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/bathroom-shower-design-price/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/bathroom-shower-design-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/small-bathroom-shower-design",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/small-bathroom-shower-design",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/small-bathroom-shower-design/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/small-bathroom-shower-design",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/corner-shower-partition-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/corner-shower-partition-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/corner-shower-partition-price/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/corner-shower-partition-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/walk-in-shower-glass-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/walk-in-shower-glass-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/walk-in-shower-glass-price/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/walk-in-shower-glass-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-curtain-vs-glass-partition",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-curtain-vs-glass-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-curtain-vs-glass-partition/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-curtain-vs-glass-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/framed-vs-frameless-shower",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/framed-vs-frameless-shower",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/framed-vs-frameless-shower/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/framed-vs-frameless-shower",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-glass-thickness",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-thickness",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-glass-thickness/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-thickness",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-glass-types",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-types",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-glass-types/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-types",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-installation-cost",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-installation-cost",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-installation-cost/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-installation-cost",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-glass-maintenance",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-maintenance",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/shower-glass-maintenance/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-maintenance",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/frosted-glass-bathroom-door.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/frosted-glass-bathroom-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/case-studies",
+      "expectedStatus": 301,
+      "expectedDestination": "/about",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/case-studies/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/quality-control",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/quality-testing-process",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/quality-control/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/quality-testing-process",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-pergola-glass-roof-price-india",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/aluminium-pergola-glass-roof-price-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-pergola-glass-roof-price-india/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/aluminium-pergola-glass-roof-price-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-pergola-glass-roof-price-india.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/aluminium-pergola-glass-roof-price-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-pergola-glass-roof-price-india.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/aluminium-pergola-glass-roof-price-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/aluminium-pergola-glass-roof-price-india.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/aluminium-pergola-glass-roof-price-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/aluminium-pergola-glass-roof-price-india.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/aluminium-pergola-glass-roof-price-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/motorized-pergola",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/retractable-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/motorized-pergola/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/retractable-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/motorized-pergola.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/retractable-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/louver-pergola",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/profile-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/louver-pergola/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/profile-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/louver-pergola.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/profile-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/29mm-sliding-window",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-sliding-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/29mm-sliding-window/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-sliding-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-30mm-window",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-system-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-30mm-window/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-system-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-31mm-window",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-vs-normal-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-31mm-window/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-vs-normal-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-35mm-gulf-window",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-sliding-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-35mm-gulf-window/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-sliding-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-40mm-minimal-window",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-installation",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-40mm-minimal-window/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-installation",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-31mm-glass-window",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-glass-options",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-31mm-glass-window/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-glass-options",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-50mm-euro-guide",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/what-is-aluminium-system-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-50mm-euro-guide/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/what-is-aluminium-system-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-52mm-gulf-brands",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-system-window-brands-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-52mm-gulf-brands/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-system-window-brands-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-50mm-euro",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-casement-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-50mm-euro/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-casement-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-52mm-gulf-slim",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slim-system-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-52mm-gulf-slim/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slim-system-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-50mm-euro-villa",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-for-villa",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-50mm-euro-villa/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-for-villa",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/elevation-cladding/acp-elevation-cladding",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/elevation-cladding/hpl-acp-elevation-cladding",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/elevation-cladding/acp-elevation-cladding/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/elevation-cladding/hpl-acp-elevation-cladding",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/slim-entrance-aluminium-glass-door",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slim-entrance-glass-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/slim-entrance-aluminium-glass-door/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slim-entrance-glass-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/calculators",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-sliding-window-price-calculator",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/calculators/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-sliding-window-price-calculator",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/case-study-commercial-tower-mumbai.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/case-study-commercial-tower-mumbai",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/case-study-commercial-tower-mumbai.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/case-study-commercial-tower-mumbai",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/case-study-luxury-bungalow-delhi.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/case-study-luxury-bungalow-delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/case-study-luxury-bungalow-delhi.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/case-study-luxury-bungalow-delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/case-study-makobrew-jubilee-hills.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/case-study-makobrew-jubilee-hills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/case-study-makobrew-jubilee-hills.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/case-study-makobrew-jubilee-hills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/case-study-villa-hyderabad.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/case-study-villa-hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/case-study-villa-hyderabad.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/case-study-villa-hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/certifications-iso-qualicoat.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/certifications-iso-qualicoat",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/certifications-iso-qualicoat.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/certifications-iso-qualicoat",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/factory-tour-hyderabad.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/factory-tour-hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/factory-tour-hyderabad.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/factory-tour-hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/founder-story-woodenmax.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/founder-story-woodenmax",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/founder-story-woodenmax.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/founder-story-woodenmax",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/manufacturing-process.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/manufacturing-process",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/manufacturing-process.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/manufacturing-process",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/material-sourcing-india.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/material-sourcing-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/material-sourcing-india.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/material-sourcing-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/quality-testing-process.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/quality-testing-process",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/quality-testing-process.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/quality-testing-process",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/team-leadership.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/team-leadership",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/about/team-leadership.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/team-leadership",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/aluminium-window-price-calculator.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/aluminium-window-price-calculator",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/aluminium-window-price-calculator.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/aluminium-window-price-calculator",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/aluminium-sliding-glass-door-complete-guide.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/aluminium-sliding-glass-door-complete-guide",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/aluminium-sliding-glass-door-complete-guide.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/aluminium-sliding-glass-door-complete-guide",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/complete-woodenmax-products-guide.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/complete-woodenmax-products-guide",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/complete-woodenmax-products-guide.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/complete-woodenmax-products-guide",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/energy-efficient-windows-guide.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/energy-efficient-windows-guide",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/energy-efficient-windows-guide.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/energy-efficient-windows-guide",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/frameless-sliding-doors-interior-partitions.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/frameless-sliding-doors-interior-partitions",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/frameless-sliding-doors-interior-partitions.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/frameless-sliding-doors-interior-partitions",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/pergola-design-ideas-india.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/pergola-design-ideas-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/pergola-design-ideas-india.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/pergola-design-ideas-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/sliding-window-vs-folding-door-comparison.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/sliding-window-vs-folding-door-comparison",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/sliding-window-vs-folding-door-comparison.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/sliding-window-vs-folding-door-comparison",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/soundproof-windows-Hyderabad.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/soundproof-windows-Hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/soundproof-windows-Hyderabad.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/soundproof-windows-Hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/window-maintenance-tips.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/window-maintenance-tips",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/blog/window-maintenance-tips.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/window-maintenance-tips",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/calculators.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/calculators",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/calculators.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/calculators",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/catalog.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/catalog",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/catalog.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/catalog",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/bangalore.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/bangalore",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/bangalore.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/bangalore",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/delhi.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/delhi.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/hyderabad.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/hyderabad.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/jaipur.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/jaipur",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/jaipur.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/jaipur",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/lucknow.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/lucknow",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/lucknow.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/lucknow",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/mumbai.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/mumbai",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/mumbai.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/mumbai",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/pune.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/pune",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/city/pune.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/pune",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/contact.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/contact",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/contact.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/contact",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/glass-elevation-price-calculator.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/glass-elevation-price-calculator",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/glass-elevation-price-calculator.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/glass-elevation-price-calculator",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/index.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/index.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/policies/cancellation-refund-policy.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/policies/cancellation-refund-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/policies/cancellation-refund-policy.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/policies/cancellation-refund-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/policies/gst-transport-policy.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/policies/gst-transport-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/policies/gst-transport-policy.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/policies/gst-transport-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/policies/installation-policy.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/policies/installation-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/policies/installation-policy.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/policies/installation-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/policies/privacy-policy.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/policies/privacy-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/policies/privacy-policy.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/policies/privacy-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/policies/warranty-policy.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/policies/warranty-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/policies/warranty-policy.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/policies/warranty-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/2-track-aluminium-window-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/2-track-aluminium-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/2-track-aluminium-window-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/2-track-aluminium-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/2-track-french-sliding-door.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/2-track-french-sliding-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/2-track-french-sliding-door.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/2-track-french-sliding-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/3-track-sliding-window.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/3-track-sliding-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/3-track-sliding-window.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/3-track-sliding-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/4-track-sliding-window-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/4-track-sliding-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/4-track-sliding-window-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/4-track-sliding-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-casement-window-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-casement-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-casement-window-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-casement-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-sliding-window-price-calculator.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-sliding-window-price-calculator",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-sliding-window-price-calculator.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-sliding-window-price-calculator",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-sliding-window.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-sliding-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-sliding-window.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-sliding-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-system-window-brands-india.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-system-window-brands-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-system-window-brands-india.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-system-window-brands-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-system-window-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-system-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-system-window-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-system-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-glass-price-breakdown.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-glass-price-breakdown",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-glass-price-breakdown.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-glass-price-breakdown",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-bangalore.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-bangalore",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-bangalore.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-bangalore",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-chandigarh.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-chandigarh",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-chandigarh.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-chandigarh",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-delhi.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-delhi.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-hyderabad.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-hyderabad.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-mumbai.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-mumbai",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-mumbai.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-mumbai",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-per-sqft.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-per-sqft",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-per-sqft.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-per-sqft",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-pune.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-pune",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-pune.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-pune",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-vijayawada.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-vijayawada",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-vijayawada.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-vijayawada",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-visakhapatnam.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-visakhapatnam",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-visakhapatnam.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-visakhapatnam",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-warangal.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-warangal",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/aluminium-window-price-warangal.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/aluminium-window-price-warangal",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/best-aluminium-window-for-home.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/best-aluminium-window-for-home",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/best-aluminium-window-for-home.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/best-aluminium-window-for-home",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/french-door-georgian-bar.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/french-door-georgian-bar",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/french-door-georgian-bar.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/french-door-georgian-bar",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/full-elevation-villa-facade.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/full-elevation-villa-facade",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/full-elevation-villa-facade.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/full-elevation-villa-facade",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/georgian-grill-casement-door.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/georgian-grill-casement-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/georgian-grill-casement-door.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/georgian-grill-casement-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/sliding-vs-casement-window.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/sliding-vs-casement-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/sliding-vs-casement-window.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/sliding-vs-casement-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/slim-aluminium-window-price-luxury.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slim-aluminium-window-price-luxury",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/slim-aluminium-window-price-luxury.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slim-aluminium-window-price-luxury",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/slim-entrance-glass-door.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slim-entrance-glass-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/slim-entrance-glass-door.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slim-entrance-glass-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/slim-system-window-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slim-system-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/slim-system-window-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slim-system-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/slimline-aluminium-window.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slimline-aluminium-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/slimline-aluminium-window.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/slimline-aluminium-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-window-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-casement-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-casement-window-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-casement-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-window-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-sliding-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-sliding-window-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-sliding-window-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-window-for-villa.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-for-villa",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-window-for-villa.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-for-villa",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-window-glass-options.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-glass-options",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-window-glass-options.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-glass-options",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-window-installation.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-installation",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-window-installation.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-installation",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-window-vs-normal-window.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-vs-normal-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/system-window-vs-normal-window.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/system-window-vs-normal-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/top-hung-casement-window.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/top-hung-casement-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/top-hung-casement-window.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/top-hung-casement-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/what-is-aluminium-system-window.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/what-is-aluminium-system-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/aluminium-windows/what-is-aluminium-system-window.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/aluminium-windows/what-is-aluminium-system-window",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/elevation-cladding.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/elevation-cladding",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/elevation-cladding.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/elevation-cladding",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/elevation-cladding/hpl-acp-elevation-cladding.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/elevation-cladding/hpl-acp-elevation-cladding",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/elevation-cladding/hpl-acp-elevation-cladding.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/elevation-cladding/hpl-acp-elevation-cladding",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/elevation-cladding/hpl-exterior-cladding.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/elevation-cladding/hpl-exterior-cladding",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/elevation-cladding/hpl-exterior-cladding.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/elevation-cladding/hpl-exterior-cladding",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/folding-systems.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/folding-systems",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/folding-systems.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/folding-systems",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/folding-systems/fold-bifold-aluminium-doors.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/folding-systems/fold-bifold-aluminium-doors",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/folding-systems/fold-bifold-aluminium-doors.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/folding-systems/fold-bifold-aluminium-doors",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/folding-systems/fold-sliding-window-system.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/folding-systems/fold-sliding-window-system",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/folding-systems/fold-sliding-window-system.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/folding-systems/fold-sliding-window-system",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-bangalore.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-bangalore",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-bangalore.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-bangalore",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-chandigarh.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-chandigarh",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-chandigarh.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-chandigarh",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-delhi.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-delhi.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-mumbai.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-mumbai",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-mumbai.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-mumbai",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-pune.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-pune",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-pune.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-pune",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-vijayawada.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-vijayawada",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-vijayawada.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-vijayawada",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-visakhapatnam.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-visakhapatnam",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-visakhapatnam.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-visakhapatnam",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-warangal.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-warangal",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-elevation/glass-elevation-price-warangal.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-elevation/glass-elevation-price-warangal",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-railing.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-railing",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-railing.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-railing",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-railing/balcony-glass-railing.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-railing/balcony-glass-railing",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-railing/balcony-glass-railing.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-railing/balcony-glass-railing",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-railing/staircase-glass-railing.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-railing/staircase-glass-railing",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/glass-railing/staircase-glass-railing.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/glass-railing/staircase-glass-railing",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills-tools-guide.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills-tools-guide",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills-tools-guide.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills-tools-guide",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills/aluminium-window-grills.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills/aluminium-window-grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills/aluminium-window-grills.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills/aluminium-window-grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills/balcony-safety-grills.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills/balcony-safety-grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills/balcony-safety-grills.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills/balcony-safety-grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills/iron-safety-grills.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills/iron-safety-grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills/iron-safety-grills.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills/iron-safety-grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills/staircase-balustrade-grills.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills/staircase-balustrade-grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills/staircase-balustrade-grills.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills/staircase-balustrade-grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills/window-safety-grills.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills/window-safety-grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/grills/window-safety-grills.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/grills/window-safety-grills",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/aluminium-facade-louver-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/aluminium-facade-louver-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/aluminium-facade-louver-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/aluminium-facade-louver-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/aluminium-louver-design-building.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/aluminium-louver-design-building",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/aluminium-louver-design-building.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/aluminium-louver-design-building",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/aluminium-louvre-100x50mm-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/aluminium-louvre-100x50mm-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/aluminium-louvre-100x50mm-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/aluminium-louvre-100x50mm-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/aluminium-louvre-75x38mm-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/aluminium-louvre-75x38mm-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/aluminium-louvre-75x38mm-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/aluminium-louvre-75x38mm-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/ceiling-pergola-louvers.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/ceiling-pergola-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/ceiling-pergola-louvers.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/ceiling-pergola-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/commercial-building-louvers.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/commercial-building-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/commercial-building-louvers.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/commercial-building-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/curved-architectural-louvers.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/curved-architectural-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/curved-architectural-louvers.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/curved-architectural-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/fixed-vs-motorized-louver.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/fixed-vs-motorized-louver",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/fixed-vs-motorized-louver.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/fixed-vs-motorized-louver",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-canopy-facade.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-canopy-facade",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-canopy-facade.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-canopy-facade",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-installation-guide.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-installation-guide",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-installation-guide.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-installation-guide",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-price-delhi.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-price-delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-price-delhi.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-price-delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-price-hyderabad.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-price-hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-price-hyderabad.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-price-hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-price-jaipur.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-price-jaipur",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-price-jaipur.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-price-jaipur",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-vs-acp-cladding.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-vs-acp-cladding",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/louver-vs-acp-cladding.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/louver-vs-acp-cladding",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/motorized-louver-price-india.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/motorized-louver-price-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/motorized-louver-price-india.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/motorized-louver-price-india",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/perforated-aluminium-panel-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/perforated-aluminium-panel-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/perforated-aluminium-panel-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/perforated-aluminium-panel-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/ventilation-louver-price-per-sqft.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/ventilation-louver-price-per-sqft",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/ventilation-louver-price-per-sqft.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/ventilation-louver-price-per-sqft",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/wooden-finish-aluminium-louvers.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/wooden-finish-aluminium-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/metal-louvers/wooden-finish-aluminium-louvers.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/metal-louvers/wooden-finish-aluminium-louvers",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/aluminium-mirror-frame-designs.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/aluminium-mirror-frame-designs",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/aluminium-mirror-frame-designs.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/aluminium-mirror-frame-designs",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/backlit-mirror-profile-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/backlit-mirror-profile-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/backlit-mirror-profile-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/backlit-mirror-profile-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/custom-mirror-profile.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/custom-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/custom-mirror-profile.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/custom-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/led-bathroom-mirror-profile.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/led-bathroom-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/led-bathroom-mirror-profile.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/led-bathroom-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/led-mirror-profile-delhi.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/led-mirror-profile-delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/led-mirror-profile-delhi.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/led-mirror-profile-delhi",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/led-mirror-profile-hyderabad.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/led-mirror-profile-hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/led-mirror-profile-hyderabad.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/led-mirror-profile-hyderabad",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/led-mirror-profile-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/led-mirror-profile-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/led-mirror-profile-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/led-mirror-profile-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/mirror-profile-price-per-foot.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/mirror-profile-price-per-foot",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/mirror-profile-price-per-foot.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/mirror-profile-price-per-foot",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/mirror-profile-without-led.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/mirror-profile-without-led",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/mirror-profile-without-led.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/mirror-profile-without-led",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/motion-sensor-mirror-profile.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/motion-sensor-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/motion-sensor-mirror-profile.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/motion-sensor-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/rectangular-mirror-profile.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/rectangular-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/rectangular-mirror-profile.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/rectangular-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/round-mirror-profile.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/round-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/round-mirror-profile.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/round-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/touch-sensor-mirror-profile.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/touch-sensor-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/touch-sensor-mirror-profile.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/touch-sensor-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/wardrobe-mirror-profile.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/wardrobe-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/mirror-profiles/wardrobe-mirror-profile.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/mirror-profiles/wardrobe-mirror-profile",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/aluminium-pergola.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/aluminium-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/aluminium-pergola.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/aluminium-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/glass-skylight.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/glass-skylight",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/glass-skylight.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/glass-skylight",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/profile-iron-canopy.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/profile-iron-canopy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/profile-iron-canopy.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/profile-iron-canopy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/profile-pergola.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/profile-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/profile-pergola.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/profile-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/retractable-pergola.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/retractable-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/pergola/retractable-pergola.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/pergola/retractable-pergola",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/bathroom-shower-design-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/bathroom-shower-design-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/bathroom-shower-design-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/bathroom-shower-design-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/black-profile-shower-partition.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/black-profile-shower-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/black-profile-shower-partition.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/black-profile-shower-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/corner-shower-partition-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/corner-shower-partition-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/corner-shower-partition-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/corner-shower-partition-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/fixed-glass-shower-panel-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/fixed-glass-shower-panel-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/fixed-glass-shower-panel-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/fixed-glass-shower-panel-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/framed-vs-frameless-shower.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/framed-vs-frameless-shower",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/framed-vs-frameless-shower.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/framed-vs-frameless-shower",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/frameless-glass-shower-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/frameless-glass-shower-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/frameless-glass-shower-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/frameless-glass-shower-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/frameless-shower-partition.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/frameless-shower-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/frameless-shower-partition.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/frameless-shower-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/frosted-glass-bathroom-door.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/frosted-glass-bathroom-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/glass-shower-partition-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/glass-shower-partition-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/glass-shower-partition-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/glass-shower-partition-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/premium-black-profile-shower.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/premium-black-profile-shower",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/premium-black-profile-shower.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/premium-black-profile-shower",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-curtain-vs-glass-partition.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-curtain-vs-glass-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-curtain-vs-glass-partition.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-curtain-vs-glass-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-enclosure-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-enclosure-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-enclosure-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-enclosure-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-glass-maintenance.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-maintenance",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-glass-maintenance.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-maintenance",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-glass-thickness.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-thickness",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-glass-thickness.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-thickness",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-glass-types.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-types",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-glass-types.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-glass-types",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-installation-cost.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-installation-cost",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-installation-cost.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/shower-installation-cost",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/sliding-shower-door-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/sliding-shower-door-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/sliding-shower-door-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/sliding-shower-door-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/slim-frame-shower-partition.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/slim-frame-shower-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/slim-frame-shower-partition.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/slim-frame-shower-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/small-bathroom-shower-design.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/small-bathroom-shower-design",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/small-bathroom-shower-design.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/small-bathroom-shower-design",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/walk-in-shower-glass-price.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/walk-in-shower-glass-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/walk-in-shower-glass-price.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/shower-partitions/walk-in-shower-glass-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/telescope-windows.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/telescope-windows",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/telescope-windows.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/telescope-windows",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/telescope-windows/telescopic-slim-sliding-door.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/telescope-windows/telescopic-slim-sliding-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/telescope-windows/telescopic-slim-sliding-door.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/telescope-windows/telescopic-slim-sliding-door",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/return-policy.html",
+      "expectedStatus": 301,
+      "expectedDestination": "/return-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/return-policy.html/",
+      "expectedStatus": 301,
+      "expectedDestination": "/return-policy",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    }
+  ],
+  "dynamicRules": [
+    {
+      "source": "/products/products/aluminium-windows/city/*",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/:splat",
+      "allowedHops": 1
+    },
+    {
+      "source": "/products/products/*",
+      "expectedStatus": 301,
+      "expectedDestination": "/products/:splat",
+      "allowedHops": 1
+    },
+    {
+      "source": "/city/about/about/*",
+      "expectedStatus": 301,
+      "expectedDestination": "/about/:splat",
+      "allowedHops": 1
+    },
+    {
+      "source": "/city/city/blog/*",
+      "expectedStatus": 301,
+      "expectedDestination": "/blog/:splat",
+      "allowedHops": 1
+    },
+    {
+      "source": "/city/city/*",
+      "expectedStatus": 301,
+      "expectedDestination": "/city/:splat",
+      "allowedHops": 1
+    }
+  ],
+  "wildcardCases": {
+    "positive": [
+      {
+        "source": "/products/products/aluminium-windows/city/hyderabad",
+        "destination": "/city/hyderabad"
+      },
+      {
+        "source": "/products/products/aluminium-windows/3-track-sliding-window",
+        "destination": "/products/aluminium-windows/3-track-sliding-window"
+      },
+      {
+        "source": "/city/city/hyderabad",
+        "destination": "/city/hyderabad"
+      },
+      {
+        "source": "/city/about/about/quality-testing-process",
+        "destination": "/about/quality-testing-process"
+      },
+      {
+        "source": "/city/city/blog/pergola-design-ideas-india",
+        "destination": "/blog/pergola-design-ideas-india"
+      }
+    ],
+    "negative": [
+      "/products/aluminium-windows/3-track-sliding-window",
+      "/city/hyderabad",
+      "/about/quality-testing-process",
+      "/blog/pergola-design-ideas-india"
+    ]
+  },
+  "identityChecks": [
+    {
+      "source": "/products/mirror-profiles/",
+      "expectedStatus": 200,
+      "canonical": "https://woodenmax.in/products/mirror-profiles/",
+      "ogUrl": "https://woodenmax.in/products/mirror-profiles/"
+    },
+    {
+      "source": "/products/mirror-profiles",
+      "expectedStatus": 308,
+      "canonical": "https://woodenmax.in/products/mirror-profiles/"
+    },
+    {
+      "source": "/products/pergola",
+      "expectedStatus": 200,
+      "canonical": "https://woodenmax.in/products/pergola"
+    },
+    {
+      "source": "/products/metal-louvers",
+      "expectedStatus": 200,
+      "canonical": "https://woodenmax.in/products/metal-louvers"
+    }
+  ]
+}
