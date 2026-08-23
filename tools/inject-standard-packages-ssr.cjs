@@ -210,7 +210,9 @@ function findOpenByClassProduct(html) {
   return null;
 }
 
-function pageUrlFromFile(abs) {
+function pageUrlFromHtml(html, abs) {
+  const canonical = html.match(/<link\s+rel=["']canonical["']\s+href=["']([^"']+)["']/i);
+  if (canonical && /^https:\/\/woodenmax\.in\//i.test(canonical[1])) return canonical[1];
   const rel = path.relative(ROOT, abs).replace(/\\/g, '/').replace(/\.html$/i, '');
   return 'https://woodenmax.in/' + rel;
 }
@@ -366,7 +368,7 @@ function injectJob(html, job, absFile) {
   const insertAt = job2.insertAt;
   out = out.slice(0, insertAt) + '\n' + sectionHtml + '\n' + out.slice(insertAt);
   out = ensureCssLink(out);
-  const jsonLd = buildJsonLdScript(job2, pageUrlFromFile(absFile));
+  const jsonLd = buildJsonLdScript(job2, pageUrlFromHtml(out, absFile));
   if (/id=["']wm-std-pkg-jsonld["']/i.test(out)) {
     out = out.replace(/<script\b[^>]*\bid=["']wm-std-pkg-jsonld["'][^>]*>[\s\S]*?<\/script>\s*/i, jsonLd);
   } else if (/<\/head>/i.test(out)) {

@@ -27,6 +27,7 @@
 
 const fs   = require('fs');
 const path = require('path');
+const { isGuideHtml, shortPath } = require('./shower-guide-identities.cjs');
 
 const ROOT   = path.resolve(__dirname, '..');
 const DRY    = process.argv.includes('--dry');
@@ -92,6 +93,9 @@ function decodeEntities(s) {
 function urlFor(file) {
   const rel = path.relative(ROOT, file).replace(/\\/g, '/');
   if (rel === 'index.html') return ORIGIN + '/';
+  if (isGuideHtml(rel)) {
+    return ORIGIN + shortPath(rel.replace(/^products\/shower-partitions\//, '').replace(/\.html$/i, ''));
+  }
   if (/\/index\.html$/i.test(rel)) {
     return ORIGIN + '/' + rel.replace(/\/index\.html$/i, '');
   }

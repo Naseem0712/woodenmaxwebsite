@@ -5,6 +5,7 @@ const assert = require('assert');
 const childProcess = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const { SLUGS, longPath, shortPath } = require('./shower-guide-identities.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 const REDIRECTS = path.join(ROOT, '_redirects');
@@ -18,6 +19,8 @@ const DYNAMIC_RULES = [
   '/city/city/blog/*',
   '/city/city/*',
 ];
+const EXPECTED_STATIC_RULES = 440;
+const EXPECTED_DYNAMIC_RULES = 5;
 
 function parseRules(text, allowDuplicates = false, allowNonRelative = false) {
   const sources = new Set();
@@ -43,9 +46,9 @@ function architecture(rules) {
   if (firstDynamic !== -1) {
     assert(rules.slice(firstDynamic).every((rule) => rule.dynamic), 'Exact rule appears after the dynamic section');
   }
-  assert.strictEqual(staticRules.length, 425, `Expected 425 static rules, got ${staticRules.length}`);
-  assert.strictEqual(dynamicRules.length, 5, `Expected 5 dynamic rules, got ${dynamicRules.length}`);
-  assert.strictEqual(rules.length, 430, `Expected 430 effective rules, got ${rules.length}`);
+  assert.strictEqual(staticRules.length, EXPECTED_STATIC_RULES, `Expected ${EXPECTED_STATIC_RULES} static rules, got ${staticRules.length}`);
+  assert.strictEqual(dynamicRules.length, EXPECTED_DYNAMIC_RULES, `Expected ${EXPECTED_DYNAMIC_RULES} dynamic rules, got ${dynamicRules.length}`);
+  assert.strictEqual(rules.length, EXPECTED_STATIC_RULES + EXPECTED_DYNAMIC_RULES, `Expected ${EXPECTED_STATIC_RULES + EXPECTED_DYNAMIC_RULES} effective rules, got ${rules.length}`);
   assert.deepStrictEqual(dynamicRules.map((rule) => rule.source), DYNAMIC_RULES, 'Unexpected dynamic redirect set');
   return { staticRules, dynamicRules };
 }
@@ -55,7 +58,7 @@ function makeManifest(rules) {
   return {
     version: 1,
     generatedFrom: '_redirects',
-    architecture: { static: 425, dynamic: 5, effective: 430, ignoredRequired: 0 },
+    architecture: { static: EXPECTED_STATIC_RULES, dynamic: EXPECTED_DYNAMIC_RULES, effective: EXPECTED_STATIC_RULES + EXPECTED_DYNAMIC_RULES, ignoredRequired: 0 },
     exactRules: staticRules.map((rule) => ({
       source: rule.source,
       expectedStatus: rule.status,
@@ -161,19 +164,31 @@ async function assertIdentity(check) {
   }
 }
 
-function assertShowerUnchanged(rules) {
-  const baseline = childProcess.execFileSync('git', ['show', 'HEAD:_redirects'], { cwd: ROOT, encoding: 'utf8' });
-  const showerMap = (text) => new Map(parseRules(text, true, true)
-    .filter((rule) => rule.source.includes('shower-partitions'))
-    .map((rule) => [rule.source, `${rule.destination} ${rule.status}`]));
-  assert.deepStrictEqual(showerMap(fs.readFileSync(REDIRECTS, 'utf8')), showerMap(baseline), 'Shower redirect mappings changed');
+function assertApprovedShowerIdentityMappings(rules) {
+  const bySource = new Map(rules.map((rule) => [rule.source, rule]));
+  for (const slug of SLUGS) {
+    const long = longPath(slug);
+    const expectations = [
+      [shortPath(slug), long, 200],
+      [`${shortPath(slug)}/`, shortPath(slug), 301],
+      [long, shortPath(slug), 301],
+      [`${long}.html`, shortPath(slug), 301],
+      [`${long}.html/`, shortPath(slug), 301],
+    ];
+    for (const [source, destination, status] of expectations) {
+      const rule = bySource.get(source);
+      assert(rule, `Missing approved shower identity rule: ${source}`);
+      assert.strictEqual(rule.destination, destination, `${source}: wrong shower identity destination`);
+      assert.strictEqual(rule.status, status, `${source}: wrong shower identity status`);
+    }
+  }
 }
 
 async function main() {
   const rules = parseRules(fs.readFileSync(REDIRECTS, 'utf8'));
   const manifest = readManifest(rules);
   const { staticRules, dynamicRules } = architecture(rules);
-  assertShowerUnchanged(rules);
+  assertApprovedShowerIdentityMappings(rules);
   if (WRITE_MANIFEST) return;
 
   for (const testCase of manifest.exactRules) await assertExactCase(testCase);
@@ -189,7 +204,7 @@ async function main() {
   console.log(`Architecture: ${staticRules.length} static, ${dynamicRules.length} dynamic, ${rules.length} effective`);
   console.log(`Exact alias cases: ${manifest.exactRules.length} passed`);
   console.log(`Wildcard cases: ${manifest.wildcardCases.positive.length} positive, ${manifest.wildcardCases.negative.length} negative passed`);
-  console.log('Identity and shower-preservation checks passed');
+  console.log('Identity and approved shower-mapping checks passed');
 }
 
 main().catch((error) => {

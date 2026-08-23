@@ -2,9 +2,9 @@
   "version": 1,
   "generatedFrom": "_redirects",
   "architecture": {
-    "static": 425,
+    "static": 440,
     "dynamic": 5,
-    "effective": 430,
+    "effective": 445,
     "ignoredRequired": 0
   },
   "exactRules": [
@@ -185,211 +185,316 @@
     },
     {
       "source": "/glass-shower-partition-price",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/glass-shower-partition-price",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/glass-shower-partition-price/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/glass-shower-partition-price",
+      "expectedDestination": "/glass-shower-partition-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/glass-shower-partition-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/glass-shower-partition-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/sliding-shower-door-price",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/sliding-shower-door-price",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/sliding-shower-door-price/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/sliding-shower-door-price",
+      "expectedDestination": "/sliding-shower-door-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/sliding-shower-door-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/sliding-shower-door-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/fixed-glass-shower-panel-price",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/fixed-glass-shower-panel-price",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/fixed-glass-shower-panel-price/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/fixed-glass-shower-panel-price",
+      "expectedDestination": "/fixed-glass-shower-panel-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/fixed-glass-shower-panel-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/fixed-glass-shower-panel-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-enclosure-price",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/shower-enclosure-price",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-enclosure-price/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-enclosure-price",
+      "expectedDestination": "/shower-enclosure-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-enclosure-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/shower-enclosure-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/frameless-glass-shower-price",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/frameless-glass-shower-price",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/frameless-glass-shower-price/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/frameless-glass-shower-price",
+      "expectedDestination": "/frameless-glass-shower-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/frameless-glass-shower-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/frameless-glass-shower-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/bathroom-shower-design-price",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/bathroom-shower-design-price",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/bathroom-shower-design-price/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/bathroom-shower-design-price",
+      "expectedDestination": "/bathroom-shower-design-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/bathroom-shower-design-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/bathroom-shower-design-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/small-bathroom-shower-design",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/small-bathroom-shower-design",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/small-bathroom-shower-design/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/small-bathroom-shower-design",
+      "expectedDestination": "/small-bathroom-shower-design",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/small-bathroom-shower-design",
+      "expectedStatus": 301,
+      "expectedDestination": "/small-bathroom-shower-design",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/corner-shower-partition-price",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/corner-shower-partition-price",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/corner-shower-partition-price/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/corner-shower-partition-price",
+      "expectedDestination": "/corner-shower-partition-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/corner-shower-partition-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/corner-shower-partition-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/walk-in-shower-glass-price",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/walk-in-shower-glass-price",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/walk-in-shower-glass-price/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/walk-in-shower-glass-price",
+      "expectedDestination": "/walk-in-shower-glass-price",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/walk-in-shower-glass-price",
+      "expectedStatus": 301,
+      "expectedDestination": "/walk-in-shower-glass-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-curtain-vs-glass-partition",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/shower-curtain-vs-glass-partition",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-curtain-vs-glass-partition/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-curtain-vs-glass-partition",
+      "expectedDestination": "/shower-curtain-vs-glass-partition",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-curtain-vs-glass-partition",
+      "expectedStatus": 301,
+      "expectedDestination": "/shower-curtain-vs-glass-partition",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/framed-vs-frameless-shower",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/framed-vs-frameless-shower",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/framed-vs-frameless-shower/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/framed-vs-frameless-shower",
+      "expectedDestination": "/framed-vs-frameless-shower",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/framed-vs-frameless-shower",
+      "expectedStatus": 301,
+      "expectedDestination": "/framed-vs-frameless-shower",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-glass-thickness",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/shower-glass-thickness",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-glass-thickness/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-glass-thickness",
+      "expectedDestination": "/shower-glass-thickness",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-glass-thickness",
+      "expectedStatus": 301,
+      "expectedDestination": "/shower-glass-thickness",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-glass-types",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/shower-glass-types",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-glass-types/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-glass-types",
+      "expectedDestination": "/shower-glass-types",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-glass-types",
+      "expectedStatus": 301,
+      "expectedDestination": "/shower-glass-types",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-installation-cost",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/shower-installation-cost",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-installation-cost/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-installation-cost",
+      "expectedDestination": "/shower-installation-cost",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-installation-cost",
+      "expectedStatus": 301,
+      "expectedDestination": "/shower-installation-cost",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-glass-maintenance",
-      "expectedStatus": 301,
+      "expectedStatus": 200,
       "expectedDestination": "/products/shower-partitions/shower-glass-maintenance",
-      "allowedHops": 1,
+      "allowedHops": 0,
       "expectedFinalCanonical": null
     },
     {
       "source": "/shower-glass-maintenance/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-glass-maintenance",
+      "expectedDestination": "/shower-glass-maintenance",
+      "allowedHops": 1,
+      "expectedFinalCanonical": null
+    },
+    {
+      "source": "/products/shower-partitions/shower-glass-maintenance",
+      "expectedStatus": 301,
+      "expectedDestination": "/shower-glass-maintenance",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
@@ -2671,14 +2776,14 @@
     {
       "source": "/products/shower-partitions/bathroom-shower-design-price.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/bathroom-shower-design-price",
+      "expectedDestination": "/bathroom-shower-design-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/bathroom-shower-design-price.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/bathroom-shower-design-price",
+      "expectedDestination": "/bathroom-shower-design-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
@@ -2699,56 +2804,56 @@
     {
       "source": "/products/shower-partitions/corner-shower-partition-price.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/corner-shower-partition-price",
+      "expectedDestination": "/corner-shower-partition-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/corner-shower-partition-price.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/corner-shower-partition-price",
+      "expectedDestination": "/corner-shower-partition-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/fixed-glass-shower-panel-price.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/fixed-glass-shower-panel-price",
+      "expectedDestination": "/fixed-glass-shower-panel-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/fixed-glass-shower-panel-price.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/fixed-glass-shower-panel-price",
+      "expectedDestination": "/fixed-glass-shower-panel-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/framed-vs-frameless-shower.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/framed-vs-frameless-shower",
+      "expectedDestination": "/framed-vs-frameless-shower",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/framed-vs-frameless-shower.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/framed-vs-frameless-shower",
+      "expectedDestination": "/framed-vs-frameless-shower",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/frameless-glass-shower-price.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/frameless-glass-shower-price",
+      "expectedDestination": "/frameless-glass-shower-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/frameless-glass-shower-price.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/frameless-glass-shower-price",
+      "expectedDestination": "/frameless-glass-shower-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
@@ -2776,14 +2881,14 @@
     {
       "source": "/products/shower-partitions/glass-shower-partition-price.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/glass-shower-partition-price",
+      "expectedDestination": "/glass-shower-partition-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/glass-shower-partition-price.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/glass-shower-partition-price",
+      "expectedDestination": "/glass-shower-partition-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
@@ -2804,98 +2909,98 @@
     {
       "source": "/products/shower-partitions/shower-curtain-vs-glass-partition.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-curtain-vs-glass-partition",
+      "expectedDestination": "/shower-curtain-vs-glass-partition",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-curtain-vs-glass-partition.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-curtain-vs-glass-partition",
+      "expectedDestination": "/shower-curtain-vs-glass-partition",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-enclosure-price.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-enclosure-price",
+      "expectedDestination": "/shower-enclosure-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-enclosure-price.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-enclosure-price",
+      "expectedDestination": "/shower-enclosure-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-glass-maintenance.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-glass-maintenance",
+      "expectedDestination": "/shower-glass-maintenance",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-glass-maintenance.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-glass-maintenance",
+      "expectedDestination": "/shower-glass-maintenance",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-glass-thickness.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-glass-thickness",
+      "expectedDestination": "/shower-glass-thickness",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-glass-thickness.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-glass-thickness",
+      "expectedDestination": "/shower-glass-thickness",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-glass-types.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-glass-types",
+      "expectedDestination": "/shower-glass-types",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-glass-types.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-glass-types",
+      "expectedDestination": "/shower-glass-types",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-installation-cost.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-installation-cost",
+      "expectedDestination": "/shower-installation-cost",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/shower-installation-cost.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/shower-installation-cost",
+      "expectedDestination": "/shower-installation-cost",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/sliding-shower-door-price.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/sliding-shower-door-price",
+      "expectedDestination": "/sliding-shower-door-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/sliding-shower-door-price.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/sliding-shower-door-price",
+      "expectedDestination": "/sliding-shower-door-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
@@ -2916,28 +3021,28 @@
     {
       "source": "/products/shower-partitions/small-bathroom-shower-design.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/small-bathroom-shower-design",
+      "expectedDestination": "/small-bathroom-shower-design",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/small-bathroom-shower-design.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/small-bathroom-shower-design",
+      "expectedDestination": "/small-bathroom-shower-design",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/walk-in-shower-glass-price.html",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/walk-in-shower-glass-price",
+      "expectedDestination": "/walk-in-shower-glass-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/products/shower-partitions/walk-in-shower-glass-price.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/products/shower-partitions/walk-in-shower-glass-price",
+      "expectedDestination": "/walk-in-shower-glass-price",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },

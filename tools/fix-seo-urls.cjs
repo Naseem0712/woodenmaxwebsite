@@ -11,6 +11,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { isGuideHtml, shortPath } = require('./shower-guide-identities.cjs');
 
 const ROOT = path.resolve(__dirname, '..');
 const DRY = process.argv.includes('--dry');
@@ -44,6 +45,7 @@ function cleanUrlFromHtml(relPosix) {
   if (relPosix === 'index.html') return '/';
   if (relPosix === 'products/pergola/index.html') return '/products/pergola';
   if (relPosix === 'products/metal-louvers/index.html') return '/products/metal-louvers';
+  if (isGuideHtml(relPosix)) return shortPath(relPosix.replace(/^products\/shower-partitions\//, '').replace(/\.html$/i, ''));
   return '/' + relPosix.replace(/\.html$/, '');
 }
 

@@ -1,63 +1,89 @@
 #!/usr/bin/env node
 /**
- * Point internal links at short canonical shower SEO URLs (avoid 301 chains in GSC).
+ * Keep links and package Offer URLs aligned with the historical short public
+ * identity of the 15 shower guides. Content generators already emit short
+ * guide links; this synchronizer repairs downstream static HTML and nav data.
  */
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
+const { SLUGS, longPath, shortPath } = require('./shower-guide-identities.cjs');
 
-const ROOT = path.join(__dirname, '..');
+const ROOT = path.resolve(__dirname, '..');
+const CHECK = process.argv.includes('--check');
+const SKIP_DIRS = new Set(['.git', '.wrangler', 'node_modules', 'analysis', 'GSC', 'SGC ISSUE', 'tools']);
 
-const SHORT_SLUGS = [
-  'glass-shower-partition-price',
-  'sliding-shower-door-price',
-  'fixed-glass-shower-panel-price',
-  'shower-enclosure-price',
-  'frameless-glass-shower-price',
-  'bathroom-shower-design-price',
-  'small-bathroom-shower-design',
-  'corner-shower-partition-price',
-  'walk-in-shower-glass-price',
-  'shower-curtain-vs-glass-partition',
-  'framed-vs-frameless-shower',
-  'shower-glass-thickness',
-  'shower-glass-types',
-  'shower-installation-cost',
-  'shower-glass-maintenance',
-];
-
-function fixHubHtml() {
-  const file = path.join(ROOT, 'products', 'shower-partitions.html');
-  let html = fs.readFileSync(file, 'utf8');
-  let n = 0;
-  SHORT_SLUGS.forEach((slug) => {
-    const from = `./shower-partitions/${slug}`;
-    const to = `../../${slug}`;
-    const count = html.split(from).length - 1;
-    if (count) {
-      html = html.split(from).join(to);
-      n += count;
+function walkHtml(dir, out = []) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (entry.isDirectory()) {
+      if (!SKIP_DIRS.has(entry.name)) walkHtml(path.join(dir, entry.name), out);
+    } else if (entry.name.endsWith('.html')) {
+      out.push(path.join(dir, entry.name));
     }
-  });
-  fs.writeFileSync(file, html, 'utf8');
-  console.log('shower-partitions.html:', n, 'href updates');
+  }
+  return out;
 }
 
-function fixNavTree() {
+function normalizePublicGuideUrls(text) {
+  let next = text;
+  let changes = 0;
+  for (const slug of SLUGS) {
+    const long = longPath(slug);
+    const short = shortPath(slug);
+    const substitutions = [
+      [`https://woodenmax.in${long}`, `https://woodenmax.in${short}`],
+      [`href="${long}"`, `href="${short}"`],
+      [`href='${long}'`, `href='${short}'`],
+      [`href=".${long}"`, `href=".${short}"`],
+      [`href='.${long}'`, `href='.${short}'`],
+      [`href="./shower-partitions/${slug}"`, `href="../../${slug}"`],
+      [`href='./shower-partitions/${slug}'`, `href='../../${slug}'`],
+    ];
+    for (const [from, to] of substitutions) {
+      const count = next.split(from).length - 1;
+      if (count) {
+        next = next.split(from).join(to);
+        changes += count;
+      }
+    }
+  }
+  return { text: next, changes };
+}
+
+function normalizeNavTree() {
   const file = path.join(ROOT, 'js', 'nav-tree.js');
-  let js = fs.readFileSync(file, 'utf8');
-  let n = 0;
-  SHORT_SLUGS.forEach((slug) => {
+  let text = fs.readFileSync(file, 'utf8');
+  let changes = 0;
+  for (const slug of SLUGS) {
     const from = `products/shower-partitions/${slug}`;
-    const to = slug;
-    const count = js.split(from).length - 1;
+    const count = text.split(from).length - 1;
     if (count) {
-      js = js.split(from).join(to);
-      n += count;
+      text = text.split(from).join(slug);
+      changes += count;
     }
-  });
-  fs.writeFileSync(file, js, 'utf8');
-  console.log('nav-tree.js:', n, 'href updates');
+  }
+  if (changes && !CHECK) fs.writeFileSync(file, text, 'utf8');
+  return { file, changes };
 }
 
-fixHubHtml();
-fixNavTree();
+let filesChanged = 0;
+let replacements = 0;
+for (const file of walkHtml(ROOT)) {
+  const before = fs.readFileSync(file, 'utf8');
+  const result = normalizePublicGuideUrls(before);
+  if (!result.changes) continue;
+  filesChanged += 1;
+  replacements += result.changes;
+  if (!CHECK) fs.writeFileSync(file, result.text, 'utf8');
+}
+const nav = normalizeNavTree();
+if (nav.changes) filesChanged += 1;
+replacements += nav.changes;
+
+if (CHECK && replacements) {
+  console.error(`Found ${replacements} long shower-guide URL reference(s) in ${filesChanged} file(s).`);
+  process.exitCode = 1;
+} else {
+  console.log(`${CHECK ? 'Verified' : 'Updated'} ${replacements} shower-guide URL reference(s) across ${filesChanged} file(s).`);
+}
