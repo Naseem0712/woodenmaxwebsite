@@ -1,0 +1,237 @@
+/* Reusable gallery-first product-page layout. Opt in with data-product-page-layout. */
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-flow {
+  display: block !important;
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-context,
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity,
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-calculator-column,
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-accordions {
+  max-width: 820px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-context {
+  margin-bottom: 0.75rem;
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery {
+  position: static !important;
+  width: 100%;
+  max-width: 720px !important;
+  margin: 0 auto 1.75rem;
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery .product-main-image-container {
+  min-height: 0 !important;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 0.75rem;
+  padding: clamp(0.75rem, 2vw, 1.5rem);
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery .product-main-image,
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery .product-main-image-container > img.product-main-image {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  object-fit: contain !important;
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity {
+  margin-bottom: 1.5rem;
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity h1 {
+  font-family: var(--font-serif, Georgia, serif) !important;
+  font-size: clamp(2rem, 4vw, 3rem) !important;
+  line-height: 1.16;
+  margin-bottom: 0.75rem !important;
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity p {
+  max-width: 720px;
+}
+
+.wm-calculator-finder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #1e40af;
+  border-radius: 6px;
+  background: #1e40af;
+  color: #ffffff;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.wm-calculator-finder:hover,
+.wm-calculator-finder:focus-visible {
+  background: #17367f;
+  color: #ffffff;
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-calculator-column {
+  display: block !important;
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .price-calculator-container[data-product] {
+  margin-top: 0;
+}
+
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-accordions {
+  margin-top: 2rem;
+}
+
+/*
+ * Desktop composition: keep the product visual and readable copy contained,
+ * while allowing the package collection to use the wider product shell.
+ * This starts above the protected tablet range.
+ */
+@media (min-width: 1100px) {
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-flow {
+    display: grid !important;
+    grid-template-columns: minmax(0, 0.85fr) minmax(34rem, 1.15fr);
+    column-gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: start;
+    width: min(100%, calc(100vw - 4rem));
+    max-width: 1180px;
+  }
+
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-context {
+    grid-column: 1 / -1;
+  }
+
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery {
+    grid-column: 1;
+    grid-row: 2 / span 2;
+    width: 100%;
+    max-width: 540px !important;
+    margin: 0 0 1.75rem;
+  }
+
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity {
+    grid-column: 2;
+    width: 100%;
+    max-width: 680px;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-calculator-column {
+    display: contents !important;
+  }
+
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .price-calculator-container[data-product] {
+    grid-column: 2;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready #wm-standard-packages,
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-accordions {
+    grid-column: 1 / -1;
+  }
+
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-accordions {
+    width: min(100%, 900px);
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+.wm-product-pilot-accordion-item {
+  margin-top: 0.75rem;
+  border: 1px solid #dbe2ea;
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+.wm-product-pilot-accordion-heading {
+  margin: 0;
+}
+
+.wm-product-pilot-accordion-trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.125rem;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #0f172a;
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.wm-product-pilot-accordion-trigger::after {
+  content: "+";
+  flex: 0 0 auto;
+  color: #1e40af;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.wm-product-pilot-accordion-trigger[aria-expanded="true"]::after {
+  content: "-";
+}
+
+.wm-product-pilot-accordion-content {
+  padding: 0 1.125rem 1.25rem;
+  color: #475569;
+}
+
+.wm-product-pilot-accordion-content[hidden] {
+  display: none !important;
+}
+
+.wm-product-pilot-accordion-content .mobile-toggle-btn {
+  display: none !important;
+}
+
+.wm-product-pilot-accordion-content .mobile-collapsible-content {
+  max-height: none !important;
+  opacity: 1 !important;
+  overflow: visible !important;
+}
+
+.wm-product-pilot-accordion-content .technical-specs-mobile-only {
+  display: block !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+@media (max-width: 767px) {
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery {
+    order: initial !important;
+  }
+
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery .product-main-image-container {
+    aspect-ratio: 1 / 1;
+  }
+
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery .product-main-image,
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery .product-main-image-container img {
+    max-height: none !important;
+  }
+
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity h1 {
+    font-size: 2rem !important;
+  }
+
+  .wm-product-pilot-accordion-content {
+    padding: 0 0.875rem 1rem;
+  }
+}
