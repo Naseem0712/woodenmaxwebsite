@@ -1,0 +1,116 @@
+{
+  "name": "WoodenMax Reference Product Page v1 Freeze",
+  "status": "FROZEN",
+  "freezeDate": "2026-08-26",
+  "freezeTip": {
+    "sha": "650c86731d8158f0d66fab8bd4088a380f5f6e2f",
+    "short": "650c867",
+    "subject": "feat(product-page): integrate aluminium pergola Reference v1 on canonical pricing"
+  },
+  "contractDoc": "docs/REFERENCE_V1_FREEZE.md",
+  "sharedRuntime": [
+    "css/product-page-pilot.css",
+    "js/product-page-pilot.js"
+  ],
+  "optIn": {
+    "attribute": "data-product-page-layout",
+    "value": "gallery-first",
+    "readyClass": "wm-product-pilot-ready"
+  },
+  "goldenReferences": [
+    {
+      "family": "3-track-aluminium-window",
+      "url": "https://woodenmax.in/products/aluminium-windows/3-track-sliding-window",
+      "path": "/products/aluminium-windows/3-track-sliding-window",
+      "file": "products/aluminium-windows/3-track-sliding-window.html",
+      "introducingCommit": "70fbba523f099b264b59ecefd232433a4ee60d65",
+      "pilotTest": "tools/test-3track-product-pilot.cjs",
+      "calculatorSelector": "#price-calculator-3track-sliding",
+      "productId": "3track-sliding",
+      "packagesSectionId": "wm-standard-packages"
+    },
+    {
+      "family": "frameless-shower",
+      "url": "https://woodenmax.in/products/shower-partitions/frameless-shower-partition",
+      "path": "/products/shower-partitions/frameless-shower-partition",
+      "file": "products/shower-partitions/frameless-shower-partition.html",
+      "introducingCommit": "a16e8c3e552fac71886cf0de3ca838b522911f3c",
+      "pilotTest": "tools/test-frameless-shower-product-pilot.cjs",
+      "calculatorSelector": "#price-calculator-frameless-shower-partition",
+      "productId": "frameless-shower-partition",
+      "packagesSectionId": "wm-standard-packages"
+    },
+    {
+      "family": "aluminium-pergola",
+      "url": "https://woodenmax.in/products/pergola/aluminium-pergola",
+      "path": "/products/pergola/aluminium-pergola",
+      "file": "products/pergola/aluminium-pergola.html",
+      "introducingCommit": "650c86731d8158f0d66fab8bd4088a380f5f6e2f",
+      "pilotTest": "tools/test-pergola-product-pilot.cjs",
+      "calculatorSelector": "#price-calculator-pergola",
+      "productId": "pergola-fixed_aluminium_glass",
+      "packagesSectionId": "wm-standard-packages-pergola"
+    }
+  ],
+  "contracts": {
+    "calculatorFinder": {
+      "label": "Calculator Finder",
+      "exactCount": 1,
+      "preferredClass": "wm-calculator-finder",
+      "forbidFloatingCalcButton": true
+    },
+    "gallery": {
+      "mainImageId": "product-main-image",
+      "lcp": { "loading": "eager", "fetchpriority": "high" },
+      "defaultAspectRatio": "1 / 1",
+      "intrinsicOptInAttribute": "data-product-pilot-gallery-ratio",
+      "intrinsicOptInValue": "intrinsic"
+    },
+    "responsiveShell": {
+      "mobileMaxPx": 767,
+      "desktopGridMinPx": 1100,
+      "narrowFlowMaxPx": 980,
+      "desktopFlowMaxPx": 1180
+    },
+    "accordion": {
+      "groupClass": "wm-product-pilot-accordions",
+      "singleOpen": true,
+      "sourceAttribute": "data-product-pilot-source",
+      "technicalSpecsAttribute": "data-product-pilot-technical-specs",
+      "preserveCalculatorLeadAttribute": "data-product-pilot-preserve-calculator-lead",
+      "oneOpenDetailsAttribute": "data-product-pilot-one-open-details"
+    },
+    "noJs": {
+      "progressiveEnhancementOnly": true,
+      "ssrPackagesRequired": true,
+      "offerJsonLdId": "wm-std-pkg-jsonld"
+    },
+    "pricing": {
+      "equality": ["canonicalRecord", "ssrCard", "offerJsonLd"],
+      "noMonetaryFallbacks": true
+    }
+  },
+  "viewportGatesPx": [390, 768, 1024, 1366, 1440],
+  "crossFamilyGate": {
+    "requiredWhenTouching": [
+      "css/product-page-pilot.css",
+      "js/product-page-pilot.js",
+      "js/pricing/pricing-models.js",
+      "js/standard-size-packages.js"
+    ],
+    "requiredSuites": [
+      "tools/test-3track-product-pilot.cjs",
+      "tools/test-frameless-shower-product-pilot.cjs",
+      "tools/test-pergola-product-pilot.cjs",
+      "tools/verify-pricing-sync.cjs"
+    ],
+    "recommendedSuites": [
+      "tools/verify-standard-packages.cjs",
+      "tools/test-pricing-models.cjs",
+      "tools/test-rate-sync-idempotence.cjs",
+      "tools/verify-no-seo-drift.cjs"
+    ],
+    "harness": "tools/reference-v1-cross-family-gate.cjs",
+    "rule": "Shared pilot/pricing/calc infrastructure changes must pass the required suites against all three golden reference pages before merge or deploy. Page-only migrations must not edit shared pilot/pricing behavior."
+  }
+}
