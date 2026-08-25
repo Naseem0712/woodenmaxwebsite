@@ -9,17 +9,8 @@ if (typeof PriceCalculatorBase !== 'undefined') {
     constructor(productId, productConfig, containerId) {
       super(productId, productConfig, containerId);
       
-      // Track selection rates from config
-      this.TRACK_RATES = productConfig.rates.trackOptions || {
-        "2track": 0,
-        "3track": 100
-      };
-      
-      // Glass rates from config
-      this.GLASS_RATES = productConfig.rates.glass || {
-        "6mm": 15,
-        "8mm": 20
-      };
+      this.productConfig = productConfig;
+      if (!productConfig || !productConfig.rates || !window.WMPriceModels) throw new Error('authoritative-pricing-data-unavailable');
       
       // Height limits
       this.HEIGHT_RECOMMENDED = 6; // feet
@@ -118,29 +109,11 @@ if (typeof PriceCalculatorBase !== 'undefined') {
         return;
       }
       
-      // Calculate base rate based on track selection
-      let baseRatePerSqft = this.BASE_RATE_PER_SQFT;
-      if (trackOption === '3track' && this.TRACK_RATES['3track']) {
-        // 3 track = base rate + mesh rate (₹100/sqft) = ₹500 + ₹100 = ₹600/sqft
-        baseRatePerSqft = baseRatePerSqft + this.TRACK_RATES['3track'];
-      }
-      // 2 track = base rate only (₹500/sqft)
-      
-      // Base cost per window
-      const baseCostPerWindow = (baseRatePerSqft * areaSqft) + this.BASE_HARDWARE_COST;
-      
-      // Glass add-ons (per sqft)
-      let glassAdditionPerSqft = 0;
-      if (glassOption === '6mm' && this.GLASS_RATES['6mm']) {
-        glassAdditionPerSqft = this.GLASS_RATES['6mm']; // ₹15/sqft
-      } else if (glassOption === '8mm' && this.GLASS_RATES['8mm']) {
-        glassAdditionPerSqft = this.GLASS_RATES['8mm']; // ₹20/sqft
-      }
-      // 5mm is included in base rate
-      
-      // Calculate per window cost
-      const glassCost = glassAdditionPerSqft * areaSqft;
-      const perWindowCost = baseCostPerWindow + glassCost;
+      const perWindowCost = window.WMPriceModels.threeTrack(this.productConfig, {
+        /* The approved model is area-linear plus one hardware set. Passing
+           area × 1 preserves single and multiple-size calculator behaviour. */
+        width: areaSqft, height: 1, track: trackOption, glassMm: String(glassOption).replace('mm', '')
+      });
       
       // Total cost for all windows
       const subtotal = perWindowCost * numberOfWindows;
@@ -185,23 +158,9 @@ if (typeof PriceCalculatorBase !== 'undefined') {
       const trackOption = this.getTrackOption();
       const glassOption = this.getGlassOption();
       
-      // Calculate amounts with track selection
-      let baseRate = this.BASE_RATE_PER_SQFT;
-      if (trackOption === '3track' && this.TRACK_RATES['3track']) {
-        baseRate += this.TRACK_RATES['3track']; // ₹500 + ₹100 = ₹600/sqft
-      }
-      
-      // Glass add-on
-      let glassAdditionPerSqft = 0;
-      if (glassOption === '6mm' && this.GLASS_RATES['6mm']) {
-        glassAdditionPerSqft = this.GLASS_RATES['6mm']; // ₹15/sqft
-      } else if (glassOption === '8mm' && this.GLASS_RATES['8mm']) {
-        glassAdditionPerSqft = this.GLASS_RATES['8mm']; // ₹20/sqft
-      }
-      
-      const baseCostPerWindow = (baseRate * areaSqft) + this.BASE_HARDWARE_COST;
-      const glassCost = glassAdditionPerSqft * areaSqft;
-      const perWindowCost = baseCostPerWindow + glassCost;
+      const perWindowCost = window.WMPriceModels.threeTrack(this.productConfig, {
+        width: areaSqft, height: 1, track: trackOption, glassMm: String(glassOption).replace('mm', '')
+      });
       const totalCost = perWindowCost * numberOfWindows;
       
       // Email body

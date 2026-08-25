@@ -14,27 +14,20 @@ class FramelessShowerCalculator {
     this.productId = productId;
     this.config = productConfig;
     this.containerId = containerId || `price-calculator-${productId}`;
+    this.productConfig = productConfig;
+    if (!productConfig || !productConfig.rates || !window.WMPriceModels) throw new Error('authoritative-pricing-data-unavailable');
     
     // Rates from config
     this.MAX_HEIGHT = productConfig.rates.maxHeight || 8;
     this.STANDARD_HEIGHT = productConfig.rates.standardHeight || 7;
     
     // Hinged rates
-    this.HINGED_GLASS_RATE = productConfig.rates.hinged?.glassRate || 350;
-    this.HINGED_HARDWARE = productConfig.rates.hinged?.hardware || {
-      'mill-finish': 4500,
-      'black': 5500,
-      'gold': 5500,
-      'rose-gold': 7500
-    };
+    this.HINGED_GLASS_RATE = productConfig.rates.hinged?.glassRate;
+    this.HINGED_HARDWARE = productConfig.rates.hinged?.hardware;
     
     // Sliding rates
-    this.SLIDING_GLASS_RATE = productConfig.rates.sliding?.glassRate || 450;
-    this.SLIDING_HARDWARE = productConfig.rates.sliding?.hardware || {
-      'mill-finish': 5500,
-      'black': 6500,
-      'gold': 6500
-    };
+    this.SLIDING_GLASS_RATE = productConfig.rates.sliding?.glassRate;
+    this.SLIDING_HARDWARE = productConfig.rates.sliding?.hardware;
     
     // User details
     this.userDetailsSubmitted = false;
@@ -293,14 +286,16 @@ class FramelessShowerCalculator {
     }
     
     // Get rates based on door type
-    const glassRate = doorType === 'sliding' ? this.SLIDING_GLASS_RATE : this.HINGED_GLASS_RATE;
-    const hardwareRates = doorType === 'sliding' ? this.SLIDING_HARDWARE : this.HINGED_HARDWARE;
-    const hardwareRate = hardwareRates[hardwareFinish] || hardwareRates['mill-finish'];
+    const block = doorType === 'sliding' ? this.productConfig.rates.sliding : this.productConfig.rates.hinged;
+    const glassRate = block.glassRate;
+    const hardwareRate = block.hardware[hardwareFinish];
     
     // Calculate costs for one unit
     const glassCostPerUnit = areaSqft * glassRate;
     const hardwareCostPerUnit = hardwareRate * doorCount;
-    const totalCostPerUnit = glassCostPerUnit + hardwareCostPerUnit;
+    const totalCostPerUnit = window.WMPriceModels.framelessShower(this.productConfig, {
+      width: totalWidth, height, mode: doorType, finish: hardwareFinish, doorCount
+    });
     
     // Total cost with quantity
     const totalCost = totalCostPerUnit * quantity;

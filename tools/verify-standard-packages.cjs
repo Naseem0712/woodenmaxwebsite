@@ -44,6 +44,10 @@ ctx.document = {
   body: null
 };
 
+vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'js', 'pricing', 'pricing-models.js'), 'utf8'), ctx, {
+  filename: 'pricing-models.js'
+});
+
 vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'js', 'standard-size-packages.js'), 'utf8'), ctx, {
   filename: 'standard-size-packages.js'
 });

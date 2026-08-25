@@ -10,6 +10,7 @@ class ProductManager {
     this.cache = new Map();
     this.dataSource = 'json'; // 'json' or 'api'
     this.apiBaseUrl = '/api'; // Future API base URL
+    this.lastLoadError = null;
   }
   
   /**
@@ -30,24 +31,18 @@ class ProductManager {
         // data/ lives at the site root; no depth arithmetic needed.
         const jsonPath = '/data/products.json';
         
-        // Check if we're using file:// protocol (won't work with fetch)
+        // file:// cannot verify the authoritative JSON source.
         if (window.location.protocol === 'file:') {
-          // Use embedded fallback data for file:// protocol
-          const fallbackData = this.getFallbackData();
-          this.products = fallbackData.products || [];
-          this.globalRates = fallbackData.globalRates || {};
-          return this.products;
+          throw new Error('authoritative-pricing-data-unavailable');
         }
         
         const response = await fetch(jsonPath);
         if (!response.ok) {
-          const fallbackData = this.getFallbackData();
-          this.products = fallbackData.products || [];
-          this.globalRates = fallbackData.globalRates || {};
-          return this.products;
+          throw new Error('authoritative-pricing-data-unavailable');
         }
         const data = await response.json();
-        this.products = data.products || [];
+        if (!data || !Array.isArray(data.products)) throw new Error('authoritative-pricing-data-unavailable');
+        this.products = data.products;
         this.globalRates = data.globalRates || {};
         return this.products;
       } else {
@@ -61,7 +56,10 @@ class ProductManager {
         return this.products;
       }
     } catch (error) {
-      return [];
+      this.lastLoadError = 'authoritative-pricing-data-unavailable';
+      try { console.warn('[wm-pricing] Authoritative pricing data unavailable.'); } catch (ignore) {}
+      try { window.dispatchEvent(new CustomEvent('woodenmax:pricing-unavailable')); } catch (ignore) {}
+      throw new Error(this.lastLoadError);
     }
   }
   
@@ -154,10 +152,6 @@ class ProductManager {
           return product;
         }
         
-        // Provide helpful error message for missing products
-        if (this.dataSource === 'json' && window.location.protocol === 'file:') {
-          throw new Error(`Product not found: ${productId}. When using file:// protocol, only limited products are available in fallback data. Please use a web server (e.g., Live Server) to access all products.`);
-        }
         throw new Error(`Product not found: ${productId}`);
       } else {
         // Future: Direct API call
@@ -170,6 +164,9 @@ class ProductManager {
         return product;
       }
     } catch (error) {
+      this.lastLoadError = 'authoritative-pricing-data-unavailable';
+      try { console.warn('[wm-pricing] Product pricing unavailable.'); } catch (ignore) {}
+      try { window.dispatchEvent(new CustomEvent('woodenmax:pricing-unavailable')); } catch (ignore) {}
       return null;
     }
   }
@@ -291,6 +288,23 @@ class ProductManager {
   }
 }
 
+// Create a non-price fallback state rather than silently substituting rates.
+function showPricingUnavailableState() {
+  if (typeof document === 'undefined') return;
+  document.querySelectorAll('[data-product], #product-pricing-root').forEach((container) => {
+    if (container.querySelector('[data-pricing-unavailable]')) return;
+    const status = document.createElement('p');
+    status.setAttribute('data-pricing-unavailable', '1');
+    status.setAttribute('role', 'status');
+    status.textContent = 'Pricing temporarily unavailable / being updated.';
+    container.appendChild(status);
+    container.querySelectorAll('[data-action="pkg-quote"], [data-action="pkg-buy"], button[type="submit"]').forEach((button) => {
+      button.disabled = true;
+      button.setAttribute('aria-disabled', 'true');
+    });
+  });
+}
+
 // Create global instance
 const productManager = new ProductManager();
 
@@ -298,5 +312,6 @@ const productManager = new ProductManager();
 if (typeof window !== 'undefined') {
   window.ProductManager = ProductManager;
   window.productManager = productManager;
+  window.addEventListener('woodenmax:pricing-unavailable', showPricingUnavailableState);
 }
 

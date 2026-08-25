@@ -32,6 +32,14 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     return '\u20B9 ' + r.lo.toLocaleString('en-IN') + ' \u2013 \u20B9 ' + r.hi.toLocaleString('en-IN');
   }
+  function pricingUnavailable() {
+    var out = document.getElementById('pricing-output');
+    if (out) {
+      out.setAttribute('role', 'status');
+      out.textContent = 'Pricing temporarily unavailable / being updated.';
+    }
+    try { window.dispatchEvent(new CustomEvent('woodenmax:pricing-unavailable')); } catch (ignore) {}
+  }
 
   function formatLaminatedLabel(k) {
     var s = String(k).replace(/_/g, ' ');
@@ -46,8 +54,10 @@ document.addEventListener('DOMContentLoaded', function () {
       return r.json();
     })
     .then(function (rates) {
+      if (!window.WMPriceModels || !rates || typeof rates !== 'object') throw new Error('authoritative-pricing-data-unavailable');
       var areaDefault = 15 * 12;
-      var basePerSqft = rates.base_pergola_per_sqft || 850;
+      var basePerSqft = Number(rates.base_pergola_per_sqft);
+      if (!Number.isFinite(basePerSqft)) throw new Error('authoritative-pricing-data-unavailable');
       var rangeMin = 800,
         rangeMax = 1200;
 
@@ -287,20 +297,10 @@ document.addEventListener('DOMContentLoaded', function () {
         var coatingAdd = coatingOptions[coatingKey] ? Number(coatingOptions[coatingKey]) : 0;
         var glazingRate = glazing ? Number(glazing.rate) : 0;
         var material = (document.getElementById('select-material') && document.getElementById('select-material').value) || 'aluminium';
-        var aluminiumRate =
-          Number(
-            document.getElementById('input-al-rate') ? document.getElementById('input-al-rate').value : rates.aluminium_rate_per_sqft || basePerSqft
-          ) ||
-          rates.aluminium_rate_per_sqft ||
-          basePerSqft;
-        var ironKgPerSqft =
-          Number(document.getElementById('input-iron-kg') ? document.getElementById('input-iron-kg').value : rates.iron_kg_per_sqft || 5.5) ||
-          rates.iron_kg_per_sqft ||
-          5.5;
-        var steelRatePerKg =
-          Number(document.getElementById('input-steel-rate') ? document.getElementById('input-steel-rate').value : rates.steel_rate_per_kg || 180) ||
-          rates.steel_rate_per_kg ||
-          180;
+        var aluminiumRate = Number(document.getElementById('input-al-rate') ? document.getElementById('input-al-rate').value : rates.aluminium_rate_per_sqft);
+        var ironKgPerSqft = Number(document.getElementById('input-iron-kg') ? document.getElementById('input-iron-kg').value : rates.iron_kg_per_sqft);
+        var steelRatePerKg = Number(document.getElementById('input-steel-rate') ? document.getElementById('input-steel-rate').value : rates.steel_rate_per_kg);
+        if (!Number.isFinite(aluminiumRate) || !Number.isFinite(ironKgPerSqft) || !Number.isFinite(steelRatePerKg)) throw new Error('authoritative-pricing-data-unavailable');
         var fittingMode = (document.getElementById('select-fitting') && document.getElementById('select-fitting').value) || 'system';
         var ironRatePerSqft = rates.iron_rate_per_sqft
           ? Number(rates.iron_rate_per_sqft)
@@ -367,6 +367,16 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         }
         var estimatedTotal = baseTotal + glazingTotal + coatingTotal + pillarTotal + motorTotal;
+        /* A package preset carries its clearance factor, which is not a free
+           custom-size input. Keep its calculator total on the exact same
+           canonical record as the card/Offer. Ordinary calculator changes
+           clear this marker below and retain their existing estimate logic. */
+        var packagePreset = window.__pergolaPackagePreset;
+        if (packagePreset && Number(packagePreset.width) === width && Number(packagePreset.depth) === depth &&
+          material === 'aluminium' && glazingKey === packagePreset.roof && coatingKey === packagePreset.coating) {
+          estimatedTotal = window.WMPriceModels.pergola(rates, packagePreset);
+          materialDetail += ' · package preset (' + packagePreset.clearanceFt + ' ft clearance)';
+        }
 
         try {
           var labelF = document.getElementById('label-fitting');
@@ -751,8 +761,8 @@ document.addEventListener('DOMContentLoaded', function () {
       [inputWidth, inputDepth, inputFrameLen, selectCoating, selectGlazing, selectMaterial, selectFitting]
         .filter(Boolean)
         .forEach(function (el) {
-          el.addEventListener('input', renderPricing);
-          el.addEventListener('change', renderPricing);
+          el.addEventListener('input', function () { window.__pergolaPackagePreset = null; renderPricing(); });
+          el.addEventListener('change', function () { window.__pergolaPackagePreset = null; renderPricing(); });
         });
       ['select-pillar-type', 'input-pillar-count', 'select-motor-package'].forEach(function (id) {
         var el = document.getElementById(id);
@@ -763,6 +773,23 @@ document.addEventListener('DOMContentLoaded', function () {
       });
 
       window.wmRefreshPergolaPricingDisplay = renderPricing;
+
+      document.addEventListener('wm:pergola-package-preset', function (event) {
+        var preset = event && event.detail;
+        if (!preset) return;
+        try {
+          var canonical = window.WMPriceModels.pergola(rates, preset);
+          if (Number(canonical) !== Number(preset.amount)) throw new Error('package-preset-mismatch');
+          inputWidth.value = preset.width;
+          inputDepth.value = preset.depth;
+          selectMaterial.value = 'aluminium';
+          selectCoating.value = preset.coating;
+          var roofIndex = options.findIndex(function (option) { return option.key === preset.roof; });
+          if (roofIndex >= 0) selectGlazing.value = String(roofIndex);
+          window.__pergolaPackagePreset = preset;
+          renderPricing();
+        } catch (ignore) { pricingUnavailable(); }
+      });
 
       pricingRoot.addEventListener('click', function (ev) {
         if (!ev.target || ev.target.id !== 'pergola-inquiry-submit') return;
@@ -945,7 +972,11 @@ document.addEventListener('DOMContentLoaded', function () {
       window.ALLUKRAFT_RATES = rates;
       window.ALLUKRAFT_OPTIONS = options;
       window.ALLUKRAFT_BASE = basePerSqft;
-      var aluminiumRateDefault = Number(rates.aluminium_rate_per_sqft || basePerSqft) || basePerSqft;
+      window.WMPergolaCanonicalPrice = function (input) {
+        return window.WMPriceModels.pergola(rates, input);
+      };
+      var aluminiumRateDefault = Number(rates.aluminium_rate_per_sqft);
+      if (!Number.isFinite(aluminiumRateDefault)) throw new Error('authoritative-pricing-data-unavailable');
       window.computeAluPergolaEstimate = function (
         widthFt,
         depthFt,
@@ -1064,8 +1095,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       } catch (e) {}
     })
-    .catch(function (err) {
-      pricingRoot.innerHTML = '<p style="color:#b00;">Unable to load pricing data.</p>';
-      console.error('pricing load error', err);
+    .catch(function () {
+      pricingUnavailable();
+      try { console.warn('[wm-pricing] Authoritative pergola data unavailable.'); } catch (ignore) {}
     });
 });

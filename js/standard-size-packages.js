@@ -66,13 +66,50 @@
 
   function setRates(r) { cachedRates = r || null; }
   function getRatesSync() { return cachedRates; }
+  function pricingModels() { return root.WMPriceModels || null; }
+  function ensurePricingModels() {
+    if (pricingModels()) return Promise.resolve(pricingModels());
+    if (typeof document === 'undefined') return Promise.reject(new Error('pricing-model-unavailable'));
+    return new Promise(function (resolve, reject) {
+      var existing = document.getElementById('wm-pricing-models-script');
+      if (existing) {
+        existing.addEventListener('load', function () { pricingModels() ? resolve(pricingModels()) : reject(new Error('pricing-model-unavailable')); });
+        existing.addEventListener('error', function () { reject(new Error('pricing-model-unavailable')); });
+        return;
+      }
+      var script = document.createElement('script');
+      script.id = 'wm-pricing-models-script';
+      script.src = '/js/pricing/pricing-models.js';
+      script.onload = function () { pricingModels() ? resolve(pricingModels()) : reject(new Error('pricing-model-unavailable')); };
+      script.onerror = function () { reject(new Error('pricing-model-unavailable')); };
+      document.head.appendChild(script);
+    });
+  }
+  function pricingUnavailable(section) {
+    if (!section) return;
+    section.setAttribute('data-pricing-available', '0');
+    var actions = section.querySelectorAll('[data-action="pkg-quote"], [data-action="pkg-buy"]');
+    Array.prototype.forEach.call(actions, function (button) { button.disabled = true; button.setAttribute('aria-disabled', 'true'); });
+    if (!section.querySelector('[data-pricing-unavailable]')) {
+      var status = document.createElement('p');
+      status.setAttribute('data-pricing-unavailable', '1');
+      status.setAttribute('role', 'status');
+      status.textContent = 'Pricing temporarily unavailable / being updated.';
+      section.querySelector('.wm-std-pkg-inner').appendChild(status);
+    }
+    try { root.dispatchEvent(new CustomEvent('woodenmax:pricing-unavailable')); } catch (ignore) {}
+  }
   function ensureRates() {
     if (cachedRates) return Promise.resolve(cachedRates);
-    if (typeof fetch === 'undefined') return Promise.resolve(null);
-    return fetch(RATES_JSON).then(function (r) { return r.json(); }).then(function (data) {
+    if (typeof fetch === 'undefined') return Promise.reject(new Error('pricing-data-unavailable'));
+    return fetch(RATES_JSON).then(function (r) {
+      if (!r.ok) throw new Error('pricing-data-unavailable');
+      return r.json();
+    }).then(function (data) {
+      if (!data || typeof data !== 'object') throw new Error('pricing-data-unavailable');
       cachedRates = data;
       return data;
-    }).catch(function () { return null; });
+    });
   }
   function clearanceFactor(clearanceFt) {
     return (Number(clearanceFt) || 9) / 9;
@@ -155,6 +192,11 @@
 
   /** glassMm: 6 economy · 8 premium */
   function priceWindow(product, w, h, withMesh, glassMm) {
+    if (product && product.id === '3track-sliding') {
+      var model = pricingModels();
+      if (!model) throw new Error('pricing-model-unavailable');
+      return model.threeTrack(product, { width: w, height: h, track: withMesh ? '3track' : '2track', glassMm: glassMm });
+    }
     var rates = product.rates || {};
     var area = w * h;
     var base = Number(rates.baseRate) || 0;
@@ -181,11 +223,9 @@
     var doorCount = 1;
     mode = mode || 'hinged';
     if (id === 'frameless-shower-partition') {
-      var block = (mode === 'sliding' ? rates.sliding : rates.hinged) || rates.hinged || {};
-      var glassRate = Number(block.glassRate) || 0;
-      var hwMap = block.hardware || {};
-      var hw = Number(hwMap['mill-finish']) || Number(hwMap.black) || 0;
-      return round2(area * glassRate + hw * doorCount);
+      var model = pricingModels();
+      if (!model) throw new Error('pricing-model-unavailable');
+      return model.framelessShower(product, { width: w, height: h, mode: mode, finish: 'mill-finish', doorCount: doorCount });
     }
     if (id === 'premium-black-profile-shower') {
       return round2(area * (Number(rates.glassRate) || 0) + (Number(rates.hardwarePerDoor) || 0));
@@ -335,20 +375,11 @@
   }
 
   function pricePergolaGlass(rates, w, l, clearanceFt, lineId) {
-    rates = rates || cachedRates || {};
-    var area = w * l;
-    var catalog = rates.pergola_catalog || {};
-    var lines = catalog.lines || [];
-    var line = lines.length ? lines[0] : null;
-    var want = lineId || 'fixed_aluminium_glass';
-    for (var i = 0; i < lines.length; i++) {
-      if (lines[i].id === want) { line = lines[i]; break; }
-    }
-    var structRate = line ? Number(line.aluminium_structure_per_sqft) : Number(rates.base_pergola_per_sqft) || 1178;
-    var glassRates = rates.glass_unit_rates_per_sqft || {};
-    var glassRate = Number(glassRates['10mm_clr']) || 219;
-    var coat = (rates.coating_price && rates.coating_price.plain) ? Number(rates.coating_price.plain) : 106;
-    return round2(area * (structRate + glassRate + coat) * clearanceFactor(clearanceFt));
+    var model = pricingModels();
+    if (!model) throw new Error('pricing-model-unavailable');
+    return model.pergola(rates || cachedRates, {
+      width: w, depth: l, clearanceFt: clearanceFt, lineId: lineId || 'fixed_aluminium_glass', roof: '10mm_clr', coating: 'plain'
+    });
   }
 
   function priceDuctShaftZ(rates, widthFt, floors, wallMm, withTrap) {
@@ -983,6 +1014,15 @@
 
   function goToCustomSize(calcEl, product, pkg) {
     if (!calcEl) return;
+    if (pkg && pkg.kind === 'pergola-glass') {
+      try {
+        document.dispatchEvent(new CustomEvent('wm:pergola-package-preset', {
+          detail: { width: pkg.size.w, depth: pkg.size.h, clearanceFt: pkg.size.clearance, lineId: pkg.pergolaLine || 'fixed_aluminium_glass', roof: '10mm_clr', coating: 'plain', amount: pkg.amount }
+        }));
+      } catch (ePreset) { /* unavailable pricing state remains fail-safe */ }
+      calcEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
     var unit = calcEl.querySelector('#calc-unit') || document.getElementById('calc-unit');
     if (unit) setInputValue(unit, 'ft');
     if (pkg && pkg.size) {
@@ -1115,10 +1155,12 @@
     var sub = opts.sub || 'Live calculator rates \u00b7 Update automatically when prices change.';
     var scrollCls = packages.length > 12 ? ' wm-std-pkg--scroll-grid' : '';
     var productAttr = product && product.id ? ' data-product-id="' + escapeHtml(product.id) + '"' : '';
+    var revision = opts.pricingRevision ? ' data-pricing-revision="' + escapeHtml(opts.pricingRevision) + '"' : '';
     var gridHtml = packages.map(cardHtml).join('');
     return (
       '<section id="' + escapeHtml(sectionId) + '" class="wm-std-pkg wm-std-pkg--premium' + scrollCls + '"' +
         productAttr +
+        revision +
         ' data-ssr="1" aria-label="Standard size packages">' +
         '<div class="wm-std-pkg-inner">' +
           '<header class="wm-std-pkg-header">' +
@@ -1153,6 +1195,15 @@
     }
   }
 
+  function getPricingRevision(product, rates, lineId) {
+    var model = pricingModels();
+    if (!model || !product) return '';
+    if (product.id === '3track-sliding') return model.revisionFor('3track', product);
+    if (product.id === 'frameless-shower-partition') return model.revisionFor('frameless-shower', product);
+    if (product.category === 'pergola') return model.revisionFor('pergola', rates, { lineId: lineId || String(product.id || '').replace(/^pergola-/, '') || 'fixed_aluminium_glass' });
+    return '';
+  }
+
   function bindSectionClicks(section, sectionId) {
     if (!section || section.getAttribute('data-pkg-bound') === '1') return;
     section.setAttribute('data-pkg-bound', '1');
@@ -1180,10 +1231,13 @@
   function hydrateSection(section, anchorEl, product, packages, opts) {
     opts = opts || {};
     var sectionId = section.id || opts.sectionId || 'wm-standard-packages';
+    var expected = section.getAttribute('data-pricing-revision');
+    var actual = '';
+    try { actual = getPricingRevision(product, cachedRates, opts.lineId); } catch (eRevision) { pricingUnavailable(section); return; }
+    if (expected && actual !== expected) { pricingUnavailable(section); return; }
     sectionState[sectionId] = { product: product, packages: packages, anchorEl: anchorEl };
     updateSectionPrices(section, packages);
     bindSectionClicks(section, sectionId);
-    try { injectPackageJsonLd(product, packages, sectionId); } catch (eLd) { /* ignore */ }
   }
 
   function isStaticPackageSection(el) {
@@ -1278,9 +1332,14 @@
         heading: headingFor(product),
         sub: isPremiumSliding(product)
           ? 'Live rates \u00b7 Package includes ' + (packages[0] && packages[0].glassMm ? packages[0].glassMm : 8) + 'mm clear toughened \u00b7 Mesh variants when product supports mesh \u00b7 Sizes 7\u00d77 to 12\u00d78.'
-          : 'Live calculator rates \u00b7 Update when supplier rates change.'
+          : 'Live calculator rates \u00b7 Update when supplier rates change.',
+        pricingRevision: getPricingRevision(product, cachedRates)
       });
-    }).catch(function () { calcEl.removeAttribute('data-std-pkg-mounted'); });
+    }).catch(function () {
+      var existing = document.getElementById('wm-standard-packages');
+      if (existing) pricingUnavailable(existing);
+      calcEl.removeAttribute('data-std-pkg-mounted');
+    });
   }
 
   function mountMirror() {
@@ -1344,15 +1403,27 @@
       renderSection(rootEl, fakeProduct, packages, {
         sectionId: 'wm-standard-packages-pergola',
         heading: 'Standard pergola packages',
-        sub: '6\u00d725 to 35\u00d745 ft footprints \u00b7 9 / 9.5 / 10 ft clearance \u00b7 Glass roof live rates.'
+        sub: '6\u00d725 to 35\u00d745 ft footprints \u00b7 9 / 9.5 / 10 ft clearance \u00b7 Glass roof live rates.',
+        lineId: lineId,
+        pricingRevision: getPricingRevision(fakeProduct, rates || cachedRates, lineId)
       });
     }
 
     if (cachedRates) { run(cachedRates); return; }
-    ensureRates().then(run).catch(function () { rootEl.removeAttribute('data-std-pkg-mounted'); });
+    ensureRates().then(run).catch(function () {
+      var existing = document.getElementById('wm-standard-packages-pergola');
+      if (existing) pricingUnavailable(existing);
+      rootEl.removeAttribute('data-std-pkg-mounted');
+    });
   }
 
   function mountAll() {
+    if (!pricingModels()) {
+      ensurePricingModels().then(mountAll).catch(function () {
+        Array.prototype.forEach.call(document.querySelectorAll('.wm-std-pkg[data-pricing-revision]'), pricingUnavailable);
+      });
+      return;
+    }
     ensureCss();
     ensureRates().then(function () {
       Array.prototype.forEach.call(
@@ -1456,6 +1527,7 @@
     hydrateSection: hydrateSection,
     updateSectionPrices: updateSectionPrices,
     pricePergolaGlass: pricePergolaGlass,
+    getPricingRevision: getPricingRevision,
     priceDuctShaftZ: priceDuctShaftZ,
     priceWindow: priceWindow,
     priceShower: priceShower,

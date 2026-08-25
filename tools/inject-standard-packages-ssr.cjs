@@ -68,6 +68,7 @@ const ctx = {
   fetch: undefined
 };
 ctx.window = ctx;
+vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'js', 'pricing', 'pricing-models.js'), 'utf8'), ctx);
 vm.runInNewContext(fs.readFileSync(path.join(ROOT, 'js', 'standard-size-packages.js'), 'utf8'), ctx);
 const api = ctx.WMStandardPackages;
 if (!api || typeof api.buildSectionHtml !== 'function') {
@@ -356,6 +357,17 @@ function buildJsonLdScript(job, pageUrl) {
 }
 
 function injectJob(html, job, absFile) {
+  /* Avoid formatting churn: pages whose existing SSR contract is already
+     valid are byte-stable. Only canonical-pricing targets need a release
+     revision marker added by this migration. */
+  const relForTarget = path.relative(ROOT, absFile).replace(/\\/g, '/');
+  const target = relForTarget === 'products/aluminium-windows/3-track-sliding-window.html' ||
+    relForTarget === 'products/shower-partitions/frameless-shower-partition.html' ||
+    relForTarget === 'products/pergola/aluminium-pergola.html';
+  const current = verifyFileContent(html, absFile);
+  if (current.ok && (!target || /\bdata-pricing-revision=["'][^"']+["']/.test(html))) {
+    return { html, changed: false, cardCount: job.packages.length, sectionId: job.sectionId, productId: job.product.id };
+  }
   let out = stripExistingSections(html);
   // Recompute insert point after strip
   const job2 = resolveCalcJob(out, absFile);
@@ -363,7 +375,11 @@ function injectJob(html, job, absFile) {
   const sectionHtml = api.buildSectionHtml(job2.product, job2.packages, {
     sectionId: job2.sectionId,
     heading: job2.heading,
-    sub: job2.sub
+    sub: job2.sub,
+    lineId: job2.kind === 'pergola' ? String(job2.product.id).replace(/^pergola-/, '') : undefined,
+    pricingRevision: api.getPricingRevision
+      ? api.getPricingRevision(job2.product, job2.kind === 'pergola' ? siteRates : null, job2.kind === 'pergola' ? String(job2.product.id).replace(/^pergola-/, '') : undefined)
+      : ''
   });
   const insertAt = job2.insertAt;
   out = out.slice(0, insertAt) + '\n' + sectionHtml + '\n' + out.slice(insertAt);
