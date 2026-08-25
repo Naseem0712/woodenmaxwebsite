@@ -1015,10 +1015,10 @@
   function goToCustomSize(calcEl, product, pkg) {
     if (!calcEl) return;
     if (pkg && pkg.kind === 'pergola-glass') {
+      var preset = { width: pkg.size.w, depth: pkg.size.h, clearanceFt: pkg.size.clearance, lineId: pkg.pergolaLine || 'fixed_aluminium_glass', roof: '10mm_clr', coating: 'plain', amount: pkg.amount };
       try {
-        document.dispatchEvent(new CustomEvent('wm:pergola-package-preset', {
-          detail: { width: pkg.size.w, depth: pkg.size.h, clearanceFt: pkg.size.clearance, lineId: pkg.pergolaLine || 'fixed_aluminium_glass', roof: '10mm_clr', coating: 'plain', amount: pkg.amount }
-        }));
+        if (typeof root.wmApplyPergolaPackagePreset === 'function') root.wmApplyPergolaPackagePreset(preset);
+        else document.dispatchEvent(new CustomEvent('wm:pergola-package-preset', { detail: preset }));
       } catch (ePreset) { /* unavailable pricing state remains fail-safe */ }
       calcEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       return;

@@ -774,8 +774,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       window.wmRefreshPergolaPricingDisplay = renderPricing;
 
-      document.addEventListener('wm:pergola-package-preset', function (event) {
-        var preset = event && event.detail;
+      function applyPackagePreset(preset) {
         if (!preset) return;
         try {
           var canonical = window.WMPriceModels.pergola(rates, preset);
@@ -788,7 +787,16 @@ document.addEventListener('DOMContentLoaded', function () {
           if (roofIndex >= 0) selectGlazing.value = String(roofIndex);
           window.__pergolaPackagePreset = preset;
           renderPricing();
-        } catch (ignore) { pricingUnavailable(); }
+          return true;
+        } catch (ignore) {
+          pricingUnavailable();
+          return false;
+        }
+      }
+
+      window.wmApplyPergolaPackagePreset = applyPackagePreset;
+      document.addEventListener('wm:pergola-package-preset', function (event) {
+        applyPackagePreset(event && event.detail);
       });
 
       pricingRoot.addEventListener('click', function (ev) {

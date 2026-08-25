@@ -40,6 +40,15 @@
   object-fit: contain !important;
 }
 
+[data-product-page-layout="gallery-first"][data-product-pilot-gallery-ratio="intrinsic"].wm-product-pilot-ready .wm-product-pilot-gallery .product-main-image-container {
+  aspect-ratio: auto;
+  padding: 0;
+}
+
+[data-product-page-layout="gallery-first"][data-product-pilot-gallery-ratio="intrinsic"].wm-product-pilot-ready .wm-product-pilot-gallery .product-main-image {
+  height: auto !important;
+}
+
 [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity {
   margin-bottom: 1.5rem;
 }
@@ -81,7 +90,8 @@
   display: block !important;
 }
 
-[data-product-page-layout="gallery-first"].wm-product-pilot-ready .price-calculator-container[data-product] {
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .price-calculator-container[data-product],
+[data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-calculator {
   margin-top: 0;
 }
 
@@ -128,14 +138,17 @@
     display: contents !important;
   }
 
-  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .price-calculator-container[data-product] {
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-calculator-lead,
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .price-calculator-container[data-product],
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-calculator {
     grid-column: 2;
     width: 100%;
     max-width: 680px;
   }
 
-  [data-product-page-layout="gallery-first"].wm-product-pilot-ready #wm-standard-packages,
-  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-accordions {
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-std-pkg[data-product-id],
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-accordions,
+  [data-product-page-layout="gallery-first"].wm-product-pilot-ready #weight-summary-root {
     grid-column: 1 / -1;
   }
 
