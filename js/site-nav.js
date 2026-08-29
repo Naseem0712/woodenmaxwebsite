@@ -264,6 +264,14 @@
     legacy.forEach(function (n) { n.parentNode && n.parentNode.removeChild(n); });
   }
 
+  function focusDrawerTrigger (burger) {
+    if (!burger || typeof burger.focus !== 'function') return;
+    try { burger.focus({ preventScroll: true }); }
+    catch (eFocus) {
+      try { burger.focus(); } catch (eFocus2) { /* ignore */ }
+    }
+  }
+
   function setDrawerOpen (open, root) {
     var drawer = root.querySelector('#wmMobileDrawer');
     var backdrop = root.querySelector('#wmDrawerBackdrop');
@@ -292,6 +300,8 @@
       openIcon.style.display = '';
       closeIcon.style.display = 'none';
       document.body.classList.remove('wm-nav-open');
+      // Move focus out of the drawer before aria-hidden/hidden (avoids blocked aria-hidden warnings).
+      focusDrawerTrigger(burger);
       window.setTimeout(function () {
         if (!drawer.classList.contains('is-visible')) {
           drawer.setAttribute('hidden', '');
