@@ -26,7 +26,7 @@ assert(html.includes('/js/pricing/pricing-models.js'), 'the canonical pricing mo
 assert(html.includes('/js/pergola-product-pricing.js?v=20260826p1'), 'the cache-versioned Pergola calculator must load');
 assert(html.includes('/js/standard-size-packages.js?v=20260826p1'), 'the cache-versioned package controller must load');
 assert(html.includes('/js/product-page-pilot.js?v=20260826p1'), 'the cache-versioned shared pilot controller must load');
-assert(html.includes('/js/site-nav.js?v=20260801s1'), 'site nav must load for header chrome');
+assert(html.includes('/js/site-nav.js?v=20260829a1'), 'site nav must load for header chrome');
 assert(html.includes('/js/site-footer.js?v=20260801s1'), 'site footer must load');
 assert(html.includes('wm-product-pilot-calculator-lead'), 'calculator lead must be a direct pilot grid participant');
 assert(!/wm-product-pilot-calculator-column[^>]*>[\s\S]*class="[^"]*wm-product-pilot-calculator-column/.test(html), 'calculator column must not nest another calculator column');
