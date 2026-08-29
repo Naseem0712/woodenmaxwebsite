@@ -1,0 +1,26 @@
+[
+  {
+    "slug": "black-profile-shower-partition",
+    "status": 1,
+    "out": "",
+    "err": "node:internal/modules/run_main:123\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nbrowserType.launch: Executable doesn't exist at C:\\Users\\NASIMA~1\\AppData\\Local\\Temp\\cursor-sandbox-cache\\d884c728018ec2cea07b8f3351b78740\\playwright\\chromium-1228\\chrome-win64\\chrome.exe\r\n╔════════════════════════════════════════════════════════════╗\r\n║ Looks like Playwright was just installed or updated.       ║\r\n║ Please run the following command to download new browsers: ║\r\n║                                                            ║\r\n║     npx playwright install                                 ║\r\n║                                                            ║\r\n║ <3 Patchright Team                                         ║\r\n╚════════════════════════════════════════════════════════════╝\r\n    at C:\\Users\\nasim ahmad\\.codegpt\\skills\\browser-automation\\browser.mjs:220:28 {\r\n  log: [],\r\n  name: 'Error'\r\n}\r\n\r\nNode.js v22.22.0\r\n"
+  },
+  {
+    "slug": "premium-black-profile-shower",
+    "status": 1,
+    "out": "",
+    "err": "node:internal/modules/run_main:123\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nbrowserType.launch: Executable doesn't exist at C:\\Users\\NASIMA~1\\AppData\\Local\\Temp\\cursor-sandbox-cache\\d884c728018ec2cea07b8f3351b78740\\playwright\\chromium-1228\\chrome-win64\\chrome.exe\r\n╔════════════════════════════════════════════════════════════╗\r\n║ Looks like Playwright was just installed or updated.       ║\r\n║ Please run the following command to download new browsers: ║\r\n║                                                            ║\r\n║     npx playwright install                                 ║\r\n║                                                            ║\r\n║ <3 Patchright Team                                         ║\r\n╚════════════════════════════════════════════════════════════╝\r\n    at C:\\Users\\nasim ahmad\\.codegpt\\skills\\browser-automation\\browser.mjs:220:28 {\r\n  log: [],\r\n  name: 'Error'\r\n}\r\n\r\nNode.js v22.22.0\r\n"
+  },
+  {
+    "slug": "slim-frame-shower-partition",
+    "status": 1,
+    "out": "",
+    "err": "node:internal/modules/run_main:123\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nbrowserType.launch: Executable doesn't exist at C:\\Users\\NASIMA~1\\AppData\\Local\\Temp\\cursor-sandbox-cache\\d884c728018ec2cea07b8f3351b78740\\playwright\\chromium-1228\\chrome-win64\\chrome.exe\r\n╔════════════════════════════════════════════════════════════╗\r\n║ Looks like Playwright was just installed or updated.       ║\r\n║ Please run the following command to download new browsers: ║\r\n║                                                            ║\r\n║     npx playwright install                                 ║\r\n║                                                            ║\r\n║ <3 Patchright Team                                         ║\r\n╚════════════════════════════════════════════════════════════╝\r\n    at C:\\Users\\nasim ahmad\\.codegpt\\skills\\browser-automation\\browser.mjs:220:28 {\r\n  log: [],\r\n  name: 'Error'\r\n}\r\n\r\nNode.js v22.22.0\r\n"
+  },
+  {
+    "slug": "aluminium-sliding-window",
+    "status": 1,
+    "out": "",
+    "err": "node:internal/modules/run_main:123\r\n    triggerUncaughtException(\r\n    ^\r\n\r\nbrowserType.launch: Executable doesn't exist at C:\\Users\\NASIMA~1\\AppData\\Local\\Temp\\cursor-sandbox-cache\\d884c728018ec2cea07b8f3351b78740\\playwright\\chromium-1228\\chrome-win64\\chrome.exe\r\n╔════════════════════════════════════════════════════════════╗\r\n║ Looks like Playwright was just installed or updated.       ║\r\n║ Please run the following command to download new browsers: ║\r\n║                                                            ║\r\n║     npx playwright install                                 ║\r\n║                                                            ║\r\n║ <3 Patchright Team                                         ║\r\n╚════════════════════════════════════════════════════════════╝\r\n    at C:\\Users\\nasim ahmad\\.codegpt\\skills\\browser-automation\\browser.mjs:220:28 {\r\n  log: [],\r\n  name: 'Error'\r\n}\r\n\r\nNode.js v22.22.0\r\n"
+  }
+]
