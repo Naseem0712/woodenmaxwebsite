@@ -264,8 +264,12 @@
     legacy.forEach(function (n) { n.parentNode && n.parentNode.removeChild(n); });
   }
 
-  function focusDrawerTrigger (burger) {
+  function focusDrawerTrigger (burger, drawer) {
     if (!burger || typeof burger.focus !== 'function') return;
+    var active = document.activeElement;
+    if (drawer && active && drawer.contains(active) && typeof active.blur === 'function') {
+      try { active.blur(); } catch (eBlur) { /* ignore */ }
+    }
     try { burger.focus({ preventScroll: true }); }
     catch (eFocus) {
       try { burger.focus(); } catch (eFocus2) { /* ignore */ }
@@ -302,7 +306,7 @@
       document.body.classList.remove('wm-nav-open');
       window.setTimeout(function () {
         // Focus burger immediately before aria-hidden/hidden so click focus has settled.
-        focusDrawerTrigger(burger);
+        focusDrawerTrigger(burger, drawer);
         if (!drawer.classList.contains('is-visible')) {
           drawer.setAttribute('hidden', '');
           drawer.setAttribute('aria-hidden', 'true');
@@ -351,8 +355,14 @@
         else closeDrawer();
       });
     }
-    if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-    if (backdrop) backdrop.addEventListener('click', closeDrawer);
+    if (closeBtn) {
+      closeBtn.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      closeBtn.addEventListener('click', closeDrawer);
+    }
+    if (backdrop) {
+      backdrop.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      backdrop.addEventListener('click', closeDrawer);
+    }
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && document.body.classList.contains('wm-nav-open')) closeDrawer();
