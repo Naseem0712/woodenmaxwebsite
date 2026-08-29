@@ -300,8 +300,8 @@
       openIcon.style.display = '';
       closeIcon.style.display = 'none';
       document.body.classList.remove('wm-nav-open');
-      // Move focus out of the drawer before aria-hidden/hidden (avoids blocked aria-hidden warnings).
-      focusDrawerTrigger(burger);
+      // Defer so focus wins over close/backdrop click target after the handler returns.
+      window.setTimeout(function () { focusDrawerTrigger(burger); }, 0);
       window.setTimeout(function () {
         if (!drawer.classList.contains('is-visible')) {
           drawer.setAttribute('hidden', '');
