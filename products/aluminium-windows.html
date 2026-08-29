@@ -1525,6 +1525,7 @@
  #window-keywords,
  #city-hubs,
  #rate-table,
+ #quick-comparison,
  .alum-hub-group {
  scroll-margin-top: 76px;
  }
@@ -1667,6 +1668,115 @@
  }
 
  /* Small phones — tightest composition */
+ /* Quick Comparison — type cards (restored from pre-da3fd3c hub) */
+ .alum-compare-section {
+ padding: 2rem 0 2.5rem;
+ background: #F8FAFF;
+ border-top: 1px solid #e2e8f0;
+ }
+
+ .alum-compare-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+ gap: 0.75rem;
+ }
+
+ .alum-compare-card {
+ background: #fff;
+ border: 1px solid #e8e6e1;
+ border-radius: 8px;
+ padding: 0.85rem 0.9rem;
+ box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+ transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+ display: flex;
+ flex-direction: column;
+ gap: 0.35rem;
+ min-width: 0;
+ }
+
+ .alum-compare-card:hover {
+ transform: translateY(-2px);
+ border-color: rgba(184, 137, 61, 0.45);
+ box-shadow: 0 6px 16px rgba(15, 23, 42, 0.07);
+ }
+
+ .alum-compare-card strong {
+ font-size: 0.88rem;
+ color: #0f172a;
+ line-height: 1.35;
+ }
+
+ .alum-compare-card p {
+ margin: 0;
+ font-size: 0.78rem;
+ color: #64748b;
+ line-height: 1.45;
+ flex: 1;
+ }
+
+ .alum-compare-card .alum-compare-price {
+ font-size: 0.78rem;
+ font-weight: 600;
+ color: #047857;
+ }
+
+ .alum-compare-card a {
+ font-size: 0.78rem;
+ font-weight: 600;
+ color: #1e40af;
+ text-decoration: none;
+ margin-top: 0.15rem;
+ }
+
+ .alum-compare-card a:hover {
+ text-decoration: underline;
+ }
+
+ .alum-compare-subtitle {
+ margin: 1.35rem 0 0.65rem;
+ font-size: 0.8rem;
+ font-weight: 700;
+ text-transform: uppercase;
+ letter-spacing: 0.06em;
+ color: #8a6321;
+ }
+
+ .alum-compare-subtitle:first-of-type {
+ margin-top: 0;
+ }
+
+ .alum-compare-note {
+ margin: 1rem 0 0;
+ font-size: 0.78rem;
+ color: #64748b;
+ line-height: 1.5;
+ }
+
+ @media (max-width: 768px) {
+ .alum-compare-section {
+ padding: 1.25rem 0 1.75rem;
+ }
+
+ .alum-compare-grid {
+ grid-template-columns: repeat(2, 1fr);
+ gap: 0.55rem;
+ }
+
+ .alum-compare-card {
+ padding: 0.65rem 0.7rem;
+ }
+
+ .alum-compare-card strong {
+ font-size: 0.78rem;
+ }
+
+ .alum-compare-card p,
+ .alum-compare-card .alum-compare-price,
+ .alum-compare-card a {
+ font-size: 0.7rem;
+ }
+ }
+
  @media (max-width: 480px) {
  .alum-hero-title {
  font-size: 1.12rem;
@@ -1835,6 +1945,7 @@
  <a href="#system-guides">10 System</a>
  <a href="#calculators">4 Calculators</a>
  <a href="#rate-table">Rate table</a>
+ <a href="#quick-comparison">Compare types</a>
  <a href="#window-keywords">Popular searches</a>
  </nav>
  </div>
@@ -2315,6 +2426,108 @@
  </div>
  </details>
  </div>
+ </div>
+ </section>
+
+ <!-- Quick Comparison — Aluminium Window Types (restored) -->
+ <section class="alum-compare-section" id="quick-comparison">
+ <div class="container">
+ <div class="alum-panel-header">
+ <h2>Quick Comparison — Aluminium Window Types</h2>
+ <p>Core product lines first, then system guides and price tools — indicative ₹/sqft bands from live calculators. Open any card for specs and instant estimate.</p>
+ </div>
+
+ <h3 class="alum-compare-subtitle">Core product lines</h3>
+ <div class="alum-compare-grid">
+ <div class="alum-compare-card">
+ <strong>3-Track Sliding</strong>
+ <p>Two glass panels + mesh track — bedrooms, kitchens, balconies.</p>
+ <span class="alum-compare-price">₹550–950 / sqft</span>
+ <a href="/products/aluminium-windows/3-track-sliding-window">View &amp; calculate →</a>
+ </div>
+ <div class="alum-compare-card">
+ <strong>Sliding Window (2-Track)</strong>
+ <p>Premium 29mm series — max glass area, DGU option.</p>
+ <span class="alum-compare-price">₹1,200–1,400 / sqft</span>
+ <a href="/products/aluminium-windows/aluminium-sliding-window">View &amp; calculate →</a>
+ </div>
+ <div class="alum-compare-card">
+ <strong>Top-Hung Casement</strong>
+ <p>Outward open — tight sealing for bath, kitchen, stairs.</p>
+ <span class="alum-compare-price">₹750–1,050 / sqft</span>
+ <a href="/products/aluminium-windows/top-hung-casement-window">View &amp; calculate →</a>
+ </div>
+ <div class="alum-compare-card">
+ <strong>French Sliding Door</strong>
+ <p>Full-height with top arch panel — balcony &amp; villa entrance.</p>
+ <span class="alum-compare-price">₹1,850–2,250 / sqft</span>
+ <a href="/products/aluminium-windows/2-track-french-sliding-door">View &amp; calculate →</a>
+ </div>
+ <div class="alum-compare-card">
+ <strong>Slimline Casement</strong>
+ <p>Minimal sightlines, black powder coat — modern elevations.</p>
+ <span class="alum-compare-price">₹900–1,400 / sqft</span>
+ <a href="/products/aluminium-windows/slimline-aluminium-window">View &amp; calculate →</a>
+ </div>
+ <div class="alum-compare-card">
+ <strong>Slim Entrance Glass Door</strong>
+ <p>40mm ultra-slim frame — kitchen, lobby, designer villas.</p>
+ <span class="alum-compare-price">₹1,350–1,850 / sqft</span>
+ <a href="/products/aluminium-windows/slim-entrance-glass-door">View &amp; calculate →</a>
+ </div>
+ <div class="alum-compare-card">
+ <strong>Full Elevation Facade</strong>
+ <p>Complete villa windows, doors &amp; glass — project pricing.</p>
+ <span class="alum-compare-price">₹770–4,400 / sqft</span>
+ <a href="/products/aluminium-windows/full-elevation-villa-facade">View &amp; calculate →</a>
+ </div>
+ </div>
+
+ <h3 class="alum-compare-subtitle">Style &amp; grill doors</h3>
+ <div class="alum-compare-grid">
+ <div class="alum-compare-card">
+ <strong>Georgian Grill Casement Door</strong>
+ <p>Golden grill pattern — entrance, balcony, partitions.</p>
+ <span class="alum-compare-price">₹1,350–1,850 / sqft</span>
+ <a href="/products/aluminium-windows/georgian-grill-casement-door">View &amp; calculate →</a>
+ </div>
+ <div class="alum-compare-card">
+ <strong>French Door — Georgian Bar</strong>
+ <p>Slim-profile French with Georgian bar — villa lobby.</p>
+ <span class="alum-compare-price">₹1,850–2,250 / sqft</span>
+ <a href="/products/aluminium-windows/french-door-georgian-bar">View &amp; calculate →</a>
+ </div>
+ </div>
+
+ <h3 class="alum-compare-subtitle">Premium system window — guides (10)</h3>
+ <div class="alum-compare-grid">
+ <div class="alum-compare-card"><strong>System window price</strong><p>Main system index · 30mm calculator.</p><span class="alum-compare-price">₹1,180–2,680 / sqft</span><a href="/products/aluminium-windows/aluminium-system-window-price">View →</a></div>
+ <div class="alum-compare-card"><strong>What is system window</strong><p>Profiles, gaskets, hardware explainer.</p><span class="alum-compare-price">₹1,220–2,850 / sqft</span><a href="/products/aluminium-windows/what-is-aluminium-system-window">View →</a></div>
+ <div class="alum-compare-card"><strong>System vs normal</strong><p>When system packages are worth it.</p><span class="alum-compare-price">₹1,160–2,720 / sqft</span><a href="/products/aluminium-windows/system-window-vs-normal-window">View →</a></div>
+ <div class="alum-compare-card"><strong>System brands India</strong><p>Global vs Indian supply shortlist.</p><span class="alum-compare-price">₹1,250–2,950 / sqft</span><a href="/products/aluminium-windows/aluminium-system-window-brands-india">View →</a></div>
+ <div class="alum-compare-card"><strong>System sliding price</strong><p>Premium sliding stack bands.</p><span class="alum-compare-price">₹1,200–2,780 / sqft</span><a href="/products/aluminium-windows/system-sliding-window-price">View →</a></div>
+ <div class="alum-compare-card"><strong>System casement price</strong><p>Euro casement + multipoint hardware.</p><span class="alum-compare-price">₹1,280–2,920 / sqft</span><a href="/products/aluminium-windows/system-casement-window-price">View →</a></div>
+ <div class="alum-compare-card"><strong>Slim system price</strong><p>Minimal sightline luxury lines.</p><span class="alum-compare-price">₹1,350–3,000 / sqft</span><a href="/products/aluminium-windows/slim-system-window-price">View →</a></div>
+ <div class="alum-compare-card"><strong>System installation</strong><p>Site process &amp; quote variables.</p><span class="alum-compare-price">₹1,150–2,650 / sqft</span><a href="/products/aluminium-windows/system-window-installation">View →</a></div>
+ <div class="alum-compare-card"><strong>System glass options</strong><p>DGU, laminated, safety tiers.</p><span class="alum-compare-price">₹1,190–2,880 / sqft</span><a href="/products/aluminium-windows/system-window-glass-options">View →</a></div>
+ <div class="alum-compare-card"><strong>System window for villa</strong><p>Large spans, wind load, couplers.</p><span class="alum-compare-price">₹1,300–3,000 / sqft</span><a href="/products/aluminium-windows/system-window-for-villa">View →</a></div>
+ </div>
+
+ <h3 class="alum-compare-subtitle">Price, calculator &amp; compare — guides (10)</h3>
+ <div class="alum-compare-grid">
+ <div class="alum-compare-card"><strong>2 track price</strong><p>29mm premium sliding calculator.</p><span class="alum-compare-price">₹1,200–1,400 / sqft</span><a href="/products/aluminium-windows/2-track-aluminium-window-price">View →</a></div>
+ <div class="alum-compare-card"><strong>4 track sliding price</strong><p>Multi-panel wide openings.</p><span class="alum-compare-price">₹650–1,200 / sqft</span><a href="/products/aluminium-windows/4-track-sliding-window-price">View →</a></div>
+ <div class="alum-compare-card"><strong>Casement price</strong><p>Openable series + mesh options.</p><span class="alum-compare-price">₹750–1,050 / sqft</span><a href="/products/aluminium-windows/aluminium-casement-window-price">View →</a></div>
+ <div class="alum-compare-card"><strong>Slim luxury price</strong><p>Minimal sightline bands.</p><span class="alum-compare-price">₹900–1,500 / sqft</span><a href="/products/aluminium-windows/slim-aluminium-window-price-luxury">View →</a></div>
+ <div class="alum-compare-card"><strong>Price per sqft hub</strong><p>All styles compared in one place.</p><span class="alum-compare-price">₹550–1,500 / sqft</span><a href="/products/aluminium-windows/aluminium-window-price-per-sqft">View →</a></div>
+ <div class="alum-compare-card"><strong>Sliding calculator</strong><p>Free browser tool · WhatsApp export.</p><span class="alum-compare-price">₹1,200–1,400 / sqft</span><a href="/products/aluminium-windows/aluminium-sliding-window-price-calculator">View →</a></div>
+ <div class="alum-compare-card"><strong>Sliding vs casement</strong><p>Side-by-side room picks.</p><span class="alum-compare-price">₹750–1,400 / sqft</span><a href="/products/aluminium-windows/sliding-vs-casement-window">View →</a></div>
+ <div class="alum-compare-card"><strong>Best for home</strong><p>Room-by-room recommendations.</p><span class="alum-compare-price">₹550–1,500 / sqft</span><a href="/products/aluminium-windows/best-aluminium-window-for-home">View →</a></div>
+ <div class="alum-compare-card"><strong>Price Hyderabad</strong><p>City intent + local bands.</p><span class="alum-compare-price">₹550–1,400 / sqft</span><a href="/products/aluminium-windows/aluminium-window-price-hyderabad">View →</a></div>
+ <div class="alum-compare-card"><strong>Glass price breakdown</strong><p>DGU &amp; laminated adders.</p><span class="alum-compare-price">See calculator →</span><a href="/products/aluminium-windows/aluminium-window-glass-price-breakdown">View →</a></div>
+ </div>
+
+ <p class="alum-compare-note">Bands are indicative installed rates (profile + glass + hardware + fitting). GST 18% extra — use each page's live calculator for your opening size.</p>
  </div>
  </section>
 
