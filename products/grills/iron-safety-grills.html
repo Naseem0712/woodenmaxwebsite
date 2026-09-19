@@ -79,7 +79,7 @@
     "description": "Traditional iron safety grills with ornamental designs. Budget-friendly, high raw strength. Price ₹220-330 per sqft.",
     "image": "https://woodenmax.in/images/products/Grills/aluminium-grill-fabricators-near-me.webp",
     "brand": {"@type": "Brand", "name": "WoodenMax"},
-    "offers": {"@type": "AggregateOffer", "lowPrice": "425", "highPrice": "650", "priceCurrency": "INR"}
+    "offers": {"@type": "AggregateOffer", "lowPrice": "220", "highPrice": "330", "priceCurrency": "INR"}
   }
   </script>
   <script type="application/ld+json">
@@ -116,7 +116,7 @@
         "name": "Is iron grill cheaper than aluminium grill?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, iron grills cost ₹220-330/sqft vs aluminium ₹385-660/sqft. However, iron requires painting every 2-3 years (₹30-50/sqft each time). Over 10 years, aluminium costs less due to zero maintenance."
+          "text": "Yes, iron grills cost ₹220-330/sqft vs aluminium ₹385-495/sqft. However, iron requires painting every 2-3 years (₹30-50/sqft each time). Over 10 years, aluminium costs less due to zero maintenance."
         }
       },
       {
@@ -299,7 +299,12 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--gold-400);"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           <h2 style="color: var(--gold-400); margin: 0; font-size: 1.5rem; font-weight: 700;">Grill Price Calculator</h2>
         </div>
-        <p style="margin:0 0 1rem;padding:0.75rem 1rem;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.35);border-radius:8px;color:#fde68a;font-size:0.85rem;line-height:1.45;"><strong>Iron / MS budgeting:</strong> use the published <strong>₹220–330/sqft</strong> band above. This shared tool shows pipe geometry &amp; preview; the “Alu Weight” line is frame-pipe weight from the shared engine — not a claim that the grill is aluminium. Final MS quote is confirmed separately.</p>
+        <p style="margin:0 0 1rem;padding:0.75rem 1rem;background:rgba(251,191,36,0.12);border:1px solid rgba(251,191,36,0.35);border-radius:8px;color:#fde68a;font-size:0.85rem;line-height:1.45;"><strong>Iron / MS quote basis:</strong> budget with the published <strong>₹220–330/sqft</strong> band above (or a site ₹/kg quote). This shared tool is geometry &amp; design preview only — monetary rows from the aluminium costing engine are hidden here so they are not mistaken for an iron quote. Final MS price is confirmed separately.</p>
+        <style>
+          /* Page-local: keep geometry/preview; suppress aluminium-engine ₹ as iron quote */
+          #grill-calc-iron-safety .grills-calc-price-rows,
+          #grill-calc-iron-safety #grill-quotation-cart { display: none !important; }
+        </style>
         <div class="calc-group grills-calc-group grills-calc-group--dims">
           <label class="grills-calc-label">Unit &amp; Dimensions</label>
           <select id="grill-unit" class="calc-select"><option value="in">Inches</option><option value="ft">Feet</option><option value="cm">Centimeters</option><option value="mm">Millimeters</option><option value="m">Meters</option></select>
@@ -382,39 +387,25 @@
           <div class="grills-calc-results-mini">
             <div class="grills-calc-stat"><span class="grills-calc-stat-label">Area</span><span id="grill-result-area" class="grills-calc-stat-value">0 sq.ft</span></div>
             <div class="grills-calc-stat"><span class="grills-calc-stat-label">Pipes</span><span id="grill-result-pipes" class="grills-calc-stat-value">0</span></div>
-            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Alu Weight</span><span id="grill-result-alu-weight" class="grills-calc-stat-value">0 kg</span></div>
-            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Iron Weight</span><span id="grill-result-iron-weight" class="grills-calc-stat-value">0 kg</span></div>
+            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Frame pipe wt</span><span id="grill-result-alu-weight" class="grills-calc-stat-value">0 kg</span></div>
+            <div class="grills-calc-stat"><span class="grills-calc-stat-label">Rod weight</span><span id="grill-result-iron-weight" class="grills-calc-stat-value">0 kg</span></div>
             <div class="grills-calc-stat"><span class="grills-calc-stat-label">Outer Pipes</span><span id="grill-result-outer-qty" class="grills-calc-stat-value">0</span></div>
             <div class="grills-calc-stat"><span class="grills-calc-stat-label">Inner Pipes</span><span id="grill-result-inner-qty" class="grills-calc-stat-value">0</span></div>
             <div class="grills-calc-stat"><span class="grills-calc-stat-label">Rods</span><span id="grill-result-rod-qty" class="grills-calc-stat-value">None</span></div>
             <div class="grills-calc-stat"><span class="grills-calc-stat-label">Nuts</span><span id="grill-result-nuts" class="grills-calc-stat-value">None</span></div>
           </div>
           
-          <div class="grills-calc-price-rows">
-            <div class="calc-price-row">
-              <span class="calc-price-label">Selling Price:</span>
-              <span id="grill-result-total" class="calc-price-value" style="font-size: 1.5rem;">₹0</span>
-            </div>
-            <div class="calc-price-row">
-              <span class="calc-price-label">Rate per sqft:</span>
-              <span id="grill-result-per-sqft" class="calc-price-value">₹0/sqft</span>
-            </div>
-            <div class="calc-price-row">
-              <span class="calc-price-label">Per Grill:</span>
-              <span id="grill-result-per-unit" class="calc-price-value">₹0/grill</span>
-            </div>
-            <div class="calc-price-row" style="opacity: 0.7;">
-              <span class="calc-price-label">Installation:</span>
-              <span id="grill-result-install" class="calc-price-value">₹0</span>
-            </div>
-            <div class="calc-price-row" style="opacity: 0.7;">
-              <span class="calc-price-label">Wastage Cost:</span>
-              <span id="grill-result-wastage" class="calc-price-value">₹0</span>
-            </div>
-            <div class="calc-price-row" style="border-top: 2px solid rgba(212, 175, 55, 0.5); margin-top: 0.75rem; padding-top: 0.75rem;">
-              <span class="calc-price-label" style="font-weight: 700;">Grand Total (incl. install + wastage):</span>
-              <span id="grill-result-grand" class="calc-price-value grills-grand-total">₹0</span>
-            </div>
+          <!-- Hidden: shared aluminium engine still writes these IDs; not shown as iron quotes -->
+          <div class="grills-calc-price-rows" aria-hidden="true">
+            <div class="calc-price-row"><span class="calc-price-label">Selling Price:</span><span id="grill-result-total" class="calc-price-value">₹0</span></div>
+            <div class="calc-price-row"><span class="calc-price-label">Rate per sqft:</span><span id="grill-result-per-sqft" class="calc-price-value">₹0/sqft</span></div>
+            <div class="calc-price-row"><span class="calc-price-label">Per Grill:</span><span id="grill-result-per-unit" class="calc-price-value">₹0/grill</span></div>
+            <div class="calc-price-row"><span class="calc-price-label">Installation:</span><span id="grill-result-install" class="calc-price-value">₹0</span></div>
+            <div class="calc-price-row"><span class="calc-price-label">Wastage Cost:</span><span id="grill-result-wastage" class="calc-price-value">₹0</span></div>
+            <div class="calc-price-row"><span class="calc-price-label">Grand Total:</span><span id="grill-result-grand" class="calc-price-value grills-grand-total">₹0</span></div>
+          </div>
+          <div style="margin-top:0.75rem;padding:0.85rem 1rem;background:rgba(5,150,105,0.12);border:1px solid rgba(16,185,129,0.35);border-radius:8px;color:#a7f3d0;font-size:0.9rem;line-height:1.45;">
+            <strong style="color:#ecfdf5;">Canonical iron price:</strong> published band <strong>₹220–330/sqft</strong> (see table above). Request a site quote for exact MS / ₹/kg pricing — this preview does not output an iron selling rate.
           </div>
         </div>
         
@@ -450,7 +441,7 @@
       </div>
       <div class="grills-faq-item">
         <div class="grills-faq-question" onclick="toggleFaq(this)">Is iron grill cheaper than aluminium grill?<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s;"><path d="m6 9 6 6 6-6"/></svg></div>
-        <div class="grills-faq-answer"><p>Yes, iron grills cost ₹220-330/sqft vs aluminium ₹385-660/sqft. However, iron requires painting every 2-3 years (₹30-50/sqft each time). Over 10 years, aluminium costs less due to zero maintenance.</p></div>
+        <div class="grills-faq-answer"><p>Yes, iron grills cost ₹220-330/sqft vs aluminium ₹385-495/sqft. However, iron requires painting every 2-3 years (₹30-50/sqft each time). Over 10 years, aluminium costs less due to zero maintenance.</p></div>
       </div>
       <div class="grills-faq-item">
         <div class="grills-faq-question" onclick="toggleFaq(this)">How to prevent iron grills from rusting?<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.3s;"><path d="m6 9 6 6 6-6"/></svg></div>
