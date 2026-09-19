@@ -525,8 +525,9 @@
 
 <div class="wm-railing-hero-cta" style="display:flex;flex-wrap:wrap;gap:0.75rem;margin:0 0 1.25rem;">
         <a href="#price-calculator-glass-railing-staircase" class="btn btn-primary" data-ga-event="wm_cta_click">Calculate Staircase Railing Price</a>
-        <a href="https://wa.me/917895328080?text=Hi%20WoodenMax%20%E2%80%94%20staircase%20glass%20railing%20quote.%20Length%20__%20rft%20%C3%97%20Height%20__%20ft.%20City%3A%20__." class="btn btn-outline" data-ga-event="wm_cta_click" rel="noopener" target="_blank">Send Size on WhatsApp</a>
-        <a href="/contact?product=staircase-glass-railing" class="btn btn-outline" data-ga-event="wm_cta_click">Get Exact Price</a>
+        <a href="tel:+917895328080" class="btn btn-outline">Call +91 78953 28080</a>
+        <button type="button" class="btn btn-outline" data-wm-rail-action="open-estimate">Open My Estimate</button>
+        <button type="button" class="btn btn-outline" data-wm-rail-action="whatsapp">WhatsApp sizes</button>
       </div>
 <aside class="wm-explore-next" aria-label="On-page internal links" style="margin:0 0 1rem;padding:0.75rem 0.85rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">Explore: <a href="/products/glass-railing/balcony-glass-railing" style="color:#1E40AF;">Balcony glass railing</a> · <a href="/products/glass-railing" style="color:#1E40AF;">Glass railing hub</a> · <a href="/calculators" style="color:#1E40AF;">All calculators</a></aside>
 
@@ -694,6 +695,16 @@
                 <div class="calc-price-row" style="border-top: 2px solid rgba(212, 175, 55, 0.3); margin-top: 0.5rem; padding-top: 1.25rem;">
                   <span class="calc-price-label">Total Estimated Cost:</span>
                   <span id="calc-result-total" class="calc-price-value calc-grand-total">₹0</span>
+                </div>
+              </div>
+
+              <div class="wm-rail-calc-next" id="wm-rail-calc-next" style="margin:1rem 0 0;padding:1rem 1.1rem;background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;">
+                <p style="margin:0 0 0.75rem;font-size:0.95rem;color:#0f172a;font-weight:600;">Next step after your estimate</p>
+                <div style="display:flex;flex-wrap:wrap;gap:0.65rem;">
+                  <button type="button" class="btn btn-primary" data-wm-rail-action="save-estimate">Save to My Estimate</button>
+                  <a href="tel:+917895328080" class="btn btn-outline">Call now</a>
+                  <button type="button" class="btn btn-outline" data-wm-rail-action="whatsapp">WhatsApp this size</button>
+                  <button type="button" class="btn btn-outline" data-wm-rail-action="exact-quote">Get exact quote</button>
                 </div>
               </div>
 
@@ -1017,13 +1028,14 @@
   </section>
 
   <!-- CTA -->
-  <section style="padding: 4rem 0; text-align: center; background: #6B7280; position: relative; overflow: hidden;">
+  <section class="wm-rail-final-cta" style="padding: 4rem 0; text-align: center; background: #6B7280; position: relative; overflow: hidden;">
     <div class="container" style="position: relative; z-index: 1;">
       <h2 class="section-title" style="margin-bottom: 1rem; color: #ffffff;">Ready to Install?</h2>
-      <p style="color: #E5E7EB; max-width: 600px; margin: 0 auto 2rem;">Get a free consultation and site visit for accurate measurements.</p>
+      <p style="color: #E5E7EB; max-width: 600px; margin: 0 auto 2rem;">Call with your run length, or open your saved project estimate for PDF / WhatsApp.</p>
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-        <a href="/contact?product=staircase-glass-railing" class="btn btn-primary" style="opacity: 0.9; font-weight: 500;">Get Free Quote</a>
+        <button type="button" class="btn btn-primary" style="opacity: 0.9; font-weight: 500;" data-wm-rail-action="open-estimate">Open My Estimate</button>
         <a href="tel:+917895328080" class="btn btn-outline" style="background: transparent; border-color: #ffffff; color: #ffffff;">Call: +91 789-5328080</a>
+        <button type="button" class="btn btn-outline" style="background: transparent; border-color: #ffffff; color: #ffffff;" data-wm-rail-action="whatsapp">WhatsApp sizes</button>
       </div>
     </div>
   </section>
@@ -1058,6 +1070,73 @@
   <script src="/js/nav-tree.js?v=20260728e" defer></script>
   <script src="/js/site-nav.js?v=20260829a1" defer></script>
   <script src="/js/product-page-pilot.js?v=20260824c" defer></script>
-  <script src="/js/site-footer.js?v=20260801s1" defer></script></body>
+  <script src="/js/site-footer.js?v=20260801s1" defer></script>
+  <script>
+  (function () {
+    'use strict';
+    var WA_TEXT = 'Hi WoodenMax — staircase glass railing quote. Length __ rft × Height __ ft. City: __.';
+    var WA_URL = 'https://wa.me/917895328080?text=' + encodeURIComponent(WA_TEXT);
+    var lastKey = '';
+    var lastAt = 0;
+
+    function fireOnce(name, params) {
+      var key = name + '|' + (params && params.event_label ? params.event_label : '');
+      var now = Date.now();
+      if (key === lastKey && now - lastAt < 400) return;
+      lastKey = key;
+      lastAt = now;
+      if (typeof gtag === 'function') {
+        gtag('event', name, Object.assign({
+          page_path: location.pathname,
+          event_category: 'Lead',
+          non_interaction: false
+        }, params || {}));
+      }
+    }
+
+    function lead(method) {
+      if (typeof window.trackLeadConversion === 'function') {
+        window.trackLeadConversion(method);
+      }
+    }
+
+    document.addEventListener('click', function (ev) {
+      var el = ev.target && ev.target.closest ? ev.target.closest('[data-wm-rail-action]') : null;
+      if (!el) return;
+      var act = el.getAttribute('data-wm-rail-action');
+      var label = (el.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 80) || act;
+
+      if (act === 'whatsapp') {
+        fireOnce('wm_whatsapp_click', { event_label: label });
+        lead('whatsapp_railing');
+        window.open(WA_URL, '_blank', 'noopener');
+        return;
+      }
+      if (act === 'open-estimate') {
+        fireOnce('wm_cta_click', { event_label: label });
+        if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.openCart === 'function') {
+          window.WoodenMaxQuote.openCart();
+        }
+        return;
+      }
+      if (act === 'save-estimate') {
+        fireOnce('wm_cta_click', { event_label: label });
+        if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.addCurrent === 'function') {
+          window.WoodenMaxQuote.addCurrent();
+        }
+        return;
+      }
+      if (act === 'exact-quote') {
+        fireOnce('wm_cta_click', { event_label: label });
+        if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.openExactForm === 'function') {
+          window.WoodenMaxQuote.openExactForm();
+        } else if (window.WoodenMaxQuote && typeof window.WoodenMaxQuote.openCart === 'function') {
+          window.WoodenMaxQuote.openCart();
+        }
+      }
+    }, false);
+  })();
+  </script>
+</body>
 </html>
 
