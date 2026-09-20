@@ -16,7 +16,7 @@
   'use strict';
 
   /** Bump after deploy so CDN/browser fetch new cart + payment JS (see _headers). */
-  var WM_ASSET_V = '20260801s1';
+  var WM_ASSET_V = '20260921c1';
 
   /**
    * Inlined scroll stabilizer (keep in sync with js/scroll-stable.js).
@@ -487,12 +487,9 @@
     if (!pageNeedsQuoteCartUx()) return;
 
     var hasUxOnPage = Boolean(document.querySelector('script[src*="calculator-mobile-ux.js"]'));
-    var hasRzpOnPage = Boolean(document.querySelector('script[src*="razorpay-checkout.js"]'));
     var needUx = !hasUxOnPage && !window.WoodenMaxQuote;
-    var needRzp = !window.WoodenMaxRazorpay && !hasRzpOnPage;
-
-    /* Calculator HTML pages include UX script but not razorpay — old guard skipped payment entirely */
-    if (hasUxOnPage && !window.WoodenMaxRazorpay && !hasRzpOnPage) needRzp = true;
+    /* Wave C1: never cold-load Razorpay here. Buy/Book/pkg-buy call ensureRazorpayModule. */
+    var needRzp = false;
 
     if (!needUx && !needRzp) return;
     if (window.WoodenMaxRazorpay && (hasUxOnPage || window.WoodenMaxQuote)) return;
