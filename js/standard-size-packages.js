@@ -57,7 +57,7 @@
     { w: 1.5, h: 2 }, { w: 2, h: 2 }, { w: 2.5, h: 3 }
   ];
 
-  var CSS_HREF = '/css/standard-size-packages.css?v=20260801a';
+  var CSS_HREF = '/css/standard-size-packages.css?v=20260921c2';
   var MIRROR_JSON = '/data/mirror.json';
   var RATES_JSON = '/data/rates.json';
   var cachedRates = null;
@@ -1106,13 +1106,13 @@
 
   function injectPackageJsonLd(product, packages, sectionId) {
     if (typeof document === 'undefined' || !packages || !packages.length) return;
-    var pageUrl = (typeof location !== 'undefined' ? location.href : '').split('#')[0];
-    var schema = buildPackageJsonLd(product, packages, sectionId, pageUrl);
     var existing = document.getElementById('wm-std-pkg-jsonld');
     if (existing) {
-      existing.textContent = JSON.stringify(schema);
+      /* Wave C2: SSR Offer JSON-LD is authoritative — never rewrite at runtime. */
       return;
     }
+    var pageUrl = (typeof location !== 'undefined' ? location.href : '').split('#')[0];
+    var schema = buildPackageJsonLd(product, packages, sectionId, pageUrl);
     var script = document.createElement('script');
     script.type = 'application/ld+json';
     script.id = 'wm-std-pkg-jsonld';

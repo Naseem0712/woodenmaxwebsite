@@ -4809,38 +4809,150 @@
  }
  };
 
+ /** Bump with standard-size-packages.js when package loader contract changes. */
+ var STD_PKG_SCRIPT_V = '20260921c2';
+
  /** Live standard-size package cards (windows + showers) — rates from products.json */
- function loadStandardSizePackages () {
+ function loadStandardSizePackages (onReady) {
  function mount () {
  if (window.WMStandardPackages && typeof window.WMStandardPackages.mountAll === 'function') {
  try { window.WMStandardPackages.mountAll(); } catch (eMount) { /* ignore */ }
+ }
+ if (typeof onReady === 'function') {
+ /* mountAll is async (rates fetch); wait until SSR section is click-bound */
+ var tries = 0;
+ (function waitBound () {
+ tries += 1;
+ var bound = document.querySelector('.wm-std-pkg[data-pkg-bound="1"]');
+ if (bound || tries > 100) {
+ try { onReady(); } catch (eReady) { /* ignore */ }
+ return;
+ }
+ setTimeout(waitBound, 50);
+ })();
  }
  }
  if (window.WMStandardPackages) {
  mount();
  return;
  }
- if (document.getElementById('wm-std-pkg-script')) {
- document.getElementById('wm-std-pkg-script').addEventListener('load', mount);
+ var existing = document.getElementById('wm-std-pkg-script');
+ if (existing) {
+ existing.addEventListener('load', mount);
  return;
  }
  var s = document.createElement('script');
  s.id = 'wm-std-pkg-script';
- s.src = '/js/standard-size-packages.js?v=20260801a';
+ s.src = jsPathPrefix() + 'standard-size-packages.js?v=' + STD_PKG_SCRIPT_V;
  s.defer = true;
+ s.setAttribute('data-wm-std-pkg', STD_PKG_SCRIPT_V);
  s.onload = mount;
  document.head.appendChild(s);
+ }
+
+ /** Wave C2: when SSR package cards exist, do not cold-fetch the package module. */
+ function pageHasSsrStandardPackages () {
+ return !!document.querySelector(
+ '.wm-std-pkg[data-ssr="1"], #wm-standard-packages[data-ssr="1"],' +
+ ' #wm-standard-packages-pergola[data-ssr="1"], #wm-standard-packages-mirror[data-ssr="1"]'
+ );
+ }
+
+ function scheduleStandardSizePackages () {
+ if (!pageHasSsrStandardPackages()) {
+ loadStandardSizePackages();
+ return;
+ }
+
+ var started = false;
+ var replaying = false;
+ var pendingBtn = null;
+ var idleId = null;
+ var idleTimer = null;
+ var io = null;
+
+ function cleanupObservers () {
+ if (idleId != null && typeof cancelIdleCallback === 'function') {
+ try { cancelIdleCallback(idleId); } catch (eC) { /* ignore */ }
+ idleId = null;
+ }
+ if (idleTimer != null) {
+ clearTimeout(idleTimer);
+ idleTimer = null;
+ }
+ if (io) {
+ try { io.disconnect(); } catch (eIo) { /* ignore */ }
+ io = null;
+ }
+ }
+
+ function finishBridge () {
+ document.removeEventListener('click', onPkgClickBridge, true);
+ cleanupObservers();
+ if (!pendingBtn) return;
+ var btn = pendingBtn;
+ pendingBtn = null;
+ replaying = true;
+ try { btn.click(); } catch (eClick) { /* ignore */ }
+ replaying = false;
+ }
+
+ function startLoad (reason) {
+ if (started) return;
+ started = true;
+ cleanupObservers();
+ loadStandardSizePackages(finishBridge);
+ }
+
+ function onPkgClickBridge (e) {
+ if (replaying) return;
+ var btn = e.target && e.target.closest ? e.target.closest('.wm-std-pkg [data-action]') : null;
+ if (!btn) return;
+ var section = btn.closest('.wm-std-pkg');
+ if (section && section.getAttribute('data-pkg-bound') === '1') return;
+ e.preventDefault();
+ e.stopPropagation();
+ if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+ pendingBtn = btn;
+ startLoad('cta');
+ }
+
+ document.addEventListener('click', onPkgClickBridge, true);
+
+ var section =
+ document.querySelector('#wm-standard-packages[data-ssr="1"]') ||
+ document.querySelector('#wm-standard-packages-pergola[data-ssr="1"]') ||
+ document.querySelector('#wm-standard-packages-mirror[data-ssr="1"]') ||
+ document.querySelector('.wm-std-pkg[data-ssr="1"]');
+
+ if (typeof IntersectionObserver === 'function' && section) {
+ io = new IntersectionObserver(function (entries) {
+ for (var i = 0; i < entries.length; i++) {
+ if (entries[i].isIntersecting) {
+ startLoad('near');
+ return;
+ }
+ }
+ }, { root: null, rootMargin: '280px 0px', threshold: 0.01 });
+ io.observe(section);
+ }
+
+ if (typeof requestIdleCallback === 'function') {
+ idleId = requestIdleCallback(function () { startLoad('idle'); }, { timeout: 4000 });
+ } else {
+ idleTimer = setTimeout(function () { startLoad('idle'); }, 2500);
+ }
  }
 
  if (document.readyState === 'loading') {
  document.addEventListener('DOMContentLoaded', function () {
  init();
  siteCleanupInit();
- loadStandardSizePackages();
+ scheduleStandardSizePackages();
  });
  } else {
  init();
  siteCleanupInit();
- loadStandardSizePackages();
+ scheduleStandardSizePackages();
  }
 })();

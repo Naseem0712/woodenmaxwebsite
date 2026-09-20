@@ -533,33 +533,132 @@
     if (btn) btn.addEventListener('click', function () { submitInquiry(root); });
   }
 
-  function loadStandardSizePackages() {
+  var STD_PKG_SCRIPT_V = '20260921c2';
+
+  function loadStandardSizePackages(onReady) {
     function mount() {
       if (window.WMStandardPackages && typeof window.WMStandardPackages.mountAll === 'function') {
         try { window.WMStandardPackages.mountAll(); } catch (eMount) { /* ignore */ }
+      }
+      if (typeof onReady === 'function') {
+        var tries = 0;
+        (function waitBound() {
+          tries += 1;
+          if (document.querySelector('.wm-std-pkg[data-pkg-bound="1"]') || tries > 100) {
+            try { onReady(); } catch (eReady) { /* ignore */ }
+            return;
+          }
+          setTimeout(waitBound, 50);
+        })();
       }
     }
     if (window.WMStandardPackages) {
       mount();
       return;
     }
-    if (document.getElementById('wm-std-pkg-script')) {
-      document.getElementById('wm-std-pkg-script').addEventListener('load', mount);
+    var existing = document.getElementById('wm-std-pkg-script');
+    if (existing) {
+      existing.addEventListener('load', mount);
       return;
     }
     var s = document.createElement('script');
     s.id = 'wm-std-pkg-script';
-    s.src = '/js/standard-size-packages.js?v=20260801a';
+    s.src = '/js/standard-size-packages.js?v=' + STD_PKG_SCRIPT_V;
     s.defer = true;
+    s.setAttribute('data-wm-std-pkg', STD_PKG_SCRIPT_V);
     s.onload = mount;
     document.head.appendChild(s);
+  }
+
+  function pageHasSsrStandardPackages() {
+    return !!document.querySelector(
+      '.wm-std-pkg[data-ssr="1"], #wm-standard-packages[data-ssr="1"],' +
+      ' #wm-standard-packages-pergola[data-ssr="1"], #wm-standard-packages-mirror[data-ssr="1"]'
+    );
+  }
+
+  /** Wave C2: defer package module when SSR cards already paint. */
+  function scheduleStandardSizePackages() {
+    if (!pageHasSsrStandardPackages()) {
+      loadStandardSizePackages();
+      return;
+    }
+    var started = false;
+    var replaying = false;
+    var pendingBtn = null;
+    var idleId = null;
+    var idleTimer = null;
+    var io = null;
+
+    function cleanupObservers() {
+      if (idleId != null && typeof cancelIdleCallback === 'function') {
+        try { cancelIdleCallback(idleId); } catch (eC) { /* ignore */ }
+        idleId = null;
+      }
+      if (idleTimer != null) { clearTimeout(idleTimer); idleTimer = null; }
+      if (io) { try { io.disconnect(); } catch (eIo) { /* ignore */ } io = null; }
+    }
+
+    function finishBridge() {
+      document.removeEventListener('click', onPkgClickBridge, true);
+      cleanupObservers();
+      if (!pendingBtn) return;
+      var btn = pendingBtn;
+      pendingBtn = null;
+      replaying = true;
+      try { btn.click(); } catch (eClick) { /* ignore */ }
+      replaying = false;
+    }
+
+    function startLoad() {
+      if (started) return;
+      started = true;
+      cleanupObservers();
+      loadStandardSizePackages(finishBridge);
+    }
+
+    function onPkgClickBridge(e) {
+      if (replaying) return;
+      var btn = e.target && e.target.closest ? e.target.closest('.wm-std-pkg [data-action]') : null;
+      if (!btn) return;
+      var section = btn.closest('.wm-std-pkg');
+      if (section && section.getAttribute('data-pkg-bound') === '1') return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (typeof e.stopImmediatePropagation === 'function') e.stopImmediatePropagation();
+      pendingBtn = btn;
+      startLoad();
+    }
+
+    document.addEventListener('click', onPkgClickBridge, true);
+
+    var section =
+      document.querySelector('#wm-standard-packages[data-ssr="1"]') ||
+      document.querySelector('#wm-standard-packages-pergola[data-ssr="1"]') ||
+      document.querySelector('#wm-standard-packages-mirror[data-ssr="1"]') ||
+      document.querySelector('.wm-std-pkg[data-ssr="1"]');
+
+    if (typeof IntersectionObserver === 'function' && section) {
+      io = new IntersectionObserver(function (entries) {
+        for (var i = 0; i < entries.length; i++) {
+          if (entries[i].isIntersecting) { startLoad(); return; }
+        }
+      }, { root: null, rootMargin: '280px 0px', threshold: 0.01 });
+      io.observe(section);
+    }
+
+    if (typeof requestIdleCallback === 'function') {
+      idleId = requestIdleCallback(function () { startLoad(); }, { timeout: 4000 });
+    } else {
+      idleTimer = setTimeout(function () { startLoad(); }, 2500);
+    }
   }
 
   function init() {
     var root = document.getElementById('wmCatalogCalc');
     if (!root) return;
     if (root.getAttribute('data-calc-mode')) initMirror(root);
-    loadStandardSizePackages();
+    scheduleStandardSizePackages();
   }
 
   if (document.readyState === 'loading') {

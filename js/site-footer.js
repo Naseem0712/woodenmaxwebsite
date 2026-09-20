@@ -16,7 +16,7 @@
   'use strict';
 
   /** Bump after deploy so CDN/browser fetch new cart + payment JS (see _headers). */
-  var WM_ASSET_V = '20260921c1';
+  var WM_ASSET_V = '20260921c2';
 
   /**
    * Inlined scroll stabilizer (keep in sync with js/scroll-stable.js).

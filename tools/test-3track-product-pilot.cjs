@@ -18,7 +18,7 @@ function count(pattern) {
 }
 
 assert.match(page, /<link rel="canonical" href="https:\/\/woodenmax\.in\/products\/aluminium-windows\/3-track-sliding-window"/);
-assert.match(page, /<title>3 Track Aluminium Sliding Window with Mesh Price/);
+assert.match(page, /<title>3 Track Aluminium Sliding Window Price/);
 assert.match(page, /<h1[^>]*>Aluminium 3 Track Sliding Window with Mesh<\/h1>/);
 assert.match(page, /data-product="3track-sliding"/);
 assert.match(page, /id="price-calculator-3track-sliding"/);

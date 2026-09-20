@@ -24,10 +24,13 @@ assert(html.includes('loading="eager" fetchpriority="high" id="product-main-imag
 assert(html.includes('id="product-pricing-root" class="wm-product-pilot-calculator"'), 'the calculator must use the shared pilot placement');
 assert(html.includes('/js/pricing/pricing-models.js'), 'the canonical pricing model must load');
 assert(html.includes('/js/pergola-product-pricing.js?v=20260826p1'), 'the cache-versioned Pergola calculator must load');
-assert(html.includes('/js/standard-size-packages.js?v=20260826p1'), 'the cache-versioned package controller must load');
+/* Wave C2: package controller is deferred via calculator-mobile-ux when SSR cards exist. */
+assert(!/standard-size-packages\.js/.test(html), 'SSR pages must not eagerly load standard-size-packages.js');
+assert(/calculator-mobile-ux\.js\?v=20260921c2/.test(html), 'calculator-mobile-ux must load to schedule deferred package hydration');
 assert(html.includes('/js/product-page-pilot.js?v=20260826p1'), 'the cache-versioned shared pilot controller must load');
 assert(html.includes('/js/site-nav.js?v=20260829a1'), 'site nav must load for header chrome');
-assert(html.includes('/js/site-footer.js?v=20260921c1'), 'site footer must load');
+assert(html.includes('/js/site-footer.js?v=20260921c2'), 'site footer must load');
+assert(fs.readFileSync(path.join(root, 'js/calculator-mobile-ux.js'), 'utf8').includes('scheduleStandardSizePackages'), 'UX must schedule deferred package load');
 assert(html.includes('wm-product-pilot-calculator-lead'), 'calculator lead must be a direct pilot grid participant');
 assert(!/wm-product-pilot-calculator-column[^>]*>[\s\S]*class="[^"]*wm-product-pilot-calculator-column/.test(html), 'calculator column must not nest another calculator column');
 
