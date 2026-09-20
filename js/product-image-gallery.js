@@ -149,8 +149,12 @@
     if (!container.querySelector('.product-main-image-container')) {
       var wrap = document.createElement('div');
       wrap.className = 'product-main-image-container';
-      main.parentNode.insertBefore(wrap, main);
-      wrap.appendChild(main);
+      // Prefer wrapping <picture> so responsive <source> selection stays intact.
+      var wrapTarget = (main.parentNode && main.parentNode.tagName === 'PICTURE')
+        ? main.parentNode
+        : main;
+      wrapTarget.parentNode.insertBefore(wrap, wrapTarget);
+      wrap.appendChild(wrapTarget);
     }
 
     var existingThumbs = container.querySelectorAll('.thumbnail-item');
@@ -177,6 +181,8 @@
     }
 
     if (existingThumbs.length === 0) {
+      // Single-photo heroes don't need a thumb strip (avoids a duplicate full-size fetch).
+      if (photos.length < 2) return;
       var fallback = document.createElement('div');
       fallback.className = 'product-thumbnail-gallery';
       fallback.innerHTML = buildThumbHtml({ src: mainSrc, alt: mainAlt }, true);

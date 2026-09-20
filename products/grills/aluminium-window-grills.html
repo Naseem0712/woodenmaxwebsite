@@ -41,6 +41,8 @@
   <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32" />
   <link rel="icon" type="image/png" href="/favicon.png" sizes="192x192" />
   <link rel="apple-touch-icon" href="/favicon.png" />
+  <link fetchpriority="high" rel="preload" as="image" href="/images/products/Grills/aluminium-window-grill-design-modern-360.webp" media="(max-width: 768px)" />
+  <link fetchpriority="high" rel="preload" as="image" href="/images/products/Grills/aluminium-window-grill-design-modern-720.webp" media="(min-width: 769px)" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" media="print" onload="this.media='all';this.onload=null;">
@@ -54,7 +56,7 @@
   
   <link rel="stylesheet" href="/css/calculator-mobile-ux.css?v=20260729g">
   <link rel="stylesheet" href="/css/grills-product-page.css">
-  <link rel="stylesheet" href="/css/product-grills-mobile.css?v=20260730g">
+  <link rel="stylesheet" href="/css/product-grills-mobile.css?v=20260921a">
   <link rel="stylesheet" href="/css/product-image-gallery.css?v=20260801s1">
   <link rel="stylesheet" href="/css/product-page-pilot.css?v=20260824c">
   
@@ -307,7 +309,13 @@
         <div class="product-image-gallery wm-product-pilot-gallery">
 <div class="grills-visual-stage" id="grills-visual-stage">
         <div class="grills-hero-photo" id="grills-hero-photo">
-          <img id="product-main-image" class="product-main-image" loading="eager" decoding="async" src="/images/products/Grills/aluminium-window-grill-design-modern.webp" alt="Aluminium Window Grill Design Modern Price Calculator" width="800" height="400" fetchpriority="high">
+          <div class="product-main-image-container">
+            <picture>
+              <source media="(max-width: 768px)" type="image/webp" srcset="/images/products/Grills/aluminium-window-grill-design-modern-360.webp">
+              <source media="(min-width: 769px)" type="image/webp" srcset="/images/products/Grills/aluminium-window-grill-design-modern-720.webp 1x, /images/products/Grills/aluminium-window-grill-design-modern.webp 2x">
+              <img id="product-main-image" class="product-main-image" loading="eager" decoding="async" src="/images/products/Grills/aluminium-window-grill-design-modern-720.webp" alt="Aluminium Window Grill Design Modern Price Calculator" width="1024" height="1536" fetchpriority="high">
+            </picture>
+          </div>
         </div>
         <div class="grills-hero-preview-slot" id="grills-hero-preview-slot" aria-hidden="true"></div>
       </div>

@@ -578,7 +578,7 @@
     }
     if (!document.querySelector('script[src*="product-image-gallery.js"]')) {
       var s = document.createElement('script');
-      s.src = '/js/product-image-gallery.js?v=' + WM_ASSET_V;
+      s.src = '/js/product-image-gallery.js?v=20260921a';
       s.defer = true;
       s.onload = function () {
         if (typeof window.wmBootProductGalleries === 'function') window.wmBootProductGalleries();
