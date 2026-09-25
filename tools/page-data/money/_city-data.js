@@ -1,6 +1,7 @@
 // Shared city + product matrix data used by money-page configs.
 // Each city entry provides the climate, wind, salinity, sample pricing band,
 // landmark localities, distance from Hyderabad factory (for free-transport flag).
+// Product-specific smart picks live under designersStack (windows) vs facadeStack (GE).
 
 module.exports.cities = {
   bangalore: {
@@ -19,6 +20,11 @@ module.exports.cities = {
       'Slim aluminium casement (cool nights + bug protection)',
       'Lift-and-slide doors for villa-pool decks (Whitefield/Sarjapur)',
       'Soundproof acoustic DGU on ORR + airport-corridor homes'
+    ],
+    facadeStack: [
+      'Structural glazing with low-E DGU for temperate villa facades (Whitefield/Sarjapur)',
+      'Curtain wall on IT-corridor commercial elevations (ORR / Whitefield)',
+      'Acoustic laminated DGU on airport-corridor elevations'
     ]
   },
   mumbai: {
@@ -37,6 +43,11 @@ module.exports.cities = {
       'Qualicoat Class-2 Seaside coating mandatory (salt-spray rated)',
       'Class-9A water tightness on high-rises 12+ floors',
       'Acoustic DGU (STC 35+) on western-railway-facing buildings'
+    ],
+    facadeStack: [
+      'Qualicoat Class-2 Seaside coating mandatory (salt-spray rated)',
+      'Class-9A water tightness on high-rise curtain wall / structural glazing 12+ floors',
+      'Acoustic laminated DGU on western-railway-facing elevations'
     ]
   },
   delhi: {
@@ -55,6 +66,11 @@ module.exports.cities = {
       'Thermal-break profile + low-E DGU (32 &deg;C summer-to-winter delta)',
       'Dust-tight gaskets — Delhi PM 2.5 ingress is the silent killer',
       'Heritage 22-mm slim casement for Lutyens Zone restorations'
+    ],
+    facadeStack: [
+      'Thermal-break facade systems + low-E DGU (extreme summer-to-winter delta)',
+      'Dust-tight gasketed curtain wall — Delhi PM 2.5 ingress is the silent killer',
+      'Structural glazing for premium villa / Lutyens Zone elevations'
     ]
   },
   pune: {
@@ -73,6 +89,11 @@ module.exports.cities = {
       'Slim casement preferred (Pune\'s villa-deep window reveals look great)',
       'Lift-and-slide for IT-park duplexes',
       'Standard powder coating sufficient — non-coastal'
+    ],
+    facadeStack: [
+      'Structural glazing preferred for villa-deep facade reveals',
+      'Curtain wall for IT-park commercial elevations (Hinjewadi)',
+      'Standard powder coating sufficient — non-coastal'
     ]
   },
   warangal: {
@@ -89,6 +110,11 @@ module.exports.cities = {
     nearbyTowns: ['Hanamkonda', 'Kazipet', 'Bhupalpally', 'Mahabubabad'],
     designersStack: [
       'Slim casement with thermal-break for 44 &deg;C summer afternoons',
+      'Same-day site visit available (factory just 145 km away)',
+      'Standard powder coating sufficient — non-coastal'
+    ],
+    facadeStack: [
+      'Structural glazing with thermal-break for 44 &deg;C summer heat-gain control',
       'Same-day site visit available (factory just 145 km away)',
       'Standard powder coating sufficient — non-coastal'
     ]
@@ -109,6 +135,11 @@ module.exports.cities = {
       'Thermal-break profile + low-E DGU — handles 42 &deg;C summer-to-winter delta',
       'Dust-tight EPDM gaskets — dry-season dust ingress is the silent failure mode',
       'Heritage casement for Sector-grid Corbusier-era restorations'
+    ],
+    facadeStack: [
+      'Thermal-break facade + low-E DGU — handles extreme summer-to-winter delta',
+      'Dust-tight EPDM gaskets — dry-season dust ingress is the silent failure mode',
+      'Structural glazing for Sector-grid modern elevations'
     ]
   },
   vijayawada: {
@@ -127,6 +158,11 @@ module.exports.cities = {
       'Thermal-break + low-E DGU for summer heat-gain control',
       'Class-9A water tightness on monsoon-facing facades',
       'Standard powder coating — inland city, no coastal salinity'
+    ],
+    facadeStack: [
+      'Thermal-break + low-E DGU for summer heat-gain control on facades',
+      'Class-9A water tightness on monsoon-facing elevations',
+      'Curtain wall / structural glazing — inland city, no coastal salinity'
     ]
   },
   visakhapatnam: {
@@ -145,6 +181,11 @@ module.exports.cities = {
       'Qualicoat Class-2 Seaside coating mandatory (salt-spray rated)',
       'Cyclone-grade +2.0 kPa qualification on facades within 5 km of coast',
       'Reinforced corners on lift-and-slide doors (high wind suction)'
+    ],
+    facadeStack: [
+      'Qualicoat Class-2 Seaside coating mandatory (salt-spray rated)',
+      'Cyclone-grade +2.0 kPa qualification on facades within 5 km of coast',
+      'Structural glazing / spider systems with reinforced fixings (high wind suction)'
     ]
   }
 };
@@ -185,8 +226,13 @@ module.exports.products = {
     priceHigh: 3400,
     bestVariant: 'Structural glazing with low-E DGU',
     bestVariantPrice: 1880,
+    // Canonical project context already used on city pages (matches 310 × ₹1880 ≈ ₹5.83 L).
     typicalProject: 'G+1 villa facade (310 sqft)',
+    typicalProjectSqft: 310,
     typicalProjectValue: 583000,
+    calcHref: '/glass-elevation-price-calculator',
+    calcLabel: 'Use glass elevation calculator',
+    factoryLinkDesc: 'Where your facade systems are built',
     relatedProducts: [
       { slug: 'curtain-wall-system-india',    name: 'Curtain wall system' },
       { slug: 'spider-glazing-system',        name: 'Spider glazing' },
