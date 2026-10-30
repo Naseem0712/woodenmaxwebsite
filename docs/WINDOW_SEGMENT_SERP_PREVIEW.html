@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Window segment — Google SERP preview board | WoodenMax</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root {
+      --bg: #0f1419;
+      --panel: #1a222c;
+      --text: #e8eef4;
+      --muted: #9aabbc;
+      --line: #2a3644;
+      --accent: #d4a017;
+      --warn: #b45309;
+      --bad: #b91c1c;
+      --ok: #1f8f5f;
+      --g-blue: #1a0dab;
+      --g-green: #006621;
+      --g-gray: #4d5156;
+      --g-card: #ffffff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px 80px; }
+    h1 { font-size: 1.55rem; margin: 0 0 8px; }
+    .intro { color: var(--muted); margin: 0 0 12px; max-width: 80ch; }
+    .intro code { color: var(--accent); }
+    .stats { color: var(--muted); margin: 0 0 16px; font-size: 0.9rem; }
+    nav.toc {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin: 0 0 28px; padding: 12px;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+    }
+    nav.toc a {
+      color: var(--text); text-decoration: none; font-size: 0.82rem;
+      padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px;
+      background: #12181f;
+    }
+    nav.toc a:hover { border-color: var(--accent); color: var(--accent); }
+    section.page {
+      margin: 0 0 36px; padding: 20px;
+      background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+    }
+    section.page header { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+    .num {
+      flex: 0 0 40px; height: 40px; border-radius: 8px;
+      background: #12181f; border: 1px solid var(--line);
+      display: grid; place-items: center; font-weight: 700; color: var(--accent);
+    }
+    h2 { font-size: 1.05rem; margin: 0 0 6px; }
+    .meta { margin: 0; font-size: 0.85rem; color: var(--muted); }
+    .meta a { color: #7eb6ff; }
+    .meta code { font-size: 0.8rem; color: #c9d7e6; word-break: break-all; }
+    .status-flags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 0; }
+    .badge {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.02em;
+      padding: 3px 6px; border-radius: 4px; color: #fff;
+    }
+    .badge.bad { background: var(--bad); }
+    .badge.ok { background: var(--ok); }
+    .badge.warn { background: var(--warn); }
+    .serp-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 140px;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 720px) {
+      .serp-row { grid-template-columns: 1fr; }
+    }
+    .serp-card {
+      background: var(--g-card);
+      color: #202124;
+      border-radius: 8px;
+      padding: 14px 16px 16px;
+      font-family: Arial, Helvetica, sans-serif;
+      max-width: 600px;
+      box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    }
+    .serp-url {
+      color: var(--g-green);
+      font-size: 14px;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .serp-title {
+      display: block;
+      color: var(--g-blue);
+      font-size: 20px;
+      line-height: 1.3;
+      text-decoration: none;
+      margin: 0 0 4px;
+      font-weight: 400;
+    }
+    .serp-title:hover { text-decoration: underline; }
+    .serp-desc {
+      color: var(--g-gray);
+      font-size: 14px;
+      line-height: 1.58;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .serp-local {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #80868b;
+    }
+    .thumb-wrap {
+      background: #12181f;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+    }
+    .thumb-wrap img {
+      width: 100%;
+      aspect-ratio: 1.2;
+      object-fit: cover;
+      border-radius: 4px;
+      background: #0a0e12;
+      display: block;
+    }
+    .thumb-wrap .og-path {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.65rem;
+      color: var(--muted);
+      word-break: break-all;
+      text-align: left;
+    }
+    .thumb-wrap.empty {
+      color: var(--muted);
+      font-size: 0.85rem;
+      padding: 24px 8px;
+    }
+    dl.extra {
+      margin: 14px 0 0;
+      display: grid;
+      gap: 8px;
+    }
+    dl.extra > div {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 8px;
+      font-size: 0.88rem;
+      padding: 8px 10px;
+      background: #12181f;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+    }
+    @media (max-width: 640px) {
+      dl.extra > div { grid-template-columns: 1fr; }
+    }
+    dl.extra dt { color: var(--muted); font-weight: 600; }
+    dl.extra dd { margin: 0; color: var(--text); word-break: break-word; }
+    .legend { display: flex; gap: 12px; flex-wrap: wrap; margin: 0 0 16px; font-size: 0.85rem; }
+    .legend span { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Window segment — Google SERP preview board</h1>
+    <p class="intro">
+      Window segment product/guide pages (38) plus the metal-louvers hub (39).
+      Each card mimics a Google blue-link SERP result using live <code>&lt;title&gt;</code> + meta description.
+      Inventory only — pages are not changed by this board.
+    </p>
+    <p class="stats">
+      Pages: <strong>39</strong> ·
+      Title missing: <strong>0</strong> ·
+      Meta missing: <strong>0</strong> ·
+      OG missing: <strong>0</strong> ·
+      TITLE≠H1: <strong>0</strong> ·
+      Product schema: <strong>38</strong>
+    </p>
+    <div class="legend">
+      <span>Blue link = page <code>&lt;title&gt;</code></span>
+      <span>Green URL = woodenmax.in path</span>
+      <span>Snippet = meta description</span>
+      <span>Thumbnail = og:image</span>
+    </div>
+    <nav class="toc">
+<a href="#page-1">1. 2-track-aluminium-window-price</a>
+<a href="#page-2">2. 2-track-french-sliding-door</a>
+<a href="#page-3">3. 3-track-sliding-window</a>
+<a href="#page-4">4. 4-track-sliding-window-price</a>
+<a href="#page-5">5. aluminium-casement-window-price</a>
+<a href="#page-6">6. aluminium-sliding-window-price-calculator</a>
+<a href="#page-7">7. aluminium-sliding-window</a>
+<a href="#page-8">8. aluminium-system-window-brands-india</a>
+<a href="#page-9">9. aluminium-system-window-price</a>
+<a href="#page-10">10. aluminium-window-glass-price-breakdown</a>
+<a href="#page-11">11. aluminium-window-price-bangalore</a>
+<a href="#page-12">12. aluminium-window-price-chandigarh</a>
+<a href="#page-13">13. aluminium-window-price-delhi</a>
+<a href="#page-14">14. aluminium-window-price-hyderabad</a>
+<a href="#page-15">15. aluminium-window-price-mumbai</a>
+<a href="#page-16">16. aluminium-window-price-per-sqft</a>
+<a href="#page-17">17. aluminium-window-price-pune</a>
+<a href="#page-18">18. aluminium-window-price-vijayawada</a>
+<a href="#page-19">19. aluminium-window-price-visakhapatnam</a>
+<a href="#page-20">20. aluminium-window-price-warangal</a>
+<a href="#page-21">21. best-aluminium-window-for-home</a>
+<a href="#page-22">22. domal-window-price</a>
+<a href="#page-23">23. french-door-georgian-bar</a>
+<a href="#page-24">24. full-elevation-villa-facade</a>
+<a href="#page-25">25. georgian-grill-casement-door</a>
+<a href="#page-26">26. sliding-vs-casement-window</a>
+<a href="#page-27">27. slim-aluminium-window-price-luxury</a>
+<a href="#page-28">28. slim-entrance-glass-door</a>
+<a href="#page-29">29. slim-system-window-price</a>
+<a href="#page-30">30. slimline-aluminium-window</a>
+<a href="#page-31">31. system-casement-window-price</a>
+<a href="#page-32">32. system-sliding-window-price</a>
+<a href="#page-33">33. system-window-for-villa</a>
+<a href="#page-34">34. system-window-glass-options</a>
+<a href="#page-35">35. system-window-installation</a>
+<a href="#page-36">36. system-window-vs-normal-window</a>
+<a href="#page-37">37. top-hung-casement-window</a>
+<a href="#page-38">38. what-is-aluminium-system-window</a>
+<a href="#page-39">39. metal-louvers</a>
+    </nav>
+
+    <section class="page" id="page-1">
+      <header>
+        <div class="num">1</div>
+        <div>
+          <h2>2-track-aluminium-window-price</h2>
+          <p class="meta">File: <code>2-track-aluminium-window-price.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/2-track-aluminium-window-price.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/2-track-aluminium-window-price" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › 2-track-aluminium-window-price</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/2-track-aluminium-window-price.html" target="_blank" rel="noopener">2 Track Aluminium Window Price ₹1200–1400/sqft (2026) + Calculator | WoodenMax</a>
+          <div class="serp-desc">2 track aluminium window price India 2026 — premium 29mm sliding ₹/sqft bands, glass &amp; hardware notes, live size calculator. Compare vs 3-track and get a quote.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › 2-track-aluminium-window-price</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>2 Track Aluminium Window Price ₹1200–1400/sqft (2026) + Calculator</dd></div>
+        <div><dt>og:title</dt><dd>2 Track Aluminium Window Price ₹1200–1400/sqft (2026) + Calculator | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>2 Track Premium Aluminium Sliding Window (29mm) — India Price &amp; Calculator</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-2">
+      <header>
+        <div class="num">2</div>
+        <div>
+          <h2>2-track-french-sliding-door</h2>
+          <p class="meta">File: <code>2-track-french-sliding-door.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/2-track-french-sliding-door.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/2-track-french-sliding-door" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › 2-track-french-sliding-door</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/2-track-french-sliding-door.html" target="_blank" rel="noopener">S35 2-Track French Sliding Door | From ₹1450/sqft (Mesh ₹1650) | WoodenMax</a>
+          <div class="serp-desc">S35 2-track French sliding door by WoodenMax with 2 fixed side doors, 2 middle sliding doors, optional top fixed arch glass panel, and live calculator. Planning rates from ₹1450/sqft or ₹1650/sqft with integrated mesh; glass, lock, coating and GST extra.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › 2-track-french-sliding-door</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/aluminium-windows/2-track-aluminium-french-sliding-door-window-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>S35 2-Track French Sliding Door</dd></div>
+        <div><dt>og:title</dt><dd>S35 2-Track French Sliding Door | From ₹1450/sqft (Mesh ₹1650) | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>S35 2-Track French Sliding Door</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-3">
+      <header>
+        <div class="num">3</div>
+        <div>
+          <h2>3-track-sliding-window</h2>
+          <p class="meta">File: <code>3-track-sliding-window.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/3-track-sliding-window.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/3-track-sliding-window" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › 3-track-sliding-window</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/3-track-sliding-window.html" target="_blank" rel="noopener">3-Track Aluminium Sliding Window with Mesh — 27mm Domal | WoodenMax</a>
+          <div class="serp-desc">3-track aluminium sliding window with mesh (27mm Domal). Rates start from ₹850/sqft; 2-track without mesh from ₹650/sqft. Glass, lock &amp; coating extras separate. Live size calculator.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › 3-track-sliding-window</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>3-Track Aluminium Sliding Window with Mesh</dd></div>
+        <div><dt>og:title</dt><dd>3-Track Aluminium Sliding Window with Mesh — 27mm Domal | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>3-Track Aluminium Sliding Window with Mesh (27mm Domal)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-4">
+      <header>
+        <div class="num">4</div>
+        <div>
+          <h2>4-track-sliding-window-price</h2>
+          <p class="meta">File: <code>4-track-sliding-window-price.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/4-track-sliding-window-price.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/4-track-sliding-window-price" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › 4-track-sliding-window-price</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/4-track-sliding-window-price.html" target="_blank" rel="noopener">4 Track Sliding Window Price ₹650–1200/sqft (2026) | Aluminium Calculator</a>
+          <div class="serp-desc">4 track sliding window price India — multi-panel balcony openings, Domal-to-premium bands, mesh notes, and live calculator. Wider clear opening than 2-track.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › 4-track-sliding-window-price</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/4%20Track%20Sliding%20Window/4-track-aluminium-sliding-window-wide-opening-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/4%20Track%20Sliding%20Window/4-track-aluminium-sliding-window-wide-opening-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>4 Track Sliding Window Price ₹650–1200/sqft (2026)</dd></div>
+        <div><dt>og:title</dt><dd>4 Track Sliding Window Price ₹650–1200/sqft (2026) | Aluminium Calculator</dd></div>
+        <div><dt>schema Product name</dt><dd>4 Track &amp; Multi-Track Aluminium Sliding Window — Price &amp; Calculator (India)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-5">
+      <header>
+        <div class="num">5</div>
+        <div>
+          <h2>aluminium-casement-window-price</h2>
+          <p class="meta">File: <code>aluminium-casement-window-price.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-casement-window-price.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-casement-window-price" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-casement-window-price</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-casement-window-price.html" target="_blank" rel="noopener">Openable Aluminium Doors &amp; Casement Windows — Price Calculator | WoodenMax</a>
+          <div class="serp-desc">Hinged openable aluminium doors and casement windows. Live calculator for 50 mm and 65 mm series; glass and locks selected in the tool. Full 40 mm window on the dedicated top-hung page. WoodenMax India.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-casement-window-price</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/Casement%20Window/casement-window-side-hinged-design.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/Casement%20Window/casement-window-side-hinged-design.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Openable Aluminium Doors &amp; Casement Windows</dd></div>
+        <div><dt>og:title</dt><dd>Openable Aluminium Doors &amp; Casement Windows — Price Calculator | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Openable Aluminium Doors &amp; Casement Windows (40/50/65 mm)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-6">
+      <header>
+        <div class="num">6</div>
+        <div>
+          <h2>aluminium-sliding-window-price-calculator</h2>
+          <p class="meta">File: <code>aluminium-sliding-window-price-calculator.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-sliding-window-price-calculator.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window-price-calculator" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-sliding-window-price-calculator</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-sliding-window-price-calculator.html" target="_blank" rel="noopener">Aluminium Sliding Window Price Calculator (2026) Free | WoodenMax</a>
+          <div class="serp-desc">Free aluminium sliding window price calculator — enter size, glass, coating, mesh for an instant ₹ estimate. Route to 2-track, 3-track, 4-track, or system pages.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-sliding-window-price-calculator</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/Window%20Calculator%20Page/aluminium-window-size-calculator-tool.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/Window%20Calculator%20Page/aluminium-window-size-calculator-tool.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Sliding Window Price Calculator (2026) Free</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Sliding Window Price Calculator (2026) Free | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Aluminium Sliding Window Price Calculator — Free Online (WoodenMax)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-7">
+      <header>
+        <div class="num">7</div>
+        <div>
+          <h2>aluminium-sliding-window</h2>
+          <p class="meta">File: <code>aluminium-sliding-window.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-sliding-window.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-sliding-window</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-sliding-window.html" target="_blank" rel="noopener">2-Track Aluminium Sliding Window — S29–S40 Height Options | WoodenMax</a>
+          <div class="serp-desc">2-track aluminium sliding windows for entrances and high-use openings. S29–S40 height options, 14 mm interlock, high-safety glass &amp; locks. S29 calculator ₹1,200–1,400/sqft.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-sliding-window</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/aluminium-window-pic/balcony-sliding-window-slim-interlock.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/aluminium-window-pic/balcony-sliding-window-slim-interlock.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>2-Track Aluminium Sliding Window</dd></div>
+        <div><dt>og:title</dt><dd>2-Track Aluminium Sliding Window — S29–S40 Height Options | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>29mm Aluminium Sliding Window</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-8">
+      <header>
+        <div class="num">8</div>
+        <div>
+          <h2>aluminium-system-window-brands-india</h2>
+          <p class="meta">File: <code>aluminium-system-window-brands-india.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-system-window-brands-india.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-system-window-brands-india" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-system-window-brands-india</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-system-window-brands-india.html" target="_blank" rel="noopener">Aluminium System Window Brands in India (2026) — Compare &amp; Price Bands | WoodenMax</a>
+          <div class="serp-desc">Aluminium system window brands in India — what architects check (tests, hardware, spares), Gulf vs Euro positioning, and 2026 ₹/sqft bands with a quote path.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-system-window-brands-india</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/System%20Window%20Brands/aluminium-system-window-brands-india.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/System%20Window%20Brands/aluminium-system-window-brands-india.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium System Window Brands in India (2026)</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium System Window Brands in India (2026) — Compare &amp; Price Bands | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Aluminium system window brands in India (comparison)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-9">
+      <header>
+        <div class="num">9</div>
+        <div>
+          <h2>aluminium-system-window-price</h2>
+          <p class="meta">File: <code>aluminium-system-window-price.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-system-window-price.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-system-window-price" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-system-window-price</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-system-window-price.html" target="_blank" rel="noopener">Aluminium System Window Price ₹1180–2680/sqft (2026) | India Guide + Calculator</a>
+          <div class="serp-desc">Aluminium system window price India 2026 — certified-style packages, DGU options, realistic ₹/sqft for premium facades. Live 30mm system sliding calculator.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-system-window-price</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/Aluminium%20System%20Window%20Price/aluminium-system-window-modern-design-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/Aluminium%20System%20Window%20Price/aluminium-system-window-modern-design-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium System Window Price ₹1180–2680/sqft (2026)</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium System Window Price ₹1180–2680/sqft (2026) | India Guide + Calculator</dd></div>
+        <div><dt>schema Product name</dt><dd>Aluminium system window — India price &amp; 30mm system sliding calculator</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-10">
+      <header>
+        <div class="num">10</div>
+        <div>
+          <h2>aluminium-window-glass-price-breakdown</h2>
+          <p class="meta">File: <code>aluminium-window-glass-price-breakdown.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-glass-price-breakdown.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-glass-price-breakdown" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-glass-price-breakdown</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-glass-price-breakdown.html" target="_blank" rel="noopener">Aluminium Window Glass Price Breakdown (2026) — Toughened, DGU, Laminated</a>
+          <div class="serp-desc">Aluminium window glass price breakdown — how 6–12mm toughened, DGU, and laminated safety glass change ₹/sqft. Adders table + full-window calculator.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-glass-price-breakdown</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/Glass%20Price%20Breakdown/double-glass-dgu-window-section.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/Glass%20Price%20Breakdown/double-glass-dgu-window-section.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Glass Price Breakdown (2026)</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Glass Price Breakdown (2026) — Toughened, DGU, Laminated</dd></div>
+        <div><dt>schema Product name</dt><dd>Aluminium Window Glass Price — DGU, Laminated, Toughened Breakdown 2026</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-11">
+      <header>
+        <div class="num">11</div>
+        <div>
+          <h2>aluminium-window-price-bangalore</h2>
+          <p class="meta">File: <code>aluminium-window-price-bangalore.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-bangalore.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-price-bangalore" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-price-bangalore</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-bangalore.html" target="_blank" rel="noopener">Aluminium Window Price in Bengaluru 2026 | ₹550-2250/sqft | WoodenMax</a>
+          <div class="serp-desc">Aluminium window price in Bengaluru from ₹550/sqft to ₹2250/sqft. Compare 2-track, 3-track, casement and acoustic DGU for apartments and villas. </div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-price-bangalore</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Price in Bengaluru 2026</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Price in Bengaluru 2026 | ₹550-2250/sqft | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>WoodenMax</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-12">
+      <header>
+        <div class="num">12</div>
+        <div>
+          <h2>aluminium-window-price-chandigarh</h2>
+          <p class="meta">File: <code>aluminium-window-price-chandigarh.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-chandigarh.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-price-chandigarh" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-price-chandigarh</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-chandigarh.html" target="_blank" rel="noopener">Aluminium Window Price in Chandigarh 2026 | ₹550-2250/sqft | WoodenMax</a>
+          <div class="serp-desc">Live aluminium window price in Chandigarh from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. Transparent transport pricing.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-price-chandigarh</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Price in Chandigarh 2026</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Price in Chandigarh 2026 | ₹550-2250/sqft | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>WoodenMax</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-13">
+      <header>
+        <div class="num">13</div>
+        <div>
+          <h2>aluminium-window-price-delhi</h2>
+          <p class="meta">File: <code>aluminium-window-price-delhi.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-delhi.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-price-delhi" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-price-delhi</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-delhi.html" target="_blank" rel="noopener">Aluminium Window Price in Delhi NCR 2026 | ₹550-2250/sqft | WoodenMax</a>
+          <div class="serp-desc">Live aluminium window price in Delhi NCR from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. Transparent transport pricing.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-price-delhi</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Price in Delhi NCR 2026</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Price in Delhi NCR 2026 | ₹550-2250/sqft | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>WoodenMax</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-14">
+      <header>
+        <div class="num">14</div>
+        <div>
+          <h2>aluminium-window-price-hyderabad</h2>
+          <p class="meta">File: <code>aluminium-window-price-hyderabad.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-hyderabad.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-price-hyderabad" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-price-hyderabad</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-hyderabad.html" target="_blank" rel="noopener">Aluminium Window Price in Hyderabad (2026) ₹/sqft + Calculator | WoodenMax</a>
+          <div class="serp-desc">Aluminium window price in Hyderabad — Gachibowli to Banjara Hills, Domal to premium sliding, casement vents, and live calculator. Local site-visit notes.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-price-hyderabad</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/City%20Price%20Page/best-aluminium-window-for-home-design.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/City%20Price%20Page/best-aluminium-window-for-home-design.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Price in Hyderabad (2026) ₹/sqft + Calculator</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Price in Hyderabad (2026) ₹/sqft + Calculator | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Aluminium Window Price in Hyderabad — ₹/sqft, Calculator &amp; Site Visit</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-15">
+      <header>
+        <div class="num">15</div>
+        <div>
+          <h2>aluminium-window-price-mumbai</h2>
+          <p class="meta">File: <code>aluminium-window-price-mumbai.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-mumbai.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-price-mumbai" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-price-mumbai</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-mumbai.html" target="_blank" rel="noopener">Aluminium Window Price in Mumbai 2026 | ₹550-2250/sqft | WoodenMax</a>
+          <div class="serp-desc">Aluminium window price in Mumbai from ₹550/sqft to ₹2250/sqft. Coastal Seaside coating, high-rise water-tightness and monsoon-ready specs. </div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-price-mumbai</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Price in Mumbai 2026</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Price in Mumbai 2026 | ₹550-2250/sqft | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>WoodenMax</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-16">
+      <header>
+        <div class="num">16</div>
+        <div>
+          <h2>aluminium-window-price-per-sqft</h2>
+          <p class="meta">File: <code>aluminium-window-price-per-sqft.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-per-sqft.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-price-per-sqft" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-price-per-sqft</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-per-sqft.html" target="_blank" rel="noopener">Aluminium Window Price Per Sq Ft India 2026 | ₹550–2,250/sqft + Calculator</a>
+          <div class="serp-desc">Aluminium window price per sq ft India 2026 — Domal sliding, premium 29mm, casement, system, slim, and French door bands in one master table + calculator.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-price-per-sqft</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/Window%20Price%20Per%20Sqft/sliding-window-price-range-india-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/Window%20Price%20Per%20Sqft/sliding-window-price-range-india-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Price Per Sq Ft India 2026</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Price Per Sq Ft India 2026 | ₹550–2,250/sqft + Calculator</dd></div>
+        <div><dt>schema Product name</dt><dd>Aluminium Window Price Per Sqft — Main India Guide &amp; Calculator 2026</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-17">
+      <header>
+        <div class="num">17</div>
+        <div>
+          <h2>aluminium-window-price-pune</h2>
+          <p class="meta">File: <code>aluminium-window-price-pune.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-pune.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-price-pune" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-price-pune</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-pune.html" target="_blank" rel="noopener">Aluminium Window Price in Pune 2026 | ₹550-2250/sqft | WoodenMax</a>
+          <div class="serp-desc">Live aluminium window price in Pune from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. </div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-price-pune</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Price in Pune 2026</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Price in Pune 2026 | ₹550-2250/sqft | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>WoodenMax</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-18">
+      <header>
+        <div class="num">18</div>
+        <div>
+          <h2>aluminium-window-price-vijayawada</h2>
+          <p class="meta">File: <code>aluminium-window-price-vijayawada.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-vijayawada.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-price-vijayawada" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-price-vijayawada</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-vijayawada.html" target="_blank" rel="noopener">Aluminium Window Price in Vijayawada 2026 | ₹550-2250/sqft | WoodenMax</a>
+          <div class="serp-desc">Live aluminium window price in Vijayawada from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. </div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-price-vijayawada</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Price in Vijayawada 2026</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Price in Vijayawada 2026 | ₹550-2250/sqft | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>WoodenMax</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-19">
+      <header>
+        <div class="num">19</div>
+        <div>
+          <h2>aluminium-window-price-visakhapatnam</h2>
+          <p class="meta">File: <code>aluminium-window-price-visakhapatnam.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-visakhapatnam.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-price-visakhapatnam" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-price-visakhapatnam</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-visakhapatnam.html" target="_blank" rel="noopener">Aluminium Window Price in Visakhapatnam 2026 | ₹550-2250/sqft | WoodenMax</a>
+          <div class="serp-desc">Live aluminium window price in Visakhapatnam from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. </div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-price-visakhapatnam</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Price in Visakhapatnam 2026</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Price in Visakhapatnam 2026 | ₹550-2250/sqft | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>WoodenMax</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-20">
+      <header>
+        <div class="num">20</div>
+        <div>
+          <h2>aluminium-window-price-warangal</h2>
+          <p class="meta">File: <code>aluminium-window-price-warangal.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-warangal.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/aluminium-window-price-warangal" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › aluminium-window-price-warangal</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/aluminium-window-price-warangal.html" target="_blank" rel="noopener">Aluminium Window Price in Warangal 2026 | ₹550-2250/sqft | WoodenMax</a>
+          <div class="serp-desc">Live aluminium window price in Warangal from ₹550/sqft to ₹2250/sqft. Calculator, finishes, install timelines. </div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › aluminium-window-price-warangal</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/2%20Track%20Aluminium%20Window/2-track-aluminium-sliding-window-modern-home-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Window Price in Warangal 2026</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Window Price in Warangal 2026 | ₹550-2250/sqft | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>WoodenMax</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-21">
+      <header>
+        <div class="num">21</div>
+        <div>
+          <h2>best-aluminium-window-for-home</h2>
+          <p class="meta">File: <code>best-aluminium-window-for-home.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/best-aluminium-window-for-home.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/best-aluminium-window-for-home" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › best-aluminium-window-for-home</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/best-aluminium-window-for-home.html" target="_blank" rel="noopener">Best Aluminium Window for Home (2026) — Room-by-Room Picks + Calculator</a>
+          <div class="serp-desc">Best aluminium window for home in India — bedroom, balcony, kitchen, and wet-area picks with soft ₹/sqft bands and a calculator to budget before you buy.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › best-aluminium-window-for-home</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/Best%20Window%20for%20Home/living-room-window-design-aluminium.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/Best%20Window%20for%20Home/living-room-window-design-aluminium.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Best Aluminium Window for Home (2026)</dd></div>
+        <div><dt>og:title</dt><dd>Best Aluminium Window for Home (2026) — Room-by-Room Picks + Calculator</dd></div>
+        <div><dt>schema Product name</dt><dd>Best Aluminium Window for Home — Room-by-Room Picks + Calculator 2026</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-22">
+      <header>
+        <div class="num">22</div>
+        <div>
+          <h2>domal-window-price</h2>
+          <p class="meta">File: <code>domal-window-price.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/domal-window-price.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/domal-window-price" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › domal-window-price</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/domal-window-price.html" target="_blank" rel="noopener">Domal Window Price ₹550–950/sqft (2026) — 27mm / 27x65 | WoodenMax</a>
+          <div class="serp-desc">Domal aluminium window price ₹550–950/sqft for the 27mm / 27x65 sliding series. See supported sizes, practical limitations, upgrade guidance and live quote calculator.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › domal-window-price</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Domal Window Price ₹550–950/sqft (2026)</dd></div>
+        <div><dt>og:title</dt><dd>Domal Window Price ₹550–950/sqft (2026) — 27mm / 27x65 | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Domal Window Price (27mm Aluminium Series)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-23">
+      <header>
+        <div class="num">23</div>
+        <div>
+          <h2>french-door-georgian-bar</h2>
+          <p class="meta">File: <code>french-door-georgian-bar.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/french-door-georgian-bar.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/french-door-georgian-bar" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › french-door-georgian-bar</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/french-door-georgian-bar.html" target="_blank" rel="noopener">French Aluminium Door with Georgian Bar — Price Calculator | WoodenMax</a>
+          <div class="serp-desc">French hinged aluminium door with Georgian bar design. Live calculator for size, glass, and locks. WoodenMax India.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › french-door-georgian-bar</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/aluminium-windows/french-aluminium-door-georgian-bar-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/aluminium-windows/french-aluminium-door-georgian-bar-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>French Aluminium Door with Georgian Bar</dd></div>
+        <div><dt>og:title</dt><dd>French Aluminium Door with Georgian Bar — Price Calculator | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Luxury Aluminium French Door</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-24">
+      <header>
+        <div class="num">24</div>
+        <div>
+          <h2>full-elevation-villa-facade</h2>
+          <p class="meta">File: <code>full-elevation-villa-facade.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/full-elevation-villa-facade.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/full-elevation-villa-facade" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › full-elevation-villa-facade</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/full-elevation-villa-facade.html" target="_blank" rel="noopener">Full Elevation Villa Facade — Slim Imported Profiles | from ₹1250/sqft | WoodenMax</a>
+          <div class="serp-desc">Full elevation villa facade with slim imported profiles. Fixed glass elevations and partitions from ₹1250/sqft. Glass &amp; colour adders separate. Live calculator — no doors on this product.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › full-elevation-villa-facade</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/full-elevation-facade-pic/elevation-window-glass-facades.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/full-elevation-facade-pic/elevation-window-glass-facades.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Full Elevation Villa Facade</dd></div>
+        <div><dt>og:title</dt><dd>Full Elevation Villa Facade — Slim Imported Profiles | from ₹1250/sqft | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Full Elevation Villa Facade (Full Glass Elevation)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-25">
+      <header>
+        <div class="num">25</div>
+        <div>
+          <h2>georgian-grill-casement-door</h2>
+          <p class="meta">File: <code>georgian-grill-casement-door.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/georgian-grill-casement-door.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/georgian-grill-casement-door" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › georgian-grill-casement-door</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/georgian-grill-casement-door.html" target="_blank" rel="noopener">Luxury Aluminium Casement Door for Balcony &amp; Entrance ₹1350-1850/sqft 2026 Price</a>
+          <div class="serp-desc">Luxury aluminium casement door price ₹1350-1850/sqft. Openable aluminium door for balcony, entrance and kitchen; 40mm profile, multipoint lock, toughened glass. Available with Georgian grill styling. Live price calculator included.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › georgian-grill-casement-door</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/top-hung-casment-window-pic/aluminium-profile-door-modern-design.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/top-hung-casment-window-pic/aluminium-profile-door-modern-design.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Luxury Aluminium Casement Door for Balcony &amp; Entrance</dd></div>
+        <div><dt>og:title</dt><dd>Luxury Aluminium Casement Door for Balcony &amp; Entrance ₹1350-1850/sqft 2026 Price</dd></div>
+        <div><dt>schema Product name</dt><dd>Luxury Aluminium Casement Door</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-26">
+      <header>
+        <div class="num">26</div>
+        <div>
+          <h2>sliding-vs-casement-window</h2>
+          <p class="meta">File: <code>sliding-vs-casement-window.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/sliding-vs-casement-window.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/sliding-vs-casement-window" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › sliding-vs-casement-window</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/sliding-vs-casement-window.html" target="_blank" rel="noopener">Sliding vs Casement Window (2026) — Which Is Better for Indian Homes?</a>
+          <div class="serp-desc">Sliding vs casement window for Indian homes — ventilation, sealing, space, noise, and soft ₹/sqft context. Calculator plus links to both product tools.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › sliding-vs-casement-window</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/Sliding%20vs%20Casement/sliding-vs-casement-window-comparison-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/Sliding%20vs%20Casement/sliding-vs-casement-window-comparison-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Sliding vs Casement Window (2026)</dd></div>
+        <div><dt>og:title</dt><dd>Sliding vs Casement Window (2026) — Which Is Better for Indian Homes?</dd></div>
+        <div><dt>schema Product name</dt><dd>Sliding vs Casement Window — Comparison, Price &amp; Calculator (India 2026)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-27">
+      <header>
+        <div class="num">27</div>
+        <div>
+          <h2>slim-aluminium-window-price-luxury</h2>
+          <p class="meta">File: <code>slim-aluminium-window-price-luxury.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/slim-aluminium-window-price-luxury.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/slim-aluminium-window-price-luxury" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › slim-aluminium-window-price-luxury</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/slim-aluminium-window-price-luxury.html" target="_blank" rel="noopener">Slim Aluminium Window Price ₹900–1500/sqft (2026) Luxury Homes | WoodenMax</a>
+          <div class="serp-desc">Slim aluminium window price for luxury homes and villas — minimal sightlines, premium coatings, soft ₹/sqft bands, and calculator-based estimate (not slim-system).</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › slim-aluminium-window-price-luxury</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/slim%20aluminium%20window/slim-aluminium-window-luxury-villa-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/slim%20aluminium%20window/slim-aluminium-window-luxury-villa-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Slim Aluminium Window Price ₹900–1500/sqft (2026) Luxury Homes</dd></div>
+        <div><dt>og:title</dt><dd>Slim Aluminium Window Price ₹900–1500/sqft (2026) Luxury Homes | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Slim &amp; Luxury Aluminium Window — India Price, Calculator &amp; Elevation Picks</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-28">
+      <header>
+        <div class="num">28</div>
+        <div>
+          <h2>slim-entrance-glass-door</h2>
+          <p class="meta">File: <code>slim-entrance-glass-door.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/slim-entrance-glass-door.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/slim-entrance-glass-door" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › slim-entrance-glass-door</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/slim-entrance-glass-door.html" target="_blank" rel="noopener">S40 Slim Sliding Window — Slim Entrance Glass Door | From ₹1860/sqft | WoodenMax</a>
+          <div class="serp-desc">Luxury S40 slim sliding / slim entrance glass door. 14 mm interlock, thicker DGU options, ~14 ft class height. Rates start ₹1860/sqft — glass &amp; lock extra. Live calculator.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › slim-entrance-glass-door</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/aluminium-windows/slim-entrance-aluminium-glass-door.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>S40 Slim Sliding Window — Slim Entrance Glass Door</dd></div>
+        <div><dt>og:title</dt><dd>S40 Slim Sliding Window — Slim Entrance Glass Door | From ₹1860/sqft | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>S40 Slim Sliding / Slim Entrance Glass Door</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-29">
+      <header>
+        <div class="num">29</div>
+        <div>
+          <h2>slim-system-window-price</h2>
+          <p class="meta">File: <code>slim-system-window-price.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/slim-system-window-price.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/slim-system-window-price" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › slim-system-window-price</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/slim-system-window-price.html" target="_blank" rel="noopener">Slim System Window Price ₹1350–3000/sqft (2026) | WoodenMax</a>
+          <div class="serp-desc">Slim system aluminium window price: minimal sight lines, 2026 India ₹/sqft for luxury villas, and premium casement-based calculator. Compare vs standard 29mm stacks. Certified system window packages in India for this topic are often planned between ₹1350 and ₹3000 per sq.ft (2026, before GST).</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › slim-system-window-price</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/slimline-glass-doors-pic/aluminium-glass-doors-minimal-profiles.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/slimline-glass-doors-pic/aluminium-glass-doors-minimal-profiles.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Slim System Window Price ₹1350–3000/sqft (2026)</dd></div>
+        <div><dt>og:title</dt><dd>Slim System Window Price ₹1350–3000/sqft (2026) | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Slim system aluminium window — luxury price (premium series)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-30">
+      <header>
+        <div class="num">30</div>
+        <div>
+          <h2>slimline-aluminium-window</h2>
+          <p class="meta">File: <code>slimline-aluminium-window.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/slimline-aluminium-window.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/slimline-aluminium-window" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › slimline-aluminium-window</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/slimline-aluminium-window.html" target="_blank" rel="noopener">Slimline Aluminium Window — High-End S35 / S38 / 14 mm Casement | WoodenMax</a>
+          <div class="serp-desc">Slimline aluminium casement windows — high-end S35, S38 &amp; 14 mm series. Thin profiles, DGU options, openable mesh. Rates start from ₹900/sqft. Live calculator.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › slimline-aluminium-window</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/slimline-profile-window-pic/woodenmax-profiles-windows-glass-pergola.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/slimline-profile-window-pic/woodenmax-profiles-windows-glass-pergola.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Slimline Aluminium Window</dd></div>
+        <div><dt>og:title</dt><dd>Slimline Aluminium Window — High-End S35 / S38 / 14 mm Casement | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Slimline Aluminium Window</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-31">
+      <header>
+        <div class="num">31</div>
+        <div>
+          <h2>system-casement-window-price</h2>
+          <p class="meta">File: <code>system-casement-window-price.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/system-casement-window-price.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/system-casement-window-price" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › system-casement-window-price</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/system-casement-window-price.html" target="_blank" rel="noopener">System Casement Window Price ₹1280–2920/sqft (2026) | WoodenMax</a>
+          <div class="serp-desc">Aluminium system casement window price in India: hinges, multipoint, wind load, and 2026 ₹/sqft ranges. Live premium casement calculator for vent-heavy facades. Certified system window packages in India for this topic are often planned between ₹1280 and ₹2920 per sq.ft (2026, before GST).</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › system-casement-window-price</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/System%20Casement%20Window/premium-casement-window-hinge-detail.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/System%20Casement%20Window/premium-casement-window-hinge-detail.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>System Casement Window Price ₹1280–2920/sqft (2026)</dd></div>
+        <div><dt>og:title</dt><dd>System Casement Window Price ₹1280–2920/sqft (2026) | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>System casement window — India price (premium hardware)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-32">
+      <header>
+        <div class="num">32</div>
+        <div>
+          <h2>system-sliding-window-price</h2>
+          <p class="meta">File: <code>system-sliding-window-price.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/system-sliding-window-price.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/system-sliding-window-price" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › system-sliding-window-price</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/system-sliding-window-price.html" target="_blank" rel="noopener">System Sliding Window Price ₹1200–2780/sqft (2026) | Large Opening Guide</a>
+          <div class="serp-desc">System sliding window price India 2026 — large openings, track hardware, premium 29–35mm class ₹/sqft. Live sliding calculator (distinct from system price index).</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › system-sliding-window-price</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/System%20Sliding%20Window/system-sliding-window-large-opening.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/System%20Sliding%20Window/system-sliding-window-large-opening.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>System Sliding Window Price ₹1200–2780/sqft (2026)</dd></div>
+        <div><dt>og:title</dt><dd>System Sliding Window Price ₹1200–2780/sqft (2026) | Large Opening Guide</dd></div>
+        <div><dt>schema Product name</dt><dd>System sliding window — India price (29mm)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-33">
+      <header>
+        <div class="num">33</div>
+        <div>
+          <h2>system-window-for-villa</h2>
+          <p class="meta">File: <code>system-window-for-villa.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/system-window-for-villa.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/system-window-for-villa" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › system-window-for-villa</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/system-window-for-villa.html" target="_blank" rel="noopener">System Window for Villa &amp; Luxury Homes ₹1300–3000/sqft (2026) | WoodenMax</a>
+          <div class="serp-desc">System window for villa and luxury homes — elevation strategy, large glass, soft 2026 budgets, and premium casement calculator with links to system sliding.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › system-window-for-villa</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/villa%20luxury%20window/system-window-villa-design.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/villa%20luxury%20window/system-window-villa-design.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>System Window for Villa &amp; Luxury Homes ₹1300–3000/sqft (2026)</dd></div>
+        <div><dt>og:title</dt><dd>System Window for Villa &amp; Luxury Homes ₹1300–3000/sqft (2026) | WoodenMax</dd></div>
+        <div><dt>schema Product name</dt><dd>Villa &amp; luxury system windows — 2026 India guide</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-34">
+      <header>
+        <div class="num">34</div>
+        <div>
+          <h2>system-window-glass-options</h2>
+          <p class="meta">File: <code>system-window-glass-options.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/system-window-glass-options.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/system-window-glass-options" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › system-window-glass-options</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/system-window-glass-options.html" target="_blank" rel="noopener">System Window Glass Options — DGU, Laminated &amp; IGU Price Impact (2026)</a>
+          <div class="serp-desc">System window glass options — DGU, triple IGU, laminated safety for certified systems in India. Price impact vs the general glass breakdown page + calculator.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › system-window-glass-options</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/Glass%20Options/system-window-double-glass-dgu.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/Glass%20Options/system-window-double-glass-dgu.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>System Window Glass Options</dd></div>
+        <div><dt>og:title</dt><dd>System Window Glass Options — DGU, Laminated &amp; IGU Price Impact (2026)</dd></div>
+        <div><dt>schema Product name</dt><dd>System window glass build-ups — India 2026</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-35">
+      <header>
+        <div class="num">35</div>
+        <div>
+          <h2>system-window-installation</h2>
+          <p class="meta">File: <code>system-window-installation.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/system-window-installation.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/system-window-installation" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › system-window-installation</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/system-window-installation.html" target="_blank" rel="noopener">System Window Installation Cost ₹1150–2650/sqft (2026) — Site &amp; Sealing</a>
+          <div class="serp-desc">System window installation cost India — fixing sequence, waterproofing, alignment, crane/access drivers, and soft ₹/sqft with a 29mm sliding planning calculator.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › system-window-installation</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/Installation%20Process/system-window-installation-site.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/Installation%20Process/system-window-installation-site.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>System Window Installation Cost ₹1150–2650/sqft (2026)</dd></div>
+        <div><dt>og:title</dt><dd>System Window Installation Cost ₹1150–2650/sqft (2026) — Site &amp; Sealing</dd></div>
+        <div><dt>schema Product name</dt><dd>System window installation (India) — process + estimate</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-36">
+      <header>
+        <div class="num">36</div>
+        <div>
+          <h2>system-window-vs-normal-window</h2>
+          <p class="meta">File: <code>system-window-vs-normal-window.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/system-window-vs-normal-window.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/system-window-vs-normal-window" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › system-window-vs-normal-window</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/system-window-vs-normal-window.html" target="_blank" rel="noopener">System Window vs Normal Aluminium Window (2026) — Cost &amp; Performance</a>
+          <div class="serp-desc">System window vs normal aluminium window — engineering, water rating, hardware, and why ₹/sqft bands diverge. 2026 India comparison for architects and owners.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › system-window-vs-normal-window</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/System%20vs%20Normal%20Window/system-window-vs-normal-window-comparison-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/System%20vs%20Normal%20Window/system-window-vs-normal-window-comparison-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>System Window vs Normal Aluminium Window (2026)</dd></div>
+        <div><dt>og:title</dt><dd>System Window vs Normal Aluminium Window (2026) — Cost &amp; Performance</dd></div>
+        <div><dt>schema Product name</dt><dd>System vs normal aluminium window — 2026 comparison + calculator</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-37">
+      <header>
+        <div class="num">37</div>
+        <div>
+          <h2>top-hung-casement-window</h2>
+          <p class="meta">File: <code>top-hung-casement-window.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/top-hung-casement-window.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/top-hung-casement-window" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › top-hung-casement-window</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/top-hung-casement-window.html" target="_blank" rel="noopener">Aluminium Top Hung Casement Window ( Openable Window ) ₹750-1050/sqft 2026 Price</a>
+          <div class="serp-desc">Top hung casement window price ₹750-1050/sqft. 40mm outward opening, multipoint lock, mesh option. Live calculator for instant quote.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › top-hung-casement-window</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/top-hung-casment-window-pic/top-hung-aluminium-casement-window-lucknow.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/top-hung-casment-window-pic/top-hung-aluminium-casement-window-lucknow.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Top Hung Casement Window ( Openable Window )</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Top Hung Casement Window ( Openable Window ) ₹750-1050/sqft 2026 Price</dd></div>
+        <div><dt>schema Product name</dt><dd>Top Hung Casement Window</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-38">
+      <header>
+        <div class="num">38</div>
+        <div>
+          <h2>what-is-aluminium-system-window</h2>
+          <p class="meta">File: <code>what-is-aluminium-system-window.html</code> ·
+            <a href="http://localhost:5500/products/aluminium-windows/what-is-aluminium-system-window.html" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/aluminium-windows/what-is-aluminium-system-window" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › aluminium-windows › what-is-aluminium-system-window</div>
+          <a class="serp-title" href="http://localhost:5500/products/aluminium-windows/what-is-aluminium-system-window.html" target="_blank" rel="noopener">What Is an Aluminium System Window? Profiles, Hardware &amp; 2026 Prices</a>
+          <div class="serp-desc">What is an aluminium system window — profiles, gaskets, hardware, and tested performance vs shop fabrication. Plain explainer with soft 2026 India price context.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › aluminium-windows › what-is-aluminium-system-window</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/What%20is%20System%20Window/what-is-aluminium-system-window-diagram.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/What%20is%20System%20Window/what-is-aluminium-system-window-diagram.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>What Is an Aluminium System Window? Profiles, Hardware &amp; 2026 Prices</dd></div>
+        <div><dt>og:title</dt><dd>What Is an Aluminium System Window? Profiles, Hardware &amp; 2026 Prices</dd></div>
+        <div><dt>schema Product name</dt><dd>What is an aluminium system window (guide + calculator)</dd></div>
+      </dl>
+    </section>
+    <section class="page" id="page-39">
+      <header>
+        <div class="num">39</div>
+        <div>
+          <h2>metal-louvers</h2>
+          <p class="meta">File: <code>metal-louvers/index.html</code> ·
+            <a href="http://localhost:5500/products/metal-louvers" target="_blank" rel="noopener">open local</a> ·
+            <a href="https://woodenmax.in/products/metal-louvers" target="_blank" rel="noopener">prod path</a>
+          </p>
+          <div class="status-flags"><span class="badge ok">OK</span></div>
+        </div>
+      </header>
+      <div class="serp-row">
+        <div class="serp-card">
+          <div class="serp-url">woodenmax.in › products › metal-louvers</div>
+          <a class="serp-title" href="http://localhost:5500/products/metal-louvers" target="_blank" rel="noopener">Aluminium Louvers &amp; Rafters Price Hub India 2026 — Live Calculators | WoodenMax</a>
+          <div class="serp-desc">Aluminium louvers &amp; rafters hub — 4 live BOQ calculators + 14 price guides. Elevation, curved, ceiling &amp; canopy from ₹450–1,450/sqft. WoodenMax Hyderabad factory, pan-India install.</div>
+          <div class="serp-local">Local: <span>localhost:5500 › products › metal-louvers</span></div>
+        </div>
+        <div class="thumb-wrap">
+          <img src="/images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india-1200.webp" alt="og:image" loading="lazy" decoding="async" />
+          <code class="og-path">https://woodenmax.in/images/products/metal-louvers/building-exterior-aluminium-louver-cladding-india-1200.webp</code>
+        </div>
+      </div>
+      <dl class="extra">
+        <div><dt>H1</dt><dd>Aluminium Louvers &amp; Rafters Price Hub India 2026 — Live Calculators</dd></div>
+        <div><dt>og:title</dt><dd>Aluminium Louvers &amp; Rafters Price Hub India 2026 — WoodenMax</dd></div>
+        <div><dt>schema CollectionPage name</dt><dd>Aluminium Louvers &amp; Rafters Price Hub — WoodenMax</dd></div>
+      </dl>
+    </section>
+  </div>
+</body>
+</html>

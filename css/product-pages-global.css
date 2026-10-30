@@ -325,6 +325,7 @@
   overflow: hidden;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .faq-item:hover {
@@ -342,6 +343,20 @@
   font-weight: 500;
   font-size: 0.95rem;
   transition: all 0.3s ease;
+}
+
+button.faq-question {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: inherit;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .faq-question:hover {

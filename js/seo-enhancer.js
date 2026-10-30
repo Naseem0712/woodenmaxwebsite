@@ -15,7 +15,7 @@
  *   4. Add `width`, `height`, `loading="lazy"`, `decoding="async"`
  *      to any <img> tag missing those attributes once they load
  *      (Core Web Vitals — CLS fix).
- *   5. Ensure <meta name="theme-color"> exists (Chrome address-bar
+ * 5. Ensure <meta name="theme-color"> exists (Chrome address-bar
  *      colour on mobile).
  *   6. Hook PWA manifest link if missing.
  *   7. Add `rel="noopener noreferrer"` to any `target="_blank"`
@@ -415,7 +415,7 @@
       '@context': 'https://schema.org',
       '@type': 'Product',
       'name': name,
-      'description': (document.querySelector('meta[name="description"]') || {}).content || name,
+ 'description': (document.querySelector('meta[name="description"]') || {}).content || name,
       'brand': { '@type': 'Brand', 'name': BRAND.name, 'url': BRAND.url },
       'image': imgUrl,
       'category': 'Architectural Aluminium',
@@ -539,7 +539,7 @@
 
     var pageUrl = location.origin + location.pathname.replace(/\/$/, '');
     var titleEl = document.querySelector('title');
-    var descEl = document.querySelector('meta[name="description"]');
+ var descEl = document.querySelector('meta[name="description"]');
     var altEl = document.querySelector('meta[property="og:image:alt"]');
     var pageName = titleEl ? titleEl.textContent.trim().slice(0, 120) : BRAND.name;
     var pageDesc = descEl ? descEl.getAttribute('content') : pageName;
@@ -606,7 +606,7 @@
     // Root-absolute, extension-less: the .html forms only 301 onward.
     var links = [
       { label: 'Warranty Policy',                    href: '/policies/warranty-policy',                   sub: '10-yr profile, 5-yr hardware' },
-      { label: 'GST &amp; Transport',                href: '/policies/gst-transport-policy',              sub: 'Free transport on &#8377;15L+ orders' },
+      { label: 'GST &amp; Transport',                href: '/policies/gst-transport-policy',              sub: 'Transport included on ₹15L+ orders' },
       { label: 'Factory Tour',                       href: '/about/factory-tour-hyderabad',               sub: 'In-house fabrication · Nampally, HYD' },
       { label: 'Quality &amp; Testing',              href: '/about/quality-testing-process',              sub: 'Powder, weathering, MTC, hardware' },
       { label: 'Case Study — Makobrew Cafe',         href: '/about/case-study-makobrew-jubilee-hills',    sub: 'Jubilee Hills + Himayat Nagar' },
