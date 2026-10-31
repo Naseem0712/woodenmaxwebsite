@@ -53,28 +53,26 @@
     overflow: hidden;
   }
 
+  body.silo-telescope .page-header-content .wm-telescope-hub-rate-strip,
   body.silo-telescope .page-header-content > div[style*="rgba(16, 185, 129"] {
-    margin: 0.55rem 0 0 !important;
-    padding: 0.55rem 0.65rem !important;
-    max-height: 4.2rem;
-    overflow: hidden;
-    position: relative;
+    margin: 0.35rem 0 0 !important;
+    padding: 0.28rem 0.5rem !important;
+    max-height: none;
+    overflow: visible;
+    position: static;
+    border-radius: 0.3rem !important;
   }
 
+  body.silo-telescope .page-header-content .wm-telescope-hub-rate-strip::after,
   body.silo-telescope .page-header-content > div[style*="rgba(16, 185, 129"]::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 1.5rem;
-    background: linear-gradient(transparent, rgba(10, 14, 23, 0.85));
-    pointer-events: none;
+    content: none !important;
+    display: none !important;
   }
 
+  body.silo-telescope .page-header-content .wm-telescope-hub-rate-strip p,
   body.silo-telescope .page-header-content > div[style*="rgba(16, 185, 129"] p {
-    font-size: 0.72rem !important;
-    line-height: 1.4 !important;
+    font-size: 0.7rem !important;
+    line-height: 1.3 !important;
   }
 
   body.silo-telescope .wm-telescope-hub-cta {
@@ -97,14 +95,6 @@
 
   .telescope-hub-main-flow > #telescope-hub-products {
     order: 1;
-  }
-
-  .telescope-hub-main-flow > #telescope-hub-rates {
-    order: 2;
-  }
-
-  .telescope-hub-main-flow > #panel-config-guide {
-    order: 3;
   }
 
   body.silo-telescope #telescope-hub-products.catalog-content {
@@ -365,4 +355,16 @@
   body.page-telescope-pro .product-image-gallery > div[style*="margin-top: 2rem"] h3 {
     font-size: 0.95rem !important;
   }
+}
+
+/* Hub soft-rate strip — compact on all breakpoints */
+body.silo-telescope .wm-telescope-hub-rate-strip {
+  margin: 0.55rem 0 0;
+  padding: 0.35rem 0.65rem;
+  max-width: 720px;
+}
+body.silo-telescope .wm-telescope-hub-rate-strip p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.35;
 }

@@ -4,7 +4,29 @@
  * (body.silo-folding, body.page-fold-pro).
  * Layout-only: titles, meta, JSON-LD, analytics, and crawlable
  * copy stay in the DOM (visually tightened on small screens).
+ * Hub cards: match telescope catalog product-card chrome.
  */
+
+/* Hub product cards — telescope parity (desktop + mobile) */
+body.silo-folding .catalog-products-grid .product-card-inner {
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+body.silo-folding .catalog-products-grid .product-card .product-image-container {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+body.silo-folding .catalog-products-grid .product-card .product-title-row h3 {
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+}
+body.silo-folding .catalog-products-grid .product-card .product-content {
+  background: #FFFFFF;
+}
+body.silo-folding .catalog-products-grid .product-card .product-description {
+  color: #475569;
+}
 
 /* ── Hub: product cards early on mobile ── */
 .fold-hub-main-flow {
@@ -324,19 +346,29 @@
     gap: 0.75rem !important;
   }
 
-  body.page-fold-pro .product-detail-grid > .product-image-gallery {
+  /* Legacy fold pages only — Master v1 (page-window-pro + pilot-ready) keeps gallery→intro→calc via window-product-design-v1.css */
+  body.page-fold-pro:not(.page-window-pro) .product-detail-grid > .product-image-gallery,
+  body.page-fold-pro.page-window-pro:not([data-product-family="aluminium-window"]) .product-detail-grid > .product-image-gallery {
     order: 2 !important;
   }
 
-  body.page-fold-pro .product-detail-grid > div:last-child,
-  body.page-fold-pro .product-detail-grid > div:nth-child(2) {
+  body.page-fold-pro:not(.page-window-pro) .product-detail-grid > div:last-child,
+  body.page-fold-pro:not(.page-window-pro) .product-detail-grid > div:nth-child(2),
+  body.page-fold-pro.page-window-pro:not([data-product-family="aluminium-window"]) .product-detail-grid > div:last-child,
+  body.page-fold-pro.page-window-pro:not([data-product-family="aluminium-window"]) .product-detail-grid > div:nth-child(2) {
     order: 1 !important;
   }
 
-  body.page-fold-pro .product-main-image {
+  body.page-fold-pro:not(.page-window-pro) .product-main-image,
+  body.page-fold-pro.page-window-pro:not([data-product-family="aluminium-window"]) .product-main-image {
     max-height: 150px !important;
     object-fit: cover !important;
     border-radius: 10px;
+  }
+
+  /* Master fold pages: do not crush gallery height — pilot + Master CSS own the image */
+  body.page-fold-pro.page-window-pro[data-product-family="aluminium-window"] .product-main-image {
+    max-height: none;
   }
 
   body.page-fold-pro .product-thumbnail-gallery {

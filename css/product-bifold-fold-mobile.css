@@ -6,7 +6,7 @@
  * Imports shared fold mobile rules, then page-specific layout.
  * SEO: titles/meta/JSON-LD untouched structurally; long copy stays in DOM.
  */
-@import url('/css/product-fold-mobile.css?v=20260730f');
+@import url('/css/product-fold-mobile.css?v=20261031fold1');
 
 @media (max-width: 768px) {
   body.page-fold-pro.page-bifold-fold .wm-fold-hero-intro .section-label {

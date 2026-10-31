@@ -421,22 +421,141 @@
   font-family: var(--font-serif), "Cormorant Garamond", Georgia, serif;
   color: #0f172a;
 }
-[data-product-family="aluminium-window"].page-window-pro .wm-calculator-finder {
+/*
+ * Cost Calculator (Master v1) — fixed right glass capsule.
+ * Mirrors My Estimate (.wm-global-quote-cart) pill: horizontal label,
+ * fully rounded ends, frosted navy glass; starts at top: 25vh.
+ */
+/*
+ * Master v1 Cost Calculator capsule — all page-window-pro Master pages
+ * (aluminium windows, folding children, telescope children).
+ */
+body.page-window-pro .wm-calculator-finder {
+  position: fixed !important;
+  right: 0.85rem !important;
+  left: auto !important;
+  top: 25vh !important;
+  bottom: auto !important;
+  z-index: 86;
+  box-sizing: border-box;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 2.75rem;
+  max-width: min(92vw, 16rem);
+  max-height: none;
+  margin: 0;
+  padding: 0.7rem 1.15rem;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
-  margin-top: 0.85rem;
-  padding: 0.55rem 1rem;
-  border-radius: 0.5rem;
-  background: rgba(184, 137, 61, 0.12);
-  border: 1px solid rgba(184, 137, 61, 0.35);
-  color: #8a6321;
-  font-weight: 600;
-  font-size: 0.9rem;
+  justify-content: center;
+  gap: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.78) 0%,
+    rgba(30, 58, 138, 0.72) 100%
+  );
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+  line-height: 1;
   text-decoration: none;
+  white-space: nowrap;
+  transform: none;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
+  cursor: pointer;
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
 }
-[data-product-family="aluminium-window"].page-window-pro .wm-calculator-finder:hover {
-  background: rgba(184, 137, 61, 0.2);
+body.page-window-pro .wm-calculator-finder:hover,
+body.page-window-pro .wm-calculator-finder:focus-visible {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.9) 0%,
+    rgba(30, 58, 138, 0.84) 100%
+  );
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.2);
+  outline: none;
 }
-[data-product-family="aluminium-window"].page-window-pro .floating-calc-button {
+body.page-window-pro .wm-calculator-finder.is-calc-in-view,
+body.page-window-pro .wm-calculator-finder.is-suppressed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+body.page-window-pro .floating-calc-button {
   display: none !important;
+}
+
+/*
+ * Mobile Master order (≤1099px): gallery photos → intro → calculator → companion / rest.
+ * Uses display:contents so side-stack can sort after the calc column.
+ * Overrides product-window-mobile.css calc-before-gallery order for Master pages.
+ */
+@media (max-width: 1099px) {
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-flow,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-flow {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery {
+    display: contents !important;
+    order: unset !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-context,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-context {
+    order: 0 !important;
+  }
+
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .product-main-image-container,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .product-main-image-container {
+    order: 1 !important;
+    width: 100%;
+  }
+
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .product-thumbnail-gallery,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .product-thumbnail-gallery {
+    order: 2 !important;
+    width: 100%;
+  }
+
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity {
+    order: 3 !important;
+    width: 100%;
+    max-width: none;
+  }
+
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-calculator-column,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-calculator-column {
+    order: 4 !important;
+    width: 100%;
+  }
+
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-window-side-stack,
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-2track-side-stack,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-window-side-stack,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-2track-side-stack {
+    order: 5 !important;
+    width: 100%;
+  }
+
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-accordions,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-accordions {
+    order: 6 !important;
+    width: 100%;
+  }
 }

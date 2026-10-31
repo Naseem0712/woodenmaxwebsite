@@ -128,8 +128,119 @@
     root.classList.add('wm-product-pilot-ready');
   }
 
+  function resolveFinderTarget(button) {
+    var href = button ? button.getAttribute('href') : '';
+    if (href && href.indexOf('#') === 0) {
+      var byId = document.getElementById(href.slice(1));
+      if (byId) return byId;
+    }
+    return document.querySelector(
+      '.price-calculator-container[data-product], ' +
+      '.wm-product-pilot-calculator, ' +
+      '.wm-window-calc, ' +
+      '[id^="price-calculator"], ' +
+      '[id^="price-calc-"]'
+    );
+  }
+
+  function isMasterCostFinderPage() {
+    var family = document.body.getAttribute('data-product-family') || '';
+    // Master v1 floating capsule pages (windows / folding / telescope children).
+    return document.body.classList.contains('page-window-pro') ||
+      family === 'aluminium-window' ||
+      family === 'folding-system' ||
+      family === 'telescope-window';
+  }
+
+  function elementIntersectsViewport(el) {
+    if (!el || typeof el.getBoundingClientRect !== 'function') return false;
+    var rect = el.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight || 0;
+    if (!vh) return false;
+    // Require a meaningful slice in view — a 1px peek at the bottom must not hide the capsule.
+    var visible = Math.min(rect.bottom, vh) - Math.max(rect.top, 0);
+    return visible > Math.min(120, vh * 0.18);
+  }
+
+  /**
+   * Master v1 Cost Calculator capsule: rename label, smooth-scroll to calc top,
+   * hide while the calculator block intersects the viewport.
+   * Reparent to <body> so position:fixed is never trapped by transform/filter ancestors.
+   */
+  function initWindowCostCalculatorFinder() {
+    var buttons = document.querySelectorAll('.wm-calculator-finder');
+    if (!buttons.length) return;
+    if (!isMasterCostFinderPage()) return;
+
+    Array.prototype.forEach.call(buttons, function (button) {
+      if (button.dataset.wmCostFinderBound === 'true') return;
+      button.dataset.wmCostFinderBound = 'true';
+      button.textContent = 'Cost Calculator';
+      button.setAttribute('aria-label', 'Cost Calculator');
+
+      if (button.parentElement !== document.body) {
+        document.body.appendChild(button);
+      }
+
+      var calculator = resolveFinderTarget(button);
+      var calcInView = false;
+
+      function refreshVisibility() {
+        var overlayOpen = document.body.classList.contains('calc-sheet-open') ||
+          document.body.classList.contains('calc-form-open');
+        button.classList.toggle('is-calc-in-view', !!calcInView);
+        button.classList.toggle('is-suppressed', !!overlayOpen);
+      }
+
+      function syncCalcInView(next) {
+        calcInView = !!next;
+        refreshVisibility();
+      }
+
+      function measureCalcInView() {
+        syncCalcInView(elementIntersectsViewport(calculator));
+      }
+
+      function scrollToCalculator(e) {
+        if (e) e.preventDefault();
+        if (!calculator) return;
+        var rect = calculator.getBoundingClientRect();
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        var offset = 96;
+        window.scrollTo({ top: Math.max(0, rect.top + scrollTop - offset), behavior: 'smooth' });
+        // Smooth scroll may finish after IO settles — re-measure at end of frame + shortly after.
+        window.requestAnimationFrame(measureCalcInView);
+        window.setTimeout(measureCalcInView, 320);
+      }
+
+      button.addEventListener('click', scrollToCalculator);
+
+      if (calculator && typeof IntersectionObserver === 'function') {
+        var io = new IntersectionObserver(function () {
+          measureCalcInView();
+        }, {
+          root: null,
+          // Shrink the observation box so a calc footer peek does not count as "in view".
+          rootMargin: '-12% 0px -28% 0px',
+          threshold: [0, 0.08, 0.16, 0.28]
+        });
+        io.observe(calculator);
+        measureCalcInView();
+      } else if (calculator) {
+        measureCalcInView();
+        window.addEventListener('scroll', measureCalcInView, { passive: true });
+        window.addEventListener('resize', measureCalcInView);
+      } else {
+        refreshVisibility();
+      }
+
+      document.addEventListener('wm-fab-overlay-change', refreshVisibility);
+    });
+  }
+
   function boot() {
     Array.prototype.forEach.call(document.querySelectorAll('[data-product-page-layout="gallery-first"]'), initializePilot);
+    initWindowCostCalculatorFinder();
   }
 
   if (document.readyState === 'loading') {

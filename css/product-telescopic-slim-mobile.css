@@ -6,7 +6,7 @@
  * Imports shared telescope mobile rules, then page-specific layout.
  * SEO: titles/meta/JSON-LD untouched structurally; long copy stays in DOM.
  */
-@import url('/css/product-telescope-mobile.css?v=20260730f');
+@import url('/css/product-telescope-mobile.css?v=20261031b');
 
 @media (max-width: 768px) {
   body.page-telescope-pro.page-telescopic-slim .wm-telescope-hero-intro .section-label {
