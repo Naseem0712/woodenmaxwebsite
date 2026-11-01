@@ -274,7 +274,9 @@ Mobile (≤980px): sidebar is a **hamburger overlay drawer**, **collapsed by def
 
 ## Numeric editing
 
-Yellow number fields use a shared draft input: you can clear and retype without the value snapping to **0** mid-edit. Empty on blur restores the previous value.
+Yellow number fields use a shared draft input (`NumberInput` / `Input type="number"`): you can clear and retype without the value snapping to **0** mid-edit. Empty on blur restores the previous value.
+
+**Mobile keyboards:** every numeric field opens the number keypad by default (`inputMode="decimal"` for rates/sizes; use `inputMode="numeric"` for integers-only; phone fields use `type="tel"`). Site Measure, Configurator, Settings rates, Less-off, tables, and cards all inherit this from the shared components — do not add raw `<input type="number">`.
 
 ---
 

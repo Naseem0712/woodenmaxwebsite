@@ -153,6 +153,15 @@ a { color: inherit; text-decoration: none; }
 .tone-in .input, .input.tone-in { background: var(--yellow); border-color: #e8d56b; }
 .tone-link .input, .input.tone-link { background: var(--blue); border-color: #93c5fd; }
 .tone-calc .input, .input.tone-calc { background: var(--calc); }
+/* Safety: NumberInput uses type=text + inputMode; hide spinners if a raw type=number slips in */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 .kpi {
   background: linear-gradient(180deg, #f8fafc, #fff);

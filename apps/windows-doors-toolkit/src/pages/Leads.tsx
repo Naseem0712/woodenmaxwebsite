@@ -125,7 +125,13 @@ export function LeadsPage() {
                     <input value={l.name} onChange={(e) => update(l.id, { name: e.target.value })} />
                   </td>
                   <td>
-                    <input value={l.phone} onChange={(e) => update(l.id, { phone: e.target.value })} />
+                    <input
+                      type="tel"
+                      inputMode="tel"
+                      autoComplete="tel"
+                      value={l.phone}
+                      onChange={(e) => update(l.id, { phone: e.target.value })}
+                    />
                   </td>
                   <td>
                     <input value={l.area} onChange={(e) => update(l.id, { area: e.target.value })} />

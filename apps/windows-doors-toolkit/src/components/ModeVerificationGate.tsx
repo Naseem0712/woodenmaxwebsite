@@ -116,6 +116,7 @@ export function ModeVerificationGate({
             <div className="grid grid-2">
               <Field label="Mobile no" tone="in">
                 <Input
+                  type="tel"
                   value={mobile}
                   onChange={(e) => setMobile(e.target.value)}
                   placeholder="10-digit mobile"

@@ -134,6 +134,13 @@ function isCompleteNumber(t: string): boolean {
  * Draft-string numeric input: clearing / mid-edit never forces 0 into state.
  * Commits on blur (empty → previous value). Compatible with existing
  * onChange={(e) => set(Number(e.target.value))} call sites via Input type="number".
+ *
+ * Mobile keyboard contract (all modes / yellow + linked numerics):
+ * - Renders as type="text" so browsers do not use the native number spinner.
+ * - Defaults to inputMode="decimal" (rates, mm, sqft). Pass inputMode="numeric"
+ *   for integers-only (qty, tracks) or inputMode="tel" when appropriate.
+ * - Input type="number" routes here so Site Measure, Configurator, Settings,
+ *   Less-off, tables, and cards inherit the same keypad without per-field wiring.
  */
 export function NumberInput({
   value,
@@ -142,6 +149,7 @@ export function NumberInput({
   tone = 'in',
   className,
   emptyAs = 'previous',
+  inputMode = 'decimal',
   ...rest
 }: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'onChange'> & {
   value: number | string | null | undefined;
@@ -204,11 +212,15 @@ export function NumberInput({
     } as React.ChangeEvent<HTMLInputElement>);
   };
 
+  const mode = inputMode || 'decimal';
+
   return (
     <input
       {...rest}
       type="text"
-      inputMode="decimal"
+      inputMode={mode}
+      data-numeric="1"
+      data-inputmode={mode}
       className={`input tone-${tone} ${className ?? ''}`}
       value={focused ? draft : formatNumDraft(value as number | string | undefined)}
       onFocus={(e) => {
@@ -247,15 +259,27 @@ export function Input(
 ) {
   const { tone = 'in', className, type, emptyAs, ...rest } = props;
   if (type === 'number') {
-    const { value, onChange, ...numRest } = rest;
+    const { value, onChange, inputMode, ...numRest } = rest;
     return (
       <NumberInput
         tone={tone}
         className={className}
         emptyAs={emptyAs}
+        inputMode={inputMode ?? 'decimal'}
         value={value as number | string | undefined}
         onChange={onChange}
         {...numRest}
+      />
+    );
+  }
+  if (type === 'tel') {
+    const { inputMode, ...telRest } = rest;
+    return (
+      <input
+        {...telRest}
+        type="tel"
+        inputMode={inputMode ?? 'tel'}
+        className={`input tone-${tone} ${className ?? ''}`}
       />
     );
   }
