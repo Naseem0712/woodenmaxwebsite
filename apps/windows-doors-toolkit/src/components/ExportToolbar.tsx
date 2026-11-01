@@ -1,32 +1,39 @@
+import type { ReactNode } from 'react';
 import { Btn, Toolbar } from './ui';
 import type { ExportDocument, ExportFormat, RateMode } from '../engine/exportDocs';
 import { runExport } from '../engine/exportDocs';
 
 export type ExportBuilders = {
-  /** Quote always exports package amounts (no ₹/sqft). rateMode kept for call-site compatibility. */
   quote: (rateMode: RateMode) => ExportDocument;
   bom: (rateMode: RateMode) => ExportDocument;
+  sizeList?: (rateMode: RateMode) => ExportDocument;
+  profileBoq?: (rateMode: RateMode) => ExportDocument;
 };
 
-/**
- * Visible Export controls:
- * - Quote → PDF / Excel with package amount per opening (no ₹/sqft toggle)
- * - BOM → PDF / Excel × with/without rates
- */
 export function ExportToolbar({
   builders,
   dense = false,
   panel = false,
 }: {
   builders: ExportBuilders;
-  /** Compact label strip for tight card headers */
   dense?: boolean;
-  /** Mobile panel: smaller buttons in side-by-side 2×2 rows */
   panel?: boolean;
 }) {
-  const go = (kind: 'quote' | 'bom', format: ExportFormat, rateMode: RateMode) => {
-    const doc = kind === 'quote' ? builders.quote(rateMode) : builders.bom(rateMode);
-    runExport(doc, format);
+  const go = (
+    kind: 'quote' | 'bom' | 'sizeList' | 'profileBoq',
+    format: ExportFormat,
+    rateMode: RateMode,
+  ) => {
+    const builder =
+      kind === 'quote'
+        ? builders.quote
+        : kind === 'bom'
+          ? builders.bom
+          : kind === 'sizeList'
+            ? builders.sizeList
+            : builders.profileBoq;
+    if (!builder) return;
+    runExport(builder(rateMode), format);
   };
 
   const quoteButtons = (
@@ -34,6 +41,7 @@ export function ExportToolbar({
       <Btn
         variant="ghost"
         title="PDF quotation with package amount per opening (no ₹/sqft)"
+        data-testid="export-quote-pdf"
         onClick={() => go('quote', 'pdf', 'include')}
       >
         PDF · package
@@ -41,6 +49,7 @@ export function ExportToolbar({
       <Btn
         variant="ghost"
         title="Excel/CSV quotation with package amount per opening (no ₹/sqft)"
+        data-testid="export-quote-excel"
         onClick={() => go('quote', 'excel', 'include')}
       >
         Excel · package
@@ -48,37 +57,54 @@ export function ExportToolbar({
     </>
   );
 
-  const bomButtons = (
+  const rateButtons = (
+    kind: 'bom' | 'sizeList' | 'profileBoq',
+    titles: { a: string; b: string; c: string; d: string },
+  ) => (
     <>
-      <Btn
-        variant="ghost"
-        title="PDF materials + hardware with rates"
-        onClick={() => go('bom', 'pdf', 'include')}
-      >
+      <Btn variant="ghost" title={titles.a} onClick={() => go(kind, 'pdf', 'include')}>
         PDF · with rates
       </Btn>
-      <Btn
-        variant="ghost"
-        title="PDF materials + hardware without rates"
-        onClick={() => go('bom', 'pdf', 'exclude')}
-      >
+      <Btn variant="ghost" title={titles.b} onClick={() => go(kind, 'pdf', 'exclude')}>
         PDF · no rates
       </Btn>
-      <Btn
-        variant="ghost"
-        title="Excel/CSV materials + hardware with rates"
-        onClick={() => go('bom', 'excel', 'include')}
-      >
+      <Btn variant="ghost" title={titles.c} onClick={() => go(kind, 'excel', 'include')}>
         Excel · with rates
       </Btn>
-      <Btn
-        variant="ghost"
-        title="Excel/CSV materials + hardware without rates"
-        onClick={() => go('bom', 'excel', 'exclude')}
-      >
+      <Btn variant="ghost" title={titles.d} onClick={() => go(kind, 'excel', 'exclude')}>
         Excel · no rates
       </Btn>
     </>
+  );
+
+  const bomButtons = rateButtons('bom', {
+    a: 'PDF materials + hardware with rates',
+    b: 'PDF materials + hardware without rates',
+    c: 'Excel/CSV materials + hardware with rates',
+    d: 'Excel/CSV materials + hardware without rates',
+  });
+  const sizeButtons = builders.sizeList
+    ? rateButtons('sizeList', {
+        a: 'PDF window size list with rates',
+        b: 'PDF window size list without rates',
+        c: 'Excel window size list with rates',
+        d: 'Excel window size list without rates',
+      })
+    : null;
+  const boqButtons = builders.profileBoq
+    ? rateButtons('profileBoq', {
+        a: 'PDF profile + hardware BOQ with rates',
+        b: 'PDF profile + hardware BOQ without rates',
+        c: 'Excel profile + hardware BOQ with rates',
+        d: 'Excel profile + hardware BOQ without rates',
+      })
+    : null;
+
+  const group = (label: string, buttons: ReactNode) => (
+    <div className="export-group">
+      <div className="export-group-label">{label}</div>
+      {panel ? <div className="export-btn-grid">{buttons}</div> : <Toolbar>{buttons}</Toolbar>}
+    </div>
   );
 
   return (
@@ -86,14 +112,10 @@ export function ExportToolbar({
       className={`export-toolbar ${dense ? 'export-toolbar-dense' : ''} ${panel ? 'export-toolbar-panel' : ''} no-print`}
       data-testid={panel ? 'export-toolbar-panel' : 'export-toolbar'}
     >
-      <div className="export-group">
-        <div className="export-group-label">Export Quote</div>
-        {panel ? <div className="export-btn-grid">{quoteButtons}</div> : <Toolbar>{quoteButtons}</Toolbar>}
-      </div>
-      <div className="export-group">
-        <div className="export-group-label">Export BOM</div>
-        {panel ? <div className="export-btn-grid">{bomButtons}</div> : <Toolbar>{bomButtons}</Toolbar>}
-      </div>
+      {group('Export Quote', quoteButtons)}
+      {group('Export BOM', bomButtons)}
+      {sizeButtons ? group('Export Size list', sizeButtons) : null}
+      {boqButtons ? group('Export Profile BOQ', boqButtons) : null}
     </div>
   );
 }

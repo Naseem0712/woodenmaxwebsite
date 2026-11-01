@@ -1,5 +1,10 @@
 import { calcHardwareJob, calcQuote, calcSiteMeasure, formatInr, formatNum } from './calcs';
 import {
+  buildHardwareProfileBoq,
+  buildWindowSizeList,
+  type DeliverableSource,
+} from './deliverableLists';
+import {
   calcConfiguratorCart,
   calcModeQuote,
   modeAdjustedLineAmount,
@@ -758,6 +763,146 @@ export function buildBomDocument(
   };
 }
 
+/** Per-opening fabrication size list (actual → less → net + hardwares / design). */
+export function buildWindowSizeListDocument(
+  state: AppState,
+  rateMode: RateMode,
+  source: DeliverableSource = 'site-measure',
+): ExportDocument {
+  const rows = buildWindowSizeList(state, source);
+  const label = modeLabel(state);
+  const columns: ExportColumn[] = [
+    { key: 'code', label: 'Code' },
+    { key: 'block', label: 'Size list block' },
+    { key: 'location', label: 'Location' },
+    { key: 'type', label: 'Window type' },
+    { key: 'actual', label: 'Actual size' },
+    { key: 'qty', label: 'Qty' },
+    { key: 'lessW', label: 'Less W' },
+    { key: 'lessH', label: 'Less H' },
+    { key: 'net', label: 'Net fab size' },
+    { key: 'design', label: 'Hardwares / design' },
+    { key: 'sqft', label: 'Area sqft' },
+    { key: 'rate', label: 'Rate ₹/sqft', isRate: true },
+    { key: 'amount', label: 'Amount ₹', isRate: true },
+  ];
+  const tableRows = rows.map((r) => ({
+    code: r.code,
+    block: r.blockText,
+    location: r.location,
+    type: r.typeSummary,
+    actual: r.actualSize,
+    qty: r.qty,
+    lessW: formatNum(r.lessW, 0),
+    lessH: formatNum(r.lessH, 0),
+    net: r.netSize,
+    design: r.designSummary,
+    sqft: formatNum(r.areaSqft),
+    rate: r.ratePerSqft != null ? formatNum(r.ratePerSqft, 0) : '',
+    amount: r.amount != null ? formatNum(r.amount, 0) : '',
+  }));
+  const sizeListBlocks = rows.map((r) => ({ code: r.code, lines: r.blockLines, text: r.blockText }));
+  return {
+    kind: 'size-list',
+    title: 'Window size list',
+    subtitle: `Per opening · actual → less → net fab · Mode ${label}`,
+    letterhead: buildLetterhead(state, {
+      customerName: state.quote.customerName || state.jobMeta.customerName || '',
+      siteAddress: state.quote.siteAddress || state.jobMeta.siteAddress || '',
+    }),
+    meta: [
+      ...businessMeta(state),
+      { label: 'Customer', value: state.quote.customerName || state.jobMeta.customerName || '—' },
+      { label: 'Site', value: state.quote.siteAddress || state.jobMeta.siteAddress || '—' },
+      { label: 'Source', value: source },
+      { label: 'Rates', value: rateMode === 'include' ? 'Including rates / amounts' : 'Excluding rates / amounts' },
+    ],
+    sizeListBlocks,
+    tables: [{ title: 'Window size list', columns, rows: tableRows, pdfSkipWhenBlocks: true }],
+    summary: [
+      { label: 'Openings', value: String(rows.length) },
+      { label: 'Total qty', value: String(rows.reduce((s, r) => s + r.qty, 0)) },
+      { label: 'Total sqft', value: formatNum(rows.reduce((s, r) => s + r.areaSqft, 0)) },
+    ],
+    footnote: 'Less-off from Settings / project / row. Hardwares & design from series + glass/colour/mesh masters. No invented rates.',
+    rateMode,
+    filenameBase: `window-size-list-${source}-${state.quote.quoteNo || 'fab'}`,
+  };
+}
+
+export function buildHardwareProfileBoqDocument(
+  state: AppState,
+  rateMode: RateMode,
+  source: DeliverableSource = 'site-measure',
+): ExportDocument {
+  const boq = buildHardwareProfileBoq(state, source);
+  const label = modeLabel(state);
+  const columns: ExportColumn[] = [
+    { key: 'kind', label: 'Kind' },
+    { key: 'line', label: 'BOQ line' },
+    { key: 'name', label: 'Item' },
+    { key: 'nos', label: 'Nos / qty' },
+    { key: 'unit', label: 'Unit' },
+    { key: 'stockFt', label: 'Stock ft' },
+    { key: 'metres', label: 'Cut m' },
+    { key: 'rate', label: 'Rate ₹', isRate: true },
+    { key: 'amount', label: 'Amount ₹', isRate: true },
+  ];
+  const tableRows = boq.rows.map((r) => ({
+    kind: r.kind,
+    line: r.lineText,
+    name: r.name,
+    nos: formatNum(r.nos, 0),
+    unit: r.unit,
+    stockFt: r.stockLengthFt != null ? formatNum(r.stockLengthFt, 0) : '',
+    metres: r.metres > 0 ? formatNum(r.metres) : '',
+    rate: formatNum(r.rate, 0),
+    amount: formatNum(r.amount, 0),
+  }));
+  const summary: ExportSummaryRow[] =
+    rateMode === 'include'
+      ? [
+          { label: 'Profile lines', value: String(boq.profileRows.length) },
+          { label: 'Stock bars', value: String(boq.totalBars) },
+          { label: 'Cut metres', value: formatNum(boq.totalMetres) },
+          { label: 'Hardware lines', value: String(boq.hardwareRows.length) },
+          { label: 'Profile ₹', value: formatInr(boq.profileAmount), isRate: true },
+          { label: 'Hardware ₹', value: formatInr(boq.hardwareAmount), isRate: true },
+        ]
+      : [
+          { label: 'Profile lines', value: String(boq.profileRows.length) },
+          { label: 'Stock bars', value: String(boq.totalBars) },
+          { label: 'Cut metres', value: formatNum(boq.totalMetres) },
+          { label: 'Hardware lines', value: String(boq.hardwareRows.length) },
+          { label: 'Hardware qty', value: formatNum(boq.totalHardwareQty, 0) },
+        ];
+  return {
+    kind: 'profile-boq',
+    title: 'Hardware / profile BOQ',
+    subtitle: `Series members + cutting + hardware · Mode ${label}`,
+    letterhead: buildLetterhead(state, {
+      customerName: state.quote.customerName || state.jobMeta.customerName || '',
+      siteAddress: state.quote.siteAddress || state.jobMeta.siteAddress || '',
+    }),
+    meta: [
+      ...businessMeta(state),
+      { label: 'Customer', value: state.quote.customerName || state.jobMeta.customerName || '—' },
+      { label: 'Site', value: state.quote.siteAddress || state.jobMeta.siteAddress || '—' },
+      { label: 'Source', value: source },
+      { label: 'Rates', value: rateMode === 'include' ? 'Including rates / amounts' : 'Excluding rates / amounts' },
+    ],
+    boqLines: boq.rows.map((r) => r.lineText),
+    tables: [
+      { title: 'Profile stock bars', columns, rows: tableRows.filter((r) => r.kind === 'profile') },
+      { title: 'Hardware', columns, rows: tableRows.filter((r) => r.kind === 'hardware') },
+    ],
+    summary,
+    footnote: 'Stock length from Settings profiles; member metres from series masters. Hardware from series + catalogue BOM. Rates Settings-driven only.',
+    rateMode,
+    filenameBase: `profile-boq-${source}-${state.quote.quoteNo || 'materials'}`,
+  };
+}
+
 export function documentToCsv(doc: ExportDocument): string {
   const lines: string[] = [];
   lines.push(csvCell(doc.title));
@@ -767,6 +912,15 @@ export function documentToCsv(doc: ExportDocument): string {
     lines.push([csvCell(m.label), csvCell(m.value)].join(','));
   }
   lines.push('');
+  if (doc.sizeListBlocks?.length) {
+    lines.push(csvCell('Window size list'));
+    for (const b of doc.sizeListBlocks) { lines.push(csvCell(b.text)); lines.push(''); }
+  }
+  if (doc.boqLines?.length) {
+    lines.push(csvCell('BOQ lines'));
+    for (const line of doc.boqLines) lines.push(csvCell(line));
+    lines.push('');
+  }
   for (const table of doc.tables) {
     lines.push(csvCell(table.title));
     const cols = visibleColumns(table.columns, doc.rateMode);
@@ -886,6 +1040,9 @@ function documentToHtml(doc: ExportDocument): string {
   <div class="meta">${metaHtml}</div>`;
 
   const hasBlocks = Boolean(doc.openingBlocks?.length);
+  const hasSizeBlocks = Boolean(doc.sizeListBlocks?.length);
+  const hasBoqLines = Boolean(doc.boqLines?.length);
+  const skipTablesForBlocks = hasBlocks || hasSizeBlocks;
   const blocksHtml = hasBlocks
     ? `<h2>Opening schedule</h2>
 <div class="openings">
@@ -903,9 +1060,11 @@ ${doc.openingBlocks!
   .join('\n')}
 </div>`
     : '';
-  const tablesHtml = doc.tables
-    .filter((table) => !(hasBlocks && table.pdfSkipWhenBlocks))
-    .map((table) => {
+  const sizeListHtml = hasSizeBlocks
+    ? `<h2>Window size list</h2>\n<div class="openings">\n${doc.sizeListBlocks!.map((b) => `<div class="opening-block size-list-block"><pre>${escHtml(b.lines.join('\n'))}</pre></div>`).join('\n')}\n</div>` : '';
+  const boqHtml = hasBoqLines
+    ? `<h2>Hardware / profile BOQ</h2>\n<ul class="boq-lines">\n${doc.boqLines!.map((line) => `<li>${escHtml(line)}</li>`).join('\n')}\n</ul>` : '';
+  const tablesHtml = (hasBoqLines ? [] : doc.tables.filter((table) => !(skipTablesForBlocks && table.pdfSkipWhenBlocks))).map((table) => {
       const cols = visibleColumns(table.columns, doc.rateMode).filter(
         (c) => !(hasBlocks && (c.key === 'schedule' || c.key === 'code')),
       );
@@ -984,6 +1143,8 @@ ${doc.openingBlocks!
 </style></head><body>
   ${headHtml}
   ${blocksHtml}
+  ${sizeListHtml}
+  ${boqHtml}
   ${tablesHtml}
   <div class="sums">${summaryHtml}</div>
   ${doc.footnote ? `<p class="foot">${escHtml(doc.footnote)}</p>` : ''}

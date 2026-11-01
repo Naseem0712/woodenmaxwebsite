@@ -31,7 +31,12 @@ import {
   calcCasement,
   calcStock,
 } from '../engine/calcs';
-import { buildBomDocument, buildQuoteDocument } from '../engine/exportDocs';
+import {
+  buildBomDocument,
+  buildHardwareProfileBoqDocument,
+  buildQuoteDocument,
+  buildWindowSizeListDocument,
+} from '../engine/exportDocs';
 import {
   filterProfiles,
   filterSeries,
@@ -614,6 +619,10 @@ export function HardwarePage() {
     () => ({
       quote: (rateMode: 'include' | 'exclude') => buildQuoteDocument(state, rateMode),
       bom: (rateMode: 'include' | 'exclude') => buildBomDocument(state, rateMode, 'openings'),
+      sizeList: (rateMode: 'include' | 'exclude') =>
+        buildWindowSizeListDocument(state, rateMode, 'openings'),
+      profileBoq: (rateMode: 'include' | 'exclude') =>
+        buildHardwareProfileBoqDocument(state, rateMode, 'openings'),
     }),
     [state],
   );
@@ -752,6 +761,10 @@ export function QuotePage() {
     () => ({
       quote: (rateMode: 'include' | 'exclude') => buildQuoteDocument(state, rateMode),
       bom: (rateMode: 'include' | 'exclude') => buildBomDocument(state, rateMode, 'openings'),
+      sizeList: (rateMode: 'include' | 'exclude') =>
+        buildWindowSizeListDocument(state, rateMode, 'openings'),
+      profileBoq: (rateMode: 'include' | 'exclude') =>
+        buildHardwareProfileBoqDocument(state, rateMode, 'openings'),
     }),
     [state],
   );

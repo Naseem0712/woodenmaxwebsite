@@ -393,6 +393,11 @@ table.data tr.row-warn { background: #fff7ed; }
   background: #fff;
 }
 .export-group .btn:hover { border-color: var(--accent); }
+.deliverable-previews { margin: 0 0 0.85rem; align-items: stretch; }
+.deliverable-preview-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.45rem; max-height: 220px; overflow: auto; }
+.deliverable-preview-list > li { font-size: 0.82rem; line-height: 1.4; color: #0f172a; border-bottom: 1px dotted #cbd5e1; padding-bottom: 0.35rem; }
+.deliverable-preview-block { margin: 0; font: 0.78rem/1.45 Consolas, ui-monospace, Segoe UI, monospace; white-space: pre-wrap; color: #0f172a; }
+
 
 .export-btn-grid {
   display: grid;
