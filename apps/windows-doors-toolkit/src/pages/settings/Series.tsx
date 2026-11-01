@@ -9,10 +9,37 @@ import {
   rateForSize,
   seriesNameKindMismatch,
 } from '../../engine/hardwareKind';
-import type { Material, ProfileMember, SeriesDefinition, SeriesKind, SizedRate } from '../../types';
+import type {
+  Material,
+  MemberRole,
+  ProfileMember,
+  SeriesDefinition,
+  SeriesKind,
+  ShutterPart,
+  SizedRate,
+} from '../../types';
 import { useApp } from '../../store/AppContext';
 
-const SLIDING_CLASSES = ['2-track', '3-track', 'Shutter', 'Meeting', 'Mesh', 'UPVC only', 'UPVC shutter', 'Window'];
+const TRACK_TYPES = ['2-track', '2.5-track', '3-track'] as const;
+const SHUTTER_PARTS: { value: ShutterPart; label: string; memberClass: string }[] = [
+  { value: 'sash', label: 'Sash', memberClass: 'Shutter' },
+  { value: 'top', label: 'Top', memberClass: 'Shutter' },
+  { value: 'bottom', label: 'Bottom', memberClass: 'Shutter' },
+  { value: 'handle-side', label: 'Handle-side', memberClass: 'Shutter' },
+  { value: 'interlock', label: 'Interlock', memberClass: 'Meeting' },
+];
+
+const SLIDING_CLASSES = [
+  '2-track',
+  '2.5-track',
+  '3-track',
+  'Shutter',
+  'Meeting',
+  'Mesh',
+  'UPVC only',
+  'UPVC shutter',
+  'Window',
+];
 const CASEMENT_CLASSES = [
   'Window',
   'Mullion',
@@ -24,6 +51,39 @@ const CASEMENT_CLASSES = [
   'UPVC openable',
 ];
 const DOOR_CLASSES = [...CASEMENT_CLASSES, 'Door leaf'];
+
+const SLIDING_ROLES: { value: MemberRole; label: string }[] = [
+  { value: 'track', label: 'Track' },
+  { value: 'shutter', label: 'Shutter' },
+  { value: 'mesh', label: 'Mesh' },
+  { value: 'other', label: 'Other' },
+];
+
+function roleFromClass(memberClass: string): MemberRole {
+  if (TRACK_TYPES.includes(memberClass as (typeof TRACK_TYPES)[number])) return 'track';
+  if (memberClass === 'Mesh' || memberClass === 'Mesh panel') return 'mesh';
+  if (
+    memberClass === 'Shutter' ||
+    memberClass === 'Meeting' ||
+    memberClass === 'UPVC shutter' ||
+    memberClass === 'Openable panel' ||
+    memberClass === 'Panel'
+  ) {
+    return 'shutter';
+  }
+  return 'other';
+}
+
+function shutterPartFromMember(m: ProfileMember): ShutterPart {
+  if (m.shutterPart) return m.shutterPart;
+  if (m.memberClass === 'Meeting') return 'interlock';
+  const n = m.name.toLowerCase();
+  if (/\btop\b/.test(n)) return 'top';
+  if (/\bbottom\b/.test(n)) return 'bottom';
+  if (/handle/.test(n)) return 'handle-side';
+  if (/interlock|meeting/.test(n)) return 'interlock';
+  return 'sash';
+}
 
 function blankSeries(): SeriesDefinition {
   const frictionStayRates = defaultFrictionStayRates();
@@ -72,7 +132,16 @@ function blankSeries(): SeriesDefinition {
     meshAreaShare: 0.5,
     meshNetPerSqft: 40,
     note: '',
-    members: [{ id: uid(), name: 'Outer frame', memberClass: '2-track', wFactor: 2, hFactor: 2, ratePerM: 260 }],
+    members: [
+      {
+        id: uid(),
+        name: 'Outer frame',
+        memberClass: '2-track',
+        wFactor: 2,
+        hFactor: 2,
+        ratePerM: 260,
+      },
+    ],
   });
 }
 
@@ -118,20 +187,31 @@ function SizedRateEditor({
 }
 
 export function SettingsSeriesPage() {
-  const { state, patch } = useApp();
+  const { state, patch, setState } = useApp();
   const [selectedId, setSelectedId] = useState(state.series[0]?.id ?? '');
-  const seriesRaw = useMemo(
-    () => state.series.find((s) => s.id === selectedId) ?? state.series[0],
-    [state.series, selectedId],
-  );
+  /** New series stays local until Save — never auto-persisted into masters. */
+  const [draftNew, setDraftNew] = useState<SeriesDefinition | null>(null);
+
+  const seriesRaw = useMemo(() => {
+    if (draftNew && selectedId === draftNew.id) return draftNew;
+    return state.series.find((s) => s.id === selectedId) ?? state.series[0];
+  }, [state.series, selectedId, draftNew]);
   const series = seriesRaw ? ensureSeriesHardwareDefaults(seriesRaw) : undefined;
+  const isUnsavedNew = Boolean(draftNew && series && draftNew.id === series.id);
 
   const update = (next: SeriesDefinition) => {
-    patch(
-      'series',
-      state.series.map((s) => (s.id === next.id ? ensureSeriesHardwareDefaults(next) : s)),
-    );
-    setSelectedId(next.id);
+    const cleaned = ensureSeriesHardwareDefaults(next);
+    if (draftNew && cleaned.id === draftNew.id) {
+      setDraftNew(cleaned);
+      setSelectedId(cleaned.id);
+      return;
+    }
+    // Functional update so Factor V/H qty commits never lose sibling field edits
+    setState((s) => ({
+      ...s,
+      series: s.series.map((row) => (row.id === cleaned.id ? cleaned : row)),
+    }));
+    setSelectedId(cleaned.id);
   };
 
   const set = <K extends keyof SeriesDefinition>(key: K, value: SeriesDefinition[K]) => {
@@ -157,9 +237,56 @@ export function SettingsSeriesPage() {
 
   const updateMember = (id: string, patchMember: Partial<ProfileMember>) => {
     if (!series) return;
-    update({
-      ...series,
-      members: series.members.map((m) => (m.id === id ? { ...m, ...patchMember } : m)),
+    if (draftNew && series.id === draftNew.id) {
+      setDraftNew((d) => {
+        if (!d) return d;
+        const base = ensureSeriesHardwareDefaults(d);
+        return ensureSeriesHardwareDefaults({
+          ...base,
+          members: base.members.map((m) => (m.id === id ? { ...m, ...patchMember } : m)),
+        });
+      });
+      return;
+    }
+    // Functional master update — Factor V/H qty edits must not clobber each other
+    const seriesId = series.id;
+    setState((s) => {
+      const cur = s.series.find((row) => row.id === seriesId);
+      if (!cur) return s;
+      const base = ensureSeriesHardwareDefaults(cur);
+      const cleaned = ensureSeriesHardwareDefaults({
+        ...base,
+        members: base.members.map((m) => (m.id === id ? { ...m, ...patchMember } : m)),
+      });
+      return {
+        ...s,
+        series: s.series.map((row) => (row.id === cleaned.id ? cleaned : row)),
+      };
+    });
+  };
+
+  const applyMemberRole = (id: string, role: MemberRole) => {
+    if (!series) return;
+    const m = series.members.find((x) => x.id === id);
+    if (!m) return;
+    if (role === 'track') {
+      updateMember(id, { memberClass: '2-track', shutterPart: undefined });
+      return;
+    }
+    if (role === 'mesh') {
+      updateMember(id, {
+        memberClass: series.kind === 'sliding' ? 'Mesh' : 'Mesh panel',
+        shutterPart: undefined,
+      });
+      return;
+    }
+    if (role === 'shutter') {
+      updateMember(id, { memberClass: 'Shutter', shutterPart: 'sash' });
+      return;
+    }
+    updateMember(id, {
+      memberClass: series.kind === 'sliding' ? 'Window' : 'Window',
+      shutterPart: undefined,
     });
   };
 
@@ -175,14 +302,26 @@ export function SettingsSeriesPage() {
     <div>
       <PageHeader
         title="Series & members"
-        subtitle="Masters are material × kind. Series header shows only hardware for that Kind — sliding never mixes with casement/door."
+        subtitle="Masters are material × kind. One series may list 2 / 2.5 / 3-track members — quote & BOM pick the matching track. New series saves only when you click Save."
       />
       <Toolbar>
         <Select
           value={series?.id ?? ''}
-          onChange={(e) => setSelectedId(e.target.value)}
+          onChange={(e) => {
+            const nextId = e.target.value;
+            if (draftNew && nextId !== draftNew.id) {
+              // Leaving unsaved draft discards it
+              setDraftNew(null);
+            }
+            setSelectedId(nextId);
+          }}
           style={{ minWidth: 320 }}
         >
+          {draftNew ? (
+            <option value={draftNew.id}>
+              {draftNew.material} · {draftNew.kind} · {draftNew.name} (unsaved)
+            </option>
+          ) : null}
           {state.series.map((s) => (
             <option key={s.id} value={s.id}>
               {s.material} · {s.kind} · {s.name}
@@ -192,13 +331,38 @@ export function SettingsSeriesPage() {
         <Btn
           onClick={() => {
             const s = blankSeries();
-            patch('series', [...state.series, s]);
+            setDraftNew(s);
             setSelectedId(s.id);
           }}
         >
           + New series
         </Btn>
-        {series ? (
+        {isUnsavedNew ? (
+          <>
+            <Btn
+              variant="primary"
+              onClick={() => {
+                if (!draftNew) return;
+                const cleaned = ensureSeriesHardwareDefaults(draftNew);
+                patch('series', [...state.series, cleaned]);
+                setDraftNew(null);
+                setSelectedId(cleaned.id);
+              }}
+            >
+              Save series
+            </Btn>
+            <Btn
+              variant="ghost"
+              onClick={() => {
+                setDraftNew(null);
+                setSelectedId(state.series[0]?.id ?? '');
+              }}
+            >
+              Discard
+            </Btn>
+          </>
+        ) : null}
+        {series && !isUnsavedNew ? (
           <Btn
             variant="danger"
             onClick={() => {
@@ -212,6 +376,12 @@ export function SettingsSeriesPage() {
           </Btn>
         ) : null}
       </Toolbar>
+      {isUnsavedNew ? (
+        <div className="banner-warn" role="status" style={{ marginBottom: '0.65rem' }}>
+          New series is not saved yet — edit freely, then click <strong>Save series</strong>. Leaving
+          this selection discards it.
+        </div>
+      ) : null}
 
       {!series ? (
         <Card title="No series">Add a series to begin.</Card>
@@ -646,7 +816,7 @@ export function SettingsSeriesPage() {
           ) : null}
 
           <Card
-            title="Profile members (qty rules × ₹/m)"
+            title="Profile members (role × factors × ₹/m)"
             actions={
               <Btn
                 onClick={() =>
@@ -657,7 +827,8 @@ export function SettingsSeriesPage() {
                       {
                         id: uid(),
                         name: 'New member',
-                        memberClass: classes[0],
+                        memberClass: showSlidingHw ? 'Shutter' : classes[0],
+                        shutterPart: showSlidingHw ? 'sash' : undefined,
                         wFactor: 2,
                         hFactor: 2,
                         ratePerM: 200,
@@ -674,74 +845,174 @@ export function SettingsSeriesPage() {
               <thead>
                 <tr>
                   <th>Name</th>
-                  <th>Class</th>
-                  <th>W factor</th>
-                  <th>H factor</th>
+                  <th>Role</th>
+                  <th>Type</th>
+                  <th>Factor V</th>
+                  <th>Factor H</th>
                   <th>₹/m</th>
                   <th />
                 </tr>
               </thead>
               <tbody>
-                {series.members.map((m) => (
-                  <tr key={m.id}>
-                    <td>
-                      <input
-                        value={m.name}
-                        onChange={(e) => updateMember(m.id, { name: e.target.value })}
-                      />
-                    </td>
-                    <td>
-                      <select
-                        value={m.memberClass}
-                        onChange={(e) => updateMember(m.id, { memberClass: e.target.value })}
-                      >
-                        {[...new Set([...classes, m.memberClass])].map((c) => (
-                          <option key={c} value={c}>
-                            {c}
-                          </option>
-                        ))}
-                      </select>
-                    </td>
-                    <td>
-                      <NumberInput
-                        step="0.05"
-                        value={m.wFactor}
-                        onChange={(e) => updateMember(m.id, { wFactor: Number(e.target.value) })}
-                      />
-                    </td>
-                    <td>
-                      <NumberInput
-                        step="0.05"
-                        value={m.hFactor}
-                        onChange={(e) => updateMember(m.id, { hFactor: Number(e.target.value) })}
-                      />
-                    </td>
-                    <td>
-                      <NumberInput
-                        value={m.ratePerM}
-                        onChange={(e) => updateMember(m.id, { ratePerM: Number(e.target.value) })}
-                      />
-                    </td>
-                    <td>
-                      <Btn
-                        variant="ghost"
-                        onClick={() =>
-                          update({
-                            ...series,
-                            members: series.members.filter((x) => x.id !== m.id),
-                          })
-                        }
-                      >
-                        ✕
-                      </Btn>
-                    </td>
-                  </tr>
-                ))}
+                {series.members.map((m) => {
+                  const role = roleFromClass(m.memberClass);
+                  const shutterPart = shutterPartFromMember(m);
+                  return (
+                    <tr key={m.id}>
+                      <td>
+                        <input
+                          value={m.name}
+                          onChange={(e) => updateMember(m.id, { name: e.target.value })}
+                        />
+                      </td>
+                      <td>
+                        {showSlidingHw ? (
+                          <select
+                            value={role}
+                            onChange={(e) => applyMemberRole(m.id, e.target.value as MemberRole)}
+                          >
+                            {SLIDING_ROLES.map((r) => (
+                              <option key={r.value} value={r.value}>
+                                {r.label}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <select
+                            value={m.memberClass}
+                            onChange={(e) =>
+                              updateMember(m.id, {
+                                memberClass: e.target.value,
+                                shutterPart: undefined,
+                              })
+                            }
+                          >
+                            {[...new Set([...classes, m.memberClass])].map((c) => (
+                              <option key={c} value={c}>
+                                {c}
+                              </option>
+                            ))}
+                          </select>
+                        )}
+                      </td>
+                      <td>
+                        {showSlidingHw && role === 'track' ? (
+                          <select
+                            value={TRACK_TYPES.includes(m.memberClass as (typeof TRACK_TYPES)[number])
+                              ? m.memberClass
+                              : '2-track'}
+                            onChange={(e) =>
+                              updateMember(m.id, {
+                                memberClass: e.target.value,
+                                shutterPart: undefined,
+                              })
+                            }
+                          >
+                            {TRACK_TYPES.map((t) => (
+                              <option key={t} value={t}>
+                                {t}
+                              </option>
+                            ))}
+                          </select>
+                        ) : showSlidingHw && role === 'shutter' ? (
+                          <select
+                            value={shutterPart}
+                            onChange={(e) => {
+                              const part = e.target.value as ShutterPart;
+                              const mapped = SHUTTER_PARTS.find((p) => p.value === part);
+                              updateMember(m.id, {
+                                shutterPart: part,
+                                memberClass: mapped?.memberClass ?? 'Shutter',
+                              });
+                            }}
+                          >
+                            {SHUTTER_PARTS.map((p) => (
+                              <option key={p.value} value={p.value}>
+                                {p.label}
+                              </option>
+                            ))}
+                          </select>
+                        ) : showSlidingHw && role === 'mesh' ? (
+                          <select
+                            value="Mesh"
+                            onChange={() => updateMember(m.id, { memberClass: 'Mesh' })}
+                          >
+                            <option value="Mesh">Mesh</option>
+                          </select>
+                        ) : showSlidingHw && role === 'other' ? (
+                          <select
+                            value={m.memberClass}
+                            onChange={(e) =>
+                              updateMember(m.id, { memberClass: e.target.value })
+                            }
+                          >
+                            {['UPVC only', 'UPVC shutter', 'Window', 'Meeting', m.memberClass]
+                              .filter((v, i, a) => a.indexOf(v) === i)
+                              .map((c) => (
+                                <option key={c} value={c}>
+                                  {c}
+                                </option>
+                              ))}
+                          </select>
+                        ) : (
+                          <span className="muted tiny">{m.memberClass}</span>
+                        )}
+                      </td>
+                      <td>
+                        <NumberInput
+                          step="0.05"
+                          inputMode="decimal"
+                          value={m.wFactor}
+                          onCommit={(n) => {
+                            if (n == null) return;
+                            updateMember(m.id, { wFactor: n });
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <NumberInput
+                          step="0.05"
+                          inputMode="decimal"
+                          value={m.hFactor}
+                          onCommit={(n) => {
+                            if (n == null) return;
+                            updateMember(m.id, { hFactor: n });
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <NumberInput
+                          inputMode="decimal"
+                          value={m.ratePerM}
+                          onCommit={(n) => {
+                            if (n == null) return;
+                            updateMember(m.id, { ratePerM: n });
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <Btn
+                          variant="ghost"
+                          onClick={() =>
+                            update({
+                              ...series,
+                              members: series.members.filter((x) => x.id !== m.id),
+                            })
+                          }
+                        >
+                          ✕
+                        </Btn>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
             <p className="muted tiny" style={{ marginTop: '0.75rem' }}>
-              Metres ≈ (W_factor × W + H_factor × H) / 1000 × qty_rule(class, tracks, shutters…). Edit rates here;
-              Tool 02/03 recalculate when you pick this series.
+              Metres ≈ (Factor_V × W + Factor_H × H) / 1000 × qty_rule(role, tracks, shutters…). Factor V
+              and H can differ (e.g. interlock often V=0, H=2). Sliding mesh jobs use 2.5 / 3-track
+              outer members; without mesh typically 2-track + 2/4 glass shutters. Rates here drive quote
+              &amp; BOM — formulas stay in code.
             </p>
           </Card>
         </>

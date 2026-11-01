@@ -296,6 +296,7 @@ export type HardwareClass = 'sliding' | 'casement' | 'door' | 'shared';
 
 export type SlidingMemberClass =
   | '2-track'
+  | '2.5-track'
   | '3-track'
   | 'Shutter'
   | 'Meeting'
@@ -303,6 +304,12 @@ export type SlidingMemberClass =
   | 'UPVC only'
   | 'UPVC shutter'
   | 'Window';
+
+/** Settings UX role for a series profile member (calc still keys off memberClass). */
+export type MemberRole = 'track' | 'shutter' | 'mesh' | 'other';
+
+/** Shutter part variants — interlock maps to Meeting count rules. */
+export type ShutterPart = 'sash' | 'top' | 'bottom' | 'handle-side' | 'interlock';
 
 export type CasementMemberClass =
   | 'Window'
@@ -376,8 +383,16 @@ export interface WindowType {
 export interface ProfileMember {
   id: string;
   name: string;
+  /**
+   * Calc discriminator: track class (2 / 2.5 / 3), Shutter, Meeting, Mesh, …
+   * One series may list multiple track classes; quote/BOM pick the matching row.
+   */
   memberClass: string;
+  /** Optional Settings label for shutter top/bottom/handle-side/interlock/sash. */
+  shutterPart?: ShutterPart;
+  /** Width / V factor (horizontal pieces × width). Editable qty master. */
   wFactor: number;
+  /** Height / H factor (vertical pieces × height). Editable qty master. */
   hFactor: number;
   ratePerM: number;
 }

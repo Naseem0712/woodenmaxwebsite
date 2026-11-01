@@ -788,7 +788,7 @@ export function buildHardwareProfileBoq(
     if (isSliding) {
       const job = slidingJobFromOpening(series, o);
       for (const m of series.members) {
-        const count = slidingMemberCount(m.memberClass, job);
+        const count = slidingMemberCount(m.memberClass, job, series.members);
         const stock = resolveStockLengthM(series, m, catalogue.profiles);
         accumulateMemberCuts(profileMap, m, count, job.widthMm, job.heightMm, job.qty, stock);
       }

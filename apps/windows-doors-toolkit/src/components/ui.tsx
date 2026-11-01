@@ -130,10 +130,21 @@ function isCompleteNumber(t: string): boolean {
   return !Number.isNaN(Number(t));
 }
 
+/** Minimal change event — never spread live DOM nodes (enumerable props are empty). */
+function synthNumberChange(value: string): React.ChangeEvent<HTMLInputElement> {
+  const box = { value } as HTMLInputElement;
+  return {
+    target: box,
+    currentTarget: box,
+  } as React.ChangeEvent<HTMLInputElement>;
+}
+
 /**
  * Draft-string numeric input: clearing / mid-edit never forces 0 into state.
  * Commits on blur (empty → previous value). Compatible with existing
  * onChange={(e) => set(Number(e.target.value))} call sites via Input type="number".
+ *
+ * Prefer onCommit for qty / factor fields — it always receives a parsed number.
  *
  * Mobile keyboard contract (all modes / yellow + linked numerics):
  * - Renders as type="text" so browsers do not use the native number spinner.
@@ -167,6 +178,10 @@ export function NumberInput({
   );
   const [focused, setFocused] = useState(false);
   const [draft, setDraft] = useState(() => formatNumDraft(value as number | string | undefined));
+  const onCommitRef = useRef(onCommit);
+  const onChangeRef = useRef(onChange);
+  onCommitRef.current = onCommit;
+  onChangeRef.current = onChange;
 
   useEffect(() => {
     if (!focused) {
@@ -175,41 +190,44 @@ export function NumberInput({
     }
   }, [value, focused, numericValue]);
 
+  const emit = (n: number | null) => {
+    onCommitRef.current?.(n);
+    if (n != null && Number.isFinite(n)) {
+      onChangeRef.current?.(synthNumberChange(String(n)));
+    }
+  };
+
   const commit = (raw: string) => {
     if (raw.trim() === '' || raw === '-' || raw === '.' || raw === '-.') {
       if (emptyAs === 'null') {
-        onCommit?.(null);
+        emit(null);
         return;
       }
       if (emptyAs === 'zero') {
-        onCommit?.(0);
-        onChange?.({
-          target: { value: '0' },
-        } as React.ChangeEvent<HTMLInputElement>);
         setDraft('0');
         prevRef.current = 0;
+        emit(0);
         return;
       }
       // previous
       const prev = prevRef.current;
       const restore = prev != null && Number.isFinite(prev) ? prev : 0;
       setDraft(String(restore));
-      onCommit?.(restore);
+      // Do not re-emit identical restore on blur when parent already has it —
+      // still emit so controlled parents that missed mid-edit catch up.
+      emit(restore);
       return;
     }
     const n = Number(raw);
     if (Number.isNaN(n)) {
       const prev = prevRef.current ?? 0;
       setDraft(String(prev));
-      onCommit?.(prev);
+      emit(prev);
       return;
     }
     prevRef.current = n;
     setDraft(String(n));
-    onCommit?.(n);
-    onChange?.({
-      target: { value: String(n) },
-    } as React.ChangeEvent<HTMLInputElement>);
+    emit(n);
   };
 
   const mode = inputMode || 'decimal';
@@ -235,11 +253,7 @@ export function NumberInput({
         if (isCompleteNumber(t)) {
           const n = Number(t);
           prevRef.current = n;
-          onCommit?.(n);
-          onChange?.({
-            ...e,
-            target: { ...e.target, value: String(n) },
-          });
+          emit(n);
         }
       }}
       onBlur={(e) => {

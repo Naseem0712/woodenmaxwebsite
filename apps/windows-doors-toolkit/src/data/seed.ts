@@ -138,15 +138,16 @@ function slidingSeriesUpvc(): SeriesDefinition {
     }),
     members: [
       { id: uid(), name: 'Outer frame 2-track', memberClass: '2-track', wFactor: 2, hFactor: 2, ratePerM: 260 },
+      { id: uid(), name: 'Outer frame 2.5-track', memberClass: '2.5-track', wFactor: 2, hFactor: 2, ratePerM: 300 },
       { id: uid(), name: 'Outer frame 3-track', memberClass: '3-track', wFactor: 2, hFactor: 2, ratePerM: 340 },
-      { id: uid(), name: 'Sash (shutter) frame', memberClass: 'Shutter', wFactor: 1.05, hFactor: 2, ratePerM: 240 },
-      { id: uid(), name: 'Interlock', memberClass: 'Meeting', wFactor: 0, hFactor: 2, ratePerM: 180 },
-      { id: uid(), name: 'Glazing bead', memberClass: 'Shutter', wFactor: 1, hFactor: 2, ratePerM: 60 },
+      { id: uid(), name: 'Sash (shutter) frame', memberClass: 'Shutter', shutterPart: 'sash', wFactor: 1.05, hFactor: 2, ratePerM: 240 },
+      { id: uid(), name: 'Interlock', memberClass: 'Meeting', shutterPart: 'interlock', wFactor: 0, hFactor: 2, ratePerM: 180 },
+      { id: uid(), name: 'Glazing bead', memberClass: 'Shutter', shutterPart: 'sash', wFactor: 1, hFactor: 2, ratePerM: 60 },
       { id: uid(), name: 'Mesh shutter frame', memberClass: 'Mesh', wFactor: 1.1, hFactor: 2, ratePerM: 150 },
       { id: uid(), name: 'Steel reinforcement, frame', memberClass: 'UPVC only', wFactor: 2, hFactor: 2, ratePerM: 70 },
       { id: uid(), name: 'Steel reinforcement, sash', memberClass: 'UPVC shutter', wFactor: 1.05, hFactor: 2, ratePerM: 70 },
-      { id: uid(), name: 'Gasket', memberClass: 'Shutter', wFactor: 2, hFactor: 4, ratePerM: 12 },
-      { id: uid(), name: 'Brush (wool pile)', memberClass: 'Shutter', wFactor: 1, hFactor: 2, ratePerM: 8 },
+      { id: uid(), name: 'Gasket', memberClass: 'Shutter', shutterPart: 'sash', wFactor: 2, hFactor: 4, ratePerM: 12 },
+      { id: uid(), name: 'Brush (wool pile)', memberClass: 'Shutter', shutterPart: 'sash', wFactor: 1, hFactor: 2, ratePerM: 8 },
     ],
   };
 }
@@ -223,12 +224,13 @@ function slidingSeriesAlu(): SeriesDefinition {
     }),
     members: [
       { id: uid(), name: 'Outer frame 2-track', memberClass: '2-track', wFactor: 2, hFactor: 2, ratePerM: 180 },
+      { id: uid(), name: 'Outer frame 2.5-track', memberClass: '2.5-track', wFactor: 2, hFactor: 2, ratePerM: 200 },
       { id: uid(), name: 'Outer frame 3-track', memberClass: '3-track', wFactor: 2, hFactor: 2, ratePerM: 220 },
-      { id: uid(), name: 'Shutter section', memberClass: 'Shutter', wFactor: 1.05, hFactor: 2, ratePerM: 150 },
-      { id: uid(), name: 'Interlock', memberClass: 'Meeting', wFactor: 0, hFactor: 2, ratePerM: 110 },
-      { id: uid(), name: 'Glazing bead', memberClass: 'Shutter', wFactor: 1, hFactor: 2, ratePerM: 45 },
+      { id: uid(), name: 'Shutter section', memberClass: 'Shutter', shutterPart: 'sash', wFactor: 1.05, hFactor: 2, ratePerM: 150 },
+      { id: uid(), name: 'Interlock', memberClass: 'Meeting', shutterPart: 'interlock', wFactor: 0, hFactor: 2, ratePerM: 110 },
+      { id: uid(), name: 'Glazing bead', memberClass: 'Shutter', shutterPart: 'sash', wFactor: 1, hFactor: 2, ratePerM: 45 },
       { id: uid(), name: 'Mesh shutter', memberClass: 'Mesh', wFactor: 1.1, hFactor: 2, ratePerM: 95 },
-      { id: uid(), name: 'Wool pile', memberClass: 'Shutter', wFactor: 1, hFactor: 2, ratePerM: 8 },
+      { id: uid(), name: 'Wool pile', memberClass: 'Shutter', shutterPart: 'sash', wFactor: 1, hFactor: 2, ratePerM: 8 },
     ],
   };
 }

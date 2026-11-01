@@ -50,20 +50,32 @@ export function profileRatePerM(p: ProfileSku, a: Allowances): number {
   return p.ratePerMUpvc;
 }
 
-/** Excel Tool 02 member count (K) — mesh frames follow meshDoors qty. */
+/**
+ * Excel Tool 02 member count (K) — mesh frames follow meshDoors qty.
+ * Track matching: 2-track (no mesh typical), 2.5-track / 3-track (mesh materials).
+ * If a series has no explicit 2.5-track member, 2.5 jobs fall back to 3-track rows.
+ */
 export function slidingMemberCount(
   memberClass: string,
   job: Pick<SlidingJob, 'material' | 'tracks' | 'glassShutters' | 'mesh' | 'meshDoors'>,
+  seriesMembers?: Array<Pick<ProfileMember, 'memberClass'>>,
 ): number {
   const meshDoors = job.meshDoors ?? (job.mesh === 'Yes' ? 1 : 0);
-  // 2.5-track uses 3-track outer when tracks ≈ 2.5 or 3
-  const use3Track = job.tracks >= 2.5 && job.tracks < 4;
-  const use2Track = job.tracks > 0 && job.tracks < 2.5;
+  const tracks = Number(job.tracks) || 0;
+  const use2Track = tracks > 0 && tracks < 2.45;
+  const use25Track = tracks >= 2.45 && tracks < 2.75;
+  const use3Track = tracks >= 2.75 && tracks < 4;
+  const has25Member = seriesMembers?.some((m) => m.memberClass === '2.5-track') ?? false;
   switch (memberClass) {
     case '2-track':
       return use2Track ? 1 : 0;
+    case '2.5-track':
+      return use25Track ? 1 : 0;
     case '3-track':
-      return use3Track ? 1 : 0;
+      if (use3Track) return 1;
+      // Legacy series without a 2.5-track row still supply outer for 2.5 jobs
+      if (use25Track && !has25Member) return 1;
+      return 0;
     case 'Shutter':
       return job.glassShutters;
     case 'Meeting':
@@ -82,8 +94,9 @@ export function slidingMemberCount(
 export function slidingMemberMetres(
   m: ProfileMember,
   job: SlidingJob,
+  seriesMembers?: Array<Pick<ProfileMember, 'memberClass'>>,
 ): { count: number; metres: number; cost: number } {
-  const count = slidingMemberCount(m.memberClass, job);
+  const count = slidingMemberCount(m.memberClass, job, seriesMembers);
   const metres = ((m.wFactor * job.widthMm + m.hFactor * job.heightMm) / 1000) * count;
   return { count, metres, cost: metres * m.ratePerM };
 }
@@ -223,7 +236,10 @@ export function calcSliding(state: AppState): ConfigCostResult {
   const membersSrc = series?.members ?? [];
   const glass = lookupGlass(state.glassTypes, job.glassTypeId);
   const glassRate = glass?.ratePerSqft ?? 0;
-  const members = membersSrc.map((m) => ({ ...m, ...slidingMemberMetres(m, job) }));
+  const members = membersSrc.map((m) => ({
+    ...m,
+    ...slidingMemberMetres(m, job, membersSrc),
+  }));
   const profileMetres = members.reduce((s, m) => s + m.metres, 0);
   const profileCost = members.reduce((s, m) => s + m.cost, 0);
   const windowSqft = toSqft(job.widthMm, job.heightMm, 'mm');
