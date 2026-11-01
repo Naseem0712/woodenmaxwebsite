@@ -72,6 +72,21 @@ Edit colours under **Settings → Colours / finish**. Mode pricing under **Setti
 
 ---
 
+## Export Quote / BOM (PDF + Excel)
+
+Visible on **Configurator** (`/configure`), **08 Quotation** (`/quote`), and **07 Hardware BOM** (`/hardware`):
+
+| Group | Formats | Rate options |
+|-------|---------|--------------|
+| **Export Quote** | PDF, Excel | **with rates** · **no rates** |
+| **Export BOM / materials** | PDF, Excel | **with rates** · **no rates** |
+
+Exports include configuration as applicable: materials, names, sizes, qty, glass, colour, hardware. **With rates** uses Settings / mode-quote / hardware catalogue amounts — never invented rates. Excel downloads as CSV (opens in Excel); PDF opens a print view → Save as PDF. Smoke: `node tools/_smoke-export-wd12.mjs`.
+
+Screenshots (store `media/`): `toolkit-export-configurator.png`, `toolkit-export-quotation.png`, `toolkit-export-bom-materials-tab.png`, `toolkit-export-hardware-bom.png`.
+
+---
+
 ## Site Measure — glass doors + mesh (costing)
 
 Default route on app open: **`/site-measure`**.
