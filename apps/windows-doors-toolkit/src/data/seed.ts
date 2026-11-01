@@ -354,6 +354,53 @@ export function createSeedState(): AppState {
   const lessUpvc = 10;
   const lessAlu = 5;
 
+  const colourOptions = [
+    {
+      id: uid(),
+      name: 'White (standard)',
+      material: 'Both' as const,
+      rateAdjPerSqft: 0,
+      note: 'Default finish',
+    },
+    {
+      id: uid(),
+      name: 'Wood laminate — Oak',
+      material: 'UPVC' as const,
+      rateAdjPerSqft: 45,
+      note: 'One-side laminate sample',
+    },
+    {
+      id: uid(),
+      name: 'Wood laminate — Walnut',
+      material: 'UPVC' as const,
+      rateAdjPerSqft: 55,
+      note: 'One-side laminate sample',
+    },
+    {
+      id: uid(),
+      name: 'Powder coat — Matt Black',
+      material: 'Aluminium' as const,
+      rateAdjPerSqft: 35,
+      note: 'Sample Al finish',
+    },
+    {
+      id: uid(),
+      name: 'Powder coat — Champagne',
+      material: 'Aluminium' as const,
+      rateAdjPerSqft: 40,
+      note: 'Sample Al finish',
+    },
+    {
+      id: uid(),
+      name: 'Anodised Silver',
+      material: 'Aluminium' as const,
+      rateAdjPerSqft: 25,
+      note: 'Sample Al finish',
+    },
+  ];
+
+  const whiteColour = colourOptions[0];
+
   return {
     business: {
       companyName: 'Your Fabrication Shop',
@@ -393,9 +440,17 @@ export function createSeedState(): AppState {
     windowTypes,
     series: [seriesA, seriesB, seriesC, seriesD],
     glassTypes,
+    colourOptions,
     hardware,
     profiles,
     hardwareBom,
+    modePricing: {
+      architectRetailMarginPercent: 20,
+      architectDiscountFactor: 0.5,
+      builderThresholdInr: 5_000_000,
+      builderDiscountPercent: 15,
+    },
+    modeVerifications: [],
     jobMeta: {
       customerName: 'Sample Customer',
       siteAddress: 'Sample Site, Hyderabad',
@@ -626,6 +681,32 @@ export function createSeedState(): AppState {
       commissionPercent: 0,
       otherFees: 0,
     },
+    configuratorLines: [
+      {
+        id: uid(),
+        location: 'Living room',
+        widthMm: 1800,
+        heightMm: 1500,
+        qty: 1,
+        productType: 'sliding',
+        material: 'UPVC',
+        windowTypeId: typeByName('UPVC 3-track sliding').id,
+        glassTypeId: clearGlass.id,
+        colourId: whiteColour.id,
+      },
+      {
+        id: uid(),
+        location: 'Master bedroom',
+        widthMm: 1500,
+        heightMm: 1200,
+        qty: 1,
+        productType: 'sliding',
+        material: 'UPVC',
+        windowTypeId: typeByName('UPVC 2-track sliding').id,
+        glassTypeId: clearGlass.id,
+        colourId: whiteColour.id,
+      },
+    ],
     stock: [
       {
         id: uid(),

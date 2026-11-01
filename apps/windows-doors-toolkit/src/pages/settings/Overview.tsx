@@ -8,6 +8,8 @@ const links = [
   ['/settings/series', 'Series & members', 'Profile member rules & ₹/m for Sliding / Casement'],
   ['/settings/window-types', 'Window types', '₹/sqft rate card used by openings & quote'],
   ['/settings/glass', 'Glass types', 'Thickness and glass ₹/sqft'],
+  ['/settings/colours', 'Colours / finish', 'Configurator colour options + ₹/sqft adj'],
+  ['/settings/allowances', 'Mode pricing', 'Architect factor + builder threshold (on Allowances)'],
   ['/settings/hardware', 'Hardware catalogue', 'Rollers, locks, stays, consumables'],
   ['/settings/profiles', 'Profiles stock', 'Stock length + UPVC ₹/m or Al kg/m'],
   ['/settings/data', 'Export / Import', 'JSON backup, restore, reset to seed'],

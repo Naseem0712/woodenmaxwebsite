@@ -1,11 +1,13 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { CasementPage } from './pages/Casement';
+import { ConfiguratorPage } from './pages/Configurator';
 import { HomePage } from './pages/Home';
 import { LeadsPage } from './pages/Leads';
 import { OpeningsPage } from './pages/Openings';
 import { SiteMeasurePage } from './pages/SiteMeasure';
 import { SlidingPage } from './pages/Sliding';
+import { SettingsColoursPage } from './pages/settings/Colours';
 import {
   BuilderPage,
   ComparePage,
@@ -49,6 +51,7 @@ export default function App() {
             <Route path="glass" element={<GlassPage />} />
             <Route path="hardware" element={<HardwarePage />} />
             <Route path="quote" element={<QuotePage />} />
+            <Route path="configure" element={<ConfiguratorPage />} />
             <Route path="compare" element={<ComparePage />} />
             <Route path="margin" element={<MarginPage />} />
             <Route path="mesh" element={<MeshPage />} />
@@ -62,6 +65,7 @@ export default function App() {
             <Route path="settings/series" element={<SettingsSeriesPage />} />
             <Route path="settings/window-types" element={<SettingsWindowTypesPage />} />
             <Route path="settings/glass" element={<SettingsGlassTypesPage />} />
+            <Route path="settings/colours" element={<SettingsColoursPage />} />
             <Route path="settings/hardware" element={<SettingsHardwareCataloguePage />} />
             <Route path="settings/profiles" element={<SettingsProfilesPage />} />
             <Route path="stock" element={<StockPage />} />

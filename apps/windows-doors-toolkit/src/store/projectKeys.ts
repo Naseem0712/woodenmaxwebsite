@@ -19,6 +19,7 @@ export function extractProjectJob(state: AppState | ProjectJobData): ProjectJobD
     builder: state.builder,
     revisions: state.revisions,
     marginExtras: state.marginExtras,
+    configuratorLines: state.configuratorLines ?? [],
   };
 }
 
@@ -55,6 +56,7 @@ export function emptyProjectJob(from: ProjectJobData): ProjectJobData {
     builder: [],
     revisions: [],
     marginExtras: { commissionPercent: 0, otherFees: 0 },
+    configuratorLines: [],
   };
 }
 

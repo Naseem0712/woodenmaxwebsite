@@ -199,6 +199,71 @@ export function SettingsAllowancesPage() {
           </Field>
         </div>
       </Card>
+      <Card title="Mode pricing (customer quote UX)">
+        <p className="muted tiny" style={{ marginBottom: '0.75rem' }}>
+          Rules only — never hardcodes shop rates. Architect discount % = retail margin % × factor
+          (seed 20% × 0.5 = 10% below homeowner). Builder: when retail total ≥ threshold, apply builder %.
+        </p>
+        <div className="grid grid-4">
+          <Field label="Architect retail margin %" hint="e.g. 20">
+            <Input
+              type="number"
+              value={state.modePricing.architectRetailMarginPercent}
+              onChange={(e) =>
+                patch('modePricing', {
+                  ...state.modePricing,
+                  architectRetailMarginPercent: Number(e.target.value),
+                })
+              }
+            />
+          </Field>
+          <Field label="Architect discount factor" hint="0.5 = half of margin">
+            <Input
+              type="number"
+              step="0.05"
+              value={state.modePricing.architectDiscountFactor}
+              onChange={(e) =>
+                patch('modePricing', {
+                  ...state.modePricing,
+                  architectDiscountFactor: Number(e.target.value),
+                })
+              }
+            />
+          </Field>
+          <Field label="Builder threshold ₹" hint="Seed ₹50,00,000">
+            <Input
+              type="number"
+              value={state.modePricing.builderThresholdInr}
+              onChange={(e) =>
+                patch('modePricing', {
+                  ...state.modePricing,
+                  builderThresholdInr: Number(e.target.value),
+                })
+              }
+            />
+          </Field>
+          <Field label="Builder discount %" hint="Off vs homeowner when threshold met">
+            <Input
+              type="number"
+              value={state.modePricing.builderDiscountPercent}
+              onChange={(e) =>
+                patch('modePricing', {
+                  ...state.modePricing,
+                  builderDiscountPercent: Number(e.target.value),
+                })
+              }
+            />
+          </Field>
+        </div>
+        <p className="tiny muted" style={{ marginTop: '0.5rem' }}>
+          Effective architect discount now:{' '}
+          {(
+            state.modePricing.architectRetailMarginPercent *
+            state.modePricing.architectDiscountFactor
+          ).toFixed(1)}
+          % below retail.
+        </p>
+      </Card>
     </div>
   );
 }

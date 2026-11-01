@@ -14,6 +14,7 @@ const tiles = [
   ['/glass', '06 Glass', 'Pane lines → glass cost'],
   ['/hardware', '07 Hardware', 'Type × item matrix → job ₹'],
   ['/quote', '08 Quotation', 'Printable schedule + GST + advance'],
+  ['/configure', 'Configurator', 'Mode quote: size → type → glass → colour'],
   ['/compare', '09 Compare', 'UPVC vs Aluminium'],
   ['/margin', '10 Margin', 'Cost stack vs quoted amount'],
   ['/mesh', '11 Mesh & Grill', 'Add-on mesh / grill'],

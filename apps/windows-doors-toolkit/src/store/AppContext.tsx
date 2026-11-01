@@ -17,12 +17,15 @@ import type {
   CustomerModeId,
   HardwareClass,
   Material,
+  ModeVerification,
   ProjectJobData,
   ProjectMeta,
 } from '../types';
+import { DEFAULT_MODE_PRICING } from '../types';
 import { applyProjectJob, emptyProjectJob, extractProjectJob } from './projectKeys';
 
-const STORAGE_KEY = 'wd-toolkit-v4';
+const STORAGE_KEY = 'wd-toolkit-v5';
+const LEGACY_V4 = 'wd-toolkit-v4';
 const LEGACY_V3 = 'wd-toolkit-v3';
 const LEGACY_V2 = 'wd-toolkit-v2';
 const LEGACY_V1 = 'wd-toolkit-v1';
@@ -47,6 +50,14 @@ type Ctx = {
   selectProject: (id: string) => void;
   setProjectMaterial: (id: string, material: Material) => void;
   setProjectCustomerMode: (id: string, mode: CustomerModeId) => void;
+  /** Attempt mode switch; returns false when verification gate blocks (caller shows modal). */
+  requestProjectCustomerMode: (id: string, mode: CustomerModeId) => boolean;
+  submitModeVerification: (
+    mode: Exclude<CustomerModeId, 'home-owner'>,
+    data: { name: string; professionalId: string; gstNo: string },
+    /** Project to switch into the unlocked mode; pass null to verify only */
+    projectId?: string | null,
+  ) => void;
   updateProjectLessOff: (id: string, widthMm: number | null, heightMm: number | null) => void;
   refreshSiteMeasureNets: () => void;
 };
@@ -129,7 +140,24 @@ function normalizeMasters(state: AppState): AppState {
     lessOffAluWidthMm: state.allowances.lessOffAluWidthMm ?? 5,
     lessOffAluHeightMm: state.allowances.lessOffAluHeightMm ?? 5,
   };
-  return { ...state, series, windowTypes, profiles, hardware, casement, projects, allowances };
+  const colourOptions = state.colourOptions ?? [];
+  const modePricing = { ...DEFAULT_MODE_PRICING, ...state.modePricing };
+  const modeVerifications = state.modeVerifications ?? [];
+  const configuratorLines = state.configuratorLines ?? [];
+  return {
+    ...state,
+    series,
+    windowTypes,
+    profiles,
+    hardware,
+    casement,
+    projects,
+    allowances,
+    colourOptions,
+    modePricing,
+    modeVerifications,
+    configuratorLines,
+  };
 }
 
 function mergeLoaded(parsed: Partial<AppState>): AppState {
@@ -163,6 +191,10 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
     revisions: parsed.revisions ?? seed.revisions,
     stock: parsed.stock ?? seed.stock,
     stockIssues: parsed.stockIssues ?? seed.stockIssues,
+    colourOptions: parsed.colourOptions ?? seed.colourOptions,
+    modePricing: { ...seed.modePricing, ...parsed.modePricing },
+    modeVerifications: parsed.modeVerifications ?? seed.modeVerifications,
+    configuratorLines: parsed.configuratorLines ?? seed.configuratorLines,
     projects: parsed.projects?.length ? parsed.projects : seed.projects,
     activeProjectId: parsed.activeProjectId ?? seed.activeProjectId,
     projectBags: parsed.projectBags ?? {},
@@ -239,7 +271,7 @@ function load(): AppState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return mergeLoaded(JSON.parse(raw) as Partial<AppState>);
-    for (const key of [LEGACY_V3, LEGACY_V2, LEGACY_V1]) {
+    for (const key of [LEGACY_V4, LEGACY_V3, LEGACY_V2, LEGACY_V1]) {
       const legacy = localStorage.getItem(key);
       if (legacy) {
         const migrated = migrateLegacy(legacy);
@@ -363,6 +395,56 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const requestProjectCustomerMode = useCallback(
+    (id: string, mode: CustomerModeId): boolean => {
+      const needsGate =
+        mode !== 'home-owner' &&
+        !state.modeVerifications.some(
+          (v) =>
+            v.modeId === mode &&
+            v.name.trim() &&
+            v.professionalId.trim() &&
+            v.gstNo.trim(),
+        );
+      if (needsGate) return false;
+      setProjectCustomerMode(id, mode);
+      return true;
+    },
+    [state.modeVerifications, setProjectCustomerMode],
+  );
+
+  const submitModeVerification = useCallback(
+    (
+      mode: Exclude<CustomerModeId, 'home-owner'>,
+      data: { name: string; professionalId: string; gstNo: string },
+      projectId?: string | null,
+    ) => {
+      const entry: ModeVerification = {
+        modeId: mode,
+        name: data.name.trim(),
+        professionalId: data.professionalId.trim(),
+        gstNo: data.gstNo.trim(),
+        verifiedAt: new Date().toISOString(),
+      };
+      setState((s) => {
+        const modeVerifications = [
+          ...s.modeVerifications.filter((v) => v.modeId !== mode),
+          entry,
+        ];
+        if (projectId === null) {
+          return { ...s, modeVerifications };
+        }
+        const pid = projectId ?? s.activeProjectId;
+        return {
+          ...s,
+          modeVerifications,
+          projects: s.projects.map((p) => (p.id === pid ? { ...p, customerMode: mode } : p)),
+        };
+      });
+    },
+    [],
+  );
+
   const setProjectMaterial = useCallback((id: string, material: Material) => {
     setState((s) => {
       const projects = s.projects.map((p) => (p.id === id ? { ...p, material } : p));
@@ -413,6 +495,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       selectProject,
       setProjectMaterial,
       setProjectCustomerMode,
+      requestProjectCustomerMode,
+      submitModeVerification,
       updateProjectLessOff,
       refreshSiteMeasureNets,
     }),
@@ -427,6 +511,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       selectProject,
       setProjectMaterial,
       setProjectCustomerMode,
+      requestProjectCustomerMode,
+      submitModeVerification,
       updateProjectLessOff,
       refreshSiteMeasureNets,
     ],

@@ -37,16 +37,35 @@ Use the **Project** bar at the top of every page:
 
 - **Select** a project — openings, site measures, cutting, quote, leads, etc. switch with it (no mixed job data).
 - **Material (UPVC / Aluminium)** — locks the whole job. Series, window types, profiles, cutting stock, and Tools 02/03 only show that material. Switching material realigns sliding/casement to a matching series.
-- **Mode (customer type)** — starting list: **Home owner** and **Architects** (extensible later). Mode shapes labels / quote presentation only — **never** embeds shop rates. Rates stay Settings-driven.
+- **Mode (customer type)** — **Home owner**, **Architects**, **Builder**, **Vendor** (extensible). Modes shape quote UX / discounts — **never** embed shop rates. Rates stay Settings-driven.
+- **Verification gate** — Architect / Builder / Vendor unlock only after **name + professional main ID + GST no**. Home owner has no GST gate.
 - **Rename** / **+ New** — create empty job bags (pick material + mode for the new job) while keeping global Settings masters.
 - **Less-off W/H** on the bar — optional project override of Settings less-off for the project’s material (clear with **Use Settings**).
 
-**Global (shared):** Business, Allowances, Series, Window types, Glass, Hardware, Profiles catalogue, **Series stock**.  
-**Per project:** Material lock, customer mode, Leads, Site Measure, Openings, costing jobs, Cutting, Quote, Mesh, Labour, Builder, etc.
+**Global (shared):** Business, Allowances (+ mode pricing), Series, Window types, Glass, **Colours**, Hardware, Profiles catalogue, **Series stock**, mode verifications.  
+**Per project:** Material lock, customer mode, Leads, Site Measure, Openings, costing jobs, Cutting, Quote, **Configurator cart**, Mesh, Labour, Builder, etc.
 
 **Exception:** Tool **09 Compare** still shows UPVC vs Aluminium side-by-side on purpose.
 
-Screenshots: `media/toolkit-material-switcher.png`, `media/toolkit-project-mode.png`, `media/toolkit-filtered-sliding-series.png`, `media/toolkit-stock-material-filter.png`, `media/toolkit-series-casement-hardware.png`, `media/toolkit-series-name-kind-warn.png`.
+Screenshots (store `media/`): homeowner configurator, architect price, builder threshold, verification gate, plus earlier material/mode shots.
+
+---
+
+## Quote configurator (by Mode)
+
+Route: **`/configure`**. Same single-screen flow for Home owner / Architect / Builder:
+
+1. Size + qty → 2. Type (sliding / openable / fix / door) → 3. Material UPVC | Aluminium → 4. Glass → 5. Colour → 6. Rate / area / budget → 7. **Add to quote**.
+8. Below: quote tabs **List / Areas / Materials / Hardwares** · **Export PDF** (print) · **Export Excel** (CSV).
+
+| Mode | Pricing (Settings-driven rules — not hardcoded rates) |
+|------|------------------------------------------------------|
+| **Home owner** | Retail = window-type ₹/sqft + colour adj + glass ₹/sqft |
+| **Architects** | Retail minus (architect margin % × discount factor). Seed: 20% × 0.5 → **10% below** homeowner |
+| **Builder** | If retail quote total ≥ threshold (seed ₹50L), apply builder % off (seed **15%**). Threshold + % editable in Settings → Allowances |
+| **Vendor** | Verification unlocks **full fab tools** (nothing hidden); schedule shows retail |
+
+Edit colours under **Settings → Colours / finish**. Mode pricing under **Settings → Allowances → Mode pricing**.
 
 ---
 

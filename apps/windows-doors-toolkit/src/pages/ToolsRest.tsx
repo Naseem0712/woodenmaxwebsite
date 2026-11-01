@@ -748,13 +748,16 @@ export function QuotePage() {
     <div>
       <PageHeader
         title="08 Quotation"
-        subtitle={`Schedule from 01 Openings (+ mesh/grill). Mode: ${modeLabel} — labels only; rates stay in Settings.`}
+        subtitle={`Openings schedule (+ mesh/grill). For size→type→material→glass→colour quote UX use Configurator. Mode: ${modeLabel}.`}
         badge={modeLabel}
       />
       <Card
         title="Quote header"
         actions={
           <Toolbar>
+            <Link to="/configure" className="btn btn-ghost">
+              Open configurator
+            </Link>
             <Btn variant="ghost" onClick={syncFromJob}>
               Sync customer from job
             </Btn>

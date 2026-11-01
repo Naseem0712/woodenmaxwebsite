@@ -201,9 +201,30 @@ table.data tr.row-warn { background: #fff7ed; }
 .quote-meta { text-align: right; }
 .quote-party { margin-bottom: 0.85rem; }
 
+.chip-row { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.35rem; }
+.chip {
+  border: 1px solid var(--line); background: #fff; border-radius: 999px;
+  padding: 0.35rem 0.75rem; font: inherit; font-weight: 600; cursor: pointer; color: var(--ink);
+}
+.chip:hover { border-color: #67e8f9; }
+.chip-active {
+  background: var(--brand); color: #fff; border-color: var(--brand);
+}
+.config-step { margin-top: 0.75rem; }
+.modal-backdrop {
+  position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; padding: 1rem;
+}
+.modal-card {
+  background: #fff; border-radius: 12px; border: 1px solid var(--line);
+  box-shadow: var(--shadow); padding: 1.25rem; max-width: 420px; width: 100%;
+}
+.modal-card h2 { margin-bottom: 0.35rem; }
+
 @media print {
   body { background: #fff !important; }
-  .sidebar, .legend, .no-print, .page-header .badge { display: none !important; }
+  .sidebar, .legend, .no-print, .page-header .badge, .project-switcher, .modal-backdrop { display: none !important; }
   .shell { display: block; }
   .main { max-width: none; padding: 0; }
   .card { box-shadow: none; border-color: #ccc; break-inside: avoid; }

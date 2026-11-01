@@ -3,28 +3,116 @@ export type Unit = 'mm' | 'inch' | 'ft';
 export type YesNo = 'Yes' | 'No';
 export type SeriesKind = 'sliding' | 'casement' | 'door' | 'other';
 
-/** Project customer mode — shapes UX / labels / quote presentation; rates stay in Settings. */
-export type CustomerModeId = 'home-owner' | 'architects';
+/**
+ * Project customer mode — shapes quote UX / discounts presentation.
+ * Shop rates always stay Settings-driven (never hardcoded into formulas).
+ */
+export type CustomerModeId = 'home-owner' | 'architects' | 'builder' | 'vendor';
 
 export interface CustomerModeDef {
   id: CustomerModeId;
   label: string;
   /** Short UX hint — never encodes shop rates */
   description: string;
+  /** Architect / Builder / Vendor need name + professional ID + GST before unlock */
+  requiresVerification: boolean;
 }
 
 export const CUSTOMER_MODES: readonly CustomerModeDef[] = [
   {
     id: 'home-owner',
     label: 'Home owner',
-    description: 'Plain-language quote labels; simpler schedule wording.',
+    description: 'Single-screen configurator → quote tabs; retail (homeowner) pricing.',
+    requiresVerification: false,
   },
   {
     id: 'architects',
     label: 'Architects',
-    description: 'Technical labels (fab sizes, series/kind) on quote and tools.',
+    description: 'Same configurator; cost shown with Settings-driven architect discount vs retail.',
+    requiresVerification: true,
+  },
+  {
+    id: 'builder',
+    label: 'Builder',
+    description: 'Same quote path; Settings threshold unlocks builder % off vs homeowner.',
+    requiresVerification: true,
+  },
+  {
+    id: 'vendor',
+    label: 'Vendor',
+    description: 'Full software access — all fab tools editable; verification required.',
+    requiresVerification: true,
   },
 ] as const;
+
+/** UI product type chips on the customer configurator (maps to SeriesKind). */
+export type ConfiguratorProductType = 'sliding' | 'openable' | 'fix' | 'door';
+
+export const CONFIGURATOR_PRODUCT_TYPES: readonly {
+  id: ConfiguratorProductType;
+  label: string;
+  kind: SeriesKind;
+}[] = [
+  { id: 'sliding', label: 'Sliding', kind: 'sliding' },
+  { id: 'openable', label: 'Openable', kind: 'casement' },
+  { id: 'fix', label: 'Fix', kind: 'other' },
+  { id: 'door', label: 'Door', kind: 'door' },
+] as const;
+
+/** Colour / finish master — Settings-editable surcharge (₹/sqft). */
+export interface ColourOption {
+  id: string;
+  name: string;
+  material: Material | 'Both';
+  /** Extra ₹/sqft on top of window-type rate (Settings — sample seed only) */
+  rateAdjPerSqft: number;
+  note: string;
+}
+
+/**
+ * Mode pricing rules (Settings). Example seed: margin 20% × factor 0.5 → architects see 10% below retail.
+ * Builder: when homeowner quote total ≥ threshold, apply builderDiscountPercent off retail.
+ */
+export interface ModePricingSettings {
+  /** Retail margin % used only for the architect half-of-margin rule (e.g. 20) */
+  architectRetailMarginPercent: number;
+  /** Fraction of that margin given as discount (e.g. 0.5 → half of 20% = 10% off retail) */
+  architectDiscountFactor: number;
+  /** Builder quote total (homeowner/retail ₹) that unlocks builder discount */
+  builderThresholdInr: number;
+  /** % off vs homeowner/retail when threshold is crossed */
+  builderDiscountPercent: number;
+}
+
+export const DEFAULT_MODE_PRICING: ModePricingSettings = {
+  architectRetailMarginPercent: 20,
+  architectDiscountFactor: 0.5,
+  builderThresholdInr: 5_000_000,
+  builderDiscountPercent: 15,
+};
+
+/** Professional verification — unlocks Architect / Builder / Vendor modes. */
+export interface ModeVerification {
+  modeId: Exclude<CustomerModeId, 'home-owner'>;
+  name: string;
+  professionalId: string;
+  gstNo: string;
+  verifiedAt: string;
+}
+
+/** One line on the customer-facing quote cart (per project). */
+export interface ConfiguratorLine {
+  id: string;
+  location: string;
+  widthMm: number;
+  heightMm: number;
+  qty: number;
+  productType: ConfiguratorProductType;
+  material: Material;
+  windowTypeId: string;
+  glassTypeId: string;
+  colourId: string;
+}
 
 /** Size-driven catalogue line (mm). Rates edited in Settings — never hardcoded in formulas. */
 export interface SizedRate {
@@ -466,6 +554,8 @@ export interface ProjectJobData {
     commissionPercent: number;
     otherFees: number;
   };
+  /** Customer-facing configurator cart (Home owner / Architect / Builder quote path) */
+  configuratorLines: ConfiguratorLine[];
 }
 
 /** Series-wise section inventory (global shop stock). */
@@ -507,6 +597,7 @@ export const PROJECT_JOB_KEYS = [
   'builder',
   'revisions',
   'marginExtras',
+  'configuratorLines',
 ] as const;
 
 export type ProjectJobKey = (typeof PROJECT_JOB_KEYS)[number];
@@ -517,9 +608,14 @@ export interface AppState extends ProjectJobData {
   windowTypes: WindowType[];
   series: SeriesDefinition[];
   glassTypes: GlassType[];
+  colourOptions: ColourOption[];
   hardware: HardwareItem[];
   profiles: ProfileSku[];
   hardwareBom: HardwareBomLine[];
+  /** Mode pricing rules — Settings-driven, never hardcode into UI */
+  modePricing: ModePricingSettings;
+  /** Verified professionals per gated mode */
+  modeVerifications: ModeVerification[];
   /** Global series-wise stock */
   stock: StockLine[];
   stockIssues: StockIssue[];
