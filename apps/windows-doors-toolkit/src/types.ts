@@ -1,6 +1,7 @@
 export type Material = 'UPVC' | 'Aluminium';
 export type Unit = 'mm' | 'inch' | 'ft';
 export type YesNo = 'Yes' | 'No';
+export type SeriesKind = 'sliding' | 'casement' | 'door' | 'other';
 
 export type SlidingMemberClass =
   | '2-track'
@@ -54,15 +55,23 @@ export interface Allowances {
   meshPerSqft: number;
   toughenedExtraPerSqft: number;
   siteInstallPerSqft: number;
-  /** Default less-off (site → fabrication). Overridable per project / per row. */
+  /**
+   * Default less-off (site → fabrication) for UPVC jobs.
+   * Overridable per project / per row. Aluminium uses lessOffAlu* when project material is Aluminium.
+   */
   lessOffWidthMm: number;
   lessOffHeightMm: number;
+  /** Aluminium less-off defaults (Excel kits share cut allowance; shops often use a tighter Alu gap). */
+  lessOffAluWidthMm: number;
+  lessOffAluHeightMm: number;
 }
 
 export interface WindowType {
   id: string;
   name: string;
   material: Material;
+  /** Class isolation: sliding / casement / door / other */
+  kind: SeriesKind;
   ratePerSqft: number;
   note: string;
   seriesId?: string;
@@ -81,7 +90,7 @@ export interface SeriesDefinition {
   id: string;
   name: string;
   material: Material;
-  kind: 'sliding' | 'casement' | 'door' | 'other';
+  kind: SeriesKind;
   defaultTracks: number;
   defaultShutters: number;
   defaultPanels: number;
@@ -118,6 +127,8 @@ export interface HardwareItem {
 export interface ProfileSku {
   id: string;
   name: string;
+  material: Material;
+  kind: SeriesKind;
   stockLengthM: number;
   ratePerMUpvc: number;
   kgPerMAluminium: number;
@@ -336,11 +347,13 @@ export interface JobMeta {
   jobLabel: string;
 }
 
-/** Project shell — less-off defaults override Settings when set (null = inherit). */
+/** Project shell — material locks the job; less-off overrides Settings when set (null = inherit). */
 export interface ProjectMeta {
   id: string;
   name: string;
   createdAt: string;
+  /** Once set, all tools / selectors for this project stay on this material. */
+  material: Material;
   lessOffWidthMm: number | null;
   lessOffHeightMm: number | null;
 }

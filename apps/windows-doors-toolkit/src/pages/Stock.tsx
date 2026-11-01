@@ -1,15 +1,31 @@
 import { Link } from 'react-router-dom';
+import { useMemo, useState } from 'react';
 import { v4 as uid } from 'uuid';
-import { Btn, Card, Kpi, Num, NumberInput, PageHeader, Toolbar } from '../components/ui';
+import { Btn, Card, Kpi, Num, NumberInput, PageHeader, Select, Toolbar } from '../components/ui';
 import { calcStock } from '../engine/calcs';
+import { projectMaterial } from '../engine/materialContext';
 import { useApp } from '../store/AppContext';
-import type { StockIssue, StockLine } from '../types';
+import type { Material, SeriesKind, StockIssue, StockLine } from '../types';
 
 export function StockPage() {
   const { state, patch, setState } = useApp();
   const calc = calcStock(state);
   const activeName =
     state.projects.find((p) => p.id === state.activeProjectId)?.name ?? 'Active project';
+  const jobMaterial = projectMaterial(state);
+  const [materialFilter, setMaterialFilter] = useState<Material | 'all' | 'project'>('project');
+  const [kindFilter, setKindFilter] = useState<SeriesKind | 'all'>('all');
+
+  const effectiveMaterial: Material | 'all' =
+    materialFilter === 'project' ? jobMaterial : materialFilter;
+
+  const visibleSeries = useMemo(() => {
+    return state.series.filter((s) => {
+      if (effectiveMaterial !== 'all' && s.material !== effectiveMaterial) return false;
+      if (kindFilter !== 'all' && s.kind !== kindFilter) return false;
+      return true;
+    });
+  }, [state.series, effectiveMaterial, kindFilter]);
 
   const updateLine = (id: string, patchLine: Partial<StockLine>) => {
     patch(
@@ -50,9 +66,41 @@ export function StockPage() {
     <div>
       <PageHeader
         title="Series stock"
-        subtitle="Inventory by series → editable section names. Opening + purchases − issues = remaining. Cutting can deduct matching series/section."
+        subtitle="Inventory by material × kind (sliding / casement). Default filter follows the active project material so you never issue the wrong system."
         badge="Global shop stock"
       />
+
+      <Card title="Filter">
+        <Toolbar>
+          <label className="tiny muted">
+            Material{' '}
+            <Select
+              value={materialFilter}
+              onChange={(e) =>
+                setMaterialFilter(e.target.value as Material | 'all' | 'project')
+              }
+            >
+              <option value="project">Project ({jobMaterial})</option>
+              <option value="UPVC">UPVC</option>
+              <option value="Aluminium">Aluminium</option>
+              <option value="all">All materials</option>
+            </Select>
+          </label>
+          <label className="tiny muted">
+            Kind{' '}
+            <Select
+              value={kindFilter}
+              onChange={(e) => setKindFilter(e.target.value as SeriesKind | 'all')}
+            >
+              <option value="all">All kinds</option>
+              <option value="sliding">sliding</option>
+              <option value="casement">casement</option>
+              <option value="door">door</option>
+              <option value="other">other</option>
+            </Select>
+          </label>
+        </Toolbar>
+      </Card>
 
       <div className="grid grid-4" style={{ marginBottom: '1rem' }}>
         <Kpi label="Sections" value={calc.rows.length} />
@@ -62,18 +110,18 @@ export function StockPage() {
           label="Active project"
           value={
             <span className="tiny">
-              {activeName} · <Link to="/cutting">Cutting</Link>
+              {activeName} · {jobMaterial} · <Link to="/cutting">Cutting</Link>
             </span>
           }
         />
       </div>
 
-      {state.series.map((series) => {
+      {visibleSeries.map((series) => {
         const rows = calc.bySeries.get(series.id) ?? [];
         return (
           <Card
             key={series.id}
-            title={`${series.name} (${series.kind})`}
+            title={`${series.material} · ${series.kind} · ${series.name}`}
             actions={
               <Toolbar>
                 <Btn variant="ghost" onClick={() => addSection(series.id)}>

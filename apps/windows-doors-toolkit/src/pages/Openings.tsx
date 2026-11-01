@@ -1,11 +1,14 @@
 import { v4 as uid } from 'uuid';
 import { Btn, Card, Field, Input, Kpi, Money, Num, PageHeader, Select, Toolbar, NumberInput } from '../components/ui';
 import { calcOpenings } from '../engine/calcs';
+import { filterWindowTypes, projectMaterial } from '../engine/materialContext';
 import { useApp } from '../store/AppContext';
 
 export function OpeningsPage() {
   const { state, patch } = useApp();
   const calc = calcOpenings(state);
+  const material = projectMaterial(state);
+  const types = filterWindowTypes(state.windowTypes, material);
 
   const updateOpening = (id: string, key: string, value: string | number) => {
     patch(
@@ -18,7 +21,8 @@ export function OpeningsPage() {
     <div>
       <PageHeader
         title="01 Window Sqft / Openings"
-        subtitle="Enter location, type, W×H×qty. Chargeable sqft uses Settings min sqft; rate from window-type master."
+        subtitle={`Enter location, type, W×H×qty. Types filtered to project material (${material}) — UPVC and Aluminium never mix on one job.`}
+        badge={material}
       />
       <Card title="Job & unit settings">
         <div className="grid grid-4">
@@ -83,7 +87,7 @@ export function OpeningsPage() {
                   {
                     id: uid(),
                     location: '',
-                    windowTypeId: state.windowTypes[0]?.id ?? '',
+                    windowTypeId: types[0]?.id ?? '',
                     width: 1200,
                     height: 1200,
                     qty: 1,
@@ -125,9 +129,9 @@ export function OpeningsPage() {
                     value={r.line.windowTypeId}
                     onChange={(e) => updateOpening(r.line.id, 'windowTypeId', e.target.value)}
                   >
-                    {state.windowTypes.map((t) => (
+                    {types.map((t) => (
                       <option key={t.id} value={t.id}>
-                        {t.name}
+                        {t.kind}: {t.name}
                       </option>
                     ))}
                   </select>

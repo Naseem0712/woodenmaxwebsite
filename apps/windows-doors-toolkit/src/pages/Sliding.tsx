@@ -9,13 +9,15 @@ import {
   Select,
 } from '../components/ui';
 import { applySeriesToSliding, calcSliding } from '../engine/calcs';
+import { projectMaterial, seriesForTool } from '../engine/materialContext';
 import { useApp } from '../store/AppContext';
 
 export function SlidingPage() {
   const { state, patch } = useApp();
   const job = state.sliding;
   const result = calcSliding(state);
-  const seriesList = state.series.filter((s) => s.kind === 'sliding' || s.kind === 'other' || s.kind === 'door');
+  const material = projectMaterial(state);
+  const seriesList = seriesForTool(state, 'sliding');
 
   const set = <K extends keyof typeof job>(key: K, value: (typeof job)[K]) => {
     patch('sliding', { ...job, [key]: value });
@@ -25,12 +27,13 @@ export function SlidingPage() {
     <div>
       <PageHeader
         title="02 Sliding Window"
-        subtitle="Pick a series from Settings, enter W×H×qty — member metres, glass, hardware, wastage & margin price calculate like the Excel toolkit."
+        subtitle={`Project material: ${material}. Series list is sliding/door only for this material — never mixes the other material or casement.`}
+        badge={material}
       />
 
       <Card title="Configuration (yellow = your inputs)">
         <div className="grid grid-4">
-          <Field label="Series (Settings)">
+          <Field label="Series (Settings)" hint={`${material} · sliding / door`}>
             <Select
               value={job.seriesId}
               onChange={(e) => {
@@ -38,6 +41,9 @@ export function SlidingPage() {
                 if (s) patch('sliding', applySeriesToSliding(s, job));
               }}
             >
+              {seriesList.length === 0 ? (
+                <option value="">No {material} sliding series — add in Settings</option>
+              ) : null}
               {seriesList.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.name}
@@ -45,11 +51,8 @@ export function SlidingPage() {
               ))}
             </Select>
           </Field>
-          <Field label="Material">
-            <Select value={job.material} onChange={(e) => set('material', e.target.value as 'UPVC' | 'Aluminium')}>
-              <option>UPVC</option>
-              <option>Aluminium</option>
-            </Select>
+          <Field label="Material" hint="Locked to project" tone="link">
+            <Input tone="link" readOnly value={material} />
           </Field>
           <Field label="Tracks">
             <Input type="number" value={job.tracks} onChange={(e) => set('tracks', Number(e.target.value))} />

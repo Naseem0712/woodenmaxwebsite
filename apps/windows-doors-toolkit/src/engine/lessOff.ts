@@ -1,27 +1,47 @@
-import type { AppState, ProjectMeta, SiteMeasureLine } from '../types';
+import type { AppState, Material, ProjectMeta, SiteMeasureLine } from '../types';
+import { activeProjectMeta, projectMaterial } from './materialContext';
 
 export function activeProject(state: AppState): ProjectMeta | undefined {
-  return state.projects.find((p) => p.id === state.activeProjectId);
+  return activeProjectMeta(state);
 }
 
-/** Resolve less-off mm: row override → project default → Settings. */
+/** Settings less-off for a material (UPVC vs Aluminium defaults). */
+export function settingsLessOffForMaterial(
+  state: AppState,
+  material: Material,
+): { widthMm: number; heightMm: number } {
+  if (material === 'Aluminium') {
+    return {
+      widthMm: state.allowances.lessOffAluWidthMm ?? state.allowances.lessOffWidthMm,
+      heightMm: state.allowances.lessOffAluHeightMm ?? state.allowances.lessOffHeightMm,
+    };
+  }
+  return {
+    widthMm: state.allowances.lessOffWidthMm,
+    heightMm: state.allowances.lessOffHeightMm,
+  };
+}
+
+/** Resolve less-off mm: row override → project default → Settings (by project material). */
 export function resolveLessOffMm(
   state: AppState,
   line?: Pick<SiteMeasureLine, 'lessOffWidthMm' | 'lessOffHeightMm'> | null,
 ): { widthMm: number; heightMm: number } {
   const proj = activeProject(state);
+  const material = projectMaterial(state);
+  const settings = settingsLessOffForMaterial(state, material);
   const widthMm =
     line?.lessOffWidthMm != null && line.lessOffWidthMm !== (undefined as unknown as null)
       ? Number(line.lessOffWidthMm)
       : proj?.lessOffWidthMm != null
         ? proj.lessOffWidthMm
-        : state.allowances.lessOffWidthMm;
+        : settings.widthMm;
   const heightMm =
     line?.lessOffHeightMm != null
       ? Number(line.lessOffHeightMm)
       : proj?.lessOffHeightMm != null
         ? proj.lessOffHeightMm
-        : state.allowances.lessOffHeightMm;
+        : settings.heightMm;
   return {
     widthMm: Number.isFinite(widthMm) ? widthMm : 0,
     heightMm: Number.isFinite(heightMm) ? heightMm : 0,

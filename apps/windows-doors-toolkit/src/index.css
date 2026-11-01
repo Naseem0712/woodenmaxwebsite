@@ -153,7 +153,13 @@ table.data tr.row-warn { background: #fff7ed; }
 .project-switcher-label {
   display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 600;
 }
-.project-switcher-label select { min-width: 200px; }
+.project-switcher-label select { min-width: 160px; }
+.project-switcher-label select.material-lock {
+  min-width: 120px;
+  background: var(--yellow);
+  border-color: var(--yellow-border);
+  font-weight: 700;
+}
 .project-lessoff {
   display: flex; align-items: center; gap: 0.35rem; margin-left: auto;
 }

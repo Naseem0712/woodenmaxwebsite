@@ -1,5 +1,6 @@
 import { v4 as uid } from 'uuid';
 import { Btn, Card, PageHeader, NumberInput } from '../../components/ui';
+import type { Material, SeriesKind } from '../../types';
 import { useApp } from '../../store/AppContext';
 
 export function SettingsProfilesPage() {
@@ -9,7 +10,7 @@ export function SettingsProfilesPage() {
     <div>
       <PageHeader
         title="Profiles stock"
-        subtitle="Stock length and UPVC ₹/m or Aluminium kg/m. Used by Tool 05 Cutting (Al rate from Allowances)."
+        subtitle="Stock length and UPVC ₹/m or Aluminium kg/m. Tagged by material × kind — Cutting only lists the active project material."
       />
       <Card
         title="Profile SKUs"
@@ -21,6 +22,8 @@ export function SettingsProfilesPage() {
                 {
                   id: uid(),
                   name: 'New profile',
+                  material: 'UPVC' as Material,
+                  kind: 'sliding' as SeriesKind,
                   stockLengthM: 5.8,
                   ratePerMUpvc: 200,
                   kgPerMAluminium: 0,
@@ -36,6 +39,8 @@ export function SettingsProfilesPage() {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Material</th>
+              <th>Kind</th>
               <th>Stock length m</th>
               <th>UPVC ₹/m</th>
               <th>Al kg/m</th>
@@ -57,6 +62,42 @@ export function SettingsProfilesPage() {
                       )
                     }
                   />
+                </td>
+                <td>
+                  <select
+                    value={p.material}
+                    onChange={(e) =>
+                      patch(
+                        'profiles',
+                        state.profiles.map((x) =>
+                          x.id === p.id
+                            ? { ...x, material: e.target.value as Material }
+                            : x,
+                        ),
+                      )
+                    }
+                  >
+                    <option>UPVC</option>
+                    <option>Aluminium</option>
+                  </select>
+                </td>
+                <td>
+                  <select
+                    value={p.kind}
+                    onChange={(e) =>
+                      patch(
+                        'profiles',
+                        state.profiles.map((x) =>
+                          x.id === p.id ? { ...x, kind: e.target.value as SeriesKind } : x,
+                        ),
+                      )
+                    }
+                  >
+                    <option value="sliding">sliding</option>
+                    <option value="casement">casement</option>
+                    <option value="door">door</option>
+                    <option value="other">other</option>
+                  </select>
                 </td>
                 <td>
                   <NumberInput

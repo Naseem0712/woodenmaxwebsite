@@ -1,15 +1,16 @@
 import { v4 as uid } from 'uuid';
-import type { AppState, SeriesDefinition } from '../types';
+import type { AppState, SeriesDefinition, SeriesKind, WindowType } from '../types';
 
 const wt = (
   name: string,
   material: 'UPVC' | 'Aluminium',
+  kind: SeriesKind,
   ratePerSqft: number,
   note: string,
   seriesId?: string,
-) => ({ id: uid(), name, material, ratePerSqft, note, seriesId });
+): WindowType => ({ id: uid(), name, material, kind, ratePerSqft, note, seriesId });
 
-function slidingSeries(): SeriesDefinition {
+function slidingSeriesUpvc(): SeriesDefinition {
   return {
     id: 'series-a-60-sliding',
     name: 'Series A 60 mm Sliding',
@@ -28,7 +29,7 @@ function slidingSeries(): SeriesDefinition {
     handleRate: 250,
     meshAreaShare: 0.5,
     meshNetPerSqft: 40,
-    note: 'Sample Series A — 2/3 track sliding (generic)',
+    note: 'Sample Series A — UPVC 2/3 track sliding (generic)',
     members: [
       { id: uid(), name: 'Outer frame 2-track', memberClass: '2-track', wFactor: 2, hFactor: 2, ratePerM: 260 },
       { id: uid(), name: 'Outer frame 3-track', memberClass: '3-track', wFactor: 2, hFactor: 2, ratePerM: 340 },
@@ -44,7 +45,7 @@ function slidingSeries(): SeriesDefinition {
   };
 }
 
-function casementSeries(): SeriesDefinition {
+function casementSeriesUpvc(): SeriesDefinition {
   return {
     id: 'series-b-60-casement',
     name: 'Series B 60 mm Casement',
@@ -63,7 +64,7 @@ function casementSeries(): SeriesDefinition {
     handleRate: 250,
     meshAreaShare: 0.4,
     meshNetPerSqft: 40,
-    note: 'Sample Series B — casement / openable (generic)',
+    note: 'Sample Series B — UPVC casement / openable (generic)',
     members: [
       { id: uid(), name: 'Outer frame', memberClass: 'Window', wFactor: 2, hFactor: 2, ratePerM: 340 },
       { id: uid(), name: 'Mullion', memberClass: 'Mullion', wFactor: 0, hFactor: 1, ratePerM: 260 },
@@ -78,22 +79,88 @@ function casementSeries(): SeriesDefinition {
   };
 }
 
+function slidingSeriesAlu(): SeriesDefinition {
+  return {
+    id: 'series-c-45-alu-sliding',
+    name: 'Series C 45 mm Alu Sliding',
+    material: 'Aluminium',
+    kind: 'sliding',
+    defaultTracks: 2,
+    defaultShutters: 2,
+    defaultPanels: 2,
+    defaultOpenable: 1,
+    glassInsetMm: 55,
+    rollersPerShutter: 2,
+    rollerRate: 55,
+    lockHandleSet: 280,
+    otherHardware: 100,
+    frictionStayRate: 0,
+    handleRate: 120,
+    meshAreaShare: 0.5,
+    meshNetPerSqft: 35,
+    note: 'Sample Series C — Aluminium 2/3 track sliding (generic)',
+    members: [
+      { id: uid(), name: 'Outer frame 2-track', memberClass: '2-track', wFactor: 2, hFactor: 2, ratePerM: 180 },
+      { id: uid(), name: 'Outer frame 3-track', memberClass: '3-track', wFactor: 2, hFactor: 2, ratePerM: 220 },
+      { id: uid(), name: 'Shutter section', memberClass: 'Shutter', wFactor: 1.05, hFactor: 2, ratePerM: 150 },
+      { id: uid(), name: 'Interlock', memberClass: 'Meeting', wFactor: 0, hFactor: 2, ratePerM: 110 },
+      { id: uid(), name: 'Glazing bead', memberClass: 'Shutter', wFactor: 1, hFactor: 2, ratePerM: 45 },
+      { id: uid(), name: 'Mesh shutter', memberClass: 'Mesh', wFactor: 1.1, hFactor: 2, ratePerM: 95 },
+      { id: uid(), name: 'Wool pile', memberClass: 'Shutter', wFactor: 1, hFactor: 2, ratePerM: 8 },
+    ],
+  };
+}
+
+function casementSeriesAlu(): SeriesDefinition {
+  return {
+    id: 'series-d-45-alu-casement',
+    name: 'Series D 45 mm Alu Casement',
+    material: 'Aluminium',
+    kind: 'casement',
+    defaultTracks: 0,
+    defaultShutters: 0,
+    defaultPanels: 2,
+    defaultOpenable: 1,
+    glassInsetMm: 55,
+    rollersPerShutter: 0,
+    rollerRate: 0,
+    lockHandleSet: 0,
+    otherHardware: 120,
+    frictionStayRate: 380,
+    handleRate: 220,
+    meshAreaShare: 0.4,
+    meshNetPerSqft: 35,
+    note: 'Sample Series D — Aluminium casement / openable (generic)',
+    members: [
+      { id: uid(), name: 'Outer frame', memberClass: 'Window', wFactor: 2, hFactor: 2, ratePerM: 200 },
+      { id: uid(), name: 'Mullion', memberClass: 'Mullion', wFactor: 0, hFactor: 1, ratePerM: 160 },
+      { id: uid(), name: 'Openable sash', memberClass: 'Openable panel', wFactor: 2, hFactor: 2, ratePerM: 190 },
+      { id: uid(), name: 'Glazing bead', memberClass: 'Panel', wFactor: 2, hFactor: 2, ratePerM: 45 },
+      { id: uid(), name: 'Mesh sash', memberClass: 'Mesh panel', wFactor: 2, hFactor: 2, ratePerM: 95 },
+      { id: uid(), name: 'Gasket', memberClass: 'Panel', wFactor: 4, hFactor: 4, ratePerM: 12 },
+    ],
+  };
+}
+
 export function createSeedState(): AppState {
-  const seriesA = slidingSeries();
-  const seriesB = casementSeries();
+  const seriesA = slidingSeriesUpvc();
+  const seriesB = casementSeriesUpvc();
+  const seriesC = slidingSeriesAlu();
+  const seriesD = casementSeriesAlu();
 
   const windowTypes = [
-    wt('UPVC 2-track sliding', 'UPVC', 600, '2 glass shutters', seriesA.id),
-    wt('UPVC 3-track sliding', 'UPVC', 650, '2 glass + 1 mesh shutter', seriesA.id),
-    wt('UPVC casement', 'UPVC', 800, 'Side hung, openable', seriesB.id),
-    wt('UPVC tilt & turn', 'UPVC', 950, 'Tilts in or opens in', seriesB.id),
-    wt('UPVC fixed', 'UPVC', 450, 'No opening'),
-    wt('UPVC ventilator', 'UPVC', 700, 'Bathroom, top hung'),
-    wt('UPVC sliding door', 'UPVC', 700, 'Balcony door', seriesA.id),
-    wt('UPVC French door', 'UPVC', 950, 'Double door, openable', seriesB.id),
-    wt('Aluminium 2-track sliding', 'Aluminium', 350, 'Standard section'),
-    wt('Aluminium 3-track sliding', 'Aluminium', 380, 'With a mesh track'),
-    wt('Aluminium partition', 'Aluminium', 320, 'Office partition'),
+    wt('UPVC 2-track sliding', 'UPVC', 'sliding', 600, '2 glass shutters', seriesA.id),
+    wt('UPVC 3-track sliding', 'UPVC', 'sliding', 650, '2 glass + 1 mesh shutter', seriesA.id),
+    wt('UPVC casement', 'UPVC', 'casement', 800, 'Side hung, openable', seriesB.id),
+    wt('UPVC tilt & turn', 'UPVC', 'casement', 950, 'Tilts in or opens in', seriesB.id),
+    wt('UPVC fixed', 'UPVC', 'other', 450, 'No opening'),
+    wt('UPVC ventilator', 'UPVC', 'casement', 700, 'Bathroom, top hung', seriesB.id),
+    wt('UPVC sliding door', 'UPVC', 'door', 700, 'Balcony door', seriesA.id),
+    wt('UPVC French door', 'UPVC', 'door', 950, 'Double door, openable', seriesB.id),
+    wt('Aluminium 2-track sliding', 'Aluminium', 'sliding', 350, 'Standard section', seriesC.id),
+    wt('Aluminium 3-track sliding', 'Aluminium', 'sliding', 380, 'With a mesh track', seriesC.id),
+    wt('Aluminium casement', 'Aluminium', 'casement', 420, 'Side hung Alu', seriesD.id),
+    wt('Aluminium partition', 'Aluminium', 'other', 320, 'Office partition'),
   ];
 
   const glassTypes = [
@@ -130,18 +197,20 @@ export function createSeedState(): AppState {
   ];
 
   const profiles = [
-    { id: uid(), name: 'Series A 60 mm frame 2-track', stockLengthM: 5.8, ratePerMUpvc: 260, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series A 60 mm frame 3-track', stockLengthM: 5.8, ratePerMUpvc: 340, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series A sash', stockLengthM: 5.8, ratePerMUpvc: 240, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series A interlock', stockLengthM: 5.8, ratePerMUpvc: 180, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series A glazing bead', stockLengthM: 5.8, ratePerMUpvc: 60, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series B 60 mm casement frame', stockLengthM: 5.8, ratePerMUpvc: 340, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series B casement sash', stockLengthM: 5.8, ratePerMUpvc: 320, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series B mullion', stockLengthM: 5.8, ratePerMUpvc: 260, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Steel reinforcement', stockLengthM: 5.8, ratePerMUpvc: 70, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Aluminium 2-track section', stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.7 },
-    { id: uid(), name: 'Aluminium shutter section', stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.55 },
-    { id: uid(), name: 'Aluminium interlock section', stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.45 },
+    { id: uid(), name: 'Series A 60 mm frame 2-track', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 260, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series A 60 mm frame 3-track', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 340, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series A sash', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 240, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series A interlock', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 180, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series A glazing bead', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 60, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series B 60 mm casement frame', material: 'UPVC' as const, kind: 'casement' as const, stockLengthM: 5.8, ratePerMUpvc: 340, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series B casement sash', material: 'UPVC' as const, kind: 'casement' as const, stockLengthM: 5.8, ratePerMUpvc: 320, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series B mullion', material: 'UPVC' as const, kind: 'casement' as const, stockLengthM: 5.8, ratePerMUpvc: 260, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Steel reinforcement', material: 'UPVC' as const, kind: 'other' as const, stockLengthM: 5.8, ratePerMUpvc: 70, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Aluminium 2-track section', material: 'Aluminium' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.7 },
+    { id: uid(), name: 'Aluminium shutter section', material: 'Aluminium' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.55 },
+    { id: uid(), name: 'Aluminium interlock section', material: 'Aluminium' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.45 },
+    { id: uid(), name: 'Aluminium casement frame', material: 'Aluminium' as const, kind: 'casement' as const, stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.65 },
+    { id: uid(), name: 'Aluminium casement sash', material: 'Aluminium' as const, kind: 'casement' as const, stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.5 },
   ];
 
   const typeByName = (n: string) => windowTypes.find((t) => t.name === n)!;
@@ -157,8 +226,11 @@ export function createSeedState(): AppState {
     { id: uid(), windowTypeId: typeByName('UPVC casement').id, hardwareItemId: hwByName('Friction stay pair').id, qtyPerWindow: 1 },
     { id: uid(), windowTypeId: typeByName('UPVC casement').id, hardwareItemId: hwByName('Casement handle').id, qtyPerWindow: 1 },
     { id: uid(), windowTypeId: typeByName('UPVC ventilator').id, hardwareItemId: hwByName('Friction stay pair').id, qtyPerWindow: 1 },
+    { id: uid(), windowTypeId: typeByName('Aluminium 2-track sliding').id, hardwareItemId: hwByName('Sliding roller').id, qtyPerWindow: 4 },
+    { id: uid(), windowTypeId: typeByName('Aluminium casement').id, hardwareItemId: hwByName('Friction stay pair').id, qtyPerWindow: 1 },
   ];
 
+  // Sample villa = UPVC only (material isolation). Aluminium types stay in masters for Al projects.
   const openings = [
     { id: uid(), location: 'Living room', windowTypeId: typeByName('UPVC 3-track sliding').id, width: 1800, height: 1500, qty: 1 },
     { id: uid(), location: 'Master bedroom', windowTypeId: typeByName('UPVC 2-track sliding').id, width: 1500, height: 1200, qty: 1 },
@@ -168,13 +240,14 @@ export function createSeedState(): AppState {
     { id: uid(), location: 'Bathrooms', windowTypeId: typeByName('UPVC ventilator').id, width: 600, height: 450, qty: 2 },
     { id: uid(), location: 'Balcony', windowTypeId: typeByName('UPVC sliding door').id, width: 2400, height: 2100, qty: 1 },
     { id: uid(), location: 'Staircase', windowTypeId: typeByName('UPVC fixed').id, width: 900, height: 1500, qty: 1 },
-    { id: uid(), location: 'Utility', windowTypeId: typeByName('Aluminium 2-track sliding').id, width: 1200, height: 1000, qty: 1 },
     { id: uid(), location: 'Pooja room', windowTypeId: typeByName('UPVC casement').id, width: 600, height: 900, qty: 1 },
   ];
 
   const clearGlass = glassTypes[0];
   const sampleLeadId = uid();
   const today = new Date().toISOString().slice(0, 10);
+  const lessUpvc = 10;
+  const lessAlu = 5;
 
   return {
     business: {
@@ -207,11 +280,13 @@ export function createSeedState(): AppState {
       meshPerSqft: 90,
       toughenedExtraPerSqft: 55,
       siteInstallPerSqft: 40,
-      lessOffWidthMm: 10,
-      lessOffHeightMm: 10,
+      lessOffWidthMm: lessUpvc,
+      lessOffHeightMm: lessUpvc,
+      lessOffAluWidthMm: lessAlu,
+      lessOffAluHeightMm: lessAlu,
     },
     windowTypes,
-    series: [seriesA, seriesB],
+    series: [seriesA, seriesB, seriesC, seriesD],
     glassTypes,
     hardware,
     profiles,
@@ -258,8 +333,8 @@ export function createSeedState(): AppState {
       measuredBy: 'Sunil P.',
       lessOffWidthMm: null,
       lessOffHeightMm: null,
-      netWidth: Math.max(0, o.width - 10),
-      netHeight: Math.max(0, o.height - 10),
+      netWidth: Math.max(0, o.width - lessUpvc),
+      netHeight: Math.max(0, o.height - lessUpvc),
     })),
     sliding: {
       seriesId: seriesA.id,
@@ -469,6 +544,30 @@ export function createSeedState(): AppState {
         purchasesM: 0,
         note: '',
       },
+      {
+        id: uid(),
+        seriesId: seriesC.id,
+        sectionName: 'Outer frame 2-track',
+        openingBalanceM: 40,
+        purchasesM: 11.6,
+        note: 'Alu sliding stock',
+      },
+      {
+        id: uid(),
+        seriesId: seriesC.id,
+        sectionName: 'Shutter section',
+        openingBalanceM: 28,
+        purchasesM: 0,
+        note: '',
+      },
+      {
+        id: uid(),
+        seriesId: seriesD.id,
+        sectionName: 'Outer frame',
+        openingBalanceM: 20,
+        purchasesM: 0,
+        note: '',
+      },
     ],
     stockIssues: [],
     projects: [
@@ -476,6 +575,15 @@ export function createSeedState(): AppState {
         id: 'project-sample-villa',
         name: 'Sample villa — Hyderabad',
         createdAt: today,
+        material: 'UPVC',
+        lessOffWidthMm: null,
+        lessOffHeightMm: null,
+      },
+      {
+        id: 'project-alu-office',
+        name: 'Aluminium office sample',
+        createdAt: today,
+        material: 'Aluminium',
         lessOffWidthMm: null,
         lessOffHeightMm: null,
       },

@@ -13,7 +13,8 @@ import {
   Toolbar,
 } from '../components/ui';
 import { calcSiteMeasure } from '../engine/calcs';
-import { activeProject, resolveLessOffMm, withPersistedNet } from '../engine/lessOff';
+import { activeProject, resolveLessOffMm, settingsLessOffForMaterial, withPersistedNet } from '../engine/lessOff';
+import { filterProfiles, filterSeries, filterWindowTypes, projectMaterial } from '../engine/materialContext';
 import { useApp } from '../store/AppContext';
 import type { CutLine, SiteMeasureLine, Unit, YesNo } from '../types';
 
@@ -22,7 +23,10 @@ export function SiteMeasurePage() {
   const calc = calcSiteMeasure(state);
   const a = state.allowances;
   const proj = activeProject(state);
+  const material = projectMaterial(state);
+  const types = filterWindowTypes(state.windowTypes, material);
   const defaults = resolveLessOffMm(state, null);
+  const settingsLess = settingsLessOffForMaterial(state, material);
 
   const update = (id: string, patchLine: Partial<SiteMeasureLine>) => {
     patch(
@@ -37,7 +41,7 @@ export function SiteMeasurePage() {
 
   const addLine = () => {
     const lead = state.leads[0];
-    const wt = state.windowTypes[0];
+    const wt = types[0];
     const width = 1200;
     const height = 1200;
     const draft: SiteMeasureLine = {
@@ -110,14 +114,16 @@ export function SiteMeasurePage() {
 
   const pushToCutting = () => {
     const cuts: CutLine[] = [];
+    const matSeries = filterSeries(state.series, material);
+    const matProfiles = filterProfiles(state.profiles, material);
     for (const m of state.siteMeasures) {
       const netted = withPersistedNet(state, m);
       const seriesId =
         state.windowTypes.find((t) => t.id === m.windowTypeId)?.seriesId ??
-        state.series[0]?.id ??
+        matSeries[0]?.id ??
         '';
       const profile =
-        state.profiles.find((p) => p.name.toLowerCase().includes('frame')) ?? state.profiles[0];
+        matProfiles.find((p) => p.name.toLowerCase().includes('frame')) ?? matProfiles[0];
       // W × 2 + H × 2 frame cuts from fab size
       cuts.push({
         id: uid(),
@@ -145,27 +151,41 @@ export function SiteMeasurePage() {
     <div>
       <PageHeader
         title="Site Measurements"
-        subtitle="Record site W×H, apply less-off → net fabrication size. Quote uses site size; Cutting / openings use net."
-        badge="Measure → Quote"
+        subtitle={`Record site W×H, apply less-off → net fab size. Types locked to project material (${material}).`}
+        badge={material}
       />
 
-      <Card title="Less-off (site → fabrication)">
+      <Card title={`Less-off (site → fabrication) · ${material}`}>
         <div className="grid grid-4">
-          <Field label="Settings less-off W mm" tone="link" hint="Settings → Allowances">
+          <Field
+            label={`Settings ${material} less-off W mm`}
+            tone="link"
+            hint="Settings → Allowances (per material)"
+          >
             <NumberInput
               tone="link"
-              value={a.lessOffWidthMm}
+              value={settingsLess.widthMm}
               onCommit={(n) =>
-                patch('allowances', { ...a, lessOffWidthMm: n ?? a.lessOffWidthMm })
+                patch('allowances', {
+                  ...a,
+                  ...(material === 'Aluminium'
+                    ? { lessOffAluWidthMm: n ?? a.lessOffAluWidthMm }
+                    : { lessOffWidthMm: n ?? a.lessOffWidthMm }),
+                })
               }
             />
           </Field>
-          <Field label="Settings less-off H mm" tone="link">
+          <Field label={`Settings ${material} less-off H mm`} tone="link">
             <NumberInput
               tone="link"
-              value={a.lessOffHeightMm}
+              value={settingsLess.heightMm}
               onCommit={(n) =>
-                patch('allowances', { ...a, lessOffHeightMm: n ?? a.lessOffHeightMm })
+                patch('allowances', {
+                  ...a,
+                  ...(material === 'Aluminium'
+                    ? { lessOffAluHeightMm: n ?? a.lessOffAluHeightMm }
+                    : { lessOffHeightMm: n ?? a.lessOffHeightMm }),
+                })
               }
             />
           </Field>
@@ -209,8 +229,8 @@ export function SiteMeasurePage() {
           </Field>
         </div>
         <p className="muted tiny" style={{ marginTop: '0.5rem' }}>
-          Effective default now: <strong>{defaults.widthMm} × {defaults.heightMm} mm</strong>.
-          Per-row Less W/H overrides this. Empty project fields inherit Settings.
+          Effective {material} default: <strong>{defaults.widthMm} × {defaults.heightMm} mm</strong>.
+          Per-row Less W/H overrides. Empty project fields inherit Settings for this material.
         </p>
       </Card>
 
@@ -357,9 +377,9 @@ export function SiteMeasurePage() {
                         });
                       }}
                     >
-                      {state.windowTypes.map((t) => (
+                      {types.map((t) => (
                         <option key={t.id} value={t.id}>
-                          {t.name}
+                          {t.kind}: {t.name}
                         </option>
                       ))}
                     </select>

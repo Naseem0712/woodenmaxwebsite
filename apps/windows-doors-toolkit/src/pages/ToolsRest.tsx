@@ -29,6 +29,12 @@ import {
   calcCasement,
   calcStock,
 } from '../engine/calcs';
+import {
+  filterProfiles,
+  filterSeries,
+  filterWindowTypes,
+  projectMaterial,
+} from '../engine/materialContext';
 import { useApp } from '../store/AppContext';
 import type { StockIssue } from '../types';
 
@@ -187,6 +193,9 @@ export function CuttingPage() {
   const { state, patch, setState } = useApp();
   const calc = calcCutting(state);
   const stockCalc = calcStock(state);
+  const material = projectMaterial(state);
+  const seriesOpts = filterSeries(state.series, material);
+  const profileOpts = filterProfiles(state.profiles, material);
 
   const matchStockLine = (seriesId: string | undefined, profileName: string) => {
     if (!seriesId) return undefined;
@@ -238,7 +247,8 @@ export function CuttingPage() {
     <div>
       <PageHeader
         title="05 Cutting List"
-        subtitle="Cut sizes should be fabrication (net) sizes from Site Measure. Saw allowance → metres; deduct series stock when producing."
+        subtitle={`Cut sizes = fab (net) sizes. Series & profiles filtered to project material (${material}).`}
+        badge={material}
       />
       <Card title="Allowances (Settings)">
         <div className="grid grid-4">
@@ -303,10 +313,10 @@ export function CuttingPage() {
                   {
                     id: uid(),
                     windowLabel: '',
-                    profileId: state.profiles[0]?.id ?? '',
+                    profileId: profileOpts[0]?.id ?? '',
                     cutMm: 1000,
                     pieces: 1,
-                    seriesId: state.series[0]?.id,
+                    seriesId: seriesOpts[0]?.id,
                   },
                 ])
               }
@@ -359,9 +369,9 @@ export function CuttingPage() {
                     }
                   >
                     <option value="">—</option>
-                    {state.series.map((s) => (
+                    {seriesOpts.map((s) => (
                       <option key={s.id} value={s.id}>
-                        {s.name}
+                        {s.kind}: {s.name}
                       </option>
                     ))}
                   </select>
@@ -376,7 +386,7 @@ export function CuttingPage() {
                       )
                     }
                   >
-                    {state.profiles.map((p) => (
+                    {profileOpts.map((p) => (
                       <option key={p.id} value={p.id}>
                         {p.name}
                       </option>
@@ -595,9 +605,15 @@ export function GlassPage() {
 export function HardwarePage() {
   const { state, patch } = useApp();
   const calc = calcHardwareJob(state);
+  const material = projectMaterial(state);
+  const types = filterWindowTypes(state.windowTypes, material);
   return (
     <div>
-      <PageHeader title="07 Hardware BOM" subtitle="Window-type × hardware qty/window × openings qty (SUMIFS style)." />
+      <PageHeader
+        title="07 Hardware BOM"
+        subtitle={`Window-type × hardware qty/window × openings qty. Types filtered to ${material}.`}
+        badge={material}
+      />
       <Kpi label="Job hardware total" value={<Money n={calc.total} />} />
       <Card
         title="BOM matrix"
@@ -608,7 +624,7 @@ export function HardwarePage() {
                 ...state.hardwareBom,
                 {
                   id: uid(),
-                  windowTypeId: state.windowTypes[0]?.id ?? '',
+                  windowTypeId: types[0]?.id ?? '',
                   hardwareItemId: state.hardware[0]?.id ?? '',
                   qtyPerWindow: 1,
                 },
@@ -647,9 +663,9 @@ export function HardwarePage() {
                       )
                     }
                   >
-                    {state.windowTypes.map((t) => (
+                    {types.map((t) => (
                       <option key={t.id} value={t.id}>
-                        {t.name}
+                        {t.kind}: {t.name}
                       </option>
                     ))}
                   </select>
@@ -1291,9 +1307,15 @@ export function LabourPage() {
 export function BuilderPage() {
   const { state, patch } = useApp();
   const calc = calcBuilder(state);
+  const material = projectMaterial(state);
+  const types = filterWindowTypes(state.windowTypes, material);
   return (
     <div>
-      <PageHeader title="13 Builder Project" subtitle="Bulk estimator: qty/flat × flats × type rate." />
+      <PageHeader
+        title="13 Builder Project"
+        subtitle={`Bulk estimator: qty/flat × flats × type rate. Types = ${material} only.`}
+        badge={material}
+      />
       <div className="grid grid-3" style={{ marginBottom: '1rem' }}>
         <Kpi label="Total sqft" value={<Num n={calc.totalSqft} />} />
         <Kpi label="Estimate" value={<Money n={calc.totalAmount} />} />
@@ -1308,7 +1330,7 @@ export function BuilderPage() {
                 {
                   id: uid(),
                   block: 'Block',
-                  windowTypeId: state.windowTypes[0]?.id ?? '',
+                  windowTypeId: types[0]?.id ?? '',
                   widthMm: 1500,
                   heightMm: 1200,
                   qtyPerFlat: 1,
@@ -1358,9 +1380,9 @@ export function BuilderPage() {
                       )
                     }
                   >
-                    {state.windowTypes.map((t) => (
+                    {types.map((t) => (
                       <option key={t.id} value={t.id}>
-                        {t.name}
+                        {t.kind}: {t.name}
                       </option>
                     ))}
                   </select>

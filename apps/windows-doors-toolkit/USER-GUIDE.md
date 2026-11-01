@@ -36,18 +36,32 @@ Source also lives under:
 Use the **Project** bar at the top of every page:
 
 - **Select** a project — openings, site measures, cutting, quote, leads, etc. switch with it (no mixed job data).
-- **Rename** / **+ New** — create empty job bags while keeping global Settings masters.
-- **Less-off W/H** on the bar — optional project override of Settings less-off (clear with **Use Settings**).
+- **Material (UPVC / Aluminium)** — locks the whole job. Series, window types, profiles, cutting stock, and Tools 02/03 only show that material. Switching material realigns sliding/casement to a matching series.
+- **Rename** / **+ New** — create empty job bags (pick material for the new job) while keeping global Settings masters.
+- **Less-off W/H** on the bar — optional project override of Settings less-off for the project’s material (clear with **Use Settings**).
 
 **Global (shared):** Business, Allowances, Series, Window types, Glass, Hardware, Profiles catalogue, **Series stock**.  
-**Per project:** Leads, Site Measure, Openings, costing jobs, Cutting, Quote, Mesh, Labour, Builder, etc.
+**Per project:** Material lock, Leads, Site Measure, Openings, costing jobs, Cutting, Quote, Mesh, Labour, Builder, etc.
+
+**Exception:** Tool **09 Compare** still shows UPVC vs Aluminium side-by-side on purpose.
+
+Screenshots: `media/toolkit-material-switcher.png`, `media/toolkit-filtered-sliding-series.png`, `media/toolkit-stock-material-filter.png`.
+
+---
+
+## Material × class isolation
+
+- **Do not mix UPVC and Aluminium** on one project. Masters stay global; dropdowns filter by the project material.
+- **Class isolation:** Tool 02 Sliding only lists sliding/door series; Tool 03 Casement only lists casement series — for both materials.
+- Window types and profile SKUs carry **material + kind** so Settings and tools stay grouped (sliding under sliding, casement under casement).
+- Sample seeds include UPVC Series A/B and Aluminium Series C/D plus a second Aluminium sample project.
 
 ---
 
 ## Less-off → fabrication size
 
-1. Set defaults in **Settings → Allowances** (Less-off width/height mm), and/or project bar, and/or **per row** on Site Measure.
-2. **Site Measure** stores **site W/H** and persists **net W/H** = site − less (clamped ≥ 0; row warns if less-off would go negative).
+1. Set **per-material** defaults in **Settings → Allowances** (UPVC W/H and Aluminium W/H), and/or project bar, and/or **per row** on Site Measure.
+2. **Site Measure** stores **site W/H** and persists **net W/H** = site − less (clamped ≥ 0; row warns if less-off would go negative). Effective default follows the project material.
 3. **Push net → 01 Openings + Quote** uses fabrication sizes for the openings schedule.
 4. **Push net → 05 Cutting** fills cut lines from net W/H (frame pairs). Cutting should use fab sizes, not raw site readings.
 
@@ -57,7 +71,7 @@ Use the **Project** bar at the top of every page:
 
 **Settings / Manage → Series stock** (also `/stock`):
 
-- Inventory grouped by **series** (sliding / casement / …).
+- Inventory grouped by **material × kind × series** (filter defaults to the active project material).
 - Editable **section / profile** names, opening balance, purchases, remaining.
 - **Issue…** to the active project, or on **05 Cutting** use **Deduct metres from series stock** (matches series + section name when possible).
 

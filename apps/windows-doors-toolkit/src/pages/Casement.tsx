@@ -1,12 +1,14 @@
 import { CalcBox, Card, Field, Input, Money, Num, PageHeader, Select } from '../components/ui';
 import { applySeriesToCasement, calcCasement } from '../engine/calcs';
+import { projectMaterial, seriesForTool } from '../engine/materialContext';
 import { useApp } from '../store/AppContext';
 
 export function CasementPage() {
   const { state, patch } = useApp();
   const job = state.casement;
   const result = calcCasement(state);
-  const seriesList = state.series.filter((s) => s.kind === 'casement' || s.kind === 'other');
+  const material = projectMaterial(state);
+  const seriesList = seriesForTool(state, 'casement');
 
   const set = <K extends keyof typeof job>(key: K, value: (typeof job)[K]) => {
     patch('casement', { ...job, [key]: value });
@@ -16,11 +18,12 @@ export function CasementPage() {
     <div>
       <PageHeader
         title="03 Casement Window"
-        subtitle="Series panels / openable rules drive member metres. Same cost stack as Excel Tool 03."
+        subtitle={`Project material: ${material}. Casement series only — never mixes sliding or the other material.`}
+        badge={material}
       />
       <Card title="Configuration">
         <div className="grid grid-4">
-          <Field label="Series">
+          <Field label="Series" hint={`${material} · casement`}>
             <Select
               value={job.seriesId}
               onChange={(e) => {
@@ -28,6 +31,9 @@ export function CasementPage() {
                 if (s) patch('casement', applySeriesToCasement(s, job));
               }}
             >
+              {seriesList.length === 0 ? (
+                <option value="">No {material} casement series — add in Settings</option>
+              ) : null}
               {seriesList.map((s) => (
                 <option key={s.id} value={s.id}>
                   {s.name}
@@ -35,11 +41,8 @@ export function CasementPage() {
               ))}
             </Select>
           </Field>
-          <Field label="Material">
-            <Select value={job.material} onChange={(e) => set('material', e.target.value as 'UPVC' | 'Aluminium')}>
-              <option>UPVC</option>
-              <option>Aluminium</option>
-            </Select>
+          <Field label="Material" hint="Locked to project" tone="link">
+            <Input tone="link" readOnly value={material} />
           </Field>
           <Field label="Panels (across width)">
             <Input type="number" value={job.panels} onChange={(e) => set('panels', Number(e.target.value))} />

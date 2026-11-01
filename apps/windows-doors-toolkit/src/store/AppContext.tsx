@@ -10,11 +10,13 @@ import {
 import { v4 as uid } from 'uuid';
 import { createSeedState } from '../data/seed';
 import { withPersistedNet } from '../engine/lessOff';
-import type { AppState, ProjectJobData, ProjectMeta } from '../types';
+import { inferWindowKind, realignJobsToMaterial } from '../engine/materialContext';
+import type { AppState, Material, ProjectJobData, ProjectMeta } from '../types';
 import { applyProjectJob, emptyProjectJob, extractProjectJob } from './projectKeys';
 
-const STORAGE_KEY = 'wd-toolkit-v2';
-const LEGACY_KEY = 'wd-toolkit-v1';
+const STORAGE_KEY = 'wd-toolkit-v3';
+const LEGACY_V2 = 'wd-toolkit-v2';
+const LEGACY_V1 = 'wd-toolkit-v1';
 
 type Ctx = {
   state: AppState;
@@ -23,9 +25,10 @@ type Ctx = {
   resetSeed: () => void;
   exportJson: () => string;
   importJson: (raw: string) => void;
-  createProject: (name: string) => void;
+  createProject: (name: string, material?: Material) => void;
   renameProject: (id: string, name: string) => void;
   selectProject: (id: string) => void;
+  setProjectMaterial: (id: string, material: Material) => void;
   updateProjectLessOff: (id: string, widthMm: number | null, heightMm: number | null) => void;
   refreshSiteMeasureNets: () => void;
 };
@@ -44,6 +47,43 @@ function normalizeSiteMeasures(state: AppState): AppState {
     return withPersistedNet(state, base);
   });
   return { ...state, siteMeasures };
+}
+
+function normalizeMasters(state: AppState): AppState {
+  const seriesById = new Map(state.series.map((s) => [s.id, s]));
+  const windowTypes = state.windowTypes.map((t) => {
+    const series = t.seriesId ? seriesById.get(t.seriesId) : undefined;
+    return {
+      ...t,
+      kind: t.kind ?? inferWindowKind(t.name, series),
+    };
+  });
+  const profiles = state.profiles.map((p) => {
+    const material =
+      p.material ??
+      (p.kgPerMAluminium > 0 && !(p.ratePerMUpvc > 0) ? 'Aluminium' : 'UPVC');
+    const name = p.name.toLowerCase();
+    const kind =
+      p.kind ??
+      (name.includes('casement') || name.includes('mullion')
+        ? 'casement'
+        : name.includes('sliding') || name.includes('track') || name.includes('shutter') || name.includes('interlock')
+          ? 'sliding'
+          : 'other');
+    return { ...p, material, kind };
+  });
+  const projects = state.projects.map((p) => ({
+    ...p,
+    material: p.material ?? 'UPVC',
+    lessOffWidthMm: p.lessOffWidthMm ?? null,
+    lessOffHeightMm: p.lessOffHeightMm ?? null,
+  }));
+  const allowances = {
+    ...state.allowances,
+    lessOffAluWidthMm: state.allowances.lessOffAluWidthMm ?? 5,
+    lessOffAluHeightMm: state.allowances.lessOffAluHeightMm ?? 5,
+  };
+  return { ...state, windowTypes, profiles, projects, allowances };
 }
 
 function mergeLoaded(parsed: Partial<AppState>): AppState {
@@ -86,7 +126,14 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
     merged.activeProjectId = merged.projects[0]?.id ?? seed.activeProjectId;
   }
 
-  return normalizeSiteMeasures(merged);
+  const normalized = normalizeMasters(merged);
+  const material =
+    normalized.projects.find((p) => p.id === normalized.activeProjectId)?.material ?? 'UPVC';
+  const aligned =
+    normalized.sliding.material !== material || normalized.casement.material !== material
+      ? realignJobsToMaterial(normalized, material)
+      : normalized;
+  return normalizeSiteMeasures(aligned);
 }
 
 function migrateLegacy(raw: string): AppState | null {
@@ -98,12 +145,18 @@ function migrateLegacy(raw: string): AppState | null {
     const withProject: Partial<AppState> = {
       ...parsed,
       projects: parsed.projects?.length
-        ? parsed.projects
+        ? parsed.projects.map((p) => ({
+            ...p,
+            material: p.material ?? 'UPVC',
+            lessOffWidthMm: p.lessOffWidthMm ?? null,
+            lessOffHeightMm: p.lessOffHeightMm ?? null,
+          }))
         : [
             {
               id: projectId,
               name: parsed.jobMeta?.jobLabel || 'Migrated job',
               createdAt: new Date().toISOString().slice(0, 10),
+              material: 'UPVC' as Material,
               lessOffWidthMm: null,
               lessOffHeightMm: null,
             },
@@ -117,6 +170,10 @@ function migrateLegacy(raw: string): AppState | null {
         ...parsed.allowances,
         lessOffWidthMm: parsed.allowances?.lessOffWidthMm ?? seed.allowances.lessOffWidthMm,
         lessOffHeightMm: parsed.allowances?.lessOffHeightMm ?? seed.allowances.lessOffHeightMm,
+        lessOffAluWidthMm:
+          parsed.allowances?.lessOffAluWidthMm ?? seed.allowances.lessOffAluWidthMm,
+        lessOffAluHeightMm:
+          parsed.allowances?.lessOffAluHeightMm ?? seed.allowances.lessOffAluHeightMm,
       },
     };
     return mergeLoaded(withProject);
@@ -129,12 +186,14 @@ function load(): AppState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return mergeLoaded(JSON.parse(raw) as Partial<AppState>);
-    const legacy = localStorage.getItem(LEGACY_KEY);
-    if (legacy) {
-      const migrated = migrateLegacy(legacy);
-      if (migrated) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
-        return migrated;
+    for (const key of [LEGACY_V2, LEGACY_V1]) {
+      const legacy = localStorage.getItem(key);
+      if (legacy) {
+        const migrated = migrateLegacy(legacy);
+        if (migrated) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+          return migrated;
+        }
       }
     }
   } catch {
@@ -155,7 +214,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const setState: React.Dispatch<React.SetStateAction<AppState>> = useCallback((action) => {
     setStateRaw((prev) => {
       const draft = typeof action === 'function' ? action(prev) : action;
-      return syncActiveBag(normalizeSiteMeasures(draft));
+      return syncActiveBag(normalizeSiteMeasures(normalizeMasters(draft)));
     });
   }, []);
 
@@ -191,16 +250,18 @@ export function AppProvider({ children }: { children: ReactNode }) {
         ...s.projectBags,
         [s.activeProjectId]: extractProjectJob(s),
       };
-      const incoming = bags[id] ?? emptyProjectJob(extractProjectJob(s));
-      const next = normalizeSiteMeasures(
+      const meta = s.projects.find((p) => p.id === id)!;
+      let incoming = bags[id] ?? emptyProjectJob(extractProjectJob(s));
+      let next = normalizeSiteMeasures(
         applyProjectJob({ ...s, projectBags: bags, activeProjectId: id }, incoming),
       );
+      next = realignJobsToMaterial(next, meta.material);
       bags[id] = extractProjectJob(next);
       return { ...next, projectBags: bags };
     });
   }, []);
 
-  const createProject = useCallback((name: string) => {
+  const createProject = useCallback((name: string, material: Material = 'UPVC') => {
     setState((s) => {
       const bags: Record<string, ProjectJobData> = {
         ...s.projectBags,
@@ -211,22 +272,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
         id,
         name: name.trim() || `Project ${s.projects.length + 1}`,
         createdAt: new Date().toISOString().slice(0, 10),
+        material,
         lessOffWidthMm: null,
         lessOffHeightMm: null,
       };
-      const job = emptyProjectJob(extractProjectJob(s));
-      bags[id] = job;
-      return normalizeSiteMeasures(
-        applyProjectJob(
-          {
-            ...s,
-            projects: [...s.projects, meta],
-            activeProjectId: id,
-            projectBags: bags,
-          },
-          job,
-        ),
+      let job = emptyProjectJob(extractProjectJob(s));
+      let next = applyProjectJob(
+        {
+          ...s,
+          projects: [...s.projects, meta],
+          activeProjectId: id,
+          projectBags: bags,
+        },
+        job,
       );
+      next = realignJobsToMaterial(next, material);
+      bags[id] = extractProjectJob(next);
+      return normalizeSiteMeasures({ ...next, projectBags: bags });
     });
   }, []);
 
@@ -235,6 +297,27 @@ export function AppProvider({ children }: { children: ReactNode }) {
       ...s,
       projects: s.projects.map((p) => (p.id === id ? { ...p, name: name.trim() || p.name } : p)),
     }));
+  }, []);
+
+  const setProjectMaterial = useCallback((id: string, material: Material) => {
+    setState((s) => {
+      const projects = s.projects.map((p) => (p.id === id ? { ...p, material } : p));
+      let next: AppState = { ...s, projects };
+      if (id === s.activeProjectId) {
+        next = realignJobsToMaterial(next, material);
+      } else if (next.projectBags[id]) {
+        const bagState = applyProjectJob(next, next.projectBags[id]);
+        const aligned = realignJobsToMaterial({ ...bagState, projects }, material);
+        next = {
+          ...next,
+          projectBags: {
+            ...next.projectBags,
+            [id]: extractProjectJob(aligned),
+          },
+        };
+      }
+      return normalizeSiteMeasures(next);
+    });
   }, []);
 
   const updateProjectLessOff = useCallback(
@@ -264,6 +347,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       createProject,
       renameProject,
       selectProject,
+      setProjectMaterial,
       updateProjectLessOff,
       refreshSiteMeasureNets,
     }),
@@ -276,6 +360,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       createProject,
       renameProject,
       selectProject,
+      setProjectMaterial,
       updateProjectLessOff,
       refreshSiteMeasureNets,
     ],

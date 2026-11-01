@@ -77,17 +77,17 @@ export function SettingsSeriesPage() {
     <div>
       <PageHeader
         title="Series & members"
-        subtitle="Create / edit series. Member class + W/H factors drive metres from size on Tools 02 & 03."
+        subtitle="Masters are material × kind (UPVC/Aluminium × sliding/casement/door). Tools only offer series matching the project material and tool class."
       />
       <Toolbar>
         <Select
           value={series?.id ?? ''}
           onChange={(e) => setSelectedId(e.target.value)}
-          style={{ minWidth: 260 }}
+          style={{ minWidth: 320 }}
         >
           {state.series.map((s) => (
             <option key={s.id} value={s.id}>
-              {s.name}
+              {s.material} · {s.kind} · {s.name}
             </option>
           ))}
         </Select>
