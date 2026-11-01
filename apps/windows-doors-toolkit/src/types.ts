@@ -4,6 +4,60 @@ export type YesNo = 'Yes' | 'No';
 export type SeriesKind = 'sliding' | 'casement' | 'door' | 'other';
 
 /**
+ * Mesh product type for costing (Settings rates — never hardcoded in formulas).
+ * - rolling / collapsible: typically full window-size area
+ * - fixed: outer / vent mesh (casement profiles often carry vents)
+ * - door-side: openable door-leaf sized mesh
+ */
+export type MeshTypeId = 'none' | 'rolling' | 'collapsible' | 'fixed' | 'door-side';
+
+/** Editable Settings default for a track count (sliding). */
+export interface TrackMeshDefault {
+  /** Track count — support 2, 2.5, 3, 4, 6, etc. */
+  tracks: number;
+  glassDoors: number;
+  meshDoors: number;
+  meshType: MeshTypeId;
+  /** When false (typical 2-track), UI still allows override but seeds mesh off */
+  meshAllowed: boolean;
+}
+
+/**
+ * Door / mesh costing masters (Settings).
+ * Sample seeds only — shops overwrite rates; formulas read these.
+ */
+export interface MeshCostingSettings {
+  trackDefaults: TrackMeshDefault[];
+  rollingPerSqft: number;
+  collapsiblePerSqft: number;
+  fixedPerSqft: number;
+  doorSidePerSqft: number;
+  /**
+   * Openable default when user selects door-side mesh:
+   * mesh doors seed from openable panel count.
+   */
+  openableDefaultMeshType: MeshTypeId;
+  /** Casement/openable vent + fixed mesh defaults */
+  ventDefaultMeshType: MeshTypeId;
+}
+
+export const DEFAULT_MESH_COSTING: MeshCostingSettings = {
+  trackDefaults: [
+    { tracks: 2, glassDoors: 2, meshDoors: 0, meshType: 'none', meshAllowed: false },
+    { tracks: 2.5, glassDoors: 2, meshDoors: 1, meshType: 'rolling', meshAllowed: true },
+    { tracks: 3, glassDoors: 2, meshDoors: 1, meshType: 'rolling', meshAllowed: true },
+    { tracks: 4, glassDoors: 4, meshDoors: 1, meshType: 'rolling', meshAllowed: true },
+    { tracks: 6, glassDoors: 6, meshDoors: 2, meshType: 'rolling', meshAllowed: true },
+  ],
+  rollingPerSqft: 90,
+  collapsiblePerSqft: 110,
+  fixedPerSqft: 75,
+  doorSidePerSqft: 95,
+  openableDefaultMeshType: 'door-side',
+  ventDefaultMeshType: 'fixed',
+};
+
+/**
  * Project customer mode — shapes quote UX / discounts presentation.
  * Shop rates always stay Settings-driven (never hardcoded into formulas).
  */
@@ -153,6 +207,12 @@ export interface ConfiguratorLine {
   windowTypeId: string;
   glassTypeId: string;
   colourId: string;
+  tracks?: number;
+  glassDoors?: number;
+  meshDoors?: number;
+  meshType?: MeshTypeId;
+  hasVent?: YesNo;
+  ventCount?: number;
 }
 
 /** Size-driven catalogue line (mm). Rates edited in Settings — never hardcoded in formulas. */
@@ -217,6 +277,8 @@ export interface Allowances {
   meshPerSqft: number;
   toughenedExtraPerSqft: number;
   siteInstallPerSqft: number;
+  /** Door/mesh costing masters (tracks → glass/mesh qty + typed ₹/sqft) */
+  meshCosting: MeshCostingSettings;
   /**
    * Default less-off (site → fabrication) for UPVC jobs.
    * Overridable per project / per row. Aluminium uses lessOffAlu* when project material is Aluminium.
@@ -342,6 +404,15 @@ export interface OpeningLine {
   width: number;
   height: number;
   qty: number;
+  /** Sliding track count (0 = N/A / openable) — drives glass/mesh defaults */
+  tracks?: number;
+  /** Glass doors / shutters (sliding) or glass panels (openable) */
+  glassDoors?: number;
+  /** Mesh door / shutter count required for costing */
+  meshDoors?: number;
+  meshType?: MeshTypeId;
+  hasVent?: YesNo;
+  ventCount?: number;
 }
 
 export interface SlidingJob {
@@ -349,7 +420,11 @@ export interface SlidingJob {
   material: Material;
   tracks: number;
   glassShutters: number;
+  /** Legacy Yes/No — kept in sync with meshDoors / meshType */
   mesh: YesNo;
+  /** How many mesh doors/shutters (0 = none) */
+  meshDoors: number;
+  meshType: MeshTypeId;
   widthMm: number;
   heightMm: number;
   qty: number;
@@ -378,7 +453,13 @@ export interface CasementJob {
   openablePanels: number;
   /** Treat as door leaf count for connector / swing qty (0 = use openablePanels when series is door) */
   doorLeaves: number;
+  /** Legacy Yes/No — kept in sync with meshDoors / meshType */
   mesh: YesNo;
+  meshDoors: number;
+  meshType: MeshTypeId;
+  /** Vent + fixed outer mesh (casement profiles) */
+  hasVent: YesNo;
+  ventCount: number;
   widthMm: number;
   heightMm: number;
   qty: number;
@@ -514,7 +595,17 @@ export interface SiteMeasureLine {
   qty: number;
   /** Selling ₹/sqft — seeded from window-type master, editable per line */
   ratePerSqft: number;
+  /** Legacy Yes/No — synced from meshDoors / meshType for older quote add-on path */
   mesh: YesNo;
+  /** Sliding tracks (0 when openable / fix / door without tracks) */
+  tracks: number;
+  /** Glass doors / shutters — required for sliding costing */
+  glassDoors: number;
+  /** Mesh door count — required when mesh is used */
+  meshDoors: number;
+  meshType: MeshTypeId;
+  hasVent: YesNo;
+  ventCount: number;
   toughened: YesNo;
   measuredBy: string;
   /**

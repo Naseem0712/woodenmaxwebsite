@@ -9,6 +9,7 @@ import type {
 import { CUSTOMER_MODES, DEFAULT_MODE_PRICING } from '../types';
 import { lookupGlass, lookupWindowType, round, toSqft } from './calcs';
 import { resolveEffectiveCatalogue } from './masterCatalogue';
+import { meshLineAmount, resolveMeshCosting } from './meshCosting';
 
 export function modeRequiresVerification(mode: CustomerModeId): boolean {
   return CUSTOMER_MODES.find((m) => m.id === mode)?.requiresVerification ?? false;
@@ -45,6 +46,9 @@ export interface ConfiguratorLineCalc {
   retailAmount: number;
   glassRatePerSqft: number;
   glassAmount: number;
+  meshAmount: number;
+  meshRatePerSqft: number;
+  meshSqft: number;
 }
 
 export function calcConfiguratorLine(state: AppState, line: ConfiguratorLine): ConfiguratorLineCalc {
@@ -61,6 +65,24 @@ export function calcConfiguratorLine(state: AppState, line: ConfiguratorLine): C
   const retailAmount = chargeableSqft * retailRatePerSqft;
   const glassRatePerSqft = g?.ratePerSqft ?? 0;
   const glassAmount = chargeableSqft * glassRatePerSqft;
+  const meshSettings = resolveMeshCosting(state.allowances);
+  const meshDoors = line.meshDoors ?? 0;
+  const meshType = line.meshType ?? 'none';
+  const meshCalc = meshLineAmount(
+    {
+      width: line.widthMm,
+      height: line.heightMm,
+      unit,
+      meshType,
+      meshDoors,
+      glassDoors: line.glassDoors ?? 0,
+      hasVent: line.hasVent ?? 'No',
+      ventCount: line.ventCount ?? 0,
+    },
+    meshSettings,
+    line.qty,
+    state.allowances.meshPerSqft,
+  );
   return {
     line,
     typeName: t?.name ?? '—',
@@ -73,6 +95,9 @@ export function calcConfiguratorLine(state: AppState, line: ConfiguratorLine): C
     retailAmount,
     glassRatePerSqft,
     glassAmount,
+    meshAmount: meshCalc.amount,
+    meshRatePerSqft: meshCalc.rate,
+    meshSqft: meshCalc.sqft,
   };
 }
 
@@ -80,11 +105,13 @@ export function calcConfiguratorCart(state: AppState) {
   const rows = (state.configuratorLines ?? []).map((line) => calcConfiguratorLine(state, line));
   const retailWindows = rows.reduce((s, r) => s + r.retailAmount, 0);
   const glassTotal = rows.reduce((s, r) => s + r.glassAmount, 0);
-  const retailSubtotal = retailWindows + glassTotal;
+  const meshTotal = rows.reduce((s, r) => s + r.meshAmount, 0);
+  const retailSubtotal = retailWindows + glassTotal + meshTotal;
   return {
     rows,
     retailWindows,
     glassTotal,
+    meshTotal,
     retailSubtotal,
     totalChargeable: rows.reduce((s, r) => s + r.chargeableSqft, 0),
     totalActual: rows.reduce((s, r) => s + r.actualSqft, 0),

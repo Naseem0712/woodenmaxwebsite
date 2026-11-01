@@ -71,12 +71,87 @@ export function CasementPage() {
               />
             </Field>
           ) : null}
-          <Field label="Mesh?">
-            <Select value={job.mesh} onChange={(e) => set('mesh', e.target.value as 'Yes' | 'No')}>
-              <option>No</option>
-              <option>Yes</option>
+          <Field label="Mesh doors" hint="Door-side = leaf area; 0 = none">
+            <Input
+              type="number"
+              value={job.meshDoors ?? 0}
+              onChange={(e) => {
+                const meshDoors = Math.max(0, Number(e.target.value));
+                const meshType =
+                  meshDoors === 0
+                    ? 'none'
+                    : job.meshType === 'none'
+                      ? 'door-side'
+                      : job.meshType;
+                patch('casement', {
+                  ...job,
+                  meshDoors,
+                  meshType,
+                  mesh: meshDoors > 0 && meshType !== 'none' ? 'Yes' : 'No',
+                });
+              }}
+            />
+          </Field>
+          <Field label="Mesh type">
+            <Select
+              value={job.meshType ?? 'none'}
+              onChange={(e) => {
+                const meshType = e.target.value as
+                  | 'none'
+                  | 'rolling'
+                  | 'collapsible'
+                  | 'fixed'
+                  | 'door-side';
+                const meshDoors =
+                  meshType === 'none' ? 0 : Math.max(1, job.meshDoors || job.openablePanels || 1);
+                patch('casement', {
+                  ...job,
+                  meshType,
+                  meshDoors,
+                  mesh: meshDoors > 0 && meshType !== 'none' ? 'Yes' : 'No',
+                });
+              }}
+            >
+              <option value="none">None</option>
+              <option value="rolling">Rolling (full window)</option>
+              <option value="collapsible">Collapsible (full window)</option>
+              <option value="fixed">Fixed</option>
+              <option value="door-side">Door-side</option>
             </Select>
           </Field>
+          <Field label="Vent?" hint="Outer mesh often fixed on casement vents">
+            <Select
+              value={job.hasVent ?? 'No'}
+              onChange={(e) => {
+                const hasVent = e.target.value as 'Yes' | 'No';
+                if (hasVent === 'Yes') {
+                  const ventCount = Math.max(1, job.ventCount || job.openablePanels || 1);
+                  patch('casement', {
+                    ...job,
+                    hasVent,
+                    ventCount,
+                    meshDoors: Math.max(job.meshDoors || 0, ventCount),
+                    meshType: job.meshType === 'none' ? 'fixed' : job.meshType,
+                    mesh: 'Yes',
+                  });
+                } else {
+                  set('hasVent', 'No');
+                }
+              }}
+            >
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </Select>
+          </Field>
+          {(job.hasVent ?? 'No') === 'Yes' ? (
+            <Field label="Vent count">
+              <Input
+                type="number"
+                value={job.ventCount ?? 1}
+                onChange={(e) => set('ventCount', Math.max(1, Number(e.target.value)))}
+              />
+            </Field>
+          ) : null}
           <Field label="Width mm">
             <Input type="number" value={job.widthMm} onChange={(e) => set('widthMm', Number(e.target.value))} />
           </Field>

@@ -6,6 +6,7 @@ import { isVendorFullAccess } from '../engine/modeAccess';
 import { useApp } from '../store/AppContext';
 
 const quotePathTiles = [
+  ['/site-measure', 'Site Measure', 'Default landing · W×H + glass/mesh doors'],
   ['/configure', 'Configurator', 'Mode quote: size → type → glass → colour'],
   ['/leads', 'Leads', 'Enquiry CRM · follow-up dates'],
   ['/quote', '08 Quotation', 'Printable schedule + GST + advance'],

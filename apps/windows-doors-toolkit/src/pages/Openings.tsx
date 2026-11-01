@@ -91,6 +91,12 @@ export function OpeningsPage() {
                     width: 1200,
                     height: 1200,
                     qty: 1,
+                    tracks: types[0]?.kind === 'sliding' ? 2 : 0,
+                    glassDoors: 2,
+                    meshDoors: 0,
+                    meshType: 'none' as const,
+                    hasVent: 'No' as const,
+                    ventCount: 0,
                   },
                 ])
               }
@@ -109,6 +115,10 @@ export function OpeningsPage() {
               <th>W</th>
               <th>H</th>
               <th>Qty</th>
+              <th>Tracks</th>
+              <th>Glass doors</th>
+              <th>Mesh doors</th>
+              <th>Mesh type</th>
               <th>Actual</th>
               <th>Chargeable</th>
               <th>Rate</th>
@@ -154,6 +164,36 @@ export function OpeningsPage() {
                     value={r.line.qty}
                     onChange={(e) => updateOpening(r.line.id, 'qty', Number(e.target.value))}
                   />
+                </td>
+                <td>
+                  <NumberInput
+                    value={r.line.tracks ?? 0}
+                    onChange={(e) => updateOpening(r.line.id, 'tracks', Number(e.target.value))}
+                  />
+                </td>
+                <td>
+                  <NumberInput
+                    value={r.line.glassDoors ?? 0}
+                    onChange={(e) => updateOpening(r.line.id, 'glassDoors', Number(e.target.value))}
+                  />
+                </td>
+                <td>
+                  <NumberInput
+                    value={r.line.meshDoors ?? 0}
+                    onChange={(e) => updateOpening(r.line.id, 'meshDoors', Number(e.target.value))}
+                  />
+                </td>
+                <td>
+                  <select
+                    value={r.line.meshType ?? 'none'}
+                    onChange={(e) => updateOpening(r.line.id, 'meshType', e.target.value)}
+                  >
+                    <option value="none">None</option>
+                    <option value="rolling">Rolling</option>
+                    <option value="collapsible">Collapsible</option>
+                    <option value="fixed">Fixed</option>
+                    <option value="door-side">Door-side</option>
+                  </select>
                 </td>
                 <td className="calc">
                   <Num n={r.actualSqft} />

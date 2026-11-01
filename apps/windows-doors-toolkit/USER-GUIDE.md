@@ -14,7 +14,7 @@ npm install   # first time only
 npm run dev
 ```
 
-Open the URL Vite prints (usually `http://127.0.0.1:5173/`).
+Open the URL Vite prints (usually `http://127.0.0.1:5173/`). **Default landing is Site Measure** (`/site-measure`); Home remains at `/home`.
 
 Production build check:
 
@@ -65,9 +65,41 @@ Route: **`/configure`**. Same single-screen flow for Home owner / Architect / Bu
 | **Builder** | If retail quote total ≥ threshold (seed ₹50L), apply builder % off (seed **15%**). Threshold + % editable in Settings → Allowances |
 | **Vendor** | Verification unlocks **full fab tools** (sidebar + home hub); schedule shows retail. Private rate overrides available on Master catalogue. |
 
-**Nav by mode:** Home owner / Architect / Builder see the **quote path** tools only (Configurator, Leads, Quotation) plus a **shop-owner shared-master Settings path** (Master catalogue, Window types, Series, Glass, Colours, Hardware, Profiles, Mode pricing, Export/Import). **Vendor** (after verification) sees every fab tool (01–15, Site Measure, stock, Business/GST, full Settings). Switching Mode on the project bar updates sidebar + home hub immediately (no refresh).
+**Nav by mode:** Home owner / Architect / Builder see the **quote path** (Home, **Site Measure**, Configurator, Leads, Quotation) plus a **shop-owner shared-master Settings path** (Master catalogue, Window types, Series, Glass, Colours, Hardware, Profiles, Mode pricing, Export/Import). **Vendor** (after verification) sees every fab tool (01–15, Site Measure, stock, Business/GST, full Settings). Switching Mode on the project bar updates sidebar + home hub immediately (no refresh).
 
-Edit colours under **Settings → Colours / finish**. Mode pricing under **Settings → Allowances → Mode pricing**.
+Edit colours under **Settings → Colours / finish**. Mode pricing under **Settings → Allowances → Mode pricing**. Door/mesh track defaults and typed mesh ₹/sqft under **Settings → Allowances → Door / mesh costing defaults**.
+
+---
+
+## Site Measure — glass doors + mesh (costing)
+
+Default route on app open: **`/site-measure`**.
+
+After site qty, each opening carries costing selections (Settings defaults + per-row override):
+
+| Field | Sliding | Openable / casement |
+|-------|---------|---------------------|
+| **Tracks** | 2, 2.5, 3, 4, 6… | — |
+| **Glass doors** | Shutters (2, 3, 4, 6…) — required | Leaf / openable count |
+| **Mesh doors** | Count (0 = none) — required when using mesh | Count; door-side uses leaf area |
+| **Mesh type** | none / rolling / collapsible / fixed / door-side | same; vent → typically **fixed** |
+| **Vent** | — | Yes → fixed outer mesh (casement profiles) |
+
+**Rules (editable in Settings, not hardcoded):**
+
+- **2-track** typically seeds **no mesh**; **2.5 / 3-track** (and higher) can take mesh.
+- **Rolling / collapsible** usually charge **full window-size** area × Settings ₹/sqft (rates differ).
+- **Door-side** (openable) charges **leaf/door size** × Settings door-side rate.
+- **Fixed** mesh for vents / outer mesh; rates from Settings masters.
+
+**Push:**
+
+- **Push net → 01 Openings + Quote** — copies glass/mesh fields onto openings.
+- **Push → 02/03 Costing** — feeds Tool 02 Sliding / 03 Casement (Vendor fab tools).
+- **Push → Configurator** — cart lines include glass/mesh; mesh amount enters mode quote retail subtotal.
+- **Push net → 05 Cutting** — fab sizes as before.
+
+Configurator (all modes) also asks glass doors + mesh doors/type after size/type.
 
 ---
 
@@ -153,9 +185,10 @@ Shell uses `250px + minmax(0,1fr)` with `overflow-x: hidden` on `html`/`body`/`.
 
 | Route | Tool | Purpose |
 |-------|------|---------|
-| `/` | Home | KPIs + hub |
+| `/` | → redirects to Site Measure | Default landing |
+| `/home` | Home | KPIs + hub |
 | `/leads` | Leads | Enquiry CRM · follow-ups |
-| `/site-measure` | Site Measure | Site W×H → less-off → net fab → openings/cutting |
+| `/site-measure` | Site Measure | Site W×H + glass/mesh doors → less-off → net → openings/02/03/configure |
 | `/openings` | 01 Window Sqft | Openings schedule |
 | `/sliding` | 02 Sliding | Series + size → cost |
 | `/casement` | 03 Casement | Panels/openable → cost |
@@ -203,13 +236,14 @@ Yellow number fields use a shared draft input: you can clear and retype without 
 
 ## Demo path (smoke)
 
-1. Confirm **Project** bar shows *Sample villa — Hyderabad*.
-2. Open **Site Measure** — site vs less-off vs **Net W/H**; measured value KPI.
-3. **Push net → 01 Openings**, then **08 Quotation**.
-4. Open **Series stock** — sections under Series A / B; remaining metres.
-5. **05 Cutting** — series column + **Deduct metres from series stock**.
-6. **+ New** project, confirm openings/site measure empty; switch back — sample data returns.
-7. **Settings → Export / Import** → Download JSON for backup.
+1. Open app — lands on **Site Measure** (not Home).
+2. Confirm **Project** bar shows *Sample villa — Hyderabad*.
+3. Living room seed: **3-track**, glass doors **2**, mesh doors **1**, type **rolling**; Mesh add-on KPI updates.
+4. **Push → 02/03 Costing** (Vendor mode) → **02 Sliding** shows mesh doors + type.
+5. **Push net → 01 Openings**, then **08 Quotation** / **Configurator**.
+6. **Settings → Allowances** — Door / mesh costing defaults (track table + typed ₹/sqft).
+7. **+ New** project, confirm openings/site measure empty; switch back — sample data returns.
+8. **Settings → Export / Import** → Download JSON for backup.
 
 Sample rates are generic India 2026 fiction (Series A / B — no brand copy).
 
@@ -219,6 +253,9 @@ Sample rates are generic India 2026 fiction (Series A / B — no brand copy).
 
 Store `media/` (and earlier shots):
 
+- `toolkit-site-measure-landing-mesh.png` — default landing + glass/mesh columns
+- `toolkit-sliding-3track-mesh.png` — Tool 02 after push (3-track + mesh)
+- `toolkit-settings-mesh-defaults.png` — Allowances door/mesh masters
 - `toolkit-homeowner-configurator.png` — Mode quote single-screen flow
 - `toolkit-mode-verification-gate.png` — Architect/Builder/Vendor GST gate
 - `toolkit-architect-price.png` — ~10% below retail

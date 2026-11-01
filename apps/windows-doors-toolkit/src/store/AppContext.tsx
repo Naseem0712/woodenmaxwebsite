@@ -22,9 +22,11 @@ import type {
   ProjectMeta,
 } from '../types';
 import { DEFAULT_MODE_PRICING, EMPTY_VENDOR_OVERRIDES } from '../types';
+import { resolveMeshCosting, syncMeshYesNo } from '../engine/meshCosting';
 import { applyProjectJob, emptyProjectJob, extractProjectJob } from './projectKeys';
 
-const STORAGE_KEY = 'wd-toolkit-v6';
+const STORAGE_KEY = 'wd-toolkit-v7';
+const LEGACY_V6 = 'wd-toolkit-v6';
 const LEGACY_V5 = 'wd-toolkit-v5';
 const LEGACY_V4 = 'wd-toolkit-v4';
 const LEGACY_V3 = 'wd-toolkit-v3';
@@ -67,12 +69,23 @@ const AppCtx = createContext<Ctx | null>(null);
 
 function normalizeSiteMeasures(state: AppState): AppState {
   const siteMeasures = state.siteMeasures.map((line) => {
+    const meshDoors =
+      line.meshDoors ?? (line.mesh === 'Yes' ? 1 : 0);
+    const meshType =
+      line.meshType ?? (line.mesh === 'Yes' ? 'rolling' : 'none');
     const base = {
       ...line,
       lessOffWidthMm: line.lessOffWidthMm ?? null,
       lessOffHeightMm: line.lessOffHeightMm ?? null,
       netWidth: line.netWidth ?? line.width,
       netHeight: line.netHeight ?? line.height,
+      tracks: line.tracks ?? 0,
+      glassDoors: line.glassDoors ?? (line.tracks ? 2 : 1),
+      meshDoors,
+      meshType,
+      mesh: syncMeshYesNo(meshDoors, meshType),
+      hasVent: line.hasVent ?? 'No',
+      ventCount: line.ventCount ?? 0,
     };
     return withPersistedNet(state, base);
   });
@@ -108,9 +121,17 @@ function normalizeMasters(state: AppState): AppState {
     hardwareClass: h.hardwareClass ?? inferHardwareClass(h.name, h.category),
   }));
   const c = state.casement;
+  const casementMeshDoors = c.meshDoors ?? (c.mesh === 'Yes' ? Math.max(1, c.openablePanels || 1) : 0);
+  const casementMeshType =
+    c.meshType ?? (c.mesh === 'Yes' ? (c.hasVent === 'Yes' ? 'fixed' : 'door-side') : 'none');
   const casement = {
     ...c,
     doorLeaves: c.doorLeaves ?? 0,
+    meshDoors: casementMeshDoors,
+    meshType: casementMeshType,
+    mesh: syncMeshYesNo(casementMeshDoors, casementMeshType),
+    hasVent: c.hasVent ?? 'No',
+    ventCount: c.ventCount ?? 0,
     frictionStaySizeMm: c.frictionStaySizeMm ?? 305,
     frictionStaySetsPerOpenable: c.frictionStaySetsPerOpenable ?? 1,
     hingeQty: c.hingeQty ?? 0,
@@ -129,6 +150,15 @@ function normalizeMasters(state: AppState): AppState {
     swingHandleRate: c.swingHandleRate ?? 0,
     swingLockRate: c.swingLockRate ?? 0,
   };
+  const sl = state.sliding;
+  const slidingMeshDoors = sl.meshDoors ?? (sl.mesh === 'Yes' ? 1 : 0);
+  const slidingMeshType = sl.meshType ?? (sl.mesh === 'Yes' ? 'rolling' : 'none');
+  const sliding = {
+    ...sl,
+    meshDoors: slidingMeshDoors,
+    meshType: slidingMeshType,
+    mesh: syncMeshYesNo(slidingMeshDoors, slidingMeshType),
+  };
   const projects = state.projects.map((p) => ({
     ...p,
     material: p.material ?? 'UPVC',
@@ -140,6 +170,7 @@ function normalizeMasters(state: AppState): AppState {
     ...state.allowances,
     lessOffAluWidthMm: state.allowances.lessOffAluWidthMm ?? 5,
     lessOffAluHeightMm: state.allowances.lessOffAluHeightMm ?? 5,
+    meshCosting: resolveMeshCosting(state.allowances),
   };
   const colourOptions = state.colourOptions ?? [];
   const modePricing = { ...DEFAULT_MODE_PRICING, ...state.modePricing };
@@ -170,19 +201,39 @@ function normalizeMasters(state: AppState): AppState {
       ...state.vendorOverrides?.seriesMemberRates,
     },
   };
+  const openings = (state.openings ?? []).map((o) => ({
+    ...o,
+    tracks: o.tracks ?? 0,
+    glassDoors: o.glassDoors ?? 0,
+    meshDoors: o.meshDoors ?? 0,
+    meshType: o.meshType ?? 'none',
+    hasVent: o.hasVent ?? 'No',
+    ventCount: o.ventCount ?? 0,
+  }));
+  const normalizedConfigurator = configuratorLines.map((line) => ({
+    ...line,
+    tracks: line.tracks ?? 0,
+    glassDoors: line.glassDoors ?? 0,
+    meshDoors: line.meshDoors ?? 0,
+    meshType: line.meshType ?? 'none',
+    hasVent: line.hasVent ?? 'No',
+    ventCount: line.ventCount ?? 0,
+  }));
   return {
     ...state,
     series,
     windowTypes,
     profiles,
     hardware,
+    sliding,
     casement,
+    openings,
     projects,
     allowances,
     colourOptions,
     modePricing,
     modeVerifications,
-    configuratorLines,
+    configuratorLines: normalizedConfigurator,
     vendorOverrides,
   };
 }
@@ -333,7 +384,7 @@ function load(): AppState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return mergeLoaded(JSON.parse(raw) as Partial<AppState>);
-    for (const key of [LEGACY_V5, LEGACY_V4, LEGACY_V3, LEGACY_V2, LEGACY_V1]) {
+    for (const key of [LEGACY_V6, LEGACY_V5, LEGACY_V4, LEGACY_V3, LEGACY_V2, LEGACY_V1]) {
       const legacy = localStorage.getItem(key);
       if (legacy) {
         const migrated = migrateLegacy(legacy);

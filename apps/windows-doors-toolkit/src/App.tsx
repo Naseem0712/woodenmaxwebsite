@@ -43,7 +43,8 @@ export default function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route element={<ModeRouteGuard />}>
-              <Route index element={<HomePage />} />
+              <Route index element={<Navigate to="/site-measure" replace />} />
+              <Route path="home" element={<HomePage />} />
               <Route path="leads" element={<LeadsPage />} />
               <Route path="site-measure" element={<SiteMeasurePage />} />
               <Route path="openings" element={<OpeningsPage />} />
@@ -74,7 +75,7 @@ export default function App() {
               <Route path="settings/profiles" element={<SettingsProfilesPage />} />
               <Route path="stock" element={<StockPage />} />
               <Route path="settings/data" element={<SettingsDataPage />} />
-              <Route path="*" element={<Navigate to="/" replace />} />
+              <Route path="*" element={<Navigate to="/site-measure" replace />} />
             </Route>
           </Route>
         </Routes>

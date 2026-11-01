@@ -1,13 +1,29 @@
-import type { CasementJob, SeriesDefinition, SlidingJob } from '../types';
+import type { Allowances, CasementJob, SeriesDefinition, SlidingJob } from '../types';
 import { ensureSeriesHardwareDefaults, rateForSize } from './hardwareKind';
+import {
+  resolveMeshCosting,
+  suggestOpenableMesh,
+  suggestSlidingMeshFromTracks,
+  syncMeshYesNo,
+} from './meshCosting';
 
-export function applySeriesToSliding(series: SeriesDefinition, sliding: SlidingJob): SlidingJob {
+export function applySeriesToSliding(
+  series: SeriesDefinition,
+  sliding: SlidingJob,
+  allowances?: Allowances,
+): SlidingJob {
+  const tracks = series.defaultTracks || sliding.tracks;
+  const meshSettings = resolveMeshCosting(allowances);
+  const sug = suggestSlidingMeshFromTracks(meshSettings, tracks);
   return {
     ...sliding,
     seriesId: series.id,
     material: series.material,
-    tracks: series.defaultTracks || sliding.tracks,
-    glassShutters: series.defaultShutters || sliding.glassShutters,
+    tracks,
+    glassShutters: sug.glassDoors || series.defaultShutters || sliding.glassShutters,
+    meshDoors: sug.meshDoors,
+    meshType: sug.meshType,
+    mesh: sug.mesh,
     glassInsetMm: series.glassInsetMm,
     rollersPerShutter: series.rollersPerShutter,
     rollerRate: series.rollerRate,
@@ -27,13 +43,38 @@ export function applySeriesToCasement(series: SeriesDefinition, casement: Caseme
   const isDoor = s.kind === 'door';
   const doorLeaves = isDoor ? Math.max(1, casement.doorLeaves || casement.openablePanels || 1) : 0;
 
+  const meshSettings = resolveMeshCosting(undefined);
+  const openable = s.defaultOpenable || casement.openablePanels;
+  // Preserve existing mesh choice when re-applying series; only seed if still none
+  const keepMesh = (casement.meshDoors ?? 0) > 0 || casement.mesh === 'Yes';
+  const sug = keepMesh
+    ? {
+        meshDoors: casement.meshDoors ?? (casement.mesh === 'Yes' ? openable : 0),
+        meshType: casement.meshType ?? 'door-side',
+        mesh: syncMeshYesNo(
+          casement.meshDoors ?? (casement.mesh === 'Yes' ? openable : 0),
+          casement.meshType ?? 'door-side',
+        ),
+        ventCount: casement.ventCount ?? 0,
+      }
+    : suggestOpenableMesh(meshSettings, {
+        openablePanels: openable,
+        hasVent: casement.hasVent ?? 'No',
+        doorSide: false,
+      });
+
   return {
     ...casement,
     seriesId: s.id,
     material: s.material,
     panels: s.defaultPanels || casement.panels,
-    openablePanels: s.defaultOpenable || casement.openablePanels,
+    openablePanels: openable,
     doorLeaves,
+    meshDoors: sug.meshDoors,
+    meshType: sug.meshType,
+    mesh: sug.mesh,
+    hasVent: casement.hasVent ?? 'No',
+    ventCount: sug.ventCount ?? casement.ventCount ?? 0,
     glassInsetMm: s.glassInsetMm,
     frictionStaySizeMm,
     frictionStayRate,

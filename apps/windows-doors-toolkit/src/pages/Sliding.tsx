@@ -38,7 +38,7 @@ export function SlidingPage() {
               value={job.seriesId}
               onChange={(e) => {
                 const s = state.series.find((x) => x.id === e.target.value);
-                if (s) patch('sliding', applySeriesToSliding(s, job));
+                if (s) patch('sliding', applySeriesToSliding(s, job, state.allowances));
               }}
             >
               {seriesList.length === 0 ? (
@@ -54,20 +54,73 @@ export function SlidingPage() {
           <Field label="Material" hint="Locked to project" tone="link">
             <Input tone="link" readOnly value={material} />
           </Field>
-          <Field label="Tracks">
-            <Input type="number" value={job.tracks} onChange={(e) => set('tracks', Number(e.target.value))} />
+          <Field label="Tracks" hint="2 ≈ no mesh; 2.5/3+ can take mesh (Settings)">
+            <Input
+              type="number"
+              step="0.5"
+              value={job.tracks}
+              onChange={(e) => {
+                const tracks = Number(e.target.value);
+                const s = state.series.find((x) => x.id === job.seriesId);
+                if (s) {
+                  patch('sliding', {
+                    ...applySeriesToSliding({ ...s, defaultTracks: tracks }, job, state.allowances),
+                    tracks,
+                  });
+                } else {
+                  set('tracks', tracks);
+                }
+              }}
+            />
           </Field>
-          <Field label="Glass shutters">
+          <Field label="Glass doors / shutters" hint="Required for costing">
             <Input
               type="number"
               value={job.glassShutters}
               onChange={(e) => set('glassShutters', Number(e.target.value))}
             />
           </Field>
-          <Field label="Mesh shutter?">
-            <Select value={job.mesh} onChange={(e) => set('mesh', e.target.value as 'Yes' | 'No')}>
-              <option>No</option>
-              <option>Yes</option>
+          <Field label="Mesh doors" hint="0 = none">
+            <Input
+              type="number"
+              value={job.meshDoors ?? 0}
+              onChange={(e) => {
+                const meshDoors = Math.max(0, Number(e.target.value));
+                const meshType =
+                  meshDoors === 0
+                    ? 'none'
+                    : job.meshType === 'none'
+                      ? 'rolling'
+                      : job.meshType;
+                patch('sliding', {
+                  ...job,
+                  meshDoors,
+                  meshType,
+                  mesh: meshDoors > 0 && meshType !== 'none' ? 'Yes' : 'No',
+                });
+              }}
+            />
+          </Field>
+          <Field label="Mesh type" hint="Rolling/collapsible = full window area">
+            <Select
+              value={job.meshType ?? 'none'}
+              onChange={(e) => {
+                const meshType = e.target.value as 'none' | 'rolling' | 'collapsible' | 'fixed' | 'door-side';
+                const meshDoors =
+                  meshType === 'none' ? 0 : Math.max(1, job.meshDoors || 1);
+                patch('sliding', {
+                  ...job,
+                  meshType,
+                  meshDoors,
+                  mesh: meshDoors > 0 && meshType !== 'none' ? 'Yes' : 'No',
+                });
+              }}
+            >
+              <option value="none">None</option>
+              <option value="rolling">Rolling</option>
+              <option value="collapsible">Collapsible</option>
+              <option value="fixed">Fixed</option>
+              <option value="door-side">Door-side</option>
             </Select>
           </Field>
           <Field label="Width W (mm)">

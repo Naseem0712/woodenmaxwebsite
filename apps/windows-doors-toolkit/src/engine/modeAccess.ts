@@ -13,18 +13,19 @@ export function isVendorFullAccess(state: AppState, mode?: CustomerModeId): bool
 
 export type NavItem = { to: string; label: string; end?: boolean };
 
-/** Home owner / Architect / Builder: quote-path tools only. */
+/** Home owner / Architect / Builder: quote-path tools only (+ Site Measure landing). */
 export const QUOTE_PATH_TOOLS: readonly NavItem[] = [
-  { to: '/', label: 'Home', end: true },
+  { to: '/site-measure', label: 'Site Measure' },
+  { to: '/home', label: 'Home' },
   { to: '/configure', label: 'Configurator' },
   { to: '/leads', label: 'Leads' },
   { to: '/quote', label: '08 Quotation' },
 ];
 
 export const VENDOR_TOOLS: readonly NavItem[] = [
-  { to: '/', label: 'Home', end: true },
-  { to: '/leads', label: 'Leads' },
   { to: '/site-measure', label: 'Site Measure' },
+  { to: '/home', label: 'Home' },
+  { to: '/leads', label: 'Leads' },
   { to: '/openings', label: '01 Openings' },
   { to: '/sliding', label: '02 Sliding' },
   { to: '/casement', label: '03 Casement' },
@@ -76,9 +77,11 @@ export const VENDOR_SETTINGS: readonly NavItem[] = [
   { to: '/settings/data', label: 'Export / Import' },
 ];
 
-/** Paths allowed without verified Vendor mode (quote tools + shared-master Settings). */
+/** Paths allowed without verified Vendor mode (quote tools + Site Measure + shared-master Settings). */
 const QUOTE_PATH_ALLOW = new Set([
   '/',
+  '/home',
+  '/site-measure',
   '/configure',
   '/leads',
   '/quote',
@@ -96,6 +99,8 @@ const QUOTE_PATH_ALLOW = new Set([
 
 export function isQuotePathAllowed(pathname: string): boolean {
   const path = pathname.replace(/\/+$/, '') || '/';
+  // Index redirects to Site Measure — treat both as allowed
+  if (path === '/' || path === '') return true;
   return QUOTE_PATH_ALLOW.has(path);
 }
 

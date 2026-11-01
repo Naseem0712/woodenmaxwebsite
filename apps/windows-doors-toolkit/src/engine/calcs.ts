@@ -10,6 +10,7 @@ import type {
   WindowType,
 } from '../types';
 import { computeNetSize, resolveLessOffMm } from './lessOff';
+import { meshLineAmount, resolveMeshCosting } from './meshCosting';
 
 const MM_TO_SQFT = 92903.04;
 
@@ -44,22 +45,26 @@ export function profileRatePerM(p: ProfileSku, a: Allowances): number {
   return p.ratePerMUpvc;
 }
 
-/** Excel Tool 02 member count (K) */
+/** Excel Tool 02 member count (K) — mesh frames follow meshDoors qty. */
 export function slidingMemberCount(
   memberClass: string,
-  job: Pick<SlidingJob, 'material' | 'tracks' | 'glassShutters' | 'mesh'>,
+  job: Pick<SlidingJob, 'material' | 'tracks' | 'glassShutters' | 'mesh' | 'meshDoors'>,
 ): number {
+  const meshDoors = job.meshDoors ?? (job.mesh === 'Yes' ? 1 : 0);
+  // 2.5-track uses 3-track outer when tracks ≈ 2.5 or 3
+  const use3Track = job.tracks >= 2.5 && job.tracks < 4;
+  const use2Track = job.tracks > 0 && job.tracks < 2.5;
   switch (memberClass) {
     case '2-track':
-      return job.tracks === 2 ? 1 : 0;
+      return use2Track ? 1 : 0;
     case '3-track':
-      return job.tracks === 3 ? 1 : 0;
+      return use3Track ? 1 : 0;
     case 'Shutter':
       return job.glassShutters;
     case 'Meeting':
       return Math.max(0, job.glassShutters - 1);
     case 'Mesh':
-      return job.mesh === 'Yes' ? 1 : 0;
+      return Math.max(0, meshDoors);
     case 'UPVC only':
       return job.material === 'UPVC' ? 1 : 0;
     case 'UPVC shutter':
@@ -78,11 +83,21 @@ export function slidingMemberMetres(
   return { count, metres, cost: metres * m.ratePerM };
 }
 
-/** Excel Tool 03 member count (M) */
+/** Excel Tool 03 member count (M) — mesh panels follow meshDoors / vents. */
 export function casementMemberCount(
   memberClass: string,
-  job: Pick<CasementJob, 'material' | 'panels' | 'openablePanels' | 'mesh'>,
+  job: Pick<
+    CasementJob,
+    'material' | 'panels' | 'openablePanels' | 'mesh' | 'meshDoors' | 'hasVent' | 'ventCount'
+  >,
 ): number {
+  const meshDoors =
+    job.meshDoors ??
+    (job.mesh === 'Yes'
+      ? job.hasVent === 'Yes'
+        ? Math.max(1, job.ventCount || job.openablePanels)
+        : job.openablePanels
+      : 0);
   switch (memberClass) {
     case 'Mullion':
       return Math.max(0, job.panels - 1);
@@ -91,7 +106,7 @@ export function casementMemberCount(
     case 'Panel':
       return job.panels;
     case 'Mesh panel':
-      return job.mesh === 'Yes' ? job.openablePanels : 0;
+      return Math.max(0, meshDoors);
     case 'UPVC only':
       return job.material === 'UPVC' ? 1 : 0;
     case 'UPVC mullion':
@@ -204,7 +219,30 @@ export function calcSliding(state: AppState): ConfigCostResult {
     job.rollersPerShutter * job.glassShutters * job.rollerRate +
     job.lockHandleSet +
     job.otherHardware;
-  const meshNet = job.mesh === 'Yes' ? windowSqft * job.meshAreaShare * job.meshNetPerSqft : 0;
+  const meshSettings = resolveMeshCosting(state.allowances);
+  const meshDoors = job.meshDoors ?? (job.mesh === 'Yes' ? 1 : 0);
+  const meshType = job.meshType ?? (job.mesh === 'Yes' ? 'rolling' : 'none');
+  const typedMesh = meshLineAmount(
+    {
+      width: job.widthMm,
+      height: job.heightMm,
+      unit: 'mm',
+      meshType,
+      meshDoors,
+      glassDoors: job.glassShutters,
+      meshAreaShare: job.meshAreaShare,
+    },
+    meshSettings,
+    1,
+    job.meshNetPerSqft,
+  );
+  // Prefer Settings typed rates; fall back to series meshNet × share when type unset but Yes
+  const meshNet =
+    meshType !== 'none' && meshDoors > 0
+      ? typedMesh.amount
+      : job.mesh === 'Yes'
+        ? windowSqft * job.meshAreaShare * job.meshNetPerSqft
+        : 0;
   const fabInstall = (job.fabricationLabourPerSqft + job.installationLabourPerSqft) * windowSqft;
   const transportShare = job.qty <= 0 ? 0 : job.transportPerJob / job.qty;
   const silicone = job.siliconePerWindow;
@@ -295,7 +333,40 @@ export function calcCasement(state: AppState): ConfigCostResult {
     swingCost +
     (job.handleRate ?? 0) * Math.max(0, job.openablePanels) +
     (job.otherHardware ?? 0);
-  const meshNet = job.mesh === 'Yes' ? windowSqft * job.meshAreaShare * job.meshNetPerSqft : 0;
+  const meshSettings = resolveMeshCosting(state.allowances);
+  const meshDoors =
+    job.meshDoors ??
+    (job.mesh === 'Yes'
+      ? job.hasVent === 'Yes'
+        ? Math.max(1, job.ventCount || job.openablePanels)
+        : job.openablePanels
+      : 0);
+  const meshType =
+    job.meshType ??
+    (job.mesh === 'Yes' ? (job.hasVent === 'Yes' ? 'fixed' : 'door-side') : 'none');
+  const typedMesh = meshLineAmount(
+    {
+      width: job.widthMm,
+      height: job.heightMm,
+      unit: 'mm',
+      meshType,
+      meshDoors,
+      panels: job.panels,
+      glassDoors: job.openablePanels,
+      hasVent: job.hasVent ?? 'No',
+      ventCount: job.ventCount ?? 0,
+      meshAreaShare: job.meshAreaShare,
+    },
+    meshSettings,
+    1,
+    job.meshNetPerSqft,
+  );
+  const meshNet =
+    meshType !== 'none' && meshDoors > 0
+      ? typedMesh.amount
+      : job.mesh === 'Yes'
+        ? windowSqft * job.meshAreaShare * job.meshNetPerSqft
+        : 0;
   const fabInstall = (job.fabricationLabourPerSqft + job.installationLabourPerSqft) * windowSqft;
   const transportShare = job.qty <= 0 ? 0 : job.transportPerJob / job.qty;
   const silicone = job.siliconePerWindow;
@@ -503,7 +574,8 @@ export function calcLabour(state: AppState) {
 
 export function calcSiteMeasure(state: AppState) {
   const min = state.allowances.minChargeableSqft;
-  const meshRate = state.allowances.meshPerSqft;
+  const meshSettings = resolveMeshCosting(state.allowances);
+  const legacyMeshRate = state.allowances.meshPerSqft;
   const toughExtra = state.allowances.toughenedExtraPerSqft;
   const install = state.allowances.siteInstallPerSqft;
   const rows = state.siteMeasures.map((line) => {
@@ -516,10 +588,29 @@ export function calcSiteMeasure(state: AppState) {
     const fabSqftUnit = toSqft(net.netWidth, net.netHeight, line.unit);
     const chargeableEach = Math.max(actualSqftUnit, min);
     const totalSqft = chargeableEach * line.qty;
-    const addOns =
-      install + (line.mesh === 'Yes' ? meshRate : 0) + (line.toughened === 'Yes' ? toughExtra : 0);
+    const meshDoors = line.meshDoors ?? (line.mesh === 'Yes' ? 1 : 0);
+    const meshType = line.meshType ?? (line.mesh === 'Yes' ? 'rolling' : 'none');
+    const meshCalc = meshLineAmount(
+      {
+        width: line.width,
+        height: line.height,
+        unit: line.unit,
+        meshType,
+        meshDoors,
+        glassDoors: line.glassDoors ?? 0,
+        hasVent: line.hasVent ?? 'No',
+        ventCount: line.ventCount ?? 0,
+      },
+      meshSettings,
+      line.qty,
+      legacyMeshRate,
+    );
+    // Typed mesh is a line amount (not folded into ₹/sqft) so door qty drives cost correctly.
+    const legacyMeshPerSqft =
+      meshType === 'none' && line.mesh === 'Yes' ? legacyMeshRate : 0;
+    const addOns = install + legacyMeshPerSqft + (line.toughened === 'Yes' ? toughExtra : 0);
     const effectiveRate = line.ratePerSqft + addOns;
-    const amount = Math.round(totalSqft * effectiveRate);
+    const amount = Math.round(totalSqft * effectiveRate) + meshCalc.amount;
     return {
       line,
       typeName: t?.name ?? '—',
@@ -535,6 +626,9 @@ export function calcSiteMeasure(state: AppState) {
       fabSqftUnit,
       chargeableEach,
       totalSqft,
+      meshSqft: meshCalc.sqft,
+      meshRate: meshCalc.rate,
+      meshAmount: meshCalc.amount,
       addOns,
       effectiveRate,
       amount,
@@ -544,6 +638,7 @@ export function calcSiteMeasure(state: AppState) {
     rows,
     totalQty: rows.reduce((s, r) => s + r.line.qty, 0),
     totalSqft: rows.reduce((s, r) => s + r.totalSqft, 0),
+    totalMeshAmount: rows.reduce((s, r) => s + r.meshAmount, 0),
     totalAmount: rows.reduce((s, r) => s + r.amount, 0),
     warnCount: rows.filter((r) => r.warnNegative).length,
   };

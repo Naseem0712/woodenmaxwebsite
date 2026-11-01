@@ -58,6 +58,14 @@ export function ConfiguratorPage() {
   const [windowTypeId, setWindowTypeId] = useState('');
   const [glassTypeId, setGlassTypeId] = useState(state.glassTypes[0]?.id ?? '');
   const [colourId, setColourId] = useState('');
+  const [tracks, setTracks] = useState(2);
+  const [glassDoors, setGlassDoors] = useState(2);
+  const [meshDoors, setMeshDoors] = useState(0);
+  const [meshType, setMeshType] = useState<'none' | 'rolling' | 'collapsible' | 'fixed' | 'door-side'>(
+    'none',
+  );
+  const [hasVent, setHasVent] = useState<'Yes' | 'No'>('No');
+  const [ventCount, setVentCount] = useState(0);
   const [tab, setTab] = useState<QuoteTab>('list');
 
   const kind =
@@ -100,28 +108,32 @@ export function ConfiguratorPage() {
     windowTypeId: effectiveTypeId,
     glassTypeId: effectiveGlassId,
     colourId: effectiveColourId,
+    tracks: productType === 'sliding' ? tracks : 0,
+    glassDoors,
+    meshDoors,
+    meshType,
+    hasVent,
+    ventCount,
   };
   const draftCalc = effectiveTypeId
     ? calcConfiguratorLine(state, draftLine)
     : null;
+  const draftRetail =
+    (draftCalc?.retailAmount ?? 0) + (draftCalc?.glassAmount ?? 0) + (draftCalc?.meshAmount ?? 0);
   const draftAdjusted = draftCalc
-    ? modeAdjustedLineAmount(draftCalc.retailAmount + draftCalc.glassAmount, {
+    ? modeAdjustedLineAmount(draftRetail, {
         ...modeQuote,
         retailSubtotal: Math.max(modeQuote.retailSubtotal, 1),
         afterModeDiscount:
           modeQuote.retailSubtotal > 0
-            ? (draftCalc.retailAmount + draftCalc.glassAmount) *
-              (modeQuote.afterModeDiscount / modeQuote.retailSubtotal)
-            : (draftCalc.retailAmount + draftCalc.glassAmount) *
-              (1 - modeQuote.discountPercent / 100),
+            ? draftRetail * (modeQuote.afterModeDiscount / modeQuote.retailSubtotal)
+            : draftRetail * (1 - modeQuote.discountPercent / 100),
       })
     : null;
 
   /** Preview line budget using mode discount % directly (empty cart edge case). */
   const draftBudget =
-    draftCalc == null
-      ? 0
-      : (draftCalc.retailAmount + draftCalc.glassAmount) * (1 - modeQuote.discountPercent / 100);
+    draftCalc == null ? 0 : draftRetail * (1 - modeQuote.discountPercent / 100);
   const draftRateShown =
     draftCalc && draftCalc.chargeableSqft > 0
       ? draftBudget / draftCalc.chargeableSqft
@@ -160,12 +172,16 @@ export function ConfiguratorPage() {
       'Sqft',
       'Glass',
       'Colour',
+      'Glass doors',
+      'Mesh doors',
+      'Mesh type',
       'Retail ₹',
       'Mode ₹',
       'Mode',
     ];
     const rows = cart.rows.map((r) => {
-      const adj = modeAdjustedLineAmount(r.retailAmount + r.glassAmount, modeQuote);
+      const lineRetail = r.retailAmount + r.glassAmount + r.meshAmount;
+      const adj = modeAdjustedLineAmount(lineRetail, modeQuote);
       return [
         r.line.location,
         r.line.productType,
@@ -177,7 +193,10 @@ export function ConfiguratorPage() {
         r.chargeableSqft.toFixed(2),
         r.glassName,
         r.colourName,
-        Math.round(r.retailAmount + r.glassAmount),
+        r.line.glassDoors ?? '',
+        r.line.meshDoors ?? '',
+        r.line.meshType ?? '',
+        Math.round(lineRetail),
         Math.round(adj.amount),
         modeLabel,
       ].join(',');
@@ -335,6 +354,75 @@ export function ConfiguratorPage() {
           </Field>
         </div>
 
+        <div className="grid grid-4" style={{ marginTop: '0.75rem' }}>
+          {productType === 'sliding' ? (
+            <Field label="Tracks" tone="in" hint="2 ≈ no mesh; 3 can take mesh">
+              <NumberInput value={tracks} onCommit={(n) => setTracks(n ?? 2)} />
+            </Field>
+          ) : null}
+          <Field label="Glass doors" tone="in" hint="Shutters / openables">
+            <NumberInput value={glassDoors} onCommit={(n) => setGlassDoors(Math.max(1, n ?? 1))} />
+          </Field>
+          <Field label="Mesh doors" tone="in" hint="0 = none">
+            <NumberInput
+              value={meshDoors}
+              onCommit={(n) => {
+                const md = Math.max(0, n ?? 0);
+                setMeshDoors(md);
+                if (md === 0) setMeshType('none');
+                else if (meshType === 'none') {
+                  setMeshType(productType === 'sliding' ? 'rolling' : 'door-side');
+                }
+              }}
+            />
+          </Field>
+          <Field label="Mesh type" tone="in">
+            <select
+              className="input tone-in"
+              value={meshType}
+              onChange={(e) => {
+                const mt = e.target.value as typeof meshType;
+                setMeshType(mt);
+                if (mt === 'none') setMeshDoors(0);
+                else if (meshDoors <= 0) setMeshDoors(1);
+              }}
+            >
+              <option value="none">None</option>
+              <option value="rolling">Rolling</option>
+              <option value="collapsible">Collapsible</option>
+              <option value="fixed">Fixed</option>
+              <option value="door-side">Door-side</option>
+            </select>
+          </Field>
+          {productType === 'openable' || productType === 'door' ? (
+            <>
+              <Field label="Vent?" tone="in">
+                <select
+                  className="input tone-in"
+                  value={hasVent}
+                  onChange={(e) => {
+                    const v = e.target.value as 'Yes' | 'No';
+                    setHasVent(v);
+                    if (v === 'Yes') {
+                      setVentCount(Math.max(1, ventCount || 1));
+                      setMeshType('fixed');
+                      setMeshDoors(Math.max(1, meshDoors || 1));
+                    }
+                  }}
+                >
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+              </Field>
+              {hasVent === 'Yes' ? (
+                <Field label="Vent count" tone="in">
+                  <NumberInput value={ventCount} onCommit={(n) => setVentCount(Math.max(1, n ?? 1))} />
+                </Field>
+              ) : null}
+            </>
+          ) : null}
+        </div>
+
         <div className="grid grid-4" style={{ marginTop: '0.85rem' }}>
           <Kpi
             label="6. Rate (mode)"
@@ -422,7 +510,10 @@ export function ConfiguratorPage() {
               </thead>
               <tbody>
                 {cart.rows.map((r) => {
-                  const adj = modeAdjustedLineAmount(r.retailAmount + r.glassAmount, modeQuote);
+                  const adj = modeAdjustedLineAmount(
+                    r.retailAmount + r.glassAmount + r.meshAmount,
+                    modeQuote,
+                  );
                   return (
                     <tr key={r.line.id}>
                       <td>{r.line.location}</td>
