@@ -36,7 +36,7 @@ import {
   projectMaterial,
 } from '../engine/materialContext';
 import { useApp } from '../store/AppContext';
-import type { StockIssue } from '../types';
+import { CUSTOMER_MODES, type StockIssue } from '../types';
 
 export function DoorsPage() {
   const { state, patch } = useApp();
@@ -732,6 +732,11 @@ export function HardwarePage() {
 export function QuotePage() {
   const { state, patch } = useApp();
   const q = calcQuote(state);
+  const project = state.projects.find((p) => p.id === state.activeProjectId);
+  const customerMode = project?.customerMode ?? 'home-owner';
+  const modeLabel = CUSTOMER_MODES.find((m) => m.id === customerMode)?.label ?? 'Home owner';
+  const architectMode = customerMode === 'architects';
+  const scheduleLabel = architectMode ? 'Openings schedule (fab sizes)' : 'Window schedule';
   const syncFromJob = () => {
     patch('quote', {
       ...state.quote,
@@ -743,7 +748,8 @@ export function QuotePage() {
     <div>
       <PageHeader
         title="08 Quotation"
-        subtitle="Schedule from 01 Openings (+ mesh/grill). Discount, GST from Settings, advance % / ₹, printable A4."
+        subtitle={`Schedule from 01 Openings (+ mesh/grill). Mode: ${modeLabel} — labels only; rates stay in Settings.`}
+        badge={modeLabel}
       />
       <Card
         title="Quote header"
@@ -759,6 +765,9 @@ export function QuotePage() {
         }
       >
         <div className="grid grid-4 no-print">
+          <Field label="Customer mode" hint="From project bar — not a rate card" tone="link">
+            <Input tone="link" readOnly value={modeLabel} />
+          </Field>
           <Field label="Quote no">
             <Input
               value={state.quote.quoteNo}
@@ -869,23 +878,27 @@ export function QuotePage() {
         </div>
         <div className="quote-party grid grid-2">
           <div>
-            <div className="tiny muted">Customer</div>
+            <div className="tiny muted">{architectMode ? 'Client' : 'Customer'}</div>
             <strong>{state.quote.customerName || '—'}</strong>
             <div className="tiny">{state.quote.phone}</div>
+            <div className="tiny muted">Mode: {modeLabel}</div>
           </div>
           <div>
-            <div className="tiny muted">Site</div>
+            <div className="tiny muted">{architectMode ? 'Site / project' : 'Site'}</div>
             <strong>{state.quote.siteAddress || '—'}</strong>
+            {architectMode ? (
+              <div className="tiny muted">Material: {project?.material ?? '—'}</div>
+            ) : null}
           </div>
         </div>
 
-        <Card title="Schedule (from 01 Openings)">
+        <Card title={scheduleLabel}>
           <table className="data">
             <thead>
               <tr>
                 <th>Location</th>
-                <th>Type</th>
-                <th>Size</th>
+                <th>{architectMode ? 'Series / type' : 'Type'}</th>
+                <th>{architectMode ? 'Size (mm)' : 'Size'}</th>
                 <th>Chargeable</th>
                 <th>Rate</th>
                 <th>Amount</th>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { settingsLessOffForMaterial } from '../engine/lessOff';
 import { useApp } from '../store/AppContext';
-import type { Material } from '../types';
+import { CUSTOMER_MODES, type CustomerModeId, type Material } from '../types';
 import { Btn, Input, NumberInput } from './ui';
 
 export function ProjectSwitcher() {
@@ -11,14 +11,18 @@ export function ProjectSwitcher() {
     createProject,
     renameProject,
     setProjectMaterial,
+    setProjectCustomerMode,
     updateProjectLessOff,
   } = useApp();
   const [draftName, setDraftName] = useState('');
   const [draftMaterial, setDraftMaterial] = useState<Material>('UPVC');
+  const [draftMode, setDraftMode] = useState<CustomerModeId>('home-owner');
   const [renaming, setRenaming] = useState(false);
   const active = state.projects.find((p) => p.id === state.activeProjectId);
   const material = active?.material ?? 'UPVC';
+  const customerMode = active?.customerMode ?? 'home-owner';
   const settingsLess = settingsLessOffForMaterial(state, material);
+  const modeDef = CUSTOMER_MODES.find((m) => m.id === customerMode);
 
   return (
     <div className="project-switcher">
@@ -47,6 +51,25 @@ export function ProjectSwitcher() {
           >
             <option value="UPVC">UPVC</option>
             <option value="Aluminium">Aluminium</option>
+          </select>
+        </label>
+      ) : null}
+      {active ? (
+        <label
+          className="project-switcher-label"
+          title={modeDef?.description ?? 'Customer mode shapes labels / quote presentation — not rates'}
+        >
+          <span>Mode</span>
+          <select
+            className="input tone-in"
+            value={customerMode}
+            onChange={(e) => setProjectCustomerMode(active.id, e.target.value as CustomerModeId)}
+          >
+            {CUSTOMER_MODES.map((m) => (
+              <option key={m.id} value={m.id}>
+                {m.label}
+              </option>
+            ))}
           </select>
         </label>
       ) : null}
@@ -79,10 +102,23 @@ export function ProjectSwitcher() {
         <option value="UPVC">UPVC</option>
         <option value="Aluminium">Aluminium</option>
       </select>
+      <select
+        className="input tone-in"
+        value={draftMode}
+        onChange={(e) => setDraftMode(e.target.value as CustomerModeId)}
+        title="Customer mode for the new project"
+        style={{ maxWidth: 130 }}
+      >
+        {CUSTOMER_MODES.map((m) => (
+          <option key={m.id} value={m.id}>
+            {m.label}
+          </option>
+        ))}
+      </select>
       <Btn
         variant="ghost"
         onClick={() => {
-          createProject(draftName || `Job ${state.projects.length + 1}`, draftMaterial);
+          createProject(draftName || `Job ${state.projects.length + 1}`, draftMaterial, draftMode);
           setDraftName('');
         }}
       >

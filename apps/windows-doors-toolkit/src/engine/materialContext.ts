@@ -54,9 +54,10 @@ export function seriesForTool(
 ): SeriesDefinition[] {
   const material = projectMaterial(state);
   if (kind === 'sliding') {
-    return filterSeries(state.series, material, ['sliding', 'door']);
+    // Sliding rollers / tracks only — swing/door series stay on Tool 03.
+    return filterSeries(state.series, material, ['sliding']);
   }
-  return filterSeries(state.series, material, ['casement']);
+  return filterSeries(state.series, material, ['casement', 'door']);
 }
 
 export function inferWindowKind(name: string, series?: SeriesDefinition): SeriesKind {
@@ -76,10 +77,10 @@ export function inferWindowKind(name: string, series?: SeriesDefinition): Series
 /** Align sliding/casement jobs to project material + first matching series. */
 export function realignJobsToMaterial(state: AppState, material: Material): AppState {
   const slidingSeries =
-    filterSeries(state.series, material, ['sliding', 'door'])[0] ??
+    filterSeries(state.series, material, ['sliding'])[0] ??
     filterSeries(state.series, material)[0];
   const casementSeries =
-    filterSeries(state.series, material, ['casement'])[0] ??
+    filterSeries(state.series, material, ['casement', 'door'])[0] ??
     filterSeries(state.series, material)[0];
 
   let sliding = { ...state.sliding, material };

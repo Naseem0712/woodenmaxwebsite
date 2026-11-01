@@ -27,7 +27,7 @@ export function SlidingPage() {
     <div>
       <PageHeader
         title="02 Sliding Window"
-        subtitle={`Project material: ${material}. Series list is sliding/door only for this material — never mixes the other material or casement.`}
+        subtitle={`Project material: ${material}. Sliding series only — rollers/tracks. Casement and swing-door hardware stay on Tool 03.`}
         badge={material}
       />
 

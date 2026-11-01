@@ -267,8 +267,34 @@ export function calcCasement(state: AppState): ConfigCostResult {
   );
   const glassCost = glassSqft * glassRate;
   const wastage = (profileCost + glassCost) * job.wastage;
+  // Casement / openable / door hardware only — never rollers / sliding lock sets.
+  // Friction stay: 1 set (2 pc) × setsPerOpenable × openable; rate from size catalogue.
+  const staySets =
+    (job.frictionStaySetsPerOpenable ?? 1) * Math.max(0, job.openablePanels);
+  const frictionStayCost = (job.frictionStayRate ?? 0) * staySets;
+  const hingeCost = (job.hingeRate ?? 0) * (job.hingeQty ?? 0);
+  const connectorCost = (job.doorConnectorRate ?? 0) * (job.doorConnectorQty ?? 0);
+  const armCost = (job.laminationArmRate ?? 0) * Math.max(0, job.openablePanels);
+  const catalogueCost =
+    (job.lockGuideRate ?? 0) +
+    (job.brushRate ?? 0) +
+    (job.epdmRate ?? 0) +
+    (job.lockRate ?? 0) +
+    (job.doorCloserRate ?? 0);
+  const swingCost =
+    (job.floorSpringRate ?? 0) +
+    (job.doorSetRate ?? 0) +
+    (job.swingHandleRate ?? 0) +
+    (job.swingLockRate ?? 0);
   const hardware =
-    job.frictionStayRate * job.openablePanels + job.handleRate * job.openablePanels + job.otherHardware;
+    frictionStayCost +
+    hingeCost +
+    connectorCost +
+    armCost +
+    catalogueCost +
+    swingCost +
+    (job.handleRate ?? 0) * Math.max(0, job.openablePanels) +
+    (job.otherHardware ?? 0);
   const meshNet = job.mesh === 'Yes' ? windowSqft * job.meshAreaShare * job.meshNetPerSqft : 0;
   const fabInstall = (job.fabricationLabourPerSqft + job.installationLabourPerSqft) * windowSqft;
   const transportShare = job.qty <= 0 ? 0 : job.transportPerJob / job.qty;

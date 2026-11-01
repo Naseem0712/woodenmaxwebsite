@@ -3,6 +3,39 @@ export type Unit = 'mm' | 'inch' | 'ft';
 export type YesNo = 'Yes' | 'No';
 export type SeriesKind = 'sliding' | 'casement' | 'door' | 'other';
 
+/** Project customer mode — shapes UX / labels / quote presentation; rates stay in Settings. */
+export type CustomerModeId = 'home-owner' | 'architects';
+
+export interface CustomerModeDef {
+  id: CustomerModeId;
+  label: string;
+  /** Short UX hint — never encodes shop rates */
+  description: string;
+}
+
+export const CUSTOMER_MODES: readonly CustomerModeDef[] = [
+  {
+    id: 'home-owner',
+    label: 'Home owner',
+    description: 'Plain-language quote labels; simpler schedule wording.',
+  },
+  {
+    id: 'architects',
+    label: 'Architects',
+    description: 'Technical labels (fab sizes, series/kind) on quote and tools.',
+  },
+] as const;
+
+/** Size-driven catalogue line (mm). Rates edited in Settings — never hardcoded in formulas. */
+export interface SizedRate {
+  sizeMm: number;
+  rate: number;
+  label?: string;
+}
+
+/** Hardware catalogue class — sliding never mixes with casement/door. */
+export type HardwareClass = 'sliding' | 'casement' | 'door' | 'shared';
+
 export type SlidingMemberClass =
   | '2-track'
   | '3-track'
@@ -91,17 +124,47 @@ export interface SeriesDefinition {
   name: string;
   material: Material;
   kind: SeriesKind;
+  /** Sliding layout defaults (hidden when kind ≠ sliding) */
   defaultTracks: number;
   defaultShutters: number;
+  /** Casement / door panel defaults (hidden when kind = sliding) */
   defaultPanels: number;
   defaultOpenable: number;
   glassInsetMm: number;
+  /** Sliding hardware (hidden for casement / door-openable) */
   rollersPerShutter: number;
   rollerRate: number;
   lockHandleSet: number;
   otherHardware: number;
+  /**
+   * Legacy / resolved friction-stay set ₹ for selected size.
+   * Prefer frictionStayRates[size] — kept for older jobs & applySeries.
+   */
   frictionStayRate: number;
   handleRate: number;
+  /** Casement / openable / door-style hardware masters (Settings-editable) */
+  frictionStaySizeMm: number;
+  /** Catalogue: size mm → ₹ per set (2 pc). Sample seeds only. */
+  frictionStayRates: SizedRate[];
+  /** Sets per openable/door — default 1 set = 2 pc */
+  frictionStaySetsPerOpenable: number;
+  hingeQtyPerOpenable: number;
+  hingeRate: number;
+  /** Door connector pcs per door — default 4 */
+  doorConnectorQtyPerDoor: number;
+  doorConnectorRate: number;
+  laminationArmSizeMm: number;
+  laminationArmRates: SizedRate[];
+  lockGuideRate: number;
+  brushRate: number;
+  epdmRate: number;
+  lockRate: number;
+  doorCloserRate: number;
+  /** Swing door hardware — separate from sliding rollers */
+  floorSpringRate: number;
+  doorSetRate: number;
+  swingHandleRate: number;
+  swingLockRate: number;
   meshAreaShare: number;
   meshNetPerSqft: number;
   members: ProfileMember[];
@@ -122,6 +185,8 @@ export interface HardwareItem {
   category: string;
   unit: string;
   rate: number;
+  /** Class isolation — sliding catalogue never offered for casement series */
+  hardwareClass: HardwareClass;
 }
 
 export interface ProfileSku {
@@ -182,13 +247,33 @@ export interface CasementJob {
   material: Material;
   panels: number;
   openablePanels: number;
+  /** Treat as door leaf count for connector / swing qty (0 = use openablePanels when series is door) */
+  doorLeaves: number;
   mesh: YesNo;
   widthMm: number;
   heightMm: number;
   qty: number;
   glassTypeId: string;
   glassInsetMm: number;
+  frictionStaySizeMm: number;
+  /** ₹ per set (2 pc) for selected size — linked from series catalogue */
   frictionStayRate: number;
+  frictionStaySetsPerOpenable: number;
+  hingeQty: number;
+  hingeRate: number;
+  doorConnectorQty: number;
+  doorConnectorRate: number;
+  laminationArmSizeMm: number;
+  laminationArmRate: number;
+  lockGuideRate: number;
+  brushRate: number;
+  epdmRate: number;
+  lockRate: number;
+  doorCloserRate: number;
+  floorSpringRate: number;
+  doorSetRate: number;
+  swingHandleRate: number;
+  swingLockRate: number;
   handleRate: number;
   otherHardware: number;
   meshAreaShare: number;
@@ -354,6 +439,8 @@ export interface ProjectMeta {
   createdAt: string;
   /** Once set, all tools / selectors for this project stay on this material. */
   material: Material;
+  /** Customer mode — UX / quote presentation only; rates stay Settings-driven. */
+  customerMode: CustomerModeId;
   lessOffWidthMm: number | null;
   lessOffHeightMm: number | null;
 }

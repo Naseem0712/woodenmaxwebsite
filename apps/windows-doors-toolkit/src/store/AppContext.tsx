@@ -9,14 +9,31 @@ import {
 } from 'react';
 import { v4 as uid } from 'uuid';
 import { createSeedState } from '../data/seed';
+import { ensureSeriesHardwareDefaults } from '../engine/hardwareKind';
 import { withPersistedNet } from '../engine/lessOff';
 import { inferWindowKind, realignJobsToMaterial } from '../engine/materialContext';
-import type { AppState, Material, ProjectJobData, ProjectMeta } from '../types';
+import type {
+  AppState,
+  CustomerModeId,
+  HardwareClass,
+  Material,
+  ProjectJobData,
+  ProjectMeta,
+} from '../types';
 import { applyProjectJob, emptyProjectJob, extractProjectJob } from './projectKeys';
 
-const STORAGE_KEY = 'wd-toolkit-v3';
+const STORAGE_KEY = 'wd-toolkit-v4';
+const LEGACY_V3 = 'wd-toolkit-v3';
 const LEGACY_V2 = 'wd-toolkit-v2';
 const LEGACY_V1 = 'wd-toolkit-v1';
+
+function inferHardwareClass(name: string, category: string): HardwareClass {
+  const n = `${name} ${category}`.toLowerCase();
+  if (/\b(roller|sliding|track|anti-lift)\b/.test(n)) return 'sliding';
+  if (/\b(floor spring|door closer|door set|swing|door connector|door hinge)\b/.test(n)) return 'door';
+  if (/\b(friction|casement|hinge|lamination|lock guide|tilt)\b/.test(n)) return 'casement';
+  return 'shared';
+}
 
 type Ctx = {
   state: AppState;
@@ -25,10 +42,11 @@ type Ctx = {
   resetSeed: () => void;
   exportJson: () => string;
   importJson: (raw: string) => void;
-  createProject: (name: string, material?: Material) => void;
+  createProject: (name: string, material?: Material, customerMode?: CustomerModeId) => void;
   renameProject: (id: string, name: string) => void;
   selectProject: (id: string) => void;
   setProjectMaterial: (id: string, material: Material) => void;
+  setProjectCustomerMode: (id: string, mode: CustomerModeId) => void;
   updateProjectLessOff: (id: string, widthMm: number | null, heightMm: number | null) => void;
   refreshSiteMeasureNets: () => void;
 };
@@ -50,12 +68,13 @@ function normalizeSiteMeasures(state: AppState): AppState {
 }
 
 function normalizeMasters(state: AppState): AppState {
-  const seriesById = new Map(state.series.map((s) => [s.id, s]));
+  const series = state.series.map((s) => ensureSeriesHardwareDefaults(s));
+  const seriesById = new Map(series.map((s) => [s.id, s]));
   const windowTypes = state.windowTypes.map((t) => {
-    const series = t.seriesId ? seriesById.get(t.seriesId) : undefined;
+    const seriesHit = t.seriesId ? seriesById.get(t.seriesId) : undefined;
     return {
       ...t,
-      kind: t.kind ?? inferWindowKind(t.name, series),
+      kind: t.kind ?? inferWindowKind(t.name, seriesHit),
     };
   });
   const profiles = state.profiles.map((p) => {
@@ -72,9 +91,36 @@ function normalizeMasters(state: AppState): AppState {
           : 'other');
     return { ...p, material, kind };
   });
+  const hardware = state.hardware.map((h) => ({
+    ...h,
+    hardwareClass: h.hardwareClass ?? inferHardwareClass(h.name, h.category),
+  }));
+  const c = state.casement;
+  const casement = {
+    ...c,
+    doorLeaves: c.doorLeaves ?? 0,
+    frictionStaySizeMm: c.frictionStaySizeMm ?? 305,
+    frictionStaySetsPerOpenable: c.frictionStaySetsPerOpenable ?? 1,
+    hingeQty: c.hingeQty ?? 0,
+    hingeRate: c.hingeRate ?? 0,
+    doorConnectorQty: c.doorConnectorQty ?? 0,
+    doorConnectorRate: c.doorConnectorRate ?? 0,
+    laminationArmSizeMm: c.laminationArmSizeMm ?? 200,
+    laminationArmRate: c.laminationArmRate ?? 0,
+    lockGuideRate: c.lockGuideRate ?? 0,
+    brushRate: c.brushRate ?? 0,
+    epdmRate: c.epdmRate ?? 0,
+    lockRate: c.lockRate ?? 0,
+    doorCloserRate: c.doorCloserRate ?? 0,
+    floorSpringRate: c.floorSpringRate ?? 0,
+    doorSetRate: c.doorSetRate ?? 0,
+    swingHandleRate: c.swingHandleRate ?? 0,
+    swingLockRate: c.swingLockRate ?? 0,
+  };
   const projects = state.projects.map((p) => ({
     ...p,
     material: p.material ?? 'UPVC',
+    customerMode: p.customerMode ?? 'home-owner',
     lessOffWidthMm: p.lessOffWidthMm ?? null,
     lessOffHeightMm: p.lessOffHeightMm ?? null,
   }));
@@ -83,7 +129,7 @@ function normalizeMasters(state: AppState): AppState {
     lessOffAluWidthMm: state.allowances.lessOffAluWidthMm ?? 5,
     lessOffAluHeightMm: state.allowances.lessOffAluHeightMm ?? 5,
   };
-  return { ...state, windowTypes, profiles, projects, allowances };
+  return { ...state, series, windowTypes, profiles, hardware, casement, projects, allowances };
 }
 
 function mergeLoaded(parsed: Partial<AppState>): AppState {
@@ -157,6 +203,7 @@ function migrateLegacy(raw: string): AppState | null {
               name: parsed.jobMeta?.jobLabel || 'Migrated job',
               createdAt: new Date().toISOString().slice(0, 10),
               material: 'UPVC' as Material,
+              customerMode: 'home-owner' as CustomerModeId,
               lessOffWidthMm: null,
               lessOffHeightMm: null,
             },
@@ -176,6 +223,12 @@ function migrateLegacy(raw: string): AppState | null {
           parsed.allowances?.lessOffAluHeightMm ?? seed.allowances.lessOffAluHeightMm,
       },
     };
+    if (withProject.projects) {
+      withProject.projects = withProject.projects.map((p) => ({
+        ...p,
+        customerMode: p.customerMode ?? 'home-owner',
+      }));
+    }
     return mergeLoaded(withProject);
   } catch {
     return null;
@@ -186,7 +239,7 @@ function load(): AppState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return mergeLoaded(JSON.parse(raw) as Partial<AppState>);
-    for (const key of [LEGACY_V2, LEGACY_V1]) {
+    for (const key of [LEGACY_V3, LEGACY_V2, LEGACY_V1]) {
       const legacy = localStorage.getItem(key);
       if (legacy) {
         const migrated = migrateLegacy(legacy);
@@ -261,7 +314,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  const createProject = useCallback((name: string, material: Material = 'UPVC') => {
+  const createProject = useCallback(
+    (name: string, material: Material = 'UPVC', customerMode: CustomerModeId = 'home-owner') => {
     setState((s) => {
       const bags: Record<string, ProjectJobData> = {
         ...s.projectBags,
@@ -273,6 +327,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         name: name.trim() || `Project ${s.projects.length + 1}`,
         createdAt: new Date().toISOString().slice(0, 10),
         material,
+        customerMode,
         lessOffWidthMm: null,
         lessOffHeightMm: null,
       };
@@ -290,12 +345,21 @@ export function AppProvider({ children }: { children: ReactNode }) {
       bags[id] = extractProjectJob(next);
       return normalizeSiteMeasures({ ...next, projectBags: bags });
     });
-  }, []);
+  },
+  [],
+  );
 
   const renameProject = useCallback((id: string, name: string) => {
     setState((s) => ({
       ...s,
       projects: s.projects.map((p) => (p.id === id ? { ...p, name: name.trim() || p.name } : p)),
+    }));
+  }, []);
+
+  const setProjectCustomerMode = useCallback((id: string, mode: CustomerModeId) => {
+    setState((s) => ({
+      ...s,
+      projects: s.projects.map((p) => (p.id === id ? { ...p, customerMode: mode } : p)),
     }));
   }, []);
 
@@ -348,6 +412,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       renameProject,
       selectProject,
       setProjectMaterial,
+      setProjectCustomerMode,
       updateProjectLessOff,
       refreshSiteMeasureNets,
     }),
@@ -361,6 +426,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       renameProject,
       selectProject,
       setProjectMaterial,
+      setProjectCustomerMode,
       updateProjectLessOff,
       refreshSiteMeasureNets,
     ],

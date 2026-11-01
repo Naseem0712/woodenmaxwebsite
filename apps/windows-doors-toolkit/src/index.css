@@ -182,6 +182,16 @@ table.data tr.row-warn { background: #fff7ed; }
 .success { color: #047857; font-weight: 600; }
 .warn { color: #b45309; font-weight: 600; }
 .danger { color: var(--danger); font-weight: 600; }
+.banner-warn {
+  margin-top: 0.75rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #f59e0b;
+  background: #fffbeb;
+  color: #92400e;
+  font-size: 0.88rem;
+  line-height: 1.35;
+}
 
 .quote-letterhead {
   display: flex; justify-content: space-between; gap: 1rem;

@@ -37,24 +37,44 @@ Use the **Project** bar at the top of every page:
 
 - **Select** a project — openings, site measures, cutting, quote, leads, etc. switch with it (no mixed job data).
 - **Material (UPVC / Aluminium)** — locks the whole job. Series, window types, profiles, cutting stock, and Tools 02/03 only show that material. Switching material realigns sliding/casement to a matching series.
-- **Rename** / **+ New** — create empty job bags (pick material for the new job) while keeping global Settings masters.
+- **Mode (customer type)** — starting list: **Home owner** and **Architects** (extensible later). Mode shapes labels / quote presentation only — **never** embeds shop rates. Rates stay Settings-driven.
+- **Rename** / **+ New** — create empty job bags (pick material + mode for the new job) while keeping global Settings masters.
 - **Less-off W/H** on the bar — optional project override of Settings less-off for the project’s material (clear with **Use Settings**).
 
 **Global (shared):** Business, Allowances, Series, Window types, Glass, Hardware, Profiles catalogue, **Series stock**.  
-**Per project:** Material lock, Leads, Site Measure, Openings, costing jobs, Cutting, Quote, Mesh, Labour, Builder, etc.
+**Per project:** Material lock, customer mode, Leads, Site Measure, Openings, costing jobs, Cutting, Quote, Mesh, Labour, Builder, etc.
 
 **Exception:** Tool **09 Compare** still shows UPVC vs Aluminium side-by-side on purpose.
 
-Screenshots: `media/toolkit-material-switcher.png`, `media/toolkit-filtered-sliding-series.png`, `media/toolkit-stock-material-filter.png`.
+Screenshots: `media/toolkit-material-switcher.png`, `media/toolkit-project-mode.png`, `media/toolkit-filtered-sliding-series.png`, `media/toolkit-stock-material-filter.png`, `media/toolkit-series-casement-hardware.png`, `media/toolkit-series-name-kind-warn.png`.
 
 ---
 
 ## Material × class isolation
 
 - **Do not mix UPVC and Aluminium** on one project. Masters stay global; dropdowns filter by the project material.
-- **Class isolation:** Tool 02 Sliding only lists sliding/door series; Tool 03 Casement only lists casement series — for both materials.
+- **Class isolation:** Tool 02 Sliding lists **sliding** series only; Tool 03 Casement lists **casement + door** series — for both materials.
 - Window types and profile SKUs carry **material + kind** so Settings and tools stay grouped (sliding under sliding, casement under casement).
 - Sample seeds include UPVC Series A/B and Aluminium Series C/D plus a second Aluminium sample project.
+
+---
+
+## Series hardware by Kind (no sliding ↔ casement mix)
+
+**Settings → Series** header shows **only** hardware for the selected Kind:
+
+| Kind | Shown | Hidden |
+|------|--------|--------|
+| **sliding** | Tracks, glass shutters, rollers, sliding lock/handle | Friction stay, hinges, door connectors, swing door set |
+| **casement** | Panels/openable, friction stay (size mm), hinges, connectors, lamination arm, lock guide / brush / EPDM / lock / closer | Rollers, tracks, sliding lock sets |
+| **door** | Casement-style openable hardware **plus** swing: floor spring, door set, swing handle/lock | Sliding rollers |
+
+- **Friction stay:** 1 set = **2 pc** per openable/door. Size options (inches → mm): 6→152, 8→203, 10→254, 12→305, 14→356, 16→406, 18→457, 20→508, 24→610, 30→762. Size catalogue ₹ edited in Settings; job picks size.
+- **Hinges:** qty by weight need; ₹/pc from series master.
+- **Door connector:** default **4 pc per door**; ₹/pc.
+- **Lamination arm:** sizes **150 / 200 / 250 / 305 mm**; ₹ by size catalogue.
+- **Name vs Kind warn:** e.g. name contains “Sliding” / “PS” while Kind=casement → yellow banner (rename or change Kind). Hardware still stays casement-only.
+- Hardware catalogue items carry a **class** (sliding / casement / door / shared).
 
 ---
 

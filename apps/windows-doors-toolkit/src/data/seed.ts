@@ -1,5 +1,16 @@
 import { v4 as uid } from 'uuid';
-import type { AppState, SeriesDefinition, SeriesKind, WindowType } from '../types';
+import {
+  defaultFrictionStayRates,
+  defaultLaminationArmRates,
+} from '../engine/hardwareKind';
+import type {
+  AppState,
+  HardwareClass,
+  HardwareItem,
+  SeriesDefinition,
+  SeriesKind,
+  WindowType,
+} from '../types';
 
 const wt = (
   name: string,
@@ -9,6 +20,65 @@ const wt = (
   note: string,
   seriesId?: string,
 ): WindowType => ({ id: uid(), name, material, kind, ratePerSqft, note, seriesId });
+
+const hw = (
+  name: string,
+  category: string,
+  unit: string,
+  rate: number,
+  hardwareClass: HardwareClass,
+): HardwareItem => ({ id: uid(), name, category, unit, rate, hardwareClass });
+
+type CasementHwSeed = Pick<
+  SeriesDefinition,
+  | 'frictionStaySizeMm'
+  | 'frictionStayRates'
+  | 'frictionStaySetsPerOpenable'
+  | 'frictionStayRate'
+  | 'hingeQtyPerOpenable'
+  | 'hingeRate'
+  | 'doorConnectorQtyPerDoor'
+  | 'doorConnectorRate'
+  | 'laminationArmSizeMm'
+  | 'laminationArmRates'
+  | 'lockGuideRate'
+  | 'brushRate'
+  | 'epdmRate'
+  | 'lockRate'
+  | 'doorCloserRate'
+  | 'floorSpringRate'
+  | 'doorSetRate'
+  | 'swingHandleRate'
+  | 'swingLockRate'
+>;
+
+/** Shared casement/door hardware master defaults (sample ₹ only). */
+function casementHwDefaults(overrides: Partial<CasementHwSeed> = {}): CasementHwSeed {
+  const frictionStayRates = defaultFrictionStayRates();
+  const stay305 = frictionStayRates.find((r) => r.sizeMm === 305)?.rate ?? 320;
+  return {
+    frictionStaySizeMm: 305,
+    frictionStayRates,
+    frictionStaySetsPerOpenable: 1,
+    frictionStayRate: stay305,
+    hingeQtyPerOpenable: 2,
+    hingeRate: 180,
+    doorConnectorQtyPerDoor: 4,
+    doorConnectorRate: 45,
+    laminationArmSizeMm: 200,
+    laminationArmRates: defaultLaminationArmRates(),
+    lockGuideRate: 35,
+    brushRate: 8,
+    epdmRate: 12,
+    lockRate: 450,
+    doorCloserRate: 0,
+    floorSpringRate: 0,
+    doorSetRate: 0,
+    swingHandleRate: 0,
+    swingLockRate: 0,
+    ...overrides,
+  };
+}
 
 function slidingSeriesUpvc(): SeriesDefinition {
   return {
@@ -25,11 +95,19 @@ function slidingSeriesUpvc(): SeriesDefinition {
     rollerRate: 60,
     lockHandleSet: 350,
     otherHardware: 120,
-    frictionStayRate: 320,
-    handleRate: 250,
+    handleRate: 120,
     meshAreaShare: 0.5,
     meshNetPerSqft: 40,
     note: 'Sample Series A — UPVC 2/3 track sliding (generic)',
+    ...casementHwDefaults({
+      frictionStayRate: 0,
+      hingeRate: 0,
+      doorConnectorRate: 0,
+      lockGuideRate: 0,
+      brushRate: 0,
+      epdmRate: 0,
+      lockRate: 0,
+    }),
     members: [
       { id: uid(), name: 'Outer frame 2-track', memberClass: '2-track', wFactor: 2, hFactor: 2, ratePerM: 260 },
       { id: uid(), name: 'Outer frame 3-track', memberClass: '3-track', wFactor: 2, hFactor: 2, ratePerM: 340 },
@@ -60,11 +138,11 @@ function casementSeriesUpvc(): SeriesDefinition {
     rollerRate: 0,
     lockHandleSet: 0,
     otherHardware: 150,
-    frictionStayRate: 320,
     handleRate: 250,
     meshAreaShare: 0.4,
     meshNetPerSqft: 40,
     note: 'Sample Series B — UPVC casement / openable (generic)',
+    ...casementHwDefaults(),
     members: [
       { id: uid(), name: 'Outer frame', memberClass: 'Window', wFactor: 2, hFactor: 2, ratePerM: 340 },
       { id: uid(), name: 'Mullion', memberClass: 'Mullion', wFactor: 0, hFactor: 1, ratePerM: 260 },
@@ -94,11 +172,19 @@ function slidingSeriesAlu(): SeriesDefinition {
     rollerRate: 55,
     lockHandleSet: 280,
     otherHardware: 100,
-    frictionStayRate: 0,
     handleRate: 120,
     meshAreaShare: 0.5,
     meshNetPerSqft: 35,
     note: 'Sample Series C — Aluminium 2/3 track sliding (generic)',
+    ...casementHwDefaults({
+      frictionStayRate: 0,
+      hingeRate: 0,
+      doorConnectorRate: 0,
+      lockGuideRate: 0,
+      brushRate: 0,
+      epdmRate: 0,
+      lockRate: 0,
+    }),
     members: [
       { id: uid(), name: 'Outer frame 2-track', memberClass: '2-track', wFactor: 2, hFactor: 2, ratePerM: 180 },
       { id: uid(), name: 'Outer frame 3-track', memberClass: '3-track', wFactor: 2, hFactor: 2, ratePerM: 220 },
@@ -112,6 +198,10 @@ function slidingSeriesAlu(): SeriesDefinition {
 }
 
 function casementSeriesAlu(): SeriesDefinition {
+  const frictionStayRates = defaultFrictionStayRates().map((r) => ({
+    ...r,
+    rate: Math.round(r.rate * 1.15),
+  }));
   return {
     id: 'series-d-45-alu-casement',
     name: 'Series D 45 mm Alu Casement',
@@ -126,11 +216,16 @@ function casementSeriesAlu(): SeriesDefinition {
     rollerRate: 0,
     lockHandleSet: 0,
     otherHardware: 120,
-    frictionStayRate: 380,
     handleRate: 220,
     meshAreaShare: 0.4,
     meshNetPerSqft: 35,
     note: 'Sample Series D — Aluminium casement / openable (generic)',
+    ...casementHwDefaults({
+      frictionStayRates,
+      frictionStayRate: frictionStayRates.find((r) => r.sizeMm === 305)?.rate ?? 380,
+      hingeRate: 220,
+      doorConnectorRate: 55,
+    }),
     members: [
       { id: uid(), name: 'Outer frame', memberClass: 'Window', wFactor: 2, hFactor: 2, ratePerM: 200 },
       { id: uid(), name: 'Mullion', memberClass: 'Mullion', wFactor: 0, hFactor: 1, ratePerM: 160 },
@@ -176,24 +271,33 @@ export function createSeedState(): AppState {
   ];
 
   const hardware = [
-    { id: uid(), name: 'Sliding roller', category: 'Rollers', unit: 'pc', rate: 60 },
-    { id: uid(), name: 'Mesh roller', category: 'Rollers', unit: 'pc', rate: 45 },
-    { id: uid(), name: 'Touch lock for sliding', category: 'Locks', unit: 'pc', rate: 180 },
-    { id: uid(), name: 'Crescent lock', category: 'Locks', unit: 'pc', rate: 150 },
-    { id: uid(), name: 'Multipoint lock with handle', category: 'Locks', unit: 'pc', rate: 1800 },
-    { id: uid(), name: 'Sliding handle', category: 'Handles', unit: 'pc', rate: 120 },
-    { id: uid(), name: 'Casement handle', category: 'Handles', unit: 'pc', rate: 250 },
-    { id: uid(), name: 'Friction stay pair', category: 'Hinges', unit: 'pc', rate: 320 },
-    { id: uid(), name: 'Door hinge, adjustable', category: 'Hinges', unit: 'pc', rate: 450 },
-    { id: uid(), name: 'Tilt and turn fitting set', category: 'Hinges', unit: 'set', rate: 2600 },
-    { id: uid(), name: 'Wool pile brush', category: 'Seals', unit: 'm', rate: 8 },
-    { id: uid(), name: 'EPDM gasket', category: 'Seals', unit: 'm', rate: 12 },
-    { id: uid(), name: 'Drain cap', category: 'Accessories', unit: 'pc', rate: 8 },
-    { id: uid(), name: 'End cap set', category: 'Accessories', unit: 'set', rate: 40 },
-    { id: uid(), name: 'Anti-lift block', category: 'Accessories', unit: 'pc', rate: 15 },
-    { id: uid(), name: 'Glazing packer set', category: 'Accessories', unit: 'set', rate: 25 },
-    { id: uid(), name: 'Silicone sealant tube', category: 'Consumables', unit: 'pc', rate: 180 },
-    { id: uid(), name: 'Fastener and anchor set', category: 'Consumables', unit: 'set', rate: 60 },
+    hw('Sliding roller', 'Rollers', 'pc', 60, 'sliding'),
+    hw('Mesh roller', 'Rollers', 'pc', 45, 'sliding'),
+    hw('Touch lock for sliding', 'Locks', 'pc', 180, 'sliding'),
+    hw('Crescent lock', 'Locks', 'pc', 150, 'sliding'),
+    hw('Sliding handle', 'Handles', 'pc', 120, 'sliding'),
+    hw('Anti-lift block', 'Accessories', 'pc', 15, 'sliding'),
+    hw('Multipoint lock with handle', 'Locks', 'pc', 1800, 'casement'),
+    hw('Casement handle', 'Handles', 'pc', 250, 'casement'),
+    hw('Friction stay set (2 pc)', 'Friction stay', 'set', 320, 'casement'),
+    hw('Casement hinge', 'Hinges', 'pc', 180, 'casement'),
+    hw('Door hinge, adjustable', 'Hinges', 'pc', 450, 'door'),
+    hw('Door connector', 'Connectors', 'pc', 45, 'door'),
+    hw('Lamination arm 200 mm', 'Arms', 'pc', 110, 'casement'),
+    hw('Lock guide', 'Guides', 'pc', 35, 'casement'),
+    hw('Tilt and turn fitting set', 'Hinges', 'set', 2600, 'casement'),
+    hw('Floor spring', 'Swing', 'pc', 2800, 'door'),
+    hw('Door set (frame kit)', 'Swing', 'set', 1200, 'door'),
+    hw('Swing door handle', 'Handles', 'pc', 650, 'door'),
+    hw('Swing door lock', 'Locks', 'pc', 900, 'door'),
+    hw('Door closer', 'Closers', 'pc', 1100, 'door'),
+    hw('Wool pile brush', 'Seals', 'm', 8, 'shared'),
+    hw('EPDM gasket', 'Seals', 'm', 12, 'shared'),
+    hw('Drain cap', 'Accessories', 'pc', 8, 'shared'),
+    hw('End cap set', 'Accessories', 'set', 40, 'shared'),
+    hw('Glazing packer set', 'Accessories', 'set', 25, 'shared'),
+    hw('Silicone sealant tube', 'Consumables', 'pc', 180, 'shared'),
+    hw('Fastener and anchor set', 'Consumables', 'set', 60, 'shared'),
   ];
 
   const profiles = [
@@ -223,11 +327,12 @@ export function createSeedState(): AppState {
     { id: uid(), windowTypeId: typeByName('UPVC 3-track sliding').id, hardwareItemId: hwByName('Sliding roller').id, qtyPerWindow: 4 },
     { id: uid(), windowTypeId: typeByName('UPVC 3-track sliding').id, hardwareItemId: hwByName('Mesh roller').id, qtyPerWindow: 2 },
     { id: uid(), windowTypeId: typeByName('UPVC 3-track sliding').id, hardwareItemId: hwByName('Touch lock for sliding').id, qtyPerWindow: 1 },
-    { id: uid(), windowTypeId: typeByName('UPVC casement').id, hardwareItemId: hwByName('Friction stay pair').id, qtyPerWindow: 1 },
+    { id: uid(), windowTypeId: typeByName('UPVC casement').id, hardwareItemId: hwByName('Friction stay set (2 pc)').id, qtyPerWindow: 1 },
     { id: uid(), windowTypeId: typeByName('UPVC casement').id, hardwareItemId: hwByName('Casement handle').id, qtyPerWindow: 1 },
-    { id: uid(), windowTypeId: typeByName('UPVC ventilator').id, hardwareItemId: hwByName('Friction stay pair').id, qtyPerWindow: 1 },
+    { id: uid(), windowTypeId: typeByName('UPVC casement').id, hardwareItemId: hwByName('Casement hinge').id, qtyPerWindow: 2 },
+    { id: uid(), windowTypeId: typeByName('UPVC ventilator').id, hardwareItemId: hwByName('Friction stay set (2 pc)').id, qtyPerWindow: 1 },
     { id: uid(), windowTypeId: typeByName('Aluminium 2-track sliding').id, hardwareItemId: hwByName('Sliding roller').id, qtyPerWindow: 4 },
-    { id: uid(), windowTypeId: typeByName('Aluminium casement').id, hardwareItemId: hwByName('Friction stay pair').id, qtyPerWindow: 1 },
+    { id: uid(), windowTypeId: typeByName('Aluminium casement').id, hardwareItemId: hwByName('Friction stay set (2 pc)').id, qtyPerWindow: 1 },
   ];
 
   // Sample villa = UPVC only (material isolation). Aluminium types stay in masters for Al projects.
@@ -367,13 +472,31 @@ export function createSeedState(): AppState {
       material: 'UPVC',
       panels: 2,
       openablePanels: 1,
+      doorLeaves: 0,
       mesh: 'No',
       widthMm: 1200,
       heightMm: 1200,
       qty: 2,
       glassTypeId: clearGlass.id,
       glassInsetMm: 70,
-      frictionStayRate: 320,
+      frictionStaySizeMm: 305,
+      frictionStayRate: seriesB.frictionStayRate,
+      frictionStaySetsPerOpenable: 1,
+      hingeQty: 2,
+      hingeRate: seriesB.hingeRate,
+      doorConnectorQty: 0,
+      doorConnectorRate: seriesB.doorConnectorRate,
+      laminationArmSizeMm: 200,
+      laminationArmRate: seriesB.laminationArmRates.find((r) => r.sizeMm === 200)?.rate ?? 110,
+      lockGuideRate: seriesB.lockGuideRate,
+      brushRate: seriesB.brushRate,
+      epdmRate: seriesB.epdmRate,
+      lockRate: seriesB.lockRate,
+      doorCloserRate: 0,
+      floorSpringRate: 0,
+      doorSetRate: 0,
+      swingHandleRate: 0,
+      swingLockRate: 0,
       handleRate: 250,
       otherHardware: 150,
       meshAreaShare: 0.4,
@@ -576,6 +699,7 @@ export function createSeedState(): AppState {
         name: 'Sample villa — Hyderabad',
         createdAt: today,
         material: 'UPVC',
+        customerMode: 'home-owner',
         lessOffWidthMm: null,
         lessOffHeightMm: null,
       },
@@ -584,6 +708,7 @@ export function createSeedState(): AppState {
         name: 'Aluminium office sample',
         createdAt: today,
         material: 'Aluminium',
+        customerMode: 'architects',
         lessOffWidthMm: null,
         lessOffHeightMm: null,
       },

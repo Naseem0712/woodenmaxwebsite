@@ -1,5 +1,10 @@
 import { CalcBox, Card, Field, Input, Money, Num, PageHeader, Select } from '../components/ui';
 import { applySeriesToCasement, calcCasement } from '../engine/calcs';
+import {
+  ensureSeriesHardwareDefaults,
+  frictionStayLabel,
+  rateForSize,
+} from '../engine/hardwareKind';
 import { projectMaterial, seriesForTool } from '../engine/materialContext';
 import { useApp } from '../store/AppContext';
 
@@ -9,6 +14,9 @@ export function CasementPage() {
   const result = calcCasement(state);
   const material = projectMaterial(state);
   const seriesList = seriesForTool(state, 'casement');
+  const series = state.series.find((s) => s.id === job.seriesId);
+  const seriesHw = series ? ensureSeriesHardwareDefaults(series) : undefined;
+  const isDoor = series?.kind === 'door';
 
   const set = <K extends keyof typeof job>(key: K, value: (typeof job)[K]) => {
     patch('casement', { ...job, [key]: value });
@@ -18,12 +26,12 @@ export function CasementPage() {
     <div>
       <PageHeader
         title="03 Casement Window"
-        subtitle={`Project material: ${material}. Casement series only — never mixes sliding or the other material.`}
+        subtitle={`Project material: ${material}. Casement/door series only — friction stay, hinges, connectors. Never rollers or sliding locks.`}
         badge={material}
       />
       <Card title="Configuration">
         <div className="grid grid-4">
-          <Field label="Series" hint={`${material} · casement`}>
+          <Field label="Series" hint={`${material} · casement / door`}>
             <Select
               value={job.seriesId}
               onChange={(e) => {
@@ -36,7 +44,7 @@ export function CasementPage() {
               ) : null}
               {seriesList.map((s) => (
                 <option key={s.id} value={s.id}>
-                  {s.name}
+                  {s.name} ({s.kind})
                 </option>
               ))}
             </Select>
@@ -54,6 +62,15 @@ export function CasementPage() {
               onChange={(e) => set('openablePanels', Number(e.target.value))}
             />
           </Field>
+          {isDoor ? (
+            <Field label="Door leaves" hint="Connectors use 4 pc × leaves">
+              <Input
+                type="number"
+                value={job.doorLeaves || job.openablePanels}
+                onChange={(e) => set('doorLeaves', Number(e.target.value))}
+              />
+            </Field>
+          ) : null}
           <Field label="Mesh?">
             <Select value={job.mesh} onChange={(e) => set('mesh', e.target.value as 'Yes' | 'No')}>
               <option>No</option>
@@ -84,15 +101,125 @@ export function CasementPage() {
           <Field label="Inset mm">
             <Input type="number" value={job.glassInsetMm} onChange={(e) => set('glassInsetMm', Number(e.target.value))} />
           </Field>
-          <Field label="Friction stay rate">
+        </div>
+      </Card>
+
+      <Card title="Casement hardware (no sliding rollers)">
+        <div className="grid grid-4">
+          <Field label="Friction stay size" hint="1 set = 2 pc per openable">
+            <Select
+              value={job.frictionStaySizeMm ?? seriesHw?.frictionStaySizeMm ?? 305}
+              onChange={(e) => {
+                const sizeMm = Number(e.target.value);
+                const rate = rateForSize(
+                  seriesHw?.frictionStayRates,
+                  sizeMm,
+                  job.frictionStayRate,
+                );
+                patch('casement', {
+                  ...job,
+                  frictionStaySizeMm: sizeMm,
+                  frictionStayRate: rate,
+                });
+              }}
+            >
+              {(seriesHw?.frictionStayRates ?? []).map((r) => (
+                <option key={r.sizeMm} value={r.sizeMm}>
+                  {r.label ?? frictionStayLabel(r.sizeMm)}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <Field label="Friction stay ₹ / set" tone="link">
+            <Input tone="link" readOnly value={job.frictionStayRate} />
+          </Field>
+          <Field label="Sets per openable">
             <Input
               type="number"
-              value={job.frictionStayRate}
-              onChange={(e) => set('frictionStayRate', Number(e.target.value))}
+              value={job.frictionStaySetsPerOpenable ?? 1}
+              onChange={(e) => set('frictionStaySetsPerOpenable', Number(e.target.value))}
             />
           </Field>
-          <Field label="Handle rate">
+          <Field label="Handle ₹">
             <Input type="number" value={job.handleRate} onChange={(e) => set('handleRate', Number(e.target.value))} />
+          </Field>
+          <Field label="Hinge qty" hint="By weight need">
+            <Input
+              type="number"
+              value={job.hingeQty ?? 0}
+              onChange={(e) => set('hingeQty', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Hinge ₹ / pc">
+            <Input
+              type="number"
+              value={job.hingeRate ?? 0}
+              onChange={(e) => set('hingeRate', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Door connector qty" hint="Usually 4 per door">
+            <Input
+              type="number"
+              value={job.doorConnectorQty ?? 0}
+              onChange={(e) => set('doorConnectorQty', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Door connector ₹ / pc">
+            <Input
+              type="number"
+              value={job.doorConnectorRate ?? 0}
+              onChange={(e) => set('doorConnectorRate', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Lamination arm size">
+            <Select
+              value={job.laminationArmSizeMm ?? seriesHw?.laminationArmSizeMm ?? 200}
+              onChange={(e) => {
+                const sizeMm = Number(e.target.value);
+                patch('casement', {
+                  ...job,
+                  laminationArmSizeMm: sizeMm,
+                  laminationArmRate: rateForSize(seriesHw?.laminationArmRates, sizeMm, 0),
+                });
+              }}
+            >
+              {(seriesHw?.laminationArmRates ?? []).map((r) => (
+                <option key={r.sizeMm} value={r.sizeMm}>
+                  {r.label ?? `${r.sizeMm} mm`}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <Field label="Lamination arm ₹" tone="link">
+            <Input tone="link" readOnly value={job.laminationArmRate ?? 0} />
+          </Field>
+          <Field label="Lock guide ₹">
+            <Input
+              type="number"
+              value={job.lockGuideRate ?? 0}
+              onChange={(e) => set('lockGuideRate', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Brush ₹">
+            <Input
+              type="number"
+              value={job.brushRate ?? 0}
+              onChange={(e) => set('brushRate', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="EPDM ₹">
+            <Input
+              type="number"
+              value={job.epdmRate ?? 0}
+              onChange={(e) => set('epdmRate', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Lock ₹">
+            <Input
+              type="number"
+              value={job.lockRate ?? 0}
+              onChange={(e) => set('lockRate', Number(e.target.value))}
+            />
           </Field>
           <Field label="Other hardware">
             <Input
@@ -120,6 +247,45 @@ export function CasementPage() {
             />
           </Field>
         </div>
+        {isDoor ? (
+          <div className="grid grid-4" style={{ marginTop: '0.75rem' }}>
+            <Field label="Floor spring ₹">
+              <Input
+                type="number"
+                value={job.floorSpringRate ?? 0}
+                onChange={(e) => set('floorSpringRate', Number(e.target.value))}
+              />
+            </Field>
+            <Field label="Door set ₹">
+              <Input
+                type="number"
+                value={job.doorSetRate ?? 0}
+                onChange={(e) => set('doorSetRate', Number(e.target.value))}
+              />
+            </Field>
+            <Field label="Swing handle ₹">
+              <Input
+                type="number"
+                value={job.swingHandleRate ?? 0}
+                onChange={(e) => set('swingHandleRate', Number(e.target.value))}
+              />
+            </Field>
+            <Field label="Swing lock ₹">
+              <Input
+                type="number"
+                value={job.swingLockRate ?? 0}
+                onChange={(e) => set('swingLockRate', Number(e.target.value))}
+              />
+            </Field>
+            <Field label="Door closer ₹">
+              <Input
+                type="number"
+                value={job.doorCloserRate ?? 0}
+                onChange={(e) => set('doorCloserRate', Number(e.target.value))}
+              />
+            </Field>
+          </div>
+        ) : null}
       </Card>
 
       <div className="grid grid-4" style={{ marginBottom: '1rem' }}>
@@ -128,6 +294,9 @@ export function CasementPage() {
         </CalcBox>
         <CalcBox label="Profile cost">
           <Money n={result.profileCost} />
+        </CalcBox>
+        <CalcBox label="Hardware / window">
+          <Money n={result.hardware} />
         </CalcBox>
         <CalcBox label="Cost / window">
           <Money n={result.costPerWindow} />
