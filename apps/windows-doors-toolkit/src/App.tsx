@@ -2,7 +2,9 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { CasementPage } from './pages/Casement';
 import { HomePage } from './pages/Home';
+import { LeadsPage } from './pages/Leads';
 import { OpeningsPage } from './pages/Openings';
+import { SiteMeasurePage } from './pages/SiteMeasure';
 import { SlidingPage } from './pages/Sliding';
 import {
   BuilderPage,
@@ -36,6 +38,8 @@ export default function App() {
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
+            <Route path="leads" element={<LeadsPage />} />
+            <Route path="site-measure" element={<SiteMeasurePage />} />
             <Route path="openings" element={<OpeningsPage />} />
             <Route path="sliding" element={<SlidingPage />} />
             <Route path="casement" element={<CasementPage />} />

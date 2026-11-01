@@ -23,10 +23,42 @@ type Ctx = {
 
 const AppCtx = createContext<Ctx | null>(null);
 
+function mergeLoaded(parsed: Partial<AppState>): AppState {
+  const seed = createSeedState();
+  return {
+    ...seed,
+    ...parsed,
+    business: { ...seed.business, ...parsed.business },
+    allowances: { ...seed.allowances, ...parsed.allowances },
+    jobMeta: { ...seed.jobMeta, ...parsed.jobMeta },
+    quote: { ...seed.quote, ...parsed.quote },
+    labour: { ...seed.labour, ...parsed.labour },
+    marginExtras: { ...seed.marginExtras, ...parsed.marginExtras },
+    sliding: { ...seed.sliding, ...parsed.sliding },
+    casement: { ...seed.casement, ...parsed.casement },
+    windowTypes: parsed.windowTypes ?? seed.windowTypes,
+    series: parsed.series ?? seed.series,
+    glassTypes: parsed.glassTypes ?? seed.glassTypes,
+    hardware: parsed.hardware ?? seed.hardware,
+    profiles: parsed.profiles ?? seed.profiles,
+    hardwareBom: parsed.hardwareBom ?? seed.hardwareBom,
+    openings: parsed.openings ?? seed.openings,
+    leads: parsed.leads ?? seed.leads,
+    siteMeasures: parsed.siteMeasures ?? seed.siteMeasures,
+    doors: parsed.doors ?? seed.doors,
+    cuts: parsed.cuts ?? seed.cuts,
+    glassPanes: parsed.glassPanes ?? seed.glassPanes,
+    meshGrill: parsed.meshGrill ?? seed.meshGrill,
+    compare: parsed.compare ?? seed.compare,
+    builder: parsed.builder ?? seed.builder,
+    revisions: parsed.revisions ?? seed.revisions,
+  };
+}
+
 function load(): AppState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw) as AppState;
+    if (raw) return mergeLoaded(JSON.parse(raw) as Partial<AppState>);
   } catch {
     /* ignore */
   }
@@ -53,8 +85,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const exportJson = useCallback(() => JSON.stringify(state, null, 2), [state]);
 
   const importJson = useCallback((raw: string) => {
-    const parsed = JSON.parse(raw) as AppState;
-    setState(parsed);
+    const parsed = JSON.parse(raw) as Partial<AppState>;
+    setState(mergeLoaded(parsed));
   }, []);
 
   const value = useMemo(

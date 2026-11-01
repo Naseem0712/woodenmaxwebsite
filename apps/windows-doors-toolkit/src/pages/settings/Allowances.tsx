@@ -142,6 +142,31 @@ export function SettingsAllowancesPage() {
           </Field>
         </div>
       </Card>
+      <Card title="Site measure add-ons (sample seeds)">
+        <div className="grid grid-4">
+          <Field label="Mesh ₹/sqft" hint="Added when Mesh = Yes">
+            <Input
+              type="number"
+              value={a.meshPerSqft}
+              onChange={(e) => set('meshPerSqft', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Toughened extra ₹/sqft">
+            <Input
+              type="number"
+              value={a.toughenedExtraPerSqft}
+              onChange={(e) => set('toughenedExtraPerSqft', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Site install ₹/sqft" hint="On measured amount">
+            <Input
+              type="number"
+              value={a.siteInstallPerSqft}
+              onChange={(e) => set('siteInstallPerSqft', Number(e.target.value))}
+            />
+          </Field>
+        </div>
+      </Card>
     </div>
   );
 }

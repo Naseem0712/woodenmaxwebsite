@@ -50,6 +50,10 @@ export interface Allowances {
   installationLabourPerSqft: number;
   transportPerJob: number;
   siliconePerWindow: number;
+  /** Site-measure add-ons (Settings — sample seeds only) */
+  meshPerSqft: number;
+  toughenedExtraPerSqft: number;
+  siteInstallPerSqft: number;
 }
 
 export interface WindowType {
@@ -233,11 +237,53 @@ export interface LabourSettings {
 export interface QuoteExtras {
   discountAmount: number;
   advanceAmount: number;
+  /** When > 0, advance ₹ = grand × percent / 100 (yellow override still allowed) */
+  advancePercent: number;
+  validDays: number;
   notes: string;
   customerName: string;
   siteAddress: string;
   quoteNo: string;
   quoteDate: string;
+  phone: string;
+}
+
+export type LeadStatus = 'New' | 'Site visit' | 'Measured' | 'Quoted' | 'Won' | 'Lost';
+
+export interface Lead {
+  id: string;
+  leadNo: string;
+  date: string;
+  name: string;
+  phone: string;
+  area: string;
+  addressNote: string;
+  siteType: string;
+  source: string;
+  need: string;
+  windowTypeHint: string;
+  openingsCount: number;
+  status: LeadStatus;
+  followUpDate: string;
+  owner: string;
+  notes: string;
+}
+
+export interface SiteMeasureLine {
+  id: string;
+  measuredOn: string;
+  leadId: string;
+  location: string;
+  windowTypeId: string;
+  width: number;
+  height: number;
+  unit: Unit;
+  qty: number;
+  /** Selling ₹/sqft — seeded from window-type master, editable per line */
+  ratePerSqft: number;
+  mesh: YesNo;
+  toughened: YesNo;
+  measuredBy: string;
 }
 
 export interface CompareLine {
@@ -285,6 +331,8 @@ export interface AppState {
   hardwareBom: HardwareBomLine[];
   jobMeta: JobMeta;
   openings: OpeningLine[];
+  leads: Lead[];
+  siteMeasures: SiteMeasureLine[];
   sliding: SlidingJob;
   casement: CasementJob;
   doors: DoorLine[];

@@ -475,9 +475,48 @@ export function calcLabour(state: AppState) {
   return { fab, install, total: fab + install, openings };
 }
 
+export function calcSiteMeasure(state: AppState) {
+  const min = state.allowances.minChargeableSqft;
+  const meshRate = state.allowances.meshPerSqft;
+  const toughExtra = state.allowances.toughenedExtraPerSqft;
+  const install = state.allowances.siteInstallPerSqft;
+  const rows = state.siteMeasures.map((line) => {
+    const t = lookupWindowType(state.windowTypes, line.windowTypeId);
+    const lead = state.leads.find((l) => l.id === line.leadId);
+    const actualSqftUnit = toSqft(line.width, line.height, line.unit);
+    const chargeableEach = Math.max(actualSqftUnit, min);
+    const totalSqft = chargeableEach * line.qty;
+    const addOns =
+      install + (line.mesh === 'Yes' ? meshRate : 0) + (line.toughened === 'Yes' ? toughExtra : 0);
+    const effectiveRate = line.ratePerSqft + addOns;
+    const amount = Math.round(totalSqft * effectiveRate);
+    return {
+      line,
+      typeName: t?.name ?? '—',
+      material: t?.material ?? '—',
+      leadName: lead?.name ?? '—',
+      leadNo: lead?.leadNo ?? '—',
+      actualSqftUnit,
+      chargeableEach,
+      totalSqft,
+      addOns,
+      effectiveRate,
+      amount,
+    };
+  });
+  return {
+    rows,
+    totalQty: rows.reduce((s, r) => s + r.line.qty, 0),
+    totalSqft: rows.reduce((s, r) => s + r.totalSqft, 0),
+    totalAmount: rows.reduce((s, r) => s + r.amount, 0),
+  };
+}
+
 export function calcQuote(state: AppState) {
   const openings = calcOpenings(state);
   const mesh = calcMeshGrill(state);
+  const site = calcSiteMeasure(state);
+  // Quote schedule lines come from 01 Openings (site measure pushes into openings).
   const windowsSubtotal = openings.totalEstimate;
   const subBeforeDiscount = windowsSubtotal + mesh.mesh + mesh.grill;
   const afterDiscount = Math.max(0, subBeforeDiscount - state.quote.discountAmount);
@@ -485,16 +524,31 @@ export function calcQuote(state: AppState) {
     ? afterDiscount * (state.business.gstPercent / 100)
     : 0;
   const grand = afterDiscount + gst;
-  const balance = Math.max(0, grand - state.quote.advanceAmount);
+  const advanceFromPercent =
+    state.quote.advancePercent > 0 ? Math.round((grand * state.quote.advancePercent) / 100) : 0;
+  const advance =
+    state.quote.advancePercent > 0 ? advanceFromPercent : state.quote.advanceAmount;
+  const balance = Math.max(0, grand - advance);
+  let validTill = '';
+  if (state.quote.quoteDate && state.quote.validDays > 0) {
+    const d = new Date(state.quote.quoteDate);
+    d.setDate(d.getDate() + state.quote.validDays);
+    validTill = d.toISOString().slice(0, 10);
+  }
   return {
     openings,
     mesh,
+    site,
     windowsSubtotal,
+    measuredValue: site.totalAmount,
     subBeforeDiscount,
     afterDiscount,
     gst,
     grand,
+    advance,
+    advanceFromPercent,
     balance,
+    validTill,
   };
 }
 

@@ -1,5 +1,5 @@
 import { v4 as uid } from 'uuid';
-import { Btn, Card, Field, Input, Kpi, Money, Num, PageHeader } from '../components/ui';
+import { Btn, Card, Field, Input, Kpi, Money, Num, PageHeader, Toolbar } from '../components/ui';
 import {
   calcBuilder,
   calcCompare,
@@ -630,11 +630,33 @@ export function HardwarePage() {
 export function QuotePage() {
   const { state, patch } = useApp();
   const q = calcQuote(state);
+  const syncFromJob = () => {
+    patch('quote', {
+      ...state.quote,
+      customerName: state.jobMeta.customerName || state.quote.customerName,
+      siteAddress: state.jobMeta.siteAddress || state.quote.siteAddress,
+    });
+  };
   return (
     <div>
-      <PageHeader title="08 Quotation" subtitle="Schedule pulled from openings + mesh/grill − discount + optional GST." />
-      <Card title="Quote header">
-        <div className="grid grid-4">
+      <PageHeader
+        title="08 Quotation"
+        subtitle="Schedule from 01 Openings (+ mesh/grill). Discount, GST from Settings, advance % / ₹, printable A4."
+      />
+      <Card
+        title="Quote header"
+        actions={
+          <Toolbar>
+            <Btn variant="ghost" onClick={syncFromJob}>
+              Sync customer from job
+            </Btn>
+            <Btn variant="ghost" onClick={() => window.print()}>
+              Print quote
+            </Btn>
+          </Toolbar>
+        }
+      >
+        <div className="grid grid-4 no-print">
           <Field label="Quote no">
             <Input
               value={state.quote.quoteNo}
@@ -648,10 +670,26 @@ export function QuotePage() {
               onChange={(e) => patch('quote', { ...state.quote, quoteDate: e.target.value })}
             />
           </Field>
+          <Field label="Valid days">
+            <Input
+              type="number"
+              value={state.quote.validDays}
+              onChange={(e) => patch('quote', { ...state.quote, validDays: Number(e.target.value) })}
+            />
+          </Field>
+          <Field label="Valid till" tone="calc">
+            <Input tone="calc" readOnly value={q.validTill || '—'} />
+          </Field>
           <Field label="Customer">
             <Input
               value={state.quote.customerName}
               onChange={(e) => patch('quote', { ...state.quote, customerName: e.target.value })}
+            />
+          </Field>
+          <Field label="Phone">
+            <Input
+              value={state.quote.phone}
+              onChange={(e) => patch('quote', { ...state.quote, phone: e.target.value })}
             />
           </Field>
           <Field label="Site">
@@ -667,11 +705,26 @@ export function QuotePage() {
               onChange={(e) => patch('quote', { ...state.quote, discountAmount: Number(e.target.value) })}
             />
           </Field>
-          <Field label="Advance ₹">
+          <Field label="Advance %" hint="If > 0, overrides Advance ₹">
             <Input
               type="number"
-              value={state.quote.advanceAmount}
-              onChange={(e) => patch('quote', { ...state.quote, advanceAmount: Number(e.target.value) })}
+              value={state.quote.advancePercent}
+              onChange={(e) =>
+                patch('quote', { ...state.quote, advancePercent: Number(e.target.value) })
+              }
+            />
+          </Field>
+          <Field label="Advance ₹" hint={state.quote.advancePercent > 0 ? 'From %' : 'Manual'}>
+            <Input
+              type="number"
+              value={state.quote.advancePercent > 0 ? q.advance : state.quote.advanceAmount}
+              onChange={(e) =>
+                patch('quote', {
+                  ...state.quote,
+                  advancePercent: 0,
+                  advanceAmount: Number(e.target.value),
+                })
+              }
             />
           </Field>
           <Field label="Company" tone="link">
@@ -685,48 +738,95 @@ export function QuotePage() {
             />
           </Field>
         </div>
+        <Field label="Notes">
+          <Input
+            value={state.quote.notes}
+            onChange={(e) => patch('quote', { ...state.quote, notes: e.target.value })}
+          />
+        </Field>
       </Card>
-      <Card title="Schedule (from 01 Openings)">
-        <table className="data">
-          <thead>
-            <tr>
-              <th>Location</th>
-              <th>Type</th>
-              <th>Size</th>
-              <th>Chargeable</th>
-              <th>Rate</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {q.openings.rows.map((r) => (
-              <tr key={r.line.id}>
-                <td className="link-cell">{r.line.location}</td>
-                <td className="link-cell">{r.typeName}</td>
-                <td className="link-cell">
-                  {r.line.width} × {r.line.height} {state.allowances.unit}
-                </td>
-                <td className="calc">
-                  <Num n={r.chargeableSqft} />
-                </td>
-                <td className="link-cell">
-                  <Num n={r.rate} d={0} />
-                </td>
-                <td className="calc">
-                  <Money n={r.estimate} />
-                </td>
+
+      <div className="quote-print" id="quote-print">
+        <div className="quote-letterhead">
+          <div>
+            <h2>{state.business.companyName}</h2>
+            <p className="muted tiny">
+              {state.business.address}
+              {state.business.phone ? ` · ${state.business.phone}` : ''}
+              {state.business.email ? ` · ${state.business.email}` : ''}
+              {state.business.gstin ? ` · GSTIN ${state.business.gstin}` : ''}
+            </p>
+          </div>
+          <div className="quote-meta">
+            <strong>Quotation</strong>
+            <div>
+              {state.quote.quoteNo} · {state.quote.quoteDate}
+            </div>
+            <div className="tiny muted">Valid till {q.validTill || '—'}</div>
+          </div>
+        </div>
+        <div className="quote-party grid grid-2">
+          <div>
+            <div className="tiny muted">Customer</div>
+            <strong>{state.quote.customerName || '—'}</strong>
+            <div className="tiny">{state.quote.phone}</div>
+          </div>
+          <div>
+            <div className="tiny muted">Site</div>
+            <strong>{state.quote.siteAddress || '—'}</strong>
+          </div>
+        </div>
+
+        <Card title="Schedule (from 01 Openings)">
+          <table className="data">
+            <thead>
+              <tr>
+                <th>Location</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Chargeable</th>
+                <th>Rate</th>
+                <th>Amount</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </Card>
-      <div className="grid grid-4">
-        <Kpi label="Windows" value={<Money n={q.windowsSubtotal} />} />
-        <Kpi label="Mesh + grill" value={<Money n={q.mesh.total} />} />
-        <Kpi label="After discount" value={<Money n={q.afterDiscount} />} />
-        <Kpi label="GST" value={<Money n={q.gst} />} />
-        <Kpi label="Grand total" value={<Money n={q.grand} />} />
-        <Kpi label="Balance" value={<Money n={q.balance} />} />
+            </thead>
+            <tbody>
+              {q.openings.rows.map((r) => (
+                <tr key={r.line.id}>
+                  <td className="link-cell">{r.line.location}</td>
+                  <td className="link-cell">{r.typeName}</td>
+                  <td className="link-cell">
+                    {r.line.width} × {r.line.height} {state.allowances.unit}
+                  </td>
+                  <td className="calc">
+                    <Num n={r.chargeableSqft} />
+                  </td>
+                  <td className="link-cell">
+                    <Num n={r.rate} d={0} />
+                  </td>
+                  <td className="calc">
+                    <Money n={r.estimate} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Card>
+
+        <div className="grid grid-4">
+          <Kpi label="Windows" value={<Money n={q.windowsSubtotal} />} />
+          <Kpi label="Mesh + grill" value={<Money n={q.mesh.total} />} />
+          <Kpi label="Site measured (ref)" value={<Money n={q.measuredValue} />} hint="from Site Measure" />
+          <Kpi label="After discount" value={<Money n={q.afterDiscount} />} />
+          <Kpi label="GST" value={<Money n={q.gst} />} />
+          <Kpi label="Grand total" value={<Money n={q.grand} />} />
+          <Kpi label="Advance" value={<Money n={q.advance} />} />
+          <Kpi label="Balance" value={<Money n={q.balance} />} />
+        </div>
+
+        <p className="muted tiny" style={{ marginTop: '0.75rem' }}>
+          {state.quote.notes}
+          {state.business.warrantyNote ? ` · ${state.business.warrantyNote}` : ''}
+        </p>
       </div>
     </div>
   );

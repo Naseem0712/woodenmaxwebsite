@@ -1,8 +1,8 @@
 # Windows & Doors Fabricator Toolkit — User Guide
 
-Local web app that mirrors the audited Excel **Business Toolkit** flow: **Settings-driven series/rates → size entry → automatic calculations**. Yellow = type, blue = linked from Settings/other tool, white = calculated. Data persists in browser `localStorage` and can be exported/imported as JSON.
+Local web app that mirrors the audited Excel **Business Toolkit** plus the **Site Measurement & Quotation Kit** flow: **Settings-driven series/rates → site measure → openings → quote**. Yellow = type, blue = linked from Settings/other tool, white = calculated. Data persists in browser `localStorage` and can be exported/imported as JSON.
 
-**Do not modify the original Excel kits.** This app is a separate Vite + React + TypeScript tool.
+**Do not modify the original Excel kits or PDF guide.** This app is a separate Vite + React + TypeScript tool.
 
 ---
 
@@ -31,26 +31,26 @@ Source also lives under:
 
 ---
 
-## Recommended shop workflow
+## Measure → quote path (recommended)
 
-1. **Settings → Business / GST** — company name, address, GSTIN, GST on/off and %.
-2. **Settings → Allowances** — min chargeable sqft, wastage, Al ₹/kg + coating, glass round-up, default margin, labour/transport defaults.
-3. **Settings → Series & members** — create/edit Series A (sliding) / Series B (casement): member class, W/H factors, ₹/m, hardware defaults.
-4. **Settings → Window types / Glass / Hardware / Profiles** — rate cards and stock masters.
-5. **01 Openings** — job schedule: location, type, W×H×qty → chargeable sqft + estimate.
-6. **02 Sliding** or **03 Casement** — pick series, enter size → member metres, glass, hardware, wastage, margin price.
-7. **05–07** — cutting list, glass panes, hardware BOM (manual lines + masters).
-8. **08 Quotation** + **10 Margin** — quote from openings (+ mesh/grill − discount + GST) vs cost stack.
-
-Export JSON from **Settings → Export / Import** before major rate changes; use **Reset to seed** only when you want the generic sample back.
+1. **Settings → Business / GST** — company, GSTIN, GST on/off and %.
+2. **Settings → Allowances** — min chargeable sqft, mesh ₹/sqft, toughened extra, site install ₹/sqft, wastage, labour defaults.
+3. **Settings → Window types / Series / Glass / Hardware** — rate cards (sample seeds only — overwrite with your shop rates).
+4. **Leads** — log enquiry (source, need, status, follow-up). **Use on job** fills customer/site on quote header.
+5. **Site Measure** — one row per opening on site: location, type, W×H, unit, qty, mesh/toughened. Amount = chargeable sqft × (type rate + install + mesh + toughened extras from Settings).
+6. Click **Push to 01 Openings + Quote header** — copies schedule into Tool 01 and customer into quote.
+7. **08 Quotation** — schedule from openings + mesh/grill − discount + GST; set advance % or ₹; **Print quote** for A4.
+8. Optional: **02/03** costing, **05–07** BOQ, **10 Margin**.
 
 ---
 
-## Tools built (01–15)
+## Tools built (01–15 + measure kit)
 
 | Route | Tool | Purpose |
 |-------|------|---------|
 | `/` | Home | KPIs + hub |
+| `/leads` | Leads | Enquiry CRM · follow-ups |
+| `/site-measure` | Site Measure | Site visit W×H → openings |
 | `/openings` | 01 Window Sqft | Openings schedule |
 | `/sliding` | 02 Sliding | Series + size → cost |
 | `/casement` | 03 Casement | Panels/openable → cost |
@@ -58,7 +58,7 @@ Export JSON from **Settings → Export / Import** before major rate changes; use
 | `/cutting` | 05 Cutting | Cut list → stock to buy |
 | `/glass` | 06 Glass | Pane lines → glass ₹ |
 | `/hardware` | 07 Hardware | Type × item matrix |
-| `/quote` | 08 Quotation | Schedule + GST + advance |
+| `/quote` | 08 Quotation | Printable schedule + GST + advance |
 | `/compare` | 09 Compare | UPVC vs Aluminium |
 | `/margin` | 10 Margin | Cost vs quoted |
 | `/mesh` | 11 Mesh & Grill | Add-ons |
@@ -75,7 +75,7 @@ Export JSON from **Settings → Export / Import** before major rate changes; use
 |-------|--------|
 | `/settings` | Overview |
 | `/settings/business` | Business / GST |
-| `/settings/allowances` | Allowances & defaults |
+| `/settings/allowances` | Allowances, site-measure add-ons & defaults |
 | `/settings/series` | Series & profile members |
 | `/settings/window-types` | Window types ₹/sqft |
 | `/settings/glass` | Glass types |
@@ -87,10 +87,11 @@ Export JSON from **Settings → Export / Import** before major rate changes; use
 
 ## Demo path (smoke)
 
-1. Open **02 Sliding** — seed defaults: Series A 60 mm Sliding, **1500 × 1200 mm**, qty 4, Clear 5 mm.
-2. Confirm calculated total (sample seed ≈ ₹48,825 all windows; price/sqft @ margin ≈ ₹630).
-3. Edit **Settings → Series** member ₹/m or **Business** company name; reload — values persist via `localStorage`.
-4. **Settings → Export / Import** → Download JSON for backup.
+1. Open **Site Measure** — seed openings linked to `LD-3001`; check measured value KPI.
+2. **Push to 01 Openings**, then open **08 Quotation** — letterhead, schedule, GST, advance % (seed 40%), balance.
+3. Open **02 Sliding** — Series A 60 mm, **1500 × 1200 mm**, qty 4 → sample total ≈ ₹48,825 / ≈ ₹630/sqft.
+4. Edit **Settings → Series** or **Business**; reload — persists via `localStorage`.
+5. **Settings → Export / Import** → Download JSON for backup.
 
 Sample rates are generic India 2026 fiction (Series A / B — no brand copy).
 
@@ -101,3 +102,8 @@ Sample rates are generic India 2026 fiction (Series A / B — no brand copy).
 - `media/toolkit-home.png`
 - `media/toolkit-sliding.png`
 - `media/toolkit-settings-series.png`
+- `media/toolkit-site-measure.png`
+- `media/toolkit-quote-print.png`
+- `media/toolkit-leads.png`
+
+Related audit: `docs/site-measurement-kit-audit.md`

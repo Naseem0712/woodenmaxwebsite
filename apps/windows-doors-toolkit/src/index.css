@@ -159,3 +159,20 @@ table.data .link-cell { background: var(--blue); }
 .success { color: #047857; font-weight: 600; }
 .warn { color: #b45309; font-weight: 600; }
 .danger { color: var(--danger); font-weight: 600; }
+
+.quote-letterhead {
+  display: flex; justify-content: space-between; gap: 1rem;
+  margin-bottom: 0.85rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--brand);
+}
+.quote-letterhead h2 { font-size: 1.25rem; color: var(--brand); }
+.quote-meta { text-align: right; }
+.quote-party { margin-bottom: 0.85rem; }
+
+@media print {
+  body { background: #fff !important; }
+  .sidebar, .legend, .no-print, .page-header .badge { display: none !important; }
+  .shell { display: block; }
+  .main { max-width: none; padding: 0; }
+  .card { box-shadow: none; border-color: #ccc; break-inside: avoid; }
+  .quote-print { padding: 0; }
+}

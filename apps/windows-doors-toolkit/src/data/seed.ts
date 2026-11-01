@@ -173,6 +173,8 @@ export function createSeedState(): AppState {
   ];
 
   const clearGlass = glassTypes[0];
+  const sampleLeadId = uid();
+  const today = new Date().toISOString().slice(0, 10);
 
   return {
     business: {
@@ -202,6 +204,9 @@ export function createSeedState(): AppState {
       installationLabourPerSqft: 40,
       transportPerJob: 800,
       siliconePerWindow: 150,
+      meshPerSqft: 90,
+      toughenedExtraPerSqft: 55,
+      siteInstallPerSqft: 40,
     },
     windowTypes,
     series: [seriesA, seriesB],
@@ -215,6 +220,41 @@ export function createSeedState(): AppState {
       jobLabel: 'Sample villa openings',
     },
     openings,
+    leads: [
+      {
+        id: sampleLeadId,
+        leadNo: 'LD-3001',
+        date: today,
+        name: 'Sample Customer',
+        phone: '90000 30001',
+        area: 'Civil Lines',
+        addressNote: 'Sample Site, Hyderabad',
+        siteType: 'Home',
+        source: 'Walk-in',
+        need: 'New windows',
+        windowTypeHint: '2-track sliding',
+        openingsCount: openings.reduce((s, o) => s + o.qty, 0),
+        status: 'Site visit',
+        followUpDate: today,
+        owner: 'Sunil P.',
+        notes: 'Seed enquiry — replace with yours',
+      },
+    ],
+    siteMeasures: openings.map((o) => ({
+      id: uid(),
+      measuredOn: today,
+      leadId: sampleLeadId,
+      location: o.location,
+      windowTypeId: o.windowTypeId,
+      width: o.width,
+      height: o.height,
+      unit: 'mm' as const,
+      qty: o.qty,
+      ratePerSqft: windowTypes.find((t) => t.id === o.windowTypeId)?.ratePerSqft ?? 0,
+      mesh: (o.location === 'Living room' ? 'Yes' : 'No') as 'Yes' | 'No',
+      toughened: 'No' as const,
+      measuredBy: 'Sunil P.',
+    })),
     sliding: {
       seriesId: seriesA.id,
       material: 'UPVC',
@@ -331,11 +371,14 @@ export function createSeedState(): AppState {
     quote: {
       discountAmount: 0,
       advanceAmount: 25000,
+      advancePercent: 40,
+      validDays: 15,
       notes: 'Rates sample India 2026 fiction. Confirm site measure before production.',
       customerName: 'Sample Customer',
       siteAddress: 'Sample Site, Hyderabad',
       quoteNo: 'Q-2026-001',
-      quoteDate: new Date().toISOString().slice(0, 10),
+      quoteDate: today,
+      phone: '90000 30001',
     },
     compare: openings.slice(0, 4).map((o) => ({
       id: uid(),

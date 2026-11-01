@@ -3,6 +3,8 @@ import { Legend } from './ui';
 
 const tools = [
   { to: '/', label: 'Home', end: true },
+  { to: '/leads', label: 'Leads' },
+  { to: '/site-measure', label: 'Site Measure' },
   { to: '/openings', label: '01 Openings' },
   { to: '/sliding', label: '02 Sliding' },
   { to: '/casement', label: '03 Casement' },
