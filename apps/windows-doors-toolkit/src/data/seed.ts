@@ -28,7 +28,18 @@ const hw = (
   unit: string,
   rate: number,
   hardwareClass: HardwareClass,
-): HardwareItem => ({ id: uid(), name, category, unit, rate, hardwareClass });
+  extras: Partial<Pick<HardwareItem, 'brand' | 'colour' | 'weightCapacityKg'>> = {},
+): HardwareItem => ({
+  id: uid(),
+  name,
+  category,
+  unit,
+  rate,
+  hardwareClass,
+  brand: extras.brand ?? '',
+  colour: extras.colour ?? '',
+  weightCapacityKg: extras.weightCapacityKg ?? 0,
+});
 
 type CasementHwSeed = Pick<
   SeriesDefinition,
@@ -48,6 +59,13 @@ type CasementHwSeed = Pick<
   | 'lockRate'
   | 'doorCloserRate'
   | 'floorSpringRate'
+  | 'doorExtraKind'
+  | 'doorCloserBrand'
+  | 'doorCloserColour'
+  | 'doorCloserWeightKg'
+  | 'floorSpringBrand'
+  | 'floorSpringColour'
+  | 'floorSpringWeightKg'
   | 'doorSetRate'
   | 'swingHandleRate'
   | 'swingLockRate'
@@ -74,6 +92,13 @@ function casementHwDefaults(overrides: Partial<CasementHwSeed> = {}): CasementHw
     lockRate: 450,
     doorCloserRate: 0,
     floorSpringRate: 0,
+    doorExtraKind: 'none',
+    doorCloserBrand: '',
+    doorCloserColour: '',
+    doorCloserWeightKg: 0,
+    floorSpringBrand: '',
+    floorSpringColour: '',
+    floorSpringWeightKg: 0,
     doorSetRate: 0,
     swingHandleRate: 0,
     swingLockRate: 0,
@@ -95,6 +120,7 @@ function slidingSeriesUpvc(): SeriesDefinition {
     rollersPerShutter: 2,
     rollerRate: 60,
     lockHandleSet: 350,
+    lockHandleLabel: 'Metro Type Matt black lock',
     otherHardware: 120,
     handleRate: 120,
     meshAreaShare: 0.5,
@@ -138,12 +164,19 @@ function casementSeriesUpvc(): SeriesDefinition {
     rollersPerShutter: 0,
     rollerRate: 0,
     lockHandleSet: 0,
+    lockHandleLabel: 'Casement multipoint lock with handle',
     otherHardware: 150,
     handleRate: 250,
     meshAreaShare: 0.4,
     meshNetPerSqft: 40,
     note: 'Sample Series B — UPVC casement / openable (generic)',
-    ...casementHwDefaults(),
+    ...casementHwDefaults({
+      doorExtraKind: 'door-closer',
+      doorCloserRate: 1100,
+      doorCloserBrand: 'Dorma',
+      doorCloserColour: 'Matt Black',
+      doorCloserWeightKg: 45,
+    }),
     members: [
       { id: uid(), name: 'Outer frame', memberClass: 'Window', wFactor: 2, hFactor: 2, ratePerM: 340 },
       { id: uid(), name: 'Mullion', memberClass: 'Mullion', wFactor: 0, hFactor: 1, ratePerM: 260 },
@@ -172,6 +205,7 @@ function slidingSeriesAlu(): SeriesDefinition {
     rollersPerShutter: 2,
     rollerRate: 55,
     lockHandleSet: 280,
+    lockHandleLabel: 'Metro Type Matt black lock',
     otherHardware: 100,
     handleRate: 120,
     meshAreaShare: 0.5,
@@ -216,12 +250,18 @@ function casementSeriesAlu(): SeriesDefinition {
     rollersPerShutter: 0,
     rollerRate: 0,
     lockHandleSet: 0,
+    lockHandleLabel: 'Casement multipoint lock with handle',
     otherHardware: 120,
     handleRate: 220,
     meshAreaShare: 0.4,
     meshNetPerSqft: 35,
     note: 'Sample Series D — Aluminium casement / openable (generic)',
     ...casementHwDefaults({
+      doorExtraKind: 'floor-spring',
+      floorSpringRate: 2800,
+      floorSpringBrand: 'Ozone',
+      floorSpringColour: 'SS',
+      floorSpringWeightKg: 80,
       frictionStayRates,
       frictionStayRate: frictionStayRates.find((r) => r.sizeMm === 305)?.rate ?? 380,
       hingeRate: 220,
@@ -260,23 +300,90 @@ export function createSeedState(): AppState {
   ];
 
   const glassTypes = [
-    { id: uid(), name: 'Clear 5 mm', thicknessMm: 5, ratePerSqft: 55, useNote: 'Standard windows' },
-    { id: uid(), name: 'Toughened 8 mm', thicknessMm: 8, ratePerSqft: 110, useNote: 'Safety glass, doors and big panes' },
-    { id: uid(), name: 'Frosted 5 mm', thicknessMm: 5, ratePerSqft: 75, useNote: 'Bathrooms, privacy' },
-    { id: uid(), name: 'Tinted 5 mm', thicknessMm: 5, ratePerSqft: 70, useNote: 'Sun side' },
-    { id: uid(), name: 'Toughened 10 mm', thicknessMm: 10, ratePerSqft: 140, useNote: 'Shower and partitions' },
-    { id: uid(), name: 'Toughened 12 mm', thicknessMm: 12, ratePerSqft: 170, useNote: 'Frameless doors' },
-    { id: uid(), name: 'DGU 5+12+5 mm', thicknessMm: 22, ratePerSqft: 260, useNote: 'Double glazed, sound and heat' },
-    { id: uid(), name: 'Laminated 6.38 mm', thicknessMm: 6.38, ratePerSqft: 180, useNote: 'Safety, holds when broken' },
-    { id: uid(), name: 'Mirror 5 mm', thicknessMm: 5, ratePerSqft: 80, useNote: 'Wardrobes and bathrooms' },
+    {
+      id: uid(),
+      name: 'clear tuff',
+      thicknessMm: 5,
+      ratePerSqft: 55,
+      useNote: 'Standard windows',
+      brand: 'Saint-Gobain',
+    },
+    {
+      id: uid(),
+      name: 'Toughened 8 mm',
+      thicknessMm: 8,
+      ratePerSqft: 110,
+      useNote: 'Safety glass, doors and big panes',
+      brand: 'Saint-Gobain',
+    },
+    {
+      id: uid(),
+      name: 'Frosted 5 mm',
+      thicknessMm: 5,
+      ratePerSqft: 75,
+      useNote: 'Bathrooms, privacy',
+      brand: '',
+    },
+    {
+      id: uid(),
+      name: 'Tinted 5 mm',
+      thicknessMm: 5,
+      ratePerSqft: 70,
+      useNote: 'Sun side',
+      brand: '',
+    },
+    {
+      id: uid(),
+      name: 'Toughened 10 mm',
+      thicknessMm: 10,
+      ratePerSqft: 140,
+      useNote: 'Shower and partitions',
+      brand: 'Saint-Gobain',
+    },
+    {
+      id: uid(),
+      name: 'Toughened 12 mm',
+      thicknessMm: 12,
+      ratePerSqft: 170,
+      useNote: 'Frameless doors',
+      brand: 'Saint-Gobain',
+    },
+    {
+      id: uid(),
+      name: 'DGU 5+12+5 mm',
+      thicknessMm: 22,
+      ratePerSqft: 260,
+      useNote: 'Double glazed, sound and heat',
+      brand: '',
+    },
+    {
+      id: uid(),
+      name: 'Laminated 6.38 mm',
+      thicknessMm: 6.38,
+      ratePerSqft: 180,
+      useNote: 'Safety, holds when broken',
+      brand: '',
+    },
+    {
+      id: uid(),
+      name: 'Mirror 5 mm',
+      thicknessMm: 5,
+      ratePerSqft: 80,
+      useNote: 'Wardrobes and bathrooms',
+      brand: '',
+    },
   ];
 
   const hardware = [
     hw('Sliding roller', 'Rollers', 'pc', 60, 'sliding'),
     hw('Mesh roller', 'Rollers', 'pc', 45, 'sliding'),
+    hw('Metro Type Matt black lock', 'Locks', 'pc', 350, 'sliding', {
+      brand: 'Metro',
+      colour: 'Matt Black',
+    }),
     hw('Touch lock for sliding', 'Locks', 'pc', 180, 'sliding'),
     hw('Crescent lock', 'Locks', 'pc', 150, 'sliding'),
-    hw('Sliding handle', 'Handles', 'pc', 120, 'sliding'),
+    hw('Sliding handle', 'Handles', 'pc', 120, 'sliding', { colour: 'Matt Black' }),
     hw('Anti-lift block', 'Accessories', 'pc', 15, 'sliding'),
     hw('Multipoint lock with handle', 'Locks', 'pc', 1800, 'casement'),
     hw('Casement handle', 'Handles', 'pc', 250, 'casement'),
@@ -287,11 +394,19 @@ export function createSeedState(): AppState {
     hw('Lamination arm 200 mm', 'Arms', 'pc', 110, 'casement'),
     hw('Lock guide', 'Guides', 'pc', 35, 'casement'),
     hw('Tilt and turn fitting set', 'Hinges', 'set', 2600, 'casement'),
-    hw('Floor spring', 'Swing', 'pc', 2800, 'door'),
+    hw('Floor spring', 'Swing', 'pc', 2800, 'door', {
+      brand: 'Ozone',
+      colour: 'SS',
+      weightCapacityKg: 80,
+    }),
     hw('Door set (frame kit)', 'Swing', 'set', 1200, 'door'),
     hw('Swing door handle', 'Handles', 'pc', 650, 'door'),
     hw('Swing door lock', 'Locks', 'pc', 900, 'door'),
-    hw('Door closer', 'Closers', 'pc', 1100, 'door'),
+    hw('Door closer', 'Closers', 'pc', 1100, 'door', {
+      brand: 'Dorma',
+      colour: 'Matt Black',
+      weightCapacityKg: 45,
+    }),
     hw('Wool pile brush', 'Seals', 'm', 8, 'shared'),
     hw('EPDM gasket', 'Seals', 'm', 12, 'shared'),
     hw('Drain cap', 'Accessories', 'pc', 8, 'shared'),
@@ -323,11 +438,21 @@ export function createSeedState(): AppState {
 
   const hardwareBom = [
     { id: uid(), windowTypeId: typeByName('UPVC 2-track sliding').id, hardwareItemId: hwByName('Sliding roller').id, qtyPerWindow: 4 },
-    { id: uid(), windowTypeId: typeByName('UPVC 2-track sliding').id, hardwareItemId: hwByName('Touch lock for sliding').id, qtyPerWindow: 1 },
+    {
+      id: uid(),
+      windowTypeId: typeByName('UPVC 2-track sliding').id,
+      hardwareItemId: hwByName('Metro Type Matt black lock').id,
+      qtyPerWindow: 1,
+    },
     { id: uid(), windowTypeId: typeByName('UPVC 2-track sliding').id, hardwareItemId: hwByName('Sliding handle').id, qtyPerWindow: 2 },
     { id: uid(), windowTypeId: typeByName('UPVC 3-track sliding').id, hardwareItemId: hwByName('Sliding roller').id, qtyPerWindow: 4 },
     { id: uid(), windowTypeId: typeByName('UPVC 3-track sliding').id, hardwareItemId: hwByName('Mesh roller').id, qtyPerWindow: 2 },
-    { id: uid(), windowTypeId: typeByName('UPVC 3-track sliding').id, hardwareItemId: hwByName('Touch lock for sliding').id, qtyPerWindow: 1 },
+    {
+      id: uid(),
+      windowTypeId: typeByName('UPVC 3-track sliding').id,
+      hardwareItemId: hwByName('Metro Type Matt black lock').id,
+      qtyPerWindow: 1,
+    },
     { id: uid(), windowTypeId: typeByName('UPVC casement').id, hardwareItemId: hwByName('Friction stay set (2 pc)').id, qtyPerWindow: 1 },
     { id: uid(), windowTypeId: typeByName('UPVC casement').id, hardwareItemId: hwByName('Casement handle').id, qtyPerWindow: 1 },
     { id: uid(), windowTypeId: typeByName('UPVC casement').id, hardwareItemId: hwByName('Casement hinge').id, qtyPerWindow: 2 },

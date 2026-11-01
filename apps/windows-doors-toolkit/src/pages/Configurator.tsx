@@ -55,9 +55,9 @@ export function ConfiguratorPage() {
   const [tracks, setTracks] = useState(2);
   const [glassDoors, setGlassDoors] = useState(2);
   const [meshDoors, setMeshDoors] = useState(0);
-  const [meshType, setMeshType] = useState<'none' | 'rolling' | 'collapsible' | 'fixed' | 'door-side'>(
-    'none',
-  );
+  const [meshType, setMeshType] = useState<
+    'none' | 'rolling' | 'collapsible' | 'fixed' | 'door-side' | 'sliding' | 'swing'
+  >('none');
   const [hasVent, setHasVent] = useState<'Yes' | 'No'>('No');
   const [ventCount, setVentCount] = useState(0);
   const [tab, setTab] = useState<QuoteTab>('list');
@@ -339,6 +339,8 @@ export function ConfiguratorPage() {
               <option value="collapsible">Collapsible</option>
               <option value="fixed">Fixed</option>
               <option value="door-side">Door-side</option>
+              <option value="sliding">Sliding</option>
+              <option value="swing">Swing</option>
             </select>
           </Field>
           {productType === 'openable' || productType === 'door' ? (

@@ -1,5 +1,5 @@
 /**
- * WD-17 smoke: Quote PDF/print openings use W-01 block template.
+ * WD-17 smoke: Quote PDF/print openings use full W-01 narrative template.
  * Covers Configurator + Quotation + Site Measure Export Quote PDF.
  * Run: node tools/_smoke-quote-pdf-format-wd17.mjs
  */
@@ -19,29 +19,34 @@ const mediaDir =
 
 function assertBlock(text, label) {
   const checks = [
-    [/W-01\s+.+,\s+\d+X\d+\s+(Mm|inch|ft),\s+qty\s+\d+,\s+area\s+[\d.]+\s+sft/i, 'header line'],
-    [/Window\s*;\s*.+/i, 'Window line'],
-    [/Shutter\/door\s*;\s*\d+\s+shutters?\s+Glass\s+\+\s+\d+\s+shutters?\s+mesh/i, 'Shutter/door line'],
-    [/Color\s*;\s*.+/i, 'Color line'],
+    [/W-01\s+.+,\s+\d+×\d+\s+(mm|inch|ft),\s+qty\s+\d+,\s+area\s+[\d.]+\s+sqft/i, 'header line'],
+    [/Window:\s*.+/i, 'Window line'],
+    [/Shutter\/door:\s*\d+\s+shutters?\s+Glass\s+\+\s+\d+\s+shutters?\s+mesh/i, 'Shutter/door line'],
+    [/Color:\s*.+/i, 'Color line'],
+    [/Glass:\s*.+/i, 'Glass line'],
+    [/Lock \/ handle type:\s*.+/i, 'Lock / handle line'],
   ];
   const missing = [];
   for (const [re, name] of checks) {
     if (!re.test(text)) missing.push(name);
   }
+  // Mesh line only when mesh doors present in sample
+  if (/shutter mesh/i.test(text) && !/^Mesh:/m.test(text) && !/\nMesh:/i.test(text)) {
+    missing.push('Mesh line');
+  }
   if (missing.length) {
-    throw new Error(`${label} missing: ${missing.join(', ')}\n---\n${text.slice(0, 800)}`);
+    throw new Error(`${label} missing: ${missing.join(', ')}\n---\n${text.slice(0, 1200)}`);
   }
   console.log('ok', label);
+  console.log('--- sample ---\n' + text.split('\n').slice(0, 12).join('\n'));
 }
 
 async function capturePdfPreview(page, buttonName, outName) {
-  // Intercept print in both opener and any popup.
   await page.addInitScript(() => {
     window.print = () => {};
   });
 
   const popupPromise = page.waitForEvent('popup', { timeout: 15000 });
-  // Prefer Export Quote group (first toolbar group)
   const quoteGroup = page.locator('.export-group').first();
   await quoteGroup.getByRole('button', { name: buttonName }).click();
   const popup = await popupPromise;
@@ -53,7 +58,6 @@ async function capturePdfPreview(page, buttonName, outName) {
     null,
     { timeout: 15000 },
   );
-  // Disable auto-print if script already queued
   await popup.evaluate(() => {
     window.print = () => {};
   });
@@ -93,6 +97,17 @@ async function main() {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
 
+  // Clear persisted state so seed masters drive narrative (glass brand, lock label, mesh).
+  await page.addInitScript(() => {
+    try {
+      for (const k of Object.keys(localStorage)) {
+        if (k.startsWith('wd-toolkit')) localStorage.removeItem(k);
+      }
+    } catch {
+      /* ignore */
+    }
+  });
+
   // Configurator
   await page.goto(url + '/configure', { waitUntil: 'networkidle' });
   await page.waitForSelector('.export-toolbar');
@@ -113,7 +128,6 @@ async function main() {
   await page.waitForSelector('.export-toolbar');
   const site = await capturePdfPreview(page, 'PDF · with rates', 'site-measure-quote-pdf');
 
-  // Primary media preview (quotation)
   if (existsSync(mediaDir)) {
     copyFileSync(quote.shotPath, join(mediaDir, 'toolkit-quote-pdf-w01-preview.png'));
     copyFileSync(cfg.shotPath, join(mediaDir, 'toolkit-quote-pdf-w01-configurator.png'));
@@ -124,9 +138,9 @@ async function main() {
         {
           ok: true,
           samples: {
-            configurator: cfg.firstPre.split('\n').slice(0, 6),
-            quotation: quote.firstPre.split('\n').slice(0, 6),
-            siteMeasure: site.firstPre.split('\n').slice(0, 6),
+            configurator: cfg.firstPre.split('\n').slice(0, 10),
+            quotation: quote.firstPre.split('\n').slice(0, 10),
+            siteMeasure: site.firstPre.split('\n').slice(0, 10),
           },
           screenshots: [
             'toolkit-quote-pdf-w01-preview.png',

@@ -40,6 +40,7 @@ function blankSeries(): SeriesDefinition {
     rollersPerShutter: 2,
     rollerRate: 60,
     lockHandleSet: 350,
+    lockHandleLabel: 'Metro Type Matt black lock',
     otherHardware: 120,
     frictionStayRate: rateForSize(frictionStayRates, 305, 320),
     handleRate: 250,
@@ -58,6 +59,13 @@ function blankSeries(): SeriesDefinition {
     lockRate: 450,
     doorCloserRate: 0,
     floorSpringRate: 0,
+    doorExtraKind: 'none',
+    doorCloserBrand: '',
+    doorCloserColour: '',
+    doorCloserWeightKg: 0,
+    floorSpringBrand: '',
+    floorSpringColour: '',
+    floorSpringWeightKg: 0,
     doorSetRate: 0,
     swingHandleRate: 0,
     swingLockRate: 0,
@@ -140,6 +148,11 @@ export function SettingsSeriesPage() {
       );
     }
     update(next);
+  };
+
+  const setMany = (patchFields: Partial<SeriesDefinition>) => {
+    if (!series) return;
+    update({ ...series, ...patchFields });
   };
 
   const updateMember = (id: string, patchMember: Partial<ProfileMember>) => {
@@ -348,6 +361,12 @@ export function SettingsSeriesPage() {
                     onChange={(e) => set('handleRate', Number(e.target.value))}
                   />
                 </Field>
+                <Field label="Lock / handle type (quote)" hint="Shown on Export Quote PDF">
+                  <Input
+                    value={series.lockHandleLabel ?? ''}
+                    onChange={(e) => set('lockHandleLabel', e.target.value)}
+                  />
+                </Field>
               </div>
               <p className="muted tiny" style={{ marginTop: '0.65rem' }}>
                 Casement friction stays, hinges, and door connectors stay hidden for sliding series.
@@ -465,13 +484,108 @@ export function SettingsSeriesPage() {
                     onChange={(e) => set('lockRate', Number(e.target.value))}
                   />
                 </Field>
-                <Field label="Door closer ₹">
+                <Field label="Lock / handle type (quote)" hint="Shown on Export Quote PDF">
                   <Input
-                    type="number"
-                    value={series.doorCloserRate}
-                    onChange={(e) => set('doorCloserRate', Number(e.target.value))}
+                    value={series.lockHandleLabel ?? ''}
+                    onChange={(e) => set('lockHandleLabel', e.target.value)}
                   />
                 </Field>
+              </div>
+              <div className="grid grid-4" style={{ marginTop: '0.75rem' }}>
+                <Field
+                  label="Door extra (quote)"
+                  hint="Door closer OR floor spring — never both"
+                >
+                  <Select
+                    value={series.doorExtraKind ?? 'none'}
+                    onChange={(e) => {
+                      const kind = e.target.value as 'none' | 'door-closer' | 'floor-spring';
+                      if (kind === 'door-closer') {
+                        setMany({
+                          doorExtraKind: 'door-closer',
+                          floorSpringRate: 0,
+                          doorCloserRate: series.doorCloserRate || 1100,
+                        });
+                      } else if (kind === 'floor-spring') {
+                        setMany({
+                          doorExtraKind: 'floor-spring',
+                          doorCloserRate: 0,
+                          floorSpringRate: series.floorSpringRate || 2800,
+                        });
+                      } else {
+                        setMany({
+                          doorExtraKind: 'none',
+                          doorCloserRate: 0,
+                          floorSpringRate: 0,
+                        });
+                      }
+                    }}
+                  >
+                    <option value="none">None</option>
+                    <option value="door-closer">Door closer</option>
+                    <option value="floor-spring">Floor spring</option>
+                  </Select>
+                </Field>
+                {(series.doorExtraKind ?? 'none') === 'door-closer' ? (
+                  <>
+                    <Field label="Door closer ₹">
+                      <Input
+                        type="number"
+                        value={series.doorCloserRate}
+                        onChange={(e) => set('doorCloserRate', Number(e.target.value))}
+                      />
+                    </Field>
+                    <Field label="Door closer brand">
+                      <Input
+                        value={series.doorCloserBrand ?? ''}
+                        onChange={(e) => set('doorCloserBrand', e.target.value)}
+                      />
+                    </Field>
+                    <Field label="Door closer colour">
+                      <Input
+                        value={series.doorCloserColour ?? ''}
+                        onChange={(e) => set('doorCloserColour', e.target.value)}
+                      />
+                    </Field>
+                    <Field label="Door closer weight kg">
+                      <Input
+                        type="number"
+                        value={series.doorCloserWeightKg ?? 0}
+                        onChange={(e) => set('doorCloserWeightKg', Number(e.target.value))}
+                      />
+                    </Field>
+                  </>
+                ) : null}
+                {(series.doorExtraKind ?? 'none') === 'floor-spring' ? (
+                  <>
+                    <Field label="Floor spring ₹">
+                      <Input
+                        type="number"
+                        value={series.floorSpringRate}
+                        onChange={(e) => set('floorSpringRate', Number(e.target.value))}
+                      />
+                    </Field>
+                    <Field label="Floor spring brand">
+                      <Input
+                        value={series.floorSpringBrand ?? ''}
+                        onChange={(e) => set('floorSpringBrand', e.target.value)}
+                      />
+                    </Field>
+                    <Field label="Floor spring colour">
+                      <Input
+                        value={series.floorSpringColour ?? ''}
+                        onChange={(e) => set('floorSpringColour', e.target.value)}
+                      />
+                    </Field>
+                    <Field label="Floor spring weight kg">
+                      <Input
+                        type="number"
+                        value={series.floorSpringWeightKg ?? 0}
+                        onChange={(e) => set('floorSpringWeightKg', Number(e.target.value))}
+                      />
+                    </Field>
+                  </>
+                ) : null}
               </div>
               <SizedRateEditor
                 title="Friction stay catalogue (₹ per set = 2 pc) — sizes in mm"
@@ -484,7 +598,8 @@ export function SettingsSeriesPage() {
                 onChange={(next) => set('laminationArmRates', next)}
               />
               <p className="muted tiny" style={{ marginTop: '0.65rem' }}>
-                Sliding rollers and track defaults stay hidden for casement/door series.
+                Sliding rollers and track defaults stay hidden for casement/door series. Quote PDF
+                shows door closer or floor spring exclusively.
               </p>
             </Card>
           ) : null}
@@ -492,11 +607,17 @@ export function SettingsSeriesPage() {
           {showDoorSwingHw ? (
             <Card title="Swing door hardware (not sliding rollers)">
               <div className="grid grid-4">
-                <Field label="Floor spring ₹">
+                <Field label="Floor spring ₹" hint="Use Door extra above for exclusive quote line">
                   <Input
                     type="number"
                     value={series.floorSpringRate}
-                    onChange={(e) => set('floorSpringRate', Number(e.target.value))}
+                    onChange={(e) =>
+                      setMany({
+                        floorSpringRate: Number(e.target.value),
+                        doorExtraKind: Number(e.target.value) > 0 ? 'floor-spring' : series.doorExtraKind,
+                        doorCloserRate: Number(e.target.value) > 0 ? 0 : series.doorCloserRate,
+                      })
+                    }
                   />
                 </Field>
                 <Field label="Door set ₹">

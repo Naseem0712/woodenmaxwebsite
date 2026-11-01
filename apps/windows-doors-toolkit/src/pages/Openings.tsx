@@ -190,6 +190,8 @@ export function OpeningsPage() {
                   >
                     <option value="none">None</option>
                     <option value="rolling">Rolling</option>
+                    <option value="sliding">Sliding</option>
+                    <option value="swing">Swing</option>
                     <option value="collapsible">Collapsible</option>
                     <option value="fixed">Fixed</option>
                     <option value="door-side">Door-side</option>

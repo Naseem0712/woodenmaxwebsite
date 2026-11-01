@@ -238,6 +238,34 @@ export function SettingsAllowancesPage() {
               onChange={(e) => setMesh('doorSidePerSqft', Number(e.target.value))}
             />
           </Field>
+          <Field label="Sliding mesh ₹/sqft">
+            <Input
+              type="number"
+              value={mesh.slidingPerSqft ?? 85}
+              onChange={(e) => setMesh('slidingPerSqft', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Swing mesh ₹/sqft">
+            <Input
+              type="number"
+              value={mesh.swingPerSqft ?? 100}
+              onChange={(e) => setMesh('swingPerSqft', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Mesh thickness mm" hint="Quote PDF Mesh line">
+            <Input
+              type="number"
+              step="0.1"
+              value={mesh.defaultThicknessMm ?? 0.5}
+              onChange={(e) => setMesh('defaultThicknessMm', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Mesh colour" hint="Quote PDF Mesh line">
+            <Input
+              value={mesh.defaultColour ?? 'Black'}
+              onChange={(e) => setMesh('defaultColour', e.target.value)}
+            />
+          </Field>
           <Field label="Openable default mesh type">
             <Select
               value={mesh.openableDefaultMeshType}
@@ -248,6 +276,8 @@ export function SettingsAllowancesPage() {
               <option value="rolling">Rolling</option>
               <option value="collapsible">Collapsible</option>
               <option value="fixed">Fixed</option>
+              <option value="sliding">Sliding</option>
+              <option value="swing">Swing</option>
             </Select>
           </Field>
           <Field label="Vent default mesh type">
@@ -259,6 +289,8 @@ export function SettingsAllowancesPage() {
               <option value="rolling">Rolling</option>
               <option value="collapsible">Collapsible</option>
               <option value="door-side">Door-side</option>
+              <option value="sliding">Sliding</option>
+              <option value="swing">Swing</option>
               <option value="none">None</option>
             </Select>
           </Field>
@@ -320,6 +352,8 @@ export function SettingsAllowancesPage() {
                       <option value="collapsible">Collapsible</option>
                       <option value="fixed">Fixed</option>
                       <option value="door-side">Door-side</option>
+                      <option value="sliding">Sliding</option>
+                      <option value="swing">Swing</option>
                     </Select>
                   </td>
                   <td>

@@ -40,6 +40,10 @@ export function meshTypeLabel(t: MeshTypeId): string {
       return 'Fixed';
     case 'door-side':
       return 'Door-side';
+    case 'sliding':
+      return 'Sliding';
+    case 'swing':
+      return 'Swing';
     default:
       return 'None';
   }
@@ -55,6 +59,10 @@ export function meshRatePerSqft(settings: MeshCostingSettings, meshType: MeshTyp
       return settings.fixedPerSqft;
     case 'door-side':
       return settings.doorSidePerSqft;
+    case 'sliding':
+      return settings.slidingPerSqft ?? settings.rollingPerSqft;
+    case 'swing':
+      return settings.swingPerSqft ?? settings.doorSidePerSqft;
     default:
       return fallbackPerSqft;
   }

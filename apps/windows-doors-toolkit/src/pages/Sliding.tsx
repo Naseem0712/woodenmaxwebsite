@@ -121,6 +121,8 @@ export function SlidingPage() {
               <option value="collapsible">Collapsible</option>
               <option value="fixed">Fixed</option>
               <option value="door-side">Door-side</option>
+              <option value="sliding">Sliding</option>
+              <option value="swing">Swing</option>
             </Select>
           </Field>
           <Field label="Width W (mm)">

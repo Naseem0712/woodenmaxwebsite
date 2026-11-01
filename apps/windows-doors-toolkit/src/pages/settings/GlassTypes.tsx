@@ -24,6 +24,7 @@ export function SettingsGlassTypesPage() {
                   thicknessMm: 5,
                   ratePerSqft: 55,
                   useNote: '',
+                  brand: '',
                 },
               ])
             }
@@ -36,6 +37,7 @@ export function SettingsGlassTypesPage() {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Brand</th>
               <th>Thickness mm</th>
               <th>₹/sqft</th>
               <th>Use note</th>
@@ -53,6 +55,20 @@ export function SettingsGlassTypesPage() {
                         'glassTypes',
                         state.glassTypes.map((x) =>
                           x.id === g.id ? { ...x, name: e.target.value } : x,
+                        ),
+                      )
+                    }
+                  />
+                </td>
+                <td>
+                  <input
+                    value={g.brand ?? ''}
+                    placeholder="e.g. Saint-Gobain"
+                    onChange={(e) =>
+                      patch(
+                        'glassTypes',
+                        state.glassTypes.map((x) =>
+                          x.id === g.id ? { ...x, brand: e.target.value } : x,
                         ),
                       )
                     }

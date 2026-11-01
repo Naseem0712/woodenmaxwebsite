@@ -5,14 +5,17 @@ import {
   modeAdjustedLineAmount,
 } from './modePricing';
 import { resolveEffectiveCatalogue } from './masterCatalogue';
-import { meshTypeLabel } from './meshCosting';
+import { meshTypeLabel, resolveMeshCosting } from './meshCosting';
 import {
+  formatGlassLabel,
   formatOpeningCode,
   formatQuoteOpeningBlock,
   formatQuoteOpeningLines,
+  resolveLockHandleLabel,
+  resolveSeriesDoorExtraLabels,
   type QuoteOpeningFormatInput,
 } from './quoteOpeningFormat';
-import { CUSTOMER_MODES, type AppState } from '../types';
+import { CUSTOMER_MODES, type AppState, type DoorExtraKind, type MeshTypeId } from '../types';
 
 export type RateMode = 'include' | 'exclude';
 export type ExportFormat = 'pdf' | 'excel';
@@ -69,6 +72,60 @@ function buildOpeningBlock(input: QuoteOpeningFormatInput): ExportOpeningBlock {
     code: formatOpeningCode(input.index),
     lines,
     text: formatQuoteOpeningBlock(input),
+  };
+}
+
+/** Shared narrative fields from Site Measure / Configurator / Openings + Settings masters. */
+function enrichOpeningNarrative(
+  state: AppState,
+  partial: QuoteOpeningFormatInput & {
+    windowTypeId?: string | null;
+    glassTypeId?: string | null;
+    colourId?: string | null;
+    lockHandleLabel?: string | null;
+    doorExtraKind?: DoorExtraKind | null;
+    meshType?: MeshTypeId | null;
+  },
+): QuoteOpeningFormatInput {
+  const mesh = resolveMeshCosting(state.allowances);
+  const wt = partial.windowTypeId
+    ? state.windowTypes.find((w) => w.id === partial.windowTypeId)
+    : undefined;
+  const series = wt?.seriesId ? state.series.find((s) => s.id === wt.seriesId) : undefined;
+  const glass =
+    (partial.glassTypeId
+      ? state.glassTypes.find((g) => g.id === partial.glassTypeId)
+      : undefined) ?? state.glassTypes[0];
+  const colourName =
+    partial.colourName ??
+    (partial.colourId
+      ? state.colourOptions.find((c) => c.id === partial.colourId)?.name
+      : null) ??
+    null;
+  const lockHandleLabel = resolveLockHandleLabel(state, {
+    windowTypeId: partial.windowTypeId,
+    series,
+    lockHandleLabel: partial.lockHandleLabel,
+  });
+  const lineExtra = partial.doorExtraKind;
+  const seriesExtra = resolveSeriesDoorExtraLabels(series);
+  const doorExtraKind =
+    lineExtra === 'door-closer' || lineExtra === 'floor-spring' || lineExtra === 'none'
+      ? lineExtra
+      : seriesExtra.kind;
+  const showDoorExtras = wt?.kind === 'door' || wt?.kind === 'casement' || doorExtraKind !== 'none';
+
+  return {
+    ...partial,
+    colourName,
+    glassLabel: formatGlassLabel(glass),
+    lockHandleLabel,
+    meshType: partial.meshType ?? null,
+    meshThicknessMm: mesh.defaultThicknessMm,
+    meshColour: mesh.defaultColour,
+    doorExtraKind: showDoorExtras ? doorExtraKind : 'none',
+    doorCloserLabel: doorExtraKind === 'door-closer' ? seriesExtra.doorCloserLabel : null,
+    floorSpringLabel: doorExtraKind === 'floor-spring' ? seriesExtra.floorSpringLabel : null,
   };
 }
 
@@ -130,21 +187,28 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
   const openingBlocks: ExportOpeningBlock[] = [];
   const rows = q.openings.rows.map((r, i) => {
     const t = state.windowTypes.find((w) => w.id === r.line.windowTypeId);
-    const block = buildOpeningBlock({
-      index: i + 1,
-      location: r.line.location,
-      width: r.line.width,
-      height: r.line.height,
-      unit,
-      qty: r.line.qty,
-      areaSqft: r.chargeableSqft,
-      windowTypeName: r.typeName,
-      glassDoors: r.line.glassDoors,
-      meshDoors: r.line.meshDoors,
-      colourName: null,
-      ratePerSqft: rateMode === 'include' ? r.rate : null,
-      amount: rateMode === 'include' ? r.estimate : null,
-    });
+    const block = buildOpeningBlock(
+      enrichOpeningNarrative(state, {
+        index: i + 1,
+        location: r.line.location,
+        width: r.line.width,
+        height: r.line.height,
+        unit,
+        qty: r.line.qty,
+        areaSqft: r.chargeableSqft,
+        windowTypeName: r.typeName,
+        glassDoors: r.line.glassDoors,
+        meshDoors: r.line.meshDoors,
+        meshType: r.line.meshType ?? null,
+        windowTypeId: r.line.windowTypeId,
+        glassTypeId: r.line.glassTypeId,
+        colourId: r.line.colourId,
+        lockHandleLabel: r.line.lockHandleLabel,
+        doorExtraKind: r.line.doorExtraKind,
+        ratePerSqft: rateMode === 'include' ? r.rate : null,
+        amount: rateMode === 'include' ? r.estimate : null,
+      }),
+    );
     openingBlocks.push(block);
     return {
       code: block.code,
@@ -258,21 +322,29 @@ export function buildConfiguratorQuoteDocument(
   const rows = cart.rows.map((r, i) => {
     const lineRetail = r.retailAmount + r.glassAmount + r.meshAmount;
     const adj = modeAdjustedLineAmount(lineRetail, modeQuote);
-    const block = buildOpeningBlock({
-      index: i + 1,
-      location: r.line.location,
-      width: r.line.widthMm,
-      height: r.line.heightMm,
-      unit: 'mm',
-      qty: r.line.qty,
-      areaSqft: r.chargeableSqft,
-      windowTypeName: r.typeName,
-      glassDoors: r.line.glassDoors,
-      meshDoors: r.line.meshDoors,
-      colourName: r.colourName,
-      ratePerSqft: null,
-      amount: rateMode === 'include' ? adj.amount : null,
-    });
+    const block = buildOpeningBlock(
+      enrichOpeningNarrative(state, {
+        index: i + 1,
+        location: r.line.location,
+        width: r.line.widthMm,
+        height: r.line.heightMm,
+        unit: 'mm',
+        qty: r.line.qty,
+        areaSqft: r.chargeableSqft,
+        windowTypeName: r.typeName,
+        glassDoors: r.line.glassDoors,
+        meshDoors: r.line.meshDoors,
+        meshType: r.line.meshType ?? null,
+        windowTypeId: r.line.windowTypeId,
+        glassTypeId: r.line.glassTypeId,
+        colourId: r.line.colourId,
+        colourName: r.colourName,
+        lockHandleLabel: r.line.lockHandleLabel,
+        doorExtraKind: r.line.doorExtraKind,
+        ratePerSqft: null,
+        amount: rateMode === 'include' ? adj.amount : null,
+      }),
+    );
     openingBlocks.push(block);
     return {
       code: block.code,
@@ -365,21 +437,28 @@ export function buildSiteMeasureQuoteDocument(
   const openingBlocks: ExportOpeningBlock[] = [];
   const rows = site.rows.map((r, i) => {
     const lineUnit = r.line.unit || unit;
-    const block = buildOpeningBlock({
-      index: i + 1,
-      location: r.line.location || '—',
-      width: r.line.width,
-      height: r.line.height,
-      unit: lineUnit,
-      qty: r.line.qty,
-      areaSqft: r.totalSqft,
-      windowTypeName: r.typeName,
-      glassDoors: r.line.glassDoors,
-      meshDoors: r.line.meshDoors,
-      colourName: null,
-      ratePerSqft: rateMode === 'include' ? r.effectiveRate : null,
-      amount: rateMode === 'include' ? r.amount : null,
-    });
+    const block = buildOpeningBlock(
+      enrichOpeningNarrative(state, {
+        index: i + 1,
+        location: r.line.location || '—',
+        width: r.line.width,
+        height: r.line.height,
+        unit: lineUnit,
+        qty: r.line.qty,
+        areaSqft: r.totalSqft,
+        windowTypeName: r.typeName,
+        glassDoors: r.line.glassDoors,
+        meshDoors: r.line.meshDoors,
+        meshType: r.line.meshType ?? null,
+        windowTypeId: r.line.windowTypeId,
+        glassTypeId: r.line.glassTypeId,
+        colourId: r.line.colourId,
+        lockHandleLabel: r.line.lockHandleLabel,
+        doorExtraKind: r.line.doorExtraKind,
+        ratePerSqft: rateMode === 'include' ? r.effectiveRate : null,
+        amount: rateMode === 'include' ? r.amount : null,
+      }),
+    );
     openingBlocks.push(block);
     return {
       code: block.code,

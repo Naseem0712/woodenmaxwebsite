@@ -88,18 +88,24 @@ Visible **near the top of the page** (not Settings-only) on:
 
 Exports include configuration as applicable: materials, names, sizes, qty, glass, colour, hardware. **With rates** uses Settings / mode-quote / hardware catalogue amounts — never invented rates. Excel downloads as CSV (opens in Excel); PDF opens a print view → Save as PDF. Smoke: `node tools/_smoke-export-wd12.mjs` · shell/export: `node tools/_smoke-shell-export-wd16.mjs` · quote PDF lines: `node tools/_smoke-quote-pdf-format-wd17.mjs`.
 
-**Quote PDF / print opening lines** (Quotation, Configurator, Site Measure) use the shared W-01 block format — one opening per block:
+**Quote PDF / print opening lines** (Quotation, Configurator, Site Measure) use the shared W-01 narrative — one opening per block, wired from Site Measure / Configurator / Settings masters:
 
 ```
-W-01 Living room, 1800X1500 Mm, qty 1, area 29.06 sft
-Window ; UPVC 3-track sliding
-Shutter/door ; 2 shutters Glass + 1 shutter mesh
-Color ; White (standard)
+W-01 Living room, 1800×1500 mm, qty 1, area 29.06 sqft
+Window: UPVC 3-track sliding
+Shutter/door: 2 shutters Glass + 1 shutter mesh
+Color: White (standard)
+Glass: 5 mm clear tuff (Saint-Gobain)
+Lock / handle type: Metro Type Matt black lock
+Mesh: 0.5 mm, Black, rolling
+Door closer: Door closer, Dorma, Matt Black, 45 kg
 ```
 
-Codes run W-01, W-02… Size uses the selected unit label (Mm / inch / ft). Shutter/door comes from glass doors + mesh doors. Color comes from the configurator finish when present (openings / site measure show `—` until colour is set). With-rates PDFs append Rate / Amount lines under each block. Excel keeps the grid and also includes a **Schedule (W-01 block)** column.
+Codes run W-01, W-02… Size uses the selected unit (`mm` / `inch` / `ft`). Glass brand, lock/handle label, mesh thickness/colour/type, and door closer **or** floor spring (exclusive) are editable in Settings masters — never hardcoded into the formatter. Mesh line appears only when mesh doors & type are set. Door closer / floor spring lines appear for door/casement when that extra is selected. With-rates PDFs append Rate / Amount. Excel keeps the grid and a **Schedule (W-01 block)** column (same shared formatter).
 
-Screenshots (store `media/`): `toolkit-export-site-measure.png`, `toolkit-export-configurator.png`, `toolkit-export-quotation.png`, `toolkit-quote-pdf-w01-preview.png`, `toolkit-shell-mobile-drawer.png`, `toolkit-shell-desktop-scroll.png`.
+Smoke: `node tools/_smoke-quote-pdf-format-wd17.mjs`.
+
+Screenshots (store `media/`): `toolkit-export-site-measure.png`, `toolkit-export-configurator.png`, `toolkit-export-quotation.png`, `toolkit-quote-pdf-w01-preview.png`, `toolkit-quote-pdf-w01-configurator.png`, `toolkit-quote-pdf-w01-site-measure.png`, `toolkit-shell-mobile-drawer.png`, `toolkit-shell-desktop-scroll.png`.
 
 ---
 

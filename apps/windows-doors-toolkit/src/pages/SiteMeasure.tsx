@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uid } from 'uuid';
 import { ExportToolbar } from '../components/ExportToolbar';
+import { SiteMeasureOpeningCard } from '../components/SiteMeasureOpeningCard';
 import {
   Btn,
   Card,
@@ -29,7 +30,15 @@ import {
 import { useApp } from '../store/AppContext';
 import type { CutLine, MeshTypeId, SiteMeasureLine, Unit, YesNo } from '../types';
 
-const MESH_TYPES: MeshTypeId[] = ['none', 'rolling', 'collapsible', 'fixed', 'door-side'];
+const MESH_TYPES: MeshTypeId[] = [
+  'none',
+  'rolling',
+  'collapsible',
+  'fixed',
+  'door-side',
+  'sliding',
+  'swing',
+];
 type SiteTab = 'openings' | 'less-off';
 
 export function SiteMeasurePage() {
@@ -566,7 +575,32 @@ export function SiteMeasurePage() {
           </Toolbar>
         }
       >
-        <div className="table-panel">
+        <div className="site-measure-openings-cards" data-testid="site-measure-opening-cards">
+          {calc.rows.map((r, index) => (
+            <SiteMeasureOpeningCard
+              key={r.line.id}
+              index={index}
+              row={r}
+              state={state}
+              types={types}
+              leads={state.leads}
+              meshSettings={meshSettings}
+              update={update}
+              applyTrackDefaults={applyTrackDefaults}
+              onDelete={() =>
+                patch(
+                  'siteMeasures',
+                  state.siteMeasures.filter((x) => x.id !== r.line.id),
+                )
+              }
+            />
+          ))}
+          {!calc.rows.length ? (
+            <p className="muted tiny">No openings yet — tap + Add opening.</p>
+          ) : null}
+        </div>
+
+        <div className="table-panel site-measure-openings-table">
           <table className="data">
             <thead>
               <tr>

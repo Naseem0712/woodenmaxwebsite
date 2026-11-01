@@ -64,6 +64,9 @@ export function SettingsHardwareCataloguePage() {
                   unit: 'pc',
                   rate: 100,
                   hardwareClass: filter === 'all' ? 'shared' : filter,
+                  brand: '',
+                  colour: '',
+                  weightCapacityKg: 0,
                 },
               ])
             }
@@ -76,6 +79,9 @@ export function SettingsHardwareCataloguePage() {
           <thead>
             <tr>
               <th>Name</th>
+              <th>Brand</th>
+              <th>Colour</th>
+              <th>Weight kg</th>
               <th>Category</th>
               <th>Class</th>
               <th>Unit</th>
@@ -94,6 +100,47 @@ export function SettingsHardwareCataloguePage() {
                         'hardware',
                         state.hardware.map((x) =>
                           x.id === h.id ? { ...x, name: e.target.value } : x,
+                        ),
+                      )
+                    }
+                  />
+                </td>
+                <td>
+                  <input
+                    value={h.brand ?? ''}
+                    placeholder="Brand"
+                    onChange={(e) =>
+                      patch(
+                        'hardware',
+                        state.hardware.map((x) =>
+                          x.id === h.id ? { ...x, brand: e.target.value } : x,
+                        ),
+                      )
+                    }
+                  />
+                </td>
+                <td>
+                  <input
+                    value={h.colour ?? ''}
+                    placeholder="Colour"
+                    onChange={(e) =>
+                      patch(
+                        'hardware',
+                        state.hardware.map((x) =>
+                          x.id === h.id ? { ...x, colour: e.target.value } : x,
+                        ),
+                      )
+                    }
+                  />
+                </td>
+                <td>
+                  <NumberInput
+                    value={h.weightCapacityKg ?? 0}
+                    onChange={(e) =>
+                      patch(
+                        'hardware',
+                        state.hardware.map((x) =>
+                          x.id === h.id ? { ...x, weightCapacityKg: Number(e.target.value) } : x,
                         ),
                       )
                     }

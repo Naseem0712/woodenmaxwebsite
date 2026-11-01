@@ -9,7 +9,21 @@ export type SeriesKind = 'sliding' | 'casement' | 'door' | 'other';
  * - fixed: outer / vent mesh (casement profiles often carry vents)
  * - door-side: openable door-leaf sized mesh
  */
-export type MeshTypeId = 'none' | 'rolling' | 'collapsible' | 'fixed' | 'door-side';
+/**
+ * Mesh product type for costing + quote narrative.
+ * rolling / collapsible / sliding / swing / fixed / door-side — Settings rates, never hardcoded.
+ */
+export type MeshTypeId =
+  | 'none'
+  | 'rolling'
+  | 'collapsible'
+  | 'fixed'
+  | 'door-side'
+  | 'sliding'
+  | 'swing';
+
+/** Door/casement quote extra — closer OR floor spring, never both. */
+export type DoorExtraKind = 'none' | 'door-closer' | 'floor-spring';
 
 /** Editable Settings default for a track count (sliding). */
 export interface TrackMeshDefault {
@@ -32,6 +46,14 @@ export interface MeshCostingSettings {
   collapsiblePerSqft: number;
   fixedPerSqft: number;
   doorSidePerSqft: number;
+  /** Sliding-mesh shutter ₹/sqft (Settings — sample seed) */
+  slidingPerSqft: number;
+  /** Swing-mesh / hinged mesh ₹/sqft (Settings — sample seed) */
+  swingPerSqft: number;
+  /** Editable mesh thickness shown on quote PDF narrative */
+  defaultThicknessMm: number;
+  /** Editable mesh colour shown on quote PDF narrative */
+  defaultColour: string;
   /**
    * Openable default when user selects door-side mesh:
    * mesh doors seed from openable panel count.
@@ -53,6 +75,10 @@ export const DEFAULT_MESH_COSTING: MeshCostingSettings = {
   collapsiblePerSqft: 110,
   fixedPerSqft: 75,
   doorSidePerSqft: 95,
+  slidingPerSqft: 85,
+  swingPerSqft: 100,
+  defaultThicknessMm: 0.5,
+  defaultColour: 'Black',
   openableDefaultMeshType: 'door-side',
   ventDefaultMeshType: 'fixed',
 };
@@ -232,6 +258,10 @@ export interface ConfiguratorLine {
   meshType?: MeshTypeId;
   hasVent?: YesNo;
   ventCount?: number;
+  /** Optional override of series lock/handle quote label */
+  lockHandleLabel?: string;
+  /** Door/casement — closer OR floor spring */
+  doorExtraKind?: DoorExtraKind;
 }
 
 /** Size-driven catalogue line (mm). Rates edited in Settings — never hardcoded in formulas. */
@@ -345,6 +375,11 @@ export interface SeriesDefinition {
   rollersPerShutter: number;
   rollerRate: number;
   lockHandleSet: number;
+  /**
+   * Quote narrative lock / handle type (e.g. Metro Type Matt black lock).
+   * Editable master — never hardcode into PDF formatter.
+   */
+  lockHandleLabel: string;
   otherHardware: number;
   /**
    * Legacy / resolved friction-stay set ₹ for selected size.
@@ -372,6 +407,17 @@ export interface SeriesDefinition {
   doorCloserRate: number;
   /** Swing door hardware — separate from sliding rollers */
   floorSpringRate: number;
+  /**
+   * Door/casement quote extra — door closer OR floor spring (exclusive).
+   * Rates for the non-selected kind are cleared when switching in Settings.
+   */
+  doorExtraKind: DoorExtraKind;
+  doorCloserBrand: string;
+  doorCloserColour: string;
+  doorCloserWeightKg: number;
+  floorSpringBrand: string;
+  floorSpringColour: string;
+  floorSpringWeightKg: number;
   doorSetRate: number;
   swingHandleRate: number;
   swingLockRate: number;
@@ -387,6 +433,8 @@ export interface GlassType {
   thicknessMm: number;
   ratePerSqft: number;
   useNote: string;
+  /** Brand for quote narrative — e.g. Saint-Gobain (Settings-editable) */
+  brand: string;
 }
 
 export interface HardwareItem {
@@ -397,6 +445,12 @@ export interface HardwareItem {
   rate: number;
   /** Class isolation — sliding catalogue never offered for casement series */
   hardwareClass: HardwareClass;
+  /** Brand for quote narrative (lock/handle, closer, floor spring) */
+  brand: string;
+  /** Finish / colour for quote narrative */
+  colour: string;
+  /** Weight capacity kg — door closer / floor spring */
+  weightCapacityKg: number;
 }
 
 export interface ProfileSku {
@@ -432,6 +486,10 @@ export interface OpeningLine {
   meshType?: MeshTypeId;
   hasVent?: YesNo;
   ventCount?: number;
+  glassTypeId?: string;
+  colourId?: string;
+  lockHandleLabel?: string;
+  doorExtraKind?: DoorExtraKind;
 }
 
 export interface SlidingJob {
@@ -626,6 +684,11 @@ export interface SiteMeasureLine {
   hasVent: YesNo;
   ventCount: number;
   toughened: YesNo;
+  /** Optional glass / colour for quote narrative (Settings masters) */
+  glassTypeId?: string;
+  colourId?: string;
+  lockHandleLabel?: string;
+  doorExtraKind?: DoorExtraKind;
   measuredBy: string;
   /**
    * Per-row less-off override (mm). null/undefined = use project default, else Settings.

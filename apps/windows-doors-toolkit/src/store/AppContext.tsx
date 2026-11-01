@@ -129,6 +129,13 @@ function normalizeMasters(state: AppState): AppState {
   const hardware = state.hardware.map((h) => ({
     ...h,
     hardwareClass: h.hardwareClass ?? inferHardwareClass(h.name, h.category),
+    brand: h.brand ?? '',
+    colour: h.colour ?? '',
+    weightCapacityKg: h.weightCapacityKg ?? 0,
+  }));
+  const glassTypes = (state.glassTypes ?? []).map((g) => ({
+    ...g,
+    brand: g.brand ?? '',
   }));
   const c = state.casement;
   const casementMeshDoors = c.meshDoors ?? (c.mesh === 'Yes' ? Math.max(1, c.openablePanels || 1) : 0);
@@ -235,6 +242,7 @@ function normalizeMasters(state: AppState): AppState {
     windowTypes,
     profiles,
     hardware,
+    glassTypes,
     sliding,
     casement,
     openings,

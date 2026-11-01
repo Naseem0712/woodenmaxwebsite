@@ -113,8 +113,16 @@ export function ensureSeriesHardwareDefaults(series: SeriesDefinition): SeriesDe
     lockRate: series.lockRate ?? 0,
     doorCloserRate: series.doorCloserRate ?? 0,
     floorSpringRate: series.floorSpringRate ?? 0,
+    doorExtraKind: series.doorExtraKind ?? 'none',
+    doorCloserBrand: series.doorCloserBrand ?? '',
+    doorCloserColour: series.doorCloserColour ?? '',
+    doorCloserWeightKg: series.doorCloserWeightKg ?? 0,
+    floorSpringBrand: series.floorSpringBrand ?? '',
+    floorSpringColour: series.floorSpringColour ?? '',
+    floorSpringWeightKg: series.floorSpringWeightKg ?? 0,
     doorSetRate: series.doorSetRate ?? 0,
     swingHandleRate: series.swingHandleRate ?? 0,
     swingLockRate: series.swingLockRate ?? 0,
+    lockHandleLabel: series.lockHandleLabel ?? '',
   };
 }

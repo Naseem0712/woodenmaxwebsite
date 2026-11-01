@@ -117,6 +117,8 @@ export function CasementPage() {
               <option value="collapsible">Collapsible (full window)</option>
               <option value="fixed">Fixed</option>
               <option value="door-side">Door-side</option>
+              <option value="sliding">Sliding</option>
+              <option value="swing">Swing</option>
             </Select>
           </Field>
           <Field label="Vent?" hint="Outer mesh often fixed on casement vents">
