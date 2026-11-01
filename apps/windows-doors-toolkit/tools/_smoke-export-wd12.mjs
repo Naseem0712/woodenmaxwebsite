@@ -59,8 +59,8 @@ async function main() {
     );
   }
 
-  // Trigger Excel quote with rates
-  await page.getByRole('button', { name: 'Excel · with rates' }).first().click();
+  // Trigger Excel quote (package amounts — no ₹/sqft toggle)
+  await page.getByRole('button', { name: 'Excel · package' }).first().click();
   await page.waitForTimeout(500);
   // BOM excel no rates (second group)
   const bomExcelNoRates = page.locator('.export-group').nth(1).getByRole('button', { name: 'Excel · no rates' });

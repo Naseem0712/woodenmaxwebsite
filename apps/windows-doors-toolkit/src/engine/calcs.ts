@@ -610,7 +610,16 @@ export function calcSiteMeasure(state: AppState) {
       meshType === 'none' && line.mesh === 'Yes' ? legacyMeshRate : 0;
     const addOns = install + legacyMeshPerSqft + (line.toughened === 'Yes' ? toughExtra : 0);
     const effectiveRate = line.ratePerSqft + addOns;
-    const amount = Math.round(totalSqft * effectiveRate) + meshCalc.amount;
+    const computedMeshAmount = meshCalc.amount;
+    const meshAmount =
+      line.meshAmountOverride != null && Number.isFinite(line.meshAmountOverride)
+        ? Math.round(line.meshAmountOverride)
+        : computedMeshAmount;
+    const computedAmount = Math.round(totalSqft * effectiveRate) + meshAmount;
+    const amount =
+      line.amountOverride != null && Number.isFinite(line.amountOverride)
+        ? Math.round(line.amountOverride)
+        : computedAmount;
     return {
       line,
       typeName: t?.name ?? '—',
@@ -628,9 +637,11 @@ export function calcSiteMeasure(state: AppState) {
       totalSqft,
       meshSqft: meshCalc.sqft,
       meshRate: meshCalc.rate,
-      meshAmount: meshCalc.amount,
+      computedMeshAmount,
+      meshAmount,
       addOns,
       effectiveRate,
+      computedAmount,
       amount,
     };
   });

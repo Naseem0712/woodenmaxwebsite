@@ -153,15 +153,6 @@ a { color: inherit; text-decoration: none; }
 .tone-in .input, .input.tone-in { background: var(--yellow); border-color: #e8d56b; }
 .tone-link .input, .input.tone-link { background: var(--blue); border-color: #93c5fd; }
 .tone-calc .input, .input.tone-calc { background: var(--calc); }
-/* Safety: NumberInput uses type=text + inputMode; hide spinners if a raw type=number slips in */
-input[type='number'] {
-  -moz-appearance: textfield;
-}
-input[type='number']::-webkit-outer-spin-button,
-input[type='number']::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
 
 .kpi {
   background: linear-gradient(180deg, #f8fafc, #fff);
@@ -403,6 +394,33 @@ table.data tr.row-warn { background: #fff7ed; }
 }
 .export-group .btn:hover { border-color: var(--accent); }
 
+.export-btn-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.3rem;
+  width: 100%;
+}
+.export-toolbar-panel {
+  margin: 0;
+  padding: 0.4rem 0.45rem;
+  box-shadow: none;
+}
+.export-toolbar-panel .export-group {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.28rem;
+}
+.export-toolbar-panel .export-group-label { min-width: 0; }
+.export-toolbar-panel .export-btn-grid .btn {
+  width: 100%;
+  font-size: 0.68rem;
+  padding: 0.22rem 0.35rem;
+  min-height: 1.85rem;
+  white-space: nowrap;
+}
+.site-measure-mobile-panel { display: none; }
+.site-measure-desktop-push { display: contents; }
+
 /* Site Measure openings: desktop table; mobile stacked cards */
 .site-measure-openings-cards {
   display: none;
@@ -641,6 +659,91 @@ table.data tr.row-warn { background: #fff7ed; }
   .card:has(.site-measure-openings-cards) {
     overflow-x: visible;
   }
+  .site-measure-desktop-chrome { display: none !important; }
+  .site-measure-mobile-panel {
+    display: block;
+    margin: 0 0 0.75rem;
+    border: 1px solid #94a3b8;
+    border-radius: 8px;
+    background: linear-gradient(180deg, #f1f5f9 0%, #fff 100%);
+    overflow: hidden;
+  }
+  .site-measure-mobile-panel-summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.25rem 0.65rem;
+    padding: 0.55rem 0.7rem;
+    font-weight: 800;
+    font-size: 0.88rem;
+    color: #0b3a5b;
+  }
+  .site-measure-mobile-panel-summary::-webkit-details-marker { display: none; }
+  .site-measure-mobile-panel-summary::after {
+    content: '▾';
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: #64748b;
+  }
+  .site-measure-mobile-panel[open] > .site-measure-mobile-panel-summary::after { content: '▴'; }
+  .site-measure-mobile-panel-hint {
+    font-weight: 600;
+    font-size: 0.68rem;
+    color: #64748b;
+    letter-spacing: 0.02em;
+  }
+  .site-measure-mobile-panel-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0 0.55rem 0.65rem;
+    border-top: 1px solid #e2e8f0;
+  }
+  .site-measure-mobile-section-label {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #0b3a5b;
+    margin-bottom: 0.28rem;
+  }
+  .site-measure-mobile-addons-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.35rem 0.45rem;
+  }
+  .site-measure-mobile-addons .field { font-size: 0.76rem; gap: 0.1rem; }
+  .site-measure-mobile-addons .input { min-height: 1.9rem; padding: 0.28rem 0.4rem; }
+  .site-measure-mobile-push-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.28rem;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .site-measure-mobile-push-row .btn {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 1.85rem;
+    padding: 0.22rem 0.3rem;
+    font-size: 0.65rem;
+    white-space: nowrap;
+  }
+  .site-measure-mobile-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+  .site-measure-mobile-kpi-grid .kpi { margin: 0; padding: 0.4rem 0.5rem; }
+  .site-measure-mobile-kpi-grid .kpi-label { font-size: 0.62rem; }
+  .site-measure-mobile-kpi-grid .kpi-value { font-size: 0.95rem; }
+  .site-measure-mobile-kpi-grid .kpi-hint { font-size: 0.62rem; }
+  .site-measure-mobile-panel .export-btn-grid .btn,
+  .site-measure-mobile-panel .site-measure-mobile-push-row .btn { min-height: 1.85rem; }
+
 }
 
 @media (max-width: 560px) {

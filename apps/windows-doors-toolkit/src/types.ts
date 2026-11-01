@@ -679,6 +679,16 @@ export interface SiteMeasureLine {
   qty: number;
   /** Selling ₹/sqft — seeded from window-type master, editable per line */
   ratePerSqft: number;
+  /**
+   * Optional Mesh ₹ lock. null = use calculated mesh add-on from Settings rates.
+   * Cleared when size / mesh doors / type change so defaults refill.
+   */
+  meshAmountOverride?: number | null;
+  /**
+   * Optional package Amount lock. null = sqft×rate + mesh.
+   * Cleared when rate / size / mesh inputs change so defaults refill.
+   */
+  amountOverride?: number | null;
   /** Legacy Yes/No — synced from meshDoors / meshType for older quote add-on path */
   mesh: YesNo;
   /** Sliding tracks (0 when openable / fix / door without tracks) */

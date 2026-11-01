@@ -204,17 +204,17 @@ export function formatQuoteOpeningLines(input: QuoteOpeningFormatInput): string[
   const note = (input.notes || '').trim();
   if (note) lines.push(`Notes: ${note}`);
 
-  // Plain-text fallback (Excel / CSV). PDF HTML uses dotted rate/amount rows instead.
+  // Plain-text fallback (Excel / CSV). Quote PDFs omit ₹/sqft and show package amount as dotted leader.
   if (input.ratePerSqft != null && Number.isFinite(input.ratePerSqft)) {
     lines.push(`Rate: ${formatNum(input.ratePerSqft, 0)} /sqft`);
   }
   if (input.amount != null && Number.isFinite(input.amount)) {
-    lines.push(`Amount: ${formatNum(input.amount, 0)}`);
+    lines.push(`Package: ${formatNum(input.amount, 0)}`);
   }
   return lines;
 }
 
-/** Narrative lines only (no Rate/Amount) — PDF renders rate/amount as dotted leaders. */
+/** Narrative lines only (no Rate/Package) — PDF renders package amount as dotted leader. */
 export function formatQuoteOpeningNarrativeLines(input: QuoteOpeningFormatInput): string[] {
   return formatQuoteOpeningLines({
     ...input,

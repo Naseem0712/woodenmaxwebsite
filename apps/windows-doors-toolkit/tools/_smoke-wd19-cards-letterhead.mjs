@@ -93,7 +93,7 @@ async function main() {
 
     const popupPromise = page.waitForEvent('popup', { timeout: 15000 });
     const quoteGroup = page.locator('.export-group').first();
-    await quoteGroup.getByRole('button', { name: 'PDF · with rates' }).click();
+    await quoteGroup.getByRole('button', { name: 'PDF · package' }).click();
     const popup = await popupPromise;
     await popup.waitForFunction(
       () => document.querySelector('.letterhead, .opening-block, h1') != null,

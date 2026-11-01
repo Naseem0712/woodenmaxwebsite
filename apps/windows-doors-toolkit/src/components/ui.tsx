@@ -323,6 +323,7 @@ export function Btn({
   type = 'button',
   disabled,
   title,
+  'data-testid': dataTestId,
 }: {
   children: ReactNode;
   onClick?: () => void;
@@ -330,6 +331,7 @@ export function Btn({
   type?: 'button' | 'submit';
   disabled?: boolean;
   title?: string;
+  'data-testid'?: string;
 }) {
   return (
     <button
@@ -338,6 +340,7 @@ export function Btn({
       onClick={onClick}
       disabled={disabled}
       title={title}
+      data-testid={dataTestId}
     >
       {children}
     </button>

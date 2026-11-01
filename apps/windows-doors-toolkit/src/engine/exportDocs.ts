@@ -26,7 +26,7 @@ import {
 
 export type RateMode = 'include' | 'exclude';
 export type ExportFormat = 'pdf' | 'excel';
-export type ExportDocKind = 'quote' | 'bom';
+export type ExportDocKind = 'quote' | 'bom' | 'size-list' | 'profile-boq';
 
 export interface ExportColumn {
   key: string;
@@ -90,6 +90,10 @@ export interface ExportDocument {
   letterhead?: ExportLetterhead;
   /** Quote PDF opening schedule in customer W-01 block format. */
   openingBlocks?: ExportOpeningBlock[];
+  /** Fabrication window size list blocks (location……type / actual→net / hardwares). */
+  sizeListBlocks?: Array<{ code: string; lines: string[]; text: string }>;
+  /** Profile + hardware BOQ plain lines for PDF. */
+  boqLines?: string[];
   tables: ExportTable[];
   summary: ExportSummaryRow[];
   footnote?: string;
@@ -228,8 +232,9 @@ function businessMeta(state: AppState): Array<{ label: string; value: string }> 
   ];
 }
 
-/** Quotation schedule (08 Quotation / openings). Settings rates when include. */
-export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportDocument {
+/** Quotation schedule (08 Quotation / openings). Package amount only — never ₹/sqft. */
+export function buildQuoteDocument(state: AppState, _rateMode: RateMode = 'include'): ExportDocument {
+  const rateMode: RateMode = 'include';
   const q = calcQuote(state);
   const unit = state.allowances.unit;
   const label = modeLabel(state);
@@ -246,8 +251,7 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
     { key: 'meshDoors', label: 'Mesh doors' },
     { key: 'meshType', label: 'Mesh type' },
     { key: 'sqft', label: 'Chargeable sqft' },
-    { key: 'rate', label: 'Rate ₹/sqft', isRate: true },
-    { key: 'amount', label: 'Amount ₹', isRate: true },
+    { key: 'amount', label: 'Package ₹' },
   ];
   const openingBlocks: ExportOpeningBlock[] = [];
   const rows = q.openings.rows.map((r, i) => {
@@ -271,8 +275,8 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
         lockHandleLabel: r.line.lockHandleLabel,
         doorExtraKind: r.line.doorExtraKind,
         notes: r.line.notes ?? '',
-        ratePerSqft: rateMode === 'include' ? r.rate : null,
-        amount: rateMode === 'include' ? r.estimate : null,
+        ratePerSqft: null,
+        amount: r.estimate,
       }),
     );
     openingBlocks.push(block);
@@ -289,7 +293,6 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
       meshDoors: r.line.meshDoors ?? '',
       meshType: r.line.meshType ?? '',
       sqft: formatNum(r.chargeableSqft),
-      rate: formatNum(r.rate, 0),
       amount: formatNum(r.estimate, 0),
     };
   });
@@ -307,26 +310,18 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
     meshDoors: '',
     meshType: '',
     sqft: formatNum(m.sqft),
-    rate: formatNum(m.ratePerSqft, 0),
     amount: formatNum(m.amount, 0),
   }));
 
-  const summary: ExportSummaryRow[] =
-    rateMode === 'include'
-      ? [
-          { label: 'Windows subtotal', value: formatInr(q.windowsSubtotal), isRate: true },
-          { label: 'Mesh + grill', value: formatInr(q.mesh.total), isRate: true },
-          { label: 'After discount', value: formatInr(q.afterDiscount), isRate: true },
-          { label: 'GST', value: formatInr(q.gst), isRate: true },
-          { label: 'Grand total', value: formatInr(q.grand), isRate: true },
-          { label: 'Advance', value: formatInr(q.advance), isRate: true },
-          { label: 'Balance', value: formatInr(q.balance), isRate: true },
-        ]
-      : [
-          { label: 'Openings lines', value: String(rows.length) },
-          { label: 'Total chargeable sqft', value: formatNum(q.openings.totalChargeable) },
-          { label: 'Total windows (qty)', value: String(q.openings.totalWindows) },
-        ];
+  const summary: ExportSummaryRow[] = [
+    { label: 'Windows subtotal', value: formatInr(q.windowsSubtotal) },
+    { label: 'Mesh + grill', value: formatInr(q.mesh.total) },
+    { label: 'After discount', value: formatInr(q.afterDiscount) },
+    { label: 'GST', value: formatInr(q.gst) },
+    { label: 'Grand total', value: formatInr(q.grand) },
+    { label: 'Advance', value: formatInr(q.advance) },
+    { label: 'Balance', value: formatInr(q.balance) },
+  ];
 
   return {
     kind: 'quote',
@@ -339,10 +334,7 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
       { label: 'Phone', value: state.quote.phone || '—' },
       { label: 'Site', value: state.quote.siteAddress || '—' },
       { label: 'Valid till', value: q.validTill || '—' },
-      {
-        label: 'Rates',
-        value: rateMode === 'include' ? 'Including rates / amounts' : 'Excluding rates / amounts',
-      },
+      { label: 'Amounts', value: 'Package amount per opening (no ₹/sqft)' },
     ],
     openingBlocks,
     tables: [
@@ -358,11 +350,12 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
   };
 }
 
-/** Configurator mode quote (cart lines with glass / colour). */
+/** Configurator mode quote (cart lines with glass / colour). Package amount only. */
 export function buildConfiguratorQuoteDocument(
   state: AppState,
-  rateMode: RateMode,
+  _rateMode: RateMode = 'include',
 ): ExportDocument {
+  const rateMode: RateMode = 'include';
   const cart = calcConfiguratorCart(state);
   const modeQuote = calcModeQuote(state);
   const label = modeLabel(state);
@@ -382,8 +375,7 @@ export function buildConfiguratorQuoteDocument(
     { key: 'meshDoors', label: 'Mesh doors' },
     { key: 'meshType', label: 'Mesh type' },
     { key: 'sqft', label: 'Sqft' },
-    { key: 'retail', label: 'Retail ₹', isRate: true },
-    { key: 'modeAmount', label: 'Mode ₹', isRate: true },
+    { key: 'modeAmount', label: 'Package ₹' },
   ];
   const openingBlocks: ExportOpeningBlock[] = [];
   const rows = cart.rows.map((r, i) => {
@@ -410,7 +402,7 @@ export function buildConfiguratorQuoteDocument(
         doorExtraKind: r.line.doorExtraKind,
         notes: r.line.notes ?? '',
         ratePerSqft: null,
-        amount: rateMode === 'include' ? adj.amount : null,
+        amount: adj.amount,
       }),
     );
     openingBlocks.push(block);
@@ -430,29 +422,20 @@ export function buildConfiguratorQuoteDocument(
       meshDoors: r.line.meshDoors ?? '',
       meshType: r.line.meshType ?? '',
       sqft: formatNum(r.chargeableSqft),
-      retail: formatNum(lineRetail, 0),
       modeAmount: formatNum(adj.amount, 0),
     };
   });
 
-  const summary: ExportSummaryRow[] =
-    rateMode === 'include'
-      ? [
-          { label: 'Retail subtotal', value: formatInr(modeQuote.retailSubtotal), isRate: true },
-          {
-            label: `Mode discount (${modeQuote.discountPercent}%)`,
-            value: formatInr(modeQuote.discountAmount),
-            isRate: true,
-          },
-          { label: 'After mode discount', value: formatInr(modeQuote.afterModeDiscount), isRate: true },
-          { label: 'GST', value: formatInr(modeQuote.gst), isRate: true },
-          { label: 'Grand total', value: formatInr(modeQuote.grand), isRate: true },
-        ]
-      : [
-          { label: 'Lines', value: String(rows.length) },
-          { label: 'Total qty', value: String(cart.totalQty) },
-          { label: 'Total chargeable sqft', value: formatNum(cart.totalChargeable) },
-        ];
+  const summary: ExportSummaryRow[] = [
+    { label: 'Retail subtotal', value: formatInr(modeQuote.retailSubtotal) },
+    {
+      label: `Mode discount (${modeQuote.discountPercent}%)`,
+      value: formatInr(modeQuote.discountAmount),
+    },
+    { label: 'After mode discount', value: formatInr(modeQuote.afterModeDiscount) },
+    { label: 'GST', value: formatInr(modeQuote.gst) },
+    { label: 'Grand total', value: formatInr(modeQuote.grand) },
+  ];
 
   return {
     kind: 'quote',
@@ -463,10 +446,7 @@ export function buildConfiguratorQuoteDocument(
       ...businessMeta(state),
       { label: 'Quote no', value: state.quote.quoteNo || '—' },
       { label: 'Mode', value: label },
-      {
-        label: 'Rates',
-        value: rateMode === 'include' ? 'Including rates / amounts' : 'Excluding rates / amounts',
-      },
+      { label: 'Amounts', value: 'Package amount per opening (no ₹/sqft)' },
     ],
     openingBlocks,
     tables: [{ title: 'Quote lines', columns, rows, pdfSkipWhenBlocks: true }],
@@ -477,11 +457,12 @@ export function buildConfiguratorQuoteDocument(
   };
 }
 
-/** Site Measure schedule (measured openings + mesh add-ons). Settings rates when include. */
+/** Site Measure quote — package amount per opening (no ₹/sqft on export). */
 export function buildSiteMeasureQuoteDocument(
   state: AppState,
-  rateMode: RateMode,
+  _rateMode: RateMode = 'include',
 ): ExportDocument {
+  const rateMode: RateMode = 'include';
   const site = calcSiteMeasure(state);
   const unit = state.allowances.unit;
   const label = modeLabel(state);
@@ -499,9 +480,7 @@ export function buildSiteMeasureQuoteDocument(
     { key: 'meshDoors', label: 'Mesh doors' },
     { key: 'meshType', label: 'Mesh type' },
     { key: 'sqft', label: 'Chargeable sqft' },
-    { key: 'rate', label: 'Rate ₹/sqft', isRate: true },
-    { key: 'meshAmount', label: 'Mesh ₹', isRate: true },
-    { key: 'amount', label: 'Amount ₹', isRate: true },
+    { key: 'amount', label: 'Package ₹' },
   ];
   const openingBlocks: ExportOpeningBlock[] = [];
   const rows = site.rows.map((r, i) => {
@@ -525,8 +504,8 @@ export function buildSiteMeasureQuoteDocument(
         lockHandleLabel: r.line.lockHandleLabel,
         doorExtraKind: r.line.doorExtraKind,
         notes: r.line.notes ?? '',
-        ratePerSqft: rateMode === 'include' ? r.effectiveRate : null,
-        amount: rateMode === 'include' ? r.amount : null,
+        ratePerSqft: null,
+        amount: r.amount,
       }),
     );
     openingBlocks.push(block);
@@ -544,25 +523,16 @@ export function buildSiteMeasureQuoteDocument(
       meshDoors: r.line.meshDoors ?? '',
       meshType: meshTypeLabel(r.line.meshType ?? 'none'),
       sqft: formatNum(r.totalSqft),
-      rate: formatNum(r.effectiveRate, 0),
-      meshAmount: formatNum(r.meshAmount, 0),
       amount: formatNum(r.amount, 0),
     };
   });
 
-  const summary: ExportSummaryRow[] =
-    rateMode === 'include'
-      ? [
-          { label: 'Openings (qty)', value: String(site.totalQty) },
-          { label: 'Chargeable sqft', value: formatNum(site.totalSqft) },
-          { label: 'Mesh add-on', value: formatInr(site.totalMeshAmount), isRate: true },
-          { label: 'Measured value', value: formatInr(site.totalAmount), isRate: true },
-        ]
-      : [
-          { label: 'Openings (qty)', value: String(site.totalQty) },
-          { label: 'Chargeable sqft', value: formatNum(site.totalSqft) },
-          { label: 'Lines', value: String(rows.length) },
-        ];
+  const summary: ExportSummaryRow[] = [
+    { label: 'Openings (qty)', value: String(site.totalQty) },
+    { label: 'Chargeable sqft', value: formatNum(site.totalSqft) },
+    { label: 'Mesh add-on', value: formatInr(site.totalMeshAmount) },
+    { label: 'Measured value', value: formatInr(site.totalAmount) },
+  ];
 
   return {
     kind: 'quote',
@@ -576,15 +546,13 @@ export function buildSiteMeasureQuoteDocument(
       ...businessMeta(state),
       { label: 'Customer', value: state.quote.customerName || state.jobMeta.customerName || '—' },
       { label: 'Site', value: state.quote.siteAddress || state.jobMeta.siteAddress || '—' },
-      {
-        label: 'Rates',
-        value: rateMode === 'include' ? 'Including rates / amounts' : 'Excluding rates / amounts',
-      },
+      { label: 'Amounts', value: 'Package amount per opening (no ₹/sqft)' },
     ],
     openingBlocks,
     tables: [{ title: 'Site measured openings', columns, rows, pdfSkipWhenBlocks: true }],
     summary,
-    footnote: 'Site measure uses Settings window-type + mesh rates. Push to Openings/Configurator for full quotation.',
+    footnote:
+      'Site measure package amounts from editable opening rates (₹/sqft, Mesh ₹, Amount). Push to Openings/Configurator for full quotation.',
     rateMode,
     filenameBase: `site-measure-${state.quote.quoteNo || 'openings'}`,
   };
@@ -834,20 +802,33 @@ export function downloadCsv(filename: string, content: string): void {
 }
 
 function renderDotRow(description: string, rate: string, amount: string): string {
+  const rateCell = rate ? `<span class="dot-rate">${escHtml(rate)}</span>` : '';
   return `<div class="dot-row">
   <span class="dot-desc">${escHtml(description)}</span>
   <span class="dot-lead" aria-hidden="true"></span>
-  <span class="dot-rate">${escHtml(rate)}</span>
+  ${rateCell}
   <span class="dot-amount">${escHtml(amount)}</span>
 </div>`;
 }
 
-function letterheadHtml(lh: ExportLetterhead, title: string, subtitle: string, rateMode: RateMode): string {
+function letterheadHtml(
+  lh: ExportLetterhead,
+  title: string,
+  subtitle: string,
+  rateMode: RateMode,
+  kind?: ExportDocKind,
+): string {
   const logo = lh.logoUrl
     ? `<img class="lh-logo" src="${escHtml(lh.logoUrl)}" alt="Logo"/>`
     : '';
   const contactBits = [lh.phone, lh.email, lh.website].filter(Boolean).join(' · ');
   const gstLine = lh.gstin ? `<div><span class="gst-label">GST</span> ${escHtml(lh.gstin)}</div>` : '';
+  const badge =
+    kind === 'quote'
+      ? 'Package amounts'
+      : rateMode === 'include'
+        ? 'With rates'
+        : 'No rates';
   return `<header class="letterhead">
   <div class="lh-company">
     ${logo}
@@ -860,7 +841,7 @@ function letterheadHtml(lh: ExportLetterhead, title: string, subtitle: string, r
   </div>
   <div class="lh-doc">
     <strong>${escHtml(title)}</strong>
-    <span class="badge">${rateMode === 'include' ? 'With rates' : 'No rates'}</span>
+    <span class="badge">${badge}</span>
     <div class="sub">${escHtml(subtitle)}</div>
     ${lh.quoteNo || lh.quoteDate ? `<div class="lh-line">${escHtml([lh.quoteNo, lh.quoteDate].filter(Boolean).join(' · '))}</div>` : ''}
   </div>
@@ -886,7 +867,7 @@ function documentToHtml(doc: ExportDocument): string {
         .map((m) => `<div><span class="lbl">${escHtml(m.label)}</span> ${escHtml(m.value)}</div>`)
         .join('');
   const headHtml = hasLetterhead
-    ? letterheadHtml(doc.letterhead!, doc.title, doc.subtitle, doc.rateMode)
+    ? letterheadHtml(doc.letterhead!, doc.title, doc.subtitle, doc.rateMode, doc.kind)
     : `<h1>${escHtml(doc.title)}<span class="badge">${doc.rateMode === 'include' ? 'With rates' : 'No rates'}</span></h1>
   <div class="sub">${escHtml(doc.subtitle)}</div>
   <div class="meta">${metaHtml}</div>`;

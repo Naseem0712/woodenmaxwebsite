@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uid } from 'uuid';
 import { ExportToolbar } from '../components/ExportToolbar';
+import { SiteMeasureMobilePanel } from '../components/SiteMeasureMobilePanel';
 import { SiteMeasureOpeningCard } from '../components/SiteMeasureOpeningCard';
 import {
   Btn,
@@ -58,7 +59,21 @@ export function SiteMeasurePage() {
       'siteMeasures',
       state.siteMeasures.map((r) => {
         if (r.id !== id) return r;
-        const merged = { ...r, ...patchLine };
+        const nextPatch: Partial<SiteMeasureLine> = { ...patchLine };
+        // Recalc defaults when size / mesh / rate inputs change; keep manual locks when set in this patch.
+        const meshDepsChanged = (
+          ['width', 'height', 'unit', 'qty', 'meshDoors', 'meshType', 'hasVent', 'ventCount', 'glassDoors'] as const
+        ).some((k) => k in patchLine);
+        const amountDepsChanged =
+          meshDepsChanged ||
+          (['ratePerSqft', 'toughened', 'meshAmountOverride'] as const).some((k) => k in patchLine);
+        if (meshDepsChanged && !('meshAmountOverride' in patchLine)) {
+          nextPatch.meshAmountOverride = null;
+        }
+        if (amountDepsChanged && !('amountOverride' in patchLine)) {
+          nextPatch.amountOverride = null;
+        }
+        const merged = { ...r, ...nextPatch };
         if (
           patchLine.meshDoors != null ||
           patchLine.meshType != null
@@ -90,6 +105,8 @@ export function SiteMeasurePage() {
       unit: a.unit,
       qty: 1,
       ratePerSqft: wt?.ratePerSqft ?? 0,
+      meshAmountOverride: null,
+      amountOverride: null,
       mesh: doorMesh.mesh ?? 'No',
       tracks: doorMesh.tracks ?? 0,
       glassDoors: doorMesh.glassDoors ?? 2,
@@ -326,7 +343,9 @@ export function SiteMeasurePage() {
         badge={material}
       />
 
-      <ExportToolbar builders={exportBuilders} />
+      <div className="site-measure-desktop-chrome">
+        <ExportToolbar builders={exportBuilders} />
+      </div>
 
       <div className="chip-row" style={{ marginBottom: '0.85rem' }}>
         {(
@@ -345,6 +364,22 @@ export function SiteMeasurePage() {
           </button>
         ))}
       </div>
+
+      <SiteMeasureMobilePanel
+        builders={exportBuilders}
+        allowances={a}
+        meshSettings={meshSettings}
+        patchAllowances={(next) => patch('allowances', next)}
+        totalQty={calc.totalQty}
+        totalSqft={calc.totalSqft}
+        totalMeshAmount={calc.totalMeshAmount}
+        totalAmount={calc.totalAmount}
+        hasOpenings={state.siteMeasures.length > 0}
+        onPushOpenings={pushToOpenings}
+        onPushCosting={pushToCosting}
+        onPushConfigurator={pushToConfigurator}
+        onPushCutting={pushToCutting}
+      />
 
       {tab === 'less-off' ? (
         <>
@@ -493,6 +528,7 @@ export function SiteMeasurePage() {
 
       {tab === 'openings' ? (
         <>
+      <div className="site-measure-desktop-chrome">
       <Card title="Add-on rates (Settings)">
         <div className="grid grid-4">
           <Field label="Min chargeable sqft" tone="link" hint="Settings → Allowances">
@@ -557,24 +593,27 @@ export function SiteMeasurePage() {
         <Kpi label="Mesh add-on" value={<Money n={calc.totalMeshAmount} />} hint="typed mesh lines" />
         <Kpi label="Measured value" value={<Money n={calc.totalAmount} />} hint="before discount / GST" />
       </div>
+      </div>
 
       <Card
         title="Measured openings"
         actions={
           <Toolbar>
             <Btn onClick={addLine}>+ Add opening</Btn>
-            <Btn variant="ghost" onClick={pushToOpenings} disabled={!state.siteMeasures.length}>
-              Push net → 01 Openings + Quote
-            </Btn>
-            <Btn variant="ghost" onClick={pushToCosting} disabled={!state.siteMeasures.length}>
-              Push → 02/03 Costing
-            </Btn>
-            <Btn variant="ghost" onClick={pushToConfigurator} disabled={!state.siteMeasures.length}>
-              Push → Configurator
-            </Btn>
-            <Btn variant="ghost" onClick={pushToCutting} disabled={!state.siteMeasures.length}>
-              Push net → 05 Cutting
-            </Btn>
+            <span className="site-measure-desktop-chrome site-measure-desktop-push">
+              <Btn variant="ghost" onClick={pushToOpenings} disabled={!state.siteMeasures.length}>
+                Push net → 01 Openings + Quote
+              </Btn>
+              <Btn variant="ghost" onClick={pushToCosting} disabled={!state.siteMeasures.length}>
+                Push → 02/03 Costing
+              </Btn>
+              <Btn variant="ghost" onClick={pushToConfigurator} disabled={!state.siteMeasures.length}>
+                Push → Configurator
+              </Btn>
+              <Btn variant="ghost" onClick={pushToCutting} disabled={!state.siteMeasures.length}>
+                Push net → 05 Cutting
+              </Btn>
+            </span>
           </Toolbar>
         }
       >
@@ -838,11 +877,29 @@ export function SiteMeasurePage() {
                     <td className="calc">
                       <Num n={r.totalSqft} />
                     </td>
-                    <td className="calc">
-                      <Money n={r.meshAmount} />
+                    <td>
+                      <NumberInput
+                        value={r.meshAmount}
+                        inputMode="decimal"
+                        title="Mesh ₹ — calculated default, editable"
+                        onCommit={(n) =>
+                          update(r.line.id, {
+                            meshAmountOverride: n == null ? null : Math.round(n),
+                          })
+                        }
+                      />
                     </td>
-                    <td className="calc">
-                      <Money n={r.amount} />
+                    <td>
+                      <NumberInput
+                        value={r.amount}
+                        inputMode="decimal"
+                        title="Package amount — calculated default, editable"
+                        onCommit={(n) =>
+                          update(r.line.id, {
+                            amountOverride: n == null ? null : Math.round(n),
+                          })
+                        }
+                      />
                     </td>
                     <td>
                       <input

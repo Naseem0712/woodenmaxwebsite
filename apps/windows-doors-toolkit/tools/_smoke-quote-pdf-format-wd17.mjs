@@ -116,17 +116,17 @@ async function main() {
     await addBtn.click();
     await page.waitForTimeout(250);
   }
-  const cfg = await capturePdfPreview(page, 'PDF · with rates', 'configurator-quote-pdf');
+  const cfg = await capturePdfPreview(page, 'PDF · package', 'configurator-quote-pdf');
 
   // Quotation
   await page.goto(url + '/quote', { waitUntil: 'networkidle' });
   await page.waitForSelector('.export-toolbar');
-  const quote = await capturePdfPreview(page, 'PDF · with rates', 'quotation-quote-pdf');
+  const quote = await capturePdfPreview(page, 'PDF · package', 'quotation-quote-pdf');
 
   // Site Measure
   await page.goto(url + '/site-measure', { waitUntil: 'networkidle' });
   await page.waitForSelector('.export-toolbar');
-  const site = await capturePdfPreview(page, 'PDF · with rates', 'site-measure-quote-pdf');
+  const site = await capturePdfPreview(page, 'PDF · package', 'site-measure-quote-pdf');
 
   if (existsSync(mediaDir)) {
     copyFileSync(quote.shotPath, join(mediaDir, 'toolkit-quote-pdf-w01-preview.png'));

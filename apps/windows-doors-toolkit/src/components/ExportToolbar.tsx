@@ -3,12 +3,15 @@ import type { ExportDocument, ExportFormat, RateMode } from '../engine/exportDoc
 import { runExport } from '../engine/exportDocs';
 
 export type ExportBuilders = {
+  /** Quote always exports package amounts (no ₹/sqft). rateMode kept for call-site compatibility. */
   quote: (rateMode: RateMode) => ExportDocument;
   bom: (rateMode: RateMode) => ExportDocument;
 };
 
 /**
- * Visible Export controls: Quote + BOM, each as PDF/Excel × with/without rates.
+ * Visible Export controls:
+ * - Quote → PDF / Excel with package amount per opening (no ₹/sqft toggle)
+ * - BOM → PDF / Excel × with/without rates
  */
 export function ExportToolbar({
   builders,
@@ -30,31 +33,17 @@ export function ExportToolbar({
     <>
       <Btn
         variant="ghost"
-        title="PDF quotation including Settings rates"
+        title="PDF quotation with package amount per opening (no ₹/sqft)"
         onClick={() => go('quote', 'pdf', 'include')}
       >
-        PDF · with rates
+        PDF · package
       </Btn>
       <Btn
         variant="ghost"
-        title="PDF quotation without rates or amounts"
-        onClick={() => go('quote', 'pdf', 'exclude')}
-      >
-        PDF · no rates
-      </Btn>
-      <Btn
-        variant="ghost"
-        title="Excel/CSV quotation including rates"
+        title="Excel/CSV quotation with package amount per opening (no ₹/sqft)"
         onClick={() => go('quote', 'excel', 'include')}
       >
-        Excel · with rates
-      </Btn>
-      <Btn
-        variant="ghost"
-        title="Excel/CSV quotation without rates"
-        onClick={() => go('quote', 'excel', 'exclude')}
-      >
-        Excel · no rates
+        Excel · package
       </Btn>
     </>
   );

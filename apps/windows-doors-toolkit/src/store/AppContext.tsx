@@ -97,6 +97,8 @@ function normalizeSiteMeasures(state: AppState): AppState {
       hasVent: line.hasVent ?? 'No',
       ventCount: line.ventCount ?? 0,
       notes: line.notes ?? '',
+      meshAmountOverride: line.meshAmountOverride ?? null,
+      amountOverride: line.amountOverride ?? null,
     };
     return withPersistedNet(state, base);
   });

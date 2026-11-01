@@ -1,7 +1,6 @@
 import {
   Btn,
   Field,
-  Money,
   Num,
   NumberInput,
 } from './ui';
@@ -262,35 +261,48 @@ export function SiteMeasureOpeningCard({
         </Field>
       </div>
 
-      <div className="site-measure-opening-rates">
+      <div className="site-measure-opening-rates" data-testid="opening-rates-amount">
         <p className="site-measure-opening-section-label">Rates / amount</p>
         <div className="grid grid-2">
-          <Field label="₹/sqft">
+          <Field label="₹/sqft" hint="Editable · drives package amount">
             <NumberInput
               value={r.line.ratePerSqft}
+              inputMode="decimal"
+              data-testid="opening-rate-per-sqft"
               onCommit={(n) => update(r.line.id, { ratePerSqft: n ?? r.line.ratePerSqft })}
             />
           </Field>
-          <Field label="Sqft">
+          <Field label="Sqft" tone="calc">
             <div className="calc-box">
               <div className="calc-value">
                 <Num n={r.totalSqft} />
               </div>
             </div>
           </Field>
-          <Field label="Mesh ₹">
-            <div className="calc-box">
-              <div className="calc-value">
-                <Money n={r.meshAmount} />
-              </div>
-            </div>
+          <Field label="Mesh ₹" hint="Default from Settings · editable">
+            <NumberInput
+              value={r.meshAmount}
+              inputMode="decimal"
+              data-testid="opening-mesh-amount"
+              onCommit={(n) =>
+                update(r.line.id, {
+                  meshAmountOverride: n == null ? null : Math.round(n),
+                })
+              }
+            />
           </Field>
-          <Field label="Amount">
-            <div className="calc-box site-measure-opening-amount">
-              <div className="calc-value">
-                <Money n={r.amount} />
-              </div>
-            </div>
+          <Field label="Amount" hint="Package ₹ · editable">
+            <NumberInput
+              value={r.amount}
+              inputMode="decimal"
+              className="site-measure-opening-amount"
+              data-testid="opening-package-amount"
+              onCommit={(n) =>
+                update(r.line.id, {
+                  amountOverride: n == null ? null : Math.round(n),
+                })
+              }
+            />
           </Field>
         </div>
       </div>

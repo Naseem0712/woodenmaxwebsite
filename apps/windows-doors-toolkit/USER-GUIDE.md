@@ -81,12 +81,24 @@ Visible **near the top of the page** (not Settings-only) on:
 - **08 Quotation** (`/quote`)
 - **07 Hardware BOM** (`/hardware`, Vendor)
 
-| Group | Formats | Rate options |
-|-------|---------|--------------|
-| **Export Quote** | PDF, Excel | **with rates** · **no rates** |
+| Group | Formats | Options |
+|-------|---------|---------|
+| **Export Quote** | PDF, Excel | **package** amounts only (no ₹/sqft on the quote) |
 | **Export BOM** | PDF, Excel | **with rates** · **no rates** |
+| **Export Size list** | PDF, Excel | **with rates** · **no rates** (when available) |
+| **Export Profile BOQ** | PDF, Excel | **with rates** · **no rates** (when available) |
 
-Exports include configuration as applicable: materials, names, sizes, qty, glass, colour, hardware. **With rates** uses Settings / mode-quote / hardware catalogue amounts — never invented rates. Excel downloads as CSV (opens in Excel); PDF opens a print view → Save as PDF. Smoke: `node tools/_smoke-export-wd12.mjs` · shell/export: `node tools/_smoke-shell-export-wd16.mjs` · quote PDF lines: `node tools/_smoke-quote-pdf-format-wd17.mjs`.
+Quote exports show **package amount per opening** — never a ₹/sqft rate column. BOM / size list / profile BOQ may still offer with/without rates from Settings — never invented rates. Excel downloads as CSV (opens in Excel); PDF opens a print view → Save as PDF. Smoke: `node tools/_smoke-export-wd12.mjs` · shell/export: `node tools/_smoke-shell-export-wd16.mjs` · quote PDF lines: `node tools/_smoke-quote-pdf-format-wd17.mjs` · opening rates: `node tools/_smoke-wd19-opening-rates-quote.mjs`.
+
+**Window size list** (fab sheet, per opening) — Site Measure preview + export:
+
+```
+W-01 Living room ................ UPVC 3-track sliding · with rolling mesh
+Actual 1800×1500 mm · qty 1 · Less W 5 · Less H 5 → Net 1795×1495 mm
+Hardwares / design: Glass … · Colour … · Handle / lock … · Mesh …
+```
+
+**Hardware / profile BOQ** — rolls series members (vertical + top/bottom) across openings into stock bars (`name · N nos · stock ft` from Settings profile stock length) plus series/catalogue hardware qty (handle, connector, lock, rollers…). Cutting-list push also supplements profile lines. Rates Settings-driven only.
 
 **Quote PDF / print opening lines** (Quotation, Configurator, Site Measure) use the shared W-01 narrative — one opening per block, wired from Site Measure / Configurator / Settings masters:
 
@@ -101,11 +113,11 @@ Mesh: 0.5 mm, Black, rolling
 Door closer: Door closer, Dorma, Matt Black, 45 kg
 ```
 
-Codes run W-01, W-02… Size uses the selected unit (`mm` / `inch` / `ft`). Glass brand, lock/handle label, mesh thickness/colour/type, and door closer **or** floor spring (exclusive) are editable in Settings masters — never hardcoded into the formatter. Mesh line appears only when mesh doors & type are set. Door closer / floor spring lines appear for door/casement when that extra is selected. Per-opening **Notes** (when set) appear in the block. With-rates PDFs keep the narrative, then a dotted leader row `description …… rate …… amount` (rate + amount right-aligned). Summary totals use the same dotted layout. Excel keeps the grid and a **Schedule (W-01 block)** column (same shared formatter).
+Codes run W-01, W-02… Size uses the selected unit (`mm` / `inch` / `ft`). Glass brand, lock/handle label, mesh thickness/colour/type, and door closer **or** floor spring (exclusive) are editable in Settings masters — never hardcoded into the formatter. Mesh line appears only when mesh doors & type are set. Door closer / floor spring lines appear for door/casement when that extra is selected. Per-opening **Notes** (when set) appear in the block. Quote PDFs keep the narrative, then a dotted leader row `description …… package amount` (amount right-aligned — **no ₹/sqft**). Summary totals use the same dotted layout. Excel keeps the grid with **Package ₹** and a **Schedule (W-01 block)** column (same shared formatter).
 
-**Letterhead** (Quote PDF / print): company logo, name, address, phone, email, website, and **GST** (capital letters) + GSTIN from **Settings → Business / GST**, then customer / site from quote or job meta. Logo accepts URL or local image upload (stored in this browser). Page left/right margins are set for print.
+**Letterhead** (Quote PDF / print): company logo, name, address, phone, email, website, and **GST** (capital letters) + GSTIN from **Settings → Business / GST**, then customer / site from quote or job meta. Badge reads **Package amounts**. Logo accepts URL or local image upload (stored in this browser). Page left/right margins are set for print.
 
-Smoke: `node tools/_smoke-quote-pdf-format-wd17.mjs` · letterhead/cards: `node tools/_smoke-wd19-cards-letterhead.mjs`.
+Smoke: `node tools/_smoke-quote-pdf-format-wd17.mjs` · letterhead/cards: `node tools/_smoke-wd19-cards-letterhead.mjs` · rates/quote: `node tools/_smoke-wd19-opening-rates-quote.mjs`.
 
 Screenshots (store `media/`): `toolkit-export-site-measure.png`, `toolkit-export-configurator.png`, `toolkit-export-quotation.png`, `toolkit-quote-pdf-w01-preview.png`, `toolkit-quote-pdf-w01-configurator.png`, `toolkit-quote-pdf-w01-site-measure.png`, `toolkit-shell-mobile-drawer.png`, `toolkit-shell-desktop-scroll.png`.
 
@@ -161,7 +173,11 @@ Desktop shell: fixed **100vh** grid (`~220px` sidebar + main). **Sidebar and mai
 
 Mobile (≤980px): sidebar is a **hamburger overlay drawer**, **collapsed by default**. Menu button opens/closes; backdrop + Escape + route change close it. Inputs stack; touch targets ≥~36px. Wide tables still scroll inside `.table-panel` / `.card`.
 
-**Site Measure openings (mobile):** each opening is a **stacked card** with **2 fields per row** (Location|Type, Size W|H, Unit|Qty, Less W|H, Glass|doors, Mesh…, Rates…) and a **Notes** field at the bottom of every opening — not a wide table. Desktop keeps the schedule table (also has Notes). Smoke: `node tools/_smoke-site-measure-mobile-cards-wd18.mjs` · polish: `node tools/_smoke-wd19-cards-letterhead.mjs`.
+**Site Measure openings (mobile):** each opening is a **stacked card** with **2 fields per row** (Location|Type, Size W|H, Unit|Qty, Less W|H, Glass|doors, Mesh…, Rates…) and a **Notes** field at the bottom of every opening — not a wide table. Desktop keeps the schedule table (also has Notes).
+
+**Rates / amount on each opening (card + desktop table):** **₹/sqft**, **Mesh ₹**, and **Amount** (package) are editable number fields. Calculated defaults fill first from Settings / window-type / mesh costing; edits persist and drive KPI totals. Changing size / mesh / rate clears the matching lock so defaults refill. Numeric keypad uses `inputMode` (decimal) on mobile.
+
+**Site Measure Actions & totals (mobile):** export Quote uses **PDF · package** / **Excel · package**; BOM keeps with/without rates. Desktop keeps the full export toolbar, add-on card, KPI row, and push buttons in the openings header. Smoke: `node tools/_smoke-site-measure-mobile-cards-wd18.mjs` · polish: `node tools/_smoke-wd19-cards-letterhead.mjs` · rates/quote: `node tools/_smoke-wd19-opening-rates-quote.mjs`.
 
 ---
 
