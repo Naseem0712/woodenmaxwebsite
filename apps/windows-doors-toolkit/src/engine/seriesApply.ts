@@ -34,7 +34,11 @@ export function applySeriesToSliding(
   };
 }
 
-export function applySeriesToCasement(series: SeriesDefinition, casement: CasementJob): CasementJob {
+export function applySeriesToCasement(
+  series: SeriesDefinition,
+  casement: CasementJob,
+  allowances?: Allowances,
+): CasementJob {
   const s = ensureSeriesHardwareDefaults(series);
   const frictionStaySizeMm = s.frictionStaySizeMm;
   const frictionStayRate = rateForSize(s.frictionStayRates, frictionStaySizeMm, s.frictionStayRate);
@@ -43,7 +47,7 @@ export function applySeriesToCasement(series: SeriesDefinition, casement: Caseme
   const isDoor = s.kind === 'door';
   const doorLeaves = isDoor ? Math.max(1, casement.doorLeaves || casement.openablePanels || 1) : 0;
 
-  const meshSettings = resolveMeshCosting(undefined);
+  const meshSettings = resolveMeshCosting(allowances);
   const openable = s.defaultOpenable || casement.openablePanels;
   // Preserve existing mesh choice when re-applying series; only seed if still none
   const keepMesh = (casement.meshDoors ?? 0) > 0 || casement.mesh === 'Yes';

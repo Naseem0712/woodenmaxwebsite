@@ -92,7 +92,7 @@ export function realignJobsToMaterial(state: AppState, material: Material): AppS
     sliding = { ...sliding, seriesId: '' };
   }
   if (casementSeries) {
-    casement = applySeriesToCasement(casementSeries, casement);
+    casement = applySeriesToCasement(casementSeries, casement, state.allowances);
   } else {
     casement = { ...casement, seriesId: '' };
   }
