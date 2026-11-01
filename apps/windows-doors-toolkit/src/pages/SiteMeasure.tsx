@@ -234,7 +234,7 @@ export function SiteMeasurePage() {
           filterSeries(s.series, material).find((x) => x.kind === 'casement' || x.kind === 'door');
         const netted = withPersistedNet(s, casementLine);
         let casement = { ...s.casement };
-        if (series) casement = applySeriesToCasement(series, casement, s.allowances);
+        if (series) casement = applySeriesToCasement(series, casement);
         const ventSug =
           casementLine.hasVent === 'Yes'
             ? suggestOpenableMesh(meshSettings, {

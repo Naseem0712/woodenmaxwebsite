@@ -38,7 +38,7 @@ Use the **Project** bar at the top of every page:
 - **Select** a project — openings, site measures, cutting, quote, leads, etc. switch with it (no mixed job data).
 - **Material (UPVC / Aluminium)** — locks the whole job. Series, window types, profiles, cutting stock, and Tools 02/03 only show that material. Switching material realigns sliding/casement to a matching series.
 - **Mode (customer type)** — **Home owner**, **Architects**, **Builder**, **Vendor** (extensible). Modes shape quote UX / discounts — **never** embed shop rates. Rates stay Settings-driven.
-- **Verification gate** — Architect / Builder / Vendor unlock only after **name + professional main ID + GST no**. Home owner has no GST gate.
+- **Verification gate** — Architect / Builder / Vendor unlock only after **name + professional/business email + mobile + area + city + GST no**. Email is the login key (customer ID derived from it) so returning users can restore saved projects/quotes. Prefer a company email; personal email is allowed. Home owner has no GST gate.
 - **Rename** / **+ New** — create empty job bags (pick material + mode for the new job) while keeping global Settings masters.
 - **Less-off W/H** on the bar — optional project override of Settings less-off for the project’s material (clear with **Use Settings**).
 

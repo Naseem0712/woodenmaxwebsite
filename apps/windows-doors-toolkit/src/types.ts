@@ -190,9 +190,28 @@ export interface SharedMasterSnapshot {
 export interface ModeVerification {
   modeId: Exclude<CustomerModeId, 'home-owner'>;
   name: string;
-  professionalId: string;
+  /** Professional / business email — login key for restore (personal email allowed). */
+  email: string;
+  /** Deterministic customer ID derived from email (shared account database). */
+  customerId: string;
+  mobile: string;
+  /** Area / locality */
+  area: string;
+  city: string;
   gstNo: string;
   verifiedAt: string;
+}
+
+/** Payload submitted from the mode verification gate. */
+export interface ModeVerificationInput {
+  name: string;
+  email: string;
+  mobile: string;
+  area: string;
+  city: string;
+  gstNo: string;
+  /** When true, restore projects/quotes previously saved under this email. */
+  restoreSaved?: boolean;
 }
 
 /** One line on the customer-facing quote cart (per project). */

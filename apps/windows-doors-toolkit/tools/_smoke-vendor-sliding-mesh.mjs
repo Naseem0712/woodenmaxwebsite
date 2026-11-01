@@ -25,7 +25,11 @@ await page.evaluate(() => {
     {
       modeId: 'vendor',
       name: 'Smoke Vendor',
-      professionalId: 'VEN-001',
+      email: 'vendor@smoke-test.com',
+      customerId: 'cust_smoke_vendor-smoke-test-com',
+      mobile: '9999999999',
+      area: 'Test Area',
+      city: 'Hyderabad',
       gstNo: '29AAAAA0000A1Z5',
       verifiedAt: new Date().toISOString(),
     },

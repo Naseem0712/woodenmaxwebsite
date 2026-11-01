@@ -9,20 +9,30 @@ import {
 } from 'react';
 import { v4 as uid } from 'uuid';
 import { createSeedState } from '../data/seed';
+import {
+  customerIdFromEmail,
+  isValidEmail,
+  isVerificationComplete,
+  normalizeModeVerification,
+  restoreAccountByEmail,
+  syncAccountsFromState,
+  upsertAccountFromState,
+} from '../engine/accountStore';
 import { ensureSeriesHardwareDefaults } from '../engine/hardwareKind';
 import { withPersistedNet } from '../engine/lessOff';
 import { inferWindowKind, realignJobsToMaterial } from '../engine/materialContext';
+import { resolveMeshCosting, syncMeshYesNo } from '../engine/meshCosting';
 import type {
   AppState,
   CustomerModeId,
   HardwareClass,
   Material,
   ModeVerification,
+  ModeVerificationInput,
   ProjectJobData,
   ProjectMeta,
 } from '../types';
 import { DEFAULT_MODE_PRICING, EMPTY_VENDOR_OVERRIDES } from '../types';
-import { resolveMeshCosting, syncMeshYesNo } from '../engine/meshCosting';
 import { applyProjectJob, emptyProjectJob, extractProjectJob } from './projectKeys';
 
 const STORAGE_KEY = 'wd-toolkit-v7';
@@ -57,7 +67,7 @@ type Ctx = {
   requestProjectCustomerMode: (id: string, mode: CustomerModeId) => boolean;
   submitModeVerification: (
     mode: Exclude<CustomerModeId, 'home-owner'>,
-    data: { name: string; professionalId: string; gstNo: string },
+    data: ModeVerificationInput,
     /** Project to switch into the unlocked mode; pass null to verify only */
     projectId?: string | null,
   ) => void;
@@ -174,7 +184,7 @@ function normalizeMasters(state: AppState): AppState {
   };
   const colourOptions = state.colourOptions ?? [];
   const modePricing = { ...DEFAULT_MODE_PRICING, ...state.modePricing };
-  const modeVerifications = state.modeVerifications ?? [];
+  const modeVerifications = (state.modeVerifications ?? []).map(normalizeModeVerification);
   const configuratorLines = state.configuratorLines ?? [];
   const vendorOverrides = {
     ...EMPTY_VENDOR_OVERRIDES,
@@ -271,7 +281,9 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
     stockIssues: parsed.stockIssues ?? seed.stockIssues,
     colourOptions: parsed.colourOptions ?? seed.colourOptions,
     modePricing: { ...seed.modePricing, ...parsed.modePricing },
-    modeVerifications: parsed.modeVerifications ?? seed.modeVerifications,
+    modeVerifications: (parsed.modeVerifications ?? seed.modeVerifications).map(
+      normalizeModeVerification,
+    ),
     vendorOverrides: {
       ...EMPTY_VENDOR_OVERRIDES,
       ...seed.vendorOverrides,
@@ -418,6 +430,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    try {
+      syncAccountsFromState(state);
+    } catch {
+      /* ignore account sync failures */
+    }
   }, [state]);
 
   const patch = useCallback(<K extends keyof AppState>(key: K, value: AppState[K]) => {
@@ -512,13 +529,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     (id: string, mode: CustomerModeId): boolean => {
       const needsGate =
         mode !== 'home-owner' &&
-        !state.modeVerifications.some(
-          (v) =>
-            v.modeId === mode &&
-            v.name.trim() &&
-            v.professionalId.trim() &&
-            v.gstNo.trim(),
-        );
+        !state.modeVerifications
+          .map(normalizeModeVerification)
+          .some((v) => v.modeId === mode && isVerificationComplete(v));
       if (needsGate) return false;
       setProjectCustomerMode(id, mode);
       return true;
@@ -529,30 +542,76 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const submitModeVerification = useCallback(
     (
       mode: Exclude<CustomerModeId, 'home-owner'>,
-      data: { name: string; professionalId: string; gstNo: string },
+      data: ModeVerificationInput,
       projectId?: string | null,
     ) => {
-      const entry: ModeVerification = {
+      const email = data.email.trim().toLowerCase();
+      if (!isValidEmail(email)) {
+        throw new Error('A valid professional / business email is required.');
+      }
+      const customerId = customerIdFromEmail(email);
+      const entry: ModeVerification = normalizeModeVerification({
         modeId: mode,
         name: data.name.trim(),
-        professionalId: data.professionalId.trim(),
+        email,
+        customerId,
+        mobile: data.mobile.trim(),
+        area: data.area.trim(),
+        city: data.city.trim(),
         gstNo: data.gstNo.trim(),
         verifiedAt: new Date().toISOString(),
-      };
+      });
+      if (!isVerificationComplete(entry)) {
+        throw new Error('Name, email, mobile, area, city, and GST are required.');
+      }
+
       setState((s) => {
-        const modeVerifications = [
-          ...s.modeVerifications.filter((v) => v.modeId !== mode),
-          entry,
-        ];
-        if (projectId === null) {
-          return { ...s, modeVerifications };
+        let next: AppState = s;
+        const restored =
+          data.restoreSaved !== false ? restoreAccountByEmail(email) : null;
+
+        if (restored && data.restoreSaved) {
+          const bags = { ...restored.projectBags };
+          const activeId = restored.activeProjectId;
+          const incoming = bags[activeId] ?? emptyProjectJob(extractProjectJob(s));
+          next = applyProjectJob(
+            {
+              ...s,
+              projects: restored.projects,
+              projectBags: bags,
+              activeProjectId: activeId,
+              modeVerifications: restored.modeVerifications,
+            },
+            incoming,
+          );
+          const meta = restored.projects.find((p) => p.id === activeId);
+          if (meta) next = realignJobsToMaterial(next, meta.material);
         }
-        const pid = projectId ?? s.activeProjectId;
-        return {
-          ...s,
-          modeVerifications,
-          projects: s.projects.map((p) => (p.id === pid ? { ...p, customerMode: mode } : p)),
-        };
+
+        const prior = next.modeVerifications
+          .map(normalizeModeVerification)
+          .filter((v) => v.modeId !== mode);
+        const modeVerifications = [...prior, entry];
+
+        if (projectId === null) {
+          next = { ...next, modeVerifications };
+        } else {
+          const pid = projectId ?? next.activeProjectId;
+          next = {
+            ...next,
+            modeVerifications,
+            projects: next.projects.map((p) =>
+              p.id === pid ? { ...p, customerMode: mode } : p,
+            ),
+          };
+        }
+
+        try {
+          upsertAccountFromState(next, modeVerifications, email);
+        } catch {
+          /* ignore */
+        }
+        return normalizeSiteMeasures(normalizeMasters(next));
       });
     },
     [],

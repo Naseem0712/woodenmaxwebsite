@@ -7,6 +7,7 @@ import type {
   ModeVerification,
 } from '../types';
 import { CUSTOMER_MODES, DEFAULT_MODE_PRICING } from '../types';
+import { isVerificationComplete, normalizeModeVerification } from './accountStore';
 import { lookupGlass, lookupWindowType, round, toSqft } from './calcs';
 import { resolveEffectiveCatalogue } from './masterCatalogue';
 import { meshLineAmount, resolveMeshCosting } from './meshCosting';
@@ -17,7 +18,9 @@ export function modeRequiresVerification(mode: CustomerModeId): boolean {
 
 export function isModeVerified(state: AppState, mode: CustomerModeId): boolean {
   if (!modeRequiresVerification(mode)) return true;
-  return state.modeVerifications.some((v) => v.modeId === mode && v.name.trim() && v.professionalId.trim() && v.gstNo.trim());
+  return state.modeVerifications
+    .map(normalizeModeVerification)
+    .some((v) => v.modeId === mode && isVerificationComplete(v));
 }
 
 export function resolveModePricing(state: AppState): ModePricingSettings {

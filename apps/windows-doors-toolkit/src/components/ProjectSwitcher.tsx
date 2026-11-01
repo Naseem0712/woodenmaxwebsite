@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { settingsLessOffForMaterial } from '../engine/lessOff';
+import { isModeVerified } from '../engine/modePricing';
 import { useApp } from '../store/AppContext';
 import { CUSTOMER_MODES, type CustomerModeId, type Material } from '../types';
 import { ModeVerificationGate } from './ModeVerificationGate';
@@ -52,13 +53,7 @@ export function ProjectSwitcher() {
       setDraftName('');
       return;
     }
-    const verified = state.modeVerifications.some(
-      (v) =>
-        v.modeId === draftMode &&
-        v.name.trim() &&
-        v.professionalId.trim() &&
-        v.gstNo.trim(),
-    );
+    const verified = isModeVerified(state, draftMode);
     if (verified) {
       createProject(name, draftMaterial, draftMode);
       setDraftName('');
@@ -114,10 +109,7 @@ export function ProjectSwitcher() {
               {CUSTOMER_MODES.map((m) => (
                 <option key={m.id} value={m.id}>
                   {m.label}
-                  {m.requiresVerification &&
-                  !state.modeVerifications.some((v) => v.modeId === m.id)
-                    ? ' 🔒'
-                    : ''}
+                  {m.requiresVerification && !isModeVerified(state, m.id) ? ' 🔒' : ''}
                 </option>
               ))}
             </select>
