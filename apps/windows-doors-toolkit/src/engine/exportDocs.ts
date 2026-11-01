@@ -6,6 +6,12 @@ import {
 } from './modePricing';
 import { resolveEffectiveCatalogue } from './masterCatalogue';
 import { meshTypeLabel } from './meshCosting';
+import {
+  formatOpeningCode,
+  formatQuoteOpeningBlock,
+  formatQuoteOpeningLines,
+  type QuoteOpeningFormatInput,
+} from './quoteOpeningFormat';
 import { CUSTOMER_MODES, type AppState } from '../types';
 
 export type RateMode = 'include' | 'exclude';
@@ -23,6 +29,11 @@ export interface ExportTable {
   title: string;
   columns: ExportColumn[];
   rows: Array<Record<string, string | number>>;
+  /**
+   * When true and the document has openingBlocks, PDF/print skips this table
+   * (blocks replace the wide schedule). Excel still exports the table.
+   */
+  pdfSkipWhenBlocks?: boolean;
 }
 
 export interface ExportSummaryRow {
@@ -31,16 +42,34 @@ export interface ExportSummaryRow {
   isRate?: boolean;
 }
 
+/** One W-01… opening rendered as multi-line customer template on PDF/print. */
+export interface ExportOpeningBlock {
+  code: string;
+  lines: string[];
+  text: string;
+}
+
 export interface ExportDocument {
   kind: ExportDocKind;
   title: string;
   subtitle: string;
   meta: Array<{ label: string; value: string }>;
+  /** Quote PDF opening schedule in customer W-01 block format. */
+  openingBlocks?: ExportOpeningBlock[];
   tables: ExportTable[];
   summary: ExportSummaryRow[];
   footnote?: string;
   rateMode: RateMode;
   filenameBase: string;
+}
+
+function buildOpeningBlock(input: QuoteOpeningFormatInput): ExportOpeningBlock {
+  const lines = formatQuoteOpeningLines(input);
+  return {
+    code: formatOpeningCode(input.index),
+    lines,
+    text: formatQuoteOpeningBlock(input),
+  };
 }
 
 function escHtml(s: string): string {
@@ -83,6 +112,8 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
   const unit = state.allowances.unit;
   const label = modeLabel(state);
   const columns: ExportColumn[] = [
+    { key: 'code', label: 'Code' },
+    { key: 'schedule', label: 'Schedule (W-01 block)' },
     { key: 'location', label: 'Location' },
     { key: 'type', label: 'Type / series' },
     { key: 'material', label: 'Material' },
@@ -96,9 +127,28 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
     { key: 'rate', label: 'Rate ₹/sqft', isRate: true },
     { key: 'amount', label: 'Amount ₹', isRate: true },
   ];
-  const rows = q.openings.rows.map((r) => {
+  const openingBlocks: ExportOpeningBlock[] = [];
+  const rows = q.openings.rows.map((r, i) => {
     const t = state.windowTypes.find((w) => w.id === r.line.windowTypeId);
+    const block = buildOpeningBlock({
+      index: i + 1,
+      location: r.line.location,
+      width: r.line.width,
+      height: r.line.height,
+      unit,
+      qty: r.line.qty,
+      areaSqft: r.chargeableSqft,
+      windowTypeName: r.typeName,
+      glassDoors: r.line.glassDoors,
+      meshDoors: r.line.meshDoors,
+      colourName: null,
+      ratePerSqft: rateMode === 'include' ? r.rate : null,
+      amount: rateMode === 'include' ? r.estimate : null,
+    });
+    openingBlocks.push(block);
     return {
+      code: block.code,
+      schedule: block.text,
       location: r.line.location,
       type: r.typeName,
       material: t?.material ?? '—',
@@ -115,6 +165,8 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
   });
 
   const meshRows = q.mesh.rows.map((m) => ({
+    code: '',
+    schedule: '',
     location: m.location || m.kind,
     type: m.kind,
     material: '—',
@@ -161,8 +213,9 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
         value: rateMode === 'include' ? 'Including rates / amounts' : 'Excluding rates / amounts',
       },
     ],
+    openingBlocks,
     tables: [
-      { title: 'Window schedule', columns, rows },
+      { title: 'Window schedule', columns, rows, pdfSkipWhenBlocks: true },
       ...(meshRows.length
         ? [{ title: 'Mesh / grill add-ons', columns, rows: meshRows }]
         : []),
@@ -183,6 +236,8 @@ export function buildConfiguratorQuoteDocument(
   const modeQuote = calcModeQuote(state);
   const label = modeLabel(state);
   const columns: ExportColumn[] = [
+    { key: 'code', label: 'Code' },
+    { key: 'schedule', label: 'Schedule (W-01 block)' },
     { key: 'location', label: 'Location' },
     { key: 'product', label: 'Product' },
     { key: 'type', label: 'Type' },
@@ -199,10 +254,29 @@ export function buildConfiguratorQuoteDocument(
     { key: 'retail', label: 'Retail ₹', isRate: true },
     { key: 'modeAmount', label: 'Mode ₹', isRate: true },
   ];
-  const rows = cart.rows.map((r) => {
+  const openingBlocks: ExportOpeningBlock[] = [];
+  const rows = cart.rows.map((r, i) => {
     const lineRetail = r.retailAmount + r.glassAmount + r.meshAmount;
     const adj = modeAdjustedLineAmount(lineRetail, modeQuote);
+    const block = buildOpeningBlock({
+      index: i + 1,
+      location: r.line.location,
+      width: r.line.widthMm,
+      height: r.line.heightMm,
+      unit: 'mm',
+      qty: r.line.qty,
+      areaSqft: r.chargeableSqft,
+      windowTypeName: r.typeName,
+      glassDoors: r.line.glassDoors,
+      meshDoors: r.line.meshDoors,
+      colourName: r.colourName,
+      ratePerSqft: null,
+      amount: rateMode === 'include' ? adj.amount : null,
+    });
+    openingBlocks.push(block);
     return {
+      code: block.code,
+      schedule: block.text,
       location: r.line.location,
       product: r.line.productType,
       type: r.typeName,
@@ -253,7 +327,8 @@ export function buildConfiguratorQuoteDocument(
         value: rateMode === 'include' ? 'Including rates / amounts' : 'Excluding rates / amounts',
       },
     ],
-    tables: [{ title: 'Quote lines', columns, rows }],
+    openingBlocks,
+    tables: [{ title: 'Quote lines', columns, rows, pdfSkipWhenBlocks: true }],
     summary,
     footnote: state.quote.notes || undefined,
     rateMode,
@@ -270,6 +345,8 @@ export function buildSiteMeasureQuoteDocument(
   const unit = state.allowances.unit;
   const label = modeLabel(state);
   const columns: ExportColumn[] = [
+    { key: 'code', label: 'Code' },
+    { key: 'schedule', label: 'Schedule (W-01 block)' },
     { key: 'location', label: 'Location' },
     { key: 'type', label: 'Type' },
     { key: 'material', label: 'Material' },
@@ -285,22 +362,44 @@ export function buildSiteMeasureQuoteDocument(
     { key: 'meshAmount', label: 'Mesh ₹', isRate: true },
     { key: 'amount', label: 'Amount ₹', isRate: true },
   ];
-  const rows = site.rows.map((r) => ({
-    location: r.line.location || '—',
-    type: r.typeName,
-    material: r.material,
-    size: `${r.line.width} × ${r.line.height}`,
-    net: `${r.netWidth} × ${r.netHeight}`,
-    qty: r.line.qty,
-    tracks: r.line.tracks ?? '',
-    glassDoors: r.line.glassDoors ?? '',
-    meshDoors: r.line.meshDoors ?? '',
-    meshType: meshTypeLabel(r.line.meshType ?? 'none'),
-    sqft: formatNum(r.totalSqft),
-    rate: formatNum(r.effectiveRate, 0),
-    meshAmount: formatNum(r.meshAmount, 0),
-    amount: formatNum(r.amount, 0),
-  }));
+  const openingBlocks: ExportOpeningBlock[] = [];
+  const rows = site.rows.map((r, i) => {
+    const lineUnit = r.line.unit || unit;
+    const block = buildOpeningBlock({
+      index: i + 1,
+      location: r.line.location || '—',
+      width: r.line.width,
+      height: r.line.height,
+      unit: lineUnit,
+      qty: r.line.qty,
+      areaSqft: r.totalSqft,
+      windowTypeName: r.typeName,
+      glassDoors: r.line.glassDoors,
+      meshDoors: r.line.meshDoors,
+      colourName: null,
+      ratePerSqft: rateMode === 'include' ? r.effectiveRate : null,
+      amount: rateMode === 'include' ? r.amount : null,
+    });
+    openingBlocks.push(block);
+    return {
+      code: block.code,
+      schedule: block.text,
+      location: r.line.location || '—',
+      type: r.typeName,
+      material: r.material,
+      size: `${r.line.width} × ${r.line.height}`,
+      net: `${r.netWidth} × ${r.netHeight}`,
+      qty: r.line.qty,
+      tracks: r.line.tracks ?? '',
+      glassDoors: r.line.glassDoors ?? '',
+      meshDoors: r.line.meshDoors ?? '',
+      meshType: meshTypeLabel(r.line.meshType ?? 'none'),
+      sqft: formatNum(r.totalSqft),
+      rate: formatNum(r.effectiveRate, 0),
+      meshAmount: formatNum(r.meshAmount, 0),
+      amount: formatNum(r.amount, 0),
+    };
+  });
 
   const summary: ExportSummaryRow[] =
     rateMode === 'include'
@@ -329,7 +428,8 @@ export function buildSiteMeasureQuoteDocument(
         value: rateMode === 'include' ? 'Including rates / amounts' : 'Excluding rates / amounts',
       },
     ],
-    tables: [{ title: 'Site measured openings', columns, rows }],
+    openingBlocks,
+    tables: [{ title: 'Site measured openings', columns, rows, pdfSkipWhenBlocks: true }],
     summary,
     footnote: 'Site measure uses Settings window-type + mesh rates. Push to Openings/Configurator for full quotation.',
     rateMode,
@@ -584,9 +684,25 @@ function documentToHtml(doc: ExportDocument): string {
   const metaHtml = doc.meta
     .map((m) => `<div><span class="lbl">${escHtml(m.label)}</span> ${escHtml(m.value)}</div>`)
     .join('');
+  const hasBlocks = Boolean(doc.openingBlocks?.length);
+  const blocksHtml = hasBlocks
+    ? `<h2>Opening schedule</h2>
+<div class="openings">
+${doc.openingBlocks!
+  .map(
+    (b) =>
+      `<div class="opening-block"><pre>${escHtml(b.lines.join('\n'))}</pre></div>`,
+  )
+  .join('\n')}
+</div>`
+    : '';
   const tablesHtml = doc.tables
+    .filter((table) => !(hasBlocks && table.pdfSkipWhenBlocks))
     .map((table) => {
-      const cols = visibleColumns(table.columns, doc.rateMode);
+      const cols = visibleColumns(table.columns, doc.rateMode).filter(
+        (c) => !(hasBlocks && (c.key === 'schedule' || c.key === 'code')),
+      );
+      if (!cols.length) return '';
       const head = cols.map((c) => `<th>${escHtml(c.label)}</th>`).join('');
       const body =
         table.rows.length === 0
@@ -594,7 +710,13 @@ function documentToHtml(doc: ExportDocument): string {
           : table.rows
               .map(
                 (row) =>
-                  `<tr>${cols.map((c) => `<td>${escHtml(String(row[c.key] ?? ''))}</td>`).join('')}</tr>`,
+                  `<tr>${cols
+                    .map((c) => {
+                      const raw = String(row[c.key] ?? '');
+                      const html = escHtml(raw).replace(/\n/g, '<br/>');
+                      return `<td>${html}</td>`;
+                    })
+                    .join('')}</tr>`,
               )
               .join('');
       return `<h2>${escHtml(table.title)}</h2><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
@@ -608,11 +730,14 @@ function documentToHtml(doc: ExportDocument): string {
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8"/><title>${escHtml(doc.title)}</title>
 <style>
-  body{font:13px/1.45 system-ui,Segoe UI,sans-serif;color:#0f172a;margin:24px;max-width:1100px}
+  body{font:13px/1.45 system-ui,Segoe UI,sans-serif;color:#0f172a;margin:24px;max-width:900px}
   h1{font-size:20px;margin:0 0 4px} .sub{color:#64748b;margin-bottom:12px}
   .meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;margin-bottom:16px;font-size:12px}
   .lbl{color:#64748b;display:inline-block;min-width:88px}
   h2{font-size:14px;margin:18px 0 6px}
+  .openings{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+  .opening-block{border:1px solid #cbd5e1;border-radius:6px;padding:10px 12px;background:#fff}
+  .opening-block pre{margin:0;font:13px/1.5 Consolas,ui-monospace,Segoe UI,monospace;white-space:pre-wrap;color:#0f172a}
   table{width:100%;border-collapse:collapse;margin-bottom:8px}
   th,td{border:1px solid #cbd5e1;padding:5px 7px;text-align:left;vertical-align:top}
   th{background:#f1f5f9;font-size:11px}
@@ -621,11 +746,12 @@ function documentToHtml(doc: ExportDocument): string {
   .sum span{display:block;font-size:11px;color:#64748b}
   .foot{margin-top:16px;font-size:11px;color:#64748b}
   .badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:#ecfeff;color:#0e7490;font-size:11px;font-weight:600}
-  @media print{body{margin:12px} .noprint{display:none}}
+  @media print{body{margin:12px} .noprint{display:none} .opening-block{break-inside:avoid}}
 </style></head><body>
   <h1>${escHtml(doc.title)}<span class="badge">${doc.rateMode === 'include' ? 'With rates' : 'No rates'}</span></h1>
   <div class="sub">${escHtml(doc.subtitle)}</div>
   <div class="meta">${metaHtml}</div>
+  ${blocksHtml}
   ${tablesHtml}
   <div class="sums">${summaryHtml}</div>
   ${doc.footnote ? `<p class="foot">${escHtml(doc.footnote)}</p>` : ''}
@@ -636,11 +762,11 @@ function documentToHtml(doc: ExportDocument): string {
 
 export function openPrintPdf(doc: ExportDocument): void {
   const html = documentToHtml(doc);
-  const w = window.open('', '_blank', 'noopener,noreferrer,width=1024,height=768');
+  const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  // Blob URL so noopener popups still receive the document (document.write is null with noopener).
+  const w = window.open(url, '_blank', 'noopener,noreferrer,width=1024,height=768');
   if (!w) {
-    // Fallback: download HTML if pop-up blocked
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
     a.download = `${doc.filenameBase}-${doc.rateMode}.html`;
@@ -648,9 +774,7 @@ export function openPrintPdf(doc: ExportDocument): void {
     URL.revokeObjectURL(url);
     return;
   }
-  w.document.open();
-  w.document.write(html);
-  w.document.close();
+  setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
 export function runExport(doc: ExportDocument, format: ExportFormat): void {

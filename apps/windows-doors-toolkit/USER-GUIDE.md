@@ -86,9 +86,20 @@ Visible **near the top of the page** (not Settings-only) on:
 | **Export Quote** | PDF, Excel | **with rates** · **no rates** |
 | **Export BOM** | PDF, Excel | **with rates** · **no rates** |
 
-Exports include configuration as applicable: materials, names, sizes, qty, glass, colour, hardware. **With rates** uses Settings / mode-quote / hardware catalogue amounts — never invented rates. Excel downloads as CSV (opens in Excel); PDF opens a print view → Save as PDF. Smoke: `node tools/_smoke-export-wd12.mjs` · shell/export: `node tools/_smoke-shell-export-wd16.mjs`.
+Exports include configuration as applicable: materials, names, sizes, qty, glass, colour, hardware. **With rates** uses Settings / mode-quote / hardware catalogue amounts — never invented rates. Excel downloads as CSV (opens in Excel); PDF opens a print view → Save as PDF. Smoke: `node tools/_smoke-export-wd12.mjs` · shell/export: `node tools/_smoke-shell-export-wd16.mjs` · quote PDF lines: `node tools/_smoke-quote-pdf-format-wd17.mjs`.
 
-Screenshots (store `media/`): `toolkit-export-site-measure.png`, `toolkit-export-configurator.png`, `toolkit-export-quotation.png`, `toolkit-shell-mobile-drawer.png`, `toolkit-shell-desktop-scroll.png`.
+**Quote PDF / print opening lines** (Quotation, Configurator, Site Measure) use the shared W-01 block format — one opening per block:
+
+```
+W-01 Living room, 1800X1500 Mm, qty 1, area 29.06 sft
+Window ; UPVC 3-track sliding
+Shutter/door ; 2 shutters Glass + 1 shutter mesh
+Color ; White (standard)
+```
+
+Codes run W-01, W-02… Size uses the selected unit label (Mm / inch / ft). Shutter/door comes from glass doors + mesh doors. Color comes from the configurator finish when present (openings / site measure show `—` until colour is set). With-rates PDFs append Rate / Amount lines under each block. Excel keeps the grid and also includes a **Schedule (W-01 block)** column.
+
+Screenshots (store `media/`): `toolkit-export-site-measure.png`, `toolkit-export-configurator.png`, `toolkit-export-quotation.png`, `toolkit-quote-pdf-w01-preview.png`, `toolkit-shell-mobile-drawer.png`, `toolkit-shell-desktop-scroll.png`.
 
 ---
 
