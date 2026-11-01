@@ -1,6 +1,7 @@
 import {
   Btn,
   Field,
+  Money,
   Num,
   NumberInput,
 } from './ui';
@@ -32,6 +33,8 @@ export type SiteMeasureCalcRow = {
   totalSqft: number;
   meshAmount: number;
   amount: number;
+  selling: number;
+  hasDiscount?: boolean;
 };
 
 type Props = {
@@ -303,6 +306,26 @@ export function SiteMeasureOpeningCard({
                 })
               }
             />
+          </Field>
+          <Field label="Disc %" hint="Empty = no discount">
+            <NumberInput
+              value={r.line.discountPercent ?? ''}
+              inputMode="decimal"
+              data-testid="opening-discount-percent"
+              onCommit={(n) =>
+                update(r.line.id, {
+                  discountPercent: n == null || n <= 0 ? null : n,
+                })
+              }
+              placeholder="—"
+            />
+          </Field>
+          <Field label="Selling" tone="calc" hint="After discount">
+            <div className="calc-box">
+              <div className="calc-value">
+                <Money n={r.selling} />
+              </div>
+            </div>
           </Field>
         </div>
       </div>

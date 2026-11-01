@@ -264,6 +264,24 @@ export interface ConfiguratorLine {
   doorExtraKind?: DoorExtraKind;
   /** Per-line customer / site note */
   notes?: string;
+  /** Optional % discount on this cart line. Empty / 0 = no discount line. */
+  discountPercent?: number | null;
+}
+
+/** Custom quote products outside window tools (doors, pergolas, furniture, louvers…). */
+export type CustomQuoteUnit = 'pc' | 'rft' | 'sft' | 'kg';
+
+export interface CustomQuoteLine {
+  id: string;
+  name: string;
+  sizeLabel: string;
+  /** Numeric measure for rft/sft/kg (pc → 1). Amount = rate × qty × measure. */
+  measure: number;
+  rate: number;
+  unit: CustomQuoteUnit;
+  qty: number;
+  discountPercent?: number | null;
+  notes?: string;
 }
 
 /** Size-driven catalogue line (mm). Rates edited in Settings — never hardcoded in formulas. */
@@ -497,6 +515,7 @@ export interface OpeningLine {
   doorExtraKind?: DoorExtraKind;
   /** Per-opening customer / site note */
   notes?: string;
+  discountPercent?: number | null;
 }
 
 export interface SlidingJob {
@@ -643,6 +662,11 @@ export interface QuoteExtras {
   quoteNo: string;
   quoteDate: string;
   phone: string;
+  /** Quote-level GST toggle. undefined = follow Settings gstEnabled. Off = no GST. */
+  applyGst?: boolean;
+  description?: string;
+  terms?: string;
+  bankDetails?: string;
 }
 
 export type LeadStatus = 'New' | 'Site visit' | 'Measured' | 'Quoted' | 'Won' | 'Lost';
@@ -717,6 +741,7 @@ export interface SiteMeasureLine {
   netHeight: number;
   /** Per-opening customer / site note */
   notes?: string;
+  discountPercent?: number | null;
 }
 
 export interface CompareLine {
@@ -789,6 +814,7 @@ export interface ProjectJobData {
   };
   /** Customer-facing configurator cart (Home owner / Architect / Builder quote path) */
   configuratorLines: ConfiguratorLine[];
+  customQuoteLines: CustomQuoteLine[];
 }
 
 /** Series-wise section inventory (global shop stock). */
@@ -831,6 +857,7 @@ export const PROJECT_JOB_KEYS = [
   'revisions',
   'marginExtras',
   'configuratorLines',
+  'customQuoteLines',
 ] as const;
 
 export type ProjectJobKey = (typeof PROJECT_JOB_KEYS)[number];

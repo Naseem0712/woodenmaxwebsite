@@ -11,6 +11,11 @@ import { isVerificationComplete, normalizeModeVerification } from './accountStor
 import { lookupGlass, lookupWindowType, round, toSqft } from './calcs';
 import { resolveEffectiveCatalogue } from './masterCatalogue';
 import { meshLineAmount, resolveMeshCosting } from './meshCosting';
+import {
+  applyLineDiscount,
+  calcCustomQuoteLines,
+  gstOnGrand,
+} from './quoteEnhancements';
 
 export function modeRequiresVerification(mode: CustomerModeId): boolean {
   return CUSTOMER_MODES.find((m) => m.id === mode)?.requiresVerification ?? false;
@@ -129,7 +134,12 @@ export interface ModeQuoteResult {
   discountPercent: number;
   discountAmount: number;
   afterModeDiscount: number;
+  afterLineDiscounts: number;
+  lineDiscountTotal: number;
+  customSelling: number;
   gst: number;
+  gstApplied: boolean;
+  gstPercent: number;
   grand: number;
   architectDiscountPct: number;
   builderThresholdMet: boolean;
@@ -167,10 +177,21 @@ export function calcModeQuote(state: AppState, mode?: CustomerModeId): ModeQuote
 
   const discountAmount = retailSubtotal * (discountPercent / 100);
   const afterModeDiscount = Math.max(0, retailSubtotal - discountAmount);
-  const gst = state.business.gstEnabled
-    ? afterModeDiscount * (state.business.gstPercent / 100)
-    : 0;
-  const grand = afterModeDiscount + gst;
+  const rateFactor = retailSubtotal <= 0 ? 1 : afterModeDiscount / retailSubtotal;
+
+  let lineDiscountTotal = 0;
+  let afterLineDiscounts = 0;
+  for (const r of cart.rows) {
+    const retailLine = r.retailAmount + r.glassAmount + r.meshAmount;
+    const modeAmt = retailLine * rateFactor;
+    const disc = applyLineDiscount(modeAmt, r.line.discountPercent);
+    lineDiscountTotal += disc.discountAmount;
+    afterLineDiscounts += disc.selling;
+  }
+  const custom = calcCustomQuoteLines(state);
+  afterLineDiscounts += custom.totalSelling;
+  lineDiscountTotal += custom.totalDiscount;
+  const gstInfo = gstOnGrand(afterLineDiscounts, state);
 
   return {
     mode: customerMode,
@@ -178,8 +199,13 @@ export function calcModeQuote(state: AppState, mode?: CustomerModeId): ModeQuote
     discountPercent,
     discountAmount,
     afterModeDiscount,
-    gst,
-    grand,
+    afterLineDiscounts,
+    lineDiscountTotal,
+    customSelling: custom.totalSelling,
+    gst: gstInfo.gst,
+    gstApplied: gstInfo.apply,
+    gstPercent: gstInfo.percent,
+    grand: gstInfo.grand,
     architectDiscountPct: archPct,
     builderThresholdMet: builderMet,
     builderDiscountPct: pricing.builderDiscountPercent,
@@ -195,6 +221,17 @@ export function modeAdjustedLineAmount(
   const rateFactor =
     modeQuote.retailSubtotal <= 0 ? 1 : modeQuote.afterModeDiscount / modeQuote.retailSubtotal;
   return { rateFactor, amount: retailAmount * rateFactor };
+}
+
+/** Mode-adjusted amount then optional per-line % discount. */
+export function modeLineSellingAmount(
+  retailAmount: number,
+  modeQuote: ModeQuoteResult,
+  discountPercent?: number | null,
+) {
+  const adj = modeAdjustedLineAmount(retailAmount, modeQuote);
+  const disc = applyLineDiscount(adj.amount, discountPercent);
+  return { ...adj, ...disc };
 }
 
 export function upsertModeVerification(

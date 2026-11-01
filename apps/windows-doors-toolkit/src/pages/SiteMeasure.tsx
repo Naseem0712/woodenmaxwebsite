@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uid } from 'uuid';
 import { ExportToolbar } from '../components/ExportToolbar';
+import { QuoteExtrasPanel } from '../components/QuoteExtrasPanel';
 import { SiteMeasureMobilePanel } from '../components/SiteMeasureMobilePanel';
 import { SiteMeasureOpeningCard } from '../components/SiteMeasureOpeningCard';
 import {
@@ -363,6 +364,7 @@ export function SiteMeasurePage() {
 
       <div className="site-measure-desktop-chrome">
         <ExportToolbar builders={exportBuilders} />
+        <QuoteExtrasPanel compact />
       </div>
 
       <div className="grid grid-2 deliverable-previews no-print site-measure-desktop-chrome" data-testid="deliverable-previews">

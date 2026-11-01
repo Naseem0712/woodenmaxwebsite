@@ -39,6 +39,9 @@ export interface QuoteOpeningFormatInput {
   /** When set (with-rates PDF), append Rate / Amount lines. */
   ratePerSqft?: number | null;
   amount?: number | null;
+  actualAmount?: number | null;
+  discountPercent?: number | null;
+  discountAmount?: number | null;
   /** Per-opening note shown under the narrative block. */
   notes?: string | null;
 }
@@ -204,12 +207,35 @@ export function formatQuoteOpeningLines(input: QuoteOpeningFormatInput): string[
   const note = (input.notes || '').trim();
   if (note) lines.push(`Notes: ${note}`);
 
+  const discPct = Number(input.discountPercent);
+  const hasDisc = Number.isFinite(discPct) && discPct > 0;
+  if (hasDisc) {
+    const actual =
+      input.actualAmount != null && Number.isFinite(input.actualAmount)
+        ? input.actualAmount
+        : input.amount;
+    if (actual != null && Number.isFinite(actual)) {
+      lines.push(`Actual amount: ${formatNum(actual, 0)}`);
+    }
+    const discAmt =
+      input.discountAmount != null && Number.isFinite(input.discountAmount)
+        ? input.discountAmount
+        : actual != null
+          ? (actual * discPct) / 100
+          : null;
+    lines.push(
+      `Discount: ${formatNum(discPct, 2)}%${
+        discAmt != null ? ` (−₹${formatNum(discAmt, 0)})` : ''
+      }`,
+    );
+  }
+
   // Plain-text fallback (Excel / CSV). Quote PDFs omit ₹/sqft and show package amount as dotted leader.
   if (input.ratePerSqft != null && Number.isFinite(input.ratePerSqft)) {
     lines.push(`Rate: ${formatNum(input.ratePerSqft, 0)} /sqft`);
   }
   if (input.amount != null && Number.isFinite(input.amount)) {
-    lines.push(`Package: ${formatNum(input.amount, 0)}`);
+    lines.push(`${hasDisc ? 'Selling' : 'Package'}: ${formatNum(input.amount, 0)}`);
   }
   return lines;
 }

@@ -88,7 +88,16 @@ Visible **near the top of the page** (not Settings-only) on:
 | **Export Size list** | PDF, Excel | **with rates** · **no rates** (when available) |
 | **Export Profile BOQ** | PDF, Excel | **with rates** · **no rates** (when available) |
 
-Quote exports show **package amount per opening** — never a ₹/sqft rate column. BOM / size list / profile BOQ may still offer with/without rates from Settings — never invented rates. Excel downloads as CSV (opens in Excel); PDF opens a print view → Save as PDF. Smoke: `node tools/_smoke-export-wd12.mjs` · shell/export: `node tools/_smoke-shell-export-wd16.mjs` · quote PDF lines: `node tools/_smoke-quote-pdf-format-wd17.mjs` · opening rates: `node tools/_smoke-wd19-opening-rates-quote.mjs`.
+Quote exports show **package amount per opening** — never a ₹/sqft rate column. BOM / size list / profile BOQ may still offer with/without rates from Settings — never invented rates. Excel downloads as CSV (opens in Excel); PDF opens a print view → Save as PDF. Smoke: `node tools/_smoke-export-wd12.mjs` · shell/export: `node tools/_smoke-shell-export-wd16.mjs` · quote PDF lines: `node tools/_smoke-quote-pdf-format-wd17.mjs` · opening rates: `node tools/_smoke-wd19-opening-rates-quote.mjs` · quote GST/discount/custom: `npx vite-node tools/_smoke-quote-enhance-unit.mjs` · `node tools/_smoke-quote-enhance-gst-discount.mjs`.
+
+### Quote GST · line discount · footer · custom products
+
+Shared on **Quotation**, **Configurator**, and **Site Measure** (package Quote PDF/Excel):
+
+- **GST** — Settings → Business holds GST % (seed 18%) and default on/off. Each quote has an **Apply GST on grand total** toggle (quote-level; empty follows Settings). Off = no GST line; on = GST % on the taxable grand only (after discounts).
+- **Discount % per product** — openings / configurator lines / custom lines. Empty = no discount narrative. When set: show **actual amount → discount % → selling amount**; package leader uses selling.
+- **Footer** — Description, Terms, Bank details persist with the quote and print on PDF/Excel after the totals.
+- **Custom products** — add lines not in window tools (doors, pergolas, chairs, tables, walls, louvers…): name, optional size, rate, unit (per pc / rft / sft / kg), qty → amount in the same package style. Rates are user/Settings-driven — never hardcoded shop rates.
 
 **Window size list** (fab sheet, per opening) — Site Measure preview + export:
 

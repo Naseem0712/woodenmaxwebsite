@@ -11,6 +11,11 @@ import type {
 } from '../types';
 import { computeNetSize, resolveLessOffMm } from './lessOff';
 import { meshLineAmount, resolveMeshCosting } from './meshCosting';
+import {
+  applyLineDiscount,
+  calcCustomQuoteLines,
+  gstOnGrand,
+} from './quoteEnhancements';
 
 const MM_TO_SQFT = 92903.04;
 
@@ -138,6 +143,10 @@ export interface OpeningCalc {
   chargeableSqft: number;
   rate: number;
   estimate: number;
+  discountPercent: number;
+  discountAmount: number;
+  selling: number;
+  hasDiscount: boolean;
 }
 
 export function calcOpenings(state: AppState): {
@@ -145,6 +154,8 @@ export function calcOpenings(state: AppState): {
   totalActual: number;
   totalChargeable: number;
   totalEstimate: number;
+  totalSelling: number;
+  totalLineDiscount: number;
   totalWindows: number;
 } {
   const unit = state.allowances.unit;
@@ -155,6 +166,8 @@ export function calcOpenings(state: AppState): {
     const actualSqft = actualSqftUnit * line.qty;
     const chargeableSqft = Math.max(actualSqftUnit, min) * line.qty;
     const rate = t?.ratePerSqft ?? 0;
+    const estimate = chargeableSqft * rate;
+    const disc = applyLineDiscount(estimate, line.discountPercent);
     return {
       line,
       typeName: t?.name ?? '—',
@@ -162,7 +175,11 @@ export function calcOpenings(state: AppState): {
       actualSqft,
       chargeableSqft,
       rate,
-      estimate: chargeableSqft * rate,
+      estimate,
+      discountPercent: disc.discountPercent,
+      discountAmount: disc.discountAmount,
+      selling: disc.selling,
+      hasDiscount: disc.hasDiscount,
     };
   });
   return {
@@ -170,6 +187,8 @@ export function calcOpenings(state: AppState): {
     totalActual: rows.reduce((s, r) => s + r.actualSqft, 0),
     totalChargeable: rows.reduce((s, r) => s + r.chargeableSqft, 0),
     totalEstimate: rows.reduce((s, r) => s + r.estimate, 0),
+    totalSelling: rows.reduce((s, r) => s + r.selling, 0),
+    totalLineDiscount: rows.reduce((s, r) => s + r.discountAmount, 0),
     totalWindows: state.openings.reduce((s, o) => s + o.qty, 0),
   };
 }
@@ -620,6 +639,7 @@ export function calcSiteMeasure(state: AppState) {
       line.amountOverride != null && Number.isFinite(line.amountOverride)
         ? Math.round(line.amountOverride)
         : computedAmount;
+    const disc = applyLineDiscount(amount, line.discountPercent);
     return {
       line,
       typeName: t?.name ?? '—',
@@ -643,6 +663,10 @@ export function calcSiteMeasure(state: AppState) {
       effectiveRate,
       computedAmount,
       amount,
+      discountPercent: disc.discountPercent,
+      discountAmount: disc.discountAmount,
+      selling: disc.selling,
+      hasDiscount: disc.hasDiscount,
     };
   });
   return {
@@ -651,6 +675,8 @@ export function calcSiteMeasure(state: AppState) {
     totalSqft: rows.reduce((s, r) => s + r.totalSqft, 0),
     totalMeshAmount: rows.reduce((s, r) => s + r.meshAmount, 0),
     totalAmount: rows.reduce((s, r) => s + r.amount, 0),
+    totalSelling: rows.reduce((s, r) => s + r.selling, 0),
+    totalLineDiscount: rows.reduce((s, r) => s + r.discountAmount, 0),
     warnCount: rows.filter((r) => r.warnNegative).length,
   };
 }
@@ -690,14 +716,15 @@ export function calcQuote(state: AppState) {
   const openings = calcOpenings(state);
   const mesh = calcMeshGrill(state);
   const site = calcSiteMeasure(state);
-  // Quote schedule lines come from 01 Openings (site measure pushes into openings).
+  const custom = calcCustomQuoteLines(state);
   const windowsSubtotal = openings.totalEstimate;
-  const subBeforeDiscount = windowsSubtotal + mesh.mesh + mesh.grill;
+  const windowsSelling = openings.totalSelling;
+  const customSelling = custom.totalSelling;
+  const subBeforeDiscount = windowsSelling + mesh.mesh + mesh.grill + customSelling;
   const afterDiscount = Math.max(0, subBeforeDiscount - state.quote.discountAmount);
-  const gst = state.business.gstEnabled
-    ? afterDiscount * (state.business.gstPercent / 100)
-    : 0;
-  const grand = afterDiscount + gst;
+  const gstInfo = gstOnGrand(afterDiscount, state);
+  const gst = gstInfo.gst;
+  const grand = gstInfo.grand;
   const advanceFromPercent =
     state.quote.advancePercent > 0 ? Math.round((grand * state.quote.advancePercent) / 100) : 0;
   const advance =
@@ -713,11 +740,17 @@ export function calcQuote(state: AppState) {
     openings,
     mesh,
     site,
+    custom,
     windowsSubtotal,
+    windowsSelling,
+    customSelling,
     measuredValue: site.totalAmount,
+    measuredSelling: site.totalSelling,
     subBeforeDiscount,
     afterDiscount,
     gst,
+    gstApplied: gstInfo.apply,
+    gstPercent: gstInfo.percent,
     grand,
     advance,
     advanceFromPercent,

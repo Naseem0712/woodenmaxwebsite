@@ -257,6 +257,7 @@ function normalizeMasters(state: AppState): AppState {
     modePricing,
     modeVerifications,
     configuratorLines: normalizedConfigurator,
+    customQuoteLines: state.customQuoteLines ?? [],
     vendorOverrides,
   };
 }
@@ -338,6 +339,7 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
       },
     },
     configuratorLines: parsed.configuratorLines ?? seed.configuratorLines,
+    customQuoteLines: parsed.customQuoteLines ?? seed.customQuoteLines,
     projects: parsed.projects?.length ? parsed.projects : seed.projects,
     activeProjectId: parsed.activeProjectId ?? seed.activeProjectId,
     projectBags: parsed.projectBags ?? {},

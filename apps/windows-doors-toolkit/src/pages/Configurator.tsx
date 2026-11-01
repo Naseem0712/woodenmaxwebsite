@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 import { v4 as uid } from 'uuid';
 import { ExportToolbar } from '../components/ExportToolbar';
+import { QuoteExtrasPanel } from '../components/QuoteExtrasPanel';
 import {
   Btn,
   Card,
@@ -24,6 +25,7 @@ import {
   calcConfiguratorLine,
   calcModeQuote,
   modeAdjustedLineAmount,
+  modeLineSellingAmount,
 } from '../engine/modePricing';
 import { useApp } from '../store/AppContext';
 import {
@@ -204,6 +206,7 @@ export function ConfiguratorPage() {
         badge={modeLabel}
       />
       <ExportToolbar builders={exportBuilders} />
+      <QuoteExtrasPanel compact />
 
       <Card title="Configure one opening" actions={<span className="tiny muted">{modeQuote.pricingNote}</span>}>
         <div className="grid grid-4">
@@ -458,15 +461,18 @@ export function ConfiguratorPage() {
                   <th>Glass</th>
                   <th>Colour</th>
                   <th>Sqft</th>
-                  <th>Amount</th>
+                  <th>Actual</th>
+                  <th className="no-print">Disc %</th>
+                  <th>Selling</th>
                   <th className="no-print" />
                 </tr>
               </thead>
               <tbody>
                 {cart.rows.map((r) => {
-                  const adj = modeAdjustedLineAmount(
+                  const sell = modeLineSellingAmount(
                     r.retailAmount + r.glassAmount + r.meshAmount,
                     modeQuote,
+                    r.line.discountPercent,
                   );
                   return (
                     <tr key={r.line.id}>
@@ -483,7 +489,28 @@ export function ConfiguratorPage() {
                         <Num n={r.chargeableSqft} />
                       </td>
                       <td className="calc">
-                        <Money n={adj.amount} />
+                        <Money n={sell.actual} />
+                      </td>
+                      <td className="no-print">
+                        <NumberInput
+                          value={r.line.discountPercent ?? ''}
+                          inputMode="decimal"
+                          data-testid="config-discount-percent"
+                          onCommit={(n) =>
+                            patch(
+                              'configuratorLines',
+                              (state.configuratorLines ?? []).map((l) =>
+                                l.id === r.line.id
+                                  ? { ...l, discountPercent: n == null || n <= 0 ? null : n }
+                                  : l,
+                              ),
+                            )
+                          }
+                          placeholder="—"
+                        />
+                      </td>
+                      <td className="calc">
+                        <Money n={sell.selling} />
                       </td>
                       <td className="no-print">
                         <Btn variant="ghost" onClick={() => removeLine(r.line.id)}>
@@ -495,7 +522,7 @@ export function ConfiguratorPage() {
                 })}
                 {cart.rows.length === 0 ? (
                   <tr>
-                    <td colSpan={10} className="muted">
+                    <td colSpan={12} className="muted">
                       No lines yet — configure above and Add to quote.
                     </td>
                   </tr>
@@ -622,8 +649,11 @@ export function ConfiguratorPage() {
                   : undefined
               }
             />
-            <Kpi label="After mode discount" value={<Money n={modeQuote.afterModeDiscount} />} />
-            <Kpi label="Grand (incl. GST)" value={<Money n={modeQuote.grand} />} />
+            <Kpi label="Taxable (after line disc.)" value={<Money n={modeQuote.afterLineDiscounts} />} />
+            <Kpi
+              label={modeQuote.gstApplied ? `Grand (GST ${modeQuote.gstPercent}%)` : 'Grand (GST off)'}
+              value={<Money n={modeQuote.grand} />}
+            />
           </div>
         </div>
       </Card>

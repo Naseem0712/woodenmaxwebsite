@@ -7,10 +7,16 @@ import {
 import {
   calcConfiguratorCart,
   calcModeQuote,
-  modeAdjustedLineAmount,
+  modeLineSellingAmount,
 } from './modePricing';
 import { resolveEffectiveCatalogue } from './masterCatalogue';
 import { meshTypeLabel, resolveMeshCosting } from './meshCosting';
+import {
+  buildQuoteFooterSections,
+  calcCustomQuoteLines,
+  customUnitLabel,
+  resolveQuoteGst,
+} from './quoteEnhancements';
 import {
   formatGlassLabel,
   formatOpeningCode,
@@ -102,8 +108,59 @@ export interface ExportDocument {
   tables: ExportTable[];
   summary: ExportSummaryRow[];
   footnote?: string;
+  footerSections?: Array<{ title: string; body: string }>;
   rateMode: RateMode;
   filenameBase: string;
+}
+
+function quoteFooter(state: AppState): Array<{ title: string; body: string }> {
+  return buildQuoteFooterSections(state.quote, state.business.warrantyNote);
+}
+
+function gstSummaryRows(state: AppState, gst: number, grand: number): ExportSummaryRow[] {
+  const { apply, percent } = resolveQuoteGst(state);
+  if (!apply) {
+    return [
+      { label: 'GST', value: 'Not applied' },
+      { label: 'Grand total', value: formatInr(grand) },
+    ];
+  }
+  return [
+    { label: `GST (${formatNum(percent, 2)}%)`, value: formatInr(gst) },
+    { label: 'Grand total', value: formatInr(grand) },
+  ];
+}
+
+function appendCustomOpeningBlocks(state: AppState, startIndex: number): ExportOpeningBlock[] {
+  const custom = calcCustomQuoteLines(state);
+  return custom.rows.map((r, i) => {
+    const code = formatOpeningCode(startIndex + i);
+    const unit = customUnitLabel(r.line.unit);
+    const size = (r.line.sizeLabel || '').trim() || '—';
+    const narrativeLines = [
+      `${code} ${(r.line.name || '').trim() || 'Custom product'}, ${size}, qty ${r.line.qty}, ${unit}`,
+      `Rate: ${formatNum(r.line.rate, 0)} ${unit}`,
+      ...(r.line.unit !== 'pc' ? [`Measure: ${formatNum(r.line.measure, 2)}`] : []),
+      ...(r.hasDiscount
+        ? [
+            `Actual amount: ${formatNum(r.actual, 0)}`,
+            `Discount: ${formatNum(r.discountPercent, 2)}% (−${formatInr(r.discountAmount)})`,
+          ]
+        : []),
+      ...((r.line.notes || '').trim() ? [`Notes: ${(r.line.notes || '').trim()}`] : []),
+    ];
+    const text = [
+      ...narrativeLines,
+      `${r.hasDiscount ? 'Selling' : 'Package'}: ${formatNum(r.selling, 0)}`,
+    ].join('\n');
+    return {
+      code,
+      lines: text.split('\n'),
+      text,
+      narrativeLines,
+      amountText: formatNum(r.selling, 0),
+    };
+  });
 }
 
 function buildOpeningBlock(input: QuoteOpeningFormatInput): ExportOpeningBlock {
@@ -281,7 +338,10 @@ export function buildQuoteDocument(state: AppState, _rateMode: RateMode = 'inclu
         doorExtraKind: r.line.doorExtraKind,
         notes: r.line.notes ?? '',
         ratePerSqft: null,
-        amount: r.estimate,
+        actualAmount: r.estimate,
+        discountPercent: r.hasDiscount ? r.discountPercent : null,
+        discountAmount: r.hasDiscount ? r.discountAmount : null,
+        amount: r.selling,
       }),
     );
     openingBlocks.push(block);
@@ -298,9 +358,11 @@ export function buildQuoteDocument(state: AppState, _rateMode: RateMode = 'inclu
       meshDoors: r.line.meshDoors ?? '',
       meshType: r.line.meshType ?? '',
       sqft: formatNum(r.chargeableSqft),
-      amount: formatNum(r.estimate, 0),
+      amount: formatNum(r.selling, 0),
     };
   });
+
+  openingBlocks.push(...appendCustomOpeningBlocks(state, openingBlocks.length + 1));
 
   const meshRows = q.mesh.rows.map((m) => ({
     code: '',
@@ -319,11 +381,12 @@ export function buildQuoteDocument(state: AppState, _rateMode: RateMode = 'inclu
   }));
 
   const summary: ExportSummaryRow[] = [
-    { label: 'Windows subtotal', value: formatInr(q.windowsSubtotal) },
+    { label: 'Windows (actual)', value: formatInr(q.windowsSubtotal) },
+    { label: 'Windows (selling)', value: formatInr(q.windowsSelling) },
     { label: 'Mesh + grill', value: formatInr(q.mesh.total) },
+    ...(q.customSelling > 0 ? [{ label: 'Custom products', value: formatInr(q.customSelling) }] : []),
     { label: 'After discount', value: formatInr(q.afterDiscount) },
-    { label: 'GST', value: formatInr(q.gst) },
-    { label: 'Grand total', value: formatInr(q.grand) },
+    ...gstSummaryRows(state, q.gst, q.grand),
     { label: 'Advance', value: formatInr(q.advance) },
     { label: 'Balance', value: formatInr(q.balance) },
   ];
@@ -340,6 +403,10 @@ export function buildQuoteDocument(state: AppState, _rateMode: RateMode = 'inclu
       { label: 'Site', value: state.quote.siteAddress || '—' },
       { label: 'Valid till', value: q.validTill || '—' },
       { label: 'Amounts', value: 'Package amount per opening (no ₹/sqft)' },
+      {
+        label: 'GST',
+        value: q.gstApplied ? `${formatNum(q.gstPercent, 2)}% on grand` : 'Off for this quote',
+      },
     ],
     openingBlocks,
     tables: [
@@ -349,7 +416,8 @@ export function buildQuoteDocument(state: AppState, _rateMode: RateMode = 'inclu
         : []),
     ],
     summary,
-    footnote: state.quote.notes || state.business.warrantyNote || undefined,
+    footerSections: quoteFooter(state),
+    footnote: undefined,
     rateMode,
     filenameBase: `quote-${state.quote.quoteNo || 'schedule'}`,
   };
@@ -385,7 +453,7 @@ export function buildConfiguratorQuoteDocument(
   const openingBlocks: ExportOpeningBlock[] = [];
   const rows = cart.rows.map((r, i) => {
     const lineRetail = r.retailAmount + r.glassAmount + r.meshAmount;
-    const adj = modeAdjustedLineAmount(lineRetail, modeQuote);
+    const sell = modeLineSellingAmount(lineRetail, modeQuote, r.line.discountPercent);
     const block = buildOpeningBlock(
       enrichOpeningNarrative(state, {
         index: i + 1,
@@ -407,7 +475,10 @@ export function buildConfiguratorQuoteDocument(
         doorExtraKind: r.line.doorExtraKind,
         notes: r.line.notes ?? '',
         ratePerSqft: null,
-        amount: adj.amount,
+        actualAmount: sell.actual,
+        discountPercent: sell.hasDiscount ? sell.discountPercent : null,
+        discountAmount: sell.hasDiscount ? sell.discountAmount : null,
+        amount: sell.selling,
       }),
     );
     openingBlocks.push(block);
@@ -427,9 +498,11 @@ export function buildConfiguratorQuoteDocument(
       meshDoors: r.line.meshDoors ?? '',
       meshType: r.line.meshType ?? '',
       sqft: formatNum(r.chargeableSqft),
-      modeAmount: formatNum(adj.amount, 0),
+      modeAmount: formatNum(sell.selling, 0),
     };
   });
+
+  openingBlocks.push(...appendCustomOpeningBlocks(state, openingBlocks.length + 1));
 
   const summary: ExportSummaryRow[] = [
     { label: 'Retail subtotal', value: formatInr(modeQuote.retailSubtotal) },
@@ -438,8 +511,14 @@ export function buildConfiguratorQuoteDocument(
       value: formatInr(modeQuote.discountAmount),
     },
     { label: 'After mode discount', value: formatInr(modeQuote.afterModeDiscount) },
-    { label: 'GST', value: formatInr(modeQuote.gst) },
-    { label: 'Grand total', value: formatInr(modeQuote.grand) },
+    ...(modeQuote.lineDiscountTotal > 0
+      ? [{ label: 'Line discounts', value: formatInr(modeQuote.lineDiscountTotal) }]
+      : []),
+    ...(modeQuote.customSelling > 0
+      ? [{ label: 'Custom products', value: formatInr(modeQuote.customSelling) }]
+      : []),
+    { label: 'Taxable total', value: formatInr(modeQuote.afterLineDiscounts) },
+    ...gstSummaryRows(state, modeQuote.gst, modeQuote.grand),
   ];
 
   return {
@@ -452,11 +531,18 @@ export function buildConfiguratorQuoteDocument(
       { label: 'Quote no', value: state.quote.quoteNo || '—' },
       { label: 'Mode', value: label },
       { label: 'Amounts', value: 'Package amount per opening (no ₹/sqft)' },
+      {
+        label: 'GST',
+        value: modeQuote.gstApplied
+          ? `${formatNum(modeQuote.gstPercent, 2)}% on grand`
+          : 'Off for this quote',
+      },
     ],
     openingBlocks,
     tables: [{ title: 'Quote lines', columns, rows, pdfSkipWhenBlocks: true }],
     summary,
-    footnote: state.quote.notes || undefined,
+    footerSections: quoteFooter(state),
+    footnote: undefined,
     rateMode,
     filenameBase: `mode-quote-${state.quote.quoteNo || 'configurator'}`,
   };
@@ -510,7 +596,10 @@ export function buildSiteMeasureQuoteDocument(
         doorExtraKind: r.line.doorExtraKind,
         notes: r.line.notes ?? '',
         ratePerSqft: null,
-        amount: r.amount,
+        actualAmount: r.amount,
+        discountPercent: r.hasDiscount ? r.discountPercent : null,
+        discountAmount: r.hasDiscount ? r.discountAmount : null,
+        amount: r.selling,
       }),
     );
     openingBlocks.push(block);
@@ -528,15 +617,29 @@ export function buildSiteMeasureQuoteDocument(
       meshDoors: r.line.meshDoors ?? '',
       meshType: meshTypeLabel(r.line.meshType ?? 'none'),
       sqft: formatNum(r.totalSqft),
-      amount: formatNum(r.amount, 0),
+      amount: formatNum(r.selling, 0),
     };
   });
+
+  openingBlocks.push(...appendCustomOpeningBlocks(state, openingBlocks.length + 1));
+
+  const custom = calcCustomQuoteLines(state);
+  const taxable = site.totalSelling + custom.totalSelling;
+  const gstInfo = resolveQuoteGst(state);
+  const gst = gstInfo.apply && gstInfo.percent > 0 ? (taxable * gstInfo.percent) / 100 : 0;
+  const grand = taxable + gst;
 
   const summary: ExportSummaryRow[] = [
     { label: 'Openings (qty)', value: String(site.totalQty) },
     { label: 'Chargeable sqft', value: formatNum(site.totalSqft) },
     { label: 'Mesh add-on', value: formatInr(site.totalMeshAmount) },
-    { label: 'Measured value', value: formatInr(site.totalAmount) },
+    { label: 'Measured value (actual)', value: formatInr(site.totalAmount) },
+    { label: 'Measured value (selling)', value: formatInr(site.totalSelling) },
+    ...(custom.totalSelling > 0
+      ? [{ label: 'Custom products', value: formatInr(custom.totalSelling) }]
+      : []),
+    { label: 'Taxable total', value: formatInr(taxable) },
+    ...gstSummaryRows(state, gst, grand),
   ];
 
   return {
@@ -552,10 +655,15 @@ export function buildSiteMeasureQuoteDocument(
       { label: 'Customer', value: state.quote.customerName || state.jobMeta.customerName || '—' },
       { label: 'Site', value: state.quote.siteAddress || state.jobMeta.siteAddress || '—' },
       { label: 'Amounts', value: 'Package amount per opening (no ₹/sqft)' },
+      {
+        label: 'GST',
+        value: gstInfo.apply ? `${formatNum(gstInfo.percent, 2)}% on grand` : 'Off for this quote',
+      },
     ],
     openingBlocks,
     tables: [{ title: 'Site measured openings', columns, rows, pdfSkipWhenBlocks: true }],
     summary,
+    footerSections: quoteFooter(state),
     footnote:
       'Site measure package amounts from editable opening rates (₹/sqft, Mesh ₹, Amount). Push to Openings/Configurator for full quotation.',
     rateMode,
@@ -940,6 +1048,12 @@ export function documentToCsv(doc: ExportDocument): string {
       lines.push([csvCell(s.label), csvCell(s.value)].join(','));
     }
   }
+  if (doc.footerSections?.length) {
+    lines.push('');
+    for (const s of doc.footerSections) {
+      lines.push([csvCell(s.title), csvCell(s.body)].join(','));
+    }
+  }
   if (doc.footnote) {
     lines.push('');
     lines.push(csvCell(doc.footnote));
@@ -1101,6 +1215,12 @@ ${doc.openingBlocks!
       return renderDotRow(s.label, '', s.value);
     })
     .join('');
+  const footerSectionsHtml = (doc.footerSections || [])
+    .map(
+      (s) =>
+        `<div class="foot-sec"><div class="foot-title">${escHtml(s.title)}</div><div class="foot-body">${escHtml(s.body).replace(/\n/g, '<br/>')}</div></div>`,
+    )
+    .join('');
 
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8"/><title>${escHtml(doc.title)}</title>
@@ -1140,6 +1260,9 @@ ${doc.openingBlocks!
   th{background:#f1f5f9;font-size:11px}
   .sums{margin-top:14px;display:flex;flex-direction:column;gap:6px;max-width:520px;margin-left:auto}
   .foot{margin-top:16px;font-size:11px;color:#64748b}
+  .foot-sec{margin-top:12px;max-width:640px}
+  .foot-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:#0b3a5b;margin-bottom:2px}
+  .foot-body{font-size:12px;color:#334155;white-space:pre-wrap}
   .badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:#ecfeff;color:#0e7490;font-size:11px;font-weight:600}
   @media print{
     body{padding:0;margin:0}
@@ -1153,6 +1276,7 @@ ${doc.openingBlocks!
   ${boqHtml}
   ${tablesHtml}
   <div class="sums">${summaryHtml}</div>
+  ${footerSectionsHtml}
   ${doc.footnote ? `<p class="foot">${escHtml(doc.footnote)}</p>` : ''}
   <p class="foot noprint">Use the browser Print dialog → Save as PDF.</p>
   <script>window.onload=function(){setTimeout(function(){window.print()},250)}</script>

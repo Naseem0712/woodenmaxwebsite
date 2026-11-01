@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uid } from 'uuid';
 import { ExportToolbar } from '../components/ExportToolbar';
+import { QuoteExtrasPanel } from '../components/QuoteExtrasPanel';
 import {
   Btn,
   Card,
@@ -12,8 +13,10 @@ import {
   Num,
   NumberInput,
   PageHeader,
+  Select,
   Toolbar,
 } from '../components/ui';
+import { resolveQuoteGst } from '../engine/quoteEnhancements';
 import {
   calcBuilder,
   calcCompare,
@@ -752,6 +755,7 @@ export function HardwarePage() {
 export function QuotePage() {
   const { state, patch } = useApp();
   const q = calcQuote(state);
+  const gst = resolveQuoteGst(state);
   const project = state.projects.find((p) => p.id === state.activeProjectId);
   const customerMode = project?.customerMode ?? 'home-owner';
   const modeLabel = CUSTOMER_MODES.find((m) => m.id === customerMode)?.label ?? 'Home owner';
@@ -873,12 +877,17 @@ export function QuotePage() {
           <Field label="Company" tone="link">
             <Input tone="link" readOnly value={state.business.companyName} />
           </Field>
-          <Field label="GST" tone="link">
-            <Input
-              tone="link"
-              readOnly
-              value={state.business.gstEnabled ? `${state.business.gstPercent}%` : 'Off'}
-            />
+          <Field label="GST on grand" hint={`Settings ${state.business.gstPercent}%`}>
+            <Select
+              value={gst.apply ? 'Yes' : 'No'}
+              data-testid="quote-page-apply-gst"
+              onChange={(e) =>
+                patch('quote', { ...state.quote, applyGst: e.target.value === 'Yes' })
+              }
+            >
+              <option value="Yes">Yes — {state.business.gstPercent}%</option>
+              <option value="No">No — off</option>
+            </Select>
           </Field>
         </div>
         <Field label="Notes">
@@ -888,6 +897,8 @@ export function QuotePage() {
           />
         </Field>
       </Card>
+
+      <QuoteExtrasPanel />
 
       <div className="quote-print" id="quote-print">
         <div className="quote-letterhead">
@@ -943,7 +954,9 @@ export function QuotePage() {
                 <th>{architectMode ? 'Size (mm)' : 'Size'}</th>
                 <th>Chargeable</th>
                 <th>Rate</th>
-                <th>Amount</th>
+                <th>Actual</th>
+                <th className="no-print">Disc %</th>
+                <th>Selling</th>
               </tr>
             </thead>
             <tbody>
@@ -963,6 +976,27 @@ export function QuotePage() {
                   <td className="calc">
                     <Money n={r.estimate} />
                   </td>
+                  <td className="no-print">
+                    <NumberInput
+                      value={r.line.discountPercent ?? ''}
+                      inputMode="decimal"
+                      data-testid="opening-discount-percent"
+                      onCommit={(n) =>
+                        patch(
+                          'openings',
+                          state.openings.map((o) =>
+                            o.id === r.line.id
+                              ? { ...o, discountPercent: n == null || n <= 0 ? null : n }
+                              : o,
+                          ),
+                        )
+                      }
+                      placeholder="—"
+                    />
+                  </td>
+                  <td className="calc">
+                    <Money n={r.selling} />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -970,11 +1004,15 @@ export function QuotePage() {
         </Card>
 
         <div className="grid grid-4">
-          <Kpi label="Windows" value={<Money n={q.windowsSubtotal} />} />
+          <Kpi label="Windows (selling)" value={<Money n={q.windowsSelling} />} />
           <Kpi label="Mesh + grill" value={<Money n={q.mesh.total} />} />
+          <Kpi label="Custom products" value={<Money n={q.customSelling} />} />
           <Kpi label="Site measured (ref)" value={<Money n={q.measuredValue} />} hint="from Site Measure" />
           <Kpi label="After discount" value={<Money n={q.afterDiscount} />} />
-          <Kpi label="GST" value={<Money n={q.gst} />} />
+          <Kpi
+            label={q.gstApplied ? `GST (${q.gstPercent}%)` : 'GST (off)'}
+            value={<Money n={q.gst} />}
+          />
           <Kpi label="Grand total" value={<Money n={q.grand} />} />
           <Kpi label="Advance" value={<Money n={q.advance} />} />
           <Kpi label="Balance" value={<Money n={q.balance} />} />

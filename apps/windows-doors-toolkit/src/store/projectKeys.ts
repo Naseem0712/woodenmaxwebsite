@@ -20,6 +20,7 @@ export function extractProjectJob(state: AppState | ProjectJobData): ProjectJobD
     revisions: state.revisions,
     marginExtras: state.marginExtras,
     configuratorLines: state.configuratorLines ?? [],
+    customQuoteLines: state.customQuoteLines ?? [],
   };
 }
 
@@ -50,6 +51,10 @@ export function emptyProjectJob(from: ProjectJobData): ProjectJobData {
       phone: '',
       quoteNo: '',
       notes: '',
+      description: from.quote.description ?? '',
+      terms: from.quote.terms ?? '',
+      bankDetails: from.quote.bankDetails ?? '',
+      applyGst: undefined,
       quoteDate: new Date().toISOString().slice(0, 10),
     },
     compare: [],
@@ -57,6 +62,7 @@ export function emptyProjectJob(from: ProjectJobData): ProjectJobData {
     revisions: [],
     marginExtras: { commissionPercent: 0, otherFees: 0 },
     configuratorLines: [],
+    customQuoteLines: [],
   };
 }
 
