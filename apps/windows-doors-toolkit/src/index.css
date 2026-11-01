@@ -254,14 +254,87 @@ table.data tr.row-warn { background: #fff7ed; }
 .modal-backdrop {
   position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45);
   display: flex; align-items: center; justify-content: center;
-  z-index: 1000; padding: 1rem;
+  z-index: 1000; padding: 0.75rem;
 }
 .modal-card {
   background: #fff; border-radius: 12px; border: 1px solid var(--line);
   box-shadow: var(--shadow); padding: 1.25rem; max-width: 420px; width: 100%;
 }
 .modal-card h2 { margin-bottom: 0.35rem; }
-
+.modal-card-verify {
+  max-width: 520px;
+  max-height: 90vh;
+  padding: 0.55rem 0.8rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow: hidden;
+}
+.modal-card-verify-scroll {
+  overflow: auto;
+  min-height: 0;
+  flex: 1 1 auto;
+  padding-right: 0.1rem;
+}
+.modal-card-verify h2 {
+  font-size: 1rem;
+  margin-bottom: 0.1rem;
+}
+.modal-card-verify-lead {
+  margin: 0 0 0.35rem;
+  font-size: 0.78rem;
+  line-height: 1.3;
+}
+.modal-card-verify-fields {
+  gap: 0.4rem;
+}
+.modal-card-verify-fields .field {
+  gap: 0.15rem;
+}
+.modal-card-verify-fields .field-hint {
+  font-size: 0.7rem;
+  line-height: 1.25;
+}
+.modal-card-verify-fields .input {
+  padding: 0.35rem 0.5rem;
+}
+/* Keep 2-col rows even when global .grid-2 collapses under 980px */
+.modal-card-verify-fields .grid-2 {
+  gap: 0.4rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.modal-card-verify-saved {
+  padding: 0.3rem 0.45rem;
+  border-radius: 8px;
+  background: rgba(15, 118, 110, 0.08);
+  border: 1px solid rgba(15, 118, 110, 0.25);
+}
+.modal-card-verify .linkish {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+}
+.modal-card-verify-actions {
+  margin: 0;
+  flex-shrink: 0;
+  padding-top: 0.3rem;
+  border-top: 1px solid var(--line);
+}
+.modal-card-verify-actions .btn {
+  padding: 0.35rem 0.7rem;
+}
+@media (max-width: 560px) {
+  .modal-card-verify {
+    max-height: 90vh;
+  }
+  .modal-card-verify-fields .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
 
 .export-toolbar {
   display: flex;
