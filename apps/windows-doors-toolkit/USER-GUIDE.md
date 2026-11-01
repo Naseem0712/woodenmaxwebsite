@@ -57,10 +57,7 @@ Route: **`/configure`**. Same single-screen flow for Home owner / Architect / Bu
 
 1. Size + qty → 2. Type (sliding / openable / fix / door) → 3. Material UPVC | Aluminium → 4. Glass → 5. Colour → 6. Rate / area / budget → 7. **Add to quote**.
 8. Below: quote tabs **List / Areas / Materials / Hardwares**.
-9. **Export toolbar** (also on **08 Quotation** and **07 Hardware BOM**):
-   - **Export Quote** — PDF / Excel, each with **with rates** or **no rates**.
-   - **Export BOM / materials** — PDF / Excel, each with **with rates** or **no rates** (config materials, names, sizes, qty, glass, colour, hardware).
-   - Client-side: Excel = CSV (opens in Excel); PDF = print dialog → Save as PDF. Settings-driven rates apply only when “with rates” is chosen.
+9. **Export toolbar** — see **Export Quote / BOM** below (same controls on Quotation + Hardware BOM).
 
 | Mode | Pricing (Settings-driven rules — not hardcoded rates) |
 |------|------------------------------------------------------|
