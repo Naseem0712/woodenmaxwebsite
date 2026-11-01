@@ -1,5 +1,7 @@
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uid } from 'uuid';
+import { ExportToolbar } from '../components/ExportToolbar';
 import {
   Btn,
   Card,
@@ -29,6 +31,7 @@ import {
   calcCasement,
   calcStock,
 } from '../engine/calcs';
+import { buildBomDocument, buildQuoteDocument } from '../engine/exportDocs';
 import {
   filterProfiles,
   filterSeries,
@@ -607,14 +610,22 @@ export function HardwarePage() {
   const calc = calcHardwareJob(state);
   const material = projectMaterial(state);
   const types = filterWindowTypes(state.windowTypes, material);
+  const exportBuilders = useMemo(
+    () => ({
+      quote: (rateMode: 'include' | 'exclude') => buildQuoteDocument(state, rateMode),
+      bom: (rateMode: 'include' | 'exclude') => buildBomDocument(state, rateMode, 'openings'),
+    }),
+    [state],
+  );
   return (
     <div>
       <PageHeader
         title="07 Hardware BOM"
-        subtitle={`Window-type × hardware qty/window × openings qty. Types filtered to ${material}.`}
+        subtitle={`Window-type × hardware qty/window × openings qty. Types filtered to ${material}. Export PDF/Excel with or without rates.`}
         badge={material}
       />
       <Kpi label="Job hardware total" value={<Money n={calc.total} />} />
+      <ExportToolbar builders={exportBuilders} />
       <Card
         title="BOM matrix"
         actions={
@@ -737,6 +748,13 @@ export function QuotePage() {
   const modeLabel = CUSTOMER_MODES.find((m) => m.id === customerMode)?.label ?? 'Home owner';
   const architectMode = customerMode === 'architects';
   const scheduleLabel = architectMode ? 'Openings schedule (fab sizes)' : 'Window schedule';
+  const exportBuilders = useMemo(
+    () => ({
+      quote: (rateMode: 'include' | 'exclude') => buildQuoteDocument(state, rateMode),
+      bom: (rateMode: 'include' | 'exclude') => buildBomDocument(state, rateMode, 'openings'),
+    }),
+    [state],
+  );
   const syncFromJob = () => {
     patch('quote', {
       ...state.quote,
@@ -751,6 +769,7 @@ export function QuotePage() {
         subtitle={`Openings schedule (+ mesh/grill). For size→type→material→glass→colour quote UX use Configurator. Mode: ${modeLabel}.`}
         badge={modeLabel}
       />
+      <ExportToolbar builders={exportBuilders} />
       <Card
         title="Quote header"
         actions={
@@ -760,9 +779,6 @@ export function QuotePage() {
             </Link>
             <Btn variant="ghost" onClick={syncFromJob}>
               Sync customer from job
-            </Btn>
-            <Btn variant="ghost" onClick={() => window.print()}>
-              Print quote
             </Btn>
           </Toolbar>
         }

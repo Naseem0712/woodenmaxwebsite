@@ -262,6 +262,38 @@ table.data tr.row-warn { background: #fff7ed; }
 }
 .modal-card h2 { margin-bottom: 0.35rem; }
 
+
+.export-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin: 0.75rem 0 1rem;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+}
+.export-toolbar-dense {
+  margin: 0.35rem 0 0.65rem;
+  padding: 0.55rem 0.7rem;
+}
+.export-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem 0.75rem;
+}
+.export-group-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #475569;
+  min-width: 9.5rem;
+}
+.export-group .toolbar { flex-wrap: wrap; gap: 0.35rem; }
+.export-group .btn { font-size: 0.8rem; padding: 0.3rem 0.55rem; }
+
 @media print {
   body { background: #fff !important; }
   .sidebar, .legend, .no-print, .page-header .badge, .project-switcher, .modal-backdrop { display: none !important; }

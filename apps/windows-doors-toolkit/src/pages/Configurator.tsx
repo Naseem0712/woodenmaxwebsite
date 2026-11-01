@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { v4 as uid } from 'uuid';
+import { ExportToolbar } from '../components/ExportToolbar';
 import {
   Btn,
   Card,
@@ -10,8 +11,11 @@ import {
   Num,
   NumberInput,
   PageHeader,
-  Toolbar,
 } from '../components/ui';
+import {
+  buildBomDocument,
+  buildConfiguratorQuoteDocument,
+} from '../engine/exportDocs';
 import { resolveEffectiveCatalogue } from '../engine/masterCatalogue';
 import {
   calcConfiguratorCart,
@@ -29,16 +33,6 @@ import {
 } from '../types';
 
 type QuoteTab = 'list' | 'areas' | 'materials' | 'hardwares';
-
-function downloadText(filename: string, content: string, mime: string) {
-  const blob = new Blob([content], { type: mime });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = filename;
-  a.click();
-  URL.revokeObjectURL(url);
-}
 
 export function ConfiguratorPage() {
   const { state, patch } = useApp();
@@ -160,61 +154,13 @@ export function ConfiguratorPage() {
     );
   };
 
-  const exportExcel = () => {
-    const headers = [
-      'Location',
-      'Type',
-      'Material',
-      'Product',
-      'W mm',
-      'H mm',
-      'Qty',
-      'Sqft',
-      'Glass',
-      'Colour',
-      'Glass doors',
-      'Mesh doors',
-      'Mesh type',
-      'Retail ₹',
-      'Mode ₹',
-      'Mode',
-    ];
-    const rows = cart.rows.map((r) => {
-      const lineRetail = r.retailAmount + r.glassAmount + r.meshAmount;
-      const adj = modeAdjustedLineAmount(lineRetail, modeQuote);
-      return [
-        r.line.location,
-        r.line.productType,
-        r.line.material,
-        r.typeName,
-        r.line.widthMm,
-        r.line.heightMm,
-        r.line.qty,
-        r.chargeableSqft.toFixed(2),
-        r.glassName,
-        r.colourName,
-        r.line.glassDoors ?? '',
-        r.line.meshDoors ?? '',
-        r.line.meshType ?? '',
-        Math.round(lineRetail),
-        Math.round(adj.amount),
-        modeLabel,
-      ].join(',');
-    });
-    const summary = [
-      '',
-      `Retail subtotal,${Math.round(modeQuote.retailSubtotal)}`,
-      `Mode discount %,${modeQuote.discountPercent}`,
-      `After mode discount,${Math.round(modeQuote.afterModeDiscount)}`,
-      `GST,${Math.round(modeQuote.gst)}`,
-      `Grand,${Math.round(modeQuote.grand)}`,
-    ];
-    downloadText(
-      `quote-${state.quote.quoteNo || 'configurator'}.csv`,
-      [headers.join(','), ...rows, ...summary].join('\n'),
-      'text/csv;charset=utf-8',
-    );
-  };
+  const exportBuilders = useMemo(
+    () => ({
+      quote: (rateMode: 'include' | 'exclude') => buildConfiguratorQuoteDocument(state, rateMode),
+      bom: (rateMode: 'include' | 'exclude') => buildBomDocument(state, rateMode, 'configurator'),
+    }),
+    [state],
+  );
 
   const hwRows = useMemo(() => {
     const map = new Map<string, { name: string; unit: string; qty: number; rate: number }>();
@@ -444,20 +390,9 @@ export function ConfiguratorPage() {
         {draftAdjusted ? null : null}
       </Card>
 
-      <Card
-        title="Quote"
-        actions={
-          <Toolbar>
-            <Btn variant="ghost" onClick={() => window.print()}>
-              Export PDF
-            </Btn>
-            <Btn variant="ghost" onClick={exportExcel}>
-              Export Excel
-            </Btn>
-          </Toolbar>
-        }
-      >
-        <div className="chip-row no-print" style={{ marginBottom: '0.75rem' }}>
+      <Card title="Quote">
+        <ExportToolbar builders={exportBuilders} />
+        <div className="chip-row no-print" style={{ marginBottom: '0.75rem', marginTop: '0.75rem' }}>
           {(
             [
               ['list', 'List'],
@@ -476,7 +411,6 @@ export function ConfiguratorPage() {
             </button>
           ))}
         </div>
-
         <div className="quote-print" id="configurator-quote-print">
           <div className="quote-letterhead">
             <div>

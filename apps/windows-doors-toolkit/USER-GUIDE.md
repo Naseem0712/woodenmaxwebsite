@@ -56,7 +56,11 @@ Screenshots (store `media/`): homeowner configurator, architect price, builder t
 Route: **`/configure`**. Same single-screen flow for Home owner / Architect / Builder:
 
 1. Size + qty → 2. Type (sliding / openable / fix / door) → 3. Material UPVC | Aluminium → 4. Glass → 5. Colour → 6. Rate / area / budget → 7. **Add to quote**.
-8. Below: quote tabs **List / Areas / Materials / Hardwares** · **Export PDF** (print) · **Export Excel** (CSV).
+8. Below: quote tabs **List / Areas / Materials / Hardwares**.
+9. **Export toolbar** (also on **08 Quotation** and **07 Hardware BOM**):
+   - **Export Quote** — PDF / Excel, each with **with rates** or **no rates**.
+   - **Export BOM / materials** — PDF / Excel, each with **with rates** or **no rates** (config materials, names, sizes, qty, glass, colour, hardware).
+   - Client-side: Excel = CSV (opens in Excel); PDF = print dialog → Save as PDF. Settings-driven rates apply only when “with rates” is chosen.
 
 | Mode | Pricing (Settings-driven rules — not hardcoded rates) |
 |------|------------------------------------------------------|
@@ -176,7 +180,7 @@ Shell uses `250px + minmax(0,1fr)` with `overflow-x: hidden` on `html`/`body`/`.
 4. Pick or create a **Project**.
 5. **Leads** — log enquiry; **Use on job** fills customer/site on quote header.
 6. **Site Measure** — site W×H, less-off, net fab size; push to openings / cutting.
-7. **08 Quotation** — schedule from openings + mesh/grill − discount + GST; **Print quote**.
+7. **08 Quotation** — schedule from openings + mesh/grill − discount + GST; **Export Quote / BOM** (PDF + Excel, with or without rates).
 8. Optional: **02/03** costing, **05–07** BOQ + stock deduct, **10 Margin**.
 
 ---
@@ -195,9 +199,9 @@ Shell uses `250px + minmax(0,1fr)` with `overflow-x: hidden` on `html`/`body`/`.
 | `/doors` | 04 Doors | Door/partition lines |
 | `/cutting` | 05 Cutting | Cut list → stock to buy / deduct |
 | `/glass` | 06 Glass | Pane lines → glass ₹ |
-| `/hardware` | 07 Hardware | Type × item matrix |
-| `/quote` | 08 Quotation | Printable schedule + GST + advance |
-| `/configure` | Configurator | Mode quote single-screen cart |
+| `/hardware` | 07 Hardware | Type × item matrix + Export BOM PDF/Excel |
+| `/quote` | 08 Quotation | Schedule + GST + Export Quote/BOM (PDF/Excel ± rates) |
+| `/configure` | Configurator | Mode quote cart + Export Quote/BOM (PDF/Excel ± rates) |
 | `/compare` | 09 Compare | UPVC vs Aluminium |
 | `/margin` | 10 Margin | Cost vs quoted |
 | `/mesh` | 11 Mesh & Grill | Add-ons |

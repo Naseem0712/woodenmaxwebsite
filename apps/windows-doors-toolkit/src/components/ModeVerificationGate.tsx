@@ -34,8 +34,8 @@ export function ModeVerificationGate({
   );
   const preferBusinessHint =
     emailOk && isPersonalEmailDomain(email)
-      ? 'Personal email works, but a company address (e.g. info@company.com) is preferred.'
-      : 'Prefer a company address such as info@company.com. Gmail/personal is allowed.';
+      ? 'Personal OK; company email preferred.'
+      : 'Company email preferred; personal allowed.';
 
   const ready =
     name.trim() &&
@@ -60,101 +60,80 @@ export function ModeVerificationGate({
 
   return (
     <div className="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="verify-title">
-      <div className="modal-card" style={{ maxWidth: 520 }}>
-        <h2 id="verify-title">Verify {label} mode</h2>
-        <p className="muted" style={{ marginBottom: '0.85rem' }}>
-          Architect, Builder, and Vendor modes unlock after name, professional / business email, mobile,
-          area, city, and GST. Your email is the login key — use it later to restore saved quotes and
-          projects. Home owner needs no gate.
-        </p>
-        <div className="grid grid-1 stack">
-          <Field label="Name" tone="in">
-            <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Firm / person name" />
-          </Field>
-          <Field
-            label="Professional / business email"
-            tone="in"
-            hint={preferBusinessHint}
-          >
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              onBlur={() => setEmailTouched(true)}
-              placeholder="info@company.com"
-              autoComplete="email"
-            />
-          </Field>
-          {emailTouched && email.trim() && !emailOk ? (
-            <p className="tiny" style={{ color: 'var(--danger, #b42318)', marginTop: '-0.35rem' }}>
-              Enter a valid email address.
-            </p>
-          ) : null}
-          {existing ? (
-            <div
-              className="tiny"
-              style={{
-                padding: '0.55rem 0.65rem',
-                borderRadius: 8,
-                background: 'rgba(15, 118, 110, 0.08)',
-                border: '1px solid rgba(15, 118, 110, 0.25)',
-              }}
-            >
-              Saved account found for <strong>{normalizeEmail(email)}</strong> (ID{' '}
-              {existing.customerId}).{' '}
-              <button
-                type="button"
-                onClick={fillFromAccount}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  padding: 0,
-                  color: 'inherit',
-                  textDecoration: 'underline',
-                  cursor: 'pointer',
-                  font: 'inherit',
-                }}
-              >
-                Fill profile from saved data
-              </button>
-              <label style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 6 }}>
-                <input
-                  type="checkbox"
-                  checked={restoreSaved}
-                  onChange={(e) => setRestoreSaved(e.target.checked)}
+      <div className="modal-card modal-card-verify">
+        <div className="modal-card-verify-scroll">
+          <h2 id="verify-title">Verify {label} mode</h2>
+          <p className="muted modal-card-verify-lead">
+            Name, business email, mobile, area, city, and GST unlock this mode. Email restores quotes later.
+          </p>
+          <div className="grid stack modal-card-verify-fields">
+            <Field label="Name" tone="in">
+              <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Firm / person name" />
+            </Field>
+            <Field label="Professional / business email" tone="in" hint={preferBusinessHint}>
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onBlur={() => setEmailTouched(true)}
+                placeholder="info@company.com"
+                autoComplete="email"
+              />
+            </Field>
+            {emailTouched && email.trim() && !emailOk ? (
+              <p className="tiny" style={{ color: 'var(--danger, #b42318)', marginTop: '-0.25rem' }}>
+                Enter a valid email address.
+              </p>
+            ) : null}
+            {existing ? (
+              <div className="tiny modal-card-verify-saved">
+                Saved account for <strong>{normalizeEmail(email)}</strong> (ID {existing.customerId}).{' '}
+                <button type="button" className="linkish" onClick={fillFromAccount}>
+                  Fill from saved
+                </button>
+                <label style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 4 }}>
+                  <input
+                    type="checkbox"
+                    checked={restoreSaved}
+                    onChange={(e) => setRestoreSaved(e.target.checked)}
+                  />
+                  Restore old projects / quotes
+                </label>
+              </div>
+            ) : null}
+            <div className="grid grid-2">
+              <Field label="Area / location" tone="in">
+                <Input
+                  value={area}
+                  onChange={(e) => setArea(e.target.value)}
+                  placeholder="Locality / area"
                 />
-                Restore old projects / quotes for this email
-              </label>
+              </Field>
+              <Field label="City" tone="in">
+                <Input value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" />
+              </Field>
             </div>
-          ) : null}
-          <Field label="Mobile no" tone="in">
-            <Input
-              value={mobile}
-              onChange={(e) => setMobile(e.target.value)}
-              placeholder="10-digit mobile"
-              inputMode="tel"
-              autoComplete="tel"
-            />
-          </Field>
-          <Field label="Area / location" tone="in">
-            <Input
-              value={area}
-              onChange={(e) => setArea(e.target.value)}
-              placeholder="Locality / area"
-            />
-          </Field>
-          <Field label="City" tone="in">
-            <Input value={city} onChange={(e) => setCity(e.target.value)} placeholder="City" />
-          </Field>
-          <Field label="GST no" tone="in">
-            <Input
-              value={gstNo}
-              onChange={(e) => setGstNo(e.target.value)}
-              placeholder="22AAAAA0000A1Z5"
-            />
-          </Field>
+            <div className="grid grid-2">
+              <Field label="Mobile no" tone="in">
+                <Input
+                  value={mobile}
+                  onChange={(e) => setMobile(e.target.value)}
+                  placeholder="10-digit mobile"
+                  inputMode="tel"
+                  autoComplete="tel"
+                />
+              </Field>
+              <Field label="GST no" tone="in">
+                <Input
+                  value={gstNo}
+                  onChange={(e) => setGstNo(e.target.value)}
+                  placeholder="22AAAAA0000A1Z5"
+                />
+              </Field>
+            </div>
+          </div>
         </div>
-        <div className="toolbar" style={{ marginTop: '1rem', marginBottom: 0 }}>
+        <div className="toolbar modal-card-verify-actions">
           <Btn variant="ghost" onClick={onCancel}>
             Cancel
           </Btn>
