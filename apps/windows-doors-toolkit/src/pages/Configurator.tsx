@@ -15,6 +15,8 @@ import {
 import {
   buildBomDocument,
   buildConfiguratorQuoteDocument,
+  buildProfileBoqDocument,
+  buildWindowSizeListDocument,
 } from '../engine/exportDocs';
 import { resolveEffectiveCatalogue } from '../engine/masterCatalogue';
 import {
@@ -158,6 +160,10 @@ export function ConfiguratorPage() {
     () => ({
       quote: (rateMode: 'include' | 'exclude') => buildConfiguratorQuoteDocument(state, rateMode),
       bom: (rateMode: 'include' | 'exclude') => buildBomDocument(state, rateMode, 'configurator'),
+      sizeList: (rateMode: 'include' | 'exclude') =>
+        buildWindowSizeListDocument(state, rateMode, 'configurator'),
+      profileBoq: (rateMode: 'include' | 'exclude') =>
+        buildProfileBoqDocument(state, rateMode, 'configurator'),
     }),
     [state],
   );

@@ -16,8 +16,19 @@ import {
   PageHeader,
   Toolbar,
 } from '../components/ui';
-import { applySeriesToCasement, applySeriesToSliding, calcSiteMeasure } from '../engine/calcs';
-import { buildBomDocument, buildSiteMeasureQuoteDocument } from '../engine/exportDocs';
+import {
+  applySeriesToCasement,
+  applySeriesToSliding,
+  calcSiteMeasure,
+  formatNum,
+} from '../engine/calcs';
+import {
+  buildBomDocument,
+  buildProfileBoqDocument,
+  buildSiteMeasureQuoteDocument,
+  buildWindowSizeListDocument,
+} from '../engine/exportDocs';
+import { buildHardwareProfileBoq, buildWindowSizeList } from '../engine/deliverableLists';
 import { activeProject, resolveLessOffMm, settingsLessOffForMaterial, withPersistedNet } from '../engine/lessOff';
 import { filterProfiles, filterSeries, filterWindowTypes, projectMaterial } from '../engine/materialContext';
 import {
@@ -331,9 +342,16 @@ export function SiteMeasurePage() {
     () => ({
       quote: (rateMode: 'include' | 'exclude') => buildSiteMeasureQuoteDocument(state, rateMode),
       bom: (rateMode: 'include' | 'exclude') => buildBomDocument(state, rateMode, 'site-measure'),
+      sizeList: (rateMode: 'include' | 'exclude') =>
+        buildWindowSizeListDocument(state, rateMode, 'site-measure'),
+      profileBoq: (rateMode: 'include' | 'exclude') =>
+        buildProfileBoqDocument(state, rateMode, 'site-measure'),
     }),
     [state],
   );
+
+  const sizeListPreview = useMemo(() => buildWindowSizeList(state, 'site-measure'), [state]);
+  const profileBoqPreview = useMemo(() => buildHardwareProfileBoq(state, 'site-measure'), [state]);
 
   return (
     <div>
@@ -345,6 +363,48 @@ export function SiteMeasurePage() {
 
       <div className="site-measure-desktop-chrome">
         <ExportToolbar builders={exportBuilders} />
+      </div>
+
+      <div className="grid grid-2 deliverable-previews no-print" data-testid="deliverable-previews">
+        <Card title="Window size list (preview)">
+          {sizeListPreview.length === 0 ? (
+            <p className="muted tiny">Add openings to build the per-opening size list.</p>
+          ) : (
+            <ul className="deliverable-preview-list">
+              {sizeListPreview.slice(0, 4).map((r) => (
+                <li key={r.code}>
+                  <pre className="deliverable-preview-block">{r.blockText}</pre>
+                </li>
+              ))}
+            </ul>
+          )}
+          {sizeListPreview.length > 4 ? (
+            <p className="muted tiny">+{sizeListPreview.length - 4} more — use Export Size list.</p>
+          ) : null}
+        </Card>
+        <Card title="Hardware / profile BOQ (preview)">
+          {profileBoqPreview.rows.length === 0 ? (
+            <p className="muted tiny">
+              Link window types to a series (Settings) to roll up profile bars + hardware.
+            </p>
+          ) : (
+            <ul className="deliverable-preview-list">
+              {profileBoqPreview.rows.slice(0, 8).map((r) => (
+                <li key={r.key}>{r.lineText}</li>
+              ))}
+            </ul>
+          )}
+          {profileBoqPreview.rows.length > 8 ? (
+            <p className="muted tiny">
+              +{profileBoqPreview.rows.length - 8} more — use Export Profile BOQ.
+            </p>
+          ) : (
+            <p className="muted tiny">
+              {profileBoqPreview.totalBars} bars · {formatNum(profileBoqPreview.totalMetres)} m cut ·{' '}
+              {profileBoqPreview.hardwareRows.length} hardware lines
+            </p>
+          )}
+        </Card>
       </div>
 
       <div className="chip-row" style={{ marginBottom: '0.85rem' }}>
