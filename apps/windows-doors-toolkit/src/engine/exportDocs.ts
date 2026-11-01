@@ -1,10 +1,11 @@
-import { calcHardwareJob, calcQuote, formatInr, formatNum } from './calcs';
+import { calcHardwareJob, calcQuote, calcSiteMeasure, formatInr, formatNum } from './calcs';
 import {
   calcConfiguratorCart,
   calcModeQuote,
   modeAdjustedLineAmount,
 } from './modePricing';
 import { resolveEffectiveCatalogue } from './masterCatalogue';
+import { meshTypeLabel } from './meshCosting';
 import { CUSTOMER_MODES, type AppState } from '../types';
 
 export type RateMode = 'include' | 'exclude';
@@ -260,11 +261,87 @@ export function buildConfiguratorQuoteDocument(
   };
 }
 
+/** Site Measure schedule (measured openings + mesh add-ons). Settings rates when include. */
+export function buildSiteMeasureQuoteDocument(
+  state: AppState,
+  rateMode: RateMode,
+): ExportDocument {
+  const site = calcSiteMeasure(state);
+  const unit = state.allowances.unit;
+  const label = modeLabel(state);
+  const columns: ExportColumn[] = [
+    { key: 'location', label: 'Location' },
+    { key: 'type', label: 'Type' },
+    { key: 'material', label: 'Material' },
+    { key: 'size', label: `Site size (${unit})` },
+    { key: 'net', label: `Net fab (${unit})` },
+    { key: 'qty', label: 'Qty' },
+    { key: 'tracks', label: 'Tracks' },
+    { key: 'glassDoors', label: 'Glass doors' },
+    { key: 'meshDoors', label: 'Mesh doors' },
+    { key: 'meshType', label: 'Mesh type' },
+    { key: 'sqft', label: 'Chargeable sqft' },
+    { key: 'rate', label: 'Rate ₹/sqft', isRate: true },
+    { key: 'meshAmount', label: 'Mesh ₹', isRate: true },
+    { key: 'amount', label: 'Amount ₹', isRate: true },
+  ];
+  const rows = site.rows.map((r) => ({
+    location: r.line.location || '—',
+    type: r.typeName,
+    material: r.material,
+    size: `${r.line.width} × ${r.line.height}`,
+    net: `${r.netWidth} × ${r.netHeight}`,
+    qty: r.line.qty,
+    tracks: r.line.tracks ?? '',
+    glassDoors: r.line.glassDoors ?? '',
+    meshDoors: r.line.meshDoors ?? '',
+    meshType: meshTypeLabel(r.line.meshType ?? 'none'),
+    sqft: formatNum(r.totalSqft),
+    rate: formatNum(r.effectiveRate, 0),
+    meshAmount: formatNum(r.meshAmount, 0),
+    amount: formatNum(r.amount, 0),
+  }));
+
+  const summary: ExportSummaryRow[] =
+    rateMode === 'include'
+      ? [
+          { label: 'Openings (qty)', value: String(site.totalQty) },
+          { label: 'Chargeable sqft', value: formatNum(site.totalSqft) },
+          { label: 'Mesh add-on', value: formatInr(site.totalMeshAmount), isRate: true },
+          { label: 'Measured value', value: formatInr(site.totalAmount), isRate: true },
+        ]
+      : [
+          { label: 'Openings (qty)', value: String(site.totalQty) },
+          { label: 'Chargeable sqft', value: formatNum(site.totalSqft) },
+          { label: 'Lines', value: String(rows.length) },
+        ];
+
+  return {
+    kind: 'quote',
+    title: 'Site measure quote',
+    subtitle: `Measured openings · Mode ${label}`,
+    meta: [
+      ...businessMeta(state),
+      { label: 'Customer', value: state.quote.customerName || state.jobMeta.customerName || '—' },
+      { label: 'Site', value: state.quote.siteAddress || state.jobMeta.siteAddress || '—' },
+      {
+        label: 'Rates',
+        value: rateMode === 'include' ? 'Including rates / amounts' : 'Excluding rates / amounts',
+      },
+    ],
+    tables: [{ title: 'Site measured openings', columns, rows }],
+    summary,
+    footnote: 'Site measure uses Settings window-type + mesh rates. Push to Openings/Configurator for full quotation.',
+    rateMode,
+    filenameBase: `site-measure-${state.quote.quoteNo || 'openings'}`,
+  };
+}
+
 /** BOM / materials list: config materials + hardware (Settings rates when include). */
 export function buildBomDocument(
   state: AppState,
   rateMode: RateMode,
-  source: 'openings' | 'configurator' = 'openings',
+  source: 'openings' | 'configurator' | 'site-measure' = 'openings',
 ): ExportDocument {
   const catalogue = resolveEffectiveCatalogue(state);
   const label = modeLabel(state);
@@ -300,6 +377,28 @@ export function buildBomDocument(
         .filter(Boolean)
         .join(' · '),
       sqft: formatNum(r.chargeableSqft),
+    }));
+  } else if (source === 'site-measure') {
+    const site = calcSiteMeasure(state);
+    const unit = state.allowances.unit;
+    materialRows = site.rows.map((r) => ({
+      location: r.line.location || '—',
+      material: r.material,
+      type: r.typeName,
+      size: `${r.line.width} × ${r.line.height} ${unit} (net ${r.netWidth} × ${r.netHeight})`,
+      qty: r.line.qty,
+      glass: '—',
+      colour: '—',
+      hardwareNote: [
+        r.line.tracks ? `T${r.line.tracks}` : null,
+        r.line.glassDoors != null ? `G${r.line.glassDoors}` : null,
+        r.line.meshDoors
+          ? `M${r.line.meshDoors} ${meshTypeLabel(r.line.meshType ?? 'none')}`
+          : null,
+      ]
+        .filter(Boolean)
+        .join(' · '),
+      sqft: formatNum(r.totalSqft),
     }));
   } else {
     const q = calcQuote(state);
@@ -340,18 +439,29 @@ export function buildBomDocument(
   let hwRows: Array<Record<string, string | number>> = [];
   let hwTotal = 0;
 
-  if (source === 'configurator') {
-    const cart = calcConfiguratorCart(state);
+  if (source === 'configurator' || source === 'site-measure') {
     const map = new Map<
       string,
       { windowType: string; hardware: string; category: string; unit: string; qty: number; rate: number }
     >();
-    for (const r of cart.rows) {
-      const bom = state.hardwareBom.filter((b) => b.windowTypeId === r.line.windowTypeId);
+    const lineRefs =
+      source === 'configurator'
+        ? calcConfiguratorCart(state).rows.map((r) => ({
+            windowTypeId: r.line.windowTypeId,
+            typeName: r.typeName,
+            qty: r.line.qty,
+          }))
+        : calcSiteMeasure(state).rows.map((r) => ({
+            windowTypeId: r.line.windowTypeId,
+            typeName: r.typeName,
+            qty: r.line.qty,
+          }));
+    for (const r of lineRefs) {
+      const bom = state.hardwareBom.filter((b) => b.windowTypeId === r.windowTypeId);
       for (const b of bom) {
         const item = catalogue.hardware.find((h) => h.id === b.hardwareItemId);
         if (!item) continue;
-        const key = `${r.line.windowTypeId}:${item.id}`;
+        const key = `${r.windowTypeId}:${item.id}`;
         const prev = map.get(key) ?? {
           windowType: r.typeName,
           hardware: item.name,
@@ -360,7 +470,7 @@ export function buildBomDocument(
           qty: 0,
           rate: item.rate,
         };
-        prev.qty += b.qtyPerWindow * r.line.qty;
+        prev.qty += b.qtyPerWindow * r.qty;
         map.set(key, prev);
       }
     }

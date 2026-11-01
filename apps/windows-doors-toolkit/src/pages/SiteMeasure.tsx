@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { v4 as uid } from 'uuid';
+import { ExportToolbar } from '../components/ExportToolbar';
 import {
   Btn,
   Card,
@@ -14,6 +15,7 @@ import {
   Toolbar,
 } from '../components/ui';
 import { applySeriesToCasement, applySeriesToSliding, calcSiteMeasure } from '../engine/calcs';
+import { buildBomDocument, buildSiteMeasureQuoteDocument } from '../engine/exportDocs';
 import { activeProject, resolveLessOffMm, settingsLessOffForMaterial, withPersistedNet } from '../engine/lessOff';
 import { filterProfiles, filterSeries, filterWindowTypes, projectMaterial } from '../engine/materialContext';
 import {
@@ -296,6 +298,14 @@ export function SiteMeasurePage() {
     patch('cuts', cuts);
   };
 
+  const exportBuilders = useMemo(
+    () => ({
+      quote: (rateMode: 'include' | 'exclude') => buildSiteMeasureQuoteDocument(state, rateMode),
+      bom: (rateMode: 'include' | 'exclude') => buildBomDocument(state, rateMode, 'site-measure'),
+    }),
+    [state],
+  );
+
   return (
     <div>
       <PageHeader
@@ -303,6 +313,8 @@ export function SiteMeasurePage() {
         subtitle={`Record site W×H, glass doors + mesh (for costing) → net fab. Less-off on its own tab. Types locked to ${material}.`}
         badge={material}
       />
+
+      <ExportToolbar builders={exportBuilders} />
 
       <div className="chip-row" style={{ marginBottom: '0.85rem' }}>
         {(

@@ -43,7 +43,7 @@ export function ExportToolbar({
         </Toolbar>
       </div>
       <div className="export-group">
-        <div className="export-group-label">Export BOM / materials</div>
+        <div className="export-group-label">Export BOM</div>
         <Toolbar>
           <Btn variant="ghost" title="PDF materials + hardware with rates" onClick={() => go('bom', 'pdf', 'include')}>
             PDF · with rates

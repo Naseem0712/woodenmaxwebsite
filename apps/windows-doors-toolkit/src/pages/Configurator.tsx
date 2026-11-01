@@ -197,6 +197,7 @@ export function ConfiguratorPage() {
         subtitle={`Mode: ${modeLabel}. Size → type → material → glass → colour → Add to quote. Rates from Settings only.`}
         badge={modeLabel}
       />
+      <ExportToolbar builders={exportBuilders} />
 
       <Card title="Configure one opening" actions={<span className="tiny muted">{modeQuote.pricingNote}</span>}>
         <div className="grid grid-4">
@@ -391,8 +392,7 @@ export function ConfiguratorPage() {
       </Card>
 
       <Card title="Quote">
-        <ExportToolbar builders={exportBuilders} />
-        <div className="chip-row no-print" style={{ marginBottom: '0.75rem', marginTop: '0.75rem' }}>
+        <div className="chip-row no-print" style={{ marginBottom: '0.75rem' }}>
           {(
             [
               ['list', 'List'],

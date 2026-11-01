@@ -74,16 +74,21 @@ Edit colours under **Settings → Colours / finish**. Mode pricing under **Setti
 
 ## Export Quote / BOM (PDF + Excel)
 
-Visible on **Configurator** (`/configure`), **08 Quotation** (`/quote`), and **07 Hardware BOM** (`/hardware`):
+Visible **near the top of the page** (not Settings-only) on:
+
+- **Site Measure** (`/site-measure`) — measured openings schedule
+- **Configurator** (`/configure`)
+- **08 Quotation** (`/quote`)
+- **07 Hardware BOM** (`/hardware`, Vendor)
 
 | Group | Formats | Rate options |
 |-------|---------|--------------|
 | **Export Quote** | PDF, Excel | **with rates** · **no rates** |
-| **Export BOM / materials** | PDF, Excel | **with rates** · **no rates** |
+| **Export BOM** | PDF, Excel | **with rates** · **no rates** |
 
-Exports include configuration as applicable: materials, names, sizes, qty, glass, colour, hardware. **With rates** uses Settings / mode-quote / hardware catalogue amounts — never invented rates. Excel downloads as CSV (opens in Excel); PDF opens a print view → Save as PDF. Smoke: `node tools/_smoke-export-wd12.mjs`.
+Exports include configuration as applicable: materials, names, sizes, qty, glass, colour, hardware. **With rates** uses Settings / mode-quote / hardware catalogue amounts — never invented rates. Excel downloads as CSV (opens in Excel); PDF opens a print view → Save as PDF. Smoke: `node tools/_smoke-export-wd12.mjs` · shell/export: `node tools/_smoke-shell-export-wd16.mjs`.
 
-Screenshots (store `media/`): `toolkit-export-configurator.png`, `toolkit-export-quotation.png`, `toolkit-export-bom-materials-tab.png`, `toolkit-export-hardware-bom.png`.
+Screenshots (store `media/`): `toolkit-export-site-measure.png`, `toolkit-export-configurator.png`, `toolkit-export-quotation.png`, `toolkit-shell-mobile-drawer.png`, `toolkit-shell-desktop-scroll.png`.
 
 ---
 
@@ -131,9 +136,11 @@ Route: **`/settings/master`**.
 
 ---
 
-## Layout / scroll
+## Layout / scroll / mobile
 
-Shell uses `250px + minmax(0,1fr)` with `overflow-x: hidden` on `html`/`body`/`.shell`/`.main`. Wide tables (Leads, Site Measure, etc.) scroll **inside** `.table-panel` / `.card` — the sidebar must not drag sideways with the page.
+Desktop shell: fixed **100vh** grid (`~220px` sidebar + main). **Sidebar and main scroll independently** — the toolkit nav does not scroll away with the project pane. Dense spacing keeps project bar, cards, tables, and export controls above the fold where possible.
+
+Mobile (≤980px): sidebar is a **hamburger overlay drawer**, **collapsed by default**. Menu button opens/closes; backdrop + Escape + route change close it. Inputs stack; touch targets ≥~36px. Wide tables still scroll inside `.table-panel` / `.card`.
 
 ---
 
