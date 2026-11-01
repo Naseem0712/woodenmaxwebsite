@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Card, Kpi, Money, Num, PageHeader } from '../components/ui';
 import { calcMargin, calcOpenings, calcQuote, calcSliding } from '../engine/calcs';
+import { activeCustomerMode } from '../engine/masterCatalogue';
+import { isVendorFullAccess } from '../engine/modeAccess';
 import { useApp } from '../store/AppContext';
 
 const quotePathTiles = [
@@ -40,13 +42,12 @@ export function HomePage() {
   const sliding = calcSliding(state);
   const quote = calcQuote(state);
   const margin = calcMargin(state);
-  const mode =
-    state.projects.find((p) => p.id === state.activeProjectId)?.customerMode ?? 'home-owner';
-  const fullAccess = mode === 'vendor';
+  const mode = activeCustomerMode(state);
+  const fullAccess = isVendorFullAccess(state, mode);
   const tiles = fullAccess ? vendorTiles : quotePathTiles;
 
   return (
-    <div>
+    <div key={`home-hub-${mode}`} data-customer-mode={mode}>
       <PageHeader
         title="Fabricator Toolkit"
         subtitle={
@@ -54,7 +55,7 @@ export function HomePage() {
             ? 'Vendor mode: full fab tools. Shared masters in Settings; your private rate overrides apply on top.'
             : 'Mode quote path: configure openings → quote tabs → PDF/Excel. Switch Mode to Vendor for full tools.'
         }
-        badge="Local · localStorage"
+        badge={fullAccess ? 'Vendor · full access' : 'Mode quote path'}
       />
       <div className="grid grid-4" style={{ marginBottom: '1rem' }}>
         <Kpi label="Chargeable sqft" value={<Num n={openings.totalChargeable} />} hint={`${openings.totalWindows} windows`} />

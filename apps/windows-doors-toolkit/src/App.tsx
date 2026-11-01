@@ -1,5 +1,6 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
+import { ModeRouteGuard } from './components/ModeRouteGuard';
 import { CasementPage } from './pages/Casement';
 import { ConfiguratorPage } from './pages/Configurator';
 import { HomePage } from './pages/Home';
@@ -41,38 +42,40 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="leads" element={<LeadsPage />} />
-            <Route path="site-measure" element={<SiteMeasurePage />} />
-            <Route path="openings" element={<OpeningsPage />} />
-            <Route path="sliding" element={<SlidingPage />} />
-            <Route path="casement" element={<CasementPage />} />
-            <Route path="doors" element={<DoorsPage />} />
-            <Route path="cutting" element={<CuttingPage />} />
-            <Route path="glass" element={<GlassPage />} />
-            <Route path="hardware" element={<HardwarePage />} />
-            <Route path="quote" element={<QuotePage />} />
-            <Route path="configure" element={<ConfiguratorPage />} />
-            <Route path="compare" element={<ComparePage />} />
-            <Route path="margin" element={<MarginPage />} />
-            <Route path="mesh" element={<MeshPage />} />
-            <Route path="labour" element={<LabourPage />} />
-            <Route path="builder" element={<BuilderPage />} />
-            <Route path="revision" element={<RevisionPage />} />
-            <Route path="dashboard" element={<DashboardPage />} />
-            <Route path="settings" element={<SettingsOverviewPage />} />
-            <Route path="settings/master" element={<SettingsMasterCataloguePage />} />
-            <Route path="settings/business" element={<SettingsBusinessPage />} />
-            <Route path="settings/allowances" element={<SettingsAllowancesPage />} />
-            <Route path="settings/series" element={<SettingsSeriesPage />} />
-            <Route path="settings/window-types" element={<SettingsWindowTypesPage />} />
-            <Route path="settings/glass" element={<SettingsGlassTypesPage />} />
-            <Route path="settings/colours" element={<SettingsColoursPage />} />
-            <Route path="settings/hardware" element={<SettingsHardwareCataloguePage />} />
-            <Route path="settings/profiles" element={<SettingsProfilesPage />} />
-            <Route path="stock" element={<StockPage />} />
-            <Route path="settings/data" element={<SettingsDataPage />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route element={<ModeRouteGuard />}>
+              <Route index element={<HomePage />} />
+              <Route path="leads" element={<LeadsPage />} />
+              <Route path="site-measure" element={<SiteMeasurePage />} />
+              <Route path="openings" element={<OpeningsPage />} />
+              <Route path="sliding" element={<SlidingPage />} />
+              <Route path="casement" element={<CasementPage />} />
+              <Route path="doors" element={<DoorsPage />} />
+              <Route path="cutting" element={<CuttingPage />} />
+              <Route path="glass" element={<GlassPage />} />
+              <Route path="hardware" element={<HardwarePage />} />
+              <Route path="quote" element={<QuotePage />} />
+              <Route path="configure" element={<ConfiguratorPage />} />
+              <Route path="compare" element={<ComparePage />} />
+              <Route path="margin" element={<MarginPage />} />
+              <Route path="mesh" element={<MeshPage />} />
+              <Route path="labour" element={<LabourPage />} />
+              <Route path="builder" element={<BuilderPage />} />
+              <Route path="revision" element={<RevisionPage />} />
+              <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="settings" element={<SettingsOverviewPage />} />
+              <Route path="settings/master" element={<SettingsMasterCataloguePage />} />
+              <Route path="settings/business" element={<SettingsBusinessPage />} />
+              <Route path="settings/allowances" element={<SettingsAllowancesPage />} />
+              <Route path="settings/series" element={<SettingsSeriesPage />} />
+              <Route path="settings/window-types" element={<SettingsWindowTypesPage />} />
+              <Route path="settings/glass" element={<SettingsGlassTypesPage />} />
+              <Route path="settings/colours" element={<SettingsColoursPage />} />
+              <Route path="settings/hardware" element={<SettingsHardwareCataloguePage />} />
+              <Route path="settings/profiles" element={<SettingsProfilesPage />} />
+              <Route path="stock" element={<StockPage />} />
+              <Route path="settings/data" element={<SettingsDataPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

@@ -1,8 +1,17 @@
 import { Link } from 'react-router-dom';
 import { Card, Kpi, Money, Num, PageHeader } from '../../components/ui';
+import { activeCustomerMode } from '../../engine/masterCatalogue';
+import { isVendorFullAccess } from '../../engine/modeAccess';
 import { useApp } from '../../store/AppContext';
 
-const links = [
+const quotePathLinks = [
+  ['/settings/master', 'Master catalogue', 'Shared market rates (+ Vendor overrides when unlocked)'],
+  ['/settings/colours', 'Colours / finish', 'Configurator colour options + ₹/sqft adj'],
+  ['/settings/allowances', 'Mode pricing', 'Architect factor + builder threshold'],
+  ['/settings/data', 'Export / Import', 'JSON backup, restore, reset to seed'],
+] as const;
+
+const vendorLinks = [
   ['/settings/master', 'Master catalogue', 'Shared market rates + Vendor private overrides'],
   ['/settings/business', 'Business / GST', 'Company name, address, GSTIN, GST %'],
   ['/settings/allowances', 'Allowances', 'Min sqft, wastage, Al ₹/kg, glass round-up, margin'],
@@ -14,16 +23,24 @@ const links = [
   ['/settings/hardware', 'Hardware catalogue', 'Rollers, locks, stays, consumables'],
   ['/settings/profiles', 'Profiles stock', 'Stock length + UPVC ₹/m or Al kg/m'],
   ['/settings/data', 'Export / Import', 'JSON backup, restore, reset to seed'],
-];
+] as const;
 
 export function SettingsOverviewPage() {
   const { state } = useApp();
+  const mode = activeCustomerMode(state);
+  const fullAccess = isVendorFullAccess(state, mode);
+  const links = fullAccess ? vendorLinks : quotePathLinks;
+
   return (
-    <div>
+    <div data-customer-mode={mode}>
       <PageHeader
         title="Settings / Manage"
-        subtitle="Masters drive every tool. Edit series & rates here once — tools pick them up automatically (blue fields)."
-        badge="Masters"
+        subtitle={
+          fullAccess
+            ? 'Masters drive every tool. Edit series & rates here once — tools pick them up automatically (blue fields).'
+            : 'Quote-path settings: Master, Colours, Mode pricing, Export/Import. Switch Mode to Vendor for full Settings.'
+        }
+        badge={fullAccess ? 'Vendor · full Settings' : 'Mode quote path'}
       />
       <div className="grid grid-4" style={{ marginBottom: '1rem' }}>
         <Kpi label="Series" value={state.series.length} />
@@ -42,7 +59,7 @@ export function SettingsOverviewPage() {
       <Card title="Settings modules">
         <div className="home-grid">
           {links.map(([to, title, desc]) => (
-            <Link key={to} to={to} className="home-tile">
+            <Link key={`${to}-${title}`} to={to} className="home-tile">
               <strong>{title}</strong>
               <span>{desc}</span>
             </Link>
@@ -51,8 +68,9 @@ export function SettingsOverviewPage() {
       </Card>
       <Card title="Shop tip">
         <p className="muted">
-          Typical flow: set Business & GST → confirm Allowances → tune Series A/B members → confirm window-type and
-          glass rates → enter sizes on 01 / 02 / 03 → quotation & margin.
+          {fullAccess
+            ? 'Typical flow: set Business & GST → confirm Allowances → tune Series A/B members → confirm window-type and glass rates → enter sizes on 01 / 02 / 03 → quotation & margin.'
+            : 'Mode quote flow: Master catalogue rates → Configurator → Quotation. Unlock Vendor mode for fab tools and full Settings.'}
         </p>
       </Card>
     </div>

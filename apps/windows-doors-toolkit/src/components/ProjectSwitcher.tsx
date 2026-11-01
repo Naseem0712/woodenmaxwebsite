@@ -12,6 +12,7 @@ export function ProjectSwitcher() {
     createProject,
     renameProject,
     setProjectMaterial,
+    setProjectCustomerMode,
     requestProjectCustomerMode,
     submitModeVerification,
     updateProjectLessOff,
@@ -32,7 +33,13 @@ export function ProjectSwitcher() {
   const modeDef = CUSTOMER_MODES.find((m) => m.id === customerMode);
 
   const trySetMode = (projectId: string, mode: CustomerModeId) => {
-    if (mode === 'home-owner' || requestProjectCustomerMode(projectId, mode)) return;
+    // Home owner has no verification gate — must still write customerMode so
+    // Layout / Home / guards re-render immediately (Vendor → Home owner was a no-op).
+    if (mode === 'home-owner') {
+      setProjectCustomerMode(projectId, mode);
+      return;
+    }
+    if (requestProjectCustomerMode(projectId, mode)) return;
     setPendingProjectId(projectId);
     setPendingNewProject(false);
     setPendingMode(mode);

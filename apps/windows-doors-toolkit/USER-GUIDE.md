@@ -65,7 +65,7 @@ Route: **`/configure`**. Same single-screen flow for Home owner / Architect / Bu
 | **Builder** | If retail quote total ≥ threshold (seed ₹50L), apply builder % off (seed **15%**). Threshold + % editable in Settings → Allowances |
 | **Vendor** | Verification unlocks **full fab tools** (sidebar + home hub); schedule shows retail. Private rate overrides available on Master catalogue. |
 
-**Nav by mode:** Home owner / Architect / Builder see the **quote path** only (Configurator, Leads, Quotation, Master, Colours, Mode pricing). **Vendor** sees every fab tool (01–15, Site Measure, stock, full Settings).
+**Nav by mode:** Home owner / Architect / Builder see the **quote path** only (Configurator, Leads, Quotation, Master, Colours, Mode pricing). **Vendor** sees every fab tool (01–15, Site Measure, stock, full Settings). Switching Mode on the project bar updates sidebar + home hub immediately (no refresh).
 
 Edit colours under **Settings → Colours / finish**. Mode pricing under **Settings → Allowances → Mode pricing**.
 
