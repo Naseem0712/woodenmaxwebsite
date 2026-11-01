@@ -250,6 +250,14 @@ table.data tr.row-warn { background: #fff7ed; }
   margin-bottom: 0.85rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--brand);
 }
 .quote-letterhead h2 { font-size: 1.25rem; color: var(--brand); }
+.quote-letterhead-company { display: flex; gap: 0.75rem; align-items: flex-start; min-width: 0; }
+.quote-letterhead-logo {
+  max-height: 56px; max-width: 110px; object-fit: contain;
+  border: 1px solid var(--line); border-radius: 6px; background: #fff; padding: 0.2rem;
+}
+.gst-label {
+  font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--brand);
+}
 .quote-meta { text-align: right; }
 .quote-party { margin-bottom: 0.85rem; }
 
@@ -393,11 +401,40 @@ table.data tr.row-warn { background: #fff7ed; }
 .site-measure-opening-card {
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 0.7rem 0.75rem;
+  padding: 0.55rem 0.65rem;
   background: #fff;
   display: flex;
   flex-direction: column;
+  gap: 0.4rem;
+}
+/* Keep 2 fields per row on mobile — global .grid-2 collapses to 1 col under 980px */
+.site-measure-opening-card .grid-2 {
+  gap: 0.35rem 0.45rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.site-measure-opening-card .field {
+  gap: 0.12rem;
+  font-size: 0.78rem;
+}
+.site-measure-opening-card .input,
+.site-measure-opening-card .calc-box {
+  min-height: 1.9rem;
+  padding: 0.28rem 0.4rem;
+}
+.business-logo-preview {
+  display: flex;
+  align-items: center;
   gap: 0.55rem;
+  flex-wrap: wrap;
+}
+.business-logo-preview img {
+  max-height: 56px;
+  max-width: 140px;
+  object-fit: contain;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  padding: 0.25rem;
 }
 .site-measure-opening-card + .site-measure-opening-card {
   margin-top: 0.65rem;

@@ -262,6 +262,8 @@ export interface ConfiguratorLine {
   lockHandleLabel?: string;
   /** Door/casement — closer OR floor spring */
   doorExtraKind?: DoorExtraKind;
+  /** Per-line customer / site note */
+  notes?: string;
 }
 
 /** Size-driven catalogue line (mm). Rates edited in Settings — never hardcoded in formulas. */
@@ -299,6 +301,9 @@ export interface BusinessInfo {
   address: string;
   phone: string;
   email: string;
+  website: string;
+  /** Logo image URL or data: URL from Settings upload */
+  logoUrl: string;
   gstin: string;
   gstEnabled: boolean;
   gstPercent: number;
@@ -490,6 +495,8 @@ export interface OpeningLine {
   colourId?: string;
   lockHandleLabel?: string;
   doorExtraKind?: DoorExtraKind;
+  /** Per-opening customer / site note */
+  notes?: string;
 }
 
 export interface SlidingJob {
@@ -698,6 +705,8 @@ export interface SiteMeasureLine {
   /** Persisted fabrication / net size = site − less (clamped ≥ 0) */
   netWidth: number;
   netHeight: number;
+  /** Per-opening customer / site note */
+  notes?: string;
 }
 
 export interface CompareLine {

@@ -103,6 +103,7 @@ export function SiteMeasurePage() {
       lessOffHeightMm: null,
       netWidth: width,
       netHeight: height,
+      notes: '',
     };
     patch('siteMeasures', [...state.siteMeasures, withPersistedNet(state, draft)]);
   };
@@ -138,6 +139,7 @@ export function SiteMeasurePage() {
         meshType: m.meshType,
         hasVent: m.hasVent,
         ventCount: m.ventCount,
+        notes: m.notes ?? '',
       };
     });
     const unit = state.siteMeasures[0]?.unit ?? a.unit;
@@ -201,6 +203,7 @@ export function SiteMeasurePage() {
         meshType: m.meshType,
         hasVent: m.hasVent,
         ventCount: m.ventCount,
+        notes: m.notes ?? '',
       };
     });
     patch('configuratorLines', lines);
@@ -626,6 +629,7 @@ export function SiteMeasurePage() {
                 <th>Sqft</th>
                 <th>Mesh ₹</th>
                 <th>Amount</th>
+                <th>Notes</th>
                 <th>By</th>
                 <th />
               </tr>
@@ -839,6 +843,13 @@ export function SiteMeasurePage() {
                     </td>
                     <td className="calc">
                       <Money n={r.amount} />
+                    </td>
+                    <td>
+                      <input
+                        value={r.line.notes ?? ''}
+                        onChange={(e) => update(r.line.id, { notes: e.target.value })}
+                        placeholder="Note"
+                      />
                     </td>
                     <td>
                       <input

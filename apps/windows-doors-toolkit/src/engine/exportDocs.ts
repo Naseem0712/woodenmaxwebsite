@@ -11,11 +11,18 @@ import {
   formatOpeningCode,
   formatQuoteOpeningBlock,
   formatQuoteOpeningLines,
+  formatQuoteOpeningNarrativeLines,
   resolveLockHandleLabel,
   resolveSeriesDoorExtraLabels,
   type QuoteOpeningFormatInput,
 } from './quoteOpeningFormat';
-import { CUSTOMER_MODES, type AppState, type DoorExtraKind, type MeshTypeId } from '../types';
+import {
+  CUSTOMER_MODES,
+  type AppState,
+  type BusinessInfo,
+  type DoorExtraKind,
+  type MeshTypeId,
+} from '../types';
 
 export type RateMode = 'include' | 'exclude';
 export type ExportFormat = 'pdf' | 'excel';
@@ -48,8 +55,31 @@ export interface ExportSummaryRow {
 /** One W-01… opening rendered as multi-line customer template on PDF/print. */
 export interface ExportOpeningBlock {
   code: string;
+  /** Full plain-text (Excel). */
   lines: string[];
   text: string;
+  /** Narrative without Rate/Amount — PDF body. */
+  narrativeLines: string[];
+  /** Right-aligned rate cell for dotted leader row (with-rates). */
+  rateText?: string;
+  /** Right-aligned amount cell for dotted leader row (with-rates). */
+  amountText?: string;
+}
+
+export interface ExportLetterhead {
+  companyName: string;
+  address: string;
+  phone: string;
+  email: string;
+  website: string;
+  logoUrl: string;
+  /** GSTIN number — letterhead shows capital “GST”. */
+  gstin: string;
+  customerName: string;
+  customerPhone: string;
+  siteAddress: string;
+  quoteNo: string;
+  quoteDate: string;
 }
 
 export interface ExportDocument {
@@ -57,6 +87,7 @@ export interface ExportDocument {
   title: string;
   subtitle: string;
   meta: Array<{ label: string; value: string }>;
+  letterhead?: ExportLetterhead;
   /** Quote PDF opening schedule in customer W-01 block format. */
   openingBlocks?: ExportOpeningBlock[];
   tables: ExportTable[];
@@ -68,10 +99,43 @@ export interface ExportDocument {
 
 function buildOpeningBlock(input: QuoteOpeningFormatInput): ExportOpeningBlock {
   const lines = formatQuoteOpeningLines(input);
+  const narrativeLines = formatQuoteOpeningNarrativeLines(input);
+  const rateText =
+    input.ratePerSqft != null && Number.isFinite(input.ratePerSqft)
+      ? `${formatNum(input.ratePerSqft, 0)} /sqft`
+      : undefined;
+  const amountText =
+    input.amount != null && Number.isFinite(input.amount)
+      ? formatNum(input.amount, 0)
+      : undefined;
   return {
     code: formatOpeningCode(input.index),
     lines,
     text: formatQuoteOpeningBlock(input),
+    narrativeLines,
+    rateText,
+    amountText,
+  };
+}
+
+function buildLetterhead(
+  state: AppState,
+  overrides?: Partial<Pick<ExportLetterhead, 'customerName' | 'customerPhone' | 'siteAddress'>>,
+): ExportLetterhead {
+  const b: BusinessInfo = state.business;
+  return {
+    companyName: b.companyName || '—',
+    address: b.address || '',
+    phone: b.phone || '',
+    email: b.email || '',
+    website: b.website || '',
+    logoUrl: b.logoUrl || '',
+    gstin: b.gstin || '',
+    customerName: overrides?.customerName ?? state.quote.customerName ?? state.jobMeta.customerName ?? '',
+    customerPhone: overrides?.customerPhone ?? state.quote.phone ?? '',
+    siteAddress: overrides?.siteAddress ?? state.quote.siteAddress ?? state.jobMeta.siteAddress ?? '',
+    quoteNo: state.quote.quoteNo || '',
+    quoteDate: state.quote.quoteDate || '',
   };
 }
 
@@ -159,7 +223,8 @@ function businessMeta(state: AppState): Array<{ label: string; value: string }> 
     { label: 'Company', value: b.companyName || '—' },
     { label: 'Phone', value: b.phone || '—' },
     { label: 'Email', value: b.email || '—' },
-    { label: 'GSTIN', value: b.gstin || '—' },
+    { label: 'Website', value: b.website || '—' },
+    { label: 'GST', value: b.gstin || '—' },
   ];
 }
 
@@ -205,6 +270,7 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
         colourId: r.line.colourId,
         lockHandleLabel: r.line.lockHandleLabel,
         doorExtraKind: r.line.doorExtraKind,
+        notes: r.line.notes ?? '',
         ratePerSqft: rateMode === 'include' ? r.rate : null,
         amount: rateMode === 'include' ? r.estimate : null,
       }),
@@ -266,6 +332,7 @@ export function buildQuoteDocument(state: AppState, rateMode: RateMode): ExportD
     kind: 'quote',
     title: 'Quotation',
     subtitle: `${state.quote.quoteNo || 'Draft'} · ${state.quote.quoteDate || '—'} · Mode ${label}`,
+    letterhead: buildLetterhead(state),
     meta: [
       ...businessMeta(state),
       { label: 'Customer', value: state.quote.customerName || '—' },
@@ -341,6 +408,7 @@ export function buildConfiguratorQuoteDocument(
         colourName: r.colourName,
         lockHandleLabel: r.line.lockHandleLabel,
         doorExtraKind: r.line.doorExtraKind,
+        notes: r.line.notes ?? '',
         ratePerSqft: null,
         amount: rateMode === 'include' ? adj.amount : null,
       }),
@@ -390,6 +458,7 @@ export function buildConfiguratorQuoteDocument(
     kind: 'quote',
     title: 'Mode quote',
     subtitle: `${label} · ${modeQuote.pricingNote}`,
+    letterhead: buildLetterhead(state),
     meta: [
       ...businessMeta(state),
       { label: 'Quote no', value: state.quote.quoteNo || '—' },
@@ -455,6 +524,7 @@ export function buildSiteMeasureQuoteDocument(
         colourId: r.line.colourId,
         lockHandleLabel: r.line.lockHandleLabel,
         doorExtraKind: r.line.doorExtraKind,
+        notes: r.line.notes ?? '',
         ratePerSqft: rateMode === 'include' ? r.effectiveRate : null,
         amount: rateMode === 'include' ? r.amount : null,
       }),
@@ -498,6 +568,10 @@ export function buildSiteMeasureQuoteDocument(
     kind: 'quote',
     title: 'Site measure quote',
     subtitle: `Measured openings · Mode ${label}`,
+    letterhead: buildLetterhead(state, {
+      customerName: state.quote.customerName || state.jobMeta.customerName || '',
+      siteAddress: state.quote.siteAddress || state.jobMeta.siteAddress || '',
+    }),
     meta: [
       ...businessMeta(state),
       { label: 'Customer', value: state.quote.customerName || state.jobMeta.customerName || '—' },
@@ -759,19 +833,77 @@ export function downloadCsv(filename: string, content: string): void {
   URL.revokeObjectURL(url);
 }
 
+function renderDotRow(description: string, rate: string, amount: string): string {
+  return `<div class="dot-row">
+  <span class="dot-desc">${escHtml(description)}</span>
+  <span class="dot-lead" aria-hidden="true"></span>
+  <span class="dot-rate">${escHtml(rate)}</span>
+  <span class="dot-amount">${escHtml(amount)}</span>
+</div>`;
+}
+
+function letterheadHtml(lh: ExportLetterhead, title: string, subtitle: string, rateMode: RateMode): string {
+  const logo = lh.logoUrl
+    ? `<img class="lh-logo" src="${escHtml(lh.logoUrl)}" alt="Logo"/>`
+    : '';
+  const contactBits = [lh.phone, lh.email, lh.website].filter(Boolean).join(' · ');
+  const gstLine = lh.gstin ? `<div><span class="gst-label">GST</span> ${escHtml(lh.gstin)}</div>` : '';
+  return `<header class="letterhead">
+  <div class="lh-company">
+    ${logo}
+    <div>
+      <h1 class="lh-name">${escHtml(lh.companyName)}</h1>
+      ${lh.address ? `<div class="lh-line">${escHtml(lh.address)}</div>` : ''}
+      ${contactBits ? `<div class="lh-line">${escHtml(contactBits)}</div>` : ''}
+      ${gstLine}
+    </div>
+  </div>
+  <div class="lh-doc">
+    <strong>${escHtml(title)}</strong>
+    <span class="badge">${rateMode === 'include' ? 'With rates' : 'No rates'}</span>
+    <div class="sub">${escHtml(subtitle)}</div>
+    ${lh.quoteNo || lh.quoteDate ? `<div class="lh-line">${escHtml([lh.quoteNo, lh.quoteDate].filter(Boolean).join(' · '))}</div>` : ''}
+  </div>
+</header>
+<section class="party">
+  <div>
+    <div class="party-lbl">Customer</div>
+    <strong>${escHtml(lh.customerName || '—')}</strong>
+    ${lh.customerPhone ? `<div class="lh-line">${escHtml(lh.customerPhone)}</div>` : ''}
+  </div>
+  <div>
+    <div class="party-lbl">Site</div>
+    <strong>${escHtml(lh.siteAddress || '—')}</strong>
+  </div>
+</section>`;
+}
+
 function documentToHtml(doc: ExportDocument): string {
-  const metaHtml = doc.meta
-    .map((m) => `<div><span class="lbl">${escHtml(m.label)}</span> ${escHtml(m.value)}</div>`)
-    .join('');
+  const hasLetterhead = Boolean(doc.letterhead);
+  const metaHtml = hasLetterhead
+    ? ''
+    : doc.meta
+        .map((m) => `<div><span class="lbl">${escHtml(m.label)}</span> ${escHtml(m.value)}</div>`)
+        .join('');
+  const headHtml = hasLetterhead
+    ? letterheadHtml(doc.letterhead!, doc.title, doc.subtitle, doc.rateMode)
+    : `<h1>${escHtml(doc.title)}<span class="badge">${doc.rateMode === 'include' ? 'With rates' : 'No rates'}</span></h1>
+  <div class="sub">${escHtml(doc.subtitle)}</div>
+  <div class="meta">${metaHtml}</div>`;
+
   const hasBlocks = Boolean(doc.openingBlocks?.length);
   const blocksHtml = hasBlocks
     ? `<h2>Opening schedule</h2>
 <div class="openings">
 ${doc.openingBlocks!
-  .map(
-    (b) =>
-      `<div class="opening-block"><pre>${escHtml(b.lines.join('\n'))}</pre></div>`,
-  )
+  .map((b) => {
+    const narrative = (b.narrativeLines?.length ? b.narrativeLines : b.lines).join('\n');
+    const rateRow =
+      b.rateText || b.amountText
+        ? renderDotRow(b.code, b.rateText || '', b.amountText || '')
+        : '';
+    return `<div class="opening-block"><pre>${escHtml(narrative)}</pre>${rateRow}</div>`;
+  })
   .join('\n')}
 </div>`
     : '';
@@ -803,33 +935,56 @@ ${doc.openingBlocks!
     .join('');
   const summaryHtml = doc.summary
     .filter((s) => !(doc.rateMode === 'exclude' && s.isRate))
-    .map((s) => `<div class="sum"><span>${escHtml(s.label)}</span><strong>${escHtml(s.value)}</strong></div>`)
+    .map((s) => {
+      // Dotted leader: description .... value (rate+amount style for money rows)
+      if (s.isRate || /₹|INR|total|GST|subtotal|discount|advance|balance/i.test(s.label)) {
+        return renderDotRow(s.label, '', s.value);
+      }
+      return renderDotRow(s.label, '', s.value);
+    })
     .join('');
 
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8"/><title>${escHtml(doc.title)}</title>
 <style>
-  body{font:13px/1.45 system-ui,Segoe UI,sans-serif;color:#0f172a;margin:24px;max-width:900px}
-  h1{font-size:20px;margin:0 0 4px} .sub{color:#64748b;margin-bottom:12px}
+  @page{margin:18mm 16mm}
+  body{font:13px/1.45 system-ui,Segoe UI,sans-serif;color:#0f172a;margin:0;padding:18mm 16mm;max-width:none;box-sizing:border-box}
+  h1{font-size:20px;margin:0 0 4px}
+  .sub{color:#64748b;margin:2px 0 0;font-size:12px}
   .meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;margin-bottom:16px;font-size:12px}
   .lbl{color:#64748b;display:inline-block;min-width:88px}
   h2{font-size:14px;margin:18px 0 6px}
+  .letterhead{display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;margin-bottom:12px;border-bottom:2px solid #0b3a5b}
+  .lh-company{display:flex;gap:12px;align-items:flex-start;min-width:0}
+  .lh-logo{max-height:64px;max-width:120px;object-fit:contain}
+  .lh-name{font-size:18px;margin:0 0 4px;color:#0b3a5b}
+  .lh-line{font-size:12px;color:#475569;margin-top:2px}
+  .gst-label{font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#0b3a5b}
+  .lh-doc{text-align:right;min-width:160px}
+  .party{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;font-size:13px}
+  .party-lbl{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:2px}
   .openings{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
   .opening-block{border:1px solid #cbd5e1;border-radius:6px;padding:10px 12px;background:#fff}
-  .opening-block pre{margin:0;font:13px/1.5 Consolas,ui-monospace,Segoe UI,monospace;white-space:pre-wrap;color:#0f172a}
+  .opening-block pre{margin:0 0 8px;font:13px/1.5 Consolas,ui-monospace,Segoe UI,monospace;white-space:pre-wrap;color:#0f172a}
+  .dot-row{display:flex;align-items:baseline;gap:8px;width:100%;margin-top:4px;font-size:13px}
+  .dot-desc{flex:0 1 auto;max-width:55%;color:#0f172a}
+  .dot-lead{flex:1 1 auto;border-bottom:1px dotted #94a3b8;min-width:16px;transform:translateY(-3px)}
+  .dot-rate,.dot-amount{flex:0 0 auto;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;min-width:4.5rem}
+  .dot-rate{color:#334155;min-width:5.5rem}
+  .dot-amount{min-width:6rem}
   table{width:100%;border-collapse:collapse;margin-bottom:8px}
   th,td{border:1px solid #cbd5e1;padding:5px 7px;text-align:left;vertical-align:top}
   th{background:#f1f5f9;font-size:11px}
-  .sums{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-top:14px}
-  .sum{border:1px solid #e2e8f0;border-radius:8px;padding:8px}
-  .sum span{display:block;font-size:11px;color:#64748b}
+  .sums{margin-top:14px;display:flex;flex-direction:column;gap:6px;max-width:520px;margin-left:auto}
   .foot{margin-top:16px;font-size:11px;color:#64748b}
   .badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:999px;background:#ecfeff;color:#0e7490;font-size:11px;font-weight:600}
-  @media print{body{margin:12px} .noprint{display:none} .opening-block{break-inside:avoid}}
+  @media print{
+    body{padding:0;margin:0}
+    .noprint{display:none}
+    .opening-block{break-inside:avoid}
+  }
 </style></head><body>
-  <h1>${escHtml(doc.title)}<span class="badge">${doc.rateMode === 'include' ? 'With rates' : 'No rates'}</span></h1>
-  <div class="sub">${escHtml(doc.subtitle)}</div>
-  <div class="meta">${metaHtml}</div>
+  ${headHtml}
   ${blocksHtml}
   ${tablesHtml}
   <div class="sums">${summaryHtml}</div>

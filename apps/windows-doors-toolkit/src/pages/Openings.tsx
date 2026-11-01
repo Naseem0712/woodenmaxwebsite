@@ -97,6 +97,7 @@ export function OpeningsPage() {
                     meshType: 'none' as const,
                     hasVent: 'No' as const,
                     ventCount: 0,
+                    notes: '',
                   },
                 ])
               }
@@ -123,6 +124,7 @@ export function OpeningsPage() {
               <th>Chargeable</th>
               <th>Rate</th>
               <th>Estimate</th>
+              <th>Notes</th>
               <th />
             </tr>
           </thead>
@@ -208,6 +210,13 @@ export function OpeningsPage() {
                 </td>
                 <td className="calc">
                   <Money n={r.estimate} />
+                </td>
+                <td>
+                  <input
+                    value={r.line.notes ?? ''}
+                    onChange={(e) => updateOpening(r.line.id, 'notes', e.target.value)}
+                    placeholder="Note"
+                  />
                 </td>
                 <td>
                   <Btn

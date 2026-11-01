@@ -39,6 +39,8 @@ export interface QuoteOpeningFormatInput {
   /** When set (with-rates PDF), append Rate / Amount lines. */
   ratePerSqft?: number | null;
   amount?: number | null;
+  /** Per-opening note shown under the narrative block. */
+  notes?: string | null;
 }
 
 export function formatOpeningCode(index: number): string {
@@ -199,6 +201,10 @@ export function formatQuoteOpeningLines(input: QuoteOpeningFormatInput): string[
     lines.push(`Floor spring: ${(input.floorSpringLabel || '').trim() || '—'}`);
   }
 
+  const note = (input.notes || '').trim();
+  if (note) lines.push(`Notes: ${note}`);
+
+  // Plain-text fallback (Excel / CSV). PDF HTML uses dotted rate/amount rows instead.
   if (input.ratePerSqft != null && Number.isFinite(input.ratePerSqft)) {
     lines.push(`Rate: ${formatNum(input.ratePerSqft, 0)} /sqft`);
   }
@@ -206,6 +212,15 @@ export function formatQuoteOpeningLines(input: QuoteOpeningFormatInput): string[
     lines.push(`Amount: ${formatNum(input.amount, 0)}`);
   }
   return lines;
+}
+
+/** Narrative lines only (no Rate/Amount) — PDF renders rate/amount as dotted leaders. */
+export function formatQuoteOpeningNarrativeLines(input: QuoteOpeningFormatInput): string[] {
+  return formatQuoteOpeningLines({
+    ...input,
+    ratePerSqft: null,
+    amount: null,
+  });
 }
 
 export function formatQuoteOpeningBlock(input: QuoteOpeningFormatInput): string {

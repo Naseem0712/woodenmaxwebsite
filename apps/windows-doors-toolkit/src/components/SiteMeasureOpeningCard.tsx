@@ -47,7 +47,7 @@ type Props = {
   onDelete: () => void;
 };
 
-/** Stacked mobile editor for one Site Measure opening (desktop keeps the wide table). */
+/** Compact mobile editor: 2 fields per row to cut card height. */
 export function SiteMeasureOpeningCard({
   index,
   row: r,
@@ -78,14 +78,38 @@ export function SiteMeasureOpeningCard({
         </Btn>
       </header>
 
-      <Field label="Location">
-        <input
-          className="input"
-          value={r.line.location}
-          onChange={(e) => update(r.line.id, { location: e.target.value })}
-          placeholder="Bedroom window"
-        />
-      </Field>
+      <div className="grid grid-2">
+        <Field label="Location">
+          <input
+            className="input"
+            value={r.line.location}
+            onChange={(e) => update(r.line.id, { location: e.target.value })}
+            placeholder="Bedroom window"
+          />
+        </Field>
+        <Field label="Type">
+          <select
+            className="input"
+            value={r.line.windowTypeId}
+            onChange={(e) => {
+              const id = e.target.value;
+              const nextWt = types.find((t) => t.id === id);
+              const doorMesh = defaultsForWindowType(state, id);
+              update(r.line.id, {
+                windowTypeId: id,
+                ratePerSqft: nextWt?.ratePerSqft ?? r.line.ratePerSqft,
+                ...doorMesh,
+              });
+            }}
+          >
+            {types.map((t) => (
+              <option key={t.id} value={t.id}>
+                {t.kind}: {t.name}
+              </option>
+            ))}
+          </select>
+        </Field>
+      </div>
 
       <div className="site-measure-opening-section">
         <p className="site-measure-opening-section-label">Size</p>
@@ -129,29 +153,6 @@ export function SiteMeasureOpeningCard({
         </p>
       </div>
 
-      <Field label="Type">
-        <select
-          className="input"
-          value={r.line.windowTypeId}
-          onChange={(e) => {
-            const id = e.target.value;
-            const nextWt = types.find((t) => t.id === id);
-            const doorMesh = defaultsForWindowType(state, id);
-            update(r.line.id, {
-              windowTypeId: id,
-              ratePerSqft: nextWt?.ratePerSqft ?? r.line.ratePerSqft,
-              ...doorMesh,
-            });
-          }}
-        >
-          {types.map((t) => (
-            <option key={t.id} value={t.id}>
-              {t.kind}: {t.name}
-            </option>
-          ))}
-        </select>
-      </Field>
-
       <div className="grid grid-2">
         <Field label="Less W" hint={`Effective ${r.lessWidthMm} mm`}>
           <NumberInput
@@ -171,20 +172,16 @@ export function SiteMeasureOpeningCard({
             onCommit={(n) => update(r.line.id, { lessOffHeightMm: n })}
           />
         </Field>
-      </div>
-
-      <Field label="Glass" hint="Toughened extra from Settings">
-        <select
-          className="input"
-          value={r.line.toughened}
-          onChange={(e) => update(r.line.id, { toughened: e.target.value as YesNo })}
-        >
-          <option value="No">Standard</option>
-          <option value="Yes">Toughened</option>
-        </select>
-      </Field>
-
-      <div className="grid grid-2">
+        <Field label="Glass" hint="Toughened extra from Settings">
+          <select
+            className="input"
+            value={r.line.toughened}
+            onChange={(e) => update(r.line.id, { toughened: e.target.value as YesNo })}
+          >
+            <option value="No">Standard</option>
+            <option value="Yes">Toughened</option>
+          </select>
+        </Field>
         <Field label="Glass doors">
           <NumberInput
             value={r.line.glassDoors}
@@ -228,47 +225,41 @@ export function SiteMeasureOpeningCard({
             </select>
           </Field>
         )}
-      </div>
-
-      <div className="site-measure-opening-section">
-        <p className="site-measure-opening-section-label">Mesh</p>
-        <div className="grid grid-2">
-          <Field label="Mesh doors">
-            <NumberInput
-              value={r.line.meshDoors}
-              onCommit={(n) => {
-                const meshDoors = Math.max(0, n ?? 0);
-                const meshType =
-                  meshDoors === 0
-                    ? 'none'
-                    : r.line.meshType === 'none'
-                      ? isSliding
-                        ? 'rolling'
-                        : 'door-side'
-                      : r.line.meshType;
-                update(r.line.id, { meshDoors, meshType });
-              }}
-            />
-          </Field>
-          <Field label="Mesh type">
-            <select
-              className="input"
-              value={r.line.meshType}
-              onChange={(e) => {
-                const meshType = e.target.value as MeshTypeId;
-                const meshDoors =
-                  meshType === 'none' ? 0 : Math.max(1, r.line.meshDoors || 1);
-                update(r.line.id, { meshType, meshDoors });
-              }}
-            >
-              {MESH_TYPES.map((t) => (
-                <option key={t} value={t}>
-                  {meshTypeLabel(t)}
-                </option>
-              ))}
-            </select>
-          </Field>
-        </div>
+        <Field label="Mesh doors">
+          <NumberInput
+            value={r.line.meshDoors}
+            onCommit={(n) => {
+              const meshDoors = Math.max(0, n ?? 0);
+              const meshType =
+                meshDoors === 0
+                  ? 'none'
+                  : r.line.meshType === 'none'
+                    ? isSliding
+                      ? 'rolling'
+                      : 'door-side'
+                    : r.line.meshType;
+              update(r.line.id, { meshDoors, meshType });
+            }}
+          />
+        </Field>
+        <Field label="Mesh type">
+          <select
+            className="input"
+            value={r.line.meshType}
+            onChange={(e) => {
+              const meshType = e.target.value as MeshTypeId;
+              const meshDoors =
+                meshType === 'none' ? 0 : Math.max(1, r.line.meshDoors || 1);
+              update(r.line.id, { meshType, meshDoors });
+            }}
+          >
+            {MESH_TYPES.map((t) => (
+              <option key={t} value={t}>
+                {meshTypeLabel(t)}
+              </option>
+            ))}
+          </select>
+        </Field>
       </div>
 
       <div className="site-measure-opening-rates">
@@ -303,6 +294,16 @@ export function SiteMeasureOpeningCard({
           </Field>
         </div>
       </div>
+
+      <Field label="Notes">
+        <input
+          className="input"
+          value={r.line.notes ?? ''}
+          onChange={(e) => update(r.line.id, { notes: e.target.value })}
+          placeholder="Site note for this opening"
+          data-testid="opening-notes"
+        />
+      </Field>
 
       <details className="site-measure-opening-meta">
         <summary>Date · lead · measured by</summary>

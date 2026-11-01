@@ -96,6 +96,7 @@ function normalizeSiteMeasures(state: AppState): AppState {
       mesh: syncMeshYesNo(meshDoors, meshType),
       hasVent: line.hasVent ?? 'No',
       ventCount: line.ventCount ?? 0,
+      notes: line.notes ?? '',
     };
     return withPersistedNet(state, base);
   });
@@ -261,7 +262,12 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
   const merged: AppState = {
     ...seed,
     ...parsed,
-    business: { ...seed.business, ...parsed.business },
+    business: {
+      ...seed.business,
+      ...parsed.business,
+      website: parsed.business?.website ?? seed.business.website,
+      logoUrl: parsed.business?.logoUrl ?? seed.business.logoUrl,
+    },
     allowances: { ...seed.allowances, ...parsed.allowances },
     jobMeta: { ...seed.jobMeta, ...parsed.jobMeta },
     quote: { ...seed.quote, ...parsed.quote },

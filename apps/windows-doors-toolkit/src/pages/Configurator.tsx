@@ -415,12 +415,24 @@ export function ConfiguratorPage() {
         </div>
         <div className="quote-print" id="configurator-quote-print">
           <div className="quote-letterhead">
-            <div>
-              <h2>{state.business.companyName}</h2>
-              <p className="muted tiny">
-                {state.business.address}
-                {state.business.gstin ? ` · GSTIN ${state.business.gstin}` : ''}
-              </p>
+            <div className="quote-letterhead-company">
+              {state.business.logoUrl ? (
+                <img className="quote-letterhead-logo" src={state.business.logoUrl} alt="" />
+              ) : null}
+              <div>
+                <h2>{state.business.companyName}</h2>
+                <p className="muted tiny">
+                  {state.business.address}
+                  {state.business.phone ? ` · ${state.business.phone}` : ''}
+                  {state.business.email ? ` · ${state.business.email}` : ''}
+                  {state.business.website ? ` · ${state.business.website}` : ''}
+                </p>
+                {state.business.gstin ? (
+                  <p className="tiny">
+                    <span className="gst-label">GST</span> {state.business.gstin}
+                  </p>
+                ) : null}
+              </div>
             </div>
             <div className="quote-meta">
               <strong>Mode quote · {modeLabel}</strong>

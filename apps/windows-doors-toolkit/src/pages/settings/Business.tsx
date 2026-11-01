@@ -1,4 +1,4 @@
-import { Card, Field, Input, PageHeader, Select } from '../../components/ui';
+import { Btn, Card, Field, Input, PageHeader, Select } from '../../components/ui';
 import { useApp } from '../../store/AppContext';
 
 export function SettingsBusinessPage() {
@@ -8,13 +8,28 @@ export function SettingsBusinessPage() {
     patch('business', { ...b, [key]: value });
   };
 
+  const onLogoFile = (file: File | null) => {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) return;
+    if (file.size > 600_000) {
+      window.alert('Logo file is large — use a smaller image (under ~600 KB) or paste a URL.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === 'string' ? reader.result : '';
+      if (result) set('logoUrl', result);
+    };
+    reader.readAsDataURL(file);
+  };
+
   return (
     <div>
       <PageHeader
         title="Business / GST"
-        subtitle="Company block used on quotations. GST % applies when GST is enabled."
+        subtitle="Company letterhead used on Quote PDF / print. GST % applies when GST is enabled."
       />
-      <Card title="Company">
+      <Card title="Company letterhead">
         <div className="grid grid-2">
           <Field label="Company name">
             <Input value={b.companyName} onChange={(e) => set('companyName', e.target.value)} />
@@ -25,7 +40,14 @@ export function SettingsBusinessPage() {
           <Field label="Email">
             <Input value={b.email} onChange={(e) => set('email', e.target.value)} />
           </Field>
-          <Field label="GSTIN">
+          <Field label="Website">
+            <Input
+              value={b.website}
+              onChange={(e) => set('website', e.target.value)}
+              placeholder="https://www.example.com"
+            />
+          </Field>
+          <Field label="GSTIN" hint="Shown as GST on quote letterhead">
             <Input value={b.gstin} onChange={(e) => set('gstin', e.target.value)} />
           </Field>
           <Field label="Address" hint="Shown on quote header">
@@ -33,6 +55,35 @@ export function SettingsBusinessPage() {
           </Field>
           <Field label="Warranty note">
             <Input value={b.warrantyNote} onChange={(e) => set('warrantyNote', e.target.value)} />
+          </Field>
+          <Field label="Logo URL" hint="https://… or upload below">
+            <Input
+              value={b.logoUrl.startsWith('data:') ? '' : b.logoUrl}
+              onChange={(e) => set('logoUrl', e.target.value)}
+              placeholder="https://…/logo.png"
+            />
+          </Field>
+        </div>
+        <div className="grid grid-2" style={{ marginTop: '0.65rem' }}>
+          <Field label="Upload logo" hint="PNG/JPG under ~600 KB — stored in this browser">
+            <input
+              className="input"
+              type="file"
+              accept="image/*"
+              onChange={(e) => onLogoFile(e.target.files?.[0] ?? null)}
+            />
+          </Field>
+          <Field label="Logo preview">
+            {b.logoUrl ? (
+              <div className="business-logo-preview">
+                <img src={b.logoUrl} alt="Company logo" />
+                <Btn variant="ghost" onClick={() => set('logoUrl', '')}>
+                  Clear logo
+                </Btn>
+              </div>
+            ) : (
+              <p className="muted tiny">No logo yet — PDF letterhead uses company name only.</p>
+            )}
           </Field>
         </div>
       </Card>

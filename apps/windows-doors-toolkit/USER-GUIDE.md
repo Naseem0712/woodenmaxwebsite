@@ -101,9 +101,11 @@ Mesh: 0.5 mm, Black, rolling
 Door closer: Door closer, Dorma, Matt Black, 45 kg
 ```
 
-Codes run W-01, W-02… Size uses the selected unit (`mm` / `inch` / `ft`). Glass brand, lock/handle label, mesh thickness/colour/type, and door closer **or** floor spring (exclusive) are editable in Settings masters — never hardcoded into the formatter. Mesh line appears only when mesh doors & type are set. Door closer / floor spring lines appear for door/casement when that extra is selected. With-rates PDFs append Rate / Amount. Excel keeps the grid and a **Schedule (W-01 block)** column (same shared formatter).
+Codes run W-01, W-02… Size uses the selected unit (`mm` / `inch` / `ft`). Glass brand, lock/handle label, mesh thickness/colour/type, and door closer **or** floor spring (exclusive) are editable in Settings masters — never hardcoded into the formatter. Mesh line appears only when mesh doors & type are set. Door closer / floor spring lines appear for door/casement when that extra is selected. Per-opening **Notes** (when set) appear in the block. With-rates PDFs keep the narrative, then a dotted leader row `description …… rate …… amount` (rate + amount right-aligned). Summary totals use the same dotted layout. Excel keeps the grid and a **Schedule (W-01 block)** column (same shared formatter).
 
-Smoke: `node tools/_smoke-quote-pdf-format-wd17.mjs`.
+**Letterhead** (Quote PDF / print): company logo, name, address, phone, email, website, and **GST** (capital letters) + GSTIN from **Settings → Business / GST**, then customer / site from quote or job meta. Logo accepts URL or local image upload (stored in this browser). Page left/right margins are set for print.
+
+Smoke: `node tools/_smoke-quote-pdf-format-wd17.mjs` · letterhead/cards: `node tools/_smoke-wd19-cards-letterhead.mjs`.
 
 Screenshots (store `media/`): `toolkit-export-site-measure.png`, `toolkit-export-configurator.png`, `toolkit-export-quotation.png`, `toolkit-quote-pdf-w01-preview.png`, `toolkit-quote-pdf-w01-configurator.png`, `toolkit-quote-pdf-w01-site-measure.png`, `toolkit-shell-mobile-drawer.png`, `toolkit-shell-desktop-scroll.png`.
 
@@ -159,7 +161,7 @@ Desktop shell: fixed **100vh** grid (`~220px` sidebar + main). **Sidebar and mai
 
 Mobile (≤980px): sidebar is a **hamburger overlay drawer**, **collapsed by default**. Menu button opens/closes; backdrop + Escape + route change close it. Inputs stack; touch targets ≥~36px. Wide tables still scroll inside `.table-panel` / `.card`.
 
-**Site Measure openings (mobile):** each opening is a **stacked card** (Location → Size → Type → Less W/H → Glass → Glass doors → Mesh + type → Rates/amount at the bottom), then the next opening below — not a wide table. Desktop keeps the schedule table. Smoke: `node tools/_smoke-site-measure-mobile-cards-wd18.mjs`.
+**Site Measure openings (mobile):** each opening is a **stacked card** with **2 fields per row** (Location|Type, Size W|H, Unit|Qty, Less W|H, Glass|doors, Mesh…, Rates…) and a **Notes** field at the bottom of every opening — not a wide table. Desktop keeps the schedule table (also has Notes). Smoke: `node tools/_smoke-site-measure-mobile-cards-wd18.mjs` · polish: `node tools/_smoke-wd19-cards-letterhead.mjs`.
 
 ---
 
