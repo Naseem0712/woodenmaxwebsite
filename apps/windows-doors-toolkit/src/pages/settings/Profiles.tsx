@@ -1,5 +1,11 @@
 import { v4 as uid } from 'uuid';
 import { Btn, Card, PageHeader, NumberInput } from '../../components/ui';
+import {
+  ALUMINIUM_DEFAULT_STOCK_LENGTH_FT,
+  UPVC_DEFAULT_STOCK_LENGTH_M,
+  defaultStockLengthM,
+  stockLengthAfterMaterialChange,
+} from '../../engine/profileStockDefaults';
 import type { Material, SeriesKind } from '../../types';
 import { useApp } from '../../store/AppContext';
 
@@ -10,7 +16,7 @@ export function SettingsProfilesPage() {
     <div>
       <PageHeader
         title="Profiles stock"
-        subtitle="Stock length and UPVC ₹/m or Aluminium kg/m. Tagged by material × kind — Cutting only lists the active project material."
+        subtitle={`Stock length and UPVC ₹/m or Aluminium kg/m. Defaults: UPVC ${UPVC_DEFAULT_STOCK_LENGTH_M} m · Aluminium ${ALUMINIUM_DEFAULT_STOCK_LENGTH_FT} ft (${defaultStockLengthM('Aluminium').toFixed(4)} m). Edit per SKU anytime — Cutting only lists the active project material.`}
       />
       <Card
         title="Profile SKUs"
@@ -24,7 +30,7 @@ export function SettingsProfilesPage() {
                   name: 'New profile',
                   material: 'UPVC' as Material,
                   kind: 'sliding' as SeriesKind,
-                  stockLengthM: 5.8,
+                  stockLengthM: defaultStockLengthM('UPVC'),
                   ratePerMUpvc: 200,
                   kgPerMAluminium: 0,
                 },
@@ -66,16 +72,25 @@ export function SettingsProfilesPage() {
                 <td>
                   <select
                     value={p.material}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      const nextMaterial = e.target.value as Material;
                       patch(
                         'profiles',
                         state.profiles.map((x) =>
                           x.id === p.id
-                            ? { ...x, material: e.target.value as Material }
+                            ? {
+                                ...x,
+                                material: nextMaterial,
+                                stockLengthM: stockLengthAfterMaterialChange(
+                                  x.material,
+                                  nextMaterial,
+                                  x.stockLengthM,
+                                ),
+                              }
                             : x,
                         ),
-                      )
-                    }
+                      );
+                    }}
                   >
                     <option>UPVC</option>
                     <option>Aluminium</option>
@@ -161,7 +176,7 @@ export function SettingsProfilesPage() {
         </table>
         <p className="muted tiny" style={{ marginTop: '0.75rem' }}>
           For Aluminium SKUs set kg/m and leave UPVC ₹/m at 0. Effective ₹/m = kg/m × (Al ₹/kg + coating ₹/kg) from
-          Allowances.
+          Allowances. Stock length defaults come from masters (UPVC 5.8 m / Aluminium 16 ft) — change any SKU freely.
         </p>
       </Card>
     </div>

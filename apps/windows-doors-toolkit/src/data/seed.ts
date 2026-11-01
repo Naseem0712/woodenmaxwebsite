@@ -3,6 +3,7 @@ import {
   defaultFrictionStayRates,
   defaultLaminationArmRates,
 } from '../engine/hardwareKind';
+import { defaultStockLengthM } from '../engine/profileStockDefaults';
 import type {
   AppState,
   HardwareClass,
@@ -417,20 +418,20 @@ export function createSeedState(): AppState {
   ];
 
   const profiles = [
-    { id: uid(), name: 'Series A 60 mm frame 2-track', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 260, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series A 60 mm frame 3-track', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 340, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series A sash', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 240, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series A interlock', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 180, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series A glazing bead', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 60, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series B 60 mm casement frame', material: 'UPVC' as const, kind: 'casement' as const, stockLengthM: 5.8, ratePerMUpvc: 340, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series B casement sash', material: 'UPVC' as const, kind: 'casement' as const, stockLengthM: 5.8, ratePerMUpvc: 320, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Series B mullion', material: 'UPVC' as const, kind: 'casement' as const, stockLengthM: 5.8, ratePerMUpvc: 260, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Steel reinforcement', material: 'UPVC' as const, kind: 'other' as const, stockLengthM: 5.8, ratePerMUpvc: 70, kgPerMAluminium: 0 },
-    { id: uid(), name: 'Aluminium 2-track section', material: 'Aluminium' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.7 },
-    { id: uid(), name: 'Aluminium shutter section', material: 'Aluminium' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.55 },
-    { id: uid(), name: 'Aluminium interlock section', material: 'Aluminium' as const, kind: 'sliding' as const, stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.45 },
-    { id: uid(), name: 'Aluminium casement frame', material: 'Aluminium' as const, kind: 'casement' as const, stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.65 },
-    { id: uid(), name: 'Aluminium casement sash', material: 'Aluminium' as const, kind: 'casement' as const, stockLengthM: 5.8, ratePerMUpvc: 0, kgPerMAluminium: 0.5 },
+    { id: uid(), name: 'Series A 60 mm frame 2-track', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: defaultStockLengthM('UPVC'), ratePerMUpvc: 260, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series A 60 mm frame 3-track', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: defaultStockLengthM('UPVC'), ratePerMUpvc: 340, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series A sash', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: defaultStockLengthM('UPVC'), ratePerMUpvc: 240, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series A interlock', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: defaultStockLengthM('UPVC'), ratePerMUpvc: 180, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series A glazing bead', material: 'UPVC' as const, kind: 'sliding' as const, stockLengthM: defaultStockLengthM('UPVC'), ratePerMUpvc: 60, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series B 60 mm casement frame', material: 'UPVC' as const, kind: 'casement' as const, stockLengthM: defaultStockLengthM('UPVC'), ratePerMUpvc: 340, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series B casement sash', material: 'UPVC' as const, kind: 'casement' as const, stockLengthM: defaultStockLengthM('UPVC'), ratePerMUpvc: 320, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Series B mullion', material: 'UPVC' as const, kind: 'casement' as const, stockLengthM: defaultStockLengthM('UPVC'), ratePerMUpvc: 260, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Steel reinforcement', material: 'UPVC' as const, kind: 'other' as const, stockLengthM: defaultStockLengthM('UPVC'), ratePerMUpvc: 70, kgPerMAluminium: 0 },
+    { id: uid(), name: 'Aluminium 2-track section', material: 'Aluminium' as const, kind: 'sliding' as const, stockLengthM: defaultStockLengthM('Aluminium'), ratePerMUpvc: 0, kgPerMAluminium: 0.7 },
+    { id: uid(), name: 'Aluminium shutter section', material: 'Aluminium' as const, kind: 'sliding' as const, stockLengthM: defaultStockLengthM('Aluminium'), ratePerMUpvc: 0, kgPerMAluminium: 0.55 },
+    { id: uid(), name: 'Aluminium interlock section', material: 'Aluminium' as const, kind: 'sliding' as const, stockLengthM: defaultStockLengthM('Aluminium'), ratePerMUpvc: 0, kgPerMAluminium: 0.45 },
+    { id: uid(), name: 'Aluminium casement frame', material: 'Aluminium' as const, kind: 'casement' as const, stockLengthM: defaultStockLengthM('Aluminium'), ratePerMUpvc: 0, kgPerMAluminium: 0.65 },
+    { id: uid(), name: 'Aluminium casement sash', material: 'Aluminium' as const, kind: 'casement' as const, stockLengthM: defaultStockLengthM('Aluminium'), ratePerMUpvc: 0, kgPerMAluminium: 0.5 },
   ];
 
   const typeByName = (n: string) => windowTypes.find((t) => t.name === n)!;

@@ -13,6 +13,7 @@ import {
 } from './calcs';
 import { resolveLessOffMm } from './lessOff';
 import { resolveEffectiveCatalogue } from './masterCatalogue';
+import { defaultStockLengthM } from './profileStockDefaults';
 import { meshTypeLabel, resolveMeshCosting } from './meshCosting';
 import {
   formatGlassLabel,
@@ -123,7 +124,8 @@ function resolveStockLengthM(
     .sort((a, b) => b.score - a.score);
   const hit = scored.find((s) => s.score > 0)?.p ?? candidates[0];
   const stock = hit?.stockLengthM ?? 0;
-  return stock > 0 ? stock : 5.8;
+  if (stock > 0) return stock;
+  return defaultStockLengthM(material ?? hit?.material ?? 'UPVC');
 }
 
 function barsFromMetres(metres: number, stockLengthM: number, endTrimMm: number): number {
@@ -745,7 +747,7 @@ function accumulateCuttingProfiles(
   for (const c of state.cuts) {
     const profile = profiles.find((p) => p.id === c.profileId);
     const name = profile?.name ?? 'Profile';
-    const stock = profile?.stockLengthM && profile.stockLengthM > 0 ? profile.stockLengthM : 5.8;
+    const stock = profile?.stockLengthM && profile.stockLengthM > 0 ? profile.stockLengthM : defaultStockLengthM(profile?.material ?? 'UPVC');
     const allowance = state.allowances.sawAllowanceMm;
     const metres = ((c.cutMm + allowance) * c.pieces) / 1000;
     const rate =

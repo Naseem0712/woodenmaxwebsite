@@ -22,6 +22,7 @@ import { ensureSeriesHardwareDefaults } from '../engine/hardwareKind';
 import { withPersistedNet } from '../engine/lessOff';
 import { inferWindowKind, realignJobsToMaterial } from '../engine/materialContext';
 import { resolveMeshCosting, syncMeshYesNo } from '../engine/meshCosting';
+import { ensureProfileStockLength } from '../engine/profileStockDefaults';
 import type {
   AppState,
   CustomerModeId,
@@ -127,7 +128,8 @@ function normalizeMasters(state: AppState): AppState {
         : name.includes('sliding') || name.includes('track') || name.includes('shutter') || name.includes('interlock')
           ? 'sliding'
           : 'other');
-    return { ...p, material, kind };
+    // Fill empty/missing stock length only — never wipe vendor custom lengths.
+    return ensureProfileStockLength({ ...p, material, kind });
   });
   const hardware = state.hardware.map((h) => ({
     ...h,
