@@ -1,5 +1,5 @@
 import { v4 as uid } from 'uuid';
-import { Btn, Card, PageHeader } from '../../components/ui';
+import { Btn, Card, PageHeader, NumberInput } from '../../components/ui';
 import { useApp } from '../../store/AppContext';
 
 export function SettingsHardwareCataloguePage() {
@@ -85,8 +85,7 @@ export function SettingsHardwareCataloguePage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={h.rate}
                     onChange={(e) =>
                       patch(

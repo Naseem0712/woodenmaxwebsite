@@ -1,5 +1,17 @@
+import { Link } from 'react-router-dom';
 import { v4 as uid } from 'uuid';
-import { Btn, Card, Field, Input, Kpi, Money, Num, PageHeader, Toolbar } from '../components/ui';
+import {
+  Btn,
+  Card,
+  Field,
+  Input,
+  Kpi,
+  Money,
+  Num,
+  NumberInput,
+  PageHeader,
+  Toolbar,
+} from '../components/ui';
 import {
   calcBuilder,
   calcCompare,
@@ -15,8 +27,10 @@ import {
   calcRevisions,
   calcSliding,
   calcCasement,
+  calcStock,
 } from '../engine/calcs';
 import { useApp } from '../store/AppContext';
+import type { StockIssue } from '../types';
 
 export function DoorsPage() {
   const { state, patch } = useApp();
@@ -92,8 +106,7 @@ export function DoorsPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.widthMm}
                     onChange={(e) =>
                       patch(
@@ -104,8 +117,7 @@ export function DoorsPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.heightMm}
                     onChange={(e) =>
                       patch(
@@ -116,8 +128,7 @@ export function DoorsPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.qty}
                     onChange={(e) =>
                       patch(
@@ -145,8 +156,7 @@ export function DoorsPage() {
                   </select>
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.ratePerSqft}
                     onChange={(e) =>
                       patch(
@@ -174,11 +184,62 @@ export function DoorsPage() {
 }
 
 export function CuttingPage() {
-  const { state, patch } = useApp();
+  const { state, patch, setState } = useApp();
   const calc = calcCutting(state);
+  const stockCalc = calcStock(state);
+
+  const matchStockLine = (seriesId: string | undefined, profileName: string) => {
+    if (!seriesId) return undefined;
+    const rows = stockCalc.rows.filter((r) => r.seriesId === seriesId);
+    const exact = rows.find(
+      (r) => r.sectionName.toLowerCase() === profileName.toLowerCase(),
+    );
+    if (exact) return exact;
+    const partial = rows.find(
+      (r) =>
+        profileName.toLowerCase().includes(r.sectionName.toLowerCase()) ||
+        r.sectionName.toLowerCase().includes(profileName.toLowerCase().slice(0, 8)),
+    );
+    return partial ?? rows[0];
+  };
+
+  const deductFromStock = () => {
+    const today = new Date().toISOString().slice(0, 10);
+    const issues: StockIssue[] = [];
+    for (const row of calc.rows) {
+      const stock = matchStockLine(row.seriesId, row.profileName);
+      if (!stock || row.metres <= 0) continue;
+      issues.push({
+        id: uid(),
+        stockLineId: stock.id,
+        projectId: state.activeProjectId,
+        metres: row.metres,
+        date: today,
+        note: `Cutting: ${row.windowLabel || 'cut'} · ${row.profileName}`,
+        source: 'cutting',
+        cutLineId: row.id,
+      });
+    }
+    if (!issues.length) {
+      window.alert('No matching series stock rows found. Add sections under Stock for the cut series.');
+      return;
+    }
+    setState((s) => ({
+      ...s,
+      stockIssues: [...s.stockIssues, ...issues],
+      cuts: s.cuts.map((c) => {
+        const iss = issues.find((i) => i.cutLineId === c.id);
+        return iss ? { ...c, stockLineId: iss.stockLineId } : c;
+      }),
+    }));
+  };
+
   return (
     <div>
-      <PageHeader title="05 Cutting List" subtitle="Manual cut lines + saw allowance → metres, stock lengths, offcut, profile ₹." />
+      <PageHeader
+        title="05 Cutting List"
+        subtitle="Cut sizes should be fabrication (net) sizes from Site Measure. Saw allowance → metres; deduct series stock when producing."
+      />
       <Card title="Allowances (Settings)">
         <div className="grid grid-4">
           <Field label="Saw allowance mm" tone="link">
@@ -220,6 +281,10 @@ export function CuttingPage() {
             />
           </Field>
         </div>
+        <p className="muted tiny" style={{ marginTop: '0.5rem' }}>
+          Prefer <Link to="/site-measure">Site Measure → Push net to Cutting</Link> so cut mm = fabrication size
+          (site − less-off). Stock: <Link to="/stock">Series stock</Link>.
+        </p>
       </Card>
       <div className="grid grid-4" style={{ marginBottom: '1rem' }}>
         <Kpi label="Metres needed" value={<Num n={calc.totalMetres} />} />
@@ -230,28 +295,35 @@ export function CuttingPage() {
       <Card
         title="Cut lines"
         actions={
-          <Btn
-            onClick={() =>
-              patch('cuts', [
-                ...state.cuts,
-                {
-                  id: uid(),
-                  windowLabel: '',
-                  profileId: state.profiles[0]?.id ?? '',
-                  cutMm: 1000,
-                  pieces: 1,
-                },
-              ])
-            }
-          >
-            + Add cut
-          </Btn>
+          <Toolbar>
+            <Btn
+              onClick={() =>
+                patch('cuts', [
+                  ...state.cuts,
+                  {
+                    id: uid(),
+                    windowLabel: '',
+                    profileId: state.profiles[0]?.id ?? '',
+                    cutMm: 1000,
+                    pieces: 1,
+                    seriesId: state.series[0]?.id,
+                  },
+                ])
+              }
+            >
+              + Add cut
+            </Btn>
+            <Btn variant="ghost" onClick={deductFromStock} disabled={!state.cuts.length}>
+              Deduct metres from series stock
+            </Btn>
+          </Toolbar>
         }
       >
         <table className="data">
           <thead>
             <tr>
               <th>Window</th>
+              <th>Series</th>
               <th>Profile</th>
               <th>Cut mm</th>
               <th>Pcs</th>
@@ -276,6 +348,26 @@ export function CuttingPage() {
                 </td>
                 <td>
                   <select
+                    value={r.seriesId ?? ''}
+                    onChange={(e) =>
+                      patch(
+                        'cuts',
+                        state.cuts.map((c) =>
+                          c.id === r.id ? { ...c, seriesId: e.target.value || undefined } : c,
+                        ),
+                      )
+                    }
+                  >
+                    <option value="">—</option>
+                    {state.series.map((s) => (
+                      <option key={s.id} value={s.id}>
+                        {s.name}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+                <td>
+                  <select
                     value={r.profileId}
                     onChange={(e) =>
                       patch(
@@ -292,25 +384,23 @@ export function CuttingPage() {
                   </select>
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.cutMm}
-                    onChange={(e) =>
+                    onCommit={(n) =>
                       patch(
                         'cuts',
-                        state.cuts.map((c) => (c.id === r.id ? { ...c, cutMm: Number(e.target.value) } : c)),
+                        state.cuts.map((c) => (c.id === r.id ? { ...c, cutMm: n ?? c.cutMm } : c)),
                       )
                     }
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.pieces}
-                    onChange={(e) =>
+                    onCommit={(n) =>
                       patch(
                         'cuts',
-                        state.cuts.map((c) => (c.id === r.id ? { ...c, pieces: Number(e.target.value) } : c)),
+                        state.cuts.map((c) => (c.id === r.id ? { ...c, pieces: n ?? c.pieces } : c)),
                       )
                     }
                   />
@@ -445,8 +535,7 @@ export function GlassPage() {
                   </select>
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.widthMm}
                     onChange={(e) =>
                       patch(
@@ -457,8 +546,7 @@ export function GlassPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.heightMm}
                     onChange={(e) =>
                       patch(
@@ -469,8 +557,7 @@ export function GlassPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.panes}
                     onChange={(e) =>
                       patch(
@@ -587,8 +674,7 @@ export function HardwarePage() {
                   </select>
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.qtyPerWindow}
                     onChange={(e) =>
                       patch(
@@ -872,8 +958,7 @@ export function ComparePage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.widthMm}
                     onChange={(e) =>
                       patch(
@@ -884,8 +969,7 @@ export function ComparePage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.heightMm}
                     onChange={(e) =>
                       patch(
@@ -896,8 +980,7 @@ export function ComparePage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.qty}
                     onChange={(e) =>
                       patch(
@@ -1085,8 +1168,7 @@ export function MeshPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.widthMm}
                     onChange={(e) =>
                       patch(
@@ -1099,8 +1181,7 @@ export function MeshPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.heightMm}
                     onChange={(e) =>
                       patch(
@@ -1113,8 +1194,7 @@ export function MeshPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.qty}
                     onChange={(e) =>
                       patch(
@@ -1125,8 +1205,7 @@ export function MeshPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.ratePerSqft}
                     onChange={(e) =>
                       patch(
@@ -1287,8 +1366,7 @@ export function BuilderPage() {
                   </select>
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.widthMm}
                     onChange={(e) =>
                       patch(
@@ -1299,8 +1377,7 @@ export function BuilderPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.heightMm}
                     onChange={(e) =>
                       patch(
@@ -1313,8 +1390,7 @@ export function BuilderPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.qtyPerFlat}
                     onChange={(e) =>
                       patch(
@@ -1327,8 +1403,7 @@ export function BuilderPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.flats}
                     onChange={(e) =>
                       patch(
@@ -1389,8 +1464,7 @@ export function RevisionPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.oldRate}
                     onChange={(e) =>
                       patch(
@@ -1403,8 +1477,7 @@ export function RevisionPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.newRate}
                     onChange={(e) =>
                       patch(
@@ -1417,8 +1490,7 @@ export function RevisionPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.weightPercent}
                     onChange={(e) =>
                       patch(

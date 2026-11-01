@@ -1,5 +1,5 @@
 import { v4 as uid } from 'uuid';
-import { Btn, Card, PageHeader } from '../../components/ui';
+import { Btn, Card, PageHeader, NumberInput } from '../../components/ui';
 import { useApp } from '../../store/AppContext';
 
 export function SettingsGlassTypesPage() {
@@ -59,8 +59,7 @@ export function SettingsGlassTypesPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     step="0.01"
                     value={g.thicknessMm}
                     onChange={(e) =>
@@ -74,8 +73,7 @@ export function SettingsGlassTypesPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={g.ratePerSqft}
                     onChange={(e) =>
                       patch(

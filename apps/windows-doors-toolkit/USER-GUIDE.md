@@ -31,16 +31,48 @@ Source also lives under:
 
 ---
 
+## Projects (job isolation)
+
+Use the **Project** bar at the top of every page:
+
+- **Select** a project — openings, site measures, cutting, quote, leads, etc. switch with it (no mixed job data).
+- **Rename** / **+ New** — create empty job bags while keeping global Settings masters.
+- **Less-off W/H** on the bar — optional project override of Settings less-off (clear with **Use Settings**).
+
+**Global (shared):** Business, Allowances, Series, Window types, Glass, Hardware, Profiles catalogue, **Series stock**.  
+**Per project:** Leads, Site Measure, Openings, costing jobs, Cutting, Quote, Mesh, Labour, Builder, etc.
+
+---
+
+## Less-off → fabrication size
+
+1. Set defaults in **Settings → Allowances** (Less-off width/height mm), and/or project bar, and/or **per row** on Site Measure.
+2. **Site Measure** stores **site W/H** and persists **net W/H** = site − less (clamped ≥ 0; row warns if less-off would go negative).
+3. **Push net → 01 Openings + Quote** uses fabrication sizes for the openings schedule.
+4. **Push net → 05 Cutting** fills cut lines from net W/H (frame pairs). Cutting should use fab sizes, not raw site readings.
+
+---
+
+## Series stock
+
+**Settings / Manage → Series stock** (also `/stock`):
+
+- Inventory grouped by **series** (sliding / casement / …).
+- Editable **section / profile** names, opening balance, purchases, remaining.
+- **Issue…** to the active project, or on **05 Cutting** use **Deduct metres from series stock** (matches series + section name when possible).
+
+---
+
 ## Measure → quote path (recommended)
 
 1. **Settings → Business / GST** — company, GSTIN, GST on/off and %.
-2. **Settings → Allowances** — min chargeable sqft, mesh ₹/sqft, toughened extra, site install ₹/sqft, wastage, labour defaults.
+2. **Settings → Allowances** — min chargeable sqft, mesh ₹/sqft, toughened extra, site install ₹/sqft, **less-off**, wastage, labour defaults.
 3. **Settings → Window types / Series / Glass / Hardware** — rate cards (sample seeds only — overwrite with your shop rates).
-4. **Leads** — log enquiry (source, need, status, follow-up). **Use on job** fills customer/site on quote header.
-5. **Site Measure** — one row per opening on site: location, type, W×H, unit, qty, mesh/toughened. Amount = chargeable sqft × (type rate + install + mesh + toughened extras from Settings).
-6. Click **Push to 01 Openings + Quote header** — copies schedule into Tool 01 and customer into quote.
-7. **08 Quotation** — schedule from openings + mesh/grill − discount + GST; set advance % or ₹; **Print quote** for A4.
-8. Optional: **02/03** costing, **05–07** BOQ, **10 Margin**.
+4. Pick or create a **Project**.
+5. **Leads** — log enquiry; **Use on job** fills customer/site on quote header.
+6. **Site Measure** — site W×H, less-off, net fab size; push to openings / cutting.
+7. **08 Quotation** — schedule from openings + mesh/grill − discount + GST; **Print quote**.
+8. Optional: **02/03** costing, **05–07** BOQ + stock deduct, **10 Margin**.
 
 ---
 
@@ -50,12 +82,12 @@ Source also lives under:
 |-------|------|---------|
 | `/` | Home | KPIs + hub |
 | `/leads` | Leads | Enquiry CRM · follow-ups |
-| `/site-measure` | Site Measure | Site visit W×H → openings |
+| `/site-measure` | Site Measure | Site W×H → less-off → net fab → openings/cutting |
 | `/openings` | 01 Window Sqft | Openings schedule |
 | `/sliding` | 02 Sliding | Series + size → cost |
 | `/casement` | 03 Casement | Panels/openable → cost |
 | `/doors` | 04 Doors | Door/partition lines |
-| `/cutting` | 05 Cutting | Cut list → stock to buy |
+| `/cutting` | 05 Cutting | Cut list → stock to buy / deduct |
 | `/glass` | 06 Glass | Pane lines → glass ₹ |
 | `/hardware` | 07 Hardware | Type × item matrix |
 | `/quote` | 08 Quotation | Printable schedule + GST + advance |
@@ -66,6 +98,7 @@ Source also lives under:
 | `/builder` | 13 Builder | Bulk/tower estimator |
 | `/revision` | 14 Price Revision | Input cost impact |
 | `/dashboard` | 15 Dashboard | Cross-tool KPIs |
+| `/stock` | Series stock | Series-wise inventory |
 
 ---
 
@@ -75,23 +108,32 @@ Source also lives under:
 |-------|--------|
 | `/settings` | Overview |
 | `/settings/business` | Business / GST |
-| `/settings/allowances` | Allowances, site-measure add-ons & defaults |
+| `/settings/allowances` | Allowances, less-off, site-measure add-ons |
 | `/settings/series` | Series & profile members |
+| `/stock` | Series stock (opening / purchases / issues) |
 | `/settings/window-types` | Window types ₹/sqft |
 | `/settings/glass` | Glass types |
 | `/settings/hardware` | Hardware catalogue |
-| `/settings/profiles` | Profiles stock |
+| `/settings/profiles` | Profiles catalogue (rates / stock length) |
 | `/settings/data` | Export / Import / Reset seed |
+
+---
+
+## Numeric editing
+
+Yellow number fields use a shared draft input: you can clear and retype without the value snapping to **0** mid-edit. Empty on blur restores the previous value.
 
 ---
 
 ## Demo path (smoke)
 
-1. Open **Site Measure** — seed openings linked to `LD-3001`; check measured value KPI.
-2. **Push to 01 Openings**, then open **08 Quotation** — letterhead, schedule, GST, advance % (seed 40%), balance.
-3. Open **02 Sliding** — Series A 60 mm, **1500 × 1200 mm**, qty 4 → sample total ≈ ₹48,825 / ≈ ₹630/sqft.
-4. Edit **Settings → Series** or **Business**; reload — persists via `localStorage`.
-5. **Settings → Export / Import** → Download JSON for backup.
+1. Confirm **Project** bar shows *Sample villa — Hyderabad*.
+2. Open **Site Measure** — site vs less-off vs **Net W/H**; measured value KPI.
+3. **Push net → 01 Openings**, then **08 Quotation**.
+4. Open **Series stock** — sections under Series A / B; remaining metres.
+5. **05 Cutting** — series column + **Deduct metres from series stock**.
+6. **+ New** project, confirm openings/site measure empty; switch back — sample data returns.
+7. **Settings → Export / Import** → Download JSON for backup.
 
 Sample rates are generic India 2026 fiction (Series A / B — no brand copy).
 
@@ -103,6 +145,9 @@ Sample rates are generic India 2026 fiction (Series A / B — no brand copy).
 - `media/toolkit-sliding.png`
 - `media/toolkit-settings-series.png`
 - `media/toolkit-site-measure.png`
+- `media/toolkit-site-measure-lessoff.png`
+- `media/toolkit-project-switcher.png`
+- `media/toolkit-series-stock.png`
 - `media/toolkit-quote-print.png`
 - `media/toolkit-leads.png`
 

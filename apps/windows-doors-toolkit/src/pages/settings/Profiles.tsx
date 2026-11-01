@@ -1,5 +1,5 @@
 import { v4 as uid } from 'uuid';
-import { Btn, Card, PageHeader } from '../../components/ui';
+import { Btn, Card, PageHeader, NumberInput } from '../../components/ui';
 import { useApp } from '../../store/AppContext';
 
 export function SettingsProfilesPage() {
@@ -59,8 +59,7 @@ export function SettingsProfilesPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     step="0.1"
                     value={p.stockLengthM}
                     onChange={(e) =>
@@ -74,8 +73,7 @@ export function SettingsProfilesPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={p.ratePerMUpvc}
                     onChange={(e) =>
                       patch(
@@ -88,8 +86,7 @@ export function SettingsProfilesPage() {
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     step="0.01"
                     value={p.kgPerMAluminium}
                     onChange={(e) =>

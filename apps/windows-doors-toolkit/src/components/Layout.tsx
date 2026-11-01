@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
+import { ProjectSwitcher } from './ProjectSwitcher';
 import { Legend } from './ui';
 
 const tools = [
@@ -27,10 +28,11 @@ const settings = [
   { to: '/settings/business', label: 'Business / GST' },
   { to: '/settings/allowances', label: 'Allowances' },
   { to: '/settings/series', label: 'Series & members' },
+  { to: '/stock', label: 'Series stock' },
   { to: '/settings/window-types', label: 'Window types' },
   { to: '/settings/glass', label: 'Glass types' },
   { to: '/settings/hardware', label: 'Hardware catalogue' },
-  { to: '/settings/profiles', label: 'Profiles stock' },
+  { to: '/settings/profiles', label: 'Profiles catalogue' },
   { to: '/settings/data', label: 'Export / Import' },
 ];
 
@@ -58,6 +60,7 @@ export function Layout() {
         </nav>
       </aside>
       <main className="main">
+        <ProjectSwitcher />
         <Legend />
         <Outlet />
       </main>

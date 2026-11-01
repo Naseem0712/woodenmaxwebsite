@@ -1,56 +1,82 @@
 import { Link } from 'react-router-dom';
 import { v4 as uid } from 'uuid';
-import { Btn, Card, Field, Input, Kpi, Money, Num, PageHeader, Toolbar } from '../components/ui';
+import {
+  Btn,
+  Card,
+  Field,
+  Input,
+  Kpi,
+  Money,
+  Num,
+  NumberInput,
+  PageHeader,
+  Toolbar,
+} from '../components/ui';
 import { calcSiteMeasure } from '../engine/calcs';
+import { activeProject, resolveLessOffMm, withPersistedNet } from '../engine/lessOff';
 import { useApp } from '../store/AppContext';
-import type { SiteMeasureLine, Unit, YesNo } from '../types';
+import type { CutLine, SiteMeasureLine, Unit, YesNo } from '../types';
 
 export function SiteMeasurePage() {
   const { state, patch, setState } = useApp();
   const calc = calcSiteMeasure(state);
   const a = state.allowances;
+  const proj = activeProject(state);
+  const defaults = resolveLessOffMm(state, null);
 
   const update = (id: string, patchLine: Partial<SiteMeasureLine>) => {
     patch(
       'siteMeasures',
-      state.siteMeasures.map((r) => (r.id === id ? { ...r, ...patchLine } : r)),
+      state.siteMeasures.map((r) => {
+        if (r.id !== id) return r;
+        const merged = { ...r, ...patchLine };
+        return withPersistedNet(state, merged);
+      }),
     );
   };
 
   const addLine = () => {
     const lead = state.leads[0];
     const wt = state.windowTypes[0];
-    patch('siteMeasures', [
-      ...state.siteMeasures,
-      {
-        id: uid(),
-        measuredOn: new Date().toISOString().slice(0, 10),
-        leadId: lead?.id ?? '',
-        location: '',
-        windowTypeId: wt?.id ?? '',
-        width: 1200,
-        height: 1200,
-        unit: a.unit,
-        qty: 1,
-        ratePerSqft: wt?.ratePerSqft ?? 0,
-        mesh: 'No',
-        toughened: 'No',
-        measuredBy: lead?.owner ?? '',
-      },
-    ]);
+    const width = 1200;
+    const height = 1200;
+    const draft: SiteMeasureLine = {
+      id: uid(),
+      measuredOn: new Date().toISOString().slice(0, 10),
+      leadId: lead?.id ?? '',
+      location: '',
+      windowTypeId: wt?.id ?? '',
+      width,
+      height,
+      unit: a.unit,
+      qty: 1,
+      ratePerSqft: wt?.ratePerSqft ?? 0,
+      mesh: 'No',
+      toughened: 'No',
+      measuredBy: lead?.owner ?? '',
+      lessOffWidthMm: null,
+      lessOffHeightMm: null,
+      netWidth: width,
+      netHeight: height,
+    };
+    patch('siteMeasures', [...state.siteMeasures, withPersistedNet(state, draft)]);
   };
 
   const pushToOpenings = () => {
     const first = calc.rows[0];
     const lead = state.leads.find((l) => l.id === first?.line.leadId) ?? state.leads[0];
-    const openings = state.siteMeasures.map((m) => ({
-      id: uid(),
-      location: m.location,
-      windowTypeId: m.windowTypeId,
-      width: m.width,
-      height: m.height,
-      qty: m.qty,
-    }));
+    // Openings / fab schedule uses net (fabrication) sizes
+    const openings = state.siteMeasures.map((m) => {
+      const netted = withPersistedNet(state, m);
+      return {
+        id: uid(),
+        location: m.location,
+        windowTypeId: m.windowTypeId,
+        width: netted.netWidth,
+        height: netted.netHeight,
+        qty: m.qty,
+      };
+    });
     const unit = state.siteMeasures[0]?.unit ?? a.unit;
     setState((s) => ({
       ...s,
@@ -82,13 +108,111 @@ export function SiteMeasurePage() {
     }));
   };
 
+  const pushToCutting = () => {
+    const cuts: CutLine[] = [];
+    for (const m of state.siteMeasures) {
+      const netted = withPersistedNet(state, m);
+      const seriesId =
+        state.windowTypes.find((t) => t.id === m.windowTypeId)?.seriesId ??
+        state.series[0]?.id ??
+        '';
+      const profile =
+        state.profiles.find((p) => p.name.toLowerCase().includes('frame')) ?? state.profiles[0];
+      // W × 2 + H × 2 frame cuts from fab size
+      cuts.push({
+        id: uid(),
+        windowLabel: m.location || 'Opening',
+        profileId: profile?.id ?? '',
+        cutMm: netted.netWidth,
+        pieces: 2 * m.qty,
+        seriesId,
+        siteMeasureId: m.id,
+      });
+      cuts.push({
+        id: uid(),
+        windowLabel: m.location || 'Opening',
+        profileId: profile?.id ?? '',
+        cutMm: netted.netHeight,
+        pieces: 2 * m.qty,
+        seriesId,
+        siteMeasureId: m.id,
+      });
+    }
+    patch('cuts', cuts);
+  };
+
   return (
     <div>
       <PageHeader
         title="Site Measurements"
-        subtitle="Site visit: room / opening, W×H, unit, qty. Sqft + amount use Settings min sqft, mesh, toughened & install add-ons. Push → 01 Openings → 08 Quote."
+        subtitle="Record site W×H, apply less-off → net fabrication size. Quote uses site size; Cutting / openings use net."
         badge="Measure → Quote"
       />
+
+      <Card title="Less-off (site → fabrication)">
+        <div className="grid grid-4">
+          <Field label="Settings less-off W mm" tone="link" hint="Settings → Allowances">
+            <NumberInput
+              tone="link"
+              value={a.lessOffWidthMm}
+              onCommit={(n) =>
+                patch('allowances', { ...a, lessOffWidthMm: n ?? a.lessOffWidthMm })
+              }
+            />
+          </Field>
+          <Field label="Settings less-off H mm" tone="link">
+            <NumberInput
+              tone="link"
+              value={a.lessOffHeightMm}
+              onCommit={(n) =>
+                patch('allowances', { ...a, lessOffHeightMm: n ?? a.lessOffHeightMm })
+              }
+            />
+          </Field>
+          <Field
+            label="Project less-off W mm"
+            hint={proj?.lessOffWidthMm == null ? `Using Settings ${defaults.widthMm}` : 'Project override'}
+          >
+            <NumberInput
+              value={proj?.lessOffWidthMm ?? ''}
+              emptyAs="null"
+              placeholder={`Settings ${defaults.widthMm}`}
+              onCommit={(n) => {
+                if (!proj) return;
+                patch(
+                  'projects',
+                  state.projects.map((p) =>
+                    p.id === proj.id ? { ...p, lessOffWidthMm: n } : p,
+                  ),
+                );
+              }}
+            />
+          </Field>
+          <Field
+            label="Project less-off H mm"
+            hint={proj?.lessOffHeightMm == null ? `Using Settings ${defaults.heightMm}` : 'Project override'}
+          >
+            <NumberInput
+              value={proj?.lessOffHeightMm ?? ''}
+              emptyAs="null"
+              placeholder={`Settings ${defaults.heightMm}`}
+              onCommit={(n) => {
+                if (!proj) return;
+                patch(
+                  'projects',
+                  state.projects.map((p) =>
+                    p.id === proj.id ? { ...p, lessOffHeightMm: n } : p,
+                  ),
+                );
+              }}
+            />
+          </Field>
+        </div>
+        <p className="muted tiny" style={{ marginTop: '0.5rem' }}>
+          Effective default now: <strong>{defaults.widthMm} × {defaults.heightMm} mm</strong>.
+          Per-row Less W/H overrides this. Empty project fields inherit Settings.
+        </p>
+      </Card>
 
       <Card title="Add-on rates (Settings)">
         <div className="grid grid-4">
@@ -145,9 +269,11 @@ export function SiteMeasurePage() {
           label="Next"
           value={
             <span className="tiny">
-              <Link to="/openings">01 Openings</Link> · <Link to="/quote">08 Quote</Link>
+              <Link to="/openings">01 Openings</Link> · <Link to="/cutting">05 Cutting</Link> ·{' '}
+              <Link to="/quote">08 Quote</Link>
             </span>
           }
+          hint={calc.warnCount ? `${calc.warnCount} row(s) less-off &gt; site` : undefined}
         />
       </div>
 
@@ -157,7 +283,10 @@ export function SiteMeasurePage() {
           <Toolbar>
             <Btn onClick={addLine}>+ Add opening</Btn>
             <Btn variant="ghost" onClick={pushToOpenings} disabled={!state.siteMeasures.length}>
-              Push to 01 Openings + Quote header
+              Push net → 01 Openings + Quote
+            </Btn>
+            <Btn variant="ghost" onClick={pushToCutting} disabled={!state.siteMeasures.length}>
+              Push net → 05 Cutting
             </Btn>
           </Toolbar>
         }
@@ -170,8 +299,12 @@ export function SiteMeasurePage() {
                 <th>Lead</th>
                 <th>Location</th>
                 <th>Type</th>
-                <th>W</th>
-                <th>H</th>
+                <th>Site W</th>
+                <th>Site H</th>
+                <th>Less W</th>
+                <th>Less H</th>
+                <th>Net W</th>
+                <th>Net H</th>
                 <th>Unit</th>
                 <th>Qty</th>
                 <th>₹/sqft</th>
@@ -185,7 +318,7 @@ export function SiteMeasurePage() {
             </thead>
             <tbody>
               {calc.rows.map((r) => (
-                <tr key={r.line.id}>
+                <tr key={r.line.id} className={r.warnNegative ? 'row-warn' : undefined}>
                   <td>
                     <input
                       type="date"
@@ -232,18 +365,41 @@ export function SiteMeasurePage() {
                     </select>
                   </td>
                   <td>
-                    <input
-                      type="number"
+                    <NumberInput
                       value={r.line.width}
-                      onChange={(e) => update(r.line.id, { width: Number(e.target.value) })}
+                      onCommit={(n) => update(r.line.id, { width: n ?? r.line.width })}
                     />
                   </td>
                   <td>
-                    <input
-                      type="number"
+                    <NumberInput
                       value={r.line.height}
-                      onChange={(e) => update(r.line.id, { height: Number(e.target.value) })}
+                      onCommit={(n) => update(r.line.id, { height: n ?? r.line.height })}
                     />
+                  </td>
+                  <td>
+                    <NumberInput
+                      value={r.line.lessOffWidthMm ?? ''}
+                      emptyAs="null"
+                      placeholder={String(r.lessWidthMm)}
+                      title={`Effective ${r.lessWidthMm} mm`}
+                      onCommit={(n) => update(r.line.id, { lessOffWidthMm: n })}
+                    />
+                  </td>
+                  <td>
+                    <NumberInput
+                      value={r.line.lessOffHeightMm ?? ''}
+                      emptyAs="null"
+                      placeholder={String(r.lessHeightMm)}
+                      title={`Effective ${r.lessHeightMm} mm`}
+                      onCommit={(n) => update(r.line.id, { lessOffHeightMm: n })}
+                    />
+                  </td>
+                  <td className={`calc ${r.warnNegative ? 'warn' : ''}`}>
+                    <Num n={r.netWidth} d={0} />
+                    {r.warnNegative ? ' ⚠' : ''}
+                  </td>
+                  <td className={`calc ${r.warnNegative ? 'warn' : ''}`}>
+                    <Num n={r.netHeight} d={0} />
                   </td>
                   <td>
                     <select
@@ -256,17 +412,15 @@ export function SiteMeasurePage() {
                     </select>
                   </td>
                   <td>
-                    <input
-                      type="number"
+                    <NumberInput
                       value={r.line.qty}
-                      onChange={(e) => update(r.line.id, { qty: Number(e.target.value) })}
+                      onCommit={(n) => update(r.line.id, { qty: n ?? r.line.qty })}
                     />
                   </td>
                   <td>
-                    <input
-                      type="number"
+                    <NumberInput
                       value={r.line.ratePerSqft}
-                      onChange={(e) => update(r.line.id, { ratePerSqft: Number(e.target.value) })}
+                      onCommit={(n) => update(r.line.id, { ratePerSqft: n ?? r.line.ratePerSqft })}
                     />
                   </td>
                   <td>

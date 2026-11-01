@@ -1,5 +1,5 @@
 import { v4 as uid } from 'uuid';
-import { Btn, Card, PageHeader } from '../../components/ui';
+import { Btn, Card, PageHeader, NumberInput } from '../../components/ui';
 import type { Material } from '../../types';
 import { useApp } from '../../store/AppContext';
 
@@ -78,8 +78,7 @@ export function SettingsWindowTypesPage() {
                   </select>
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={t.ratePerSqft}
                     onChange={(e) =>
                       patch(

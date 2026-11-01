@@ -29,6 +29,7 @@ import { SettingsOverviewPage } from './pages/settings/Overview';
 import { SettingsProfilesPage } from './pages/settings/Profiles';
 import { SettingsSeriesPage } from './pages/settings/Series';
 import { SettingsWindowTypesPage } from './pages/settings/WindowTypes';
+import { StockPage } from './pages/Stock';
 import { AppProvider } from './store/AppContext';
 
 export default function App() {
@@ -63,6 +64,7 @@ export default function App() {
             <Route path="settings/glass" element={<SettingsGlassTypesPage />} />
             <Route path="settings/hardware" element={<SettingsHardwareCataloguePage />} />
             <Route path="settings/profiles" element={<SettingsProfilesPage />} />
+            <Route path="stock" element={<StockPage />} />
             <Route path="settings/data" element={<SettingsDataPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

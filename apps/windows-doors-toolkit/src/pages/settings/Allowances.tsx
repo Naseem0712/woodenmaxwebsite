@@ -167,6 +167,24 @@ export function SettingsAllowancesPage() {
           </Field>
         </div>
       </Card>
+      <Card title="Less-off defaults (site → fabrication)">
+        <div className="grid grid-4">
+          <Field label="Less-off width mm" hint="Subtracted from site W → net / fab W">
+            <Input
+              type="number"
+              value={a.lessOffWidthMm}
+              onChange={(e) => set('lessOffWidthMm', Number(e.target.value))}
+            />
+          </Field>
+          <Field label="Less-off height mm" hint="Override per project or per site-measure row">
+            <Input
+              type="number"
+              value={a.lessOffHeightMm}
+              onChange={(e) => set('lessOffHeightMm', Number(e.target.value))}
+            />
+          </Field>
+        </div>
+      </Card>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import type {
   SlidingJob,
   WindowType,
 } from '../types';
+import { computeNetSize, resolveLessOffMm } from './lessOff';
 
 const MM_TO_SQFT = 92903.04;
 
@@ -483,7 +484,11 @@ export function calcSiteMeasure(state: AppState) {
   const rows = state.siteMeasures.map((line) => {
     const t = lookupWindowType(state.windowTypes, line.windowTypeId);
     const lead = state.leads.find((l) => l.id === line.leadId);
+    const less = resolveLessOffMm(state, line);
+    const net = computeNetSize(line.width, line.height, less.widthMm, less.heightMm);
+    // Quote / chargeable from site measured size; fabrication uses net.
     const actualSqftUnit = toSqft(line.width, line.height, line.unit);
+    const fabSqftUnit = toSqft(net.netWidth, net.netHeight, line.unit);
     const chargeableEach = Math.max(actualSqftUnit, min);
     const totalSqft = chargeableEach * line.qty;
     const addOns =
@@ -496,7 +501,13 @@ export function calcSiteMeasure(state: AppState) {
       material: t?.material ?? '—',
       leadName: lead?.name ?? '—',
       leadNo: lead?.leadNo ?? '—',
+      lessWidthMm: less.widthMm,
+      lessHeightMm: less.heightMm,
+      netWidth: net.netWidth,
+      netHeight: net.netHeight,
+      warnNegative: net.warnNegative,
       actualSqftUnit,
+      fabSqftUnit,
       chargeableEach,
       totalSqft,
       addOns,
@@ -509,6 +520,38 @@ export function calcSiteMeasure(state: AppState) {
     totalQty: rows.reduce((s, r) => s + r.line.qty, 0),
     totalSqft: rows.reduce((s, r) => s + r.totalSqft, 0),
     totalAmount: rows.reduce((s, r) => s + r.amount, 0),
+    warnCount: rows.filter((r) => r.warnNegative).length,
+  };
+}
+
+export function calcStock(state: AppState) {
+  const issuedByStock = new Map<string, number>();
+  for (const iss of state.stockIssues) {
+    issuedByStock.set(iss.stockLineId, (issuedByStock.get(iss.stockLineId) ?? 0) + iss.metres);
+  }
+  const rows = state.stock.map((line) => {
+    const series = state.series.find((s) => s.id === line.seriesId);
+    const issuedM = issuedByStock.get(line.id) ?? 0;
+    const remainingM = round(line.openingBalanceM + line.purchasesM - issuedM, 3);
+    return {
+      ...line,
+      seriesName: series?.name ?? '—',
+      seriesKind: series?.kind ?? 'other',
+      issuedM,
+      remainingM,
+    };
+  });
+  const bySeries = new Map<string, typeof rows>();
+  for (const r of rows) {
+    const list = bySeries.get(r.seriesId) ?? [];
+    list.push(r);
+    bySeries.set(r.seriesId, list);
+  }
+  return {
+    rows,
+    bySeries,
+    totalRemaining: rows.reduce((s, r) => s + r.remainingM, 0),
+    totalIssued: rows.reduce((s, r) => s + r.issuedM, 0),
   };
 }
 

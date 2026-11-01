@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { v4 as uid } from 'uuid';
-import { Btn, Card, Field, Input, PageHeader, Select, Toolbar } from '../../components/ui';
+import { Btn, Card, Field, Input, PageHeader, Select, Toolbar, NumberInput } from '../../components/ui';
 import type { Material, ProfileMember, SeriesDefinition } from '../../types';
 import { useApp } from '../../store/AppContext';
 
@@ -302,24 +302,21 @@ export function SettingsSeriesPage() {
                       </select>
                     </td>
                     <td>
-                      <input
-                        type="number"
+                      <NumberInput
                         step="0.05"
                         value={m.wFactor}
                         onChange={(e) => updateMember(m.id, { wFactor: Number(e.target.value) })}
                       />
                     </td>
                     <td>
-                      <input
-                        type="number"
+                      <NumberInput
                         step="0.05"
                         value={m.hFactor}
                         onChange={(e) => updateMember(m.id, { hFactor: Number(e.target.value) })}
                       />
                     </td>
                     <td>
-                      <input
-                        type="number"
+                      <NumberInput
                         value={m.ratePerM}
                         onChange={(e) => updateMember(m.id, { ratePerM: Number(e.target.value) })}
                       />

@@ -54,6 +54,9 @@ export interface Allowances {
   meshPerSqft: number;
   toughenedExtraPerSqft: number;
   siteInstallPerSqft: number;
+  /** Default less-off (site → fabrication). Overridable per project / per row. */
+  lessOffWidthMm: number;
+  lessOffHeightMm: number;
 }
 
 export interface WindowType {
@@ -206,6 +209,10 @@ export interface CutLine {
   profileId: string;
   cutMm: number;
   pieces: number;
+  /** Optional link to series stock row for deduction */
+  seriesId?: string;
+  stockLineId?: string;
+  siteMeasureId?: string;
 }
 
 export interface GlassPaneLine {
@@ -275,6 +282,7 @@ export interface SiteMeasureLine {
   leadId: string;
   location: string;
   windowTypeId: string;
+  /** Site measured size (actual site reading) */
   width: number;
   height: number;
   unit: Unit;
@@ -284,6 +292,14 @@ export interface SiteMeasureLine {
   mesh: YesNo;
   toughened: YesNo;
   measuredBy: string;
+  /**
+   * Per-row less-off override (mm). null/undefined = use project default, else Settings.
+   */
+  lessOffWidthMm?: number | null;
+  lessOffHeightMm?: number | null;
+  /** Persisted fabrication / net size = site − less (clamped ≥ 0) */
+  netWidth: number;
+  netHeight: number;
 }
 
 export interface CompareLine {
@@ -320,15 +336,17 @@ export interface JobMeta {
   jobLabel: string;
 }
 
-export interface AppState {
-  business: BusinessInfo;
-  allowances: Allowances;
-  windowTypes: WindowType[];
-  series: SeriesDefinition[];
-  glassTypes: GlassType[];
-  hardware: HardwareItem[];
-  profiles: ProfileSku[];
-  hardwareBom: HardwareBomLine[];
+/** Project shell — less-off defaults override Settings when set (null = inherit). */
+export interface ProjectMeta {
+  id: string;
+  name: string;
+  createdAt: string;
+  lessOffWidthMm: number | null;
+  lessOffHeightMm: number | null;
+}
+
+/** Per-project job data (never mixed across projects). */
+export interface ProjectJobData {
   jobMeta: JobMeta;
   openings: OpeningLine[];
   leads: Lead[];
@@ -348,4 +366,65 @@ export interface AppState {
     commissionPercent: number;
     otherFees: number;
   };
+}
+
+/** Series-wise section inventory (global shop stock). */
+export interface StockLine {
+  id: string;
+  seriesId: string;
+  /** Editable section / profile name within the series */
+  sectionName: string;
+  openingBalanceM: number;
+  purchasesM: number;
+  note: string;
+}
+
+export interface StockIssue {
+  id: string;
+  stockLineId: string;
+  projectId: string;
+  metres: number;
+  date: string;
+  note: string;
+  source: 'manual' | 'cutting';
+  cutLineId?: string;
+}
+
+export const PROJECT_JOB_KEYS = [
+  'jobMeta',
+  'openings',
+  'leads',
+  'siteMeasures',
+  'sliding',
+  'casement',
+  'doors',
+  'cuts',
+  'glassPanes',
+  'meshGrill',
+  'labour',
+  'quote',
+  'compare',
+  'builder',
+  'revisions',
+  'marginExtras',
+] as const;
+
+export type ProjectJobKey = (typeof PROJECT_JOB_KEYS)[number];
+
+export interface AppState extends ProjectJobData {
+  business: BusinessInfo;
+  allowances: Allowances;
+  windowTypes: WindowType[];
+  series: SeriesDefinition[];
+  glassTypes: GlassType[];
+  hardware: HardwareItem[];
+  profiles: ProfileSku[];
+  hardwareBom: HardwareBomLine[];
+  /** Global series-wise stock */
+  stock: StockLine[];
+  stockIssues: StockIssue[];
+  projects: ProjectMeta[];
+  activeProjectId: string;
+  /** Inactive project bags (active project's data lives on the flat keys above) */
+  projectBags: Record<string, ProjectJobData>;
 }

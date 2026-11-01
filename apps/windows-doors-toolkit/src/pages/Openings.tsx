@@ -1,5 +1,5 @@
 import { v4 as uid } from 'uuid';
-import { Btn, Card, Field, Input, Kpi, Money, Num, PageHeader, Select, Toolbar } from '../components/ui';
+import { Btn, Card, Field, Input, Kpi, Money, Num, PageHeader, Select, Toolbar, NumberInput } from '../components/ui';
 import { calcOpenings } from '../engine/calcs';
 import { useApp } from '../store/AppContext';
 
@@ -133,22 +133,19 @@ export function OpeningsPage() {
                   </select>
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.line.width}
                     onChange={(e) => updateOpening(r.line.id, 'width', Number(e.target.value))}
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.line.height}
                     onChange={(e) => updateOpening(r.line.id, 'height', Number(e.target.value))}
                   />
                 </td>
                 <td>
-                  <input
-                    type="number"
+                  <NumberInput
                     value={r.line.qty}
                     onChange={(e) => updateOpening(r.line.id, 'qty', Number(e.target.value))}
                   />
