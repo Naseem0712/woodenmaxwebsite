@@ -159,6 +159,8 @@ Desktop shell: fixed **100vh** grid (`~220px` sidebar + main). **Sidebar and mai
 
 Mobile (≤980px): sidebar is a **hamburger overlay drawer**, **collapsed by default**. Menu button opens/closes; backdrop + Escape + route change close it. Inputs stack; touch targets ≥~36px. Wide tables still scroll inside `.table-panel` / `.card`.
 
+**Site Measure openings (mobile):** each opening is a **stacked card** (Location → Size → Type → Less W/H → Glass → Glass doors → Mesh + type → Rates/amount at the bottom), then the next opening below — not a wide table. Desktop keeps the schedule table. Smoke: `node tools/_smoke-site-measure-mobile-cards-wd18.mjs`.
+
 ---
 
 ## Material × class isolation

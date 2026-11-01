@@ -386,6 +386,86 @@ table.data tr.row-warn { background: #fff7ed; }
 }
 .export-group .btn:hover { border-color: var(--accent); }
 
+/* Site Measure openings: desktop table; mobile stacked cards */
+.site-measure-openings-cards {
+  display: none;
+}
+.site-measure-opening-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.7rem 0.75rem;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.site-measure-opening-card + .site-measure-opening-card {
+  margin-top: 0.65rem;
+}
+.site-measure-opening-card.row-warn {
+  background: #fff7ed;
+  border-color: #fdba74;
+}
+.site-measure-opening-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+.site-measure-opening-card-head strong {
+  display: block;
+  font-size: 0.95rem;
+}
+.site-measure-opening-code {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #0e7490;
+  background: #ecfeff;
+  border: 1px solid #a5f3fc;
+  border-radius: 999px;
+  padding: 0.1rem 0.45rem;
+  margin-bottom: 0.2rem;
+}
+.site-measure-opening-section-label {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.site-measure-opening-section,
+.site-measure-opening-rates {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.site-measure-opening-rates {
+  margin-top: 0.15rem;
+  padding-top: 0.55rem;
+  border-top: 1px dashed var(--line);
+}
+.site-measure-opening-amount .calc-value {
+  color: var(--brand);
+}
+.site-measure-opening-meta {
+  margin-top: 0.15rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.82rem;
+}
+.site-measure-opening-meta summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-weight: 600;
+}
+.site-measure-net {
+  margin: 0.1rem 0 0;
+}
+
 /* Phones / small tablets: hamburger drawer; stack inputs; no sidebar eating viewport */
 @media (max-width: 980px) {
   .shell {
@@ -502,6 +582,18 @@ table.data tr.row-warn { background: #fff7ed; }
   }
   .table-panel > table.data {
     min-width: 640px;
+  }
+  /* Site Measure: stacked opening cards instead of wide table */
+  .site-measure-openings-table {
+    display: none !important;
+  }
+  .site-measure-openings-cards {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+  }
+  .card:has(.site-measure-openings-cards) {
+    overflow-x: visible;
   }
 }
 
