@@ -1126,6 +1126,9 @@ ${doc.openingBlocks!
   .opening-narrative{margin:0 0 8px;font:13px/1.55 ${PRINT_FONT};color:#0f172a}
   .opening-head{font-weight:700;font-size:13.5px;margin:0 0 6px;color:#0b3a5b;font-family:${PRINT_FONT}}
   .opening-line{margin:0 0 2px}
+  .size-list-block pre{margin:0;font:13px/1.5 ${PRINT_FONT};white-space:pre-wrap;color:#0f172a}
+  .boq-lines{list-style:none;padding:0;margin:0 0 12px;font:13px/1.55 ${PRINT_FONT}}
+  .boq-lines li{padding:4px 0;border-bottom:1px dotted #cbd5e1}
   .dot-row{display:flex;align-items:baseline;gap:8px;width:100%;margin-top:4px;font-size:13px;font-family:${PRINT_FONT}}
   .dot-desc{flex:0 1 auto;max-width:55%;color:#0f172a}
   .dot-lead{flex:1 1 auto;border-bottom:1px dotted #94a3b8;min-width:16px;transform:translateY(-3px)}
