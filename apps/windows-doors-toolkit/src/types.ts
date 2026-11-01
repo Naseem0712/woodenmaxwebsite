@@ -91,6 +91,47 @@ export const DEFAULT_MODE_PRICING: ModePricingSettings = {
   builderDiscountPercent: 15,
 };
 
+/**
+ * Private vendor rate overrides layered on top of the shared master catalogue.
+ * Shared Settings masters stay untouched; Vendor mode applies these on read.
+ */
+export interface VendorRateOverrides {
+  /** windowTypeId → ratePerSqft */
+  windowTypeRates: Record<string, number>;
+  /** glassTypeId → ratePerSqft */
+  glassRates: Record<string, number>;
+  /** colourId → rateAdjPerSqft */
+  colourAdjRates: Record<string, number>;
+  /** hardwareId → rate */
+  hardwareRates: Record<string, number>;
+  /** profileSkuId → ratePerMUpvc */
+  profileRatePerMUpvc: Record<string, number>;
+  /** `${seriesId}::${memberId}` → ratePerM */
+  seriesMemberRates: Record<string, number>;
+}
+
+export const EMPTY_VENDOR_OVERRIDES: VendorRateOverrides = {
+  windowTypeRates: {},
+  glassRates: {},
+  colourAdjRates: {},
+  hardwareRates: {},
+  profileRatePerMUpvc: {},
+  seriesMemberRates: {},
+};
+
+/** Shareable market/standard rates snapshot (shared master layer). */
+export interface SharedMasterSnapshot {
+  exportedAt: string;
+  label: string;
+  windowTypes: WindowType[];
+  series: SeriesDefinition[];
+  glassTypes: GlassType[];
+  colourOptions: ColourOption[];
+  hardware: HardwareItem[];
+  profiles: ProfileSku[];
+  hardwareBom: HardwareBomLine[];
+}
+
 /** Professional verification — unlocks Architect / Builder / Vendor modes. */
 export interface ModeVerification {
   modeId: Exclude<CustomerModeId, 'home-owner'>;
@@ -616,6 +657,11 @@ export interface AppState extends ProjectJobData {
   modePricing: ModePricingSettings;
   /** Verified professionals per gated mode */
   modeVerifications: ModeVerification[];
+  /**
+   * Vendor-private rate overrides on top of shared masters (window/glass/colour/hardware/profile/series).
+   * Shared catalogue in Settings remains the base; overrides never rewrite it.
+   */
+  vendorOverrides: VendorRateOverrides;
   /** Global series-wise stock */
   stock: StockLine[];
   stockIssues: StockIssue[];

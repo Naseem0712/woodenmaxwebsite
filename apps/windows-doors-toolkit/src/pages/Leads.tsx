@@ -90,7 +90,7 @@ export function LeadsPage() {
           </Toolbar>
         }
       >
-        <div style={{ overflowX: 'auto' }}>
+        <div className="table-panel">
           <table className="data">
             <thead>
               <tr>

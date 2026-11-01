@@ -1,8 +1,10 @@
 import { NavLink, Outlet } from 'react-router-dom';
+import { activeCustomerMode } from '../engine/masterCatalogue';
+import { useApp } from '../store/AppContext';
 import { ProjectSwitcher } from './ProjectSwitcher';
 import { Legend } from './ui';
 
-const tools = [
+const allTools = [
   { to: '/', label: 'Home', end: true },
   { to: '/leads', label: 'Leads' },
   { to: '/site-measure', label: 'Site Measure' },
@@ -24,8 +26,17 @@ const tools = [
   { to: '/dashboard', label: '15 Dashboard' },
 ];
 
-const settings = [
+/** Home owner / Architect / Builder: quote path only. Vendor: full software. */
+const quotePathTools = [
+  { to: '/', label: 'Home', end: true },
+  { to: '/configure', label: 'Configurator' },
+  { to: '/leads', label: 'Leads' },
+  { to: '/quote', label: '08 Quotation' },
+];
+
+const allSettings = [
   { to: '/settings', label: 'Overview' },
+  { to: '/settings/master', label: 'Master catalogue' },
   { to: '/settings/business', label: 'Business / GST' },
   { to: '/settings/allowances', label: 'Allowances' },
   { to: '/settings/series', label: 'Series & members' },
@@ -38,7 +49,21 @@ const settings = [
   { to: '/settings/data', label: 'Export / Import' },
 ];
 
+const quotePathSettings = [
+  { to: '/settings', label: 'Overview' },
+  { to: '/settings/master', label: 'Master catalogue' },
+  { to: '/settings/colours', label: 'Colours / finish' },
+  { to: '/settings/allowances', label: 'Mode pricing' },
+  { to: '/settings/data', label: 'Export / Import' },
+];
+
 export function Layout() {
+  const { state } = useApp();
+  const mode = activeCustomerMode(state);
+  const fullAccess = mode === 'vendor';
+  const tools = fullAccess ? allTools : quotePathTools;
+  const settings = fullAccess ? allSettings : quotePathSettings;
+
   return (
     <div className="shell">
       <aside className="sidebar">
@@ -46,16 +71,33 @@ export function Layout() {
           <strong>Windows & Doors</strong>
           <span>Fabricator Toolkit</span>
         </div>
+        {!fullAccess ? (
+          <p className="nav-mode-hint">
+            Mode quote path · switch to <em>Vendor</em> for full tools
+          </p>
+        ) : (
+          <p className="nav-mode-hint">Vendor · full software access</p>
+        )}
         <nav>
           <div className="nav-group">Tools</div>
           {tools.map((t) => (
-            <NavLink key={t.to} to={t.to} end={t.end} className={({ isActive }) => (isActive ? 'nav active' : 'nav')}>
+            <NavLink
+              key={t.to}
+              to={t.to}
+              end={t.end}
+              className={({ isActive }) => (isActive ? 'nav active' : 'nav')}
+            >
               {t.label}
             </NavLink>
           ))}
           <div className="nav-group">Settings / Manage</div>
           {settings.map((t) => (
-            <NavLink key={t.to} to={t.to} end={t.to === '/settings'} className={({ isActive }) => (isActive ? 'nav active' : 'nav')}>
+            <NavLink
+              key={t.to}
+              to={t.to}
+              end={t.to === '/settings'}
+              className={({ isActive }) => (isActive ? 'nav active' : 'nav')}
+            >
               {t.label}
             </NavLink>
           ))}

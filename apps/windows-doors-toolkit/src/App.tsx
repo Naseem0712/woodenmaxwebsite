@@ -27,6 +27,7 @@ import { SettingsBusinessPage } from './pages/settings/Business';
 import { SettingsDataPage } from './pages/settings/DataIO';
 import { SettingsGlassTypesPage } from './pages/settings/GlassTypes';
 import { SettingsHardwareCataloguePage } from './pages/settings/HardwareCatalogue';
+import { SettingsMasterCataloguePage } from './pages/settings/MasterCatalogue';
 import { SettingsOverviewPage } from './pages/settings/Overview';
 import { SettingsProfilesPage } from './pages/settings/Profiles';
 import { SettingsSeriesPage } from './pages/settings/Series';
@@ -60,6 +61,7 @@ export default function App() {
             <Route path="revision" element={<RevisionPage />} />
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="settings" element={<SettingsOverviewPage />} />
+            <Route path="settings/master" element={<SettingsMasterCataloguePage />} />
             <Route path="settings/business" element={<SettingsBusinessPage />} />
             <Route path="settings/allowances" element={<SettingsAllowancesPage />} />
             <Route path="settings/series" element={<SettingsSeriesPage />} />

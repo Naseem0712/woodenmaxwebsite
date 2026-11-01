@@ -3,6 +3,7 @@ import { Card, Kpi, Money, Num, PageHeader } from '../../components/ui';
 import { useApp } from '../../store/AppContext';
 
 const links = [
+  ['/settings/master', 'Master catalogue', 'Shared market rates + Vendor private overrides'],
   ['/settings/business', 'Business / GST', 'Company name, address, GSTIN, GST %'],
   ['/settings/allowances', 'Allowances', 'Min sqft, wastage, Al ₹/kg, glass round-up, margin'],
   ['/settings/series', 'Series & members', 'Profile member rules & ₹/m for Sliding / Casement'],

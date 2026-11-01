@@ -8,6 +8,7 @@ import type {
 } from '../types';
 import { CUSTOMER_MODES, DEFAULT_MODE_PRICING } from '../types';
 import { lookupGlass, lookupWindowType, round, toSqft } from './calcs';
+import { resolveEffectiveCatalogue } from './masterCatalogue';
 
 export function modeRequiresVerification(mode: CustomerModeId): boolean {
   return CUSTOMER_MODES.find((m) => m.id === mode)?.requiresVerification ?? false;
@@ -39,7 +40,7 @@ export interface ConfiguratorLineCalc {
   actualSqftUnit: number;
   actualSqft: number;
   chargeableSqft: number;
-  /** Homeowner / retail ₹ per sqft (window type + colour adj from Settings) */
+  /** Homeowner / retail ₹ per sqft (window type + colour adj from shared master / vendor override) */
   retailRatePerSqft: number;
   retailAmount: number;
   glassRatePerSqft: number;
@@ -49,9 +50,10 @@ export interface ConfiguratorLineCalc {
 export function calcConfiguratorLine(state: AppState, line: ConfiguratorLine): ConfiguratorLineCalc {
   const unit = state.allowances.unit;
   const min = state.allowances.minChargeableSqft;
-  const t = lookupWindowType(state.windowTypes, line.windowTypeId);
-  const g = lookupGlass(state.glassTypes, line.glassTypeId);
-  const c = lookupColour(state.colourOptions, line.colourId);
+  const cat = resolveEffectiveCatalogue(state);
+  const t = lookupWindowType(cat.windowTypes, line.windowTypeId);
+  const g = lookupGlass(cat.glassTypes, line.glassTypeId);
+  const c = lookupColour(cat.colourOptions, line.colourId);
   const actualSqftUnit = toSqft(line.widthMm, line.heightMm, unit);
   const actualSqft = actualSqftUnit * line.qty;
   const chargeableSqft = Math.max(actualSqftUnit, min) * line.qty;

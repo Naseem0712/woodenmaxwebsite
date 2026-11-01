@@ -21,10 +21,11 @@ import type {
   ProjectJobData,
   ProjectMeta,
 } from '../types';
-import { DEFAULT_MODE_PRICING } from '../types';
+import { DEFAULT_MODE_PRICING, EMPTY_VENDOR_OVERRIDES } from '../types';
 import { applyProjectJob, emptyProjectJob, extractProjectJob } from './projectKeys';
 
-const STORAGE_KEY = 'wd-toolkit-v5';
+const STORAGE_KEY = 'wd-toolkit-v6';
+const LEGACY_V5 = 'wd-toolkit-v5';
 const LEGACY_V4 = 'wd-toolkit-v4';
 const LEGACY_V3 = 'wd-toolkit-v3';
 const LEGACY_V2 = 'wd-toolkit-v2';
@@ -144,6 +145,31 @@ function normalizeMasters(state: AppState): AppState {
   const modePricing = { ...DEFAULT_MODE_PRICING, ...state.modePricing };
   const modeVerifications = state.modeVerifications ?? [];
   const configuratorLines = state.configuratorLines ?? [];
+  const vendorOverrides = {
+    ...EMPTY_VENDOR_OVERRIDES,
+    ...state.vendorOverrides,
+    windowTypeRates: {
+      ...EMPTY_VENDOR_OVERRIDES.windowTypeRates,
+      ...state.vendorOverrides?.windowTypeRates,
+    },
+    glassRates: { ...EMPTY_VENDOR_OVERRIDES.glassRates, ...state.vendorOverrides?.glassRates },
+    colourAdjRates: {
+      ...EMPTY_VENDOR_OVERRIDES.colourAdjRates,
+      ...state.vendorOverrides?.colourAdjRates,
+    },
+    hardwareRates: {
+      ...EMPTY_VENDOR_OVERRIDES.hardwareRates,
+      ...state.vendorOverrides?.hardwareRates,
+    },
+    profileRatePerMUpvc: {
+      ...EMPTY_VENDOR_OVERRIDES.profileRatePerMUpvc,
+      ...state.vendorOverrides?.profileRatePerMUpvc,
+    },
+    seriesMemberRates: {
+      ...EMPTY_VENDOR_OVERRIDES.seriesMemberRates,
+      ...state.vendorOverrides?.seriesMemberRates,
+    },
+  };
   return {
     ...state,
     series,
@@ -157,6 +183,7 @@ function normalizeMasters(state: AppState): AppState {
     modePricing,
     modeVerifications,
     configuratorLines,
+    vendorOverrides,
   };
 }
 
@@ -194,6 +221,41 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
     colourOptions: parsed.colourOptions ?? seed.colourOptions,
     modePricing: { ...seed.modePricing, ...parsed.modePricing },
     modeVerifications: parsed.modeVerifications ?? seed.modeVerifications,
+    vendorOverrides: {
+      ...EMPTY_VENDOR_OVERRIDES,
+      ...seed.vendorOverrides,
+      ...parsed.vendorOverrides,
+      windowTypeRates: {
+        ...EMPTY_VENDOR_OVERRIDES.windowTypeRates,
+        ...seed.vendorOverrides?.windowTypeRates,
+        ...parsed.vendorOverrides?.windowTypeRates,
+      },
+      glassRates: {
+        ...EMPTY_VENDOR_OVERRIDES.glassRates,
+        ...seed.vendorOverrides?.glassRates,
+        ...parsed.vendorOverrides?.glassRates,
+      },
+      colourAdjRates: {
+        ...EMPTY_VENDOR_OVERRIDES.colourAdjRates,
+        ...seed.vendorOverrides?.colourAdjRates,
+        ...parsed.vendorOverrides?.colourAdjRates,
+      },
+      hardwareRates: {
+        ...EMPTY_VENDOR_OVERRIDES.hardwareRates,
+        ...seed.vendorOverrides?.hardwareRates,
+        ...parsed.vendorOverrides?.hardwareRates,
+      },
+      profileRatePerMUpvc: {
+        ...EMPTY_VENDOR_OVERRIDES.profileRatePerMUpvc,
+        ...seed.vendorOverrides?.profileRatePerMUpvc,
+        ...parsed.vendorOverrides?.profileRatePerMUpvc,
+      },
+      seriesMemberRates: {
+        ...EMPTY_VENDOR_OVERRIDES.seriesMemberRates,
+        ...seed.vendorOverrides?.seriesMemberRates,
+        ...parsed.vendorOverrides?.seriesMemberRates,
+      },
+    },
     configuratorLines: parsed.configuratorLines ?? seed.configuratorLines,
     projects: parsed.projects?.length ? parsed.projects : seed.projects,
     activeProjectId: parsed.activeProjectId ?? seed.activeProjectId,
@@ -271,7 +333,7 @@ function load(): AppState {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return mergeLoaded(JSON.parse(raw) as Partial<AppState>);
-    for (const key of [LEGACY_V4, LEGACY_V3, LEGACY_V2, LEGACY_V1]) {
+    for (const key of [LEGACY_V5, LEGACY_V4, LEGACY_V3, LEGACY_V2, LEGACY_V1]) {
       const legacy = localStorage.getItem(key);
       if (legacy) {
         const migrated = migrateLegacy(legacy);

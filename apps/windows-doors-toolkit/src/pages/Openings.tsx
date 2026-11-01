@@ -100,6 +100,7 @@ export function OpeningsPage() {
           </Toolbar>
         }
       >
+        <div className="table-panel">
         <table className="data">
           <thead>
             <tr>
@@ -178,6 +179,7 @@ export function OpeningsPage() {
             ))}
           </tbody>
         </table>
+        </div>
       </Card>
     </div>
   );

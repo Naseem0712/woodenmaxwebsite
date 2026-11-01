@@ -63,9 +63,28 @@ Route: **`/configure`**. Same single-screen flow for Home owner / Architect / Bu
 | **Home owner** | Retail = window-type ₹/sqft + colour adj + glass ₹/sqft |
 | **Architects** | Retail minus (architect margin % × discount factor). Seed: 20% × 0.5 → **10% below** homeowner |
 | **Builder** | If retail quote total ≥ threshold (seed ₹50L), apply builder % off (seed **15%**). Threshold + % editable in Settings → Allowances |
-| **Vendor** | Verification unlocks **full fab tools** (nothing hidden); schedule shows retail |
+| **Vendor** | Verification unlocks **full fab tools** (sidebar + home hub); schedule shows retail. Private rate overrides available on Master catalogue. |
+
+**Nav by mode:** Home owner / Architect / Builder see the **quote path** only (Configurator, Leads, Quotation, Master, Colours, Mode pricing). **Vendor** sees every fab tool (01–15, Site Measure, stock, full Settings).
 
 Edit colours under **Settings → Colours / finish**. Mode pricing under **Settings → Allowances → Mode pricing**.
+
+---
+
+## Master catalogue (shared + Vendor overrides)
+
+Route: **`/settings/master`**.
+
+- **Shared master** = Settings rate cards for window types, series members, glass, colours, hardware, profiles. This is the shareable **market/standard** layer.
+- **Export / Import shared JSON** — share market rates between shops without shipping job bags or Vendor private rates.
+- **Vendor overrides** — when Mode = Vendor, private ₹ columns appear. Overrides layer **on top** of shared; clearing an override falls back to shared. Shared master is never rewritten by overrides.
+- Configurator (and Vendor tooling) reads **shared + Vendor override** via `resolveEffectiveCatalogue`. Formulas never hardcode shop rates.
+
+---
+
+## Layout / scroll
+
+Shell uses `250px + minmax(0,1fr)` with `overflow-x: hidden` on `html`/`body`/`.shell`/`.main`. Wide tables (Leads, Site Measure, etc.) scroll **inside** `.table-panel` / `.card` — the sidebar must not drag sideways with the page.
 
 ---
 
@@ -144,6 +163,7 @@ Edit colours under **Settings → Colours / finish**. Mode pricing under **Setti
 | `/glass` | 06 Glass | Pane lines → glass ₹ |
 | `/hardware` | 07 Hardware | Type × item matrix |
 | `/quote` | 08 Quotation | Printable schedule + GST + advance |
+| `/configure` | Configurator | Mode quote single-screen cart |
 | `/compare` | 09 Compare | UPVC vs Aluminium |
 | `/margin` | 10 Margin | Cost vs quoted |
 | `/mesh` | 11 Mesh & Grill | Add-ons |
@@ -160,12 +180,14 @@ Edit colours under **Settings → Colours / finish**. Mode pricing under **Setti
 | Route | Module |
 |-------|--------|
 | `/settings` | Overview |
+| `/settings/master` | **Master catalogue** (shared rates + Vendor overrides) |
 | `/settings/business` | Business / GST |
-| `/settings/allowances` | Allowances, less-off, site-measure add-ons |
+| `/settings/allowances` | Allowances, less-off, mode pricing |
 | `/settings/series` | Series & profile members |
 | `/stock` | Series stock (opening / purchases / issues) |
 | `/settings/window-types` | Window types ₹/sqft |
 | `/settings/glass` | Glass types |
+| `/settings/colours` | Colours / finish |
 | `/settings/hardware` | Hardware catalogue |
 | `/settings/profiles` | Profiles catalogue (rates / stock length) |
 | `/settings/data` | Export / Import / Reset seed |
@@ -194,14 +216,15 @@ Sample rates are generic India 2026 fiction (Series A / B — no brand copy).
 
 ## Screenshots
 
-- `media/toolkit-home.png`
-- `media/toolkit-sliding.png`
-- `media/toolkit-settings-series.png`
-- `media/toolkit-site-measure.png`
-- `media/toolkit-site-measure-lessoff.png`
-- `media/toolkit-project-switcher.png`
-- `media/toolkit-series-stock.png`
-- `media/toolkit-quote-print.png`
-- `media/toolkit-leads.png`
+Store `media/` (and earlier shots):
+
+- `toolkit-homeowner-configurator.png` — Mode quote single-screen flow
+- `toolkit-mode-verification-gate.png` — Architect/Builder/Vendor GST gate
+- `toolkit-architect-price.png` — ~10% below retail
+- `toolkit-builder-threshold.png` — 15% off when threshold met
+- `toolkit-master-catalogue.png` — shared master catalogue
+- `toolkit-master-vendor-overrides.png` — Vendor private override columns
+- `toolkit-leads-no-hscroll.png` / `toolkit-site-measure-no-hscroll.png` — shell scroll fix
+- Plus earlier: home, sliding, series, site-measure, stock, quote, leads
 
 Related audit: `docs/site-measurement-kit-audit.md`

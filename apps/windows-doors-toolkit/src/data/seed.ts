@@ -451,6 +451,14 @@ export function createSeedState(): AppState {
       builderDiscountPercent: 15,
     },
     modeVerifications: [],
+    vendorOverrides: {
+      windowTypeRates: {},
+      glassRates: {},
+      colourAdjRates: {},
+      hardwareRates: {},
+      profileRatePerMUpvc: {},
+      seriesMemberRates: {},
+    },
     jobMeta: {
       customerName: 'Sample Customer',
       siteAddress: 'Sample Site, Hyderabad',

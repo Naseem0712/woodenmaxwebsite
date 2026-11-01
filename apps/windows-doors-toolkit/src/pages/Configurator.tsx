@@ -12,6 +12,7 @@ import {
   PageHeader,
   Toolbar,
 } from '../components/ui';
+import { resolveEffectiveCatalogue } from '../engine/masterCatalogue';
 import {
   calcConfiguratorCart,
   calcConfiguratorLine,
@@ -46,6 +47,7 @@ export function ConfiguratorPage() {
   const modeLabel = CUSTOMER_MODES.find((m) => m.id === customerMode)?.label ?? 'Home owner';
   const cart = calcConfiguratorCart(state);
   const modeQuote = calcModeQuote(state);
+  const catalogue = resolveEffectiveCatalogue(state);
 
   const [widthMm, setWidthMm] = useState(1500);
   const [heightMm, setHeightMm] = useState(1200);
@@ -63,18 +65,18 @@ export function ConfiguratorPage() {
 
   const typeOptions = useMemo(
     () =>
-      state.windowTypes.filter(
+      catalogue.windowTypes.filter(
         (t) => t.material === material && (t.kind === kind || (kind === 'other' && t.kind === 'other')),
       ),
-    [state.windowTypes, material, kind],
+    [catalogue.windowTypes, material, kind],
   );
 
   const colourOptions = useMemo(
     () =>
-      state.colourOptions.filter(
+      catalogue.colourOptions.filter(
         (c) => c.material === 'Both' || c.material === material,
       ),
-    [state.colourOptions, material],
+    [catalogue.colourOptions, material],
   );
 
   const effectiveTypeId = typeOptions.some((t) => t.id === windowTypeId)
@@ -83,9 +85,9 @@ export function ConfiguratorPage() {
   const effectiveColourId = colourOptions.some((c) => c.id === colourId)
     ? colourId
     : colourOptions[0]?.id ?? '';
-  const effectiveGlassId = state.glassTypes.some((g) => g.id === glassTypeId)
+  const effectiveGlassId = catalogue.glassTypes.some((g) => g.id === glassTypeId)
     ? glassTypeId
-    : state.glassTypes[0]?.id ?? '';
+    : catalogue.glassTypes[0]?.id ?? '';
 
   const draftLine: ConfiguratorLine = {
     id: 'draft',
@@ -200,7 +202,7 @@ export function ConfiguratorPage() {
     for (const r of cart.rows) {
       const bom = state.hardwareBom.filter((b) => b.windowTypeId === r.line.windowTypeId);
       for (const b of bom) {
-        const item = state.hardware.find((h) => h.id === b.hardwareItemId);
+        const item = catalogue.hardware.find((h) => h.id === b.hardwareItemId);
         if (!item) continue;
         const key = item.id;
         const prev = map.get(key) ?? { name: item.name, unit: item.unit, qty: 0, rate: item.rate };
@@ -209,7 +211,7 @@ export function ConfiguratorPage() {
       }
     }
     return [...map.values()];
-  }, [cart.rows, state.hardwareBom, state.hardware]);
+  }, [cart.rows, state.hardwareBom, catalogue.hardware]);
 
   const materialRows = useMemo(() => {
     return cart.rows.map((r) => ({
@@ -306,7 +308,7 @@ export function ConfiguratorPage() {
               value={effectiveGlassId}
               onChange={(e) => setGlassTypeId(e.target.value)}
             >
-              {state.glassTypes.map((g) => (
+              {catalogue.glassTypes.map((g) => (
                 <option key={g.id} value={g.id}>
                   {g.name} (₹{g.ratePerSqft}/sqft)
                 </option>

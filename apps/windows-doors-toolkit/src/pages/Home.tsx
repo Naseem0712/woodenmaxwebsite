@@ -3,7 +3,16 @@ import { Card, Kpi, Money, Num, PageHeader } from '../components/ui';
 import { calcMargin, calcOpenings, calcQuote, calcSliding } from '../engine/calcs';
 import { useApp } from '../store/AppContext';
 
-const tiles = [
+const quotePathTiles = [
+  ['/configure', 'Configurator', 'Mode quote: size → type → glass → colour'],
+  ['/leads', 'Leads', 'Enquiry CRM · follow-up dates'],
+  ['/quote', '08 Quotation', 'Printable schedule + GST + advance'],
+  ['/settings/master', 'Master catalogue', 'Shared market rates (+ Vendor overrides)'],
+  ['/settings', 'Settings', 'Colours, mode pricing, GST'],
+];
+
+const vendorTiles = [
+  ['/configure', 'Configurator', 'Mode quote: size → type → glass → colour'],
   ['/leads', 'Leads', 'Enquiry CRM · follow-up dates'],
   ['/site-measure', 'Site Measure', 'Site visit W×H → push openings'],
   ['/openings', '01 Window Sqft', 'Openings schedule → chargeable sqft'],
@@ -14,7 +23,6 @@ const tiles = [
   ['/glass', '06 Glass', 'Pane lines → glass cost'],
   ['/hardware', '07 Hardware', 'Type × item matrix → job ₹'],
   ['/quote', '08 Quotation', 'Printable schedule + GST + advance'],
-  ['/configure', 'Configurator', 'Mode quote: size → type → glass → colour'],
   ['/compare', '09 Compare', 'UPVC vs Aluminium'],
   ['/margin', '10 Margin', 'Cost stack vs quoted amount'],
   ['/mesh', '11 Mesh & Grill', 'Add-on mesh / grill'],
@@ -22,6 +30,7 @@ const tiles = [
   ['/builder', '13 Builder', 'Bulk / tower estimator'],
   ['/revision', '14 Price Revision', 'Input cost change impact'],
   ['/dashboard', '15 Dashboard', 'Cross-tool KPIs'],
+  ['/settings/master', 'Master catalogue', 'Shared market rates + Vendor overrides'],
   ['/settings', 'Settings', 'Series, rates, masters, GST'],
 ];
 
@@ -31,12 +40,20 @@ export function HomePage() {
   const sliding = calcSliding(state);
   const quote = calcQuote(state);
   const margin = calcMargin(state);
+  const mode =
+    state.projects.find((p) => p.id === state.activeProjectId)?.customerMode ?? 'home-owner';
+  const fullAccess = mode === 'vendor';
+  const tiles = fullAccess ? vendorTiles : quotePathTiles;
 
   return (
     <div>
       <PageHeader
         title="Fabricator Toolkit"
-        subtitle="Set series & rates in Settings → enter sizes on tools → BOQ, quote & margin calculate automatically."
+        subtitle={
+          fullAccess
+            ? 'Vendor mode: full fab tools. Shared masters in Settings; your private rate overrides apply on top.'
+            : 'Mode quote path: configure openings → quote tabs → PDF/Excel. Switch Mode to Vendor for full tools.'
+        }
         badge="Local · localStorage"
       />
       <div className="grid grid-4" style={{ marginBottom: '1rem' }}>
@@ -47,13 +64,21 @@ export function HomePage() {
       </div>
       <Card title="How to use">
         <ol className="muted" style={{ margin: 0, paddingLeft: '1.2rem', lineHeight: 1.6 }}>
-          <li>Open <Link to="/settings/series">Settings → Series</Link> and confirm / edit Series A / B members & rates.</li>
-          <li>Edit glass, hardware, window-type ₹/sqft, mesh/install add-ons, GST under Settings.</li>
           <li>
-            End-to-end: <Link to="/leads">Leads</Link> → <Link to="/site-measure">Site Measure</Link> (Push) →{' '}
-            <Link to="/openings">01 Openings</Link> → <Link to="/quote">08 Quotation</Link> (Print).
+            Pick Mode on the project bar (Home owner free; Architect / Builder / Vendor need name + ID + GST).
           </li>
-          <li>Or cost a single config on <Link to="/sliding">02 Sliding</Link> / <Link to="/casement">03 Casement</Link>, then check <Link to="/margin">10 Margin</Link>.</li>
+          <li>
+            Use <Link to="/configure">Configurator</Link> — size → type → material → glass → colour → Add to quote.
+          </li>
+          <li>
+            Rates come from <Link to="/settings/master">Master catalogue</Link> (shared). Vendor can override privately.
+          </li>
+          {fullAccess ? (
+            <li>
+              Full path: <Link to="/leads">Leads</Link> → <Link to="/site-measure">Site Measure</Link> →{' '}
+              <Link to="/openings">01 Openings</Link> → <Link to="/quote">08 Quotation</Link>.
+            </li>
+          ) : null}
         </ol>
       </Card>
       <div className="home-grid">
