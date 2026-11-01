@@ -1,17 +1,22 @@
 ﻿# Windows & Doors Fabricator Toolkit
 
-Local fabricator costing app (Vite + React + TypeScript).
+Local Vite + React + TypeScript app for fabricator shops: **Settings (series/rates) → size entry → BOQ / quote / margin**.
+
+This folder is version-controlled under `apps/` and is **not** part of the WoodenMax public website product pages. Original Excel kits are left untouched.
 
 ## Start
 
 ```bash
-cd D:\Downloads\Windows-Doors-Toolkit
+cd apps/windows-doors-toolkit
 npm install
 npm run dev
 ```
 
-Open http://localhost:5173/
+See the Project store user guide: `docs/toolkit-user-guide.md` (Agent Store) or run the working copy at `D:\Downloads\Windows-Doors-Toolkit`.
 
-**Masters** (rates, series, glass, hardware, names, thickness) are editable in Settings and stored in localStorage — not hardcoded in formulas.
+## Stack
 
-See Project store: `docs/toolkit-user-guide.md`
+- React 19 + React Router
+- Calc engine in `src/engine/calcs.ts`
+- Seed masters in `src/data/seed.ts` (generic Series A / B)
+- Persistence: `localStorage` + JSON export/import
