@@ -115,6 +115,8 @@ Door closer: Door closer, Dorma, Matt Black, 45 kg
 
 Codes run W-01, W-02… Size uses the selected unit (`mm` / `inch` / `ft`). Glass brand, lock/handle label, mesh thickness/colour/type, and door closer **or** floor spring (exclusive) are editable in Settings masters — never hardcoded into the formatter. Mesh line appears only when mesh doors & type are set. Door closer / floor spring lines appear for door/casement when that extra is selected. Per-opening **Notes** (when set) appear in the block. Quote PDFs keep the narrative, then a dotted leader row `description …… package amount` (amount right-aligned — **no ₹/sqft**). Summary totals use the same dotted layout. Excel keeps the grid with **Package ₹** and a **Schedule (W-01 block)** column (same shared formatter).
 
+**Print typography:** Quote PDF/print uses a professional Inter / system-ui / Georgia stack (not monospace). The **W-01 location** header line is bold; the remaining narrative lines stay regular weight.
+
 **Letterhead** (Quote PDF / print): company logo, name, address, phone, email, website, and **GST** (capital letters) + GSTIN from **Settings → Business / GST**, then customer / site from quote or job meta. Badge reads **Package amounts**. Logo accepts URL or local image upload (stored in this browser). Page left/right margins are set for print.
 
 Smoke: `node tools/_smoke-quote-pdf-format-wd17.mjs` · letterhead/cards: `node tools/_smoke-wd19-cards-letterhead.mjs` · rates/quote: `node tools/_smoke-wd19-opening-rates-quote.mjs`.

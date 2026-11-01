@@ -54,7 +54,8 @@ async function capturePdfPreview(page, buttonName, outName) {
     window.print = () => {};
   }).catch(() => {});
   await popup.waitForFunction(
-    () => document.querySelector('.opening-block pre, h1') != null,
+    () =>
+      document.querySelector('.opening-block .opening-narrative, .opening-block pre, h1') != null,
     null,
     { timeout: 15000 },
   );
@@ -67,21 +68,60 @@ async function capturePdfPreview(page, buttonName, outName) {
   writeFileSync(join(shotDir, `${outName}.html`), html, 'utf8');
 
   const bodyText = await popup.locator('body').innerText();
-  const preCount = await popup.locator('.opening-block pre').count();
-  const firstPre = preCount
-    ? await popup.locator('.opening-block pre').first().innerText()
-    : bodyText;
-  if (!firstPre.trim()) {
+  const blockCount = await popup.locator('.opening-block').count();
+  const narrative = popup.locator('.opening-block .opening-narrative').first();
+  const legacyPre = popup.locator('.opening-block pre').first();
+  const firstBlock =
+    (await narrative.count()) > 0
+      ? await narrative.innerText()
+      : (await legacyPre.count()) > 0
+        ? await legacyPre.innerText()
+        : bodyText;
+  if (!firstBlock.trim()) {
     throw new Error(`${outName}: empty print body. html length=${html.length}`);
   }
-  assertBlock(firstPre, outName);
+  assertBlock(firstBlock, outName);
+
+  const fontCheck = await popup.evaluate(() => {
+    const head = document.querySelector('.opening-head');
+    const narrativeEl = document.querySelector('.opening-narrative');
+    const body = document.body;
+    const pick = (el) => {
+      if (!el) return null;
+      const cs = getComputedStyle(el);
+      return { fontFamily: cs.fontFamily, fontWeight: cs.fontWeight };
+    };
+    return {
+      body: pick(body),
+      narrative: pick(narrativeEl),
+      head: pick(head),
+      headText: head?.textContent || '',
+      hasMonoPre: Boolean(document.querySelector('.opening-block pre')),
+      hasDotRate: Boolean(document.querySelector('.dot-rate')),
+    };
+  });
+  const fam = `${fontCheck.narrative?.fontFamily || ''} ${fontCheck.body?.fontFamily || ''}`.toLowerCase();
+  if (/mono|consolas|courier/.test(fam)) {
+    throw new Error(`${outName}: monospace print font still present: ${fam}`);
+  }
+  const weight = Number(fontCheck.head?.fontWeight || 0);
+  if (!fontCheck.head || (weight < 600 && fontCheck.head.fontWeight !== 'bold')) {
+    throw new Error(`${outName}: W-01 opening-head missing or not bold: ${JSON.stringify(fontCheck.head)}`);
+  }
+  if (!/^W-\d+/i.test(fontCheck.headText)) {
+    throw new Error(`${outName}: opening-head should start with W-xx: ${fontCheck.headText}`);
+  }
+  if (fontCheck.hasDotRate) {
+    throw new Error(`${outName}: quote package PDF must omit ₹/sqft .dot-rate cell`);
+  }
 
   const shotPath = join(shotDir, `${outName}.png`);
   await popup.screenshot({ path: shotPath, fullPage: true });
-  writeFileSync(join(shotDir, `${outName}.txt`), firstPre, 'utf8');
+  writeFileSync(join(shotDir, `${outName}.txt`), firstBlock, 'utf8');
+  writeFileSync(join(shotDir, `${outName}-font.json`), JSON.stringify(fontCheck, null, 2), 'utf8');
 
   await popup.close();
-  return { bodyText, firstPre, shotPath, preCount };
+  return { bodyText, firstPre: firstBlock, shotPath, preCount: blockCount, fontCheck };
 }
 
 async function main() {

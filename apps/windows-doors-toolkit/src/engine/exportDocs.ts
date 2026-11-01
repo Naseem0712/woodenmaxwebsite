@@ -811,6 +811,19 @@ function renderDotRow(description: string, rate: string, amount: string): string
 </div>`;
 }
 
+/** Professional print stack — never monospace for customer quote narrative. */
+const PRINT_FONT =
+  'Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,Georgia,"Times New Roman",serif';
+
+/** W-01 location header bold; remaining narrative lines regular. */
+function renderOpeningNarrativeHtml(lines: string[]): string {
+  if (!lines.length) return '';
+  const [head, ...rest] = lines;
+  const headHtml = `<div class="opening-head">${escHtml(head)}</div>`;
+  const restHtml = rest.map((line) => `<div class="opening-line">${escHtml(line)}</div>`).join('');
+  return `<div class="opening-narrative">${headHtml}${restHtml}</div>`;
+}
+
 function letterheadHtml(
   lh: ExportLetterhead,
   title: string,
@@ -878,12 +891,14 @@ function documentToHtml(doc: ExportDocument): string {
 <div class="openings">
 ${doc.openingBlocks!
   .map((b) => {
-    const narrative = (b.narrativeLines?.length ? b.narrativeLines : b.lines).join('\n');
+    const narrativeLines = b.narrativeLines?.length ? b.narrativeLines : b.lines;
+    // Quote package layout: amount only (no ₹/sqft rate column).
+    const rateForRow = doc.kind === 'quote' ? '' : b.rateText || '';
     const rateRow =
-      b.rateText || b.amountText
-        ? renderDotRow(b.code, b.rateText || '', b.amountText || '')
+      rateForRow || b.amountText
+        ? renderDotRow(b.code, rateForRow, b.amountText || '')
         : '';
-    return `<div class="opening-block"><pre>${escHtml(narrative)}</pre>${rateRow}</div>`;
+    return `<div class="opening-block">${renderOpeningNarrativeHtml(narrativeLines)}${rateRow}</div>`;
   })
   .join('\n')}
 </div>`
@@ -929,16 +944,16 @@ ${doc.openingBlocks!
 <html><head><meta charset="utf-8"/><title>${escHtml(doc.title)}</title>
 <style>
   @page{margin:18mm 16mm}
-  body{font:13px/1.45 system-ui,Segoe UI,sans-serif;color:#0f172a;margin:0;padding:18mm 16mm;max-width:none;box-sizing:border-box}
-  h1{font-size:20px;margin:0 0 4px}
+  body{font:13px/1.45 ${PRINT_FONT};color:#0f172a;margin:0;padding:18mm 16mm;max-width:none;box-sizing:border-box}
+  h1{font-size:20px;margin:0 0 4px;font-family:${PRINT_FONT}}
   .sub{color:#64748b;margin:2px 0 0;font-size:12px}
   .meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;margin-bottom:16px;font-size:12px}
   .lbl{color:#64748b;display:inline-block;min-width:88px}
-  h2{font-size:14px;margin:18px 0 6px}
+  h2{font-size:14px;margin:18px 0 6px;font-family:${PRINT_FONT}}
   .letterhead{display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;margin-bottom:12px;border-bottom:2px solid #0b3a5b}
   .lh-company{display:flex;gap:12px;align-items:flex-start;min-width:0}
   .lh-logo{max-height:64px;max-width:120px;object-fit:contain}
-  .lh-name{font-size:18px;margin:0 0 4px;color:#0b3a5b}
+  .lh-name{font-size:18px;margin:0 0 4px;color:#0b3a5b;font-family:${PRINT_FONT}}
   .lh-line{font-size:12px;color:#475569;margin-top:2px}
   .gst-label{font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#0b3a5b}
   .lh-doc{text-align:right;min-width:160px}
@@ -946,14 +961,16 @@ ${doc.openingBlocks!
   .party-lbl{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:2px}
   .openings{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
   .opening-block{border:1px solid #cbd5e1;border-radius:6px;padding:10px 12px;background:#fff}
-  .opening-block pre{margin:0 0 8px;font:13px/1.5 Consolas,ui-monospace,Segoe UI,monospace;white-space:pre-wrap;color:#0f172a}
-  .dot-row{display:flex;align-items:baseline;gap:8px;width:100%;margin-top:4px;font-size:13px}
+  .opening-narrative{margin:0 0 8px;font:13px/1.55 ${PRINT_FONT};color:#0f172a}
+  .opening-head{font-weight:700;font-size:13.5px;margin:0 0 6px;color:#0b3a5b;font-family:${PRINT_FONT}}
+  .opening-line{margin:0 0 2px}
+  .dot-row{display:flex;align-items:baseline;gap:8px;width:100%;margin-top:4px;font-size:13px;font-family:${PRINT_FONT}}
   .dot-desc{flex:0 1 auto;max-width:55%;color:#0f172a}
   .dot-lead{flex:1 1 auto;border-bottom:1px dotted #94a3b8;min-width:16px;transform:translateY(-3px)}
   .dot-rate,.dot-amount{flex:0 0 auto;text-align:right;font-variant-numeric:tabular-nums;font-weight:600;min-width:4.5rem}
   .dot-rate{color:#334155;min-width:5.5rem}
   .dot-amount{min-width:6rem}
-  table{width:100%;border-collapse:collapse;margin-bottom:8px}
+  table{width:100%;border-collapse:collapse;margin-bottom:8px;font-family:${PRINT_FONT}}
   th,td{border:1px solid #cbd5e1;padding:5px 7px;text-align:left;vertical-align:top}
   th{background:#f1f5f9;font-size:11px}
   .sums{margin-top:14px;display:flex;flex-direction:column;gap:6px;max-width:520px;margin-left:auto}
