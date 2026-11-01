@@ -5,8 +5,13 @@ import { isVendorFullAccess } from '../../engine/modeAccess';
 import { useApp } from '../../store/AppContext';
 
 const quotePathLinks = [
-  ['/settings/master', 'Master catalogue', 'Shared market rates (+ Vendor overrides when unlocked)'],
-  ['/settings/colours', 'Colours / finish', 'Configurator colour options + ₹/sqft adj'],
+  ['/settings/master', 'Master catalogue', 'Shared market DB + export/import (+ Vendor overrides when unlocked)'],
+  ['/settings/window-types', 'Window types', 'Shop-owner: add/edit shared ₹/sqft types'],
+  ['/settings/series', 'Series & members', 'Shared series members & ₹/m'],
+  ['/settings/glass', 'Glass types', 'Shared glass thickness + ₹/sqft'],
+  ['/settings/colours', 'Colours / finish', 'Shared colour options + ₹/sqft adj'],
+  ['/settings/hardware', 'Hardware catalogue', 'Shared rollers, locks, stays'],
+  ['/settings/profiles', 'Profiles catalogue', 'Shared profile SKUs + ₹/m'],
   ['/settings/allowances', 'Mode pricing', 'Architect factor + builder threshold'],
   ['/settings/data', 'Export / Import', 'JSON backup, restore, reset to seed'],
 ] as const;
@@ -37,10 +42,10 @@ export function SettingsOverviewPage() {
         title="Settings / Manage"
         subtitle={
           fullAccess
-            ? 'Masters drive every tool. Edit series & rates here once — tools pick them up automatically (blue fields).'
-            : 'Quote-path settings: Master, Colours, Mode pricing, Export/Import. Switch Mode to Vendor for full Settings.'
+            ? 'Masters drive every tool. Edit the shared catalogue once — tools pick it up automatically (blue fields). Your private overrides never rewrite the shared base.'
+            : 'Shop-owner testing path: edit the shared master DB (types, series, glass, colours, hardware, profiles) while Mode stays on quote. Fab tools stay locked until Vendor.'
         }
-        badge={fullAccess ? 'Vendor · full Settings' : 'Mode quote path'}
+        badge={fullAccess ? 'Vendor · full Settings' : 'Shop owner · shared masters'}
       />
       <div className="grid grid-4" style={{ marginBottom: '1rem' }}>
         <Kpi label="Series" value={state.series.length} />
@@ -69,8 +74,8 @@ export function SettingsOverviewPage() {
       <Card title="Shop tip">
         <p className="muted">
           {fullAccess
-            ? 'Typical flow: set Business & GST → confirm Allowances → tune Series A/B members → confirm window-type and glass rates → enter sizes on 01 / 02 / 03 → quotation & margin.'
-            : 'Mode quote flow: Master catalogue rates → Configurator → Quotation. Unlock Vendor mode for fab tools and full Settings.'}
+            ? 'Typical flow: set Business & GST → confirm Allowances → tune Series A/B members → confirm window-type and glass rates → enter sizes on 01 / 02 / 03 → quotation & margin. Private Vendor overrides are optional.'
+            : 'Shop-owner flow: edit shared Master / Window types / Glass / Colours / Hardware / Profiles → test quotes in Configurator as Home owner / Architect / Builder. Unlock Vendor only when you need fab tools or private rate overlays.'}
         </p>
       </Card>
     </div>

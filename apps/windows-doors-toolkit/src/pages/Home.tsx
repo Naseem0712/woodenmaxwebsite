@@ -9,8 +9,9 @@ const quotePathTiles = [
   ['/configure', 'Configurator', 'Mode quote: size → type → glass → colour'],
   ['/leads', 'Leads', 'Enquiry CRM · follow-up dates'],
   ['/quote', '08 Quotation', 'Printable schedule + GST + advance'],
-  ['/settings/master', 'Master catalogue', 'Shared market rates (+ Vendor overrides)'],
-  ['/settings', 'Settings', 'Colours, mode pricing, GST'],
+  ['/settings/master', 'Master catalogue', 'Shared market DB (powers all quote modes)'],
+  ['/settings/window-types', 'Window types', 'Shop-owner: add/edit shared type rates'],
+  ['/settings', 'Settings hub', 'Glass, colours, hardware, profiles, series'],
 ];
 
 const vendorTiles = [
@@ -52,8 +53,8 @@ export function HomePage() {
         title="Fabricator Toolkit"
         subtitle={
           fullAccess
-            ? 'Vendor mode: full fab tools. Shared masters in Settings; your private rate overrides apply on top.'
-            : 'Mode quote path: configure openings → quote tabs → PDF/Excel. Switch Mode to Vendor for full tools.'
+            ? 'Vendor mode: full fab tools. Defaults to the shared master; private ₹ overrides layer on top without rewriting the base.'
+            : 'Mode quote path: configure → quote. Shop owners can still edit the shared master DB here (no fab tools until Vendor).'
         }
         badge={fullAccess ? 'Vendor · full access' : 'Mode quote path'}
       />
@@ -63,6 +64,30 @@ export function HomePage() {
         <Kpi label="Sliding demo total" value={<Money n={sliding.totalAll} />} hint={`${sliding.pricePerSqft}/sqft target`} />
         <Kpi label="Quote after discount" value={<Money n={quote.afterDiscount} />} hint={`Margin ${NumInline(margin.marginPct)}`} />
       </div>
+      {!fullAccess ? (
+        <Card title="Shop owner · shared master DB">
+          <p className="muted" style={{ marginTop: 0 }}>
+            Fabricator owners manage one shared catalogue (profiles, rates, hardware, glass, colours, series). Home
+            owner / Architect / Builder quotes all read that shared base. You are not stuck — open Master or the
+            Settings links below without switching Mode.
+          </p>
+          <p className="tiny" style={{ marginBottom: 0 }}>
+            <Link to="/settings/master">Master catalogue</Link>
+            {' · '}
+            <Link to="/settings/window-types">Window types</Link>
+            {' · '}
+            <Link to="/settings/glass">Glass</Link>
+            {' · '}
+            <Link to="/settings/colours">Colours</Link>
+            {' · '}
+            <Link to="/settings/hardware">Hardware</Link>
+            {' · '}
+            <Link to="/settings/profiles">Profiles</Link>
+            {' · '}
+            <Link to="/settings/series">Series</Link>
+          </p>
+        </Card>
+      ) : null}
       <Card title="How to use">
         <ol className="muted" style={{ margin: 0, paddingLeft: '1.2rem', lineHeight: 1.6 }}>
           <li>
@@ -72,7 +97,8 @@ export function HomePage() {
             Use <Link to="/configure">Configurator</Link> — size → type → material → glass → colour → Add to quote.
           </li>
           <li>
-            Rates come from <Link to="/settings/master">Master catalogue</Link> (shared). Vendor can override privately.
+            Rates come from the <Link to="/settings/master">shared master</Link>. Vendor mode starts from the same
+            shared base and can add private overrides only.
           </li>
           {fullAccess ? (
             <li>

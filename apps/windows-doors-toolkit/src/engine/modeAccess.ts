@@ -1,9 +1,14 @@
 import type { AppState, CustomerModeId } from '../types';
 import { activeCustomerMode } from './masterCatalogue';
+import { isModeVerified } from './modePricing';
 
-/** Vendor (verified + active) → full fab toolkit. All other modes → quote path only. */
+/**
+ * Vendor (verified + active) → full fab toolkit.
+ * Home owner / Architect / Builder → quote path only (tools locked; shared masters still editable).
+ */
 export function isVendorFullAccess(state: AppState, mode?: CustomerModeId): boolean {
-  return (mode ?? activeCustomerMode(state)) === 'vendor';
+  const m = mode ?? activeCustomerMode(state);
+  return m === 'vendor' && isModeVerified(state, 'vendor');
 }
 
 export type NavItem = { to: string; label: string; end?: boolean };
@@ -38,10 +43,20 @@ export const VENDOR_TOOLS: readonly NavItem[] = [
   { to: '/dashboard', label: '15 Dashboard' },
 ];
 
+/**
+ * Shop-owner testing path: quote modes may manage the shared master DB
+ * (profiles, rates, hardware, glass, colours, series) without unlocking fab tools.
+ * Series stock stays Vendor-only.
+ */
 export const QUOTE_PATH_SETTINGS: readonly NavItem[] = [
   { to: '/settings', label: 'Overview' },
   { to: '/settings/master', label: 'Master catalogue' },
+  { to: '/settings/window-types', label: 'Window types' },
+  { to: '/settings/series', label: 'Series & members' },
+  { to: '/settings/glass', label: 'Glass types' },
   { to: '/settings/colours', label: 'Colours / finish' },
+  { to: '/settings/hardware', label: 'Hardware catalogue' },
+  { to: '/settings/profiles', label: 'Profiles catalogue' },
   { to: '/settings/allowances', label: 'Mode pricing' },
   { to: '/settings/data', label: 'Export / Import' },
 ];
@@ -61,7 +76,7 @@ export const VENDOR_SETTINGS: readonly NavItem[] = [
   { to: '/settings/data', label: 'Export / Import' },
 ];
 
-/** Paths allowed without Vendor mode (exact or prefix match for settings). */
+/** Paths allowed without verified Vendor mode (quote tools + shared-master Settings). */
 const QUOTE_PATH_ALLOW = new Set([
   '/',
   '/configure',
@@ -69,7 +84,12 @@ const QUOTE_PATH_ALLOW = new Set([
   '/quote',
   '/settings',
   '/settings/master',
+  '/settings/window-types',
+  '/settings/series',
+  '/settings/glass',
   '/settings/colours',
+  '/settings/hardware',
+  '/settings/profiles',
   '/settings/allowances',
   '/settings/data',
 ]);

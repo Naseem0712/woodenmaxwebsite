@@ -65,7 +65,7 @@ Route: **`/configure`**. Same single-screen flow for Home owner / Architect / Bu
 | **Builder** | If retail quote total ≥ threshold (seed ₹50L), apply builder % off (seed **15%**). Threshold + % editable in Settings → Allowances |
 | **Vendor** | Verification unlocks **full fab tools** (sidebar + home hub); schedule shows retail. Private rate overrides available on Master catalogue. |
 
-**Nav by mode:** Home owner / Architect / Builder see the **quote path** only (Configurator, Leads, Quotation, Master, Colours, Mode pricing). **Vendor** sees every fab tool (01–15, Site Measure, stock, full Settings). Switching Mode on the project bar updates sidebar + home hub immediately (no refresh).
+**Nav by mode:** Home owner / Architect / Builder see the **quote path** tools only (Configurator, Leads, Quotation) plus a **shop-owner shared-master Settings path** (Master catalogue, Window types, Series, Glass, Colours, Hardware, Profiles, Mode pricing, Export/Import). **Vendor** (after verification) sees every fab tool (01–15, Site Measure, stock, Business/GST, full Settings). Switching Mode on the project bar updates sidebar + home hub immediately (no refresh).
 
 Edit colours under **Settings → Colours / finish**. Mode pricing under **Settings → Allowances → Mode pricing**.
 
@@ -75,10 +75,11 @@ Edit colours under **Settings → Colours / finish**. Mode pricing under **Setti
 
 Route: **`/settings/master`**.
 
-- **Shared master** = Settings rate cards for window types, series members, glass, colours, hardware, profiles. This is the shareable **market/standard** layer.
+- **Shared master** = fabricator-owned market/standard DB (window types, series members, glass, colours, hardware, profiles). Home owner / Architect / Builder calculations always read this shared base.
+- **Shop-owner testing path** — quote Modes are not stuck: edit shared rates on Master, or open the dedicated Settings pages above to add/remove SKUs, without unlocking Vendor fab tools.
 - **Export / Import shared JSON** — share market rates between shops without shipping job bags or Vendor private rates.
-- **Vendor overrides** — when Mode = Vendor, private ₹ columns appear. Overrides layer **on top** of shared; clearing an override falls back to shared. Shared master is never rewritten by overrides.
-- Configurator (and Vendor tooling) reads **shared + Vendor override** via `resolveEffectiveCatalogue`. Formulas never hardcode shop rates.
+- **Vendor defaults = shared** — Vendor starts from the same shared masters. Private ₹ override columns appear only in Vendor mode; they layer **on top** of shared on read. Clearing an override falls back to shared. Shared master is never rewritten by overrides.
+- Configurator (and Vendor tooling) reads **shared + optional Vendor override** via `resolveEffectiveCatalogue`. Formulas never hardcode shop rates.
 
 ---
 

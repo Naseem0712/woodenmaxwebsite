@@ -25,10 +25,10 @@ export function Layout() {
         </div>
         {!fullAccess ? (
           <p className="nav-mode-hint">
-            Mode quote path · switch to <em>Vendor</em> for full tools
+            Mode quote path · shared masters editable · <em>Vendor</em> unlocks fab tools
           </p>
         ) : (
-          <p className="nav-mode-hint">Vendor · full software access</p>
+          <p className="nav-mode-hint">Vendor · full software · private rate overrides on</p>
         )}
         <nav>
           <div className="nav-group">Tools</div>

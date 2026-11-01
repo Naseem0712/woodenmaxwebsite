@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Btn, Card, Field, Input, Kpi, Money, NumberInput, PageHeader, Toolbar } from '../../components/ui';
 import {
   activeCustomerMode,
@@ -69,8 +70,8 @@ export function SettingsMasterCataloguePage() {
     <div>
       <PageHeader
         title="Master catalogue"
-        subtitle="Shared market/standard rates for profiles, types, glass, colours, hardware. Vendor mode can layer private overrides without rewriting the shared base."
-        badge={isVendor ? 'Vendor overrides on' : 'Shared base'}
+        subtitle="Fabricator shared master DB — profiles, types, glass, colours, hardware, series. Powers Home owner / Architect / Builder quotes. Vendor defaults to this shared base and may add private overrides only."
+        badge={isVendor ? 'Vendor overrides on' : 'Shared master · shop owner'}
       />
 
       <div className="grid grid-4" style={{ marginBottom: '1rem' }}>
@@ -83,6 +84,28 @@ export function SettingsMasterCataloguePage() {
           hint={isVendor ? 'Applied on read' : 'Idle until Vendor mode'}
         />
       </div>
+
+      {!isVendor ? (
+        <Card title="Shop-owner testing path">
+          <p className="muted" style={{ marginTop: 0 }}>
+            You can edit shared ₹ columns below in any quote Mode. Need to add/remove SKUs? Use the dedicated master
+            pages (still available without Vendor):
+          </p>
+          <p className="tiny" style={{ marginBottom: 0 }}>
+            <Link to="/settings/window-types">Window types</Link>
+            {' · '}
+            <Link to="/settings/series">Series</Link>
+            {' · '}
+            <Link to="/settings/glass">Glass</Link>
+            {' · '}
+            <Link to="/settings/colours">Colours</Link>
+            {' · '}
+            <Link to="/settings/hardware">Hardware</Link>
+            {' · '}
+            <Link to="/settings/profiles">Profiles</Link>
+          </p>
+        </Card>
+      ) : null}
 
       <Card
         title="Shareable shared-master layer"
@@ -116,17 +139,19 @@ export function SettingsMasterCataloguePage() {
       >
         <p className="muted tiny">
           Export/import updates the shared Settings masters only — never job bags, and never vendor private
-          overrides. Configurator and tools read shared rates; in <strong>Vendor</strong> mode they also apply
-          your private overrides on top. No shop rates are hardcoded in formulas.
+          overrides. Home owner / Architect / Builder always read the shared base. <strong>Vendor</strong> starts
+          from the same shared base and layers private overrides on read only. Shared columns never change when you
+          set an override. No shop rates are hardcoded in formulas.
         </p>
         {!isVendor ? (
           <p className="tiny muted" style={{ marginTop: '0.5rem' }}>
-            Switch project Mode to <strong>Vendor</strong> (after verification) to edit private override columns
-            below. Shared ₹ columns edit the market base for everyone.
+            Shared ₹ columns edit the market base for everyone. Switch Mode to <strong>Vendor</strong> (after
+            verification) to show private override columns — clearing an override falls back to shared.
           </p>
         ) : (
           <p className="tiny success" style={{ marginTop: '0.5rem' }}>
-            Vendor mode: effective rates = shared master + your overrides ({overrideCount} active).
+            Vendor mode: effective rates = shared master + your overrides ({overrideCount} active). Shared base
+            stays intact.
           </p>
         )}
       </Card>
