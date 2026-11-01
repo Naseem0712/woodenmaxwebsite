@@ -1,0 +1,648 @@
+import type {
+  Allowances,
+  AppState,
+  CasementJob,
+  GlassType,
+  OpeningLine,
+  ProfileMember,
+  ProfileSku,
+  SeriesDefinition,
+  SlidingJob,
+  WindowType,
+} from '../types';
+
+const MM_TO_SQFT = 92903.04;
+
+export function round(n: number, d = 2): number {
+  const f = 10 ** d;
+  return Math.round((n + Number.EPSILON) * f) / f;
+}
+
+export function roundUpToStep(value: number, step: number): number {
+  if (step <= 0) return value;
+  return Math.ceil(Math.round((value / step) * 1e6) / 1e6) * step;
+}
+
+export function toSqft(width: number, height: number, unit: 'mm' | 'inch' | 'ft'): number {
+  if (unit === 'mm') return (width * height) / MM_TO_SQFT;
+  if (unit === 'inch') return (width * height) / 144;
+  return width * height;
+}
+
+export function lookupWindowType(types: WindowType[], id: string): WindowType | undefined {
+  return types.find((t) => t.id === id);
+}
+
+export function lookupGlass(types: GlassType[], id: string): GlassType | undefined {
+  return types.find((g) => g.id === id);
+}
+
+export function profileRatePerM(p: ProfileSku, a: Allowances): number {
+  if (p.kgPerMAluminium > 0) {
+    return p.kgPerMAluminium * (a.aluminiumRatePerKg + a.coatingPerKg);
+  }
+  return p.ratePerMUpvc;
+}
+
+/** Excel Tool 02 member count (K) */
+export function slidingMemberCount(
+  memberClass: string,
+  job: Pick<SlidingJob, 'material' | 'tracks' | 'glassShutters' | 'mesh'>,
+): number {
+  switch (memberClass) {
+    case '2-track':
+      return job.tracks === 2 ? 1 : 0;
+    case '3-track':
+      return job.tracks === 3 ? 1 : 0;
+    case 'Shutter':
+      return job.glassShutters;
+    case 'Meeting':
+      return Math.max(0, job.glassShutters - 1);
+    case 'Mesh':
+      return job.mesh === 'Yes' ? 1 : 0;
+    case 'UPVC only':
+      return job.material === 'UPVC' ? 1 : 0;
+    case 'UPVC shutter':
+      return job.material === 'UPVC' ? job.glassShutters : 0;
+    default:
+      return 1;
+  }
+}
+
+export function slidingMemberMetres(
+  m: ProfileMember,
+  job: SlidingJob,
+): { count: number; metres: number; cost: number } {
+  const count = slidingMemberCount(m.memberClass, job);
+  const metres = ((m.wFactor * job.widthMm + m.hFactor * job.heightMm) / 1000) * count;
+  return { count, metres, cost: metres * m.ratePerM };
+}
+
+/** Excel Tool 03 member count (M) */
+export function casementMemberCount(
+  memberClass: string,
+  job: Pick<CasementJob, 'material' | 'panels' | 'openablePanels' | 'mesh'>,
+): number {
+  switch (memberClass) {
+    case 'Mullion':
+      return Math.max(0, job.panels - 1);
+    case 'Openable panel':
+      return job.openablePanels;
+    case 'Panel':
+      return job.panels;
+    case 'Mesh panel':
+      return job.mesh === 'Yes' ? job.openablePanels : 0;
+    case 'UPVC only':
+      return job.material === 'UPVC' ? 1 : 0;
+    case 'UPVC mullion':
+      return job.material === 'UPVC' ? Math.max(0, job.panels - 1) : 0;
+    case 'UPVC openable':
+      return job.material === 'UPVC' ? job.openablePanels : 0;
+    default:
+      return 1;
+  }
+}
+
+export function casementMemberMetres(
+  m: ProfileMember,
+  job: CasementJob,
+): { count: number; metres: number; cost: number } {
+  const count = casementMemberCount(m.memberClass, job);
+  const panelClasses = new Set(['Openable panel', 'Panel', 'Mesh panel', 'UPVC openable']);
+  const widthForMember =
+    panelClasses.has(m.memberClass) && job.panels > 0 ? job.widthMm / job.panels : job.widthMm;
+  const metres = ((m.wFactor * widthForMember + m.hFactor * job.heightMm) / 1000) * count;
+  return { count, metres, cost: metres * m.ratePerM };
+}
+
+export interface OpeningCalc {
+  line: OpeningLine;
+  typeName: string;
+  actualSqftUnit: number;
+  actualSqft: number;
+  chargeableSqft: number;
+  rate: number;
+  estimate: number;
+}
+
+export function calcOpenings(state: AppState): {
+  rows: OpeningCalc[];
+  totalActual: number;
+  totalChargeable: number;
+  totalEstimate: number;
+  totalWindows: number;
+} {
+  const unit = state.allowances.unit;
+  const min = state.allowances.minChargeableSqft;
+  const rows = state.openings.map((line) => {
+    const t = lookupWindowType(state.windowTypes, line.windowTypeId);
+    const actualSqftUnit = toSqft(line.width, line.height, unit);
+    const actualSqft = actualSqftUnit * line.qty;
+    const chargeableSqft = Math.max(actualSqftUnit, min) * line.qty;
+    const rate = t?.ratePerSqft ?? 0;
+    return {
+      line,
+      typeName: t?.name ?? '—',
+      actualSqftUnit,
+      actualSqft,
+      chargeableSqft,
+      rate,
+      estimate: chargeableSqft * rate,
+    };
+  });
+  return {
+    rows,
+    totalActual: rows.reduce((s, r) => s + r.actualSqft, 0),
+    totalChargeable: rows.reduce((s, r) => s + r.chargeableSqft, 0),
+    totalEstimate: rows.reduce((s, r) => s + r.estimate, 0),
+    totalWindows: state.openings.reduce((s, o) => s + o.qty, 0),
+  };
+}
+
+export interface ConfigCostResult {
+  windowSqft: number;
+  members: Array<ProfileMember & { count: number; metres: number; cost: number }>;
+  profileMetres: number;
+  profileCost: number;
+  glassSqft: number;
+  glassRate: number;
+  glassCost: number;
+  wastage: number;
+  hardware: number;
+  meshNet: number;
+  fabInstall: number;
+  transportShare: number;
+  silicone: number;
+  costPerWindow: number;
+  costPerSqft: number;
+  pricePerSqft: number;
+  pricePerWindow: number;
+  totalAll: number;
+  profitAll: number;
+  marginAtQuoted: number;
+  quoteStatus: string;
+}
+
+export function calcSliding(state: AppState): ConfigCostResult {
+  const job = state.sliding;
+  const series = state.series.find((s) => s.id === job.seriesId);
+  const membersSrc = series?.members ?? [];
+  const glass = lookupGlass(state.glassTypes, job.glassTypeId);
+  const glassRate = glass?.ratePerSqft ?? 0;
+  const members = membersSrc.map((m) => ({ ...m, ...slidingMemberMetres(m, job) }));
+  const profileMetres = members.reduce((s, m) => s + m.metres, 0);
+  const profileCost = members.reduce((s, m) => s + m.cost, 0);
+  const windowSqft = toSqft(job.widthMm, job.heightMm, 'mm');
+  const glassSqft = toSqft(
+    Math.max(0, job.widthMm - 2 * job.glassInsetMm),
+    Math.max(0, job.heightMm - 2 * job.glassInsetMm),
+    'mm',
+  );
+  const glassCost = glassSqft * glassRate;
+  const wastage = (profileCost + glassCost) * job.wastage;
+  const hardware =
+    job.rollersPerShutter * job.glassShutters * job.rollerRate +
+    job.lockHandleSet +
+    job.otherHardware;
+  const meshNet = job.mesh === 'Yes' ? windowSqft * job.meshAreaShare * job.meshNetPerSqft : 0;
+  const fabInstall = (job.fabricationLabourPerSqft + job.installationLabourPerSqft) * windowSqft;
+  const transportShare = job.qty <= 0 ? 0 : job.transportPerJob / job.qty;
+  const silicone = job.siliconePerWindow;
+  const costPerWindow =
+    profileCost + glassCost + wastage + hardware + meshNet + fabInstall + silicone + transportShare;
+  const costPerSqft = windowSqft <= 0 ? 0 : costPerWindow / windowSqft;
+  const denom = job.targetMargin >= 1 ? 1 : 1 - job.targetMargin;
+  const rawPriceSqft = windowSqft <= 0 ? 0 : costPerWindow / denom / windowSqft;
+  const pricePerSqft = roundUpToStep(rawPriceSqft, job.priceRoundUpStep);
+  const pricePerWindow = pricePerSqft * windowSqft;
+  const totalAll = pricePerWindow * job.qty;
+  const profitAll = (pricePerWindow - costPerWindow) * job.qty;
+  const marginAtQuoted =
+    job.quotedRatePerSqft <= 0 ? 0 : (job.quotedRatePerSqft - costPerSqft) / job.quotedRatePerSqft;
+  let quoteStatus = '';
+  if (job.quotedRatePerSqft > 0) {
+    if (job.quotedRatePerSqft < costPerSqft) quoteStatus = 'Price below cost';
+    else if (job.quotedRatePerSqft < pricePerSqft) quoteStatus = 'Below target margin';
+    else quoteStatus = 'On target';
+  }
+  return {
+    windowSqft,
+    members,
+    profileMetres,
+    profileCost,
+    glassSqft,
+    glassRate,
+    glassCost,
+    wastage,
+    hardware,
+    meshNet,
+    fabInstall,
+    transportShare,
+    silicone,
+    costPerWindow,
+    costPerSqft,
+    pricePerSqft,
+    pricePerWindow,
+    totalAll,
+    profitAll,
+    marginAtQuoted,
+    quoteStatus,
+  };
+}
+
+export function calcCasement(state: AppState): ConfigCostResult {
+  const job = state.casement;
+  const series = state.series.find((s) => s.id === job.seriesId);
+  const membersSrc = series?.members ?? [];
+  const glass = lookupGlass(state.glassTypes, job.glassTypeId);
+  const glassRate = glass?.ratePerSqft ?? 0;
+  const members = membersSrc.map((m) => ({ ...m, ...casementMemberMetres(m, job) }));
+  const profileMetres = members.reduce((s, m) => s + m.metres, 0);
+  const profileCost = members.reduce((s, m) => s + m.cost, 0);
+  const windowSqft = toSqft(job.widthMm, job.heightMm, 'mm');
+  const glassSqft = toSqft(
+    Math.max(0, job.widthMm - 2 * job.glassInsetMm),
+    Math.max(0, job.heightMm - 2 * job.glassInsetMm),
+    'mm',
+  );
+  const glassCost = glassSqft * glassRate;
+  const wastage = (profileCost + glassCost) * job.wastage;
+  const hardware =
+    job.frictionStayRate * job.openablePanels + job.handleRate * job.openablePanels + job.otherHardware;
+  const meshNet = job.mesh === 'Yes' ? windowSqft * job.meshAreaShare * job.meshNetPerSqft : 0;
+  const fabInstall = (job.fabricationLabourPerSqft + job.installationLabourPerSqft) * windowSqft;
+  const transportShare = job.qty <= 0 ? 0 : job.transportPerJob / job.qty;
+  const silicone = job.siliconePerWindow;
+  const costPerWindow =
+    profileCost + glassCost + wastage + hardware + meshNet + fabInstall + silicone + transportShare;
+  const costPerSqft = windowSqft <= 0 ? 0 : costPerWindow / windowSqft;
+  const denom = job.targetMargin >= 1 ? 1 : 1 - job.targetMargin;
+  const rawPriceSqft = windowSqft <= 0 ? 0 : costPerWindow / denom / windowSqft;
+  const pricePerSqft = roundUpToStep(rawPriceSqft, job.priceRoundUpStep);
+  const pricePerWindow = pricePerSqft * windowSqft;
+  const totalAll = pricePerWindow * job.qty;
+  const profitAll = (pricePerWindow - costPerWindow) * job.qty;
+  const marginAtQuoted =
+    job.quotedRatePerSqft <= 0 ? 0 : (job.quotedRatePerSqft - costPerSqft) / job.quotedRatePerSqft;
+  let quoteStatus = '';
+  if (job.quotedRatePerSqft > 0) {
+    if (job.quotedRatePerSqft < costPerSqft) quoteStatus = 'Price below cost';
+    else if (job.quotedRatePerSqft < pricePerSqft) quoteStatus = 'Below target margin';
+    else quoteStatus = 'On target';
+  }
+  return {
+    windowSqft,
+    members,
+    profileMetres,
+    profileCost,
+    glassSqft,
+    glassRate,
+    glassCost,
+    wastage,
+    hardware,
+    meshNet,
+    fabInstall,
+    transportShare,
+    silicone,
+    costPerWindow,
+    costPerSqft,
+    pricePerSqft,
+    pricePerWindow,
+    totalAll,
+    profitAll,
+    marginAtQuoted,
+    quoteStatus,
+  };
+}
+
+export function calcDoors(state: AppState) {
+  const rows = state.doors.map((d) => {
+    const sqft = toSqft(d.widthMm, d.heightMm, 'mm');
+    const chargeable = Math.max(sqft, state.allowances.minChargeableSqft) * d.qty;
+    const glass = lookupGlass(state.glassTypes, d.glassTypeId);
+    return {
+      ...d,
+      sqft,
+      chargeable,
+      glassName: glass?.name ?? '—',
+      amount: chargeable * d.ratePerSqft,
+    };
+  });
+  return {
+    rows,
+    total: rows.reduce((s, r) => s + r.amount, 0),
+  };
+}
+
+export function calcCutting(state: AppState) {
+  const allowance = state.allowances.sawAllowanceMm;
+  const rows = state.cuts.map((c) => {
+    const profile = state.profiles.find((p) => p.id === c.profileId);
+    const metres = ((c.cutMm + allowance) * c.pieces) / 1000;
+    const rate = profile ? profileRatePerM(profile, state.allowances) : 0;
+    return {
+      ...c,
+      profileName: profile?.name ?? '—',
+      stockLengthM: profile?.stockLengthM ?? 0,
+      metres,
+      rate,
+      cost: metres * rate,
+    };
+  });
+
+  const byProfile = new Map<
+    string,
+    { name: string; stockLengthM: number; pieces: number; metres: number; rate: number }
+  >();
+  for (const r of rows) {
+    const cur = byProfile.get(r.profileId) ?? {
+      name: r.profileName,
+      stockLengthM: r.stockLengthM,
+      pieces: 0,
+      metres: 0,
+      rate: r.rate,
+    };
+    cur.pieces += r.pieces;
+    cur.metres += r.metres;
+    byProfile.set(r.profileId, cur);
+  }
+
+  const buyRows = [...byProfile.entries()].map(([id, v]) => {
+    const usable = Math.max(0.01, v.stockLengthM - state.allowances.endTrimMm / 1000);
+    const lengthsToBuy = Math.ceil(v.metres / usable);
+    const boughtMetres = lengthsToBuy * v.stockLengthM;
+    const offcut = Math.max(0, boughtMetres - v.metres);
+    return {
+      profileId: id,
+      ...v,
+      lengthsToBuy,
+      boughtMetres,
+      offcut,
+      cost: lengthsToBuy * v.stockLengthM * v.rate,
+    };
+  });
+
+  return {
+    rows,
+    buyRows,
+    totalMetres: rows.reduce((s, r) => s + r.metres, 0),
+    totalCost: buyRows.reduce((s, r) => s + r.cost, 0),
+    lengthsToBuy: buyRows.reduce((s, r) => s + r.lengthsToBuy, 0),
+    offcutMetres: buyRows.reduce((s, r) => s + r.offcut, 0),
+  };
+}
+
+export function calcGlassPanes(state: AppState) {
+  const step = state.allowances.glassRoundUpInchStep || 1;
+  const minPane = state.allowances.glassMinSqftPerPane;
+  const wastage = state.allowances.glassWastage;
+  const rows = state.glassPanes.map((g) => {
+    const glass = lookupGlass(state.glassTypes, g.glassTypeId);
+    const wInch = (g.widthMm / 25.4);
+    const hInch = (g.heightMm / 25.4);
+    const wRound = Math.ceil(wInch / step) * step;
+    const hRound = Math.ceil(hInch / step) * step;
+    const paneSqft = Math.max((wRound * hRound) / 144, minPane);
+    const chargeable = paneSqft * g.panes;
+    const rate = glass?.ratePerSqft ?? 0;
+    const cost = chargeable * rate * (1 + wastage);
+    return {
+      ...g,
+      glassName: glass?.name ?? '—',
+      wRound,
+      hRound,
+      paneSqft,
+      chargeable,
+      rate,
+      cost,
+    };
+  });
+  return {
+    rows,
+    totalCost: rows.reduce((s, r) => s + r.cost, 0),
+    totalSqft: rows.reduce((s, r) => s + r.chargeable, 0),
+  };
+}
+
+export function calcHardwareJob(state: AppState) {
+  const openings = calcOpenings(state);
+  const qtyByType = new Map<string, number>();
+  for (const o of state.openings) {
+    qtyByType.set(o.windowTypeId, (qtyByType.get(o.windowTypeId) ?? 0) + o.qty);
+  }
+  const rows = state.hardwareBom.map((line) => {
+    const type = lookupWindowType(state.windowTypes, line.windowTypeId);
+    const hw = state.hardware.find((h) => h.id === line.hardwareItemId);
+    const perWindowCost = line.qtyPerWindow * (hw?.rate ?? 0);
+    const windows = qtyByType.get(line.windowTypeId) ?? 0;
+    return {
+      ...line,
+      typeName: type?.name ?? '—',
+      itemName: hw?.name ?? '—',
+      category: hw?.category ?? '—',
+      unit: hw?.unit ?? 'pc',
+      rate: hw?.rate ?? 0,
+      perWindowCost,
+      windows,
+      jobCost: perWindowCost * windows,
+    };
+  });
+  return {
+    rows,
+    total: rows.reduce((s, r) => s + r.jobCost, 0),
+    openings,
+  };
+}
+
+export function calcMeshGrill(state: AppState) {
+  const rows = state.meshGrill.map((m) => {
+    const sqft = toSqft(m.widthMm, m.heightMm, 'mm') * m.qty;
+    return { ...m, sqft, amount: sqft * m.ratePerSqft };
+  });
+  const mesh = rows.filter((r) => r.kind === 'mesh').reduce((s, r) => s + r.amount, 0);
+  const grill = rows.filter((r) => r.kind === 'grill').reduce((s, r) => s + r.amount, 0);
+  return { rows, mesh, grill, total: mesh + grill };
+}
+
+export function calcLabour(state: AppState) {
+  const openings = calcOpenings(state);
+  const fab =
+    openings.totalActual * state.labour.fabPerSqft +
+    openings.totalWindows * state.labour.fabPerWindow;
+  const install =
+    openings.totalActual * state.labour.installPerSqft +
+    openings.totalWindows * state.labour.installPerWindow;
+  return { fab, install, total: fab + install, openings };
+}
+
+export function calcQuote(state: AppState) {
+  const openings = calcOpenings(state);
+  const mesh = calcMeshGrill(state);
+  const windowsSubtotal = openings.totalEstimate;
+  const subBeforeDiscount = windowsSubtotal + mesh.mesh + mesh.grill;
+  const afterDiscount = Math.max(0, subBeforeDiscount - state.quote.discountAmount);
+  const gst = state.business.gstEnabled
+    ? afterDiscount * (state.business.gstPercent / 100)
+    : 0;
+  const grand = afterDiscount + gst;
+  const balance = Math.max(0, grand - state.quote.advanceAmount);
+  return {
+    openings,
+    mesh,
+    windowsSubtotal,
+    subBeforeDiscount,
+    afterDiscount,
+    gst,
+    grand,
+    balance,
+  };
+}
+
+export function calcMargin(state: AppState) {
+  const quote = calcQuote(state);
+  const cutting = calcCutting(state);
+  const glass = calcGlassPanes(state);
+  const hardware = calcHardwareJob(state);
+  const mesh = calcMeshGrill(state);
+  const labour = calcLabour(state);
+  const transport = state.allowances.transportPerJob;
+  const other = state.marginExtras.otherFees;
+  const commission = quote.afterDiscount * (state.marginExtras.commissionPercent / 100);
+  const totalCost =
+    cutting.totalCost +
+    glass.totalCost +
+    hardware.total +
+    mesh.total +
+    labour.total +
+    transport +
+    other +
+    commission;
+  const quoted = quote.afterDiscount;
+  const profit = quoted - totalCost;
+  const marginPct = quoted <= 0 ? 0 : profit / quoted;
+  const targetMargin = state.allowances.defaultTargetMargin;
+  const feePct = state.marginExtras.commissionPercent / 100;
+  const targetPrice = totalCost / Math.max(0.01, 1 - targetMargin - feePct);
+  return {
+    quoteAmount: quoted,
+    profileCost: cutting.totalCost,
+    glassCost: glass.totalCost,
+    hardwareCost: hardware.total,
+    meshCost: mesh.total,
+    labourCost: labour.total,
+    transport,
+    other,
+    commission,
+    totalCost,
+    profit,
+    marginPct,
+    targetPrice,
+  };
+}
+
+export function calcCompare(state: AppState) {
+  const rows = state.compare.map((c) => {
+    const sqft = Math.max(toSqft(c.widthMm, c.heightMm, 'mm'), state.allowances.minChargeableSqft) * c.qty;
+    const upvc = lookupWindowType(state.windowTypes, c.upvcTypeId);
+    const alu = lookupWindowType(state.windowTypes, c.aluTypeId);
+    const upvcAmt = sqft * (upvc?.ratePerSqft ?? 0);
+    const aluAmt = sqft * (alu?.ratePerSqft ?? 0);
+    return {
+      ...c,
+      sqft,
+      upvcName: upvc?.name ?? '—',
+      aluName: alu?.name ?? '—',
+      upvcRate: upvc?.ratePerSqft ?? 0,
+      aluRate: alu?.ratePerSqft ?? 0,
+      upvcAmt,
+      aluAmt,
+      diff: upvcAmt - aluAmt,
+    };
+  });
+  return {
+    rows,
+    upvcTotal: rows.reduce((s, r) => s + r.upvcAmt, 0),
+    aluTotal: rows.reduce((s, r) => s + r.aluAmt, 0),
+  };
+}
+
+export function calcBuilder(state: AppState) {
+  const rows = state.builder.map((b) => {
+    const t = lookupWindowType(state.windowTypes, b.windowTypeId);
+    const unitSqft = Math.max(toSqft(b.widthMm, b.heightMm, 'mm'), state.allowances.minChargeableSqft);
+    const totalQty = b.qtyPerFlat * b.flats;
+    const sqft = unitSqft * totalQty;
+    const rate = t?.ratePerSqft ?? 0;
+    return {
+      ...b,
+      typeName: t?.name ?? '—',
+      totalQty,
+      sqft,
+      rate,
+      amount: sqft * rate,
+    };
+  });
+  return {
+    rows,
+    totalSqft: rows.reduce((s, r) => s + r.sqft, 0),
+    totalAmount: rows.reduce((s, r) => s + r.amount, 0),
+  };
+}
+
+export function calcRevisions(state: AppState) {
+  const rows = state.revisions.map((r) => {
+    const deltaPct = r.oldRate <= 0 ? 0 : (r.newRate - r.oldRate) / r.oldRate;
+    const impact = deltaPct * (r.weightPercent / 100);
+    return { ...r, deltaPct, impact };
+  });
+  const blendedImpact = rows.reduce((s, r) => s + r.impact, 0);
+  return { rows, blendedImpact };
+}
+
+export function applySeriesToSliding(series: SeriesDefinition, sliding: SlidingJob): SlidingJob {
+  return {
+    ...sliding,
+    seriesId: series.id,
+    material: series.material,
+    tracks: series.defaultTracks || sliding.tracks,
+    glassShutters: series.defaultShutters || sliding.glassShutters,
+    glassInsetMm: series.glassInsetMm,
+    rollersPerShutter: series.rollersPerShutter,
+    rollerRate: series.rollerRate,
+    lockHandleSet: series.lockHandleSet,
+    otherHardware: series.otherHardware,
+    meshAreaShare: series.meshAreaShare,
+    meshNetPerSqft: series.meshNetPerSqft,
+  };
+}
+
+export function applySeriesToCasement(series: SeriesDefinition, casement: CasementJob): CasementJob {
+  return {
+    ...casement,
+    seriesId: series.id,
+    material: series.material,
+    panels: series.defaultPanels || casement.panels,
+    openablePanels: series.defaultOpenable || casement.openablePanels,
+    glassInsetMm: series.glassInsetMm,
+    frictionStayRate: series.frictionStayRate,
+    handleRate: series.handleRate,
+    otherHardware: series.otherHardware,
+    meshAreaShare: series.meshAreaShare,
+    meshNetPerSqft: series.meshNetPerSqft,
+  };
+}
+
+export function formatInr(n: number): string {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0,
+  }).format(n || 0);
+}
+
+export function formatNum(n: number, d = 2): string {
+  return round(n || 0, d).toLocaleString('en-IN', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: d,
+  });
+}
