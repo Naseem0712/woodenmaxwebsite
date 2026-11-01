@@ -903,6 +903,9 @@ export function buildHardwareProfileBoqDocument(
   };
 }
 
+/** Alias — some siblings/patches import this shorter name. Prefer buildHardwareProfileBoqDocument. */
+export const buildProfileBoqDocument = buildHardwareProfileBoqDocument;
+
 export function documentToCsv(doc: ExportDocument): string {
   const lines: string[] = [];
   lines.push(csvCell(doc.title));
