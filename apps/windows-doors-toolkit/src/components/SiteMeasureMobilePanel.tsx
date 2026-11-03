@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
 import { ExportToolbar, type ExportBuilders } from './ExportToolbar';
-import { Btn, Field, Input, Kpi, Money, Num } from './ui';
+import {
+  SiteMeasureSendOpenings,
+  type SendOpeningsStatus,
+  type SendOpeningsTarget,
+} from './SiteMeasureSendOpenings';
+import { Field, Input, Kpi, Money, Num } from './ui';
 import type { Allowances, MeshCostingSettings } from '../types';
 
 type Props = {
@@ -13,15 +18,13 @@ type Props = {
   totalMeshAmount: number;
   totalAmount: number;
   hasOpenings: boolean;
-  onPushOpenings: () => void;
-  onPushCosting: () => void;
-  onPushConfigurator: () => void;
-  onPushCutting: () => void;
+  onSendOpenings: (target: SendOpeningsTarget) => void;
+  sendStatus: SendOpeningsStatus;
 };
 
 /**
  * Mobile-only open/close panel: Export Quote/BOM, compact add-on rates,
- * one-line push actions, live KPIs at the bottom.
+ * Send openings destinations, live KPIs at the bottom.
  */
 export function SiteMeasureMobilePanel({
   builders,
@@ -33,10 +36,8 @@ export function SiteMeasureMobilePanel({
   totalMeshAmount,
   totalAmount,
   hasOpenings,
-  onPushOpenings,
-  onPushCosting,
-  onPushConfigurator,
-  onPushCutting,
+  onSendOpenings,
+  sendStatus,
 }: Props) {
   return (
     <details
@@ -46,7 +47,7 @@ export function SiteMeasureMobilePanel({
     >
       <summary className="site-measure-mobile-panel-summary">
         <span>Actions &amp; totals</span>
-        <span className="site-measure-mobile-panel-hint">Export · rates · push · live KPIs</span>
+        <span className="site-measure-mobile-panel-hint">Export · rates · send · live KPIs</span>
       </summary>
       <div className="site-measure-mobile-panel-body">
         <ExportToolbar builders={builders} dense panel />
@@ -107,42 +108,13 @@ export function SiteMeasureMobilePanel({
           </p>
         </div>
 
-        <div className="site-measure-mobile-push" data-testid="site-measure-mobile-push">
-          <div className="site-measure-mobile-section-label">Push</div>
-          <div className="site-measure-mobile-push-row">
-            <Btn
-              variant="ghost"
-              title="Push net → 01 Openings + Quote"
-              onClick={onPushOpenings}
-              disabled={!hasOpenings}
-            >
-              01 Openings
-            </Btn>
-            <Btn
-              variant="ghost"
-              title="Push → 02/03 Costing"
-              onClick={onPushCosting}
-              disabled={!hasOpenings}
-            >
-              02/03 Costing
-            </Btn>
-            <Btn
-              variant="ghost"
-              title="Push → Configurator"
-              onClick={onPushConfigurator}
-              disabled={!hasOpenings}
-            >
-              Configurator
-            </Btn>
-            <Btn
-              variant="ghost"
-              title="Push net → 05 Cutting"
-              onClick={onPushCutting}
-              disabled={!hasOpenings}
-            >
-              05 Cutting
-            </Btn>
-          </div>
+        <div data-testid="site-measure-mobile-push">
+          <SiteMeasureSendOpenings
+            variant="panel"
+            disabled={!hasOpenings}
+            onSend={onSendOpenings}
+            status={sendStatus}
+          />
         </div>
 
         <div className="site-measure-mobile-kpis" data-testid="site-measure-mobile-kpis">

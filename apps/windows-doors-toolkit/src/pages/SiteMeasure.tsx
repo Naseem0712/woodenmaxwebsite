@@ -6,6 +6,11 @@ import { QuoteExtrasPanel } from '../components/QuoteExtrasPanel';
 import { SiteMeasureMobilePanel } from '../components/SiteMeasureMobilePanel';
 import { SiteMeasureOpeningCard } from '../components/SiteMeasureOpeningCard';
 import {
+  SiteMeasureSendOpenings,
+  type SendOpeningsStatus,
+  type SendOpeningsTarget,
+} from '../components/SiteMeasureSendOpenings';
+import {
   Btn,
   Card,
   Field,
@@ -31,6 +36,7 @@ import {
 } from '../engine/exportDocs';
 import { buildHardwareProfileBoq, buildWindowSizeList } from '../engine/deliverableLists';
 import { activeProject, resolveLessOffMm, settingsLessOffForMaterial, withPersistedNet } from '../engine/lessOff';
+import { isVendorFullAccess } from '../engine/modeAccess';
 import { filterProfiles, filterSeries, filterWindowTypes, projectMaterial } from '../engine/materialContext';
 import {
   defaultsForWindowType,
@@ -57,11 +63,13 @@ type SiteTab = 'openings' | 'less-off';
 export function SiteMeasurePage() {
   const { state, patch, setState, refreshSiteMeasureNets, updateProjectLessOff } = useApp();
   const [tab, setTab] = useState<SiteTab>('openings');
+  const [sendStatus, setSendStatus] = useState<SendOpeningsStatus>(null);
   const calc = calcSiteMeasure(state);
   const a = state.allowances;
   const meshSettings = resolveMeshCosting(a);
   const proj = activeProject(state);
   const material = projectMaterial(state);
+  const vendorAccess = isVendorFullAccess(state);
   const types = filterWindowTypes(state.windowTypes, material);
   const defaults = resolveLessOffMm(state, null);
   const settingsLess = settingsLessOffForMaterial(state, material);
@@ -200,6 +208,7 @@ export function SiteMeasurePage() {
           )
         : s.leads,
     }));
+    return openings.length;
   };
 
   const pushToConfigurator = () => {
@@ -236,6 +245,7 @@ export function SiteMeasurePage() {
       };
     });
     patch('configuratorLines', lines);
+    return lines.length;
   };
 
   const pushToCosting = () => {
@@ -303,6 +313,10 @@ export function SiteMeasurePage() {
       }
       return next;
     });
+    return {
+      sliding: Boolean(slidingLine),
+      casement: Boolean(casementLine),
+    };
   };
 
   const pushToCutting = () => {
@@ -337,6 +351,78 @@ export function SiteMeasurePage() {
       });
     }
     patch('cuts', cuts);
+    return state.siteMeasures.length;
+  };
+
+  const sendOpeningsTo = (target: SendOpeningsTarget) => {
+    const n = state.siteMeasures.length;
+    if (!n) {
+      setSendStatus({ text: 'Add at least one opening before sending.' });
+      return;
+    }
+    if (target === 'quote') {
+      const count = pushToOpenings();
+      setSendStatus(
+        vendorAccess
+          ? {
+              text: `Sent ${count} opening${count === 1 ? '' : 's'} at net fab size to Quote / 01 Openings.`,
+              to: '/openings',
+              linkLabel: 'Open 01 Openings',
+            }
+          : {
+              text: `Sent ${count} opening${count === 1 ? '' : 's'} at net fab size to the Quote schedule.`,
+              to: '/quote',
+              linkLabel: 'Open Quotation',
+            },
+      );
+      return;
+    }
+    if (target === 'costing') {
+      const fed = pushToCosting();
+      if (!fed.sliding && !fed.casement) {
+        setSendStatus({
+          text: 'No sliding or casement/door openings to feed 02/03 Costing.',
+        });
+        return;
+      }
+      const bits = [
+        fed.sliding ? '02 Sliding' : null,
+        fed.casement ? '03 Casement' : null,
+      ].filter(Boolean);
+      setSendStatus(
+        vendorAccess
+          ? {
+              text: `Sent net fab size to ${bits.join(' + ')} (first matching opening each).`,
+              to: fed.sliding ? '/sliding' : '/casement',
+              linkLabel: fed.sliding ? 'Open 02 Sliding' : 'Open 03 Casement',
+            }
+          : {
+              text: `Sent net fab size to ${bits.join(' + ')} costing jobs. Switch Mode to Vendor to open 02/03.`,
+            },
+      );
+      return;
+    }
+    if (target === 'configurator') {
+      const count = pushToConfigurator();
+      setSendStatus({
+        text: `Sent ${count} opening${count === 1 ? '' : 's'} at net fab size to the Configurator cart.`,
+        to: '/configure',
+        linkLabel: 'Open Configurator',
+      });
+      return;
+    }
+    const count = pushToCutting();
+    setSendStatus(
+      vendorAccess
+        ? {
+            text: `Sent ${count} opening${count === 1 ? '' : 's'} as net-fab frame cuts to 05 Cutting.`,
+            to: '/cutting',
+            linkLabel: 'Open 05 Cutting',
+          }
+        : {
+            text: `Sent ${count} opening${count === 1 ? '' : 's'} as net-fab frame cuts. Switch Mode to Vendor to open 05 Cutting.`,
+          },
+    );
   };
 
   const exportBuilders = useMemo(
@@ -426,10 +512,8 @@ export function SiteMeasurePage() {
         totalMeshAmount={calc.totalMeshAmount}
         totalAmount={calc.totalAmount}
         hasOpenings={state.siteMeasures.length > 0}
-        onPushOpenings={pushToOpenings}
-        onPushCosting={pushToCosting}
-        onPushConfigurator={pushToConfigurator}
-        onPushCutting={pushToCutting}
+        onSendOpenings={sendOpeningsTo}
+        sendStatus={sendStatus}
       />
 
       {tab === 'less-off' ? (
@@ -651,23 +735,17 @@ export function SiteMeasurePage() {
         actions={
           <Toolbar>
             <Btn onClick={addLine}>+ Add opening</Btn>
-            <span className="site-measure-desktop-chrome site-measure-desktop-push">
-              <Btn variant="ghost" onClick={pushToOpenings} disabled={!state.siteMeasures.length}>
-                Push net → 01 Openings + Quote
-              </Btn>
-              <Btn variant="ghost" onClick={pushToCosting} disabled={!state.siteMeasures.length}>
-                Push → 02/03 Costing
-              </Btn>
-              <Btn variant="ghost" onClick={pushToConfigurator} disabled={!state.siteMeasures.length}>
-                Push → Configurator
-              </Btn>
-              <Btn variant="ghost" onClick={pushToCutting} disabled={!state.siteMeasures.length}>
-                Push net → 05 Cutting
-              </Btn>
-            </span>
           </Toolbar>
         }
       >
+        <div className="site-measure-desktop-chrome">
+          <SiteMeasureSendOpenings
+            variant="desktop"
+            disabled={!state.siteMeasures.length}
+            onSend={sendOpeningsTo}
+            status={sendStatus}
+          />
+        </div>
         <div className="site-measure-openings-cards" data-testid="site-measure-opening-cards">
           {calc.rows.map((r, index) => (
             <SiteMeasureOpeningCard

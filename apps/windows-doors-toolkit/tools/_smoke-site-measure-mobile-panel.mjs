@@ -66,25 +66,30 @@ async function main() {
       throw new Error('Add-on rates missing in panel');
     }
 
-    const pushRow = panel.locator('[data-testid="site-measure-mobile-push"] .site-measure-mobile-push-row');
-    const pushBtns = pushRow.locator('.btn');
-    if ((await pushBtns.count()) !== 4) throw new Error('Expected 4 push buttons');
-    const pushWrap = await pushRow.evaluate((el) => {
+    const send = panel.locator('[data-testid="site-measure-send-openings"]');
+    if (!(await send.isVisible())) throw new Error('Send openings panel missing');
+    const pushBtns = send.locator('.site-measure-send-grid .btn');
+    if ((await pushBtns.count()) !== 4) throw new Error('Expected 4 send buttons');
+    const gridCss = await send.locator('.site-measure-send-grid').evaluate((el) => {
       const st = getComputedStyle(el);
-      return { display: st.display, flexWrap: st.flexWrap };
+      return { display: st.display, cols: st.gridTemplateColumns };
     });
-    if (pushWrap.display !== 'flex' || pushWrap.flexWrap !== 'nowrap') {
-      throw new Error(`Push row not one-line flex: ${JSON.stringify(pushWrap)}`);
+    if (gridCss.display !== 'grid') {
+      throw new Error(`Send grid not CSS grid: ${JSON.stringify(gridCss)}`);
     }
+    const helpText = await send.locator('.site-measure-send-help').innerText();
+    if (!/net fab size/i.test(helpText)) throw new Error('Missing net fab size helper text');
 
     await pushBtns.nth(0).click();
     await page.waitForTimeout(250);
+    const status = panel.locator('[data-testid="site-measure-send-status"]');
+    if (!(await status.isVisible())) throw new Error('Send status missing after Quote click');
 
     const kpis = panel.locator('[data-testid="site-measure-mobile-kpis"]');
     const kpiBox = await kpis.boundingBox();
     const pushBox = await panel.locator('[data-testid="site-measure-mobile-push"]').boundingBox();
     if (!kpiBox || !pushBox) throw new Error('KPI / push boxes missing');
-    if (kpiBox.y < pushBox.y) throw new Error('KPIs must sit at bottom of panel (below push)');
+    if (kpiBox.y < pushBox.y) throw new Error('KPIs must sit at bottom of panel (below send)');
 
     await panel.locator('summary').click();
     await page.waitForTimeout(120);
@@ -98,7 +103,7 @@ async function main() {
     report.mobile = {
       desktopHidden,
       exportCount,
-      pushWrap,
+      sendGrid: gridCss,
       kpiBelowPush: kpiBox.y > pushBox.y,
       notesVisible: await page
         .locator('[data-testid="opening-notes"]')

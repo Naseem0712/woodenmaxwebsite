@@ -86,7 +86,7 @@ await page.screenshot({
 });
 results.landingShot = landingShot;
 
-const push = page.getByRole('button', { name: /Push → 02\/03 Costing/i });
+const push = page.getByTestId('send-openings-costing');
 if (await push.count()) {
   await push.click();
   await page.waitForTimeout(400);

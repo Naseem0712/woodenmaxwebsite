@@ -155,12 +155,14 @@ After site qty, each opening carries costing selections (Settings defaults + per
 - **Door-side** (openable) charges **leaf/door size** × Settings door-side rate.
 - **Fixed** mesh for vents / outer mesh; rates from Settings masters.
 
-**Push:**
+**Send openings to…** (all four use **net fab size** = site W×H after less-off):
 
-- **Push net → 01 Openings + Quote** — copies glass/mesh fields onto openings.
-- **Push → 02/03 Costing** — feeds Tool 02 Sliding / 03 Casement (Vendor fab tools).
-- **Push → Configurator** — cart lines include glass/mesh; mesh amount enters mode quote retail subtotal.
-- **Push net → 05 Cutting** — fab sizes as before.
+- **Quote** — copies all openings (glass/mesh) onto the 01 Openings / Quote schedule.
+- **Costing** — feeds first sliding → 02 Sliding and first casement/door → 03 Casement (Vendor tools).
+- **Configurator** — cart lines include glass/mesh; mesh amount enters mode quote retail subtotal.
+- **Cutting** — frame cut pairs (W×2 + H×2 per qty) on 05 Cutting.
+
+After each send, a status line confirms what was written and links to the destination (Vendor-only tools ask you to switch Mode when needed).
 
 Configurator (all modes) also asks glass doors + mesh doors/type after size/type.
 
@@ -188,7 +190,7 @@ Mobile (≤980px): sidebar is a **hamburger overlay drawer**, **collapsed by def
 
 **Rates / amount on each opening (card + desktop table):** **₹/sqft**, **Mesh ₹**, and **Amount** (package) are editable number fields. Calculated defaults fill first from Settings / window-type / mesh costing; edits persist and drive KPI totals. Changing size / mesh / rate clears the matching lock so defaults refill. Numeric keypad uses `inputMode` (decimal) on mobile.
 
-**Site Measure Actions & totals (mobile):** export Quote uses **PDF · package** / **Excel · package**; BOM keeps with/without rates. Desktop keeps the full export toolbar, add-on card, KPI row, and push buttons in the openings header. Smoke: `node tools/_smoke-site-measure-mobile-cards-wd18.mjs` · polish: `node tools/_smoke-wd19-cards-letterhead.mjs` · rates/quote: `node tools/_smoke-wd19-opening-rates-quote.mjs`.
+**Site Measure Actions & totals (mobile):** export Quote uses **PDF · package** / **Excel · package**; BOM keeps with/without rates. Desktop keeps the full export toolbar, add-on card, KPI row, and a tidy **Send openings to…** panel (Quote · Costing · Configurator · Cutting) above the openings list. Smoke: `node tools/_smoke-site-measure-mobile-cards-wd18.mjs` · polish: `node tools/_smoke-wd19-cards-letterhead.mjs` · rates/quote: `node tools/_smoke-wd19-opening-rates-quote.mjs` · send: `node tools/_smoke-site-measure-send-openings.mjs`.
 
 ---
 
@@ -224,8 +226,8 @@ Mobile (≤980px): sidebar is a **hamburger overlay drawer**, **collapsed by def
 
 1. Set **per-material** defaults in **Settings → Allowances** (UPVC W/H and Aluminium W/H), and/or project bar, and/or **per row** on Site Measure.
 2. **Site Measure** stores **site W/H** and persists **net W/H** = site − less (clamped ≥ 0; row warns if less-off would go negative). Effective default follows the project material.
-3. **Push net → 01 Openings + Quote** uses fabrication sizes for the openings schedule.
-4. **Push net → 05 Cutting** fills cut lines from net W/H (frame pairs). Cutting should use fab sizes, not raw site readings.
+3. **Send → Quote** uses fabrication sizes for the openings / Quote schedule.
+4. **Send → Cutting** fills cut lines from net W/H (frame pairs). Cutting should use fab sizes, not raw site readings.
 
 ---
 
@@ -312,8 +314,8 @@ Yellow number fields use a shared draft input (`NumberInput` / `Input type="numb
 1. Open app — lands on **Site Measure** (not Home).
 2. Confirm **Project** bar shows *Sample villa — Hyderabad*.
 3. Living room seed: **3-track**, glass doors **2**, mesh doors **1**, type **rolling**; Mesh add-on KPI updates.
-4. **Push → 02/03 Costing** (Vendor mode) → **02 Sliding** shows mesh doors + type.
-5. **Push net → 01 Openings**, then **08 Quotation** / **Configurator**.
+4. **Send → Costing** (Vendor mode) → **02 Sliding** shows mesh doors + type.
+5. **Send → Quote**, then **08 Quotation** / **Send → Configurator**.
 6. **Settings → Allowances** — Door / mesh costing defaults (track table + typed ₹/sqft).
 7. **+ New** project, confirm openings/site measure empty; switch back — sample data returns.
 8. **Settings → Export / Import** → Download JSON for backup.

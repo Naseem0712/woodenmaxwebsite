@@ -68,7 +68,7 @@ await tds.nth(14).locator('input').first().fill('1');
 await tds.nth(14).locator('input').first().blur();
 await tds.nth(15).locator('select').first().selectOption('rolling');
 
-await page.getByRole('button', { name: /Push → 02\/03 Costing/i }).click();
+await page.getByTestId('send-openings-costing').click();
 await page.waitForTimeout(400);
 
 await page.goto('http://127.0.0.1:5173/sliding', { waitUntil: 'networkidle' });

@@ -81,7 +81,7 @@ export default async function (page, ui) {
   });
 
   // Push to 02/03 and open sliding
-  const pushCosting = page.getByRole('button', { name: /Push → 02\/03 Costing/i });
+  const pushCosting = page.getByTestId('send-openings-costing');
   if (await pushCosting.count()) {
     await pushCosting.click();
     await page.waitForTimeout(400);
