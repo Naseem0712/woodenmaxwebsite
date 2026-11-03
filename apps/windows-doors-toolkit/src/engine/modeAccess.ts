@@ -40,6 +40,8 @@ export const VENDOR_TOOLS: readonly NavItem[] = [
   { to: '/billing', label: 'Billing & Profit' },
   { to: '/mesh', label: '11 Mesh & Grill' },
   { to: '/labour', label: '12 Labour' },
+  { to: '/vendor-labour', label: 'Vendor labour ledger' },
+  { to: '/client-accounts', label: 'Client accounts' },
   { to: '/builder', label: '13 Builder' },
   { to: '/revision', label: '14 Price Revision' },
   { to: '/dashboard', label: '15 Dashboard' },

@@ -10,6 +10,8 @@ import { SiteMeasurePage } from './pages/SiteMeasure';
 import { SlidingPage } from './pages/Sliding';
 import { SettingsColoursPage } from './pages/settings/Colours';
 import { BillingPage } from './pages/Billing';
+import { ClientAccountsPage } from './pages/ClientAccounts';
+import { VendorLabourLedgerPage } from './pages/VendorLabourLedger';
 import {
   BuilderPage,
   ComparePage,
@@ -62,6 +64,8 @@ export default function App() {
               <Route path="billing" element={<BillingPage />} />
               <Route path="mesh" element={<MeshPage />} />
               <Route path="labour" element={<LabourPage />} />
+              <Route path="vendor-labour" element={<VendorLabourLedgerPage />} />
+              <Route path="client-accounts" element={<ClientAccountsPage />} />
               <Route path="builder" element={<BuilderPage />} />
               <Route path="revision" element={<RevisionPage />} />
               <Route path="dashboard" element={<DashboardPage />} />

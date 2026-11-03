@@ -1014,6 +1014,126 @@ export const DEFAULT_BILLING_SETTINGS: BillingSettings = {
   payModes: ['Cash', 'UPI', 'Bank', 'Cheque'],
 };
 
+/** Vendor handle that owns a labour team (team-leader scoped). */
+export interface VendorLabourTeam {
+  id: string;
+  /** Stable vendor handle — reopen / filter key */
+  handle: string;
+  vendorName: string;
+  teamLeaderName: string;
+  phone: string;
+  note: string;
+  createdAt: string;
+}
+
+export type LabourRateUnit = 'day' | 'sqft' | 'window' | 'job';
+
+/** One labour person under a vendor team. All money fields are editable. */
+export interface VendorLabourMember {
+  id: string;
+  vendorId: string;
+  name: string;
+  role: string;
+  rate: number;
+  rateUnit: LabourRateUnit;
+  /** Assigned work description / set */
+  workSet: string;
+  /** Controllable advance given to this labour */
+  advance: number;
+  /** Extra payout beyond rate × units */
+  extraPayout: number;
+  /** Budget cap for this labour on the job */
+  budget: number;
+  /** Amount attributed from quote area (₹) */
+  quoteAreaAmount: number;
+  /** Work units for rate (days / sqft / windows / jobs) */
+  units: number;
+  note: string;
+}
+
+export type LabourPayoutKind = 'advance' | 'payout' | 'extra';
+
+export interface VendorLabourPayout {
+  id: string;
+  vendorId: string;
+  labourId: string;
+  date: string;
+  amount: number;
+  kind: LabourPayoutKind;
+  note: string;
+}
+
+export type ClientPaymentType = 'cash' | 'bank' | 'upi';
+
+export interface ClientPaymentLine {
+  id: string;
+  date: string;
+  amount: number;
+  type: ClientPaymentType;
+  /** Cash: who received / payer name */
+  cashName?: string;
+  /** Bank transfer */
+  bankAccountNo?: string;
+  bankAccountName?: string;
+  /** UPI */
+  upiId?: string;
+  note: string;
+}
+
+export type ClientDiscountKind = 'percent' | 'gst_off' | 'fixed';
+
+export interface ClientDiscountLine {
+  id: string;
+  kind: ClientDiscountKind;
+  /** percent (0–100), or fixed ₹; gst_off ignores value and drops GST portion */
+  value: number;
+  note: string;
+  appliedAt: string;
+}
+
+export interface ClientChargeLine {
+  id: string;
+  date: string;
+  description: string;
+  amount: number;
+}
+
+/** Finalized quote / work posted onto a client account. */
+export interface ClientWorkLine {
+  id: string;
+  quoteNo: string;
+  savedQuoteId?: string;
+  projectId: string;
+  projectName: string;
+  material: Material | string;
+  quoteAmount: number;
+  taxableAmount: number;
+  gstAmount: number;
+  /** Advance recorded when quote was finalized */
+  advanceRecorded: number;
+  /** Remaining advance after payments applied */
+  advanceRemaining: number;
+  finalizedAt: string;
+  note: string;
+}
+
+/** Per-client durable account statement handle. */
+export interface ClientAccount {
+  id: string;
+  /** Normalize phone/email/name — reopen key */
+  handle: string;
+  customerName: string;
+  phone: string;
+  email: string;
+  gstin: string;
+  siteAddress: string;
+  works: ClientWorkLine[];
+  charges: ClientChargeLine[];
+  payments: ClientPaymentLine[];
+  discounts: ClientDiscountLine[];
+  updatedAt: string;
+}
+
 /** Per-project job data (never mixed across projects). */
 export interface ProjectJobData {
   jobMeta: JobMeta;
@@ -1114,6 +1234,12 @@ export interface AppState extends ProjectJobData {
   billingSettings: BillingSettings;
   /** Saved quote snapshots for Tax Invoice picker */
   savedQuotes: SavedQuoteRecord[];
+  /** Vendor labour teams (shop-level, team-leader scoped) */
+  vendorLabourTeams: VendorLabourTeam[];
+  vendorLabourMembers: VendorLabourMember[];
+  vendorLabourPayouts: VendorLabourPayout[];
+  /** Client payment / advance accounts (shop-level, durable by handle) */
+  clientAccounts: ClientAccount[];
   projects: ProjectMeta[];
   activeProjectId: string;
   /** Inactive project bags (active project's data lives on the flat keys above) */

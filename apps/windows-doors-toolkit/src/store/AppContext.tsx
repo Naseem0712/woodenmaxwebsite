@@ -19,6 +19,12 @@ import {
   upsertAccountFromState,
 } from '../engine/accountStore';
 import { ensureSeriesHardwareDefaults } from '../engine/hardwareKind';
+import {
+  mergeClientAccountsWithStore,
+  mergeVendorLedgersWithStore,
+  syncClientLedgers,
+  syncVendorLedgers,
+} from '../engine/ledgerStore';
 import { withPersistedNet } from '../engine/lessOff';
 import { inferWindowKind, realignJobsToMaterial } from '../engine/materialContext';
 import { resolveMeshCosting, syncMeshYesNo } from '../engine/meshCosting';
@@ -336,6 +342,10 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
           : seed.billingSettings.payModes,
     },
     savedQuotes: parsed.savedQuotes ?? seed.savedQuotes ?? [],
+    vendorLabourTeams: parsed.vendorLabourTeams ?? seed.vendorLabourTeams ?? [],
+    vendorLabourMembers: parsed.vendorLabourMembers ?? seed.vendorLabourMembers ?? [],
+    vendorLabourPayouts: parsed.vendorLabourPayouts ?? seed.vendorLabourPayouts ?? [],
+    clientAccounts: parsed.clientAccounts ?? seed.clientAccounts ?? [],
     colourOptions: parsed.colourOptions ?? seed.colourOptions,
     modePricing: { ...seed.modePricing, ...parsed.modePricing },
     modeVerifications: (parsed.modeVerifications ?? seed.modeVerifications).map(
@@ -394,7 +404,19 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
     normalized.sliding.material !== material || normalized.casement.material !== material
       ? realignJobsToMaterial(normalized, material)
       : normalized;
-  return normalizeSiteMeasures(aligned);
+  const withSite = normalizeSiteMeasures(aligned);
+  const vendorMerged = mergeVendorLedgersWithStore({
+    teams: withSite.vendorLabourTeams ?? [],
+    members: withSite.vendorLabourMembers ?? [],
+    payouts: withSite.vendorLabourPayouts ?? [],
+  });
+  return {
+    ...withSite,
+    vendorLabourTeams: vendorMerged.teams,
+    vendorLabourMembers: vendorMerged.members,
+    vendorLabourPayouts: vendorMerged.payouts,
+    clientAccounts: mergeClientAccountsWithStore(withSite.clientAccounts ?? []),
+  };
 }
 
 function migrateLegacy(raw: string): AppState | null {
@@ -490,6 +512,12 @@ export function AppProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     try {
       syncAccountsFromState(state);
+      syncClientLedgers(state.clientAccounts ?? []);
+      syncVendorLedgers(
+        state.vendorLabourTeams ?? [],
+        state.vendorLabourMembers ?? [],
+        state.vendorLabourPayouts ?? [],
+      );
     } catch {
       /* ignore account sync failures */
     }

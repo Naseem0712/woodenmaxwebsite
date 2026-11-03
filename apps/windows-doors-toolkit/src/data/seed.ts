@@ -1253,6 +1253,10 @@ export function createSeedState(): AppState {
     billingExpenses: [],
     billingSettings: { ...DEFAULT_BILLING_SETTINGS },
     savedQuotes: [],
+    vendorLabourTeams: [],
+    vendorLabourMembers: [],
+    vendorLabourPayouts: [],
+    clientAccounts: [],
     projects: [
       {
         id: 'project-sample-villa',
