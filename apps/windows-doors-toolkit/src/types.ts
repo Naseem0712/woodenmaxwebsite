@@ -308,8 +308,14 @@ export type SlidingMemberClass =
 /** Settings UX role for a series profile member (calc still keys off memberClass). */
 export type MemberRole = 'track' | 'shutter' | 'mesh' | 'other';
 
-/** Shutter part variants — interlock maps to Meeting count rules. */
-export type ShutterPart = 'sash' | 'top' | 'bottom' | 'handle-side' | 'interlock';
+/**
+ * Shutter part variants — interlock maps to Meeting count rules.
+ * `center` = meeting/center vertical of a glass shutter (not the slim interlock bar).
+ */
+export type ShutterPart = 'sash' | 'top' | 'bottom' | 'handle-side' | 'center' | 'interlock';
+
+/** Interlock cut/hardware style for Meeting members (Settings-driven). */
+export type InterlockStyle = 'slim' | 'cap' | 'same-section';
 
 export type CasementMemberClass =
   | 'Window'
@@ -388,13 +394,47 @@ export interface ProfileMember {
    * One series may list multiple track classes; quote/BOM pick the matching row.
    */
   memberClass: string;
-  /** Optional Settings label for shutter top/bottom/handle-side/interlock/sash. */
+  /** Optional Settings label for shutter top/bottom/handle-side/center/interlock/sash. */
   shutterPart?: ShutterPart;
-  /** Width / V factor (horizontal pieces × width). Editable qty master. */
+  /**
+   * Width / V factor (horizontal pieces × width). Editable qty master.
+   * Used when side factors (top/bottom) are unset.
+   */
   wFactor: number;
-  /** Height / H factor (vertical pieces × height). Editable qty master. */
+  /**
+   * Height / H factor (vertical pieces × height). Editable qty master.
+   * Used when side factors (left/right) are unset.
+   */
   hFactor: number;
   ratePerM: number;
+  /**
+   * Optional per-side qty factors (fabricator detail).
+   * When any side factor is set, BOM/metres prefer sides over coarse V/H for that axis.
+   */
+  topFactor?: number | null;
+  bottomFactor?: number | null;
+  leftFactor?: number | null;
+  rightFactor?: number | null;
+  /** Default linked Profiles-stock SKU for this member. */
+  profileSkuId?: string;
+  /** Horizontal section SKU (top + bottom group). */
+  horizontalProfileSkuId?: string;
+  /** Vertical section SKU (left + right group). */
+  verticalProfileSkuId?: string;
+  /** Optional per-side SKU overrides (win when set). */
+  topProfileSkuId?: string;
+  bottomProfileSkuId?: string;
+  leftProfileSkuId?: string;
+  rightProfileSkuId?: string;
+  /** Meeting / interlock style — slim bar vs caps on verticals vs same-section all sides. */
+  interlockStyle?: InterlockStyle;
+  /**
+   * Bottom track rails only (full window width).
+   * null/undefined = derive from track class (2-track→2, 2.5/3-track→3).
+   */
+  railCount?: number | null;
+  /** Mesh shutter uses same section + adapter on all sides (2V + 2H adapters). */
+  meshAdapter?: boolean;
 }
 
 export interface SeriesDefinition {

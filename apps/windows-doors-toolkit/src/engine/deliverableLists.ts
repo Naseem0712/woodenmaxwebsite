@@ -7,12 +7,21 @@ import {
   casementMemberCount,
   formatInr,
   formatNum,
+  lookupGlass,
   lookupWindowType,
-  slidingMemberCount,
   toSqft,
 } from './calcs';
+import {
+  buildSlidingFabricatorBom,
+  materialMatchesProject,
+} from './fabricatorBom';
 import { resolveLessOffMm } from './lessOff';
 import { resolveEffectiveCatalogue } from './masterCatalogue';
+import {
+  filterMembersForMaterial,
+  projectMaterial,
+} from './materialContext';
+import { effectiveHFactor, effectiveWFactor, hasSideFactors, sideFactor } from './memberFactors';
 import { defaultStockLengthM } from './profileStockDefaults';
 import { meshTypeLabel, resolveMeshCosting } from './meshCosting';
 import {
@@ -107,9 +116,13 @@ function resolveStockLengthM(
   profiles: ProfileSku[],
 ): number {
   const material = series?.material;
+  const candidates = profiles.filter((p) => !material || p.material === material);
+  if (member.profileSkuId) {
+    const linked = candidates.find((p) => p.id === member.profileSkuId);
+    if (linked && linked.stockLengthM > 0) return linked.stockLengthM;
+  }
   const name = member.name.toLowerCase();
   const className = member.memberClass.toLowerCase();
-  const candidates = profiles.filter((p) => !material || p.material === material);
   const scored = candidates
     .map((p) => {
       const pn = p.name.toLowerCase();
@@ -589,8 +602,33 @@ function accumulateMemberCuts(
 ) {
   if (count <= 0 || qty <= 0) return;
   const w = panelWidthMm ?? widthMm;
-  const hFactor = Number(member.hFactor) || 0;
-  const wFactor = Number(member.wFactor) || 0;
+
+  // Side factors → emit left/right/top/bottom detail lines
+  if (hasSideFactors(member)) {
+    const sides: Array<{ side: 'top' | 'bottom' | 'left' | 'right'; cutMm: number }> = [
+      { side: 'top', cutMm: w },
+      { side: 'bottom', cutMm: w },
+      { side: 'left', cutMm: heightMm },
+      { side: 'right', cutMm: heightMm },
+    ];
+    for (const { side, cutMm } of sides) {
+      const f = sideFactor(member, side);
+      if (f <= 0) continue;
+      const pieces = f * count * qty;
+      addProfile(
+        map,
+        `${member.id}:${side}`,
+        `${member.name} · ${side}`,
+        (pieces * cutMm) / 1000,
+        member.ratePerM,
+        stockLengthM,
+      );
+    }
+    return;
+  }
+
+  const hFactor = effectiveHFactor(member);
+  const wFactor = effectiveWFactor(member);
   const intH = Number.isInteger(hFactor) && hFactor > 0;
   const intW = Number.isInteger(wFactor) && wFactor > 0;
 
@@ -773,12 +811,16 @@ export function buildHardwareProfileBoq(
   const profileMap = new Map<string, AggProfile>();
   const hwMap = new Map<string, AggHardware>();
   const endTrim = state.allowances.endTrimMm;
+  const jobMaterial = projectMaterial(state);
+  const matProfiles = catalogue.profiles.filter((p) => p.material === jobMaterial);
 
   for (const o of openings) {
     const wt = lookupWindowType(catalogue.windowTypes, o.windowTypeId);
     if (!wt) continue;
     const series = wt.seriesId ? catalogue.series.find((s) => s.id === wt.seriesId) : undefined;
     if (!series) continue;
+    // Never mix Alu ↔ UPVC on BOM / materials list
+    if (!materialMatchesProject(wt, series, jobMaterial)) continue;
 
     const isSliding =
       wt.kind === 'sliding' ||
@@ -787,17 +829,35 @@ export function buildHardwareProfileBoq(
 
     if (isSliding) {
       const job = slidingJobFromOpening(series, o);
-      for (const m of series.members) {
-        const count = slidingMemberCount(m.memberClass, job, series.members);
-        const stock = resolveStockLengthM(series, m, catalogue.profiles);
-        accumulateMemberCuts(profileMap, m, count, job.widthMm, job.heightMm, job.qty, stock);
+      const glass = lookupGlass(catalogue.glassTypes, job.glassTypeId);
+      const fab = buildSlidingFabricatorBom(
+        state,
+        series,
+        job,
+        matProfiles,
+        catalogue.hardware,
+        glass,
+        defaultStockLengthM(jobMaterial),
+      );
+      for (const c of fab.cuts) {
+        addProfile(
+          profileMap,
+          c.key,
+          c.name,
+          c.metres,
+          c.ratePerM,
+          c.stockLengthM > 0 ? c.stockLengthM : defaultStockLengthM(jobMaterial),
+        );
       }
-      accumulateSeriesHardware(hwMap, series, wt, o);
+      for (const h of fab.hardware) {
+        addHardware(hwMap, h.key, h.name, h.unit, h.qty, h.rate);
+      }
     } else {
       const job = casementJobFromOpening(series, o);
-      for (const m of series.members) {
+      const members = filterMembersForMaterial(series.members, jobMaterial);
+      for (const m of members) {
         const count = casementMemberCount(m.memberClass, job);
-        const stock = resolveStockLengthM(series, m, catalogue.profiles);
+        const stock = resolveStockLengthM(series, m, matProfiles);
         const panelClasses = new Set(['Openable panel', 'Panel', 'Mesh panel', 'UPVC openable']);
         const widthForMember =
           panelClasses.has(m.memberClass) && job.panels > 0 ? job.widthMm / job.panels : job.widthMm;
@@ -818,6 +878,13 @@ export function buildHardwareProfileBoq(
     for (const bom of state.hardwareBom.filter((b) => b.windowTypeId === o.windowTypeId)) {
       const item = catalogue.hardware.find((h) => h.id === bom.hardwareItemId);
       if (!item) continue;
+      // Fabricator path already auto-picks wheels / connectors — skip catalogue duplicates
+      if (
+        isSliding &&
+        (/roller|wheel/i.test(item.name) || /connector/i.test(item.name))
+      ) {
+        continue;
+      }
       addHardware(
         hwMap,
         `bom:${item.id}`,
@@ -829,7 +896,7 @@ export function buildHardwareProfileBoq(
     }
   }
 
-  accumulateCuttingProfiles(profileMap, state, catalogue.profiles);
+  accumulateCuttingProfiles(profileMap, state, matProfiles);
 
   const profileRows: ProfileBoqRow[] = [...profileMap.values()]
     .filter((p) => p.metres > 0)

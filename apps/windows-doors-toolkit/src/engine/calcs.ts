@@ -10,6 +10,8 @@ import type {
   WindowType,
 } from '../types';
 import { computeNetSize, resolveLessOffMm } from './lessOff';
+import { filterMembersForMaterial } from './materialContext';
+import { effectiveHFactor, effectiveWFactor } from './memberFactors';
 import { meshLineAmount, resolveMeshCosting } from './meshCosting';
 import {
   applyLineDiscount,
@@ -97,7 +99,9 @@ export function slidingMemberMetres(
   seriesMembers?: Array<Pick<ProfileMember, 'memberClass'>>,
 ): { count: number; metres: number; cost: number } {
   const count = slidingMemberCount(m.memberClass, job, seriesMembers);
-  const metres = ((m.wFactor * job.widthMm + m.hFactor * job.heightMm) / 1000) * count;
+  const wF = effectiveWFactor(m);
+  const hF = effectiveHFactor(m);
+  const metres = ((wF * job.widthMm + hF * job.heightMm) / 1000) * count;
   return { count, metres, cost: metres * m.ratePerM };
 }
 
@@ -144,7 +148,9 @@ export function casementMemberMetres(
   const panelClasses = new Set(['Openable panel', 'Panel', 'Mesh panel', 'UPVC openable']);
   const widthForMember =
     panelClasses.has(m.memberClass) && job.panels > 0 ? job.widthMm / job.panels : job.widthMm;
-  const metres = ((m.wFactor * widthForMember + m.hFactor * job.heightMm) / 1000) * count;
+  const wF = effectiveWFactor(m);
+  const hF = effectiveHFactor(m);
+  const metres = ((wF * widthForMember + hF * job.heightMm) / 1000) * count;
   return { count, metres, cost: metres * m.ratePerM };
 }
 
@@ -233,7 +239,7 @@ export interface ConfigCostResult {
 export function calcSliding(state: AppState): ConfigCostResult {
   const job = state.sliding;
   const series = state.series.find((s) => s.id === job.seriesId);
-  const membersSrc = series?.members ?? [];
+  const membersSrc = filterMembersForMaterial(series?.members ?? [], job.material);
   const glass = lookupGlass(state.glassTypes, job.glassTypeId);
   const glassRate = glass?.ratePerSqft ?? 0;
   const members = membersSrc.map((m) => ({
@@ -326,7 +332,7 @@ export function calcSliding(state: AppState): ConfigCostResult {
 export function calcCasement(state: AppState): ConfigCostResult {
   const job = state.casement;
   const series = state.series.find((s) => s.id === job.seriesId);
-  const membersSrc = series?.members ?? [];
+  const membersSrc = filterMembersForMaterial(series?.members ?? [], job.material);
   const glass = lookupGlass(state.glassTypes, job.glassTypeId);
   const glassRate = glass?.ratePerSqft ?? 0;
   const members = membersSrc.map((m) => ({ ...m, ...casementMemberMetres(m, job) }));

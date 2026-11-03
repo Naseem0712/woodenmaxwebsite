@@ -1,6 +1,7 @@
 import type {
   AppState,
   Material,
+  ProfileMember,
   ProfileSku,
   ProjectMeta,
   SeriesDefinition,
@@ -15,6 +16,21 @@ export function activeProjectMeta(state: AppState): ProjectMeta | undefined {
 
 export function projectMaterial(state: AppState): Material {
   return activeProjectMeta(state)?.material ?? 'UPVC';
+}
+
+/** Member classes that must never appear on Aluminium jobs / BOM. */
+export function isUpvcOnlyMemberClass(memberClass: string): boolean {
+  const c = (memberClass || '').toLowerCase();
+  return c.startsWith('upvc') || c === 'upvc only';
+}
+
+/** Drop UPVC-only reinforcement / members when material is Aluminium. */
+export function filterMembersForMaterial<T extends Pick<ProfileMember, 'memberClass'>>(
+  members: T[],
+  material: Material,
+): T[] {
+  if (material === 'UPVC') return members;
+  return members.filter((m) => !isUpvcOnlyMemberClass(m.memberClass));
 }
 
 export function filterSeries(
