@@ -266,6 +266,14 @@ export function SettingsAllowancesPage() {
               onChange={(e) => setMesh('defaultColour', e.target.value)}
             />
           </Field>
+          <Field label="Mesh brand" hint="Printed on quote Mesh line when set">
+            <Input
+              value={mesh.brand ?? ''}
+              onChange={(e) => setMesh('brand', e.target.value)}
+              placeholder="e.g. Phifer"
+              data-testid="mesh-brand"
+            />
+          </Field>
           <Field label="Openable default mesh type">
             <Select
               value={mesh.openableDefaultMeshType}

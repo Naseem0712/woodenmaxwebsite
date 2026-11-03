@@ -53,6 +53,7 @@ export const VENDOR_TOOLS: readonly NavItem[] = [
 export const QUOTE_PATH_SETTINGS: readonly NavItem[] = [
   { to: '/settings', label: 'Overview' },
   { to: '/settings/master', label: 'Master catalogue' },
+  { to: '/settings/business', label: 'Business / GST' },
   { to: '/settings/window-types', label: 'Window types' },
   { to: '/settings/series', label: 'Series & members' },
   { to: '/settings/glass', label: 'Glass types' },
@@ -88,6 +89,7 @@ const QUOTE_PATH_ALLOW = new Set([
   '/quote',
   '/settings',
   '/settings/master',
+  '/settings/business',
   '/settings/window-types',
   '/settings/series',
   '/settings/glass',

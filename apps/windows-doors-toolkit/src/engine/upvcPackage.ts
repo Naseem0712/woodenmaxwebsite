@@ -47,6 +47,7 @@ import {
 } from './meshCosting';
 import { formatRemnantLine, nestProfileCuts, type NestResult } from './nesting';
 import { defaultStockLengthM } from './profileStockDefaults';
+import { ensureQuoteNumbered } from './quoteSeries';
 
 export interface UpvcPackageSummary {
   openings: number;
@@ -547,6 +548,7 @@ export function generateUpvcFullPackage(state: AppState): UpvcPackageResult {
 
   const unit = state.siteMeasures[0]?.unit ?? state.allowances.unit;
   const less = resolveLessOffMm(state, null);
+  const quoteNumbering = ensureQuoteNumbered(state.business, state.quote.quoteNo);
 
   const next: AppState = {
     ...state,
@@ -575,10 +577,9 @@ export function generateUpvcFullPackage(state: AppState): UpvcPackageResult {
       siteAddress: siteAddress || state.quote.siteAddress,
       phone: phone || state.quote.phone,
       quoteDate: state.quote.quoteDate || today,
-      quoteNo:
-        state.quote.quoteNo ||
-        `Q-${today.replace(/-/g, '')}-${String(openings.length).padStart(2, '0')}`,
+      quoteNo: quoteNumbering.quoteNo,
     },
+    business: quoteNumbering.business,
     leads: lead
       ? state.leads.map((l) =>
           l.id === lead.id

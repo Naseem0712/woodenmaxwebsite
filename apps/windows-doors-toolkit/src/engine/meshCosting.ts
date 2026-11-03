@@ -25,6 +25,7 @@ export function resolveMeshCosting(a: Allowances | undefined): MeshCostingSettin
   return {
     ...base,
     ...raw,
+    brand: raw?.brand ?? base.brand ?? '',
     trackDefaults:
       raw?.trackDefaults?.length ? raw.trackDefaults.map((t) => ({ ...t })) : base.trackDefaults.map((t) => ({ ...t })),
   };

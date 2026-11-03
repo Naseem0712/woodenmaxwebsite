@@ -33,7 +33,7 @@ export function ExportToolbar({
             ? builders.sizeList
             : builders.profileBoq;
     if (!builder) return;
-    runExport(builder(rateMode), format);
+    void runExport(builder(rateMode), format);
   };
 
   const quoteButtons = (

@@ -248,11 +248,13 @@ function enrichOpeningNarrative(
   return {
     ...partial,
     colourName,
+    seriesBrand: (series?.brand || '').trim() || null,
     glassLabel: formatGlassLabel(glass),
     lockHandleLabel,
     meshType: partial.meshType ?? null,
     meshThicknessMm: mesh.defaultThicknessMm,
     meshColour: mesh.defaultColour,
+    meshBrand: (mesh.brand || '').trim() || null,
     doorExtraKind: showDoorExtras ? doorExtraKind : 'none',
     doorCloserLabel: doorExtraKind === 'door-closer' ? seriesExtra.doorCloserLabel : null,
     floorSpringLabel: doorExtraKind === 'floor-spring' ? seriesExtra.floorSpringLabel : null,
@@ -299,7 +301,6 @@ export function buildQuoteDocument(state: AppState, _rateMode: RateMode = 'inclu
   const rateMode: RateMode = 'include';
   const q = calcQuote(state);
   const unit = state.allowances.unit;
-  const label = modeLabel(state);
   const columns: ExportColumn[] = [
     { key: 'code', label: 'Code' },
     { key: 'schedule', label: 'Schedule (W-01 block)' },
@@ -394,7 +395,7 @@ export function buildQuoteDocument(state: AppState, _rateMode: RateMode = 'inclu
   return {
     kind: 'quote',
     title: 'Quotation',
-    subtitle: `${state.quote.quoteNo || 'Draft'} · ${state.quote.quoteDate || '—'} · Mode ${label}`,
+    subtitle: '',
     letterhead: buildLetterhead(state),
     meta: [
       ...businessMeta(state),
@@ -402,7 +403,6 @@ export function buildQuoteDocument(state: AppState, _rateMode: RateMode = 'inclu
       { label: 'Phone', value: state.quote.phone || '—' },
       { label: 'Site', value: state.quote.siteAddress || '—' },
       { label: 'Valid till', value: q.validTill || '—' },
-      { label: 'Amounts', value: 'Package amount per opening (no ₹/sqft)' },
       {
         label: 'GST',
         value: q.gstApplied ? `${formatNum(q.gstPercent, 2)}% on grand` : 'Off for this quote',
@@ -431,7 +431,6 @@ export function buildConfiguratorQuoteDocument(
   const rateMode: RateMode = 'include';
   const cart = calcConfiguratorCart(state);
   const modeQuote = calcModeQuote(state);
-  const label = modeLabel(state);
   const columns: ExportColumn[] = [
     { key: 'code', label: 'Code' },
     { key: 'schedule', label: 'Schedule (W-01 block)' },
@@ -523,14 +522,12 @@ export function buildConfiguratorQuoteDocument(
 
   return {
     kind: 'quote',
-    title: 'Mode quote',
-    subtitle: `${label} · ${modeQuote.pricingNote}`,
+    title: 'Quotation',
+    subtitle: '',
     letterhead: buildLetterhead(state),
     meta: [
       ...businessMeta(state),
       { label: 'Quote no', value: state.quote.quoteNo || '—' },
-      { label: 'Mode', value: label },
-      { label: 'Amounts', value: 'Package amount per opening (no ₹/sqft)' },
       {
         label: 'GST',
         value: modeQuote.gstApplied
@@ -544,7 +541,7 @@ export function buildConfiguratorQuoteDocument(
     footerSections: quoteFooter(state),
     footnote: undefined,
     rateMode,
-    filenameBase: `mode-quote-${state.quote.quoteNo || 'configurator'}`,
+    filenameBase: `quote-${state.quote.quoteNo || 'configurator'}`,
   };
 }
 
@@ -556,7 +553,6 @@ export function buildSiteMeasureQuoteDocument(
   const rateMode: RateMode = 'include';
   const site = calcSiteMeasure(state);
   const unit = state.allowances.unit;
-  const label = modeLabel(state);
   const columns: ExportColumn[] = [
     { key: 'code', label: 'Code' },
     { key: 'schedule', label: 'Schedule (W-01 block)' },
@@ -644,8 +640,8 @@ export function buildSiteMeasureQuoteDocument(
 
   return {
     kind: 'quote',
-    title: 'Site measure quote',
-    subtitle: `Measured openings · Mode ${label}`,
+    title: 'Quotation',
+    subtitle: '',
     letterhead: buildLetterhead(state, {
       customerName: state.quote.customerName || state.jobMeta.customerName || '',
       siteAddress: state.quote.siteAddress || state.jobMeta.siteAddress || '',
@@ -654,7 +650,6 @@ export function buildSiteMeasureQuoteDocument(
       ...businessMeta(state),
       { label: 'Customer', value: state.quote.customerName || state.jobMeta.customerName || '—' },
       { label: 'Site', value: state.quote.siteAddress || state.jobMeta.siteAddress || '—' },
-      { label: 'Amounts', value: 'Package amount per opening (no ₹/sqft)' },
       {
         label: 'GST',
         value: gstInfo.apply ? `${formatNum(gstInfo.percent, 2)}% on grand` : 'Off for this quote',
@@ -664,10 +659,9 @@ export function buildSiteMeasureQuoteDocument(
     tables: [{ title: 'Site measured openings', columns, rows, pdfSkipWhenBlocks: true }],
     summary,
     footerSections: quoteFooter(state),
-    footnote:
-      'Site measure package amounts from editable opening rates (₹/sqft, Mesh ₹, Amount). Push to Openings/Configurator for full quotation.',
+    footnote: undefined,
     rateMode,
-    filenameBase: `site-measure-${state.quote.quoteNo || 'openings'}`,
+    filenameBase: `quote-${state.quote.quoteNo || 'openings'}`,
   };
 }
 
@@ -1107,12 +1101,14 @@ function letterheadHtml(
     : '';
   const contactBits = [lh.phone, lh.email, lh.website].filter(Boolean).join(' · ');
   const gstLine = lh.gstin ? `<div><span class="gst-label">GST</span> ${escHtml(lh.gstin)}</div>` : '';
-  const badge =
-    kind === 'quote'
-      ? 'Package amounts'
-      : rateMode === 'include'
-        ? 'With rates'
-        : 'No rates';
+  // Quotes: clean letterhead — title + quote no/date only (no mode / package badges).
+  const isQuote = kind === 'quote';
+  const displayTitle = isQuote ? 'Quotation' : title;
+  const badge = isQuote
+    ? ''
+    : `<span class="badge">${rateMode === 'include' ? 'With rates' : 'No rates'}</span>`;
+  const subHtml =
+    !isQuote && subtitle ? `<div class="sub">${escHtml(subtitle)}</div>` : '';
   return `<header class="letterhead">
   <div class="lh-company">
     ${logo}
@@ -1124,9 +1120,9 @@ function letterheadHtml(
     </div>
   </div>
   <div class="lh-doc">
-    <strong>${escHtml(title)}</strong>
-    <span class="badge">${badge}</span>
-    <div class="sub">${escHtml(subtitle)}</div>
+    <strong>${escHtml(displayTitle)}</strong>
+    ${badge}
+    ${subHtml}
     ${lh.quoteNo || lh.quoteDate ? `<div class="lh-line">${escHtml([lh.quoteNo, lh.quoteDate].filter(Boolean).join(' · '))}</div>` : ''}
   </div>
 </header>
@@ -1143,7 +1139,7 @@ function letterheadHtml(
 </section>`;
 }
 
-function documentToHtml(doc: ExportDocument): string {
+export function documentToHtml(doc: ExportDocument): string {
   const hasLetterhead = Boolean(doc.letterhead);
   const metaHtml = hasLetterhead
     ? ''
@@ -1278,35 +1274,28 @@ ${doc.openingBlocks!
   <div class="sums">${summaryHtml}</div>
   ${footerSectionsHtml}
   ${doc.footnote ? `<p class="foot">${escHtml(doc.footnote)}</p>` : ''}
-  <p class="foot noprint">Use the browser Print dialog → Save as PDF.</p>
-  <script>window.onload=function(){setTimeout(function(){window.print()},250)}</script>
 </body></html>`;
 }
 
+/** @deprecated Prefer downloadPdfDocument — kept for smoke HTML preview helpers. */
 export function openPrintPdf(doc: ExportDocument): void {
   const html = documentToHtml(doc);
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
-  // Blob URL so noopener popups still receive the document (document.write is null with noopener).
   const w = window.open(url, '_blank', 'noopener,noreferrer,width=1024,height=768');
   if (!w) {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${doc.filenameBase}-${doc.rateMode}.html`;
-    a.click();
     URL.revokeObjectURL(url);
     return;
   }
   setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
-export function runExport(doc: ExportDocument, format: ExportFormat): void {
+export async function runExport(doc: ExportDocument, format: ExportFormat): Promise<void> {
   if (format === 'excel') {
-    downloadCsv(
-      `${doc.filenameBase}-${doc.rateMode === 'include' ? 'with-rates' : 'no-rates'}.csv`,
-      documentToCsv(doc),
-    );
+    const tag = doc.kind === 'quote' ? 'package' : doc.rateMode === 'include' ? 'with-rates' : 'no-rates';
+    downloadCsv(`${doc.filenameBase}-${tag}.csv`, documentToCsv(doc));
     return;
   }
-  openPrintPdf(doc);
+  const { downloadPdfDocument } = await import('./exportPdf');
+  await downloadPdfDocument(doc);
 }

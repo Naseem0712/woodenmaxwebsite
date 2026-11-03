@@ -105,6 +105,7 @@ function blankSeries(): SeriesDefinition {
     name: 'New series',
     material: 'UPVC',
     kind: 'sliding',
+    brand: '',
     defaultTracks: 2,
     defaultShutters: 2,
     defaultPanels: 2,
@@ -453,6 +454,16 @@ export function SettingsSeriesPage() {
             <div className="grid grid-4">
               <Field label="Name">
                 <Input value={series.name} onChange={(e) => set('name', e.target.value)} />
+              </Field>
+              <Field
+                label="Brand / alloy"
+                hint="Printed on quote Window lines (e.g. Jindal, Fenesta)"
+              >
+                <Input
+                  value={series.brand ?? ''}
+                  onChange={(e) => set('brand', e.target.value)}
+                  placeholder="e.g. Jindal"
+                />
               </Field>
               <Field label="Material">
                 <Select

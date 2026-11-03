@@ -98,6 +98,7 @@ export function ensureSeriesHardwareDefaults(series: SeriesDefinition): SeriesDe
   const laminationArmSizeMm = series.laminationArmSizeMm || 200;
   return {
     ...series,
+    brand: series.brand ?? '',
     frictionStayRates,
     laminationArmRates,
     frictionStaySizeMm,

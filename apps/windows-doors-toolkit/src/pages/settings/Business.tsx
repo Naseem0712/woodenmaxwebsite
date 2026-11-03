@@ -1,9 +1,16 @@
 import { Btn, Card, Field, Input, PageHeader, Select } from '../../components/ui';
+import {
+  ensureBusinessQuoteSeries,
+  formatQuoteNumber,
+  normalizeQuoteNextSeq,
+  normalizeQuoteSeriesPrefix,
+  peekNextQuoteNo,
+} from '../../engine/quoteSeries';
 import { useApp } from '../../store/AppContext';
 
 export function SettingsBusinessPage() {
   const { state, patch } = useApp();
-  const b = state.business;
+  const b = ensureBusinessQuoteSeries(state.business);
   const set = <K extends keyof typeof b>(key: K, value: (typeof b)[K]) => {
     patch('business', { ...b, [key]: value });
   };
@@ -104,6 +111,35 @@ export function SettingsBusinessPage() {
               value={b.gstPercent}
               onChange={(e) => set('gstPercent', Number(e.target.value))}
             />
+          </Field>
+        </div>
+      </Card>
+      <Card title="Quote series">
+        <p className="muted tiny" style={{ marginBottom: '0.65rem' }}>
+          Set the series / prefix once. New quotes keep this series — only the running number
+          increments (e.g. {formatQuoteNumber(b.quoteSeriesPrefix, 1)} →{' '}
+          {formatQuoteNumber(b.quoteSeriesPrefix, 2)}). Exports never invent a new series.
+        </p>
+        <div className="grid grid-3">
+          <Field label="Series / prefix" hint="e.g. Q-2026">
+            <Input
+              value={b.quoteSeriesPrefix}
+              onChange={(e) => set('quoteSeriesPrefix', normalizeQuoteSeriesPrefix(e.target.value))}
+              placeholder="Q-2026"
+              data-testid="quote-series-prefix"
+            />
+          </Field>
+          <Field label="Next number" hint="Running sequence">
+            <Input
+              type="number"
+              min={1}
+              value={b.quoteNextSeq}
+              onChange={(e) => set('quoteNextSeq', normalizeQuoteNextSeq(Number(e.target.value)))}
+              data-testid="quote-series-next"
+            />
+          </Field>
+          <Field label="Next quote no">
+            <Input value={peekNextQuoteNo(b)} readOnly />
           </Field>
         </div>
       </Card>

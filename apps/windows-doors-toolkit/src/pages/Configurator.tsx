@@ -444,8 +444,10 @@ export function ConfiguratorPage() {
               </div>
             </div>
             <div className="quote-meta">
-              <strong>Mode quote · {modeLabel}</strong>
-              <div className="tiny muted">{modeQuote.pricingNote}</div>
+              <strong>Quotation</strong>
+              <div>
+                {state.quote.quoteNo || '—'} · {state.quote.quoteDate || '—'}
+              </div>
             </div>
           </div>
 

@@ -54,6 +54,8 @@ export interface MeshCostingSettings {
   defaultThicknessMm: number;
   /** Editable mesh colour shown on quote PDF narrative */
   defaultColour: string;
+  /** Mesh brand for quote PDF narrative (Settings — optional) */
+  brand: string;
   /**
    * Openable default when user selects door-side mesh:
    * mesh doors seed from openable panel count.
@@ -79,6 +81,7 @@ export const DEFAULT_MESH_COSTING: MeshCostingSettings = {
   swingPerSqft: 100,
   defaultThicknessMm: 0.5,
   defaultColour: 'Black',
+  brand: '',
   openableDefaultMeshType: 'door-side',
   ventDefaultMeshType: 'fixed',
 };
@@ -339,6 +342,13 @@ export interface BusinessInfo {
   gstEnabled: boolean;
   gstPercent: number;
   warrantyNote: string;
+  /**
+   * Fixed quote series / prefix (Settings once) — e.g. Q-2026.
+   * New quotes keep this series; only quoteNextSeq increments.
+   */
+  quoteSeriesPrefix: string;
+  /** Next running number for quoteSeriesPrefix (1 → Q-2026-001). */
+  quoteNextSeq: number;
 }
 
 export interface Allowances {
@@ -442,6 +452,11 @@ export interface SeriesDefinition {
   name: string;
   material: Material;
   kind: SeriesKind;
+  /**
+   * Alloy / system brand for quote narrative (Settings — e.g. Jindal, Fenesta).
+   * Printed on Window: lines when set.
+   */
+  brand: string;
   /** Sliding layout defaults (hidden when kind ≠ sliding) */
   defaultTracks: number;
   defaultShutters: number;

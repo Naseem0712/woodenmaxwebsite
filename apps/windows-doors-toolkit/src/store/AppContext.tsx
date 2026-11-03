@@ -23,6 +23,7 @@ import { withPersistedNet } from '../engine/lessOff';
 import { inferWindowKind, realignJobsToMaterial } from '../engine/materialContext';
 import { resolveMeshCosting, syncMeshYesNo } from '../engine/meshCosting';
 import { ensureProfileStockLength } from '../engine/profileStockDefaults';
+import { allocateQuoteNo, ensureBusinessQuoteSeries } from '../engine/quoteSeries';
 import type {
   AppState,
   CustomerModeId,
@@ -243,6 +244,7 @@ function normalizeMasters(state: AppState): AppState {
   }));
   return {
     ...state,
+    business: ensureBusinessQuoteSeries(state.business),
     series,
     windowTypes,
     profiles,
@@ -529,9 +531,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
         lessOffHeightMm: null,
       };
       let job = emptyProjectJob(extractProjectJob(s));
+      // New quote keeps Settings series prefix; only the running number increments.
+      const numbered = allocateQuoteNo(s.business);
+      job = {
+        ...job,
+        quote: { ...job.quote, quoteNo: numbered.quoteNo },
+      };
       let next = applyProjectJob(
         {
           ...s,
+          business: numbered.business,
           projects: [...s.projects, meta],
           activeProjectId: id,
           projectBags: bags,

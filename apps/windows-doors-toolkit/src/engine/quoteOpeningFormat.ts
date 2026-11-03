@@ -22,6 +22,8 @@ export interface QuoteOpeningFormatInput {
   areaSqft: number;
   /** Window / door type name (e.g. 3-track sliding window) */
   windowTypeName: string;
+  /** Series alloy/system brand from Settings (e.g. Jindal) */
+  seriesBrand?: string | null;
   glassDoors?: number | null;
   meshDoors?: number | null;
   colourName?: string | null;
@@ -32,6 +34,8 @@ export interface QuoteOpeningFormatInput {
   meshType?: MeshTypeId | null;
   meshThicknessMm?: number | null;
   meshColour?: string | null;
+  /** Mesh brand from Settings masters (optional) */
+  meshBrand?: string | null;
   /** Door/casement only — closer OR floor spring, never both */
   doorExtraKind?: DoorExtraKind | null;
   doorCloserLabel?: string | null;
@@ -72,14 +76,32 @@ export function formatShutterDoorBreakdown(
   return `${g} ${glassWord} Glass + ${m} ${meshWord} mesh`;
 }
 
-/** Glass narrative: `5 mm clear tuff (Saint-Gobain)` */
+/** Glass narrative: `5 mm clear tuff (Saint-Gobain)` — never doubles thickness already in the name. */
 export function formatGlassLabel(glass?: Pick<GlassType, 'name' | 'thicknessMm' | 'brand'> | null): string {
   if (!glass) return '—';
   const name = (glass.name || '').trim() || 'glass';
   const thick = Number(glass.thicknessMm);
-  const thickPart = Number.isFinite(thick) && thick > 0 ? `${formatNum(thick)} mm ` : '';
+  const nameHasMm = /\d+(\.\d+)?\s*mm/i.test(name);
+  const thickPart =
+    !nameHasMm && Number.isFinite(thick) && thick > 0 ? `${formatNum(thick)} mm ` : '';
   const brand = (glass.brand || '').trim();
-  return brand ? `${thickPart}${name} (${brand})` : `${thickPart}${name}`;
+  const core = `${thickPart}${name}`.replace(/\s+/g, ' ').trim();
+  if (brand && !core.toLowerCase().includes(brand.toLowerCase())) {
+    return `${core} (${brand})`;
+  }
+  return core || '—';
+}
+
+/** Window line with optional series alloy/brand from Settings. */
+export function formatWindowTypeLabel(
+  windowTypeName?: string | null,
+  seriesBrand?: string | null,
+): string {
+  const name = (windowTypeName || '').trim() || '—';
+  const brand = (seriesBrand || '').trim();
+  if (!brand) return name;
+  if (name.toLowerCase().includes(brand.toLowerCase())) return name;
+  return `${name} (${brand})`;
 }
 
 /** Hardware display name with optional brand. */
@@ -122,17 +144,23 @@ export function meshHasSpec(meshType?: MeshTypeId | null, meshDoors?: number | n
   return Boolean(meshType && meshType !== 'none' && doors > 0);
 }
 
-/** `0.5 mm, Black, rolling` */
+/** `0.5 mm, Black, rolling` or with brand `0.5 mm, Black, rolling (Phifer)` */
 export function formatMeshSpecLine(
   meshType?: MeshTypeId | null,
   thicknessMm?: number | null,
   colour?: string | null,
+  brand?: string | null,
 ): string {
   const typeLabel = meshType && meshType !== 'none' ? meshTypeLabel(meshType).toLowerCase() : '—';
   const thick = Number(thicknessMm);
   const thickPart = Number.isFinite(thick) && thick > 0 ? `${formatNum(thick)} mm` : '—';
   const colourPart = (colour || '').trim() || '—';
-  return `${thickPart}, ${colourPart}, ${typeLabel}`;
+  const brandPart = (brand || '').trim();
+  const core = `${thickPart}, ${colourPart}, ${typeLabel}`;
+  if (brandPart && !core.toLowerCase().includes(brandPart.toLowerCase())) {
+    return `${core} (${brandPart})`;
+  }
+  return core;
 }
 
 /**
@@ -180,7 +208,7 @@ export function formatQuoteOpeningLines(input: QuoteOpeningFormatInput): string[
   const area = formatNum(input.areaSqft);
   const lines = [
     `${code} ${loc}, ${size}, qty ${input.qty}, area ${area} sqft`,
-    `Window: ${(input.windowTypeName || '').trim() || '—'}`,
+    `Window: ${formatWindowTypeLabel(input.windowTypeName, input.seriesBrand)}`,
     `Shutter/door: ${formatShutterDoorBreakdown(input.glassDoors, input.meshDoors)}`,
     `Color: ${(input.colourName || '').trim() || '—'}`,
     `Glass: ${(input.glassLabel || '').trim() || '—'}`,
@@ -189,7 +217,12 @@ export function formatQuoteOpeningLines(input: QuoteOpeningFormatInput): string[
 
   if (meshHasSpec(input.meshType, input.meshDoors)) {
     lines.push(
-      `Mesh: ${formatMeshSpecLine(input.meshType, input.meshThicknessMm, input.meshColour)}`,
+      `Mesh: ${formatMeshSpecLine(
+        input.meshType,
+        input.meshThicknessMm,
+        input.meshColour,
+        input.meshBrand,
+      )}`,
     );
   }
 
@@ -253,6 +286,45 @@ export function formatQuoteOpeningBlock(input: QuoteOpeningFormatInput): string 
   return formatQuoteOpeningLines(input).join('\n');
 }
 
+/** Prefer catalogue hardware row when label text matches — pulls brand/colour. */
+function enrichLockLabelWithCatalogue(
+  state: AppState,
+  label: string,
+  opts: { windowTypeId?: string | null; series?: SeriesDefinition | null },
+): string {
+  const raw = label.trim();
+  if (!raw) return raw;
+  const lower = raw.toLowerCase();
+  const candidates = state.hardware.filter((h) => /lock|handle/i.test(`${h.name} ${h.category}`));
+  const exact = candidates.find((h) => (h.name || '').trim().toLowerCase() === lower);
+  if (exact) return formatHardwareLabel(exact);
+  const partial = candidates.find((h) => {
+    const n = (h.name || '').trim().toLowerCase();
+    return n && (lower.includes(n) || n.includes(lower));
+  });
+  if (partial) {
+    // Keep series wording but ensure brand/colour from master appear.
+    const brand = (partial.brand || '').trim();
+    const colour = (partial.colour || '').trim();
+    const bits = [raw];
+    if (brand && !lower.includes(brand.toLowerCase())) bits.push(brand);
+    if (colour && !lower.includes(colour.toLowerCase())) bits.push(colour);
+    return bits.join(' · ');
+  }
+  if (opts.windowTypeId) {
+    const bomLocks = state.hardwareBom
+      .filter((b) => b.windowTypeId === opts.windowTypeId)
+      .map((b) => state.hardware.find((h) => h.id === b.hardwareItemId))
+      .filter((h): h is HardwareItem => Boolean(h))
+      .filter((h) => /lock|handle/i.test(`${h.name} ${h.category}`));
+    if (bomLocks[0]?.brand) {
+      const brand = bomLocks[0].brand.trim();
+      if (brand && !lower.includes(brand.toLowerCase())) return `${raw} · ${brand}`;
+    }
+  }
+  return raw;
+}
+
 /** Resolve lock/handle label from series masters + hardware catalogue / BOM. */
 export function resolveLockHandleLabel(
   state: AppState,
@@ -263,10 +335,10 @@ export function resolveLockHandleLabel(
   },
 ): string {
   const override = (opts.lockHandleLabel || '').trim();
-  if (override) return override;
+  if (override) return enrichLockLabelWithCatalogue(state, override, opts);
   const series = opts.series;
   const seriesLabel = (series?.lockHandleLabel || '').trim();
-  if (seriesLabel) return seriesLabel;
+  if (seriesLabel) return enrichLockLabelWithCatalogue(state, seriesLabel, opts);
 
   if (opts.windowTypeId) {
     const bomLocks = state.hardwareBom

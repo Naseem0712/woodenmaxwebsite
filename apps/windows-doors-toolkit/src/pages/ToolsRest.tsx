@@ -952,14 +952,10 @@ export function QuotePage() {
             <div className="tiny muted">{architectMode ? 'Client' : 'Customer'}</div>
             <strong>{state.quote.customerName || '—'}</strong>
             <div className="tiny">{state.quote.phone}</div>
-            <div className="tiny muted">Mode: {modeLabel}</div>
           </div>
           <div>
             <div className="tiny muted">{architectMode ? 'Site / project' : 'Site'}</div>
             <strong>{state.quote.siteAddress || '—'}</strong>
-            {architectMode ? (
-              <div className="tiny muted">Material: {project?.material ?? '—'}</div>
-            ) : null}
           </div>
         </div>
 
