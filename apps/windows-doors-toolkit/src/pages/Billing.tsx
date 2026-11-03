@@ -476,6 +476,33 @@ export function BillingPage() {
                       }
                     />
                   </Field>
+                  <Field label="Station">
+                    <Input
+                      value={activeInvoice.station || ''}
+                      data-testid="station"
+                      onChange={(e) =>
+                        patchInvoice(activeInvoice.id, { station: e.target.value })
+                      }
+                    />
+                  </Field>
+                  <Field label="Reverse charge">
+                    <Input
+                      value={activeInvoice.reverseCharge || 'N'}
+                      data-testid="reverse-charge"
+                      onChange={(e) =>
+                        patchInvoice(activeInvoice.id, { reverseCharge: e.target.value })
+                      }
+                    />
+                  </Field>
+                  <Field label="GR/RR No.">
+                    <Input
+                      value={activeInvoice.grRrNo || ''}
+                      data-testid="gr-rr-no"
+                      onChange={(e) =>
+                        patchInvoice(activeInvoice.id, { grRrNo: e.target.value })
+                      }
+                    />
+                  </Field>
                   <Field label="Place of supply">
                     <Input value={taxPreview?.placeOfSupply || '—'} readOnly />
                   </Field>

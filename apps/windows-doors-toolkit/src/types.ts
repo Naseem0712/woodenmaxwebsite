@@ -360,6 +360,19 @@ export interface BusinessInfo {
   gstSlabs: number[];
   /** Default slab applied to new bill lines (also drives quote GST %). */
   defaultGstSlab: number;
+  /** Tax Invoice letterhead extras (Settings — never hardcoded into rates). */
+  pan?: string;
+  udyamNo?: string;
+  /** Center tagline under contact (e.g. Premium Windows | …). */
+  invoiceTagline?: string;
+  bankAccountName?: string;
+  bankAccountNo?: string;
+  bankIfsc?: string;
+  bankName?: string;
+  /** Multiline invoice terms (one item per line). */
+  invoiceTerms?: string;
+  /** Jurisdiction line on Tax Invoice footer (e.g. Telangana). */
+  jurisdictionState?: string;
 }
 
 export interface Allowances {
@@ -922,6 +935,11 @@ export interface BillingInvoice {
   eWayBillNo?: string;
   vehicleNo?: string;
   transportName?: string;
+  /** Dispatch station (Busy-style header). */
+  station?: string;
+  /** Reverse charge Y/N — default N. */
+  reverseCharge?: string;
+  grRrNo?: string;
   taxMode?: BillingTaxMode;
   cgst?: number;
   sgst?: number;

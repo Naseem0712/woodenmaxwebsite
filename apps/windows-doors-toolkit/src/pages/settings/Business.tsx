@@ -214,6 +214,74 @@ export function SettingsBusinessPage() {
           </Field>
         </div>
       </Card>
+      <Card title="Tax Invoice letterhead">
+        <p className="muted tiny" style={{ marginBottom: '0.65rem' }}>
+          Busy-style Tax Invoice PDF uses these fields. Leave blank to omit. Bank / terms are not
+          product rates — edit freely.
+        </p>
+        <div className="grid grid-2">
+          <Field label="PAN">
+            <Input
+              value={b.pan || ''}
+              onChange={(e) => set('pan', e.target.value)}
+              data-testid="business-pan"
+            />
+          </Field>
+          <Field label="Udyam No.">
+            <Input
+              value={b.udyamNo || ''}
+              onChange={(e) => set('udyamNo', e.target.value)}
+              data-testid="business-udyam"
+            />
+          </Field>
+          <Field label="Invoice tagline" hint="Centered under contact">
+            <Input
+              value={b.invoiceTagline || ''}
+              onChange={(e) => set('invoiceTagline', e.target.value)}
+              placeholder="Premium Windows | …"
+              data-testid="business-invoice-tagline"
+            />
+          </Field>
+          <Field label="Jurisdiction state" hint="Footer terms — defaults from GSTIN">
+            <Input
+              value={b.jurisdictionState || ''}
+              onChange={(e) => set('jurisdictionState', e.target.value)}
+              placeholder="Telangana"
+            />
+          </Field>
+          <Field label="Bank account name">
+            <Input
+              value={b.bankAccountName || ''}
+              onChange={(e) => set('bankAccountName', e.target.value)}
+            />
+          </Field>
+          <Field label="A/C No.">
+            <Input
+              value={b.bankAccountNo || ''}
+              onChange={(e) => set('bankAccountNo', e.target.value)}
+            />
+          </Field>
+          <Field label="IFSC">
+            <Input value={b.bankIfsc || ''} onChange={(e) => set('bankIfsc', e.target.value)} />
+          </Field>
+          <Field label="Bank name / branch">
+            <Input value={b.bankName || ''} onChange={(e) => set('bankName', e.target.value)} />
+          </Field>
+        </div>
+        <Field
+          label="Invoice terms (one per line)"
+          hint="Printed under Terms & Conditions — blank uses defaults"
+        >
+          <textarea
+            className="input"
+            rows={5}
+            value={b.invoiceTerms || ''}
+            onChange={(e) => set('invoiceTerms', e.target.value)}
+            placeholder={'Goods once sold will not be taken back.\n100% payment in Advance Only.'}
+            data-testid="business-invoice-terms"
+          />
+        </Field>
+      </Card>
     </div>
   );
 }
