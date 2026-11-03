@@ -10,9 +10,11 @@ import type {
   WindowType,
 } from '../types';
 import { computeNetSize, resolveLessOffMm } from './lessOff';
-import { filterMembersForMaterial } from './materialContext';
+import { filterMembersForMaterial, projectMaterial } from './materialContext';
 import { effectiveHFactor, effectiveWFactor } from './memberFactors';
 import { meshLineAmount, resolveMeshCosting } from './meshCosting';
+import { nestProfileCuts } from './nesting';
+import { defaultStockLengthM } from './profileStockDefaults';
 import {
   applyLineDiscount,
   calcCustomQuoteLines,
@@ -474,55 +476,60 @@ export function calcDoors(state: AppState) {
 
 export function calcCutting(state: AppState) {
   const allowance = state.allowances.sawAllowanceMm;
+  const endTrim = state.allowances.endTrimMm;
   const rows = state.cuts.map((c) => {
     const profile = state.profiles.find((p) => p.id === c.profileId);
     const metres = ((c.cutMm + allowance) * c.pieces) / 1000;
     const rate = profile ? profileRatePerM(profile, state.allowances) : 0;
+    const stockLengthM =
+      profile?.stockLengthM && profile.stockLengthM > 0
+        ? profile.stockLengthM
+        : defaultStockLengthM(profile?.material ?? projectMaterial(state));
     return {
       ...c,
       profileName: profile?.name ?? '—',
-      stockLengthM: profile?.stockLengthM ?? 0,
+      stockLengthM,
       metres,
       rate,
       cost: metres * rate,
     };
   });
 
-  const byProfile = new Map<
-    string,
-    { name: string; stockLengthM: number; pieces: number; metres: number; rate: number }
-  >();
-  for (const r of rows) {
-    const cur = byProfile.get(r.profileId) ?? {
-      name: r.profileName,
+  // Whole-order nest same-type profiles (FFD) — minimize wastage; expose remnant sizes.
+  const nesting = nestProfileCuts(
+    rows.map((r) => ({
+      profileKey: r.profileId || r.profileName,
+      profileName: r.profileName,
+      cutMm: r.cutMm,
+      pieces: r.pieces,
       stockLengthM: r.stockLengthM,
-      pieces: 0,
-      metres: 0,
-      rate: r.rate,
-    };
-    cur.pieces += r.pieces;
-    cur.metres += r.metres;
-    byProfile.set(r.profileId, cur);
-  }
+      ratePerM: r.rate,
+    })),
+    endTrim,
+    allowance,
+  );
 
-  const buyRows = [...byProfile.entries()].map(([id, v]) => {
-    const usable = Math.max(0.01, v.stockLengthM - state.allowances.endTrimMm / 1000);
-    const lengthsToBuy = Math.ceil(v.metres / usable);
-    const boughtMetres = lengthsToBuy * v.stockLengthM;
-    const offcut = Math.max(0, boughtMetres - v.metres);
-    return {
-      profileId: id,
-      ...v,
-      lengthsToBuy,
-      boughtMetres,
-      offcut,
-      cost: lengthsToBuy * v.stockLengthM * v.rate,
-    };
-  });
+  const rateByKey = new Map(rows.map((r) => [r.profileId || r.profileName, r.rate]));
+  const buyRows = nesting.profiles.map((p) => ({
+    profileId: p.profileKey,
+    name: p.profileName,
+    stockLengthM: p.stockLengthM,
+    pieces: p.cutPieces,
+    metres: p.cutMetres,
+    rate: rateByKey.get(p.profileKey) ?? 0,
+    lengthsToBuy: p.barsUsed,
+    boughtMetres: p.boughtMetres,
+    offcut: p.offcutMetres,
+    cost: p.cost,
+    remnants: p.remnants,
+    wastagePct: p.wastagePct,
+  }));
 
   return {
     rows,
     buyRows,
+    nesting,
+    remnantLines: nesting.remnantLines,
     totalMetres: rows.reduce((s, r) => s + r.metres, 0),
     totalCost: buyRows.reduce((s, r) => s + r.cost, 0),
     lengthsToBuy: buyRows.reduce((s, r) => s + r.lengthsToBuy, 0),

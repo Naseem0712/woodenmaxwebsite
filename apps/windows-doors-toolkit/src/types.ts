@@ -846,6 +846,75 @@ export interface ProjectMeta {
   lessOffHeightMm: number | null;
 }
 
+/** Billing & Profit kit — shop-level (global), rates still from Settings window types. */
+export interface BillingInvoice {
+  id: string;
+  invoiceNo: string;
+  date: string;
+  customer: string;
+  phone: string;
+  jobType: string;
+  /** Amount before GST */
+  amount: number;
+  gst: number;
+  /** amount + gst */
+  total: number;
+  paid: number;
+  note: string;
+  dueDate: string;
+  /** Optional link to project / quote */
+  projectId?: string;
+  quoteNo?: string;
+}
+
+export interface BillingPayment {
+  id: string;
+  date: string;
+  invoiceNo: string;
+  amount: number;
+  mode: string;
+  note: string;
+  customer: string;
+  jobType: string;
+}
+
+export interface BillingExpense {
+  id: string;
+  date: string;
+  head: string;
+  amount: number;
+  mode: string;
+  note: string;
+}
+
+export interface BillingSettings {
+  /** Payment due in days from invoice date */
+  paymentDueDays: number;
+  expenseHeads: string[];
+  payModes: string[];
+}
+
+export const DEFAULT_BILLING_SETTINGS: BillingSettings = {
+  paymentDueDays: 15,
+  expenseHeads: [
+    'Profiles',
+    'Glass',
+    'Hardware',
+    'Reinforcement steel',
+    'Gasket and sealant',
+    'Transport',
+    'Rent',
+    'Electricity',
+    'Machine upkeep',
+    'Marketing',
+    'Fabricator pay',
+    'Fitter pay',
+    'Helper pay',
+    'Other',
+  ],
+  payModes: ['Cash', 'UPI', 'Bank', 'Cheque'],
+};
+
 /** Per-project job data (never mixed across projects). */
 export interface ProjectJobData {
   jobMeta: JobMeta;
@@ -939,6 +1008,11 @@ export interface AppState extends ProjectJobData {
   /** Global series-wise stock */
   stock: StockLine[];
   stockIssues: StockIssue[];
+  /** Billing & Profit (shop-level — mirrors Billing-Profit Kit) */
+  billingInvoices: BillingInvoice[];
+  billingPayments: BillingPayment[];
+  billingExpenses: BillingExpense[];
+  billingSettings: BillingSettings;
   projects: ProjectMeta[];
   activeProjectId: string;
   /** Inactive project bags (active project's data lives on the flat keys above) */

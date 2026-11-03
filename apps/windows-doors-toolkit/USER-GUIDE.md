@@ -155,14 +155,17 @@ After site qty, each opening carries costing selections (Settings defaults + per
 - **Door-side** (openable) charges **leaf/door size** × Settings door-side rate.
 - **Fixed** mesh for vents / outer mesh; rates from Settings masters.
 
-**Send openings to…** (all four use **net fab size** = site W×H after less-off):
+**Send openings to…** (all use **net fab size** = site W×H after less-off):
 
+- **Generate full package** (**UPVC only**, primary) — one step fills materials/profile cuts (nested to minimize wastage + leftover remnant sizes), hardware roll-up, glass list, mesh list, 02/03 costing jobs, and quote header (customer + date). Rates stay Settings-only. Aluminium keeps the individual sends below — no full-package button.
 - **Quote** — copies all openings (glass/mesh) onto the 01 Openings / Quote schedule.
 - **Costing** — feeds first sliding → 02 Sliding and first casement/door → 03 Casement (Vendor tools).
 - **Configurator** — cart lines include glass/mesh; mesh amount enters mode quote retail subtotal.
 - **Cutting** — frame cut pairs (W×2 + H×2 per qty) on 05 Cutting.
 
-After each send, a status line confirms what was written and links to the destination (Vendor-only tools ask you to switch Mode when needed).
+After each send, a status line confirms what was written and links to the destination (Vendor-only tools ask you to switch Mode when needed). UPVC package also shows a **nesting leftovers** card (how many pcs of which remnant sizes remain). 05 Cutting shows the same remnant list for any material after cuts exist.
+
+**Billing & Profit** (Vendor `/billing`) — shop-level rate list (from Settings window types), invoice register, payments, expenses, monthly P&L. Create invoice from the active quote after a Site Measure package. Job cost stack remains on **10 Margin**.
 
 Configurator (all modes) also asks glass doors + mesh doors/type after size/type.
 

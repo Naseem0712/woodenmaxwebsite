@@ -37,6 +37,7 @@ export const VENDOR_TOOLS: readonly NavItem[] = [
   { to: '/configure', label: 'Configurator' },
   { to: '/compare', label: '09 Compare' },
   { to: '/margin', label: '10 Margin' },
+  { to: '/billing', label: 'Billing & Profit' },
   { to: '/mesh', label: '11 Mesh & Grill' },
   { to: '/labour', label: '12 Labour' },
   { to: '/builder', label: '13 Builder' },

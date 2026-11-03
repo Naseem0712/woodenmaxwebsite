@@ -46,6 +46,7 @@ import {
   suggestSlidingMeshFromTracks,
   syncMeshYesNo,
 } from '../engine/meshCosting';
+import { generateUpvcFullPackage, type UpvcPackageSummary } from '../engine/upvcPackage';
 import { useApp } from '../store/AppContext';
 import type { CutLine, MeshTypeId, SiteMeasureLine, Unit, YesNo } from '../types';
 
@@ -64,6 +65,7 @@ export function SiteMeasurePage() {
   const { state, patch, setState, refreshSiteMeasureNets, updateProjectLessOff } = useApp();
   const [tab, setTab] = useState<SiteTab>('openings');
   const [sendStatus, setSendStatus] = useState<SendOpeningsStatus>(null);
+  const [packageSummary, setPackageSummary] = useState<UpvcPackageSummary | null>(null);
   const calc = calcSiteMeasure(state);
   const a = state.allowances;
   const meshSettings = resolveMeshCosting(a);
@@ -360,6 +362,33 @@ export function SiteMeasurePage() {
       setSendStatus({ text: 'Add at least one opening before sending.' });
       return;
     }
+    if (target === 'full-package') {
+      if (material !== 'UPVC') {
+        setSendStatus({
+          text: 'Full package is UPVC-only. Aluminium keeps Quote / Costing / Configurator / Cutting sends.',
+        });
+        return;
+      }
+      try {
+        const { next, summary } = generateUpvcFullPackage(state);
+        setState(() => next);
+        setPackageSummary(summary);
+        const remnantHint =
+          summary.remnantLines.length > 0
+            ? ` Remnants: ${summary.remnantLines.slice(0, 3).join('; ')}${summary.remnantLines.length > 3 ? '…' : ''}.`
+            : ' No leftover pcs ≥ 50 mm.';
+        setSendStatus({
+          text: `UPVC package: ${summary.openings} openings · ${summary.cutLines} cuts · ${summary.profileBars} bars · ${summary.glassLines} glass · ${summary.meshLines} mesh · quote ${summary.quoteCustomer || '—'} (${summary.quoteDate}).${remnantHint}`,
+          to: '/quote',
+          linkLabel: 'Open Quotation',
+        });
+      } catch (err) {
+        setSendStatus({
+          text: err instanceof Error ? err.message : 'Could not generate UPVC package.',
+        });
+      }
+      return;
+    }
     if (target === 'quote') {
       const count = pushToOpenings();
       setSendStatus(
@@ -514,6 +543,7 @@ export function SiteMeasurePage() {
         hasOpenings={state.siteMeasures.length > 0}
         onSendOpenings={sendOpeningsTo}
         sendStatus={sendStatus}
+        material={material}
       />
 
       {tab === 'less-off' ? (
@@ -741,10 +771,37 @@ export function SiteMeasurePage() {
         <div className="site-measure-desktop-chrome">
           <SiteMeasureSendOpenings
             variant="desktop"
+            material={material}
             disabled={!state.siteMeasures.length}
             onSend={sendOpeningsTo}
             status={sendStatus}
           />
+          {material === 'UPVC' && packageSummary ? (
+            <div data-testid="upvc-package-remnants">
+              <Card title="UPVC package — nesting leftovers">
+                <p className="muted tiny">
+                  Same-type profiles nested to minimize wastage · {packageSummary.profileBars} bars ·{' '}
+                  {formatNum(packageSummary.nesting.totalOffcutMetres)} m offcut · quote{' '}
+                  {packageSummary.quoteCustomer || '—'} · {packageSummary.quoteDate}
+                </p>
+                {packageSummary.remnantLines.length === 0 ? (
+                  <p className="tiny">
+                    No leftover pcs ≥ 50 mm (scrap under threshold folded into offcut m).
+                  </p>
+                ) : (
+                  <ul className="deliverable-preview-list" data-testid="upvc-remnant-list">
+                    {packageSummary.remnantLines.map((line) => (
+                      <li key={line}>{line}</li>
+                    ))}
+                  </ul>
+                )}
+                <p className="muted tiny" style={{ marginTop: '0.4rem' }}>
+                  Also filled: 05 Cutting · 06 Glass · 11 Mesh · 02/03 Costing · 08 Quote header. Rates
+                  from Settings.
+                </p>
+              </Card>
+            </div>
+          ) : null}
         </div>
         <div className="site-measure-openings-cards" data-testid="site-measure-opening-cards">
           {calc.rows.map((r, index) => (

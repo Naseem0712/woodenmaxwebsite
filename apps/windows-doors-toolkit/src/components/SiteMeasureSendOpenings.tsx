@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom';
+import type { Material } from '../types';
 import { Btn } from './ui';
 
-export type SendOpeningsTarget = 'quote' | 'costing' | 'configurator' | 'cutting';
+export type SendOpeningsTarget = 'quote' | 'costing' | 'configurator' | 'cutting' | 'full-package';
 
 export type SendOpeningsStatus = {
   text: string;
@@ -10,7 +11,7 @@ export type SendOpeningsStatus = {
 } | null;
 
 const TARGETS: Array<{
-  id: SendOpeningsTarget;
+  id: Exclude<SendOpeningsTarget, 'full-package'>;
   label: string;
   sub: string;
   title: string;
@@ -55,30 +56,61 @@ type Props = {
   status?: SendOpeningsStatus;
   /** panel = mobile Actions fold; desktop = full-width strip under openings header */
   variant?: 'desktop' | 'panel';
+  /** When UPVC, show primary Generate full package. Aluminium keeps individual sends only. */
+  material?: Material;
 };
 
 /**
  * Coherent “Send openings to…” actions for Site Measure.
- * All four destinations use net fabrication size (site − less-off).
+ * All destinations use net fabrication size (site − less-off).
+ * UPVC adds a primary full-package action (materials + HW + glass + mesh + cost + quote).
  */
 export function SiteMeasureSendOpenings({
   disabled,
   onSend,
   status,
   variant = 'desktop',
+  material,
 }: Props) {
+  const showFullPackage = material === 'UPVC';
+
   return (
     <div
       className={`site-measure-send site-measure-send-${variant}`}
       data-testid="site-measure-send-openings"
+      data-material={material ?? ''}
     >
       <div className="site-measure-send-head">
         <div className="site-measure-send-title">Send openings to…</div>
         <p className="site-measure-send-help muted tiny">
           <strong>Net fab size</strong> = site W×H after less-off (Settings / project / row). Full site
           size stays on this sheet.
+          {showFullPackage ? (
+            <>
+              {' '}
+              UPVC: prefer <strong>Generate full package</strong> for materials + hardware + glass +
+              mesh + costing + quote in one step.
+            </>
+          ) : null}
         </p>
       </div>
+
+      {showFullPackage ? (
+        <div className="site-measure-send-primary" data-testid="send-openings-full-package-wrap">
+          <Btn
+            title="Generate materials BOM (nested), hardware, glass, mesh, costing jobs, and quote header from net fab sizes. Rates from Settings only."
+            data-testid="send-openings-full-package"
+            disabled={disabled}
+            onClick={() => onSend('full-package')}
+          >
+            <span className="site-measure-send-btn-label">Generate full package</span>
+            <span className="site-measure-send-btn-sub">
+              Materials · HW · glass · mesh · cost · quote
+            </span>
+          </Btn>
+        </div>
+      ) : null}
+
       <div className="site-measure-send-grid" role="group" aria-label="Send openings destinations">
         {TARGETS.map((t) => (
           <Btn

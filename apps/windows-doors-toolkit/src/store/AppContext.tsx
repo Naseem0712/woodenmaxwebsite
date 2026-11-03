@@ -298,6 +298,21 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
     revisions: parsed.revisions ?? seed.revisions,
     stock: parsed.stock ?? seed.stock,
     stockIssues: parsed.stockIssues ?? seed.stockIssues,
+    billingInvoices: parsed.billingInvoices ?? seed.billingInvoices,
+    billingPayments: parsed.billingPayments ?? seed.billingPayments,
+    billingExpenses: parsed.billingExpenses ?? seed.billingExpenses,
+    billingSettings: {
+      ...seed.billingSettings,
+      ...parsed.billingSettings,
+      expenseHeads:
+        parsed.billingSettings?.expenseHeads?.length
+          ? parsed.billingSettings.expenseHeads
+          : seed.billingSettings.expenseHeads,
+      payModes:
+        parsed.billingSettings?.payModes?.length
+          ? parsed.billingSettings.payModes
+          : seed.billingSettings.payModes,
+    },
     colourOptions: parsed.colourOptions ?? seed.colourOptions,
     modePricing: { ...seed.modePricing, ...parsed.modePricing },
     modeVerifications: (parsed.modeVerifications ?? seed.modeVerifications).map(

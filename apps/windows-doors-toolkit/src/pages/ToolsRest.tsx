@@ -442,14 +442,15 @@ export function CuttingPage() {
           </tbody>
         </table>
       </Card>
-      <Card title="Buy summary by profile">
+      <Card title="Buy summary by profile (nested)">
         <table className="data">
           <thead>
             <tr>
               <th>Profile</th>
               <th>Metres</th>
-              <th>Lengths</th>
-              <th>Offcut</th>
+              <th>Bars</th>
+              <th>Offcut m</th>
+              <th>Wastage</th>
               <th>Cost</th>
             </tr>
           </thead>
@@ -464,6 +465,7 @@ export function CuttingPage() {
                 <td className="calc">
                   <Num n={r.offcut} />
                 </td>
+                <td className="calc">{((r.wastagePct ?? 0) * 100).toFixed(0)}%</td>
                 <td className="calc">
                   <Money n={r.cost} />
                 </td>
@@ -471,6 +473,22 @@ export function CuttingPage() {
             ))}
           </tbody>
         </table>
+      </Card>
+      <Card title="Leftover remnants (same-type nest)">
+        {calc.remnantLines.length === 0 ? (
+          <p className="muted tiny">
+            No leftover pcs ≥ 50 mm after First-Fit nesting. Scrap under 50 mm is in offcut metres.
+          </p>
+        ) : (
+          <ul className="deliverable-preview-list" data-testid="cutting-remnant-list">
+            {calc.remnantLines.map((r) => (
+              <li key={`${r.profileKey}-${r.remnantMm}`}>
+                {r.profileName}: <strong>{r.count}</strong> pc{r.count === 1 ? '' : 's'} leftover @{' '}
+                {r.remnantMm} mm
+              </li>
+            ))}
+          </ul>
+        )}
       </Card>
     </div>
   );
@@ -1157,7 +1175,10 @@ export function MarginPage() {
   const m = calcMargin(state);
   return (
     <div>
-      <PageHeader title="10 Price & Margin" subtitle="Cost stack from cutting/glass/hardware/mesh/labour vs quote amount." />
+      <PageHeader
+        title="10 Price & Margin"
+        subtitle="Job cost stack from cutting/glass/hardware/mesh/labour vs quote. Shop P&L → Billing & Profit."
+      />
       <Card title="Extras">
         <div className="grid grid-3">
           <Field label="Commission %">
@@ -1195,6 +1216,10 @@ export function MarginPage() {
         <Kpi label="Profit" value={<Money n={m.profit} />} hint={`${(m.marginPct * 100).toFixed(1)}%`} />
         <Kpi label="Target price" value={<Money n={m.targetPrice} />} hint="At Settings margin" />
       </div>
+      <p className="muted tiny" style={{ marginTop: '0.75rem' }}>
+        Shop invoices, payments, expenses and monthly P&L:{' '}
+        <Link to="/billing">Billing &amp; Profit</Link> (rate list still Settings-driven).
+      </p>
     </div>
   );
 }

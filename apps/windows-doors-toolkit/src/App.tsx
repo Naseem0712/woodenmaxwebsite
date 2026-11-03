@@ -9,6 +9,7 @@ import { OpeningsPage } from './pages/Openings';
 import { SiteMeasurePage } from './pages/SiteMeasure';
 import { SlidingPage } from './pages/Sliding';
 import { SettingsColoursPage } from './pages/settings/Colours';
+import { BillingPage } from './pages/Billing';
 import {
   BuilderPage,
   ComparePage,
@@ -58,6 +59,7 @@ export default function App() {
               <Route path="configure" element={<ConfiguratorPage />} />
               <Route path="compare" element={<ComparePage />} />
               <Route path="margin" element={<MarginPage />} />
+              <Route path="billing" element={<BillingPage />} />
               <Route path="mesh" element={<MeshPage />} />
               <Route path="labour" element={<LabourPage />} />
               <Route path="builder" element={<BuilderPage />} />

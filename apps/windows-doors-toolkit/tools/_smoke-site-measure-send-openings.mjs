@@ -67,13 +67,18 @@ async function main() {
   await send.waitFor({ state: 'visible', timeout: 20000 });
   const labels = await send.locator('.site-measure-send-btn-label').allTextContents();
   report.checks.labels = labels;
-  if (labels.join('|') !== 'Quote|Costing|Configurator|Cutting') {
+  // UPVC shows primary "Generate full package" then the four individual sends.
+  const expectedUpvc = 'Generate full package|Quote|Costing|Configurator|Cutting';
+  const expectedAlu = 'Quote|Costing|Configurator|Cutting';
+  if (labels.join('|') !== expectedUpvc && labels.join('|') !== expectedAlu) {
     throw new Error(`Unexpected labels: ${labels.join(', ')}`);
   }
   const help = await send.locator('.site-measure-send-help').innerText();
   if (!/Net fab size/i.test(help) || !/less-off/i.test(help)) {
     throw new Error('Helper text missing net fab / less-off explanation');
   }
+  const fullPkg = send.getByTestId('send-openings-full-package');
+  report.checks.hasFullPackage = (await fullPkg.count()) > 0;
 
   // Capture baseline site vs net from first opening row
   const before = await readLocalState(page);
@@ -83,6 +88,34 @@ async function main() {
   report.checks.siteSize = { w: first.width, h: first.height };
   report.checks.lessOff = { w: firstNet.lessW, h: firstNet.lessH };
   report.checks.expectNet = { w: firstNet.w, h: firstNet.h };
+
+  // UPVC full package (primary) — materials + glass + mesh + quote header
+  if (report.checks.hasFullPackage) {
+    await fullPkg.click();
+    const statusEl = send.locator('[data-testid="site-measure-send-status"]');
+    await statusEl.waitFor({ state: 'visible', timeout: 15000 });
+    const statusText = await statusEl.innerText();
+    report.checks.fullPackageStatus = statusText.slice(0, 240);
+    if (!/UPVC package/i.test(statusText)) {
+      throw new Error(`Full package status unexpected: ${statusText}`);
+    }
+    const afterPkg = await waitState(
+      page,
+      (s) => (s.cuts?.length ?? 0) >= 10 && (s.glassPanes?.length ?? 0) >= 1,
+      'upvc full package storage',
+      15000,
+    );
+    report.checks.fullPackage = {
+      openings: afterPkg.openings.length,
+      cuts: afterPkg.cuts.length,
+      glass: afterPkg.glassPanes.length,
+      mesh: afterPkg.meshGrill.length,
+      quoteCustomer: afterPkg.quote.customerName,
+      quoteDate: afterPkg.quote.quoteDate,
+    };
+    const remnants = page.locator('[data-testid="upvc-package-remnants"]');
+    report.checks.remnantUiVisible = (await remnants.count()) > 0;
+  }
 
   // Quote → openings use net fab (scope clicks to visible desktop send panel)
   await send.getByTestId('send-openings-quote').click();

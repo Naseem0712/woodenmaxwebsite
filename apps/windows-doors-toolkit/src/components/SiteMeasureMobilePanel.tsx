@@ -6,13 +6,14 @@ import {
   type SendOpeningsTarget,
 } from './SiteMeasureSendOpenings';
 import { Field, Input, Kpi, Money, Num } from './ui';
-import type { Allowances, MeshCostingSettings } from '../types';
+import type { Allowances, Material, MeshCostingSettings } from '../types';
 
 type Props = {
   builders: ExportBuilders;
   allowances: Allowances;
   meshSettings: MeshCostingSettings;
   patchAllowances: (next: Allowances) => void;
+  material?: Material;
   totalQty: number;
   totalSqft: number;
   totalMeshAmount: number;
@@ -38,6 +39,7 @@ export function SiteMeasureMobilePanel({
   hasOpenings,
   onSendOpenings,
   sendStatus,
+  material,
 }: Props) {
   return (
     <details
@@ -111,6 +113,7 @@ export function SiteMeasureMobilePanel({
         <div data-testid="site-measure-mobile-push">
           <SiteMeasureSendOpenings
             variant="panel"
+            material={material}
             disabled={!hasOpenings}
             onSend={onSendOpenings}
             status={sendStatus}

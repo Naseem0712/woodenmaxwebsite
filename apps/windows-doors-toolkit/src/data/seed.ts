@@ -12,7 +12,7 @@ import type {
   SeriesKind,
   WindowType,
 } from '../types';
-import { DEFAULT_MESH_COSTING } from '../types';
+import { DEFAULT_BILLING_SETTINGS, DEFAULT_MESH_COSTING } from '../types';
 
 const wt = (
   name: string,
@@ -1236,6 +1236,10 @@ export function createSeedState(): AppState {
       },
     ],
     stockIssues: [],
+    billingInvoices: [],
+    billingPayments: [],
+    billingExpenses: [],
+    billingSettings: { ...DEFAULT_BILLING_SETTINGS },
     projects: [
       {
         id: 'project-sample-villa',
