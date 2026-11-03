@@ -2,15 +2,31 @@
  * Billing & Profit — mirrors Billing-Profit Kit structure.
  * Rate list reads Settings window types (never hardcode shop prices).
  * Invoice / payments / expenses / monthly P&L are shop-level registers.
+ * Tax Invoice path: saved quotes → bill series → CGST+SGST / IGST.
  */
+import { v4 as uid } from 'uuid';
 import type {
   AppState,
   BillingExpense,
   BillingInvoice,
+  BillingInvoiceLine,
   BillingPayment,
+  SavedQuoteRecord,
   WindowType,
 } from '../types';
 import { calcQuote, formatInr } from './calcs';
+import {
+  allocateBillNo,
+  ensureBusinessBillSeries,
+  peekNextBillNo,
+} from './billSeries';
+import {
+  normalizeGstSlab,
+  placeOfSupplyCode,
+  resolveTaxSplit,
+  splitLineTax,
+} from './gstTax';
+import { recomputeInvoiceTaxes } from './taxInvoice';
 
 export interface BillingRateRow {
   id: string;
@@ -157,17 +173,6 @@ export function calcBillingPnL(state: AppState): {
   };
 }
 
-export function nextInvoiceNo(invoices: BillingInvoice[]): string {
-  const nums = invoices
-    .map((i) => {
-      const m = /(\d+)$/.exec(i.invoiceNo);
-      return m ? Number(m[1]) : 0;
-    })
-    .filter((n) => n > 0);
-  const next = (nums.length ? Math.max(...nums) : 1000) + 1;
-  return `CV-${next}`;
-}
-
 export function dueDateFrom(invoiceDate: string, dueDays: number): string {
   if (!invoiceDate) return '';
   const d = new Date(invoiceDate);
@@ -176,35 +181,174 @@ export function dueDateFrom(invoiceDate: string, dueDays: number): string {
   return d.toISOString().slice(0, 10);
 }
 
-/** Draft invoice from active project quote (Settings GST + quote totals). */
-export function draftInvoiceFromQuote(state: AppState): Omit<BillingInvoice, 'id'> {
-  const q = calcQuote(state);
-  const today = new Date().toISOString().slice(0, 10);
-  const date = state.quote.quoteDate || today;
-  const gst = q.gstApplied ? q.gst : 0;
-  const amount = Math.round(q.afterDiscount);
-  const total = Math.round(q.grand);
-  const material = projectMaterialLabel(state);
-  return {
-    invoiceNo: nextInvoiceNo(state.billingInvoices),
-    date,
-    customer: state.quote.customerName || state.jobMeta.customerName || '',
-    phone: state.quote.phone || '',
-    jobType: `${material} windows`,
-    amount,
-    gst,
-    total,
-    paid: Math.round(q.advance) || 0,
-    note: state.quote.notes || 'From Site Measure / Quotation package',
-    dueDate: dueDateFrom(date, state.billingSettings.paymentDueDays),
-    projectId: state.activeProjectId,
-    quoteNo: state.quote.quoteNo,
-  };
+/** @deprecated Prefer peekNextBillNo / allocateBillNo from billSeries. */
+export function nextInvoiceNo(invoices: BillingInvoice[], business?: AppState['business']): string {
+  if (business) return peekNextBillNo(business);
+  const nums = invoices
+    .map((i) => {
+      const m = /(\d+)$/.exec(i.invoiceNo);
+      return m ? Number(m[1]) : 0;
+    })
+    .filter((n) => n > 0);
+  const next = (nums.length ? Math.max(...nums) : 0) + 1;
+  return `INV-2026-${String(next).padStart(3, '0')}`;
 }
 
 function projectMaterialLabel(state: AppState): string {
   const p = state.projects.find((x) => x.id === state.activeProjectId);
   return p?.material ?? 'UPVC';
+}
+
+function linesFromSavedQuote(
+  quote: SavedQuoteRecord,
+  business: AppState['business'],
+  mode: ReturnType<typeof resolveTaxSplit>,
+): BillingInvoiceLine[] {
+  const b = ensureBusinessBillSeries(business);
+  return quote.lines.map((line) => {
+    const gstPercent = normalizeGstSlab(line.gstPercent, b.gstSlabs, b.defaultGstSlab);
+    const split = splitLineTax({ taxable: line.amount, gstPercent }, mode);
+    return {
+      id: uid(),
+      description: line.description,
+      hsn: line.hsn || '7610',
+      qty: line.qty,
+      unit: line.unit,
+      rate: line.rate,
+      amount: line.amount,
+      gstPercent,
+      cgst: split.cgst,
+      sgst: split.sgst,
+      igst: split.igst,
+      total: split.total,
+    };
+  });
+}
+
+/**
+ * Create a Tax Invoice from a saved quote.
+ * Enforces one-quote-one-bill unless the prior bill is cancelled / cleared.
+ */
+export function createBillFromSavedQuote(
+  state: AppState,
+  quote: SavedQuoteRecord,
+): {
+  ok: true;
+  invoice: BillingInvoice;
+  business: AppState['business'];
+} | { ok: false; reason: string } {
+  if (quote.billedInvoiceId) {
+    const existing = state.billingInvoices.find((i) => i.id === quote.billedInvoiceId);
+    if (existing && existing.status !== 'cancelled') {
+      return {
+        ok: false,
+        reason: `Quote ${quote.quoteNo} is already billed as ${existing.invoiceNo}. Clear billed status first.`,
+      };
+    }
+  }
+
+  const business = ensureBusinessBillSeries(state.business);
+  const allocated = allocateBillNo(business, state.billingInvoices);
+  const today = new Date().toISOString().slice(0, 10);
+  const date = today;
+  const customerGstin = quote.customerGstin || '';
+  const taxMode = resolveTaxSplit(business.gstin, customerGstin);
+  const lines = linesFromSavedQuote(quote, allocated.business, taxMode);
+  const draft: BillingInvoice = {
+    id: uid(),
+    invoiceNo: allocated.invoiceNo,
+    date,
+    customer: quote.customerName,
+    phone: quote.phone,
+    jobType: `${quote.material} windows`,
+    amount: 0,
+    gst: 0,
+    total: 0,
+    paid: 0,
+    note: `From quote ${quote.quoteNo}`,
+    dueDate: dueDateFrom(date, state.billingSettings.paymentDueDays),
+    projectId: quote.projectId,
+    quoteNo: quote.quoteNo,
+    customerGstin,
+    billingAddress: quote.billingAddress || quote.siteAddress,
+    shippingAddress: quote.shippingAddress || quote.siteAddress,
+    placeOfSupply: placeOfSupplyCode(business.gstin, customerGstin),
+    eWayBillNo: '',
+    vehicleNo: '',
+    transportName: '',
+    taxMode,
+    lines,
+    status: 'issued',
+    savedQuoteId: quote.id,
+  };
+  const invoice = recomputeInvoiceTaxes(draft, allocated.business.gstin);
+  return { ok: true, invoice, business: allocated.business };
+}
+
+/** Draft invoice from active project quote (Settings GST + quote totals). */
+export function draftInvoiceFromQuote(state: AppState): {
+  draft: Omit<BillingInvoice, 'id'>;
+  business: AppState['business'];
+} {
+  const q = calcQuote(state);
+  const business = ensureBusinessBillSeries(state.business);
+  const allocated = allocateBillNo(business, state.billingInvoices);
+  const today = new Date().toISOString().slice(0, 10);
+  const date = state.quote.quoteDate || today;
+  const customerGstin = state.quote.customerGstin || '';
+  const taxMode = resolveTaxSplit(allocated.business.gstin, customerGstin);
+  const material = projectMaterialLabel(state);
+  const gstPercent = normalizeGstSlab(
+    allocated.business.defaultGstSlab,
+    allocated.business.gstSlabs,
+    18,
+  );
+  const taxable = Math.round(q.afterDiscount);
+  const split = splitLineTax({ taxable, gstPercent }, taxMode);
+  const line: BillingInvoiceLine = {
+    id: uid(),
+    description: state.quote.description || `${material} windows package`,
+    hsn: '7610',
+    qty: 1,
+    unit: 'lot',
+    rate: taxable,
+    amount: taxable,
+    gstPercent,
+    cgst: split.cgst,
+    sgst: split.sgst,
+    igst: split.igst,
+    total: split.total,
+  };
+  const draft: Omit<BillingInvoice, 'id'> = {
+    invoiceNo: allocated.invoiceNo,
+    date,
+    customer: state.quote.customerName || state.jobMeta.customerName || '',
+    phone: state.quote.phone || '',
+    jobType: `${material} windows`,
+    amount: taxable,
+    gst: split.tax,
+    total: split.total,
+    paid: Math.round(q.advance) || 0,
+    note: state.quote.notes || 'From active quote',
+    dueDate: dueDateFrom(date, state.billingSettings.paymentDueDays),
+    projectId: state.activeProjectId,
+    quoteNo: state.quote.quoteNo,
+    customerGstin,
+    billingAddress: state.quote.billingAddress || state.quote.siteAddress || '',
+    shippingAddress: state.quote.shippingAddress || state.quote.siteAddress || '',
+    placeOfSupply: placeOfSupplyCode(allocated.business.gstin, customerGstin),
+    eWayBillNo: '',
+    vehicleNo: '',
+    transportName: '',
+    taxMode,
+    lines: [line],
+    status: 'issued',
+    cgst: split.cgst,
+    sgst: split.sgst,
+    igst: split.igst,
+    taxableAmount: taxable,
+  };
+  return { draft, business: allocated.business };
 }
 
 export function formatBillingMoney(n: number): string {
@@ -220,3 +364,5 @@ export function expenseByHead(expenses: BillingExpense[]): Array<{ head: string;
     .map(([head, amount]) => ({ head, amount }))
     .sort((a, b) => b.amount - a.amount);
 }
+
+export { peekNextBillNo, allocateBillNo, ensureBusinessBillSeries };

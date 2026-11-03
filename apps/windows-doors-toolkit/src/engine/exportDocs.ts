@@ -1292,8 +1292,8 @@ export function openPrintPdf(doc: ExportDocument): void {
 
 export async function runExport(doc: ExportDocument, format: ExportFormat): Promise<void> {
   if (format === 'excel') {
-    const tag = doc.kind === 'quote' ? 'package' : doc.rateMode === 'include' ? 'with-rates' : 'no-rates';
-    downloadCsv(`${doc.filenameBase}-${tag}.csv`, documentToCsv(doc));
+    const { downloadExcelDocument } = await import('./exportExcel');
+    await downloadExcelDocument(doc);
     return;
   }
   const { downloadPdfDocument } = await import('./exportPdf');

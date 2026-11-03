@@ -1,5 +1,13 @@
 import { Btn, Card, Field, Input, PageHeader, Select } from '../../components/ui';
 import {
+  ensureBusinessBillSeries,
+  formatBillNumber,
+  normalizeBillNextSeq,
+  normalizeBillSeriesPrefix,
+  peekNextBillNo,
+} from '../../engine/billSeries';
+import { normalizeGstSlab, normalizeGstSlabs } from '../../engine/gstTax';
+import {
   ensureBusinessQuoteSeries,
   formatQuoteNumber,
   normalizeQuoteNextSeq,
@@ -10,7 +18,7 @@ import { useApp } from '../../store/AppContext';
 
 export function SettingsBusinessPage() {
   const { state, patch } = useApp();
-  const b = ensureBusinessQuoteSeries(state.business);
+  const b = ensureBusinessBillSeries(ensureBusinessQuoteSeries(state.business));
   const set = <K extends keyof typeof b>(key: K, value: (typeof b)[K]) => {
     patch('business', { ...b, [key]: value });
   };
@@ -105,14 +113,48 @@ export function SettingsBusinessPage() {
               <option>No</option>
             </Select>
           </Field>
-          <Field label="GST %">
+          <Field label="Quote GST %" hint="Used when quote GST is on">
             <Input
               type="number"
               value={b.gstPercent}
               onChange={(e) => set('gstPercent', Number(e.target.value))}
             />
           </Field>
+          <Field label="Default bill slab %" hint="New Tax Invoice lines">
+            <Select
+              value={String(b.defaultGstSlab)}
+              onChange={(e) =>
+                set(
+                  'defaultGstSlab',
+                  normalizeGstSlab(Number(e.target.value), b.gstSlabs, 18),
+                )
+              }
+              data-testid="default-gst-slab"
+            >
+              {b.gstSlabs.map((s) => (
+                <option key={s} value={s}>
+                  {s}%
+                </option>
+              ))}
+            </Select>
+          </Field>
         </div>
+        <Field
+          label="GST slabs (comma-separated)"
+          hint="Editable material/service slabs — default 5, 12, 18"
+        >
+          <Input
+            value={b.gstSlabs.join(', ')}
+            data-testid="gst-slabs"
+            onChange={(e) => {
+              const parts = e.target.value
+                .split(/[,/\s]+/)
+                .map((x) => Number(x.trim()))
+                .filter((n) => Number.isFinite(n));
+              set('gstSlabs', normalizeGstSlabs(parts.length ? parts : [5, 12, 18]));
+            }}
+          />
+        </Field>
       </Card>
       <Card title="Quote series">
         <p className="muted tiny" style={{ marginBottom: '0.65rem' }}>
@@ -140,6 +182,35 @@ export function SettingsBusinessPage() {
           </Field>
           <Field label="Next quote no">
             <Input value={peekNextQuoteNo(b)} readOnly />
+          </Field>
+        </div>
+      </Card>
+      <Card title="Bill / Tax Invoice series">
+        <p className="muted tiny" style={{ marginBottom: '0.65rem' }}>
+          Prefix stays fixed; only the number increments (e.g.{' '}
+          {formatBillNumber(b.billSeriesPrefix, 1)} → {formatBillNumber(b.billSeriesPrefix, 2)}).
+          Reuse of an existing bill number is refused — no duplicates or gaps on allocate.
+        </p>
+        <div className="grid grid-3">
+          <Field label="Bill series / prefix" hint="e.g. INV-2026">
+            <Input
+              value={b.billSeriesPrefix}
+              onChange={(e) => set('billSeriesPrefix', normalizeBillSeriesPrefix(e.target.value))}
+              placeholder="INV-2026"
+              data-testid="bill-series-prefix"
+            />
+          </Field>
+          <Field label="Next bill number">
+            <Input
+              type="number"
+              min={1}
+              value={b.billNextSeq}
+              onChange={(e) => set('billNextSeq', normalizeBillNextSeq(Number(e.target.value)))}
+              data-testid="bill-series-next"
+            />
+          </Field>
+          <Field label="Next bill no">
+            <Input value={peekNextBillNo(b)} readOnly data-testid="bill-series-peek" />
           </Field>
         </div>
       </Card>

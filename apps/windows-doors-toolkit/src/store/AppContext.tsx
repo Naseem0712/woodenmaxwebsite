@@ -23,6 +23,7 @@ import { withPersistedNet } from '../engine/lessOff';
 import { inferWindowKind, realignJobsToMaterial } from '../engine/materialContext';
 import { resolveMeshCosting, syncMeshYesNo } from '../engine/meshCosting';
 import { ensureProfileStockLength } from '../engine/profileStockDefaults';
+import { ensureBusinessBillSeries } from '../engine/billSeries';
 import { allocateQuoteNo, ensureBusinessQuoteSeries } from '../engine/quoteSeries';
 import type {
   AppState,
@@ -244,7 +245,7 @@ function normalizeMasters(state: AppState): AppState {
   }));
   return {
     ...state,
-    business: ensureBusinessQuoteSeries(state.business),
+    business: ensureBusinessBillSeries(ensureBusinessQuoteSeries(state.business)),
     series,
     windowTypes,
     profiles,
@@ -269,12 +270,19 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
   const merged: AppState = {
     ...seed,
     ...parsed,
-    business: {
-      ...seed.business,
-      ...parsed.business,
-      website: parsed.business?.website ?? seed.business.website,
-      logoUrl: parsed.business?.logoUrl ?? seed.business.logoUrl,
-    },
+    business: ensureBusinessBillSeries(
+      ensureBusinessQuoteSeries({
+        ...seed.business,
+        ...parsed.business,
+        website: parsed.business?.website ?? seed.business.website,
+        logoUrl: parsed.business?.logoUrl ?? seed.business.logoUrl,
+        billSeriesPrefix:
+          parsed.business?.billSeriesPrefix ?? seed.business.billSeriesPrefix,
+        billNextSeq: parsed.business?.billNextSeq ?? seed.business.billNextSeq,
+        gstSlabs: parsed.business?.gstSlabs ?? seed.business.gstSlabs,
+        defaultGstSlab: parsed.business?.defaultGstSlab ?? seed.business.defaultGstSlab,
+      }),
+    ),
     allowances: { ...seed.allowances, ...parsed.allowances },
     jobMeta: { ...seed.jobMeta, ...parsed.jobMeta },
     quote: { ...seed.quote, ...parsed.quote },
@@ -300,7 +308,19 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
     revisions: parsed.revisions ?? seed.revisions,
     stock: parsed.stock ?? seed.stock,
     stockIssues: parsed.stockIssues ?? seed.stockIssues,
-    billingInvoices: parsed.billingInvoices ?? seed.billingInvoices,
+    billingInvoices: (parsed.billingInvoices ?? seed.billingInvoices).map((inv) => ({
+      ...inv,
+      status: inv.status ?? 'issued',
+      lines: inv.lines ?? [],
+      taxMode: inv.taxMode,
+      customerGstin: inv.customerGstin ?? '',
+      billingAddress: inv.billingAddress ?? '',
+      shippingAddress: inv.shippingAddress ?? '',
+      placeOfSupply: inv.placeOfSupply ?? '',
+      eWayBillNo: inv.eWayBillNo ?? '',
+      vehicleNo: inv.vehicleNo ?? '',
+      transportName: inv.transportName ?? '',
+    })),
     billingPayments: parsed.billingPayments ?? seed.billingPayments,
     billingExpenses: parsed.billingExpenses ?? seed.billingExpenses,
     billingSettings: {
@@ -315,6 +335,7 @@ function mergeLoaded(parsed: Partial<AppState>): AppState {
           ? parsed.billingSettings.payModes
           : seed.billingSettings.payModes,
     },
+    savedQuotes: parsed.savedQuotes ?? seed.savedQuotes ?? [],
     colourOptions: parsed.colourOptions ?? seed.colourOptions,
     modePricing: { ...seed.modePricing, ...parsed.modePricing },
     modeVerifications: (parsed.modeVerifications ?? seed.modeVerifications).map(

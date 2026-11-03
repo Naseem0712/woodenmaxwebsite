@@ -1,6 +1,6 @@
 /**
  * WD-28 smoke: cleaned quote letterhead, fixed quote series, brands on W-xx lines,
- * real .pdf + .csv downloads (never .html pretending to be PDF).
+ * real .pdf + .xlsx downloads (never .html pretending to be PDF).
  * Run: npx vite-node tools/_smoke-quote-export-real-pdf.mjs
  */
 import { createServer } from 'vite';
@@ -169,16 +169,16 @@ async function main() {
     downloads.push({ name, path: p });
     console.log('download', name);
   }
-  // Excel download
+  // Excel (.xlsx) download
   const quoteExcelBtn = page.getByTestId('export-toolbar').getByTestId('export-quote-excel');
-  const [csvDownload] = await Promise.all([
-    page.waitForEvent('download', { timeout: 15000 }),
+  const [xlsxDownload] = await Promise.all([
+    page.waitForEvent('download', { timeout: 20000 }),
     quoteExcelBtn.click(),
   ]);
   {
-    const name = csvDownload.suggestedFilename();
+    const name = xlsxDownload.suggestedFilename();
     const p = join(shotDir, `dl-${name}`);
-    await csvDownload.saveAs(p);
+    await xlsxDownload.saveAs(p);
     downloads.push({ name, path: p });
     console.log('download', name);
   }
@@ -193,13 +193,16 @@ async function main() {
   }
 
   const pdfDl = downloads.find((d) => d.name.toLowerCase().endsWith('.pdf'));
-  const csvDl = downloads.find((d) => d.name.toLowerCase().endsWith('.csv'));
+  const xlsxDl = downloads.find((d) => d.name.toLowerCase().endsWith('.xlsx'));
   assert(pdfDl, `expected .pdf download, got: ${downloads.map((d) => d.name).join(', ')}`);
-  assert(csvDl, `expected .csv download, got: ${downloads.map((d) => d.name).join(', ')}`);
+  assert(xlsxDl, `expected .xlsx download, got: ${downloads.map((d) => d.name).join(', ')}`);
   assert(!downloads.some((d) => d.name.toLowerCase().endsWith('.html')), 'no .html exports');
+  assert(!downloads.some((d) => d.name.toLowerCase().endsWith('.csv')), 'excel must be .xlsx not .csv');
 
   const pdfBuf = readFileSync(pdfDl.path);
   assert(isPdf(pdfBuf), `downloaded file not PDF: ${pdfDl.name}`);
+  const xlsxBuf = readFileSync(xlsxDl.path);
+  assert(xlsxBuf[0] === 0x50 && xlsxBuf[1] === 0x4b, `xlsx must be ZIP/PK: ${xlsxDl.name}`);
 
   // Settings quote series field
   await page.goto(url + '/settings/business', { waitUntil: 'networkidle' });

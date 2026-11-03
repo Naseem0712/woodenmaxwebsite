@@ -822,6 +822,10 @@ export function createSeedState(): AppState {
       quoteSeriesPrefix: 'Q-2026',
       // Seed quote is Q-2026-001 — next new quote becomes Q-2026-002.
       quoteNextSeq: 2,
+      billSeriesPrefix: 'INV-2026',
+      billNextSeq: 1,
+      gstSlabs: [5, 12, 18],
+      defaultGstSlab: 18,
     },
     allowances: {
       minChargeableSqft: 6,
@@ -1248,6 +1252,7 @@ export function createSeedState(): AppState {
     billingPayments: [],
     billingExpenses: [],
     billingSettings: { ...DEFAULT_BILLING_SETTINGS },
+    savedQuotes: [],
     projects: [
       {
         id: 'project-sample-villa',

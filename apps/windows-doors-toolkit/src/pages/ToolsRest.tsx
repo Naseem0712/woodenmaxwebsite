@@ -47,7 +47,7 @@ import {
   projectMaterial,
 } from '../engine/materialContext';
 import { useApp } from '../store/AppContext';
-import { CUSTOMER_MODES, type StockIssue } from '../types';
+import type { StockIssue } from '../types';
 
 export function DoorsPage() {
   const { state, patch } = useApp();
@@ -776,7 +776,6 @@ export function QuotePage() {
   const gst = resolveQuoteGst(state);
   const project = state.projects.find((p) => p.id === state.activeProjectId);
   const customerMode = project?.customerMode ?? 'home-owner';
-  const modeLabel = CUSTOMER_MODES.find((m) => m.id === customerMode)?.label ?? 'Home owner';
   const architectMode = customerMode === 'architects';
   const scheduleLabel = architectMode ? 'Openings schedule (fab sizes)' : 'Window schedule';
   const exportBuilders = useMemo(
@@ -801,8 +800,7 @@ export function QuotePage() {
     <div>
       <PageHeader
         title="08 Quotation"
-        subtitle={`Openings schedule (+ mesh/grill). For size→type→material→glass→colour quote UX use Configurator. Mode: ${modeLabel}.`}
-        badge={modeLabel}
+        subtitle="Openings schedule (+ mesh/grill). For size→type→material→glass→colour quote UX use Configurator."
       />
       <ExportToolbar builders={exportBuilders} />
       <Card
@@ -819,9 +817,6 @@ export function QuotePage() {
         }
       >
         <div className="grid grid-4 no-print">
-          <Field label="Customer mode" hint="From project bar — not a rate card" tone="link">
-            <Input tone="link" readOnly value={modeLabel} />
-          </Field>
           <Field label="Quote no">
             <Input
               value={state.quote.quoteNo}
@@ -861,6 +856,25 @@ export function QuotePage() {
             <Input
               value={state.quote.siteAddress}
               onChange={(e) => patch('quote', { ...state.quote, siteAddress: e.target.value })}
+            />
+          </Field>
+          <Field label="Customer GSTIN" hint="For Tax Invoice CGST+SGST / IGST">
+            <Input
+              value={state.quote.customerGstin || ''}
+              data-testid="quote-customer-gstin"
+              onChange={(e) => patch('quote', { ...state.quote, customerGstin: e.target.value })}
+            />
+          </Field>
+          <Field label="Billing address">
+            <Input
+              value={state.quote.billingAddress || ''}
+              onChange={(e) => patch('quote', { ...state.quote, billingAddress: e.target.value })}
+            />
+          </Field>
+          <Field label="Shipping address">
+            <Input
+              value={state.quote.shippingAddress || ''}
+              onChange={(e) => patch('quote', { ...state.quote, shippingAddress: e.target.value })}
             />
           </Field>
           <Field label="Discount ₹">

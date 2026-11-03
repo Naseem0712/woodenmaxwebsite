@@ -349,6 +349,17 @@ export interface BusinessInfo {
   quoteSeriesPrefix: string;
   /** Next running number for quoteSeriesPrefix (1 → Q-2026-001). */
   quoteNextSeq: number;
+  /**
+   * Fixed bill / tax-invoice series prefix (Settings once) — e.g. INV-2026.
+   * Only billNextSeq increments; reuse of an issued number is refused.
+   */
+  billSeriesPrefix: string;
+  /** Next running number for billSeriesPrefix (1 → INV-2026-001). */
+  billNextSeq: number;
+  /** Editable GST slabs (default 5 / 12 / 18). */
+  gstSlabs: number[];
+  /** Default slab applied to new bill lines (also drives quote GST %). */
+  defaultGstSlab: number;
 }
 
 export interface Allowances {
@@ -737,6 +748,10 @@ export interface QuoteExtras {
   description?: string;
   terms?: string;
   bankDetails?: string;
+  /** Customer GSTIN — drives CGST+SGST vs IGST on Tax Invoice. */
+  customerGstin?: string;
+  billingAddress?: string;
+  shippingAddress?: string;
 }
 
 export type LeadStatus = 'New' | 'Site visit' | 'Measured' | 'Quoted' | 'Won' | 'Lost';
@@ -861,6 +876,25 @@ export interface ProjectMeta {
   lessOffHeightMm: number | null;
 }
 
+export type BillingInvoiceStatus = 'draft' | 'issued' | 'cancelled';
+export type BillingTaxMode = 'cgst_sgst' | 'igst';
+
+export interface BillingInvoiceLine {
+  id: string;
+  description: string;
+  hsn: string;
+  qty: number;
+  unit: string;
+  rate: number;
+  /** Taxable amount (qty × rate, or locked package) */
+  amount: number;
+  gstPercent: number;
+  cgst: number;
+  sgst: number;
+  igst: number;
+  total: number;
+}
+
 /** Billing & Profit kit — shop-level (global), rates still from Settings window types. */
 export interface BillingInvoice {
   id: string;
@@ -869,7 +903,7 @@ export interface BillingInvoice {
   customer: string;
   phone: string;
   jobType: string;
-  /** Amount before GST */
+  /** Amount before GST (taxable) */
   amount: number;
   gst: number;
   /** amount + gst */
@@ -880,6 +914,56 @@ export interface BillingInvoice {
   /** Optional link to project / quote */
   projectId?: string;
   quoteNo?: string;
+  /** Tax Invoice header */
+  customerGstin?: string;
+  billingAddress?: string;
+  shippingAddress?: string;
+  placeOfSupply?: string;
+  eWayBillNo?: string;
+  vehicleNo?: string;
+  transportName?: string;
+  taxMode?: BillingTaxMode;
+  cgst?: number;
+  sgst?: number;
+  igst?: number;
+  taxableAmount?: number;
+  lines?: BillingInvoiceLine[];
+  status?: BillingInvoiceStatus;
+  savedQuoteId?: string;
+}
+
+/** Saved quote snapshot for Quote → Bill picker (one quote → one bill). */
+export interface SavedQuoteLine {
+  id: string;
+  description: string;
+  hsn: string;
+  qty: number;
+  unit: string;
+  rate: number;
+  amount: number;
+  gstPercent: number;
+}
+
+export interface SavedQuoteRecord {
+  id: string;
+  quoteNo: string;
+  quoteDate: string;
+  customerName: string;
+  phone: string;
+  siteAddress: string;
+  customerGstin: string;
+  billingAddress: string;
+  shippingAddress: string;
+  projectId: string;
+  projectName: string;
+  material: Material;
+  taxableAmount: number;
+  grandTotal: number;
+  lineCount: number;
+  /** Set when a non-cancelled bill was created from this quote. */
+  billedInvoiceId: string | null;
+  savedAt: string;
+  lines: SavedQuoteLine[];
 }
 
 export interface BillingPayment {
@@ -1028,6 +1112,8 @@ export interface AppState extends ProjectJobData {
   billingPayments: BillingPayment[];
   billingExpenses: BillingExpense[];
   billingSettings: BillingSettings;
+  /** Saved quote snapshots for Tax Invoice picker */
+  savedQuotes: SavedQuoteRecord[];
   projects: ProjectMeta[];
   activeProjectId: string;
   /** Inactive project bags (active project's data lives on the flat keys above) */

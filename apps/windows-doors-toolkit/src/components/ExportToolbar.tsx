@@ -48,7 +48,7 @@ export function ExportToolbar({
       </Btn>
       <Btn
         variant="ghost"
-        title="Excel/CSV quotation with package amount per opening (no ₹/sqft)"
+        title="Excel (.xlsx) quotation with package amount per opening (no ₹/sqft)"
         data-testid="export-quote-excel"
         onClick={() => go('quote', 'excel', 'include')}
       >
@@ -80,8 +80,8 @@ export function ExportToolbar({
   const bomButtons = rateButtons('bom', {
     a: 'PDF materials + hardware with rates',
     b: 'PDF materials + hardware without rates',
-    c: 'Excel/CSV materials + hardware with rates',
-    d: 'Excel/CSV materials + hardware without rates',
+    c: 'Excel (.xlsx) materials + hardware with rates',
+    d: 'Excel (.xlsx) materials + hardware without rates',
   });
   const sizeButtons = builders.sizeList
     ? rateButtons('sizeList', {
