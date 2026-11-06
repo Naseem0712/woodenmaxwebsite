@@ -1,0 +1,6 @@
+# Fix G AFTER local — top-hung-casement-window
+date: 2026-11-06
+url: https://woodenmax.in/products/aluminium-windows/top-hung-casement-window
+title: Top-Hung Aluminium Casement Window | Bath & Kitchen Vent | WoodenMax
+h1: Top-Hung Aluminium Casement Window
+sha256_12=4ded1932b13e

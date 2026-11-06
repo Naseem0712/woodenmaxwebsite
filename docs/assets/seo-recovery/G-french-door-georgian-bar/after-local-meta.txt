@@ -1,0 +1,6 @@
+# Fix G AFTER local — french-door-georgian-bar
+date: 2026-11-06
+url: https://woodenmax.in/products/aluminium-windows/french-door-georgian-bar
+title: Georgian Bar French Aluminium Door | Hinged Balcony Entrance | WoodenMax
+h1: Georgian Bar French Aluminium Door
+sha256_12=0867dc9d2cd3
