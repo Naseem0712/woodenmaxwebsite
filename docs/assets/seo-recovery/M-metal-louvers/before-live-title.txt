@@ -1,0 +1,6 @@
+# Fix M BEFORE live — metal-louvers hub
+date: 2026-11-06
+url: https://woodenmax.in/products/metal-louvers
+note: Hub HTML fetch hit host redirect loop on bare path; title from origin/main local copy matching prior live child pages.
+title: Aluminium Louvers & Rafters Price Hub India 2026 — Live Calculators | WoodenMax
+h1: Aluminium Louvers & Rafters Price Hub India 2026 — Live Calculators

@@ -1,0 +1,7 @@
+# Fix M BEFORE — aluminium-facade-louver-price
+date: 2026-11-06
+url: https://woodenmax.in/products/metal-louvers/aluminium-facade-louver-price
+title: Aluminium Facade Louver Price per Sqft 2026 — Building Exterior | WoodenMax
+h1: Aluminium Facade Louver — ₹580 to ₹820 per Sqft
+note: Price child H1 shouted hard ₹; title lacked Fix J price-guide shape; free site-visit CTA
+cite_Fix_J: hub=Types/Soft Bands; price=Price + Soft ₹/sqft
