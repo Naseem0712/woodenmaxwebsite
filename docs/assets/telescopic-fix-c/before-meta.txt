@@ -1,0 +1,18 @@
+﻿# Fix C BEFORE meta (live)
+Date: 2026-11-06
+URL: https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door
+title: Telescopic Slim Sliding Door — Kitchen Partition Soft-Close | WoodenMax
+h1: Telescopic Slim Profile Sliding Door
+canonical: https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door
+description: Telescopic slim sliding door for kitchen and hall partitions. Soft-close, fluted or clear glass, 1+1 to 4+1 panels. Soft installed bands around ₹1,650–2,250/sqft (GST extra). Live size-based calculator.
+og:title: Telescopic Slim Sliding Door — Kitchen Partition Soft-Close | WoodenMax
+og:image: /images/products/telescope-windows/telescopic-slim-profile-soft-close-fluted-glass-kitchen-partition.webp
+Product.name: Telescopic Slim Profile Sliding Door
+FAQPage Q count: 12 (matches visible)
+AggregateRating: none
+Domal: none
+keywords meta: none
+Sibling collision notes:
+- Hub title owns "Telescopic Sliding Door Price India 2026 — Kitchen Partition..."
+- Bi-fold owns "Bi-Fold Aluminium Door Price India 2026 — Balcony & Patio Folding Glass"
+- Page title/H1 mismatch (Sliding Door vs Profile Sliding Door); weak multi-panel / telescope-vs-bifold differentiation in SERP assets

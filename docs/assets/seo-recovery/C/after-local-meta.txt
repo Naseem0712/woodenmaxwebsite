@@ -1,0 +1,12 @@
+﻿# Fix C AFTER local meta
+Date: 2026-11-06
+URL: http://localhost:5500/products/telescope-windows/telescopic-slim-sliding-door
+title: Multi-Panel Telescopic Slim Sliding Door | Soft-Close Kitchen Partition | WoodenMax
+h1: Multi-Panel Telescopic Slim Sliding Door
+Product.name: Multi-Panel Telescopic Slim Sliding Door
+og:title / twitter:title: match title
+canonical: https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door (unchanged)
+FAQ visible ≡ FAQPage: 12/12 PASS
+Master v1: gallery-first + window-product-design-v1 + Calculator Finder
+Hero/OG image: existing kitchen-partition telescopic asset (kept; strong match — no user pick needed)
+Sibling title collision: FAIL twin test vs bifold / hub / 3-track / Domal

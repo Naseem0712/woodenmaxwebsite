@@ -1,6 +1,6 @@
 # WoodenMax SEO Recovery — Dual-Check Plan
 
-**Status:** Living plan (docs only until each Fix is executed)  
+**Status:** Living plan — **NOT fully complete yet** (docs only until each Fix is executed)  
 **Updated:** 2026-11-06  
 **Account / site:** woodenmax.in · Merchant Center `5356280396`  
 **Related:** `docs/MERCHANT_CENTER_QUALITY_AUDIT.md` (woodenmax-live), `docs/WINDOW_SEGMENT_SEO_KEYWORD_MAP.md`, GA4/GSC analysis 2026-11-06  
@@ -14,6 +14,21 @@
 
 ---
 
+## Status board (honest — 2026-11-06)
+
+Plan is **not** finished. Drop-URL / cluster work is only **partially** fixed: **A + B done**; **C** telescopic CTR assets pushed for live dual-check; **D still required** for Domal / 2-track / 4-track / calculator differentiation.
+
+| Board | Fixes | Notes |
+|-------|-------|-------|
+| **DONE** | **A** 3-track LIVE · **B** hub LIVE · **F** Merchant Path B + schema hygiene | GMC **Fetch** = user action (await Diagnostics after fetch/review) |
+| **IN PROGRESS** | **C** telescopic | Local dual-check PASS; live proof after deploy |
+| **PENDING** (drop-URL sequence) | **D** sliding cluster · **E** calculators · **G** long-tail · **H** city differentiate · **I** index hygiene · **J** competitors | D = next money overlap after C PASS; do not skip Domal/2-track/4-track/calc siblings |
+| **NEW PENDING** (growth segments) | **K** shower · **L** pergola · **M** louvers · **N** mirrors | Low rank / low clicks vs potential; **same dual-check**; **no URL change**; hub first → top children by traffic; page-by-page CTR / title / meta / schema / FAQ |
+
+**Overlap clarity for owner:** A purged Domal-primary from 3-track and B fixed hub browse identity — that does **not** finish Cluster A. Sibling pages can still collide until **Fix D** locks Domal price, 2-track product, 4-track price, and calc SERP roles.
+
+---
+
 ## Diagnosis snapshot (why this plan exists)
 
 | Signal | Reading |
@@ -24,7 +39,8 @@
 | Top losses | 3-track **−788** @ pos ~4; hub **−304**; telescopic **−394** |
 | Appearance | Product snippets **−612**; Merchant listings **−339 → 0** |
 | Cluster risk | Sliding / Domal / 3-track / 4-track / calculator cannibalization |
-| Winners (protect) | Shower family, Domal, grills hub, `aluminium-sliding-window` |
+| Winners (protect) | Domal, grills hub, `aluminium-sliding-window` (don’t rewrite into sliding sameness) |
+| Growth lag (K–N) | Shower / pergola / louvers / mirrors — impressions or demand OK but **rank/clicks soft** → CTR + differentiation (not URL surgery) |
 | Seasonality | June-style monthly clicks high → Oct lower; long-tail historically strong |
 
 **Strategy:** CTR + differentiation + honest schema/Merchant — **not** URL surgery.
@@ -165,15 +181,17 @@ Siblings must **differentiate** (titles, H1, schema `name`, intro, FAQ) and **li
 | Telescopic slim door | `…/telescope-windows/telescopic-slim-sliding-door` | Folding / bifold / sliding-door blogs |
 | Calculator SEO | **One** indexable primary among existing calc URLs (Fix E) | Other calc URLs: differentiate or soft noindex — **paths stay** |
 | City price | Existing `…-price-{city}` URLs | Differentiate (Fix H); not noindex-first |
-| Shower / grills winners | Keep current primaries | Do not rewrite into sliding sameness |
+| Shower / pergola / louvers / mirrors | Existing hubs + children (Fix K–N) | Differentiate within family; do not flatten into sliding titles |
+| Grills winners | Keep current primaries | Do not rewrite into sliding sameness |
 
 **Thin twins:** Prefer content differentiation → stronger canonical signals → soft `noindex` only if still near-duplicate. **No 301** of public money URLs unless owner later explicitly allows.
 
 ---
 
-## 5. Ordered fixes (A → J)
+## 5. Ordered fixes (A → N)
 
-Execute in order unless owner reorders. **One page (or one sub-step) → dual-check → next.**
+Execute in order unless owner reorders. **One page (or one sub-step) → dual-check → next.**  
+Growth segments **K–N** may run after drop-URL core (D–J) or in parallel only if they do **not** steal attention from Fix C/D money pages — owner call.
 
 ---
 
@@ -318,9 +336,57 @@ There is **no** separate secret Google permission page outside Merchant Center c
 - **URL(s):** N/A (research) — brands: **Alupure (first)**, Fenesta, Encraft, Alteza, Alcoi, Schüco, Saint-Gobain
 - **Problem:** Title rewrites need live SERP proof, not guesswork
 - **Exact work:** For each brand capture 2–3 live examples for **product vs price vs system/hub**; expand §3 table; optional SERP screenshots under `docs/assets/seo-recovery/fix-j/`
-- **Dual-check proof:** Updated pattern table + screenshots; cite pattern when rewriting A–D titles
+- **Dual-check proof:** Updated pattern table + screenshots; cite pattern when rewriting A–D / K–N titles
 - **Done:** CTR title edits cite a competitor pattern → **PASS**  
   *(May run research-only in parallel early; do not block Fix A dual-check.)*
+
+---
+
+### Fix K — Shower segment growth (hub → top children)
+- **URL(s) — suggested order (no path changes):**
+  1. Hub: `https://woodenmax.in/products/shower-partitions`
+  2. Top children by traffic (confirm in GSC; typical money set): `…/frameless-shower-partition`, `…/frameless-glass-shower-price`, `…/glass-shower-partition-price`, `…/sliding-shower-door-price`, `…/walk-in-shower-glass-price`, `…/black-profile-shower-partition` / slim-frame as needed
+- **Problem (metric):** Segment under-performs on **rank / clicks** vs opportunity; still must **not** be rewritten into sliding-window sameness
+- **Exact work (each URL):** Same dual-check stack as A–D — unique title / meta / H1 / OG; honest Product + FAQ≡FAQPage; soft rates; differentiate frameless vs framed vs walk-in vs price guides; hub = browse, not one SKU
+- **Complete-page checklist:** §2; Master v1 if already in shower product family; no URL change
+- **Dual-check proof:** `docs/assets/seo-recovery/K/<slug>/` before/after per page
+- **Done:** Hub + touched children fail twin test within shower family → **PASS**
+
+---
+
+### Fix L — Pergola segment growth (hub → top children)
+- **URL(s) — suggested order:**
+  1. Hub: `https://woodenmax.in/products/pergola`
+  2. Top children by traffic (confirm GSC): `…/aluminium-pergola`, `…/retractable-pergola`, `…/profile-pergola`, `…/aluminium-pergola-glass-roof-price-india`, `…/glass-skylight` / canopy only if colliding
+- **Problem (metric):** Low rank/clicks relative to outdoor / canopy demand
+- **Exact work:** Hub browse vs product vs price-guide roles; title/H1/meta/schema/FAQ uniqueness; soft rates from canonical source; no URL change
+- **Complete-page checklist:** §2; Master if product family (aluminium-pergola pilot exists)
+- **Dual-check proof:** `docs/assets/seo-recovery/L/<slug>/`
+- **Done:** Distinct SERP identities across pergola siblings → **PASS**
+
+---
+
+### Fix M — Louvers segment growth (hub → top children)
+- **URL(s) — suggested order:**
+  1. Hub: `https://woodenmax.in/products/metal-louvers`
+  2. Top children by traffic (confirm GSC): `…/aluminium-facade-louver-price`, `…/ventilation-louver-price-per-sqft`, `…/motorized-louver-price-india`, `…/wooden-finish-aluminium-louvers`, `…/louver-canopy-facade`, city price pages only after hub+national
+- **Problem (metric):** Facade / ventilation demand soft on clicks; city twins risk boilerplate
+- **Exact work:** Hub vs price vs design vs motorized differentiation; CTR assets + honest schema/FAQ; link city pages to national primary (align with Fix H pattern later); **no URL change**
+- **Complete-page checklist:** §2 per URL
+- **Dual-check proof:** `docs/assets/seo-recovery/M/<slug>/`
+- **Done:** Hub + top children distinct; no ACP/cladding title collision → **PASS**
+
+---
+
+### Fix N — Mirrors segment growth (hub → top children)
+- **URL(s) — suggested order:**
+  1. Hub: `https://woodenmax.in/products/mirror-profiles`
+  2. Top children by traffic (confirm GSC): `…/led-mirror-profile-price`, `…/led-bathroom-mirror-profile`, `…/backlit-mirror-profile-price`, `…/mirror-profile-price-per-foot`, `…/touch-sensor-mirror-profile` / wardrobe / round as traffic warrants; city LED pages after national
+- **Problem (metric):** LED / bathroom mirror interest vs soft rank/clicks; LED vs non-LED / price-per-foot overlap risk
+- **Exact work:** Lock hub browse vs LED product vs ₹/ft guide vs sensor variants; title/meta/H1/OG/FAQ/schema; soft rates; Merchant SKUs stay honest with Fix F Path B; **no URL change**
+- **Complete-page checklist:** §2; Product Offer honesty
+- **Dual-check proof:** `docs/assets/seo-recovery/N/<slug>/`
+- **Done:** Mirror siblings fail twin test; city pages don’t clone national titles → **PASS**
 
 ---
 
@@ -335,11 +401,12 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 | 2-track vs 3-track / folding vs sliding comparisons | Comparison guides (keep comparison H1s) |
 | Soundproof / system aluminium niches | System price / villa / glass-options guides |
 | Grill design niches | Grills hub + aluminium/iron/balcony grill PDPs (**winners**) |
-| Shower family | Shower hub + frameless/price children (**winners**) |
+| Shower family | Hub + frameless/price children — **Fix K** growth (protect modifiers; don’t flatten to sliding) |
+| Pergola / louvers / mirrors | Hubs + top children — **Fix L / M / N** (keep outdoor / facade / LED modifiers) |
 | City-strong pages | After Fix H differentiation |
 | Telescope / slim door specifics | Fix C page + telescope hub — keep door modifiers |
 
-**Rule:** When chasing head-term CTR on Fix A–C, **add** clarity on the primary — do not strip modifiers from long-tail siblings.
+**Rule:** When chasing head-term CTR on Fix A–C / K–N, **add** clarity on the primary — do not strip modifiers from long-tail siblings.
 
 ---
 
@@ -353,10 +420,12 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 - Advertise full package price in Merchant feed while checkout only takes ₹1,000  
 - Noindex city pages as the **first** tactic (owner: differentiate first)  
 - Sacrifice June-style long-tail titles to force generic head terms everywhere  
-- “Fix” shower / Domal / grills / 2-track winners into sliding sameness  
+- “Fix” Domal / grills / 2-track winners — or shower/pergola/louvers/mirrors — into sliding sameness  
+- Interrupt Fix C telescopic page work owned by another agent  
 - Commit / push / deploy from plan-only tasks without owner ask  
 - Fight in-flight Fix A Domal purge — coordinate, don’t overwrite blindly  
 - Mark a Fix Done without dual-check screenshots  
+- Treat A+B as “cluster finished” while Fix D siblings still overlap  
 
 ---
 
@@ -364,16 +433,20 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 
 | Fix | Status | Evidence path | Notes |
 |-----|--------|---------------|-------|
-| A 3-track | In progress elsewhere — dual-check when ready | `docs/assets/seo-recovery/A/` | Domal purge + hero + CTR |
-| B Hub | Pending | `docs/assets/seo-recovery/B/` | After A PASS |
-| C Telescopic | Pending | `docs/assets/seo-recovery/C/` | After B PASS |
-| D Sliding cluster | Pending | `docs/assets/seo-recovery/D/<slug>/` | One URL per sub-step |
-| E Calculators | Pending | `docs/assets/seo-recovery/E/` | Signals only; URLs stay |
-| F Merchant / snippets | **Path B implemented** — await GMC fetch/review | `docs/assets/seo-recovery/F/` | Feed+CTA+Razorpay = ₹1,000; sale_price cleared |
-| G Long-tail | Pending | `docs/assets/seo-recovery/G/` | Protect June-style |
-| H City differentiate | Pending | `docs/assets/seo-recovery/H/` | Not noindex-first |
-| I Index hygiene | Pending | `docs/assets/seo-recovery/I/` | Junk GSC only |
-| J Competitor titles | Research started in §3 | `docs/assets/seo-recovery/J/` | Alupure first for deep pass |
+| A 3-track | **DONE / PASS** (2026-11-06) LIVE | `docs/assets/3track-fix-a/` · `seo-recovery/A/` | Live 26f6f0c + 1948ddf |
+| B Hub | **DONE / PASS** (2026-11-06) LIVE | `docs/assets/hub-fix-b/` · `seo-recovery/B/` | Live 3e75128 |
+| C Telescopic | Dual-check local PASS — awaiting push/live | `docs/assets/telescopic-fix-c/` · `seo-recovery/C/` | CTR title/H1/OG; bifold FAQ; no URL change |
+| D Sliding cluster | **PENDING** | `docs/assets/seo-recovery/D/<slug>/` | Still needed: Domal / 2-track / 4-track / calc roles |
+| E Calculators | **PENDING** | `docs/assets/seo-recovery/E/` | Signals only; URLs stay |
+| F Merchant / snippets | **DONE (Path B + schema)** — GMC Fetch = user | `docs/assets/seo-recovery/F/` | Feed+CTA+Razorpay = ₹1,000; await Diagnostics |
+| G Long-tail | **PENDING** | `docs/assets/seo-recovery/G/` | Protect June-style |
+| H City differentiate | **PENDING** | `docs/assets/seo-recovery/H/` | Not noindex-first |
+| I Index hygiene | **PENDING** | `docs/assets/seo-recovery/I/` | Junk GSC only |
+| J Competitor titles | **PENDING** (research started §3) | `docs/assets/seo-recovery/J/` | Alupure first for deep pass |
+| K Shower | **NEW PENDING** | `docs/assets/seo-recovery/K/<slug>/` | Hub → top children; dual-check; no URL change |
+| L Pergola | **NEW PENDING** | `docs/assets/seo-recovery/L/<slug>/` | Hub → aluminium / retractable / glass-roof |
+| M Louvers | **NEW PENDING** | `docs/assets/seo-recovery/M/<slug>/` | Hub → facade / sqft / motorized |
+| N Mirrors | **NEW PENDING** | `docs/assets/seo-recovery/N/<slug>/` | Hub → LED / backlit / ₹/ft |
 
 ---
 
@@ -381,10 +454,10 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 
 1. **Permission = Merchant Center compliance**, not a hidden Google form.  
    Open Merchants → account **5356280396** → **Products → Diagnostics**. Follow checkout + landing requirements.
-2. Current blockers called out by user: **cannot complete purchase (151 / 100%)** + **invalid sales price (1)**.
-3. **Book Now ₹1,000** only works if **feed price + landing + checkout charge all say ₹1,000** for that bookable product. Full-price feed + ₹1k deposit = reject.
-4. Prefer Path B (matched ₹1k); if Diagnostics still fail after honest deploy + review, fall back to Path A (full pay = feed price) or pause non-compliant SKUs.
+2. Path B + schema hygiene are **implemented**; owner still runs **Merchant Fetch** (and review if offered), then wait for Diagnostics trend.
+3. Historical blockers: **cannot complete purchase** + **invalid sales price** — Path B aims to clear when feed = landing = Razorpay **₹1,000**.
+4. Prefer Path B (matched ₹1k); if Diagnostics still fail after honest deploy + fetch + review, fall back to Path A (full pay = feed price) or pause non-compliant SKUs.
 
 ---
 
-*End of plan. No site HTML implementation in the plan-only task. Merchant checkout / feed rewrite starts only when owner schedules Fix F.*
+*End of plan. Status board + Fix K–N scopes are docs-only. No site HTML in this update. Fix C page work stays with its owner. Merchant Fetch remains a user action.*
