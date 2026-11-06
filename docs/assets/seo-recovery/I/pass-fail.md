@@ -1,6 +1,9 @@
 # Fix I PASS/FAIL — Index hygiene (junk impressions)
 
-**Verdict: PASS** (local 2026-11-06) — code + docs shipped; GSC Removals = **user action** (ticketed below)
+**Verdict: PASS** (local 2026-11-06) — commit `cedd4e1` pushed; GSC Removals = **user action** (ticketed below)
+
+## Hash
+commit=`cedd4e1`
 
 ## Twin / scope test
 Touches junk indexation only — **no** public money URL / slug / path changes. Money-page canonicals remain clean self-canonicals on `woodenmax.in`.
