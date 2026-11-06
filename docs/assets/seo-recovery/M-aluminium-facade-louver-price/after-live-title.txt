@@ -1,0 +1,8 @@
+# Fix after-live — M-aluminium-facade-louver-price
+date: 2026-11-06
+url: https://woodenmax.in/products/metal-louvers/aluminium-facade-louver-price
+title: Aluminium Facade Louver Price in India (2026) | Soft ₹/sqft Band | WoodenMax
+h1: Aluminium Facade Louver Price in India (2026)
+expected: Aluminium Facade Louver Price in India (2026) | Soft ₹/sqft Band | WoodenMax
+match: True
+commit: 1204c6c (L=5818890 M=1204c6c)

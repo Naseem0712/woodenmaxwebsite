@@ -1,0 +1,9 @@
+# Fix after-live — M-metal-louvers
+date: 2026-11-06
+source: github raw @1204c6c (host hub bare path has trailing-slash 308↔301 loop; child pages live-verified on woodenmax.in)
+url_canonical: https://woodenmax.in/products/metal-louvers
+title: Aluminium Louvers for Indian Facades | Types, Soft Price Bands & Calculators | WoodenMax
+h1: Aluminium Louvers for Indian Facades — Types, Soft Bands & Calculators
+expected: Aluminium Louvers for Indian Facades | Types, Soft Price Bands & Calculators | WoodenMax
+match: True
+commit: 1204c6c

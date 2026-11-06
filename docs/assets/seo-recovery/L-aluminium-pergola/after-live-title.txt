@@ -1,0 +1,8 @@
+# Fix after-live — L-aluminium-pergola
+date: 2026-11-06
+url: https://woodenmax.in/products/pergola/aluminium-pergola
+title: Glass-Roof Aluminium Pergola | Soft Designs & Price Band | WoodenMax
+h1: Aluminium Pergola Glass-Roof Terrace Structure &middot; 6063-T6 Powder-Coated Frame
+expected: Glass-Roof Aluminium Pergola | Soft Designs & Price Band | WoodenMax
+match: True
+commit: 1204c6c (L=5818890 M=1204c6c)

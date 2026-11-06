@@ -1,6 +1,6 @@
 # Fix L PASS/FAIL — Pergola hub + aluminium-pergola
 
-**Verdict: PASS** (local 2026-11-06; live verify after push)
+**Verdict: PASS** (local + live children 2026-11-06) — commits `5818890` / push tip `1204c6c`
 
 ## Twin test
 Could hub/product/price titles steal each other's SERP identity? **No** (see L-twin-test.md)
@@ -18,6 +18,8 @@ Could hub/product/price titles steal each other's SERP identity? **No** (see L-t
 - `pergola` sha256_12=`56903a48841c`
 - `aluminium-pergola` sha256_12=`21323d8bb2e9`
 
-## Intended live title cues
-- Hub: `Pergolas for Indian Homes | Types, Soft Price Bands & Calculators | WoodenMax`
-- Product: `Glass-Roof Aluminium Pergola | Soft Designs & Price Band | WoodenMax`
+## Live verify (2026-11-06)
+- Commits: L `5818890` · tip `1204c6c` pushed origin/main
+- Live product title: `Glass-Roof Aluminium Pergola | Soft Designs & Price Band | WoodenMax` (match)
+- Hub title (github raw @1204c6c; host bare hub path has pre-existing trailing-slash redirect loop): `Pergolas for Indian Homes | Types, Soft Price Bands & Calculators | WoodenMax`
+- Unique within pergola family: YES
