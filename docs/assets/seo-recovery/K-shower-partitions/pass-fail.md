@@ -1,6 +1,6 @@
 # Fix K PASS/FAIL — Shower hub + frameless children
 
-**Verdict: PASS** (local 2026-11-06) — push pending
+**Verdict: PASS** (local + live 2026-11-06) — commit `9e48c78`
 
 ## Twin test
 Could hub/product/price titles steal each other's SERP identity? **No** (see K-twin-test.md)
@@ -9,7 +9,7 @@ Could hub/product/price titles steal each other's SERP identity? **No** (see K-t
 - [x] Canonical / URL unchanged
 - [x] Unique title / H1 / meta / OG per role (hub browse · product · price)
 - [x] Soft rates; no ₹ shout in hub/product titles (cite Fix J)
-- [x] FAQ visible ≡ FAQPage (exact Q+A rebuilt)
+- [x] FAQ visible ≡ FAQPage (exact Q+A rebuilt; frameless + price exact; hub rendered text)
 - [x] Product schema name honest on frameless PDP
 - [x] Keywords meta removed
 - [x] Master v1 N/A (shower ≠ aluminium-window family CSS)
@@ -19,6 +19,13 @@ Could hub/product/price titles steal each other's SERP identity? **No** (see K-t
 - `shower-partitions` sha256_12=`fef20b63e270`
 - `frameless-shower-partition` sha256_12=`76587d902601`
 - `frameless-glass-shower-price` sha256_12=`33709ff6d44d`
+
+## Live verify (2026-11-06)
+- Commit: `9e48c78` pushed origin/main
+- Live hub title: `Shower Partitions for Indian Bathrooms | Types, Soft Price Bands & Calculators | WoodenMax`
+- Live frameless title: `Frameless Shower Partition | Soft Designs & Price Band | WoodenMax`
+- Live price title: `Frameless Glass Shower Price (2026) | Soft ₹/sqft Hardware Bands | WoodenMax`
+- Unique within shower family: YES
 
 ## Notes
 Hub restored to browse (aluminium-windows hub pattern). Frameless PDP owns product; frameless-glass-shower-price owns hardware/install price intent.
