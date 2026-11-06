@@ -16,12 +16,11 @@
 
 ## Status board (honest — 2026-11-06)
 
-Plan is **not** finished. Drop-URL / cluster work is only **partially** fixed: **A + B done**; **C** telescopic CTR assets pushed for live dual-check; **D still required** for Domal / 2-track / 4-track / calculator differentiation.
+Plan is **not** finished. Drop-URL / cluster work is only **partially** fixed: **A + B + C done**; **D still required** for Domal / 2-track / 4-track / calculator differentiation.
 
 | Board | Fixes | Notes |
 |-------|-------|-------|
-| **DONE** | **A** 3-track LIVE · **B** hub LIVE · **F** Merchant Path B + schema hygiene | GMC **Fetch** = user action (await Diagnostics after fetch/review) |
-| **IN PROGRESS** | **C** telescopic | Local dual-check PASS; live proof after deploy |
+| **DONE** | **A** 3-track LIVE · **B** hub LIVE · **C** telescopic LIVE (`5729cb4`) · **F** Merchant Path B + schema hygiene | GMC **Fetch** = user action (await Diagnostics after fetch/review); C proof `docs/assets/telescopic-fix-c/` |
 | **PENDING** (drop-URL sequence) | **D** sliding cluster · **E** calculators · **G** long-tail · **H** city differentiate · **I** index hygiene · **J** competitors | D = next money overlap after C PASS; do not skip Domal/2-track/4-track/calc siblings |
 | **NEW PENDING** (growth segments) | **K** shower · **L** pergola · **M** louvers · **N** mirrors | Low rank / low clicks vs potential; **same dual-check**; **no URL change**; hub first → top children by traffic; page-by-page CTR / title / meta / schema / FAQ |
 
@@ -435,7 +434,7 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 |-----|--------|---------------|-------|
 | A 3-track | **DONE / PASS** (2026-11-06) LIVE | `docs/assets/3track-fix-a/` · `seo-recovery/A/` | Live 26f6f0c + 1948ddf |
 | B Hub | **DONE / PASS** (2026-11-06) LIVE | `docs/assets/hub-fix-b/` · `seo-recovery/B/` | Live 3e75128 |
-| C Telescopic | Dual-check local PASS — awaiting push/live | `docs/assets/telescopic-fix-c/` · `seo-recovery/C/` | CTR title/H1/OG; bifold FAQ; no URL change |
+| C Telescopic | PASS (2026-11-06) | `docs/assets/telescopic-fix-c/` · `seo-recovery/C/` | Live `5729cb4`; multi-panel door CTR; bifold FAQ |
 | D Sliding cluster | **PENDING** | `docs/assets/seo-recovery/D/<slug>/` | Still needed: Domal / 2-track / 4-track / calc roles |
 | E Calculators | **PENDING** | `docs/assets/seo-recovery/E/` | Signals only; URLs stay |
 | F Merchant / snippets | **DONE (Path B + schema)** — GMC Fetch = user | `docs/assets/seo-recovery/F/` | Feed+CTA+Razorpay = ₹1,000; await Diagnostics |
@@ -460,4 +459,4 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 
 ---
 
-*End of plan. Status board + Fix K–N scopes are docs-only. No site HTML in this update. Fix C page work stays with its owner. Merchant Fetch remains a user action.*
+*End of plan. Fix C telescopic PASS live `5729cb4`. Status board + Fix K–N scopes otherwise docs-only until scheduled. Merchant Fetch remains a user action.*

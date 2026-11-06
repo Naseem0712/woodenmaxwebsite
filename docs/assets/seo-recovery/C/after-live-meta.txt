@@ -1,0 +1,13 @@
+﻿# Fix C AFTER live meta
+Date: 2026-11-06
+Commit: 5729cb4
+URL: https://woodenmax.in/products/telescope-windows/telescopic-slim-sliding-door
+title: Multi-Panel Telescopic Slim Sliding Door | Soft-Close Kitchen Partition | WoodenMax
+h1: Multi-Panel Telescopic Slim Sliding Door
+Product.name: Multi-Panel Telescopic Slim Sliding Door
+og/twitter: match title
+canonical: unchanged
+FAQ visible ≡ FAQPage: 12/12 PASS (faqFail=0)
+AggregateOffer low/high: 75116 / 262936 INR
+AggregateRating: none | Domal: none | keywords: none
+Master v1 gallery-first: yes | Hero/OG: existing kitchen-partition telescopic asset (kept)
