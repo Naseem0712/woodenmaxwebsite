@@ -1,0 +1,13 @@
+# Fix E AFTER local — PRIMARY — aluminium window price calculator head intent
+date: 2026-11-06
+file: aluminium-window-price-calculator.html
+sha256_12: 081c4c4d1db6
+role: PRIMARY — aluminium window price calculator head intent
+GSC_baseline: 8 clicks / 251 impr / 3.19% CTR / pos 4.8
+title: Aluminium Window Price Calculator (2026) | Soft Size Estimate | WoodenMax
+h1: Aluminium Window Price Calculator
+description: Aluminium window price calculator for sliding, casement and French styles. Enter size, glass and finish for a soft planning estimate. Soft bands from live rates — WoodenMax India.
+canonical: https://woodenmax.in/aluminium-window-price-calculator
+og:title: Aluminium Window Price Calculator (2026) | Soft Size Estimate | WoodenMax
+keywords: removed
+AggregateRating: removed

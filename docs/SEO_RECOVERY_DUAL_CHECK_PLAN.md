@@ -16,15 +16,15 @@
 
 ## Status board (honest — 2026-11-06)
 
-Plan is **not** finished. Drop-URL core: **A + B + C + D (three pages) done**; **E** calculators next for remaining calc-role twins.
+Plan is **not** finished. Drop-URL core: **A + B + C + D + E done**; next money Fix = **G** long-tail (do **not** start K until E live PASS confirmed).
 
 | Board | Fixes | Notes |
 |-------|-------|-------|
-| **DONE** | **A** 3-track · **B** hub · **C** telescopic (`5729cb4`) · **D** Domal + 2-track price + 4-track · **F** Merchant Path B + schema hygiene | GMC **Fetch** = user action; D proofs `docs/assets/seo-recovery/D-<slug>/` |
-| **PENDING** (drop-URL sequence) | **E** calculators · **G** long-tail · **H** city differentiate · **I** index hygiene · **J** competitors | E = next after D PASS; keep calc URLs |
+| **DONE** | **A** 3-track · **B** hub · **C** telescopic (`5729cb4`) · **D** Domal + 2-track price + 4-track · **E** calculators · **F** Merchant Path B + schema hygiene | GMC **Fetch** = user action; E proofs `docs/assets/seo-recovery/E-*/` |
+| **PENDING** (drop-URL sequence) | **G** long-tail · **H** city differentiate · **I** index hygiene · **J** competitors | Keep calc URLs; E primary = `/aluminium-window-price-calculator` |
 | **NEW PENDING** (growth segments) | **K** shower · **L** pergola · **M** louvers · **N** mirrors | Low rank / low clicks vs potential; **same dual-check**; **no URL change**; hub first → top children by traffic |
 
-**Overlap clarity for owner:** Fix D (2026-11-06) locked Domal price, 2-track **price guide**, and 4-track price SERP roles (no URL changes). Product page `aluminium-sliding-window` already distinct (S29–S40) — not rewritten in this D pass. Calculator SERP unify remains **Fix E**.
+**Overlap clarity for owner:** Fix D locked Domal / 2-track price guide / 4-track. Fix E (2026-11-06) locked calculator SERP: primary = `/aluminium-window-price-calculator`; hub `/calculators`; sliding product calc; glass elevation — **no URL changes**.
 
 ---
 
@@ -436,7 +436,7 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 | B Hub | **DONE / PASS** (2026-11-06) LIVE | `docs/assets/hub-fix-b/` · `seo-recovery/B/` | Live 3e75128 |
 | C Telescopic | PASS (2026-11-06) | `docs/assets/telescopic-fix-c/` · `seo-recovery/C/` | Live `5729cb4`; multi-panel door CTR; bifold FAQ |
 | D Sliding cluster | **DONE / PASS** (2026-11-06) LIVE | `seo-recovery/D-domal-window-price/` · `D-2-track-aluminium-window-price/` · `D-4-track-sliding-window-price/` | Domal `69672de` · 2-track price `96ad223` · 4-track `bd9490c`; calc unify → **E** |
-| E Calculators | **PENDING** | `docs/assets/seo-recovery/E/` | Signals only; URLs stay |
+| E Calculators | **DONE / PASS** (2026-11-06) local → push | `seo-recovery/E-aluminium-window-price-calculator/` (+ hub / sliding / glass) | Primary `/aluminium-window-price-calculator` (GSC); URLs stay |
 | F Merchant / snippets | **DONE (Path B + schema)** — GMC Fetch = user | `docs/assets/seo-recovery/F/` | Feed+CTA+Razorpay = ₹1,000; await Diagnostics |
 | G Long-tail | **PENDING** | `docs/assets/seo-recovery/G/` | Protect June-style |
 | H City differentiate | **PENDING** | `docs/assets/seo-recovery/H/` | Not noindex-first |
@@ -459,4 +459,4 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 
 ---
 
-*End of plan. Fix D Domal / 2-track price / 4-track PASS live (`69672de` / `96ad223` / `bd9490c`). Next money Fix = **E** calculators. Merchant Fetch remains a user action.*
+*End of plan. Fix E calculators PASS local (primary `/aluminium-window-price-calculator`). Next money Fix = **G** long-tail — do not start K until E live confirmed. Merchant Fetch remains a user action.*

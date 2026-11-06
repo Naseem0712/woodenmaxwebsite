@@ -1,0 +1,13 @@
+# Fix E AFTER local — HUB — all WoodenMax building-material calculators
+date: 2026-11-06
+file: calculators.html
+sha256_12: cbcf9d3fac39
+role: HUB — all WoodenMax building-material calculators
+GSC_baseline: 20 clicks / 526 impr / 3.8% CTR / pos 5.34
+title: Building Material Price Calculators | Windows, Glass Elevation & More | WoodenMax
+h1: Building Material Price Calculators
+description: Hub of WoodenMax price calculators — aluminium windows, glass elevation, ACP/HPL, louvers, railings and more. Soft planning estimates from live rates. Pick a tool by material.
+canonical: https://woodenmax.in/calculators
+og:title: Building Material Price Calculators | Windows, Glass Elevation & More | WoodenMax
+keywords: removed
+AggregateRating: removed

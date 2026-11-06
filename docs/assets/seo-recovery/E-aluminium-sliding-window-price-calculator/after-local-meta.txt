@@ -1,0 +1,13 @@
+# Fix E AFTER local — SLIDING-SPECIFIC tool (supporting)
+date: 2026-11-06
+file: products/aluminium-windows/aluminium-sliding-window-price-calculator.html
+sha256_12: bc7f3733f613
+role: SLIDING-SPECIFIC tool (supporting)
+GSC_baseline: 2 clicks / 19 impr / 10.53% CTR / pos 6.68
+title: Aluminium Sliding Window Price Calculator | Size & Soft ₹ Band | WoodenMax
+h1: Aluminium Sliding Window Price Calculator
+description: Sliding window price calculator — enter width × height, glass, coating and mesh for a soft ₹ planning band. For all aluminium window types use the primary calculator. WoodenMax India.
+canonical: https://woodenmax.in/products/aluminium-windows/aluminium-sliding-window-price-calculator
+og:title: Aluminium Sliding Window Price Calculator | Size & Soft ₹ Band | WoodenMax
+keywords: removed
+AggregateRating: removed

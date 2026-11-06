@@ -1,0 +1,13 @@
+# Fix E AFTER local — GLASS ELEVATION / curtain wall (supporting, non-window)
+date: 2026-11-06
+file: glass-elevation-price-calculator.html
+sha256_12: 0633df9a365a
+role: GLASS ELEVATION / curtain wall (supporting, non-window)
+GSC_baseline: 10 clicks / 712 impr / 1.4% CTR / pos 4.23
+title: Glass Elevation Price Calculator | Curtain Wall Soft Estimate | WoodenMax
+h1: Glass Elevation Price Calculator
+description: Glass elevation price calculator for curtain wall and structural glazing. Soft planning estimate by area, glass and frame — not an aluminium window calculator. WoodenMax India.
+canonical: https://woodenmax.in/glass-elevation-price-calculator
+og:title: Glass Elevation Price Calculator | Curtain Wall Soft Estimate | WoodenMax
+keywords: removed
+AggregateRating: removed
