@@ -1,0 +1,19 @@
+﻿# Fix D BEFORE meta — domal-window-price (live)
+Date: 2026-11-06
+URL: https://woodenmax.in/products/aluminium-windows/domal-window-price
+title: Domal Window Price Guide (2026) — 27mm / 27×65 Sliding | WoodenMax
+h1: Domal Window Price — 27mm / 27×65 Sliding Series
+canonical: https://woodenmax.in/products/aluminium-windows/domal-window-price
+description: Domal (27×65) aluminium sliding guide: 2-track or 3-track with mesh, honest height limits, and live calculator. Planning from ₹650/sqft (2-track) and ₹850/sqft (3-track) before GST.
+og:title: Domal Window Price Guide (2026) — 27mm / 27×65 Sliding | WoodenMax
+og:image: /images/products/aluminium-windows/3-track-aluminium-sliding-window-with-mesh-1200.webp
+Product.name: Domal Window (27mm / 27×65 Aluminium Sliding Series)
+FAQPage Q count: 18
+AggregateRating: none
+keywords meta: none
+Gaps / twin risks (pre-edit):
+- H2 + image titles still "Domal … with Mesh" / "3 Track Aluminium Sliding Window Price…"
+- SoftwareApplication describes "3 track sliding window"
+- FAQ Qs still lead with "3 track sliding window or domal"
+- ItemList name = "3 Track Sliding Window (27MM Domal Series)"
+- Hero title attributes collide with 3-track product SERP identity

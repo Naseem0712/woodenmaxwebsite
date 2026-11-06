@@ -1,0 +1,14 @@
+﻿# Fix D AFTER local meta — domal-window-price
+Date: 2026-11-06
+URL: http://localhost:5500/products/aluminium-windows/domal-window-price?cb=fixd1
+title: Domal Aluminium Window Price (2026) — 27mm / 27×65 Series | WoodenMax
+h1: Domal Window Price — 27mm / 27×65 Series
+canonical: https://woodenmax.in/products/aluminium-windows/domal-window-price (unchanged)
+description: Domal window price for the 27mm / 27×65 aluminium series. Soft planning from ₹650/sqft (2-track) and ₹850/sqft (3-track with mesh)...
+og:title: matches title
+Product.name: Domal Window Price — 27mm / 27×65 Series
+FAQPage: 18/18 exact match visible
+AggregateRating: none
+keywords: none
+Twin test vs 3-track mesh product title: No (Domal series price ownership; soft link to 3-track)
+Soft rates: ₹650 / ₹850 from calculator config source
