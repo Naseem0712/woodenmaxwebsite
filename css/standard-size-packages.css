@@ -136,13 +136,38 @@
   color: var(--pkg-muted, #64748b);
 }
 
-.wm-std-pkg-price {
-  margin: 0.4rem 0 0;
+/* Path B: online booking ₹1,000 is the purchase price; fabrication is estimate only */
+.wm-std-pkg-booking-price {
+  margin: 0.45rem 0 0;
   font-size: 1.32rem;
   font-weight: 800;
   color: var(--pkg-ink, #0f172a);
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
+}
+
+.wm-std-pkg-booking-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #64748b;
+  margin-bottom: 0.1rem;
+}
+
+.wm-std-pkg-price {
+  margin: 0.2rem 0 0;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #475569;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.wm-std-pkg-price-label {
+  font-weight: 600;
+  color: #64748b;
 }
 
 .wm-std-pkg-note {
@@ -247,7 +272,8 @@
   .wm-std-pkg-actions { grid-template-columns: 1fr; }
   .wm-std-pkg-btn--custom { grid-column: auto; }
   .wm-std-pkg-btn--custom-top { width: 100%; }
-  .wm-std-pkg-price { font-size: 1.18rem; }
+  .wm-std-pkg-booking-price { font-size: 1.18rem; }
+  .wm-std-pkg-price { font-size: 0.88rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

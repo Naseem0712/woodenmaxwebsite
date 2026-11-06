@@ -136,6 +136,9 @@
     document.head.appendChild(link);
   }
 
+  function isFullElevationFacade(product) {
+    return !!(product && product.id === 'full-elevation-villa-facade');
+  }
   function isEconomyWindow(product) {
     return product && product.id === '3track-sliding';
   }
@@ -151,7 +154,7 @@
   function isSwingDoorProduct(product) {
     if (!product || product.category !== 'aluminium-windows') return false;
     if (isEconomyWindow(product) || isSlidingWindow(product)) return false;
-    if (product.id === 'full-elevation-villa-facade' || product.id === '2track-french') return false;
+    if (isFullElevationFacade(product) || product.id === '2track-french') return false;
     return isCasementLike(product) || isEntranceDoorProduct(product);
   }
   function needsCompositeLayout(w, h) {
@@ -434,7 +437,7 @@
     if (/slimline/.test(id)) return 'Slimline Casement';
     if (/french|georgian/.test(id)) return name ? name.slice(0, 42) : 'French / Georgian';
     if (/slim-entrance/.test(id)) return 'Slim Entrance Door';
-    if (/full-elevation/.test(id)) return 'Full Elevation';
+    if (/full-elevation/.test(id)) return 'Slim Imported Fixed Glazing';
     if (/louver|fold|telescopic|railing|hpl|acp/.test(id)) return (name || id).slice(0, 42);
     return (name || id || 'Product').slice(0, 42);
   }
@@ -447,6 +450,9 @@
     var series = seriesShortName(product);
     var size = sizeLabel(sz);
     var glass = glassMm + 'mm Clear Tuff';
+    if (isFullElevationFacade(product)) {
+      return 'Slim Imported Fixed Glazing ' + size + ' · Villa Facade · ' + glass;
+    }
     // Only Domal uses literal 2-track / 3-track SKU language
     if (isDomalTrackProduct(product)) {
       return withMesh
@@ -506,17 +512,25 @@
     if (isSwingDoorProduct(product)) return buildSwingDoorPackages(product);
     var list = [];
     var premium = isPremiumSliding(product);
+    var elevation = isFullElevationFacade(product);
     var sizes = premium ? PREMIUM_WINDOW_SIZES : ECONOMY_WINDOW_SIZES;
     var glassMm = premium ? 8 : 6;
-    var meshOk = supportsMeshOrThreeTrack(product);
+    var meshOk = !elevation && supportsMeshOrThreeTrack(product);
     sizes.forEach(function (sz) {
+      var specs;
+      if (elevation) {
+        specs = 'Slim imported profiles \u00b7 Villa facade fixed glazing \u00b7 ' +
+          glassMm + 'mm clear tuff \u00b7 Standard powder coat';
+      } else {
+        specs = (premium ? 'Premium series \u00b7 ' : (isDomalTrackProduct(product) ? '3-track sliding \u00b7 ' : 'Economy series \u00b7 ')) +
+          (isDomalTrackProduct(product) && meshOk ? '2 track without mesh \u00b7 ' : (meshOk ? 'Without mesh \u00b7 ' : '')) +
+          glassMm + 'mm clear tuff \u00b7 Standard powder coat';
+      }
       list.push({
         kind: 'window', size: sz, withMesh: false, glassMm: glassMm,
         amount: priceWindow(product, sz.w, sz.h, false, glassMm),
         title: windowSeoTitle(product, sz, false, glassMm),
-        specs: (premium ? 'Premium series \u00b7 ' : (isDomalTrackProduct(product) ? '3-track sliding \u00b7 ' : 'Economy series \u00b7 ')) +
-          (isDomalTrackProduct(product) && meshOk ? '2 track without mesh \u00b7 ' : (meshOk ? 'Without mesh \u00b7 ' : '')) +
-          glassMm + 'mm clear tuff \u00b7 Standard powder coat'
+        specs: specs
       });
       if (meshOk) {
         list.push({
@@ -1134,13 +1148,14 @@
           '<h3 class="wm-std-pkg-title">' + escapeHtml(pkg.title) + '</h3>' +
           '<p class="wm-std-pkg-specs">' + escapeHtml(pkg.specs) + '</p>' +
         '</div>' +
+        '<p class="wm-std-pkg-booking-price" data-booking-price="1000"><span class="wm-std-pkg-booking-label">Online booking</span> \u20b91,000</p>' +
         '<p class="wm-std-pkg-price" data-package-price data-price="' + escapeHtml(Math.round(pkg.amount)) + '" data-amount="' + escapeHtml(Math.round(pkg.amount)) + '">' +
-          escapeHtml(fmtINR(pkg.amount)) +
+          '<span class="wm-std-pkg-price-label">Est. fabrication</span> ' + escapeHtml(fmtINR(pkg.amount)) +
         '</p>' +
-        '<p class="wm-std-pkg-note">Before GST \u00b7 Live rate</p>' +
+        '<p class="wm-std-pkg-note">Booking deposit charged online \u00b7 Fabrication estimate before GST \u00b7 Balance after site visit</p>' +
         '<div class="wm-std-pkg-actions">' +
           '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--quote" data-action="pkg-quote">Add to Quotations</button>' +
-          '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--buy" data-action="pkg-buy">Buy Now</button>' +
+          '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--buy" data-action="pkg-buy" data-booking-inr="1000">Book Now \u2014 \u20b91,000</button>' +
           '<button type="button" class="wm-std-pkg-btn wm-std-pkg-btn--custom" data-action="pkg-custom">Try Custom Size</button>' +
         '</div>' +
       '</article>'
@@ -1188,7 +1203,8 @@
       var priceEl = card.querySelector('[data-package-price], [data-price]');
       if (priceEl) {
         var rounded = String(Math.round(pkg.amount));
-        priceEl.textContent = fmtINR(pkg.amount);
+        // Keep Est. fabrication label so Path B booking ₹1,000 stays the clear online price
+        priceEl.innerHTML = '<span class="wm-std-pkg-price-label">Est. fabrication</span> ' + escapeHtml(fmtINR(pkg.amount));
         priceEl.setAttribute('data-amount', rounded);
         priceEl.setAttribute('data-price', rounded);
       }
@@ -1285,6 +1301,7 @@
   function headingFor(product) {
     if (!product) return 'Standard packages';
     if (product.category === 'shower-partitions') return 'Standard shower packages (7 ft height)';
+    if (isFullElevationFacade(product)) return 'Slim imported fixed glazing \u00b7 Villa facade packages';
     if (isPremiumSliding(product)) return 'Premium sliding packages \u00b7 8mm clear tuff';
     if (isSwingDoorProduct(product)) {
       return isEntranceDoorProduct(product)

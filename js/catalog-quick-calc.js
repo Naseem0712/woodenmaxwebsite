@@ -262,13 +262,13 @@
       box.id = 'catalogBuyActions';
       box.className = 'catalog-buy-actions';
       box.setAttribute('role', 'group');
-      box.setAttribute('aria-label', 'Buy online');
+      box.setAttribute('aria-label', 'Book online');
       box.innerHTML =
-        '<p class="catalog-buy-lead"><strong>Buy online</strong> — secure checkout via Razorpay (UPI, card, netbanking). ' +
-        '₹1,000 booking reserves your slot; full mirror order can be paid from cart.</p>' +
+        '<p class="catalog-buy-lead"><strong>Book Now — ₹1,000</strong> booking deposit via Razorpay (UPI, card, netbanking). ' +
+        'This is the online purchase amount; full mirror order can also be paid from cart after sizes are set.</p>' +
         '<div class="catalog-buy-btns">' +
           '<button type="button" class="catalog-buy-btn catalog-buy-btn--primary" data-catalog-pay="booking">' +
-            'Buy online — Pay ₹1,000' +
+            'Book Now — Pay ₹1,000' +
           '</button>' +
           '<button type="button" class="catalog-buy-btn" data-catalog-pay="mirror_full">' +
             'Buy now — pay full calculator total' +
@@ -277,7 +277,7 @@
             'Add to cart' +
           '</button>' +
         '</div>' +
-        '<p class="catalog-buy-policy">Refund before production · <a href="/policies/cancellation-refund-policy">Cancellation policy</a></p>';
+        '<p class="catalog-buy-policy">Booking deposit · Refund before production · <a href="/policies/cancellation-refund-policy">Cancellation policy</a></p>';
       result.insertAdjacentElement('afterend', box);
       box.addEventListener('click', function (e) {
         var btn = e.target.closest && e.target.closest('[data-catalog-pay]');
@@ -321,7 +321,7 @@
     btn.type = 'button';
     btn.className = 'cluster-cta-primary catalog-hero-buy';
     btn.setAttribute('data-catalog-hero-buy', '1');
-    btn.textContent = 'Buy online — Pay ₹1,000';
+    btn.textContent = 'Book Now — Pay ₹1,000';
     heroCta.insertBefore(btn, heroCta.firstChild);
     btn.addEventListener('click', function () {
       var calc = document.getElementById('wmCatalogCalc');

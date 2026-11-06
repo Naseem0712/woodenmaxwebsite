@@ -21,7 +21,8 @@ const vm = require('vm');
 const ROOT = path.resolve(__dirname, '..');
 const DRY = process.argv.includes('--dry');
 const VERIFY_ONLY = process.argv.includes('--verify');
-const CSS_HREF = '/css/standard-size-packages.css?v=20260801a';
+const FORCE = process.argv.includes('--force');
+const CSS_HREF = '/css/standard-size-packages.css?v=20261106b';
 const SECTION_MARK = 'wm-standard-packages';
 
 const productsData = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'products.json'), 'utf8'));
@@ -365,7 +366,8 @@ function injectJob(html, job, absFile) {
     relForTarget === 'products/shower-partitions/frameless-shower-partition.html' ||
     relForTarget === 'products/pergola/aluminium-pergola.html';
   const current = verifyFileContent(html, absFile);
-  if (current.ok && (!target || /\bdata-pricing-revision=["'][^"']+["']/.test(html))) {
+  // --force rebuilds cards (e.g. Buy Now → Book Now ₹1,000 Path B CTA)
+  if (!FORCE && current.ok && (!target || /\bdata-pricing-revision=["'][^"']+["']/.test(html))) {
     return { html, changed: false, cardCount: job.packages.length, sectionId: job.sectionId, productId: job.product.id };
   }
   let out = stripExistingSections(html);

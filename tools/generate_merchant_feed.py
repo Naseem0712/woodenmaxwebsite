@@ -1,30 +1,24 @@
 """
-Generate products-feed.csv for Google Merchant Center.
+Generate products-feed.csv / products-feed.xml for Google Merchant Center.
 
-Source of truth for price (in order):
-  1.  Per-product override in PRICE_OVERRIDES below (when title says one
-      thing but a slightly different rate is the canonical starting MRP).
-  2.  Price band parsed from the <title>: "₹350-450/sqft" → 350,
-      "₹22K-99K" → 22000, "₹950+/sqft" → 950.
-  3.  Same regex against <meta description>.
-  4.  data/products.json `rates.baseRate` (matched by id or slug).
-  5.  Per-category fallback (LAST resort — flag in stderr).
+Path B (Fix F — Merchant purchase path):
+  Feed `price` is always the ₹1,000 online booking deposit that Razorpay
+  charges via Book Now / Buy online — Pay ₹1,000. Estimated fabrication /
+  ₹/sqft bands stay in title/description for context only — never as the
+  Shopping checkout price (that mismatch caused "User cannot complete
+  purchase" / invalid price).
 
-This avoids the previous bug where the whole grill folder shared
-the `200.00 INR` default, all pergolas shared `1500.00 INR`, etc.
+Estimated rate source (for description / custom_label band only):
+  1. PRICE_OVERRIDES
+  2. Title / meta ₹ parse
+  3. data/products.json baseRate
+  4. Category fallback
 
-Other fixes vs. previous version:
-  - Titles are truncated at the nearest ` | ` / ` — ` boundary before
-    150 chars, never mid-word with `...`.
-  - `| Woodenmax` is only appended when not already present.
-  - Adds GMC-recommended fields: identifier_exists, shipping,
-    custom_label_0, custom_label_1, custom_label_2.
-  - Deduplicates by `title` (case-insensitive) — second occurrence is
-    dropped with a stderr warning so editorial conflicts surface.
-  - Outputs `id` from page slug, kept stable so GMC re-uses click data.
-
-Outputs fields suitable for scheduled fetch URL (e.g. https://woodenmax.in/products-feed.csv).
-Google taxonomy: https://www.google.com/basepages/producttype/taxonomy-with-ids.en-US.txt
+Other rules:
+  - Titles truncated at nearest ` | ` / ` — ` before 150 chars.
+  - Never emit free shipping 0.00 (account-level shipping in GMC).
+  - sale_price empty unless a real INR promo (never condition/brand drift).
+  - Deduplicate by title; stable id from page slug.
 """
 from __future__ import annotations
 
@@ -51,6 +45,8 @@ DATA_JSON = ROOT / "data" / "products.json"
 SITE_ORIGIN = "https://woodenmax.in"
 # Tax / GSTIN: add in Merchant Center → Business settings (not in product feed).
 BRAND = "Woodenmax"
+# Path B: checkout charge = feed price = Book Now CTA
+BOOKING_INR = 1000
 
 # ----------------------------------------------------------------------
 # Per-product price overrides (₹/sqft or ₹/piece).  Only fill in when
@@ -952,17 +948,17 @@ def write_xml_feed(rows: list[dict]) -> None:
             for img in [u.strip() for u in r["additional_image_link"].split(",") if u.strip()][:10]:
                 out.append(f'    <g:additional_image_link>{_xml_escape(img)}</g:additional_image_link>')
         out.append(f'    <g:price>{_xml_escape(r["price"])}</g:price>')
+        # Never emit sale_price unless it is a real INR promo matching the shop
+        sale = (r.get("sale_price") or "").strip()
+        if sale and re.match(r"^\d+(\.\d+)?\s+INR$", sale):
+            out.append(f'    <g:sale_price>{_xml_escape(sale)}</g:sale_price>')
         out.append(f'    <g:availability>{_xml_escape(r["availability"])}</g:availability>')
         out.append(f'    <g:condition>{_xml_escape(r["condition"])}</g:condition>')
         out.append(f'    <g:brand>{_xml_escape(r["brand"])}</g:brand>')
         out.append(f'    <g:identifier_exists>{_xml_escape(r["identifier_exists"])}</g:identifier_exists>')
         out.append(f'    <g:google_product_category>{_xml_escape(r["google_product_category"])}</g:google_product_category>')
         out.append(f'    <g:product_type>{_xml_escape(r["product_type"])}</g:product_type>')
-        out.append(f'    <g:shipping>')
-        out.append(f'      <g:country>IN</g:country>')
-        out.append(f'      <g:service>Standard</g:service>')
-        out.append(f'      <g:price>0.00 INR</g:price>')
-        out.append(f'    </g:shipping>')
+        # Shipping is account-level in GMC — do not claim free 0.00 INR here
         for i in range(5):
             key = f"custom_label_{i}"
             val = r.get(key, "")
@@ -1092,16 +1088,29 @@ def main() -> None:
             "project" if cat_key == "pergola" and price_val > 5000 else "sqft"
         )
 
+        booking_title = title
+        if not booking_title.lower().startswith("booking"):
+            booking_title = f"Booking ₹1,000 — {title}"
+        booking_title = booking_title[:149]
+        booking_desc = (
+            f"Online booking deposit of ₹{BOOKING_INR:,}. "
+            f"Estimated starting rate context: ₹{int(price_val):,}. "
+            f"{desc} "
+            "Complete payment with Book Now / Buy online — Pay ₹1,000 on the product page. "
+            "Balance after site visit and approval. GST extra."
+        )[:4990]
+
         rows.append(
             {
                 "id": fid,
-                "title": title,
-                "description": desc,
+                "title": booking_title,
+                "description": booking_desc,
                 "link": link,
                 "image_link": image,
                 "additional_image_link": additional,
                 "availability": "in stock",
-                "price": f"{float(price_val):.2f} INR",
+                # Path B: feed price MUST equal Razorpay booking charge
+                "price": f"{float(BOOKING_INR):.2f} INR",
                 "sale_price": "",        # only set during a real promo
                 "condition": "new",
                 "brand": BRAND,
@@ -1111,48 +1120,17 @@ def main() -> None:
                 "google_product_category": google_product_category_for(rel),
                 "product_type": product_type_for(rel),
                 "category": category_label_for(rel),
-                "shipping": "IN::Standard:0.00 INR",   # delivered free PAN-India for qualifying orders
+                "shipping": "",  # account-level in GMC — never free 0.00 claim
                 "shipping_weight": "",
                 "custom_label_0": cat_key,
                 "custom_label_1": band,
                 "custom_label_2": unit,
-                "custom_label_3": "live-calculator",
+                "custom_label_3": "booking-deposit",
                 "custom_label_4": "2026",
             }
         )
 
-    rows.append(
-        {
-            "id": "pricing-api-calculate",
-            "title": f"WoodenMax Live Pricing API | {BRAND} Aluminium Calculator",
-            "description": (
-                "Public pricing API for aluminium windows, louvers, and mirror profiles. "
-                "Pass width, height, product id — get JSON breakdown with GST. "
-                f"Powered by {BRAND} Pricing Engine v1.0."
-            )[:4990],
-            "link": f"{SITE_ORIGIN}/api/calculate",
-            "image_link": normalize_feed_image_url(DEFAULT_FEED_LOGO),
-            "additional_image_link": "",
-            "availability": "in stock",
-            "price": "578.00 INR",
-            "sale_price": "",
-            "condition": "new",
-            "brand": BRAND,
-            "gtin": "",
-            "mpn": "",
-            "identifier_exists": "no",
-            "google_product_category": "Hardware > Building Materials",
-            "product_type": "Services > Pricing API",
-            "category": "Pricing API",
-            "shipping": "IN::Standard:0.00 INR",
-            "shipping_weight": "",
-            "custom_label_0": "pricing-api",
-            "custom_label_1": "tool",
-            "custom_label_2": "api",
-            "custom_label_3": "live-calculator",
-            "custom_label_4": "2026",
-        }
-    )
+    # Do not list the pricing API as a Shopping product (no Buy path).
 
     rows.sort(key=lambda r: (r["product_type"], r["id"]))
 

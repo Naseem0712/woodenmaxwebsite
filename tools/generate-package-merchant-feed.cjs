@@ -403,8 +403,11 @@ function meshSkuPart(pkg) {
   return pkg.mode || 'std';
 }
 
+/** Path B (Fix F): Shopping SKU = ₹1,000 booking deposit — must match Book Now CTA + Razorpay. */
+const BOOKING_INR = 1000;
+
 function rowFromPkg(p, pkg, link) {
-  const price = Math.max(1, Math.round(pkg.amount));
+  const estFabrication = Math.max(1, Math.round(pkg.amount));
   const sz = pkg.size || {};
   const sizePart = pkg.areaSqft
     ? pkg.areaSqft + 'sqft'
@@ -412,11 +415,14 @@ function rowFromPkg(p, pkg, link) {
       ? sz.w + 'x' + ((sz.floors || 1) + 'fl')
       : (sz.w + 'x' + sz.h));
   const fid = slugId([p.id, sizePart, meshSkuPart(pkg), pkg.withProfile ? 'prof' : '', pkg.withLed ? 'led' : ''].filter(Boolean));
-  // Unique title: include product id short tag when title would collide across series
-  const title = (pkg.title + ' | ' + BRAND).slice(0, 149);
+  // Unique title: booking deposit identity first so feed price ₹1,000 matches checkout
+  const title = ('Booking ₹1,000 — ' + pkg.title + ' | ' + BRAND).slice(0, 149);
   const desc = (
-    pkg.specs + '. Live package rate from WoodenMax calculator. GST 18% extra. ' +
-    'Hyderabad factory. India-wide supply. Configure custom sizes on product page.'
+    'Online booking deposit of ₹1,000 for ' + pkg.title + '. ' +
+    (pkg.specs ? pkg.specs + '. ' : '') +
+    'Estimated fabrication (pre-GST, not charged at booking): ₹' + estFabrication.toLocaleString('en-IN') + '. ' +
+    'Balance after site visit and approval. GST extra. Hyderabad factory. India-wide supply. ' +
+    'Use Book Now — ₹1,000 on the product page to complete payment.'
   ).slice(0, 4990);
   const imgs = imageForProduct(p);
   return {
@@ -427,7 +433,7 @@ function rowFromPkg(p, pkg, link) {
     image_link: imgs.primary,
     additional_image_link: imgs.extrasCsv,
     availability: 'in stock',
-    price: price.toFixed(2) + ' INR',
+    price: BOOKING_INR.toFixed(2) + ' INR',
     sale_price: '',
     condition: 'new',
     brand: BRAND,
@@ -437,11 +443,12 @@ function rowFromPkg(p, pkg, link) {
     google_product_category: 'Hardware > Building Materials',
     product_type: 'Home & Garden > ' + (p.category || 'Products'),
     category: p.category || 'Products',
-    shipping: 'IN::Standard:0.00 INR',
+    // Account-level shipping in GMC — never claim free 0.00 here
+    shipping: '',
     shipping_weight: '',
     custom_label_0: p.category || 'package',
-    custom_label_1: band(price),
-    custom_label_2: 'package',
+    custom_label_1: band(estFabrication),
+    custom_label_2: 'booking-deposit',
     custom_label_3: 'standard-size-package',
     custom_label_4: '2026'
   };
