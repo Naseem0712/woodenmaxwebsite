@@ -1,0 +1,5 @@
+# Fix N BEFORE live — led-mirror-profile-hyderabad
+date: 2026-11-06
+url: https://woodenmax.in/products/mirror-profiles/led-mirror-profile-hyderabad
+title: LED Mirror Price Hyderabad (2026) — Bathroom Mirror with Lights | WoodenMax
+note: Captured from local main before polish (matches prior live deploy).

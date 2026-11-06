@@ -1,0 +1,7 @@
+# Fix N AFTER local — mirror-profiles
+date: 2026-11-06
+file: D:/Downloads/woodenmax-live/products/mirror-profiles/index.html
+sha256_12: 1f388114055b
+title: Mirror Profiles for Indian Homes | Types, Soft Price Bands &amp; Calculators | WoodenMax
+h1: Mirror Profiles for Indian Homes — Types, Soft Bands &amp; Calculators
+meta: Browse aluminium mirror profiles for Indian homes — LED bathroom, backlit, touch sensor, wardrobe and frame-only lines. Soft installed bands on child calculators; GST extra.

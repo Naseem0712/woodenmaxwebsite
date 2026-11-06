@@ -1,6 +1,6 @@
 ﻿# WoodenMax SEO Recovery — Dual-Check Plan
 
-**Status:** Living plan — **NOT fully complete yet** (docs only until each Fix is executed)  
+**Status:** Living plan — **A–N agent work COMPLETE** (2026-11-06). Remaining = owner GMC Fetch + Fix I GSC Removals.  
 **Updated:** 2026-11-06  
 **Account / site:** woodenmax.in · Merchant Center `5356280396`  
 **Related:** `docs/MERCHANT_CENTER_QUALITY_AUDIT.md` (woodenmax-live), `docs/WINDOW_SEGMENT_SEO_KEYWORD_MAP.md`, GA4/GSC analysis 2026-11-06  
@@ -16,12 +16,12 @@
 
 ## Status board (honest — 2026-11-06)
 
-Plan is **not** finished. Drop-URL core: **A–J done**; growth **K–M** live PASS 2026-11-06; next = **N** mirrors (do **not** start N until M pushed).
+Plan agent track **A–N DONE / PASS**. Drop-URL core **A–J** + growth **K–N** complete on main. Owner still runs GMC **Fetch** + Fix I **GSC Removals**.
 
 | Board | Fixes | Notes |
 |-------|-------|-------|
-| **DONE** | **A** 3-track · **B** hub · **C** telescopic · **D** Domal + 2-track price + 4-track · **E** calculators · **F** Merchant Path B + schema hygiene · **G** long-tail · **H** city · **I** index hygiene · **J** competitors · **K** shower · **L** pergola · **M** louvers | GMC **Fetch** + Fix I **GSC Removals** = user actions; proofs `docs/assets/seo-recovery/{H,I,J,K,L,M}/` |
-| **NEW PENDING** (growth segments) | **N** mirrors | Same dual-check; **no URL change**; hub first → top children by traffic |
+| **DONE** | **A–N** (3-track → mirrors) | GMC **Fetch** + Fix I **GSC Removals** = user actions; proofs `docs/assets/seo-recovery/{A…N}/`; hub slash loop fix `redirect-hub-fix/` |
+| **OWNER** | Merchant Fetch · GSC Removals | Diagnostics trend + junk Removals ticket |
 
 **Overlap clarity for owner:** Fix D locked Domal / 2-track price guide / 4-track. Fix E (2026-11-06) locked calculator SERP: primary = `/aluminium-window-price-calculator`; hub `/calculators`; sliding product calc; glass elevation — **no URL changes**.
 
@@ -395,7 +395,7 @@ There is **no** separate secret Google permission page outside Merchant Center c
 - **Exact work:** Lock hub browse vs LED product vs ₹/ft guide vs sensor variants; title/meta/H1/OG/FAQ/schema; soft rates; Merchant SKUs stay honest with Fix F Path B; **no URL change**
 - **Complete-page checklist:** §2; Product Offer honesty
 - **Dual-check proof:** `docs/assets/seo-recovery/N/<slug>/`
-- **Done:** Mirror siblings fail twin test; city pages don’t clone national titles → **PASS**
+- **Done:** Mirror siblings fail twin test; city pages don’t clone national titles → **PASS** (2026-11-06; hashes in `N-mirror-profiles/pass-fail.md`)
 
 ---
 
@@ -450,12 +450,12 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 | F Merchant / snippets | **DONE (Path B + schema)** — GMC Fetch = user | `docs/assets/seo-recovery/F/` | Feed+CTA+Razorpay = ₹1,000; await Diagnostics |
 | G Long-tail | **DONE / PASS** (2026-11-06) LIVE `aa6fcae` | `seo-recovery/G-*/` (5 pages) | top-hung · french-sliding · georgian · soundproof · Al grill designs |
 | H City differentiate | **DONE / PASS** (2026-11-06) local `0909831` | `seo-recovery/H-*/` (6 cities) | Hyd · Blr · Del · Pun · Mum · Chd; pushed main; await CDN after-live |
-| I Index hygiene | **PENDING** | `docs/assets/seo-recovery/I/` | Junk GSC only |
+| I Index hygiene | **DONE / PASS** (2026-11-06) — GSC Removals = user | `docs/assets/seo-recovery/I/` | robots + noindex junk params; Removals ticketed |
 | J Competitor titles | **DONE / PASS** (2026-11-06) | `docs/assets/seo-recovery/J/COMPETITOR_TITLES.md` | Alupure-first + 7 brands; WM formulas locked |
 | K Shower | **DONE / PASS** (2026-11-06) LIVE `9e48c78` | `seo-recovery/K-shower-partitions/` · `K-frameless-*` | Hub browse + frameless PDP + price guide; cite Fix J |
-| L Pergola | **NEW PENDING** | `docs/assets/seo-recovery/L/<slug>/` | Hub → aluminium / retractable / glass-roof |
-| M Louvers | **NEW PENDING** | `docs/assets/seo-recovery/M/<slug>/` | Hub → facade / sqft / motorized |
-| N Mirrors | **NEW PENDING** | `docs/assets/seo-recovery/N/<slug>/` | Hub → LED / backlit / ₹/ft |
+| L Pergola | **DONE / PASS** (2026-11-06) LIVE | `seo-recovery/L-pergola/` · `L-aluminium-pergola/` | Hub browse + aluminium-pergola; hub slash loop fixed with N |
+| M Louvers | **DONE / PASS** (2026-11-06) LIVE `1204c6c` | `seo-recovery/M-metal-louvers/` · `M-aluminium-facade-louver-price/` | Hub browse + facade price; hub slash loop fixed with N |
+| N Mirrors | **DONE / PASS** (2026-11-06) | `seo-recovery/N-mirror-profiles/` · `N-*` children | Hub browse + LED/backlit/₹/ft/touch/cities; Fix J formulas |
 
 ---
 
@@ -469,4 +469,4 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 
 ---
 
-*End of plan. Fix L pergola + Fix M louvers **PASS** 2026-11-06 (see `L-pergola` / `M-metal-louvers` proofs). Next = **N** mirrors (only after M). Merchant Fetch + GSC Removals remain user actions.*
+*End of plan. **A–N PASS** 2026-11-06 (see `seo-recovery/{A…N}/`). Pergola/louvers hub trailing-slash loop fixed with N (`redirect-hub-fix/`). Merchant Fetch + GSC Removals remain user actions.*

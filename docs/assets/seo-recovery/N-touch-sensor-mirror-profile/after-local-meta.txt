@@ -1,0 +1,7 @@
+# Fix N AFTER local — touch-sensor-mirror-profile
+date: 2026-11-06
+file: D:/Downloads/woodenmax-live/products/mirror-profiles/touch-sensor-mirror-profile.html
+sha256_12: 4d9df13c8d2e
+title: Touch Sensor LED Mirror | Soft Designs &amp; Price Band | WoodenMax
+h1: Touch Sensor LED Mirror — Soft Designs &amp; Price Band
+meta: Touch sensor LED mirror for round bathroom and dressing designs — soft designs and installed price band. Live calculator by WoodenMax; GST extra.

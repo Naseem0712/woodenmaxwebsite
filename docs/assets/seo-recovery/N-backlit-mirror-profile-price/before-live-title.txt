@@ -1,0 +1,5 @@
+# Fix N BEFORE live — backlit-mirror-profile-price
+date: 2026-11-06
+url: https://woodenmax.in/products/mirror-profiles/backlit-mirror-profile-price
+title: Backlit Mirror Price India (2026) — LED Bathroom Mirror | WoodenMax
+note: Captured from local main before polish (matches prior live deploy).

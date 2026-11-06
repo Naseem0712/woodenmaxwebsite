@@ -1,0 +1,5 @@
+# Fix N BEFORE live — mirror-profile-price-per-foot
+date: 2026-11-06
+url: https://woodenmax.in/products/mirror-profiles/mirror-profile-price-per-foot
+title: Mirror Profile Price per Foot India (2026) — Beveled Glass, Aluminium Frame &amp; LED | WoodenMax
+note: Captured from local main before polish (matches prior live deploy).

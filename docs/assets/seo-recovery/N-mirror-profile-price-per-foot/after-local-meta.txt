@@ -1,0 +1,7 @@
+# Fix N AFTER local — mirror-profile-price-per-foot
+date: 2026-11-06
+file: D:/Downloads/woodenmax-live/products/mirror-profiles/mirror-profile-price-per-foot.html
+sha256_12: e2943dbfd4e5
+title: Mirror Profile Price per Foot (2026) | Soft ₹/ft Band | WoodenMax
+h1: Mirror Profile Price per Foot — Soft ₹/ft Band (2026)
+meta: Mirror profile price per foot in India — soft ₹/ft bands for beveled glass, aluminium frame and LED add-ons. Rate guide plus live calculator by WoodenMax; GST extra.

@@ -1,0 +1,5 @@
+# Fix N BEFORE live — touch-sensor-mirror-profile
+date: 2026-11-06
+url: https://woodenmax.in/products/mirror-profiles/touch-sensor-mirror-profile
+title: Touch Sensor LED Mirror Price (2026) | WoodenMax
+note: Captured from local main before polish (matches prior live deploy).

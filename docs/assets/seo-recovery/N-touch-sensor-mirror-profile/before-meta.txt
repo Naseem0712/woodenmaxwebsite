@@ -1,0 +1,8 @@
+# Fix N BEFORE — touch-sensor-mirror-profile
+date: 2026-11-06
+file: D:/Downloads/woodenmax-live/products/mirror-profiles/touch-sensor-mirror-profile.html
+url: https://woodenmax.in/products/mirror-profiles/touch-sensor-mirror-profile
+title: Touch Sensor LED Mirror Price (2026) | WoodenMax
+h1: Touch Sensor LED Mirror Price (2026)
+meta: Touch sensor LED mirror price from ₹8,000/piece. Bathroom mirror with lights &amp; 3-color touch control. Live calculator by WoodenMax.
+

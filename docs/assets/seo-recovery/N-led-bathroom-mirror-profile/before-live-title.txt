@@ -1,0 +1,5 @@
+# Fix N BEFORE live — led-bathroom-mirror-profile
+date: 2026-11-06
+url: https://woodenmax.in/products/mirror-profiles/led-bathroom-mirror-profile
+title: LED Bathroom Mirror Price (2026) — Large Backlit Vanity | WoodenMax
+note: Captured from local main before polish (matches prior live deploy).

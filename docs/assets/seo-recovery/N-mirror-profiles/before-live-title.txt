@@ -1,0 +1,5 @@
+# Fix N BEFORE live — mirror-profiles
+date: 2026-11-06
+url: https://woodenmax.in/products/mirror-profiles/
+title: Mirror Profiles &amp; LED Mirror Price India ₹3,500–15,000 (2026) — Bathroom Mirror with Lights | WoodenMax
+note: Captured from local main before polish (matches prior live deploy).

@@ -4,7 +4,9 @@
 # GSC: index + hub cleanup (fix-gsc-url-issues.cjs)
 /index / 301
 /index/ / 301
-/products/metal-louvers /products/metal-louvers/index.html 200
+# Pergola / metal-louvers hubs: real HTML lives at products/<hub>.html (Cloudflare
+# pretty URL). Directory index.html is a noindex stub only. Do NOT rewrite bare
+# path → index.html (that + CF trailing-slash 308 caused a 308↔301 loop).
 /products/metal-louvers/ /products/metal-louvers 301
 /products/metal-louvers/index /products/metal-louvers 301
 /products/metal-louvers/index/ /products/metal-louvers 301
@@ -16,7 +18,6 @@
 /products/mirror-profiles/index/ /products/mirror-profiles/ 301
 /products/mirror-profiles/index.html /products/mirror-profiles/ 301
 /products/mirror-profiles/index.html/ /products/mirror-profiles/ 301
-/products/pergola /products/pergola/index.html 200
 /products/pergola/ /products/pergola 301
 /products/pergola/index /products/pergola 301
 /products/pergola/index/ /products/pergola 301

@@ -1,0 +1,5 @@
+# Fix N BEFORE live — led-mirror-profile-delhi
+date: 2026-11-06
+url: https://woodenmax.in/products/mirror-profiles/led-mirror-profile-delhi
+title: LED Mirror Price Delhi NCR (2026) — Bathroom Mirror with Lights | WoodenMax
+note: Captured from local main before polish (matches prior live deploy).
