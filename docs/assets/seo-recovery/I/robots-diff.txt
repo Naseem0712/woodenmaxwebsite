@@ -1,0 +1,8 @@
+Fix I — robots.txt additions (2026-11-06)
+
+# Fix I — Google Translate / proxy junk params (do not index translated mirrors)
+Disallow: /*?*_x_tr_*
+Disallow: /*?_x_tr_*
+
+Also: js/seo-enhancer.js noindexTranslateJunk() for runtime meta robots when those params are present.
+_headers: comment only for images — no blanket noindex on /images/* (protect Image Search).

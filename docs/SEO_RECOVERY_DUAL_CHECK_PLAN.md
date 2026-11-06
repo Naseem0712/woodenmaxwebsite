@@ -16,12 +16,12 @@
 
 ## Status board (honest — 2026-11-06)
 
-Plan is **not** finished. Drop-URL core: **A–H done** (H local PASS 2026-11-06); next money Fix = **I** index hygiene (do **not** start K until H live PASS confirmed).
+Plan is **not** finished. Drop-URL core: **A–I done** (H **live** PASS 2026-11-06 · I index hygiene PASS local + GSC Removals ticketed); next = **J** competitors (do **not** start K until I pushed).
 
 | Board | Fixes | Notes |
 |-------|-------|-------|
-| **DONE** | **A** 3-track · **B** hub · **C** telescopic · **D** Domal + 2-track price + 4-track · **E** calculators · **F** Merchant Path B + schema hygiene · **G** long-tail (5 pages) · **H** city differentiate (6 pages) | GMC **Fetch** = user action; H proofs `docs/assets/seo-recovery/H-*/` |
-| **PENDING** (drop-URL sequence) | **I** index hygiene · **J** competitors | Keep calc URLs; E primary = `/aluminium-window-price-calculator` |
+| **DONE** | **A** 3-track · **B** hub · **C** telescopic · **D** Domal + 2-track price + 4-track · **E** calculators · **F** Merchant Path B + schema hygiene · **G** long-tail (5 pages) · **H** city differentiate (6 pages, **live**) · **I** index hygiene | GMC **Fetch** + Fix I **GSC Removals** = user actions; proofs `docs/assets/seo-recovery/{H,I}/` |
+| **PENDING** (drop-URL sequence) | **J** competitors | Keep calc URLs; E primary = `/aluminium-window-price-calculator` |
 | **NEW PENDING** (growth segments) | **K** shower · **L** pergola · **M** louvers · **N** mirrors | Low rank / low clicks vs potential; **same dual-check**; **no URL change**; hub first → top children by traffic |
 
 **Overlap clarity for owner:** Fix D locked Domal / 2-track price guide / 4-track. Fix E (2026-11-06) locked calculator SERP: primary = `/aluminium-window-price-calculator`; hub `/calculators`; sliding product calc; glass elevation — **no URL changes**.
@@ -439,7 +439,7 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 | E Calculators | **DONE / PASS** (2026-11-06) LIVE `b791e60` | `seo-recovery/E-aluminium-window-price-calculator/` (+ hub / sliding / glass) | Primary `/aluminium-window-price-calculator` (GSC); URLs stay |
 | F Merchant / snippets | **DONE (Path B + schema)** — GMC Fetch = user | `docs/assets/seo-recovery/F/` | Feed+CTA+Razorpay = ₹1,000; await Diagnostics |
 | G Long-tail | **DONE / PASS** (2026-11-06) LIVE `aa6fcae` | `seo-recovery/G-*/` (5 pages) | top-hung · french-sliding · georgian · soundproof · Al grill designs |
-| H City differentiate | **DONE / PASS** (2026-11-06) local | `seo-recovery/H-*/` (6 cities) | Hyd · Blr · Del · Pun · Mum · Chd; not noindex-first |
+| H City differentiate | **DONE / PASS** (2026-11-06) local `0909831` | `seo-recovery/H-*/` (6 cities) | Hyd · Blr · Del · Pun · Mum · Chd; pushed main; await CDN after-live |
 | I Index hygiene | **PENDING** | `docs/assets/seo-recovery/I/` | Junk GSC only |
 | J Competitor titles | **PENDING** (research started §3) | `docs/assets/seo-recovery/J/` | Alupure first for deep pass |
 | K Shower | **NEW PENDING** | `docs/assets/seo-recovery/K/<slug>/` | Hub → top children; dual-check; no URL change |
@@ -459,4 +459,4 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 
 ---
 
-*End of plan. Fix H city differentiate PASS local (6 pages: Hyderabad · Bengaluru · Delhi NCR · Pune · Mumbai · Chandigarh). Next money Fix = **I** index hygiene — do not start K until H live confirmed. Merchant Fetch remains a user action.*
+*End of plan. Fix H city differentiate **LIVE PASS** (6 pages). Fix I index hygiene PASS local (robots + translate noindex + link soften + GSC Removals ticketed for subdomain junk). Next = **J** competitors — do not start K until I pushed. Merchant Fetch + GSC Removals remain user actions.*

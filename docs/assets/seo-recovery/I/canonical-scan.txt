@@ -1,0 +1,13 @@
+Fix I money-page canonical scan — 2026-11-06
+
+Scanned: products/aluminium-windows/*.html, products/aluminium-windows.html,
+aluminium-window-price-calculator.html, calculators.html, index.html
+
+clean_canonicals: 43
+bad (query / _x_tr_ / systemwindows / window.woodenmax): 0
+
+Sample self-canonicals (live/local HTML):
+- https://woodenmax.in/products/aluminium-windows/aluminium-window-price-hyderabad
+- https://woodenmax.in/products/aluminium-windows/3-track-sliding-window
+- https://woodenmax.in/products/aluminium-windows
+- https://woodenmax.in/aluminium-window-price-calculator

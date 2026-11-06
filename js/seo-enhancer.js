@@ -93,6 +93,28 @@
     document.head.appendChild(m);
   }
 
+  /**
+   * Fix I — Google Translate / proxy junk (?_x_tr_*).
+   * Inject noindex when those params are present so mirrored translated URLs
+   * do not stay in the index. Legitimate UTM/srsltid params are left alone.
+   */
+  function noindexTranslateJunk () {
+    try {
+      var q = String(location.search || '');
+      if (!q) return;
+      if (!/(?:[?&]_x_tr_[^=&]*|%5[Ff]x%5[Ff]tr%5[Ff])/i.test(q) && q.indexOf('_x_tr_') === -1) return;
+      var existing = document.querySelector('meta[name="robots"]');
+      if (existing) {
+        existing.setAttribute('content', 'noindex, follow');
+      } else {
+        var m = document.createElement('meta');
+        m.name = 'robots';
+        m.content = 'noindex, follow';
+        document.head.appendChild(m);
+      }
+    } catch (e) { /* ignore */ }
+  }
+
   function ensureLink (rel, href, opts) {
     opts = opts || {};
     var sel = 'link[rel="' + rel + '"]' + (opts.match ? opts.match : '');
@@ -697,6 +719,7 @@
   function init () {
     try { deferRenderBlockingFonts(); } catch (e) {}
     try { injectDeepSeoCss();        } catch (e) {}
+    try { noindexTranslateJunk();    } catch (e) {}
     try { ensureChromeMeta();        } catch (e) {}
     try { ensureHreflang();          } catch (e) {}
     try { injectLocalBusiness();     } catch (e) {}

@@ -11,3 +11,6 @@
 
 Identical-twin test across cities: **FAIL required (titles must differ)** — verified unique.
 National steal test vs 3-track / Domal / hub: **No** (city + local proof modifiers).
+
+## LIVE dual-check (2026-11-06)
+All six city titles/H1 confirmed unique on https://woodenmax.in (commit `0909831`). CDN fresh — matched local SERP identity.

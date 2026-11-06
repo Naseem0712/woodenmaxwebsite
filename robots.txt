@@ -35,6 +35,9 @@ Allow: /llms-full.txt
 Disallow: /debug
 Disallow: /*?debug*
 Disallow: /*?wmPricingCountry=*
+# Fix I — Google Translate / proxy junk params (do not index translated mirrors)
+Disallow: /*?*_x_tr_*
+Disallow: /*?_x_tr_*
 Disallow: /tmp/
 Disallow: /cache/
 Disallow: /*.log$

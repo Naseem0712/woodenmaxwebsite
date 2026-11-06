@@ -1,6 +1,6 @@
 # Fix H PASS/FAIL — H-aluminium-window-price-pune
 
-**Verdict: PASS** (local 2026-11-06) — awaiting live push hash
+**Verdict: PASS** (local + live 2026-11-06) — commit `0909831`
 
 ## Twin test
 Could this title/H1 be another city twin or steal 3-track / Domal / hub national primary? **No**
@@ -19,3 +19,11 @@ sha256_12=`31a2432561a7`
 
 ## Notes
 Villa/IT-corridor SERP identity; deepened local sections; FAQ≡FAQPage.
+
+## Live verify (2026-11-06)
+- Commit: `0909831` pushed origin/main
+- Live title: `Aluminium Window Price in Pune | Villa & IT Corridor Soft Band | WoodenMax`
+- Live H1: `Aluminium Window Price in Pune — Villa Reveals & IT Corridor Soft Band`
+- Unique vs sibling cities: YES (see H-twin-test.md)
+- after-live-title.txt filed
+

@@ -166,7 +166,7 @@
       heading: 'Products',
       links: [
         { label: 'Aluminium Windows',  href: '/products/aluminium-windows'   },
-        { label: 'System Windows Calculator', href: 'https://systemwindows.woodenmax.in/' },
+        { label: 'Aluminium Window Calculator', href: '/aluminium-window-price-calculator' },
         { label: 'Telescope Windows',  href: '/products/telescope-windows'   },
         { label: 'Folding Systems',    href: '/products/folding-systems'     },
         { label: 'Pergola',            href: '/products/pergola' },
