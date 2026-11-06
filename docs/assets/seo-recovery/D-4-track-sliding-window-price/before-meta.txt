@@ -1,0 +1,4 @@
+﻿# Fix D BEFORE meta — 4-track-sliding-window-price (live)
+Date: 2026-11-06
+title/H1 already wide-opening guide
+Gaps: WebPage.name still shouts ₹650–1200; ItemList/packages still 3-track Domal; Service Domal-series wording; intro soft-links weak

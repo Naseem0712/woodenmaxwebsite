@@ -1,0 +1,4 @@
+﻿# Fix D AFTER local — 4-track-sliding-window-price
+title/H1/Product: 4 Track Sliding Window Price Guide (2026)
+canonical unchanged; FAQ 8/8; ItemList/packages no longer 3-track Domal primary; soft links to 3-track + Domal
+Twin test vs Domal/3-track = No
