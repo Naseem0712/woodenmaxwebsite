@@ -1,4 +1,4 @@
-# WoodenMax SEO Recovery — Dual-Check Plan
+﻿# WoodenMax SEO Recovery — Dual-Check Plan
 
 **Status:** Living plan — **NOT fully complete yet** (docs only until each Fix is executed)  
 **Updated:** 2026-11-06  
@@ -436,7 +436,7 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 | B Hub | **DONE / PASS** (2026-11-06) LIVE | `docs/assets/hub-fix-b/` · `seo-recovery/B/` | Live 3e75128 |
 | C Telescopic | PASS (2026-11-06) | `docs/assets/telescopic-fix-c/` · `seo-recovery/C/` | Live `5729cb4`; multi-panel door CTR; bifold FAQ |
 | D Sliding cluster | **DONE / PASS** (2026-11-06) LIVE | `seo-recovery/D-domal-window-price/` · `D-2-track-aluminium-window-price/` · `D-4-track-sliding-window-price/` | Domal `69672de` · 2-track price `96ad223` · 4-track `bd9490c`; calc unify → **E** |
-| E Calculators | **DONE / PASS** (2026-11-06) local → push | `seo-recovery/E-aluminium-window-price-calculator/` (+ hub / sliding / glass) | Primary `/aluminium-window-price-calculator` (GSC); URLs stay |
+| E Calculators | **DONE / PASS** (2026-11-06) LIVE `b791e60` | `seo-recovery/E-aluminium-window-price-calculator/` (+ hub / sliding / glass) | Primary `/aluminium-window-price-calculator` (GSC); URLs stay |
 | F Merchant / snippets | **DONE (Path B + schema)** — GMC Fetch = user | `docs/assets/seo-recovery/F/` | Feed+CTA+Razorpay = ₹1,000; await Diagnostics |
 | G Long-tail | **PENDING** | `docs/assets/seo-recovery/G/` | Protect June-style |
 | H City differentiate | **PENDING** | `docs/assets/seo-recovery/H/` | Not noindex-first |
