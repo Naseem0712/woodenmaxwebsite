@@ -455,7 +455,7 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 | K Shower | **DONE / PASS** (2026-11-06) LIVE `9e48c78` | `seo-recovery/K-shower-partitions/` · `K-frameless-*` | Hub browse + frameless PDP + price guide; cite Fix J |
 | L Pergola | **DONE / PASS** (2026-11-06) LIVE | `seo-recovery/L-pergola/` · `L-aluminium-pergola/` | Hub browse + aluminium-pergola; hub slash loop fixed with N |
 | M Louvers | **DONE / PASS** (2026-11-06) LIVE `1204c6c` | `seo-recovery/M-metal-louvers/` · `M-aluminium-facade-louver-price/` | Hub browse + facade price; hub slash loop fixed with N |
-| N Mirrors | **DONE / PASS** (2026-11-06) | `seo-recovery/N-mirror-profiles/` · `N-*` children | Hub browse + LED/backlit/₹/ft/touch/cities; Fix J formulas |
+| N Mirrors | **DONE / PASS** (2026-11-06) LIVE `e733343` | `seo-recovery/N-mirror-profiles/` · `N-*` children | Hub browse + LED/backlit/₹/ft/touch/cities; hub slash loops fixed |
 
 ---
 

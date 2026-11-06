@@ -1,0 +1,5 @@
+# Fix after-live — N-mirror-profiles
+date: 2026-11-06
+url_canonical: https://woodenmax.in/products/mirror-profiles/
+commit: e733343
+title: Mirror Profiles for Indian Homes | Types, Soft Price Bands & Calculators | WoodenMax

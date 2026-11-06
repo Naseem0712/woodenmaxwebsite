@@ -1,6 +1,6 @@
 # Fix N PASS/FAIL — Mirrors hub + top children
 
-**Verdict: PASS** (local 2026-11-06) — awaiting push hash
+**Verdict: PASS** (local + live 2026-11-06) — commit `e733343`
 
 ## Twin test
 Could hub/product/price/city titles steal each other's SERP identity? **No** (see N-twin-test.md)
@@ -24,5 +24,8 @@ Could hub/product/price/city titles steal each other's SERP identity? **No** (se
 - `led-mirror-profile-delhi` sha256_12=`9f7ce1de17c3`
 - `led-mirror-profile-hyderabad` sha256_12=`0c68ab9cffcf`
 
-## Live verify
-- Pending push + CDN
+## Live verify (2026-11-06)
+- Commit: `e733343` pushed origin/main
+- Live hub title: `Mirror Profiles for Indian Homes | Types, Soft Price Bands & Calculators | WoodenMax` (match)
+- Live C-type price title: `C-Type LED Mirror Price in India (2026) | Soft ₹/sqft Band | WoodenMax` (match)
+- Unique within mirrors family: YES

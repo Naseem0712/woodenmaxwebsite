@@ -19,4 +19,10 @@ Cloudflare directory trailing-slash 308 fought the slash→bare 301.
 - `/products/metal-louvers` → 200 + real hub title
 - `/products/metal-louvers/` → 200 + real hub title
 
-**Live verify:** after push + CDN (see after-live notes in this folder).
+**Live verify (2026-11-06 commit e733343):**
+- `/products/pergola` → **200** real hub title
+- `/products/pergola/` → **301** → bare → **200**
+- `/products/metal-louvers` → **200** real hub title
+- `/products/metal-louvers/` → **301** → bare → **200**
+- Loop cleared (no more 308↔301).
+
