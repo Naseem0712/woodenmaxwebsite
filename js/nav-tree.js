@@ -18,7 +18,7 @@
           "href": "/products/aluminium-windows/2-track-aluminium-window-price"
         },
         {
-          "label": "3-track Domal sliding",
+          "label": "3-track sliding with mesh",
           "href": "/products/aluminium-windows/3-track-sliding-window"
         },
         {

@@ -418,7 +418,7 @@
   function seriesShortName(product) {
     var id = product.id || '';
     var name = String(product.name || '').replace(/\s+/g, ' ').trim();
-    if (id === '3track-sliding') return '27mm Domal';
+    if (id === '3track-sliding') return '3-Track Aluminium';
     if (id === '29mm-sliding') return '29mm Premium';
     if (id === 'system-sliding-30mm') return '30mm System Sliding';
     if (id === 'system-sliding-31mm') return '31mm System Sliding';
@@ -514,7 +514,7 @@
         kind: 'window', size: sz, withMesh: false, glassMm: glassMm,
         amount: priceWindow(product, sz.w, sz.h, false, glassMm),
         title: windowSeoTitle(product, sz, false, glassMm),
-        specs: (premium ? 'Premium series \u00b7 ' : 'Economy Domal \u00b7 ') +
+        specs: (premium ? 'Premium series \u00b7 ' : (isDomalTrackProduct(product) ? '3-track sliding \u00b7 ' : 'Economy series \u00b7 ')) +
           (isDomalTrackProduct(product) && meshOk ? '2 track without mesh \u00b7 ' : (meshOk ? 'Without mesh \u00b7 ' : '')) +
           glassMm + 'mm clear tuff \u00b7 Standard powder coat'
       });
@@ -523,7 +523,7 @@
           kind: 'window', size: sz, withMesh: true, glassMm: glassMm,
           amount: priceWindow(product, sz.w, sz.h, true, glassMm),
           title: windowSeoTitle(product, sz, true, glassMm),
-          specs: (premium ? 'Premium series \u00b7 ' : 'Economy Domal \u00b7 ') +
+          specs: (premium ? 'Premium series \u00b7 ' : (isDomalTrackProduct(product) ? '3-track sliding \u00b7 ' : 'Economy series \u00b7 ')) +
             (isDomalTrackProduct(product)
               ? '3 track with mesh \u00b7 '
               : (isCasementLike(product) ? 'With openable mesh \u00b7 ' : 'With mesh \u00b7 ')) +
@@ -1291,7 +1291,7 @@
         ? 'Entrance door packages \u00b7 swing (not sliding)'
         : 'Casement / top-hung packages \u00b7 1.5\u00d73 to 3\u00d78 ft';
     }
-    if (isEconomyWindow(product)) return 'Domal window packages \u00b7 6mm clear tuff';
+    if (isEconomyWindow(product)) return '3-track sliding packages \u00b7 6mm clear tuff';
     if (product.category === 'metal-louvers') {
       if (product.id === 'ceiling-pergola-louvers') return 'Pergola louver packages \u00b7 standard footprints';
       if (product.id === 'louver-canopy-facade') return 'Balcony canopy + bathroom duct shaft packages';
