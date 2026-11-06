@@ -135,33 +135,45 @@ Use this **every** Fix. No “Done” without evidence files.
 
 ## 3. Competitor SERP patterns (CTR benchmarks)
 
-**Research date:** 2026-11-06 (WebSearch). Use as **title/H1 shape** references — not to copy brand names into WoodenMax pages.
+**Research date:** 2026-11-06 (WebSearch + fetches). Use as **title/H1 shape** references — not to copy brand / series trademarks into WoodenMax pages.  
+**Full capture:** `docs/assets/seo-recovery/J/COMPETITOR_TITLES.md` (**Fix J PASS**).
 
-**Priority order for deeper capture (Fix J):** Alupure → Fenesta → Encraft → Alteza → Alcoi → Schüco → Saint-Gobain / India peers.
+**Priority order:** Alupure → Fenesta → Encraft → Alteza → Alcoi → Schüco → Saint-Gobain / India peers.
 
-### Observed title / H1 formulas
+### Observed title / H1 formulas (product vs price vs hub)
 
 | Brand | Page type | Example SERP / page title shape | Lesson for WoodenMax |
 |-------|-----------|----------------------------------|----------------------|
-| **Alcoi** | Product / system | `Best Aluminium Sliding Windows for Home & Offices \| ALCOI Windows` · H1: `AluBUILD Sliding Window` | Brand + **named system** + clear product type; track/mesh variants live under series pages (`AluLITE 3-Track…`) — not one vague “aluminium window” |
+| **Alupure** | Hub / brand | `Best Aluminium Windows & Doors Manufacturer Company in India \| Alupure` | Hub = category + role; no track count, no ₹ |
+| **Alupure** | Product | `Best Aluminium Sliding Windows Designs \| Alupure` · `Sliding Windows And Doors Systems - Alupure` | Product = type + Designs/Systems; premium line owns “Systems” |
+| **Alupure** | Guide | `Aluminium Sliding Windows for Homes and Offices - Alupure` | Use-case modifier differentiates from bare PDP |
+| **Fenesta** | Product + soft price | `Aluminium Sliding Windows - Latest Designs & Price \| Fenesta` | Soft “Price” without ₹; H1 stays clean product type |
+| **Fenesta** | Hub / material | `uPVC Windows - Modern Designs, Price, Manufacturer \| Fenesta` | Material hub = Designs + soft Price + role |
+| **Encraft** | Product / hub | `Best Upvc Sliding Window Manufacturers in India \| Encraft` | OEM “Best + type + India”; hard ₹ left to dealers |
+| **Alteza** | Hub | `Stylish and Energy-Efficient Aluminium Windows for Your Home \| Alteza` | Hub = benefit + category; children browse from cards |
+| **Alteza** | Product | `Leading Aluminium sliding window manufacturers in India \| Alteza` · H1: `Aluminium Sliding Windows` | Clean H1; track variants on-page, not title spam |
+| **Alcoi** | Product / system | `Best Aluminium Sliding Windows for Home & Offices \| ALCOI` · H1: `AluBUILD Sliding Window` | Named system in H1; clear product type in title |
 | **Alcoi** | Series product | `AluLITE 3-Track Aluminium and Sliding Glass Windows \| ALCOI` | Modifier (**3-Track**) first when that is the money intent |
-| **Schüco** | Hub / material | `Aluminiumfenster \| Schüco` · H1: `Schüco Aluminiumfenster` | Premium hub = brand + category; price stays in FAQ / quote path, not stuffed titles |
-| **Schüco** | System product | `ASS 32 SC` / `AS PD 75.HI Design Line` (system code + role) | System / series pages own **spec identity**; don’t mix Domal identity into 3-track |
-| **Schüco** | Lifestyle hub | `Schüco sliding doors: light and space for your home` | Browse hubs sell benefit + category — not one child SKU’s title |
-| **Fenesta** | Product + price cue | `Aluminium Sliding Windows - Latest Designs & Price \| Fenesta` | Clean product-type + soft “Price” cue; FAQ answers cost without ₹ spam |
-| **India peer blogs** | Price guides | `Aluminium Sliding Windows Price in India (2026…)` / `…Cost Per Sq Ft…` | Price **guides** own “price / ₹/sqft” heads; product pages own series/track identity |
+| **Schüco** | Hub / lifestyle | Benefit + category (“sliding doors… light and space”) | Browse hubs ≠ one child SKU title |
+| **Schüco** | System product | Short code titles (`AS 39 SC.NI`) + “Sliding System …” H1 | Spec identity pages; don’t mix sibling identities |
+| **Saint-Gobain** | Hub / line | Luxury living + uPVC & Aluminum / Invisia line cues | Brand line + material; price in quote path |
+| **India peers / dealers** | Price guides | `…Price in India…` / `…₹/sq ft…` (often marketplaces) | Price **guides** own hard ₹/sqft; PDPs keep soft bands |
 
 ### WoodenMax working CTR formula
 ```
-[Distinct modifier] + [Product type] + [soft cue: mesh | city | soft band] | WoodenMax
+PRODUCT:  {Distinct modifier} {Product type} | Soft Designs & Price Band | WoodenMax
+PRICE:    {Product type} Price in India ({year}) | Soft ₹/sqft Band | WoodenMax
+HUB:      {Category} for Indian Homes | Types, Soft Price Bands & Calculators | WoodenMax
+CITY:     {Product type} Price in {City} | {Local cue} & Soft Band | WoodenMax
 ```
 **Examples (direction only — finalize per Fix):**
 - Product: `3-Track Aluminium Sliding Window with Mesh | Soft Price Band | WoodenMax`
 - Price guide: `4 Track Sliding Window Price (2026) | Soft ₹/sqft Band | WoodenMax`
-- Hub: `Aluminium Windows for Indian Homes | Types, Price Bands & Calculators | WoodenMax`
+- Hub: `Aluminium Windows for Indian Homes | Types, Soft Price Bands & Calculators | WoodenMax`
+- Shower hub (Fix K): `Shower Partitions for Indian Bathrooms | Types, Soft Price Bands & Calculators | WoodenMax`
 - System: `System Sliding Window Guide | Large Openings Soft Price Band | WoodenMax`
 
-Do **not** shout exact ₹ in every title; soft bands only when from canonical rate source.
+Do **not** shout exact ₹ in every title; soft bands only when from canonical rate source. Never paste competitor series names (AluBUILD, AluLITE, ACA ##, AS 39, Invisia, AluPure, etc.).
 
 ---
 
@@ -334,10 +346,9 @@ There is **no** separate secret Google permission page outside Merchant Center c
 ### Fix J — Competitor SERP title research (bench for CTR rewrites)
 - **URL(s):** N/A (research) — brands: **Alupure (first)**, Fenesta, Encraft, Alteza, Alcoi, Schüco, Saint-Gobain
 - **Problem:** Title rewrites need live SERP proof, not guesswork
-- **Exact work:** For each brand capture 2–3 live examples for **product vs price vs system/hub**; expand §3 table; optional SERP screenshots under `docs/assets/seo-recovery/fix-j/`
-- **Dual-check proof:** Updated pattern table + screenshots; cite pattern when rewriting A–D / K–N titles
-- **Done:** CTR title edits cite a competitor pattern → **PASS**  
-  *(May run research-only in parallel early; do not block Fix A dual-check.)*
+- **Exact work:** For each brand capture 2–3 live examples for **product vs price vs system/hub**; expand §3 table; optional SERP screenshots under `docs/assets/seo-recovery/J/`
+- **Dual-check proof:** Updated pattern table + `docs/assets/seo-recovery/J/COMPETITOR_TITLES.md`; cite pattern when rewriting A–D / K–N titles
+- **Done:** CTR title edits cite a competitor pattern → **PASS** (2026-11-06) — formulas in `J/COMPETITOR_TITLES.md`; §3 expanded.
 
 ---
 
@@ -441,8 +452,8 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 | G Long-tail | **DONE / PASS** (2026-11-06) LIVE `aa6fcae` | `seo-recovery/G-*/` (5 pages) | top-hung · french-sliding · georgian · soundproof · Al grill designs |
 | H City differentiate | **DONE / PASS** (2026-11-06) local `0909831` | `seo-recovery/H-*/` (6 cities) | Hyd · Blr · Del · Pun · Mum · Chd; pushed main; await CDN after-live |
 | I Index hygiene | **PENDING** | `docs/assets/seo-recovery/I/` | Junk GSC only |
-| J Competitor titles | **PENDING** (research started §3) | `docs/assets/seo-recovery/J/` | Alupure first for deep pass |
-| K Shower | **NEW PENDING** | `docs/assets/seo-recovery/K/<slug>/` | Hub → top children; dual-check; no URL change |
+| J Competitor titles | **DONE / PASS** (2026-11-06) | `docs/assets/seo-recovery/J/COMPETITOR_TITLES.md` | Alupure-first + 7 brands; WM formulas locked |
+| K Shower | **IN PROGRESS** | `docs/assets/seo-recovery/K-*/` | Hub → frameless (+ price child); after J |
 | L Pergola | **NEW PENDING** | `docs/assets/seo-recovery/L/<slug>/` | Hub → aluminium / retractable / glass-roof |
 | M Louvers | **NEW PENDING** | `docs/assets/seo-recovery/M/<slug>/` | Hub → facade / sqft / motorized |
 | N Mirrors | **NEW PENDING** | `docs/assets/seo-recovery/N/<slug>/` | Hub → LED / backlit / ₹/ft |
@@ -459,4 +470,4 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 
 ---
 
-*End of plan. Fix H city differentiate **LIVE PASS** (6 pages). Fix I index hygiene PASS local (robots + translate noindex + link soften + GSC Removals ticketed for subdomain junk). Next = **J** competitors — do not start K until I pushed. Merchant Fetch + GSC Removals remain user actions.*
+*End of plan. Fix J competitor titles **PASS** (`J/COMPETITOR_TITLES.md`). Next = **K** shower hub → frameless children (no L/M/N until K PASS). Merchant Fetch + GSC Removals remain user actions.*
