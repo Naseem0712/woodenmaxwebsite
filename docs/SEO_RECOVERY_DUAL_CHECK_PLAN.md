@@ -438,7 +438,7 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 | D Sliding cluster | **DONE / PASS** (2026-11-06) LIVE | `seo-recovery/D-domal-window-price/` · `D-2-track-aluminium-window-price/` · `D-4-track-sliding-window-price/` | Domal `69672de` · 2-track price `96ad223` · 4-track `bd9490c`; calc unify → **E** |
 | E Calculators | **DONE / PASS** (2026-11-06) LIVE `b791e60` | `seo-recovery/E-aluminium-window-price-calculator/` (+ hub / sliding / glass) | Primary `/aluminium-window-price-calculator` (GSC); URLs stay |
 | F Merchant / snippets | **DONE (Path B + schema)** — GMC Fetch = user | `docs/assets/seo-recovery/F/` | Feed+CTA+Razorpay = ₹1,000; await Diagnostics |
-| G Long-tail | **DONE / PASS local** (2026-11-06) — live after push | `seo-recovery/G-*/` (5 pages) | top-hung · french-sliding · georgian · soundproof · Al grill designs |
+| G Long-tail | **DONE / PASS** (2026-11-06) LIVE `aa6fcae` | `seo-recovery/G-*/` (5 pages) | top-hung · french-sliding · georgian · soundproof · Al grill designs |
 | H City differentiate | **PENDING** | `docs/assets/seo-recovery/H/` | Not noindex-first |
 | I Index hygiene | **PENDING** | `docs/assets/seo-recovery/I/` | Junk GSC only |
 | J Competitor titles | **PENDING** (research started §3) | `docs/assets/seo-recovery/J/` | Alupure first for deep pass |

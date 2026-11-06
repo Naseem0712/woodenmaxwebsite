@@ -1,6 +1,6 @@
 # Fix G PASS/FAIL — G-french-door-georgian-bar
 
-**Verdict: PASS (local 2026-11-06)** — after-live pending deploy cache
+**Verdict: PASS** (local + live 2026-11-06) — commit `aa6fcae`
 
 ## Why chosen
 3416 imp; Georgian bar long-tail buried under generic French door SERP wording
@@ -13,10 +13,14 @@
 - [x] Soft rates; no Domal / 3-track identity steal
 - [x] FAQPage present where applicable; soundproof FAQ ≡ visible Q+A
 - [x] after-local.png filed
-- [ ] after-live.png (post-push)
+- [x] after-live.png / live title fetch OK (`aa6fcae`)
 
 ## Twin test
 Could this title be the 3-track / Domal / hub page? **No**
 
 ## Hash
 sha256_12=`0867dc9d2cd3`
+
+## Live verify (2026-11-06)
+- Commit: `aa6fcae` pushed origin/main
+- Live title confirmed for all 5 Fix G URLs
