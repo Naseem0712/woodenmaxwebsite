@@ -830,34 +830,74 @@ def collect_product_image_urls(text: str, rel: str) -> list[str]:
     return ordered
 
 
+def _resolve_declared_hero_url(raw: str, rel: str) -> str | None:
+    """Normalize a page-declared hero (main/og) to a fetchable on-disk feed URL."""
+    if not raw:
+        return None
+    u = resolve_product_image(raw, rel)
+    if not u or "woodenmax-logo" in u.lower():
+        return None
+    if not feed_image_exists(u):
+        return None
+    # Prefer the twin that actually exists on disk (same as _push_image)
+    p = local_path_for_site_url(u)
+    if p and p.is_file():
+        return u
+    rel_path = unquote(urlparse(u).path.lstrip("/"))
+    twin = re.sub(r"-1200(\.[a-z0-9]+)$", r"\1", rel_path, flags=re.I)
+    if twin != rel_path and (ROOT / twin).is_file():
+        return normalize_feed_image_url(f"{SITE_ORIGIN}/{twin}")
+    with1200 = re.sub(r"(\.[a-z0-9]+)$", r"-1200\1", rel_path, flags=re.I)
+    if with1200 != rel_path and (ROOT / with1200).is_file():
+        return normalize_feed_image_url(f"{SITE_ORIGIN}/{with1200}")
+    return u
+
+
 def pick_feed_primary_image(text: str, rel: str, meta: dict) -> str:
-    """First fetchable product image: gallery → og → slug-relevant imgs → silo hero."""
-    img_candidates = collect_product_image_urls(text, rel)
-    og_raw = (meta.get("image") or "").strip()
-    if og_raw.startswith("/"):
-        og_raw = SITE_ORIGIN + og_raw
-    primary_og = normalize_feed_image_url(og_raw) if og_raw else ""
-    if primary_og and should_skip_image_url(primary_og):
-        primary_og = ""
+    """Page hero first: #product-main-image → og:image → other page imgs → silo hero.
 
-    # Gallery / page candidates first (product-specific), then og as backup
-    ordered: list[str] = list(img_candidates)
-    if primary_og and "woodenmax-logo" not in primary_og.lower():
-        # Insert og after gallery hits if not already present
-        if dedupe_image_key(primary_og) not in {dedupe_image_key(u) for u in ordered}:
-            if feed_image_exists(primary_og):
-                # Prefer page gallery when present; otherwise og leads
-                if ordered:
-                    ordered.insert(min(1, len(ordered)), primary_og)
-                else:
-                    ordered.insert(0, primary_og)
-
+    Merchant thumbnails must match the product page hero, not a shared gallery
+    sibling or silo stock photo when the page declares its own image.
+    """
+    clean = strip_related_product_blocks(text)
+    ordered: list[str] = []
     seen: set[str] = set()
-    for u in ordered:
+
+    def _add(raw: str) -> None:
+        u = _resolve_declared_hero_url(raw, rel)
+        if not u:
+            return
+        k = dedupe_image_key(u)
+        if k in seen:
+            return
+        seen.add(k)
+        ordered.append(u)
+
+    # 1) Live gallery hero
+    for m in MAIN_IMAGE_RE.finditer(clean):
+        _add(m.group(1) or m.group(2) or "")
+        if ordered:
+            break
+
+    # 2) Declared og:image (and parse_html meta image)
+    og_raw = (meta.get("image") or "").strip()
+    if not og_raw:
+        og_m = OG_IMAGE_RE.search(clean[:50000])
+        if og_m:
+            og_raw = og_m.group(1).strip()
+    _add(og_raw)
+
+    # 3) Remaining page candidates (gallery / slug-relevant) — never ahead of hero
+    for u in collect_product_image_urls(text, rel):
         k = dedupe_image_key(u)
         if k in seen:
             continue
+        if not feed_image_exists(u):
+            continue
         seen.add(k)
+        ordered.append(u)
+
+    for u in ordered:
         if feed_image_exists(u):
             return u
 
@@ -1003,10 +1043,26 @@ def _resolve_price(
     return default_price_for_path(rel), "fallback"
 
 
+def page_declared_hero_score(text: str, stem: str, meta: dict) -> int:
+    """Prefer HTML that declares #product-main-image / og:image over bare index shells."""
+    score = 0
+    if MAIN_IMAGE_RE.search(strip_related_product_blocks(text)):
+        score += 3
+    og = (meta.get("image") or "").strip()
+    if not og:
+        og_m = OG_IMAGE_RE.search(text[:50000])
+        og = og_m.group(1).strip() if og_m else ""
+    if og and "woodenmax-logo" not in og.lower():
+        score += 3
+    if stem != "index":
+        score += 1
+    return score
+
+
 def main() -> None:
     lookup = load_price_lookup()
     rows: list[dict] = []
-    seen_link: set[str] = set()
+    seen_link: dict[str, int] = {}  # link → row index (allow richer twin to replace)
     seen_title: dict[str, str] = {}   # title_lower → first slug
     fallback_log: list[str] = []
     price_source_counts: dict[str, int] = {}
@@ -1017,9 +1073,6 @@ def main() -> None:
         rel = path.relative_to(PRODUCTS_DIR).as_posix()
         text = path.read_text(encoding="utf-8", errors="replace")
         link = feed_link_from_html(text, rel)
-        if link in seen_link:
-            continue
-        seen_link.add(link)
 
         if should_skip_for_feed(path.stem):
             skipped_info_pages.append(rel)
@@ -1027,6 +1080,27 @@ def main() -> None:
 
         fid = feed_id_for_path(path, rel)
         meta = parse_html(text, path.stem)
+        hero_score = page_declared_hero_score(text, path.stem, meta)
+
+        if link in seen_link:
+            prev_i = seen_link[link]
+            prev_score = int(rows[prev_i].get("_hero_score") or 0)
+            if hero_score <= prev_score:
+                continue
+            # Richer twin (e.g. products/aluminium-windows.html vs …/index.html)
+            print(
+                f"↻ replace feed twin for {link}: "
+                f"{rows[prev_i].get('_rel')} → {rel} (hero score {prev_score}→{hero_score})",
+                file=sys.stderr,
+            )
+            # Drop previous title reservation so the replacement can keep its title
+            prev_title = (rows[prev_i].get("title") or "").lower()
+            if seen_title.get(prev_title) == rows[prev_i].get("id"):
+                seen_title.pop(prev_title, None)
+            rows[prev_i] = None  # type: ignore[assignment]
+            # fall through to build replacement row; index reused below
+        else:
+            prev_i = None
 
         title = clean_title(meta["title"])
 
@@ -1059,7 +1133,7 @@ def main() -> None:
 
         # ---------- duplicate-title check ----------
         norm_t = title.lower()
-        if norm_t in seen_title:
+        if norm_t in seen_title and link not in seen_link:
             print(
                 f"⚠ duplicate title (kept first): '{title[:80]}…'  "
                 f"first={seen_title[norm_t]}  dropped={path.stem}",
@@ -1100,37 +1174,47 @@ def main() -> None:
             "Balance after site visit and approval. GST extra."
         )[:4990]
 
-        rows.append(
-            {
-                "id": fid,
-                "title": booking_title,
-                "description": booking_desc,
-                "link": link,
-                "image_link": image,
-                "additional_image_link": additional,
-                "availability": "in stock",
-                # Path B: feed price MUST equal Razorpay booking charge
-                "price": f"{float(BOOKING_INR):.2f} INR",
-                "sale_price": "",        # only set during a real promo
-                "condition": "new",
-                "brand": BRAND,
-                "gtin": "",              # custom-fabricated — no UPC
-                "mpn": "",
-                "identifier_exists": "no",
-                "google_product_category": google_product_category_for(rel),
-                "product_type": product_type_for(rel),
-                "category": category_label_for(rel),
-                "shipping": "",  # account-level in GMC — never free 0.00 claim
-                "shipping_weight": "",
-                "custom_label_0": cat_key,
-                "custom_label_1": band,
-                "custom_label_2": unit,
-                "custom_label_3": "booking-deposit",
-                "custom_label_4": "2026",
-            }
-        )
+        row = {
+            "id": fid,
+            "title": booking_title,
+            "description": booking_desc,
+            "link": link,
+            "image_link": image,
+            "additional_image_link": additional,
+            "availability": "in stock",
+            # Path B: feed price MUST equal Razorpay booking charge
+            "price": f"{float(BOOKING_INR):.2f} INR",
+            "sale_price": "",        # only set during a real promo
+            "condition": "new",
+            "brand": BRAND,
+            "gtin": "",              # custom-fabricated — no UPC
+            "mpn": "",
+            "identifier_exists": "no",
+            "google_product_category": google_product_category_for(rel),
+            "product_type": product_type_for(rel),
+            "category": category_label_for(rel),
+            "shipping": "",  # account-level in GMC — never free 0.00 claim
+            "shipping_weight": "",
+            "custom_label_0": cat_key,
+            "custom_label_1": band,
+            "custom_label_2": unit,
+            "custom_label_3": "booking-deposit",
+            "custom_label_4": "2026",
+            "_hero_score": hero_score,
+            "_rel": rel,
+        }
+        if prev_i is not None:
+            rows[prev_i] = row
+            seen_link[link] = prev_i
+        else:
+            seen_link[link] = len(rows)
+            rows.append(row)
 
     # Do not list the pricing API as a Shopping product (no Buy path).
+    rows = [r for r in rows if r]
+    for r in rows:
+        r.pop("_hero_score", None)
+        r.pop("_rel", None)
 
     rows.sort(key=lambda r: (r["product_type"], r["id"]))
 

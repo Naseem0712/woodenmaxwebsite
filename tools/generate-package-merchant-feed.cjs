@@ -6,10 +6,9 @@
  * preferring <link rel=canonical> so GMC matches the live page URL.
  * Rows without a real landing are skipped — never emit soft-404 Shopping URLs.
  *
- * Images: gallery-first (product-main-image, thumbnail data-image, Product JSON-LD),
- * then og/meta, then slug-relevant page images. Related-product card heroes are
- * stripped so sibling products do not share photos. Emits additional_image_link
- * (up to 10) for Google Merchant.
+ * Images: page hero first (og/meta + product-main-image), then gallery extras.
+ * Related-product card heroes are stripped so sibling products do not share
+ * photos. Emits additional_image_link (up to 10) for Google Merchant.
  *
  * Outputs:
  *   products-packages-feed.csv  — package-only rows
@@ -271,7 +270,11 @@ function extractImagesFromHtml(html, slugHint) {
   const seen = new Set();
 
   let m;
-  // 1) Meta / preload heroes FIRST (canonical product photo for Merchant)
+  // 1) Live gallery hero FIRST (#product-main-image = on-page Merchant thumbnail)
+  const mainImgRe = /id=["']product-main-image["'][^>]*src=["']([^"']+)["']|src=["']([^"']+)["'][^>]*id=["']product-main-image["']/gi;
+  while ((m = mainImgRe.exec(clean))) pushUniqueResolved(heroes, seen, m[1] || m[2]);
+
+  // 2) Meta / preload heroes (og:image etc.) — same page declaration, secondary to main
   const metaPatterns = [
     /<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']/gi,
     /<meta\s+name=["']twitter:image["']\s+content=["']([^"']+)["']/gi,
@@ -286,9 +289,7 @@ function extractImagesFromHtml(html, slugHint) {
     while ((mm = re.exec(head))) pushUniqueResolved(heroes, seen, mm[1]);
   });
 
-  // 2) Live gallery: main image + thumbnail data-image
-  const mainImgRe = /id=["']product-main-image["'][^>]*src=["']([^"']+)["']|src=["']([^"']+)["'][^>]*id=["']product-main-image["']/gi;
-  while ((m = mainImgRe.exec(clean))) pushUniqueResolved(gallery, seen, m[1] || m[2]);
+  // 3) Thumbnail strip / data-image extras
   const dataImageRe = /data-image=["']([^"']+)["']/gi;
   while ((m = dataImageRe.exec(clean))) pushUniqueResolved(gallery, seen, m[1]);
   const thumbBlockRe = /product-thumbnail-gallery[\s\S]{0,25000}/gi;
@@ -299,13 +300,13 @@ function extractImagesFromHtml(html, slugHint) {
     while ((mm = imgRe.exec(block))) pushUniqueResolved(gallery, seen, mm[1]);
   });
 
-  // 3) JSON-LD — extras only (often mixes sibling product URLs)
+  // 4) JSON-LD — extras only (often mixes sibling product URLs)
   const jsonLdImgRe = /https:\\\/\\\/woodenmax\.in\\\/images\\\/[^"\\]+|https:\/\/woodenmax\.in\/images\/[^"'\s<>]+/gi;
   while ((m = jsonLdImgRe.exec(head))) {
     pushUniqueResolved(jsonLd, seen, m[0].replace(/\\\//g, '/'));
   }
 
-  // 4) Remaining in-page product images, scored by slug / dedicated gallery folder
+  // 5) Remaining in-page product images, scored by slug / dedicated gallery folder
   const imgSrcRe = /<(?:img|source)[^>]+(?:src|data-src|data-lazy-src)=["']([^"']*\/images\/products\/[^"']+)["']/gi;
   while ((m = imgSrcRe.exec(clean))) pushUniqueResolved(rest, seen, m[1]);
 
@@ -340,8 +341,9 @@ function imagesFromLanding(landingPath, slugHint) {
 }
 
 /**
- * Per-product images: gallery / data-image / JSON-LD first, then og:image,
- * then slug-relevant page images. Related-product heroes are excluded.
+ * Per-product images: page hero (og / product-main-image) first, then gallery
+ * extras. Never override the landing page's declared hero with a sibling *-pic
+ * photo — Merchant thumbnails must match the product page hero.
  * Returns { primary, extrasCsv }.
  */
 function imageForProduct(p) {
@@ -350,21 +352,8 @@ function imageForProduct(p) {
 
   const landing = LANDING_BY_ID[p.id];
   const slugHint = p.slug || (landing ? landing.split('/').pop() : '') || p.id || '';
-  const tokens = slugImageTokens(slugHint);
   const fromPage = imagesFromLanding(landing, slugHint);
   let primary = fromPage[0] || '';
-
-  // If page hero/og is a borrowed sibling photo (low slug score) but a dedicated
-  // *-pic gallery image matches this product, promote the better match.
-  if (primary && fromPage.length > 1 && tokens.length) {
-    const ranked = fromPage.map((u) => ({
-      u,
-      score: imageRelevance(u, tokens) + (isDedicatedGalleryPath(u) ? 20 : 0)
-    }));
-    const best = ranked.slice().sort((a, b) => b.score - a.score)[0];
-    const primaryScore = ranked[0].score;
-    if (best && best.score >= primaryScore + 15) primary = best.u;
-  }
 
   if (!primary) {
     const fb = CATEGORY_FALLBACK_IMAGES[p.category] || DEFAULT_FEED_IMAGE;
@@ -550,13 +539,31 @@ if (fs.existsSync(mainPath)) {
     return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
   }).join(','));
   const merged = header + '\n' + body.join('\n') + (body.length ? '\n' : '') + pkgLines.join('\n') + '\n';
+  let csvWritten = mainPath;
   try {
     fs.writeFileSync(mainPath, merged, 'utf8');
     console.log('Replaced package rows in products-feed.csv (+' + rows.length + ')');
   } catch (e) {
-    const alt = path.join(ROOT, 'products-feed.with-packages.csv');
-    fs.writeFileSync(alt, merged, 'utf8');
-    console.warn('products-feed.csv locked — wrote', path.relative(ROOT, alt));
+    csvWritten = path.join(ROOT, 'products-feed.with-packages.csv');
+    fs.writeFileSync(csvWritten, merged, 'utf8');
+    console.warn('products-feed.csv locked — wrote', path.relative(ROOT, csvWritten));
+  }
+
+  // Keep scheduled-fetch XML in sync with the merged CSV (HTML + packages).
+  try {
+    const { spawnSync } = require('child_process');
+    const py = spawnSync(
+      'python',
+      [path.join('tools', 'rewrite_feed_xml_from_csv.py'), path.relative(ROOT, csvWritten)],
+      { cwd: ROOT, encoding: 'utf8' }
+    );
+    if (py.status !== 0) {
+      console.warn('XML rewrite failed:', (py.stderr || py.stdout || '').slice(0, 500));
+    } else if (py.stdout) {
+      process.stdout.write(py.stdout);
+    }
+  } catch (e) {
+    console.warn('XML rewrite skipped:', e.message);
   }
 }
 
