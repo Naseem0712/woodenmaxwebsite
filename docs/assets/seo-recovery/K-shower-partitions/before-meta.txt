@@ -1,0 +1,7 @@
+# Fix K BEFORE — shower-partitions
+date: 2026-11-06
+url: https://woodenmax.in/products/shower-partitions
+title: Bathroom Glass Partition Price India ₹440–1,320/sqft — Frameless & Sliding | WoodenMax
+h1: Bathroom Glass Partition Price — Shower & Wet Zone ₹440–1,320/sqft
+note: Hub was stealing price SERP from glass-shower-partition-price / frameless children
+cite_Fix_J: hub=Types/Soft Bands; product=Soft Designs & Price Band; price=Price + Soft ₹/sqft

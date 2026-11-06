@@ -360,7 +360,7 @@ There is **no** separate secret Google permission page outside Merchant Center c
 - **Exact work (each URL):** Same dual-check stack as A–D — unique title / meta / H1 / OG; honest Product + FAQ≡FAQPage; soft rates; differentiate frameless vs framed vs walk-in vs price guides; hub = browse, not one SKU
 - **Complete-page checklist:** §2; Master v1 if already in shower product family; no URL change
 - **Dual-check proof:** `docs/assets/seo-recovery/K/<slug>/` before/after per page
-- **Done:** Hub + touched children fail twin test within shower family → **PASS**
+- **Done:** Hub + touched children fail twin test within shower family → **PASS** (2026-11-06 local) — hub browse · frameless product · frameless price guide
 
 ---
 
@@ -453,7 +453,7 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 | H City differentiate | **DONE / PASS** (2026-11-06) local `0909831` | `seo-recovery/H-*/` (6 cities) | Hyd · Blr · Del · Pun · Mum · Chd; pushed main; await CDN after-live |
 | I Index hygiene | **PENDING** | `docs/assets/seo-recovery/I/` | Junk GSC only |
 | J Competitor titles | **DONE / PASS** (2026-11-06) | `docs/assets/seo-recovery/J/COMPETITOR_TITLES.md` | Alupure-first + 7 brands; WM formulas locked |
-| K Shower | **IN PROGRESS** | `docs/assets/seo-recovery/K-*/` | Hub → frameless (+ price child); after J |
+| K Shower | **DONE / PASS** (2026-11-06) local | `seo-recovery/K-shower-partitions/` · `K-frameless-shower-partition/` · `K-frameless-glass-shower-price/` | Hub browse + frameless PDP + price guide; cite Fix J |
 | L Pergola | **NEW PENDING** | `docs/assets/seo-recovery/L/<slug>/` | Hub → aluminium / retractable / glass-roof |
 | M Louvers | **NEW PENDING** | `docs/assets/seo-recovery/M/<slug>/` | Hub → facade / sqft / motorized |
 | N Mirrors | **NEW PENDING** | `docs/assets/seo-recovery/N/<slug>/` | Hub → LED / backlit / ₹/ft |
@@ -470,4 +470,4 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 
 ---
 
-*End of plan. Fix J competitor titles **PASS** (`J/COMPETITOR_TITLES.md`). Next = **K** shower hub → frameless children (no L/M/N until K PASS). Merchant Fetch + GSC Removals remain user actions.*
+*End of plan. Fix K shower **PASS** local (hub + frameless product + frameless price). Do not start L/M/N until K live PASS stamped. Merchant Fetch + GSC Removals remain user actions.*
