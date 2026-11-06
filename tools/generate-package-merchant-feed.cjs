@@ -11,8 +11,10 @@
  * photos. Emits additional_image_link (up to 10) for Google Merchant.
  *
  * Outputs:
- *   products-packages-feed.csv  — package-only rows
- *   Merges into products-feed.csv by REPLACING prior standard-size-package rows
+ *   products-packages-feed.csv  — package-only rows (own GMC primary feed)
+ *
+ * Does NOT merge into products-feed.csv / products-feed.xml — those stay
+ * page-level only so package ids are never uploaded through two feeds.
  *
  * Run: npm run merchant:packages
  *      node tools/generate-package-merchant-feed.cjs
@@ -522,48 +524,41 @@ Object.entries(imgCounts)
 const withExtras = rows.filter((r) => (r.additional_image_link || '').trim()).length;
 console.log('Package rows with additional_image_link:', withExtras + '/' + rows.length);
 
-// Merge: strip previous package rows, then append fresh set
+// IMPORTANT: do NOT merge package SKUs into products-feed.csv / products-feed.xml.
+// GMC warns "Item uploaded through multiple feeds" when the same id appears in
+// products-feed.xml AND products-packages-feed.csv. Keep IDs disjoint:
+//   - products-feed.xml  = page-level / hub products only (generate_merchant_feed.py)
+//   - products-packages-feed.csv = standard-size package SKUs only (this script)
 const mainPath = path.join(ROOT, 'products-feed.csv');
 if (fs.existsSync(mainPath)) {
   const existing = fs.readFileSync(mainPath, 'utf8');
   const lines = existing.split(/\r?\n/).filter(Boolean);
   const header = lines[0] || FIELDNAMES.join(',');
-  const body = lines.slice(1).filter((line) => {
-    // Drop prior package SKUs (by label or known id patterns from package generator)
-    if (/standard-size-package/.test(line)) return false;
-    if (/,"package",/.test(line) && /standard-size-package/.test(line)) return false;
-    return true;
-  });
-  const pkgLines = rows.map((r) => FIELDNAMES.map((f) => {
-    const s = String(r[f] == null ? '' : r[f]);
-    return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
-  }).join(','));
-  const merged = header + '\n' + body.join('\n') + (body.length ? '\n' : '') + pkgLines.join('\n') + '\n';
-  let csvWritten = mainPath;
-  try {
-    fs.writeFileSync(mainPath, merged, 'utf8');
-    console.log('Replaced package rows in products-feed.csv (+' + rows.length + ')');
-  } catch (e) {
-    csvWritten = path.join(ROOT, 'products-feed.with-packages.csv');
-    fs.writeFileSync(csvWritten, merged, 'utf8');
-    console.warn('products-feed.csv locked — wrote', path.relative(ROOT, csvWritten));
-  }
-
-  // Keep scheduled-fetch XML in sync with the merged CSV (HTML + packages).
-  try {
-    const { spawnSync } = require('child_process');
-    const py = spawnSync(
-      'python',
-      [path.join('tools', 'rewrite_feed_xml_from_csv.py'), path.relative(ROOT, csvWritten)],
-      { cwd: ROOT, encoding: 'utf8' }
-    );
-    if (py.status !== 0) {
-      console.warn('XML rewrite failed:', (py.stderr || py.stdout || '').slice(0, 500));
-    } else if (py.stdout) {
-      process.stdout.write(py.stdout);
+  const body = lines.slice(1).filter((line) => !/standard-size-package/.test(line));
+  const stripped = body.length !== lines.length - 1;
+  if (stripped) {
+    const cleaned = header + '\n' + body.join('\n') + (body.length ? '\n' : '');
+    try {
+      fs.writeFileSync(mainPath, cleaned, 'utf8');
+      console.log(
+        'Stripped',
+        lines.length - 1 - body.length,
+        'legacy package rows from products-feed.csv (IDs must stay in packages feed only)'
+      );
+      const { spawnSync } = require('child_process');
+      const py = spawnSync(
+        'python',
+        [path.join('tools', 'rewrite_feed_xml_from_csv.py'), 'products-feed.csv'],
+        { cwd: ROOT, encoding: 'utf8' }
+      );
+      if (py.status !== 0) {
+        console.warn('XML rewrite failed:', (py.stderr || py.stdout || '').slice(0, 500));
+      } else if (py.stdout) {
+        process.stdout.write(py.stdout);
+      }
+    } catch (e) {
+      console.warn('Could not strip merged packages from products-feed.csv:', e.message);
     }
-  } catch (e) {
-    console.warn('XML rewrite skipped:', e.message);
   }
 }
 
@@ -590,4 +585,9 @@ fs.writeFileSync(
   'utf8'
 );
 console.log('Wrote', redirectLines.length, 'redirect lines → tools/_package-slug-redirects.txt');
-console.log('Done. Upload products-packages-feed.csv to Google Merchant Center.');
+console.log(
+  'Done. Upload products-packages-feed.csv as its OWN primary feed ' +
+    '(do not also put these IDs in products-feed.xml). Live URL: ' +
+    SITE +
+    '/products-packages-feed.csv'
+);

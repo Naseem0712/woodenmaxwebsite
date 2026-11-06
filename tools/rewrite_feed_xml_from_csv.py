@@ -1,7 +1,7 @@
-"""Rewrite products-feed.xml from a Merchant CSV (HTML + package rows).
+"""Rewrite products-feed.xml from a Merchant CSV (page-level products only).
 
-Used after generate-package-merchant-feed.cjs merges package SKUs so the
-scheduled-fetch XML URL stays complete and Google-compatible.
+Package SKUs live only in products-packages-feed.csv so the same id is never
+uploaded through two primary feeds (GMC: "Item uploaded through multiple feeds").
 """
 from __future__ import annotations
 

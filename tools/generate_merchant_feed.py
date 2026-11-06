@@ -1,6 +1,10 @@
 """
 Generate products-feed.csv / products-feed.xml for Google Merchant Center.
 
+Page / hub products only. Standard-size package SKUs are generated separately
+by tools/generate-package-merchant-feed.cjs → products-packages-feed.csv so the
+same id is never uploaded through two primary feeds.
+
 Path B (Fix F — Merchant purchase path):
   Feed `price` is always the ₹1,000 online booking deposit that Razorpay
   charges via Book Now / Buy online — Pay ₹1,000. Estimated fabrication /

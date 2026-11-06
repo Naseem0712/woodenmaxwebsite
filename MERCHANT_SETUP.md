@@ -75,11 +75,15 @@ Google kabhi **naya GMC same business** allow karta hai jab purana permanently d
 
 | File | Use |
 |------|-----|
-| `products-feed.xml` | Merchant Center **Scheduled fetch URL** (page scrape — `generate_merchant_feed.py`) |
-| `products-feed.csv` | Sheets / manual; may include package rows after merge |
-| `products-packages-feed.csv` | **Standard-size package SKUs** (live calculator rates) — preferred for Shopping packages |
+| `products-feed.xml` | **Primary feed A** — page / hub products only (`generate_merchant_feed.py`) |
+| `products-feed.csv` | Same page-level rows (Sheets / debug) — **no** package SKUs |
+| `products-packages-feed.csv` | **Primary feed B** — standard-size package SKUs only (`generate-package-merchant-feed.cjs`) |
 
-**Live URL (deploy ke baad):** https://woodenmax.in/products-feed.xml
+**Live URLs (deploy ke baad):**
+- https://woodenmax.in/products-feed.xml
+- https://woodenmax.in/products-packages-feed.csv
+
+**Why two feeds:** each `id` must appear in **only one** primary feed. Merging packages into the XML while also uploading the packages CSV caused GMC warning **Item uploaded through multiple feeds**.
 
 **Package feed (calculator W×H SKUs):**
 
@@ -88,57 +92,72 @@ node tools/generate-package-merchant-feed.cjs
 ```
 
 - Links **only** point at real HTML landings (`tools/product-landing-map.cjs`) — soft-404 calculator slugs are never emitted.
-- Re-running **replaces** prior `standard-size-package` rows in `products-feed.csv` (does not leave stale broken links).
+- Package generator writes **only** `products-packages-feed.csv` (and strips any legacy merged package rows from `products-feed.csv` if found).
 - After generate, merge `tools/_package-slug-redirects.txt` into `_redirects` if new calculator slugs appear (crawler 301 → real page).
 
-**Do not** re-run `python tools/generate_merchant_feed.py` and then upload CSV without re-running the package generator — the Python scrape can overwrite package-aware CSV. Preferred upload for packages: `products-packages-feed.csv` as a supplementary feed.
-
-**Regenerate page feed (jab nayi product pages add hon):**
+**Regenerate both feeds:**
 
 ```bash
 python tools/generate_merchant_feed.py
 node tools/generate-package-merchant-feed.cjs
 ```
 
-**Abhi feed mein:** sellable hub products + standard-size package SKUs (only when landing HTML exists).
-
-Ya: `npm run merchant:feed` (agar script add ho)
-
 Guide / calculator-only pages feed mein **nahi** aate (Google disapprove karta hai) — ye intentional hai.
+
+### Duplicate-feed cleanup (GMC UI — required)
+
+If Diagnostics shows **Item uploaded through multiple feeds**:
+
+1. Keep **one** scheduled primary for pages: `https://woodenmax.in/products-feed.xml`
+2. Keep **one** primary for packages: `https://woodenmax.in/products-packages-feed.csv` (or file upload of that CSV)
+3. **Disable / delete** older primaries that still carry the same ids (e.g. old **PRODUCTS SOURCE 5**, duplicate Sheets, or a second copy of the full XML)
+4. Do **not** also upload `products-feed.csv` if it still contains package rows from an old merge — use the live files after deploy
+5. Fetch now → wait for processing; the warning clears when each id has a single source feed
 
 ---
 
 ## 2. Merchant Center — feed connect (sab products)
 
-### Option A: URL fetch (recommended)
+### Option A: URL fetch (recommended) — two disjoint primaries
+
+**Feed A — pages**
 
 1. Merchant Center → **Products** → **Feeds** → **+** Add feed
 2. **Primary feed** → **Scheduled fetch**
-3. Name: `WoodenMax All Products`
+3. Name: `WoodenMax Page Products`
 4. **File URL:** `https://woodenmax.in/products-feed.xml`
-5. **Fetch:** Daily
-6. **Save** → **Fetch now**
+5. **Fetch:** Daily → **Save** → **Fetch now**
+
+**Feed B — packages**
+
+1. Add another **Primary** feed (scheduled fetch or file upload)
+2. Name: `WoodenMax Package SKUs`
+3. **File URL:** `https://woodenmax.in/products-packages-feed.csv` (or upload that CSV)
+4. Daily fetch → **Fetch now**
+
+Ids must not overlap between A and B. Disable any third primary that re-uploads the same ids.
 
 24–48 hours: **Products** count badhega. **Diagnostics** mein errors fix karo.
 
 ### Option B: Google Sheets
 
-1. `products-feed.csv` → Google Sheet import
-2. Merchant Center → Add feed → **Google Sheets** → same account
+1. Import **page** CSV only (`products-feed.csv` after regen — no packages) **or** packages CSV — not both with shared ids into two Sheets primaries
+2. Merchant Center → Add feed → **Google Sheets**
 3. Daily fetch
 
 ### Option C: Manual upload (emergency)
 
-Feeds → Upload → `products-feed.xml` (XML)
+Feeds → Upload → `products-feed.xml` (pages) and/or `products-packages-feed.csv` (packages) — never both files that share ids
 
 ---
 
 ## 3. Deploy checklist (feed live hona zaroori)
 
 1. Git push + site deploy
-2. Browser: https://woodenmax.in/products-feed.xml — XML dikhe, 96 items
-3. Merchant Center mein URL submit
-4. Search Console: sitemap already `sitemap.xml`
+2. Browser: https://woodenmax.in/products-feed.xml — page products only
+3. Browser: https://woodenmax.in/products-packages-feed.csv — package SKUs only
+4. Merchant Center mein dono URLs (disjoint ids) — purane duplicate feeds band karo
+5. Search Console: sitemap already `sitemap.xml`
 
 ---
 
