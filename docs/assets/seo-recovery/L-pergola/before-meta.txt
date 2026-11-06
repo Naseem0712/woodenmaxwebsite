@@ -1,0 +1,7 @@
+# Fix L BEFORE — pergola
+date: 2026-11-06
+url: https://woodenmax.in/products/pergola
+title: Pergola Design, Types & Price in India 2026 — Terrace, Glass Roof & Motorized | WoodenMax
+h1: Pergola Design, Types & Price in India 2026 — Terrace, Glass Roof & Motorized
+note: Hub was shouting Price/₹ and colliding with glass-roof price guide + aluminium-pergola PDP
+cite_Fix_J: hub=Types/Soft Bands; product=Soft Designs & Price Band; price=Price + Soft ₹/sqft

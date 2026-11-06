@@ -16,13 +16,12 @@
 
 ## Status board (honest — 2026-11-06)
 
-Plan is **not** finished. Drop-URL core: **A–I done** (H **live** PASS 2026-11-06 · I index hygiene PASS local + GSC Removals ticketed); next = **J** competitors (do **not** start K until I pushed).
+Plan is **not** finished. Drop-URL core: **A–J done**; growth **K–M** live PASS 2026-11-06; next = **N** mirrors (do **not** start N until M pushed).
 
 | Board | Fixes | Notes |
 |-------|-------|-------|
-| **DONE** | **A** 3-track · **B** hub · **C** telescopic · **D** Domal + 2-track price + 4-track · **E** calculators · **F** Merchant Path B + schema hygiene · **G** long-tail (5 pages) · **H** city differentiate (6 pages, **live**) · **I** index hygiene | GMC **Fetch** + Fix I **GSC Removals** = user actions; proofs `docs/assets/seo-recovery/{H,I}/` |
-| **PENDING** (drop-URL sequence) | **J** competitors | Keep calc URLs; E primary = `/aluminium-window-price-calculator` |
-| **NEW PENDING** (growth segments) | **K** shower · **L** pergola · **M** louvers · **N** mirrors | Low rank / low clicks vs potential; **same dual-check**; **no URL change**; hub first → top children by traffic |
+| **DONE** | **A** 3-track · **B** hub · **C** telescopic · **D** Domal + 2-track price + 4-track · **E** calculators · **F** Merchant Path B + schema hygiene · **G** long-tail · **H** city · **I** index hygiene · **J** competitors · **K** shower · **L** pergola · **M** louvers | GMC **Fetch** + Fix I **GSC Removals** = user actions; proofs `docs/assets/seo-recovery/{H,I,J,K,L,M}/` |
+| **NEW PENDING** (growth segments) | **N** mirrors | Same dual-check; **no URL change**; hub first → top children by traffic |
 
 **Overlap clarity for owner:** Fix D locked Domal / 2-track price guide / 4-track. Fix E (2026-11-06) locked calculator SERP: primary = `/aluminium-window-price-calculator`; hub `/calculators`; sliding product calc; glass elevation — **no URL changes**.
 
@@ -371,8 +370,8 @@ There is **no** separate secret Google permission page outside Merchant Center c
 - **Problem (metric):** Low rank/clicks relative to outdoor / canopy demand
 - **Exact work:** Hub browse vs product vs price-guide roles; title/H1/meta/schema/FAQ uniqueness; soft rates from canonical source; no URL change
 - **Complete-page checklist:** §2; Master if product family (aluminium-pergola pilot exists)
-- **Dual-check proof:** `docs/assets/seo-recovery/L/<slug>/`
-- **Done:** Distinct SERP identities across pergola siblings → **PASS**
+- **Dual-check proof:** `docs/assets/seo-recovery/L-<slug>/`
+- **Done:** Hub browse + aluminium-pergola product distinct vs glass-roof price guide → **PASS** (2026-11-06; hashes in `L-pergola/pass-fail.md`)
 
 ---
 
@@ -383,8 +382,8 @@ There is **no** separate secret Google permission page outside Merchant Center c
 - **Problem (metric):** Facade / ventilation demand soft on clicks; city twins risk boilerplate
 - **Exact work:** Hub vs price vs design vs motorized differentiation; CTR assets + honest schema/FAQ; link city pages to national primary (align with Fix H pattern later); **no URL change**
 - **Complete-page checklist:** §2 per URL
-- **Dual-check proof:** `docs/assets/seo-recovery/M/<slug>/`
-- **Done:** Hub + top children distinct; no ACP/cladding title collision → **PASS**
+- **Dual-check proof:** `docs/assets/seo-recovery/M-<slug>/`
+- **Done:** Hub browse + facade price guide distinct; no free CTAs → **PASS** (2026-11-06; hashes in `M-metal-louvers/pass-fail.md`)
 
 ---
 
@@ -470,4 +469,4 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 
 ---
 
-*End of plan. Fix K shower **LIVE PASS** `9e48c78`. Next = **L** pergola (only after K). Merchant Fetch + GSC Removals remain user actions.*
+*End of plan. Fix L pergola + Fix M louvers **PASS** 2026-11-06 (see `L-pergola` / `M-metal-louvers` proofs). Next = **N** mirrors (only after M). Merchant Fetch + GSC Removals remain user actions.*

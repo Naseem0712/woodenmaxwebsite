@@ -1,0 +1,6 @@
+# Fix L AFTER local — aluminium-pergola
+date: 2026-11-06
+file: D:/Downloads/woodenmax-live/products/pergola/aluminium-pergola.html
+sha256_12: 21323d8bb2e9
+title: Glass-Roof Aluminium Pergola | Soft Designs & Price Band | WoodenMax
+h1: Aluminium Pergola — Glass-Roof Terrace Structure · 6063-T6 Powder-Coated Frame

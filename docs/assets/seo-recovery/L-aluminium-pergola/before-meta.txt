@@ -1,0 +1,7 @@
+# Fix L BEFORE — aluminium-pergola
+date: 2026-11-06
+url: https://woodenmax.in/products/pergola/aluminium-pergola
+title: Aluminium Pergola Price per Sq Ft in India (2026) | Powder Coated Glass-Roof Terrace Structure | WoodenMax
+h1: Aluminium Pergola · Glass-Roof Terrace · 10x12 ft ₹1,80,000–₹2,10,000
+note: PDP was stealing Price SERP from aluminium-pergola-glass-roof-price-india; H1 shouted package ₹
+cite_Fix_J: hub=Types/Soft Bands; product=Soft Designs & Price Band; price=Price + Soft ₹/sqft

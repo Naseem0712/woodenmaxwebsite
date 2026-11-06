@@ -1,0 +1,6 @@
+# Fix L BEFORE live — pergola hub
+date: 2026-11-06
+url: https://woodenmax.in/products/pergola
+note: Hub HTML fetch hit host redirect loop on bare path; title taken from origin/main local copy matching prior live child pages (same deploy).
+title: Pergola Design, Types & Price in India 2026 — Terrace, Glass Roof & Motorized | WoodenMax
+h1: Pergola Design, Types & Price in India 2026 — Terrace, Glass Roof & Motorized
