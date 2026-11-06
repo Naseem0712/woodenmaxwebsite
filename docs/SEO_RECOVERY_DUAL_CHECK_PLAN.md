@@ -16,15 +16,15 @@
 
 ## Status board (honest — 2026-11-06)
 
-Plan is **not** finished. Drop-URL / cluster work is only **partially** fixed: **A + B + C done**; **D still required** for Domal / 2-track / 4-track / calculator differentiation.
+Plan is **not** finished. Drop-URL core: **A + B + C + D (three pages) done**; **E** calculators next for remaining calc-role twins.
 
 | Board | Fixes | Notes |
 |-------|-------|-------|
-| **DONE** | **A** 3-track LIVE · **B** hub LIVE · **C** telescopic LIVE (`5729cb4`) · **F** Merchant Path B + schema hygiene | GMC **Fetch** = user action (await Diagnostics after fetch/review); C proof `docs/assets/telescopic-fix-c/` |
-| **PENDING** (drop-URL sequence) | **D** sliding cluster · **E** calculators · **G** long-tail · **H** city differentiate · **I** index hygiene · **J** competitors | D = next money overlap after C PASS; do not skip Domal/2-track/4-track/calc siblings |
-| **NEW PENDING** (growth segments) | **K** shower · **L** pergola · **M** louvers · **N** mirrors | Low rank / low clicks vs potential; **same dual-check**; **no URL change**; hub first → top children by traffic; page-by-page CTR / title / meta / schema / FAQ |
+| **DONE** | **A** 3-track · **B** hub · **C** telescopic (`5729cb4`) · **D** Domal + 2-track price + 4-track · **F** Merchant Path B + schema hygiene | GMC **Fetch** = user action; D proofs `docs/assets/seo-recovery/D-<slug>/` |
+| **PENDING** (drop-URL sequence) | **E** calculators · **G** long-tail · **H** city differentiate · **I** index hygiene · **J** competitors | E = next after D PASS; keep calc URLs |
+| **NEW PENDING** (growth segments) | **K** shower · **L** pergola · **M** louvers · **N** mirrors | Low rank / low clicks vs potential; **same dual-check**; **no URL change**; hub first → top children by traffic |
 
-**Overlap clarity for owner:** A purged Domal-primary from 3-track and B fixed hub browse identity — that does **not** finish Cluster A. Sibling pages can still collide until **Fix D** locks Domal price, 2-track product, 4-track price, and calc SERP roles.
+**Overlap clarity for owner:** Fix D (2026-11-06) locked Domal price, 2-track **price guide**, and 4-track price SERP roles (no URL changes). Product page `aluminium-sliding-window` already distinct (S29–S40) — not rewritten in this D pass. Calculator SERP unify remains **Fix E**.
 
 ---
 
@@ -435,7 +435,7 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 | A 3-track | **DONE / PASS** (2026-11-06) LIVE | `docs/assets/3track-fix-a/` · `seo-recovery/A/` | Live 26f6f0c + 1948ddf |
 | B Hub | **DONE / PASS** (2026-11-06) LIVE | `docs/assets/hub-fix-b/` · `seo-recovery/B/` | Live 3e75128 |
 | C Telescopic | PASS (2026-11-06) | `docs/assets/telescopic-fix-c/` · `seo-recovery/C/` | Live `5729cb4`; multi-panel door CTR; bifold FAQ |
-| D Sliding cluster | **PENDING** | `docs/assets/seo-recovery/D/<slug>/` | Still needed: Domal / 2-track / 4-track / calc roles |
+| D Sliding cluster | **DONE / PASS** (2026-11-06) LIVE | `seo-recovery/D-domal-window-price/` · `D-2-track-aluminium-window-price/` · `D-4-track-sliding-window-price/` | Domal `69672de` · 2-track price `96ad223` · 4-track `bd9490c`; calc unify → **E** |
 | E Calculators | **PENDING** | `docs/assets/seo-recovery/E/` | Signals only; URLs stay |
 | F Merchant / snippets | **DONE (Path B + schema)** — GMC Fetch = user | `docs/assets/seo-recovery/F/` | Feed+CTA+Razorpay = ₹1,000; await Diagnostics |
 | G Long-tail | **PENDING** | `docs/assets/seo-recovery/G/` | Protect June-style |
@@ -459,4 +459,4 @@ Protect / keep distinct — do **not** fold into generic hub or 3-track titles:
 
 ---
 
-*End of plan. Fix C telescopic PASS live `5729cb4`. Status board + Fix K–N scopes otherwise docs-only until scheduled. Merchant Fetch remains a user action.*
+*End of plan. Fix D Domal / 2-track price / 4-track PASS live (`69672de` / `96ad223` / `bd9490c`). Next money Fix = **E** calculators. Merchant Fetch remains a user action.*
