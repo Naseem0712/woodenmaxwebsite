@@ -62,7 +62,7 @@ base.sections = [
       rows: [
         ['Standard apartment living / bedroom', '<a href="/products/aluminium-windows/aluminium-sliding-window">2-track sliding</a>', 'Mesh track optional; clear or DGU', 'Everyday ventilation + dust control without overspec'],
         ['Need more ventilation + insect mesh', '<a href="/products/aluminium-windows/3-track-sliding-window">3-track sliding</a>', 'Outer mesh leaf + two glass leaves', 'Common apartment preference when mesh must stay on'],
-        ['Noise-facing rooms (ORR / airport corridor)', 'Sliding or casement + acoustic DGU', 'DGU / laminated acoustic stack', 'See <a href="/blog/soundproof-windows-Hyderabad">soundproof window guide</a> for acoustic options'],
+        ['Noise-facing rooms (ORR / airport corridor)', 'Sliding or casement + acoustic DGU', 'DGU / laminated acoustic stack', 'See <a href="/blog/soundproof-windows-hyderabad">soundproof window guide</a> for acoustic options'],
         ['Villa deck / larger openings (Whitefield, Sarjapur)', 'Lift-and-slide or wide sliding + DGU', 'Heavier rollers, low-E or acoustic glass', 'Larger spans need hardware and glass matched to opening size'],
         ['Wet areas / high ventilation rooms', '<a href="/products/aluminium-windows/aluminium-casement-window-price">Casement</a>', 'Multi-point lock, compression seals', 'Better seal and vent control than a minimal slider']
       ]
@@ -137,7 +137,7 @@ base.sections = [
   {
     heading: 'Price calculator CTA',
     body:
-      `<p>Use the national <a href="/aluminium-window-price-calculator"><strong>aluminium window price calculator</strong></a> for opening-wise estimates, then request a Bengaluru site visit for a locked quote. Related: <a href="/products/aluminium-windows/aluminium-window-price-per-sqft">₹/sqft guide</a> · <a href="/products/aluminium-windows/3-track-sliding-window">3-track sliding</a> · <a href="/products/aluminium-windows/aluminium-casement-window-price">casement</a> · <a href="/blog/soundproof-windows-Hyderabad">acoustic / soundproof guide</a>.</p>`
+      `<p>Use the national <a href="/aluminium-window-price-calculator"><strong>aluminium window price calculator</strong></a> for opening-wise estimates, then request a Bengaluru site visit for a locked quote. Related: <a href="/products/aluminium-windows/aluminium-window-price-per-sqft">₹/sqft guide</a> · <a href="/products/aluminium-windows/3-track-sliding-window">3-track sliding</a> · <a href="/products/aluminium-windows/aluminium-casement-window-price">casement</a> · <a href="/blog/soundproof-windows-hyderabad">acoustic / soundproof guide</a>.</p>`
   }
 ];
 
@@ -152,7 +152,7 @@ base.faqs = [
   },
   {
     q: 'When should Bengaluru homes use acoustic DGU?',
-    a: 'Prioritise acoustic / laminated DGU on bedrooms and living rooms that face ORR, flyovers or airport-corridor traffic. Quiet courtyard-facing openings can often stay on standard DGU or single glaze within the Value/Mid bands. See the <a href="/blog/soundproof-windows-Hyderabad">soundproof windows guide</a>.'
+    a: 'Prioritise acoustic / laminated DGU on bedrooms and living rooms that face ORR, flyovers or airport-corridor traffic. Quiet courtyard-facing openings can often stay on standard DGU or single glaze within the Value/Mid bands. See the <a href="/blog/soundproof-windows-hyderabad">soundproof windows guide</a>.'
   },
   {
     q: 'Do Bengaluru villas need different systems than apartments?',
@@ -177,7 +177,7 @@ base.internalLinks = [
   { href: '/products/aluminium-windows/aluminium-window-price-per-sqft', title: 'Price per sqft guide', desc: '₹/sqft bands explained' },
   { href: '/products/aluminium-windows/3-track-sliding-window', title: '3-track sliding window', desc: 'Mesh + dual glass leaf layout' },
   { href: '/products/aluminium-windows/aluminium-casement-window-price', title: 'Casement window price', desc: 'Compression-seal casements' },
-  { href: '/blog/soundproof-windows-Hyderabad', title: 'Soundproof / acoustic guide', desc: 'DGU & noise-reduction options' },
+  { href: '/blog/soundproof-windows-hyderabad', title: 'Soundproof / acoustic guide', desc: 'DGU & noise-reduction options' },
   { href: '/city/bangalore', title: 'Bengaluru city hub', desc: 'Local products & coverage' },
   { href: '/products/glass-elevation/glass-elevation-price-bangalore', title: 'Glass elevation price — Bengaluru', desc: 'Facade pricing in the same city' },
   { href: '/policies/gst-transport-policy', title: 'GST & transport policy', desc: 'Free transport rules' },

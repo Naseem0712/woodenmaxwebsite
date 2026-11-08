@@ -1103,14 +1103,14 @@
     {
       "source": "/blog/soundproof-windows-Hyderabad.html",
       "expectedStatus": 301,
-      "expectedDestination": "/blog/soundproof-windows-Hyderabad",
+      "expectedDestination": "/blog/soundproof-windows-hyderabad",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },
     {
       "source": "/blog/soundproof-windows-Hyderabad.html/",
       "expectedStatus": 301,
-      "expectedDestination": "/blog/soundproof-windows-Hyderabad",
+      "expectedDestination": "/blog/soundproof-windows-hyderabad",
       "allowedHops": 1,
       "expectedFinalCanonical": null
     },

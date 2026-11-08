@@ -176,8 +176,12 @@
 /blog/pergola-design-ideas-india.html/ /blog/pergola-design-ideas-india 301
 /blog/sliding-window-vs-folding-door-comparison.html /blog/sliding-window-vs-folding-door-comparison 301
 /blog/sliding-window-vs-folding-door-comparison.html/ /blog/sliding-window-vs-folding-door-comparison 301
-/blog/soundproof-windows-Hyderabad.html /blog/soundproof-windows-Hyderabad 301
-/blog/soundproof-windows-Hyderabad.html/ /blog/soundproof-windows-Hyderabad 301
+/blog/soundproof-windows-Hyderabad /blog/soundproof-windows-hyderabad 301
+/blog/soundproof-windows-Hyderabad/ /blog/soundproof-windows-hyderabad 301
+/blog/soundproof-windows-Hyderabad.html /blog/soundproof-windows-hyderabad 301
+/blog/soundproof-windows-Hyderabad.html/ /blog/soundproof-windows-hyderabad 301
+/blog/soundproof-windows-hyderabad.html /blog/soundproof-windows-hyderabad 301
+/blog/soundproof-windows-hyderabad.html/ /blog/soundproof-windows-hyderabad 301
 /blog/window-maintenance-tips.html /blog/window-maintenance-tips 301
 /blog/window-maintenance-tips.html/ /blog/window-maintenance-tips 301
 /calculators.html /calculators 301
@@ -468,3 +472,4 @@
 /city/about/about/* /about/:splat 301
 /city/city/blog/* /blog/:splat 301
 /city/city/* /city/:splat 301
+

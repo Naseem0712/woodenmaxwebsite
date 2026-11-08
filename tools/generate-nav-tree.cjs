@@ -40,7 +40,7 @@ const BLOG_LABEL_OVERRIDES = {
   'frameless-sliding-doors-interior-partitions': 'Frameless sliding doors',
   'pergola-design-ideas-india': 'Pergola design ideas',
   'sliding-window-vs-folding-door-comparison': 'Sliding vs folding door',
-  'soundproof-windows-Hyderabad': 'Soundproof windows (Hyd)',
+  'soundproof-windows-hyderabad': 'Soundproof windows (Hyd)',
   'window-maintenance-tips': 'Window maintenance tips'
 };
 

@@ -72,7 +72,7 @@ base.sections = [
       rows: [
         ['High-rise windward openings (12+ floors)', 'System sliding or casement with drainage', 'Class-level water tightness; quality EPDM', 'Hoist / scaffold access quoted separately if needed'],
         ['Sea-facing elevations', 'Mid/Premium + Seaside coating', 'Seaside powder coat; DGU preferred', 'Coating class matters as much as track count'],
-        ['Western Railway / noise corridors', 'Sliding or casement + acoustic DGU', 'Laminated / acoustic DGU stack', 'See <a href="/blog/soundproof-windows-Hyderabad">soundproof guide</a>'],
+        ['Western Railway / noise corridors', 'Sliding or casement + acoustic DGU', 'Laminated / acoustic DGU stack', 'See <a href="/blog/soundproof-windows-hyderabad">soundproof guide</a>'],
         ['Everyday apartment openings', '<a href="/products/aluminium-windows/aluminium-sliding-window">2-track sliding</a>', 'DGU + branded hardware', 'Add mesh where dust/insects matter'],
         ['Vent-critical wet rooms', '<a href="/products/aluminium-windows/aluminium-casement-window-price">Casement</a>', 'Multi-point lock, compression seals', 'Stronger seal under monsoon pressure']
       ]
@@ -134,7 +134,7 @@ base.sections = [
   {
     heading: 'Price calculator CTA',
     body:
-      `<p>Use the national <a href="/aluminium-window-price-calculator"><strong>aluminium window price calculator</strong></a>, then request a Mumbai site visit for Seaside / water-tightness confirmation. Related: <a href="/products/aluminium-windows/aluminium-window-price-per-sqft">₹/sqft guide</a> · <a href="/blog/soundproof-windows-Hyderabad">acoustic guide</a> · <a href="/policies/warranty-policy">warranty</a> · <a href="/policies/gst-transport-policy">GST &amp; transport</a>.</p>`
+      `<p>Use the national <a href="/aluminium-window-price-calculator"><strong>aluminium window price calculator</strong></a>, then request a Mumbai site visit for Seaside / water-tightness confirmation. Related: <a href="/products/aluminium-windows/aluminium-window-price-per-sqft">₹/sqft guide</a> · <a href="/blog/soundproof-windows-hyderabad">acoustic guide</a> · <a href="/policies/warranty-policy">warranty</a> · <a href="/policies/gst-transport-policy">GST &amp; transport</a>.</p>`
   }
 ];
 
@@ -153,7 +153,7 @@ base.faqs = [
   },
   {
     q: 'Should railway-facing Mumbai flats use acoustic DGU?',
-    a: 'Yes for bedrooms and living rooms that face Western Railway or other heavy corridors. Acoustic / laminated DGU sits inside the same published price bands once glass is selected. See the <a href="/blog/soundproof-windows-Hyderabad">soundproof windows guide</a>.'
+    a: 'Yes for bedrooms and living rooms that face Western Railway or other heavy corridors. Acoustic / laminated DGU sits inside the same published price bands once glass is selected. See the <a href="/blog/soundproof-windows-hyderabad">soundproof windows guide</a>.'
   },
   {
     q: 'Are hoist or crane charges included in the ₹/sqft?',
@@ -172,7 +172,7 @@ base.faqs = [
 base.internalLinks = [
   { href: '/aluminium-window-price-calculator', title: 'Aluminium window calculator', desc: 'Opening-wise national estimate' },
   { href: '/products/aluminium-windows/aluminium-window-price-per-sqft', title: 'Price per sqft guide', desc: '₹/sqft bands explained' },
-  { href: '/blog/soundproof-windows-Hyderabad', title: 'Soundproof / acoustic guide', desc: 'DGU & noise-reduction options' },
+  { href: '/blog/soundproof-windows-hyderabad', title: 'Soundproof / acoustic guide', desc: 'DGU & noise-reduction options' },
   { href: '/city/mumbai', title: 'Mumbai city hub', desc: 'Local products & coverage' },
   { href: '/products/glass-elevation/glass-elevation-price-mumbai', title: 'Glass elevation price — Mumbai', desc: 'Facade pricing in the same city' },
   { href: '/policies/warranty-policy', title: 'Warranty policy', desc: '10-yr profile, 5-yr hardware' },

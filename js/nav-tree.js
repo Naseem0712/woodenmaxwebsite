@@ -709,7 +709,7 @@
     },
     {
       "label": "Soundproof windows (Hyd)",
-      "href": "/blog/soundproof-windows-Hyderabad"
+      "href": "/blog/soundproof-windows-hyderabad"
     },
     {
       "label": "Window maintenance tips",
