@@ -3,7 +3,7 @@
 **Date:** 2026-11-12
 **Source:** `sitemap.xml` (173 URLs) + local HTML in `woodenmax-live`
 **Mar–Apr titles:** git `b85fe94` (2026-04-30) when file existed; else N/A
-**Status:** PROPOSALS for approval — do not mass-edit HTML until picked.
+**Status:** APPLIED on woodenmax-live main (2026-11-12) — titles/meta/H1/OG/Twitter + Product schema fill; GST/pls stripped from commercial SERP copy.
 **How to reference:** “page 47 …” = the numbered entry below.
 
 Ownership locks: 3-track ≠ Domal ≠ hub ≠ system. No URL/slug changes.

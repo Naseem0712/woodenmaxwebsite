@@ -1,6 +1,6 @@
 # SERP CTR Title / Meta / H1 Examples — WoodenMax
 
-**Status:** EXAMPLES ONLY — for user approval. Do **not** mass-edit HTML until approved.
+**Status:** APPROVED & APPLIED on woodenmax-live main (2026-11-12). Commercial SERP copy excludes GST/pls filler.
 **Date:** 2026-11-12
 **Source tree:** `D:\Downloads\woodenmax-live` (titles, metas, H1s, ₹ bands from page HTML)
 **Goal:** Beat competitor blue-links on CTR with natural search-intent titles, rotated live calculator / live estimate / live cost / instant quote / price / cost cues, and honest ₹/sqft bands when natural — **no “soft …” marketing jargon**.
@@ -69,7 +69,7 @@ CALCULATOR:
 - Rates only from **that page’s** HTML / calculator / FAQ band — never invent.
 - Prefer “from ₹X/sqft” or “₹A–B/sqft” — do not shout ₹ in every H1.
 - Avoid the word **soft** as marketing jargon in titles/H1s.
-- GST extra stays in meta/body, not every title.
+- stays in meta/body, not every title.
 
 ---
 
@@ -90,7 +90,7 @@ CALCULATOR:
 ```
 woodenmax.in › products › aluminium-windows
 Aluminium Windows for Homes | Sliding, Casement, Slim | WoodenMax
-Browse aluminium window types for Indian homes — 2-track, 3-track with mesh, casement, balcony and entrance. Installed planning from about ₹550–2,250/sqft by type. Open the matching size & cost tool. GST extra.
+Browse aluminium window types for Indian homes — 2-track, 3-track with mesh, casement, balcony and entrance. Installed planning from about ₹550–2,250/sqft by type. Open the matching size & cost tool.
 ```
 
 | Field | Text |
@@ -99,7 +99,7 @@ Browse aluminium window types for Indian homes — 2-track, 3-track with mesh, c
 | **CURRENT title** | Aluminium Windows for Indian Homes | Types, Soft Price Bands & Calculators | WoodenMax |
 | **PROPOSED title** | Aluminium Windows for Homes | Sliding, Casement, Slim | WoodenMax |
 | **CURRENT meta** | Browse aluminium window types for Indian homes — sliding, casement, French and slim. Soft installed bands from everyday mesh sliding to premium lines. Open live size-based calculat… |
-| **PROPOSED meta** | Browse aluminium window types for Indian homes — 2-track, 3-track with mesh, casement, balcony and entrance. Installed planning from about ₹550–2,250/sqft by type. Open the matching size & cost tool. GST extra. |
+| **PROPOSED meta** | Browse aluminium window types for Indian homes — 2-track, 3-track with mesh, casement, balcony and entrance. Installed planning from about ₹550–2,250/sqft by type. Open the matching size & cost tool. |
 | **CURRENT H1** | Aluminium Windows for Indian Homes |
 | **PROPOSED H1** | Aluminium Windows by WoodenMax — Types for Homes & Villas |
 | **H2–H3 intent** | H2: window types to compare · H2: which calculator to open · H3: room/use picks |
@@ -417,7 +417,7 @@ Aluminium facade louver price guide — about ₹450–950/sqft by profile (50�
 | **Mar–Apr title** (`b85fe94`) | N/A |
 | **CURRENT title** | Aluminium Facade Louver Price in India (2026) | Soft ₹/sqft Band | WoodenMax |
 | **PROPOSED title** | Facade Louver Price in India (2026) | ₹450–950/sqft | WoodenMax |
-| **CURRENT meta** | Aluminium facade louver price in India 2026 — soft installed band about ₹450–950/sqft by profile (50–25 to 150–50 mm). Gap, finish and bracket BOQ. GST extra. WoodenMax Delhi, Hyde… |
+| **CURRENT meta** | Aluminium facade louver price in India 2026 — soft installed band about ₹450–950/sqft by profile (50–25 to 150–50 mm). Gap, finish and bracket BOQ. WoodenMax Delhi, Hyde… |
 | **PROPOSED meta** | Aluminium facade louver price guide — about ₹450–950/sqft by profile (50–25 to 150–50 mm). Gap, finish and bracket BOQ. Live planning on-page. WoodenMax Delhi, Hyderabad, Jaipur. |
 | **CURRENT H1** | Aluminium Facade Louver Price in India (2026) |
 | **PROPOSED H1** | Aluminium Facade Louver Price — India Guide |
@@ -467,7 +467,7 @@ Browse glass-roof aluminium, profile louver, skylight and retractable pergolas. 
 ```
 woodenmax.in › products › pergola › aluminium-pergola
 Glass-Roof Aluminium Pergola | Live Estimate · ₹1,300–2,400/sqft
-Glass-roof aluminium pergola — 6063-T6 powder-coated frame with toughened, laminated or polycarbonate roof. About ₹1,300–2,400/sqft on the live estimate. Manufacturer WoodenMax; GST extra.
+Glass-roof aluminium pergola — 6063-T6 powder-coated frame with toughened, laminated or polycarbonate roof. About ₹1,300–2,400/sqft on the live estimate. Manufacturer WoodenMax;
 ```
 
 | Field | Text |
@@ -476,7 +476,7 @@ Glass-roof aluminium pergola — 6063-T6 powder-coated frame with toughened, lam
 | **CURRENT title** | Glass-Roof Aluminium Pergola | Soft Designs & Price Band | WoodenMax |
 | **PROPOSED title** | Glass-Roof Aluminium Pergola | Live Estimate · ₹1,300–2,400/sqft |
 | **CURRENT meta** | Glass-roof aluminium pergola for Indian terraces — 6063-T6 powder-coated frame with toughened, laminated or polycarbonate roof. Soft installed band about ₹1,300–2,400/sqft on the l… |
-| **PROPOSED meta** | Glass-roof aluminium pergola — 6063-T6 powder-coated frame with toughened, laminated or polycarbonate roof. About ₹1,300–2,400/sqft on the live estimate. Manufacturer WoodenMax; GST extra. |
+| **PROPOSED meta** | Glass-roof aluminium pergola — 6063-T6 powder-coated frame with toughened, laminated or polycarbonate roof. About ₹1,300–2,400/sqft on the live estimate. Manufacturer WoodenMax; |
 | **CURRENT H1** | Aluminium Pergola Glass-Roof Terrace Structure &middot; 6063-T6 Powder-Coated Frame |
 | **PROPOSED H1** | Aluminium Pergola — Glass-Roof Terrace Structure |
 | **H2–H3 intent** | H2: roof glass options · H2: size examples · H3: live estimate |
@@ -554,7 +554,7 @@ Frameless walk-in shower — 10mm toughened, hinged or sliding, L-corner and str
 ```
 woodenmax.in › products › mirror-profiles
 LED Mirror Profiles for Bathrooms | Backlit, Touch, Frame | WoodenMax
-Aluminium LED mirror profiles — bathroom vanity, backlit, touch sensor and frame-only. Installed about ₹850–1,850/sqft by line. Browse types, then open a child calculator. GST extra.
+Aluminium LED mirror profiles — bathroom vanity, backlit, touch sensor and frame-only. Installed about ₹850–1,850/sqft by line. Browse types, then open a child calculator.
 ```
 
 | Field | Text |
@@ -562,8 +562,8 @@ Aluminium LED mirror profiles — bathroom vanity, backlit, touch sensor and fra
 | **Mar–Apr title** (`b85fe94`) | N/A |
 | **CURRENT title** | Mirror Profiles for Indian Homes | Types, Soft Price Bands & Calculators | WoodenMax |
 | **PROPOSED title** | LED Mirror Profiles for Bathrooms | Backlit, Touch, Frame | WoodenMax |
-| **CURRENT meta** | Browse aluminium mirror profiles for Indian homes — LED bathroom, backlit, touch sensor, wardrobe and frame-only lines. Soft installed bands on child calculators; GST extra. |
-| **PROPOSED meta** | Aluminium LED mirror profiles — bathroom vanity, backlit, touch sensor and frame-only. Installed about ₹850–1,850/sqft by line. Browse types, then open a child calculator. GST extra. |
+| **CURRENT meta** | Browse aluminium mirror profiles for Indian homes — LED bathroom, backlit, touch sensor, wardrobe and frame-only lines. Soft installed bands on child calculators; |
+| **PROPOSED meta** | Aluminium LED mirror profiles — bathroom vanity, backlit, touch sensor and frame-only. Installed about ₹850–1,850/sqft by line. Browse types, then open a child calculator. |
 | **CURRENT H1** | Mirror Profiles for Indian Homes — Types, Soft Bands &amp; Calculators |
 | **PROPOSED H1** | Mirror Profiles for Indian Homes |
 | **H2–H3 intent** | H2: mirror types · H2: LED vs plain · H3: child calculators |
@@ -583,7 +583,7 @@ Aluminium LED mirror profiles — bathroom vanity, backlit, touch sensor and fra
 ```
 woodenmax.in › products › mirror-profiles › led-mirror-profile-price
 C-Type LED Mirror Price India | Instant Quote · from ₹950/sqft
-C-type LED / backlit mirror price — planning from about ₹950/sqft on the live WoodenMax tool. Touch options available. Instant quote from size input; GST extra.
+C-type LED / backlit mirror price — planning from about ₹950/sqft on the live WoodenMax tool. Touch options available. Instant quote from size input;
 ```
 
 | Field | Text |
@@ -591,8 +591,8 @@ C-type LED / backlit mirror price — planning from about ₹950/sqft on the liv
 | **Mar–Apr title** (`b85fe94`) | N/A |
 | **CURRENT title** | C-Type LED Mirror Price in India (2026) | Soft ₹/sqft Band | WoodenMax |
 | **PROPOSED title** | C-Type LED Mirror Price India | Instant Quote · from ₹950/sqft |
-| **CURRENT meta** | C-type LED mirror price guide for India — soft ₹/sqft band from the live WoodenMax calculator. Backlit bathroom shapes with touch options; GST extra. |
-| **PROPOSED meta** | C-type LED / backlit mirror price — planning from about ₹950/sqft on the live WoodenMax tool. Touch options available. Instant quote from size input; GST extra. |
+| **CURRENT meta** | C-type LED mirror price guide for India — soft ₹/sqft band from the live WoodenMax calculator. Backlit bathroom shapes with touch options; |
+| **PROPOSED meta** | C-type LED / backlit mirror price — planning from about ₹950/sqft on the live WoodenMax tool. Touch options available. Instant quote from size input; |
 | **CURRENT H1** | C-Type LED Mirror Price — Soft ₹/sqft Band (2026) |
 | **PROPOSED H1** | C-Type LED Mirror Price — India (2026) |
 | **H2–H3 intent** | H2: size & lighting · H2: touch options · H3: quote next step |
