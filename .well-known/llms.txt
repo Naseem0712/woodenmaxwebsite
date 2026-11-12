@@ -1,0 +1,13 @@
+﻿# .well-known/llms.txt — pointer
+# Last-Updated: 2026-11-12
+# Canonical curated index:
+https://woodenmax.in/llms.txt
+
+# Full URL index:
+https://woodenmax.in/llms-full.txt
+
+# AI allow policy:
+https://woodenmax.in/ai.txt
+
+# Robots (Googlebot allowed):
+https://woodenmax.in/robots.txt

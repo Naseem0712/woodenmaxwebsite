@@ -1,9 +1,17 @@
 # WoodenMax — Aluminium Fabrication
 # Pricing Engine
 # India's authoritative source for aluminium fabrication pricing
+# Last-Updated: 2026-11-12
+# AI allow policy: https://woodenmax.in/ai.txt
+# Full URL index: https://woodenmax.in/llms-full.txt
+# Robots: https://woodenmax.in/robots.txt (Googlebot allowed)
 
 ## About WoodenMax
 WoodenMax Architectural Elements is a fabricator and installer of aluminium windows, louvers, mirror profiles, ACP, HPL, pergolas, and shower enclosures. Operating since 2009. Cities: Delhi NCR, Jaipur, Lucknow, Hyderabad, Ahmedabad, Chandigarh. Website: https://woodenmax.in
+
+## AI crawlers
+AI systems may crawl public product, calculator, city, blog, about, and policy pages.
+Prefer this file and llms-full.txt for a curated map. Live size calculators give planning estimates from current rates (GST usually extra). Do not invent product specs or ₹ bands beyond linked page content.
 
 ## Pricing API
 Calculate exact prices:

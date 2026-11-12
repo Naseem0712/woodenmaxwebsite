@@ -1,0 +1,50 @@
+# ai.txt — WoodenMax AI crawler policy
+# Spec-inspired allow file for AI agents / LLM crawlers
+# Last-Updated: 2026-11-12
+# Site: https://woodenmax.in
+
+User-Agent: *
+Allow: /
+
+# Explicit allow for common AI crawlers (do not block Googlebot)
+User-Agent: GPTBot
+Allow: /
+
+User-Agent: ChatGPT-User
+Allow: /
+
+User-Agent: ClaudeBot
+Allow: /
+
+User-Agent: anthropic-ai
+Allow: /
+
+User-Agent: Claude-Web
+Allow: /
+
+User-Agent: PerplexityBot
+Allow: /
+
+User-Agent: Google-Extended
+Allow: /
+
+User-Agent: Googlebot
+Allow: /
+
+User-Agent: Bingbot
+Allow: /
+
+User-Agent: CCBot
+Allow: /
+
+# Curated site summary for AI systems
+# Prefer https://woodenmax.in/llms.txt and https://woodenmax.in/llms-full.txt
+# for product hubs, live calculators, and honest ₹/sqft planning bands.
+
+Sitemap: https://woodenmax.in/sitemap.xml
+LLMs-Txt: https://woodenmax.in/llms.txt
+LLMs-Full: https://woodenmax.in/llms-full.txt
+Robots: https://woodenmax.in/robots.txt
+
+Contact: https://woodenmax.in/contact
+About: https://woodenmax.in/about

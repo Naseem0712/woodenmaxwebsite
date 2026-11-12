@@ -1,7 +1,10 @@
 # ============================================
 # Robots.txt - WoodenMax Architectural Elements
 # Optimized for Google, Bing & AI Crawlers
-# Last Updated: 2026-05-18
+# Last Updated: 2026-11-12
+# AI summary: https://woodenmax.in/llms.txt
+# AI allow:    https://woodenmax.in/ai.txt
+# Well-known:  https://woodenmax.in/.well-known/ai.txt
 # ============================================
 
 # Default rules for all crawlers
@@ -32,6 +35,9 @@ Allow: /data/*.json
 Allow: /api/
 Allow: /llms.txt
 Allow: /llms-full.txt
+Allow: /ai.txt
+Allow: /.well-known/ai.txt
+Allow: /.well-known/llms.txt
 Disallow: /debug
 Disallow: /*?debug*
 Disallow: /*?wmPricingCountry=*
@@ -80,13 +86,16 @@ Allow: /products/
 Allow: /products/*/
 
 # ============================================
-# AI Crawlers - Price Calculator Discovery
+# AI Crawlers — allow site + pricing discovery
+# Freshness: 2026-11-12 (do not block Googlebot)
 # ============================================
 User-agent: GPTBot
 Allow: /
 Allow: /api/
 Allow: /data/
 Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /ai.txt
 Allow: /products/
 Allow: /products/*/
 Crawl-delay: 0
@@ -96,6 +105,8 @@ Allow: /
 Allow: /api/
 Allow: /data/
 Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /ai.txt
 Allow: /products/
 Allow: /products/*/
 Crawl-delay: 0
@@ -105,6 +116,8 @@ Allow: /
 Allow: /api/
 Allow: /data/
 Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /ai.txt
 Allow: /products/
 Allow: /products/*/
 Crawl-delay: 0
@@ -114,6 +127,8 @@ Allow: /
 Allow: /api/
 Allow: /data/
 Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /ai.txt
 Allow: /products/
 Allow: /products/*/
 Crawl-delay: 0
@@ -122,6 +137,8 @@ User-agent: CCBot
 Allow: /
 Allow: /products/
 Allow: /products/*/
+Allow: /llms.txt
+Allow: /ai.txt
 Crawl-delay: 0
 
 User-agent: anthropic-ai
@@ -129,6 +146,8 @@ Allow: /
 Allow: /api/
 Allow: /data/
 Allow: /llms.txt
+Allow: /llms-full.txt
+Allow: /ai.txt
 Allow: /products/
 Allow: /products/*/
 Crawl-delay: 0
@@ -137,12 +156,16 @@ User-agent: Claude-Web
 Allow: /
 Allow: /products/
 Allow: /products/*/
+Allow: /llms.txt
+Allow: /ai.txt
 Crawl-delay: 0
 
 User-agent: Google-Extended
 Allow: /
 Allow: /products/
 Allow: /products/*/
+Allow: /llms.txt
+Allow: /ai.txt
 Crawl-delay: 0
 
 # ============================================
@@ -167,13 +190,16 @@ Sitemap: https://woodenmax.in/sitemap.xml
 Sitemap: https://woodenmax.in/sitemap-images.xml
 
 # ============================================
-# AI / LLM discovery (llmstxt.org draft standard)
+# AI / LLM discovery (llmstxt.org + ai.txt)
 # ChatGPT, Claude, Perplexity, Gemini Search,
-# You.com, Phind etc. look here for a curated
-# index of the site at a glance.
+# You.com, Phind etc. — curated index + allow.
+# Freshness stamp: 2026-11-12
 # ============================================
 # llms-summary: https://woodenmax.in/llms.txt
 # llms-full:    https://woodenmax.in/llms-full.txt
+# ai-allow:     https://woodenmax.in/ai.txt
+# well-known:   https://woodenmax.in/.well-known/ai.txt
 
 # Product feed for Google Merchant Center (store/marketplace)
 # Submit at: https://merchantcenter.google.com
+# ADS.txt / ads.txt — leave alone (not managed here)
