@@ -205,6 +205,7 @@
         { label: 'Warranty Policy',                   href: '/policies/warranty-policy'              },
         { label: 'Installation Policy',               href: '/policies/installation-policy'          },
         { label: 'GST &amp; Transport',               href: '/policies/gst-transport-policy'         },
+        { label: 'Shipping &amp; Fulfillment',         href: '/policies/shipping-and-fulfillment'     },
         { label: 'Cancellation &amp; Refund',         href: '/policies/cancellation-refund-policy'   },
         { label: 'Privacy Policy',                    href: '/policies/privacy-policy'               },
         { label: 'Return Policy',                     href: '/return-policy'                         },

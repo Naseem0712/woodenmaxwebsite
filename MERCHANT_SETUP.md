@@ -64,10 +64,57 @@ Google kabhi **naya GMC same business** allow karta hai jab purana permanently d
 3. Business: **WoodenMax Architectural Elements**, India, woodenmax.in
 4. **Domain verify** (HTML tag / DNS — Search Console se link karna best)
 5. **Business information** complete: address Hyderabad, GSTIN, customer support
-6. **Shipping & returns** India settings set karo
-7. Feed connect (Section 2) — **96 products**
+6. **Shipping & returns** India settings set karo (see §7)
+7. Feed connect (Section 2) — **~107 page SKUs + ~477 package SKUs** (disjoint ids)
 
 > Purane account ke violations naye account par repeat mat karo (galat prices, fake reviews, etc.).
+
+---
+
+## 7. GMC Shipping + Returns (India) — Path B honesty (required)
+
+**Business model:** Shopping price = **₹1,000 Book Now booking deposit** (Razorpay). Site visit + made-to-measure install. Do **not** claim Amazon-style free window shipping.
+
+### Site pages (must stay live)
+
+| Page | URL |
+|------|-----|
+| Shipping & fulfillment (booking) | https://woodenmax.in/policies/shipping-and-fulfillment |
+| GST & transport (physical freight) | https://woodenmax.in/policies/gst-transport-policy |
+| Cancellation & refund | https://woodenmax.in/policies/cancellation-refund-policy |
+| Returns | https://woodenmax.in/return-policy |
+
+### A) Shipping policies (click path)
+
+1. Merchant Center → **Products & store** → **Shipping and returns** → **Shipping policies**
+2. **Delete / disable** any policy with **Cost = Free** for All India products (conflicts with freight policy and confuses Store quality).
+3. Keep **one** India policy for booking fulfillment, e.g.:
+   - Name: `India booking site-visit (2–7 days)`
+   - Country: **India**
+   - Cost: **Flat ₹0** = no extra courier fee on the ₹1,000 booking (NOT “free windows”)
+   - Transit / delivery time: **2–7 days** (metros) — matches site-visit scheduling
+   - Products: All (or label matching feed)
+4. **Ship-from location:** Settings → **Add ship-from location** → Hyderabad  
+   `5-6-411/413, Aaghapura, Nampally, Hyderabad, Telangana 500001`
+5. Store quality → if **Delivery time = Incomplete** → use **Set up your shipping service** and ensure the policy above has an explicit **min–max transit days** (not blank). Conflicting 0–2 day + 4–60 day + Free policies leave Delivery time Incomplete even when Status says Complete.
+
+### B) Return service (click path)
+
+1. **Shipping and returns** → **Return policies**
+2. India policy (**Standard for India** / label `Return_policy`):
+   - Return window: **15 days** (booking deposit / pre-production — matches site)
+   - Return cost: **Free** for eligible booking cancellation (customer does not post a window carton)
+   - Policy URL: `https://woodenmax.in/return-policy` + cancellation page
+3. Store quality → **Set up your return service** until Return window + Return cost are no longer Incomplete.
+4. Link products: India return policy should cover **all** active feed items (pages + packages). If only ~120 show linked, package feed is missing or not fetched.
+
+### C) After policy edits
+
+1. Products → **Feeds** → Fetch now on:
+   - `https://woodenmax.in/products-feed.xml` (~107)
+   - `https://woodenmax.in/products-packages-feed.csv` (~477)
+2. Disable duplicate SOURCE feeds (old PRODUCTS SOURCE / Sheets with same ids).
+3. Issue → **User cannot complete purchase** → after deploy of Path B schema + Book Now: **Request review** / **I fixed the issue**.
 
 ---
 

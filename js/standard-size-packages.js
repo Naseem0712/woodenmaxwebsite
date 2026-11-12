@@ -1091,20 +1091,27 @@
   }
 
   function buildPackageJsonLd(product, packages, sectionId, pageUrl) {
+    var BOOKING = 1000;
     var cap = (packages || []).slice(0, 24);
     var hash = '#' + (sectionId || 'wm-standard-packages');
     var itemList = cap.map(function (pkg, i) {
+      var fab = Math.max(1, Math.round(pkg.amount));
       return {
         '@type': 'ListItem',
         position: i + 1,
         item: {
           '@type': 'Offer',
-          name: pkg.title,
-          price: String(Math.max(1, Math.round(pkg.amount))),
+          name: 'Booking ₹1,000 — ' + pkg.title,
+          price: String(BOOKING),
           priceCurrency: 'INR',
           availability: 'https://schema.org/InStock',
           url: (pageUrl || '') + hash,
-          description: pkg.specs,
+          description:
+            'Online booking deposit ₹1,000 (Razorpay). Estimated fabrication before GST: ₹' +
+            fab +
+            '. ' +
+            (pkg.specs || '') +
+            ' Balance after site visit and approval.',
           seller: { '@type': 'Organization', name: 'WoodenMax', url: 'https://woodenmax.in' }
         }
       };
