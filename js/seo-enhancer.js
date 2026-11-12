@@ -305,6 +305,15 @@
       if (link.dataset.wmFontDeferred === '1') return;
       if (link.media === 'print' && link.getAttribute('onload')) return;
       link.dataset.wmFontDeferred = '1';
+      // Prefer font-display=swap to limit FOIT; size-adjust handled by browser fallbacks.
+      try {
+        var href = link.getAttribute('href') || '';
+        if (href.indexOf('display=') === -1) {
+          link.setAttribute('href', href + (href.indexOf('?') >= 0 ? '&' : '?') + 'display=swap');
+        } else if (/display=block|display=auto|display=optional/i.test(href)) {
+          link.setAttribute('href', href.replace(/display=(block|auto|optional)/i, 'display=swap'));
+        }
+      } catch (e) {}
       var activate = function () { link.media = 'all'; link.onload = null; };
       link.onload = activate;
       link.media = 'print';
@@ -701,9 +710,8 @@
       '.wm-auto-related-card span{display:none;}' +
       '.wm-auto-related-card:hover{border-color:#93C5FD;background:#EFF6FF;transform:none;box-shadow:none;}' +
       '@media (min-width:768px){.wm-auto-related-grid{grid-template-columns:repeat(6,1fr);}}' +
-      'body{padding-bottom:46px;}' +
-      '@media (max-width:720px){body{padding-bottom:38px;}}' +
-      // Make sure the floating action button / sticky bar doesn't overlap the verified strip
+      /* Verified strip is position:fixed — do NOT add late body padding-bottom
+         (that shifted short viewports). Sticky/FAB clear the strip via bottom offset. */
       '.fab-container,.calc-fab,#calcStickyBar,.calc-sticky-bar{bottom:48px !important;}' +
       '@media (max-width:720px){.fab-container,.calc-fab,#calcStickyBar,.calc-sticky-bar{bottom:42px !important;}}' +
       '.wm-local-landing-links{display:block;max-width:1280px;margin:0.65rem auto 0;padding:0.5rem 1rem;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;font-size:0.82rem;line-height:1.5;color:#334155}' +

@@ -497,65 +497,80 @@ body.page-window-pro .floating-calc-button {
 
 /*
  * Mobile Master order (≤1099px): gallery photos → intro → calculator → companion / rest.
- * Uses display:contents so side-stack can sort after the calc column.
- * Overrides product-window-mobile.css calc-before-gallery order for Master pages.
+ * Applies from FIRST paint (no .wm-product-pilot-ready gate) to avoid ~0.5 CLS when
+ * JS later added ready + display:contents + order swap over product-window-mobile.
+ * Intro + flow use display:contents so context/identity stay in HTML intro.
  */
 @media (max-width: 1099px) {
-  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-flow,
-  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-flow {
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] > .container,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] > .container {
     display: flex !important;
     flex-direction: column !important;
   }
 
-  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery,
-  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-gallery {
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .wm-product-pilot-intro,
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .wm-product-pilot-flow,
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .wm-product-pilot-gallery,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .wm-product-pilot-intro,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .wm-product-pilot-flow,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .wm-product-pilot-gallery {
     display: contents !important;
     order: unset !important;
     max-width: none !important;
     margin: 0 !important;
   }
 
-  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-context,
-  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-context {
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .wm-product-pilot-context,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .wm-product-pilot-context {
     order: 0 !important;
   }
 
-  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .product-main-image-container,
-  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .product-main-image-container {
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .product-main-image-container,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .product-main-image-container {
     order: 1 !important;
     width: 100%;
   }
 
-  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .product-thumbnail-gallery,
-  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .product-thumbnail-gallery {
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .product-thumbnail-gallery,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .product-thumbnail-gallery {
     order: 2 !important;
     width: 100%;
   }
 
-  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity,
-  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-identity {
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .wm-product-pilot-identity,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .wm-product-pilot-identity {
     order: 3 !important;
     width: 100%;
     max-width: none;
   }
 
-  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-calculator-column,
-  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-calculator-column {
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .wm-product-pilot-calculator-column,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .wm-product-pilot-calculator-column {
     order: 4 !important;
     width: 100%;
+    display: block !important;
   }
 
-  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-window-side-stack,
-  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-2track-side-stack,
-  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-window-side-stack,
-  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-2track-side-stack {
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .wm-window-side-stack,
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .wm-2track-side-stack,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .wm-window-side-stack,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .wm-2track-side-stack {
     order: 5 !important;
     width: 100%;
   }
 
-  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-accordions,
-  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"].wm-product-pilot-ready .wm-product-pilot-accordions {
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .wm-product-pilot-accordions,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .wm-product-pilot-accordions {
     order: 6 !important;
     width: 100%;
+  }
+
+  /* Kill product-window-mobile 168px hero clamp on Master gallery-first pages */
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .product-main-image,
+  body.page-window-pro[data-product-family="aluminium-window"] [data-product-page-layout="gallery-first"] .product-main-image-container img,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .product-main-image,
+  body[data-product-family="aluminium-window"].page-window-pro [data-product-page-layout="gallery-first"] .product-main-image-container img {
+    max-height: none !important;
+    object-fit: contain !important;
   }
 }

@@ -8,7 +8,9 @@
    PRODUCT DETAIL HERO
    ============================================ */
 .product-detail-hero {
-  padding: 8rem 0 3rem;
+  /* Top padding kept modest — fixed nav clearance lives on body (64px).
+     Large 8rem top + late .has-wm-navbar override caused sitewide CLS. */
+  padding: 2.5rem 0 3rem;
   background: linear-gradient(180deg, #fbf8f1 0%, #ffffff 100%);
 }
 
@@ -922,7 +924,7 @@ section[style*="get exact price"] p {
   }
   
   .product-detail-hero {
-    padding: 6rem 0 2rem;
+    padding: 2.5rem 0 2rem;
   }
   
   .features-grid {
@@ -944,7 +946,7 @@ section[style*="get exact price"] p {
 
 @media (max-width: 768px) {
   .product-detail-hero {
-    padding: 5rem 0 1.5rem;
+    padding: 2.5rem 0 1.5rem;
   }
   
   .product-options {
@@ -972,7 +974,7 @@ section[style*="get exact price"] p {
 
 @media (max-width: 480px) {
   .product-detail-hero {
-    padding: 4rem 0 1rem;
+    padding: 2.5rem 0 1rem;
   }
   
   .product-options {

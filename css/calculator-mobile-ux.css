@@ -418,6 +418,10 @@ body.grills-product-page .calc-sticky-exact {
 
 @media (max-width: 768px) {
  .calc-sticky-bar { display: block; }
+ /* Reserve sticky-bar space from first paint on calculator pages so adding
+    .has-calc-sticky-bar after JS does not shift the page (CLS). */
+ body:has(.price-calculator-container),
+ body:has(.wm-product-pilot-calculator),
  body.has-calc-sticky-bar { padding-bottom: 82px; }
 }
 

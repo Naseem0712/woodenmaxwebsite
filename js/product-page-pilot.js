@@ -71,28 +71,35 @@
 
     var flow = root.querySelector('.wm-product-pilot-flow');
     var gallery = root.querySelector('.wm-product-pilot-gallery');
-    var intro = root.querySelector('.wm-product-pilot-intro');
-    var context = root.querySelector('.wm-product-pilot-context');
     var identity = root.querySelector('.wm-product-pilot-identity');
     var calculatorColumn = root.querySelector('.wm-product-pilot-calculator-column');
     var calculator = root.querySelector('.price-calculator-container[data-product], .wm-product-pilot-calculator');
 
     if (!flow || !gallery || !identity || !calculatorColumn || !calculator) return;
 
-    if (context) flow.insertBefore(context, flow.firstChild);
-    flow.insertBefore(gallery, calculatorColumn);
-    flow.insertBefore(identity, calculatorColumn);
-    if (intro) intro.remove();
+    /* CLS: do NOT reparent context/gallery/identity or remove intro.
+       css/product-page-pilot.css + window-product-design-v1.css use
+       display:contents from first paint so Master gallery-left / calc-right
+       (and mobile gallery→intro→calc) already match without DOM moves. */
 
     var packages = calculatorColumn.querySelector('#wm-standard-packages, .wm-std-pkg[data-product-id]');
-    var accordionGroup = document.createElement('div');
-    accordionGroup.className = 'wm-product-pilot-accordions';
-    accordionGroup.setAttribute('aria-label', 'Product details');
+    var accordionGroup = calculatorColumn.querySelector('.wm-product-pilot-accordions');
+    if (!accordionGroup) {
+      accordionGroup = document.createElement('div');
+      accordionGroup.className = 'wm-product-pilot-accordions';
+      accordionGroup.setAttribute('aria-label', 'Product details');
+      if (packages) {
+        packages.insertAdjacentElement('afterend', accordionGroup);
+      } else {
+        calculatorColumn.appendChild(accordionGroup);
+      }
+    }
 
     var preCalculatorNodes = [];
     Array.prototype.forEach.call(calculatorColumn.children, function (child) {
       if (calculator.parentElement !== calculatorColumn) return;
       if (child === calculator) return;
+      if (child === accordionGroup) return;
       if (child.compareDocumentPosition(calculator) & Node.DOCUMENT_POSITION_FOLLOWING) {
         preCalculatorNodes.push(child);
       }
@@ -101,24 +108,25 @@
     if (calculator.parentElement === calculatorColumn) {
       calculatorColumn.insertBefore(calculator, calculatorColumn.firstChild);
     }
-    if (packages) {
-      packages.insertAdjacentElement('afterend', accordionGroup);
-    } else {
-      calculatorColumn.appendChild(accordionGroup);
-    }
 
     if (preCalculatorNodes.length && !calculatorColumn.hasAttribute('data-product-pilot-preserve-calculator-lead')) {
-      createAccordion(accordionGroup, 'Pricing, options and calculator guide', preCalculatorNodes);
+      if (!accordionGroup.querySelector('[data-wm-pilot-guide-built]')) {
+        createAccordion(accordionGroup, 'Pricing, options and calculator guide', preCalculatorNodes);
+        if (accordionGroup.lastElementChild) {
+          accordionGroup.lastElementChild.setAttribute('data-wm-pilot-guide-built', '1');
+        }
+      }
     }
 
     Array.prototype.forEach.call(root.querySelectorAll('[data-product-pilot-source]'), function (source) {
+      if (source.closest('.wm-product-pilot-accordions')) return;
       var label = sourceLabel(source);
       stripExistingToggle(source);
       createAccordion(accordionGroup, label, [source]);
     });
 
     var technicalSpecs = document.querySelector('[data-product-pilot-technical-specs]');
-    if (technicalSpecs) {
+    if (technicalSpecs && !technicalSpecs.closest('.wm-product-pilot-accordions')) {
       createAccordion(accordionGroup, 'Technical specifications', [technicalSpecs]);
     }
 

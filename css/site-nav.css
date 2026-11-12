@@ -28,8 +28,13 @@ header.site-header,
 }
 
 /* Reserve the fixed navbar's height up front (loads before first paint) so the
-   JS-injected navbar never shifts content. Matches the navbar's ~64px height. */
+   JS-injected navbar never shifts content. Matches the navbar's ~64px height.
+   IMPORTANT: do NOT remove this when .has-wm-navbar is added — zeroing
+   padding-top after inject was a sitewide CLS regression (~0.08+). */
 body {
+  padding-top: 64px;
+}
+body.has-wm-navbar {
   padding-top: 64px;
 }
 body.wm-nav-open { overflow: hidden; }
@@ -403,7 +408,8 @@ html {
   border-radius: 12px;
 }
 
-.has-wm-navbar { padding-top: 0 !important; }
+/* Intentionally no `.has-wm-navbar { padding-top: 0 }` — that cancelled the
+   64px reservation after JS inject and shifted every page. */
 
 @media (max-width: 1180px) {
   .wm-utility .nav-link-secondary[href*="reviews"] { display: none; }
@@ -427,6 +433,13 @@ html {
 }
 
 body > nav.navbar:not(.wm-navbar) ~ section.product-detail-hero { padding-top: 0 !important; }
+
+/* Stable hero top padding from first paint (body already reserves 64px for
+   the fixed nav). Do NOT wait for .has-wm-navbar — toggling 8rem→2.5rem
+   after JS was a major CLS source on product pages. */
+body > section.product-detail-hero,
+body > header.page-header,
+body > section[class*="hero"]:first-of-type,
 body.has-wm-navbar > section.product-detail-hero,
 body.has-wm-navbar > header.page-header,
 body.has-wm-navbar > section[class*="hero"]:first-of-type {

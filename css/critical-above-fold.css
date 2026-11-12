@@ -7,7 +7,7 @@ body{font-family:var(--font-sans);background:#f8f8f6;color:#0b0b0b;line-height:1
 img{max-width:100%;height:auto;display:block}
 .container{max-width:1280px;margin:0 auto;padding:0 1rem;width:100%}
 .navbar,.wm-navbar{position:fixed;top:0;width:100%;z-index:1000;background:rgba(6,10,15,.85);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,.04)}
-.wm-navbar{position:sticky}
+body{padding-top:64px}
 .navbar-content,.wm-navbar-inner{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1rem;max-width:1280px;margin:0 auto;width:100%;min-height:64px}
 .navbar-logo,.wm-logo{display:flex;align-items:center;gap:.75rem;text-decoration:none;color:#f8f8f6}
 .navbar-logo img,.wm-logo img{width:auto;height:36px;max-width:120px;max-height:36px;object-fit:contain;filter:none}
