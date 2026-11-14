@@ -927,5 +927,37 @@
  <script src="/js/seo-enhancer.js?v=20261114mfr2" defer></script>
  <script src="/js/nav-tree.js?v=20260728e" defer></script>
  <script src="/js/site-nav.js?v=20261106i" defer></script>
- <script src="/js/site-footer.js?v=20261106i" defer></script></body>
+ <script src="/js/site-footer.js?v=20261106i" defer></script>
+<!-- Merchant pilot: direct-link customers to the exact standard package card. -->
+<script>
+(function () {
+  var params = new URLSearchParams(window.location.search);
+  var value = params.get('wm_package');
+  if (value === null || !/^(0|[1-9][0-9]*)$/.test(value)) return;
+  var index = Number(value);
+  function focusPackage() {
+    var section = document.getElementById('wm-standard-packages');
+    if (!section) return false;
+    var card = section.querySelector('.wm-std-pkg-card[data-pkg-index="' + index + '"]');
+    if (!card) return false;
+    card.style.outline = '3px solid #1677c8';
+    card.style.outlineOffset = '3px';
+    card.setAttribute('data-wm-linked', '1');
+    card.setAttribute('tabindex', '-1');
+    card.scrollIntoView({ behavior: 'auto', block: 'center' });
+    return true;
+  }
+  function start() {
+    if (!focusPackage()) {
+      var observer = new MutationObserver(function () { if (focusPackage()) observer.disconnect(); });
+      observer.observe(document.body, { childList: true, subtree: true });
+      window.setTimeout(function () { observer.disconnect(); }, 8000);
+    }
+    window.addEventListener('load', function () { window.setTimeout(focusPackage, 250); }, { once: true });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
+})();
+</script>
+</body>
 </html>
