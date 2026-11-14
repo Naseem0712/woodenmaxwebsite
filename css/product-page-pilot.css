@@ -350,7 +350,8 @@ body > .wm-calculator-finder.is-suppressed {
 
 /*
  * Mobile gallery-first order from first paint (all product families).
- * Matches prior JS reparent order without DOM moves → major CLS win.
+ * Amazon-like: photos → short desc → calculator → rest.
+ * No JS reparent → CLS-safe. Category mobile sheets must not invert this.
  */
 @media (max-width: 1099px) {
   [data-product-page-layout="gallery-first"] > .container {
@@ -358,6 +359,7 @@ body > .wm-calculator-finder.is-suppressed {
     flex-direction: column !important;
   }
 
+  /* Window / shower style: flatten intro+flow+gallery into the container flex. */
   [data-product-page-layout="gallery-first"] .wm-product-pilot-intro,
   [data-product-page-layout="gallery-first"] .wm-product-pilot-flow,
   [data-product-page-layout="gallery-first"] .wm-product-pilot-gallery {
@@ -389,6 +391,60 @@ body > .wm-calculator-finder.is-suppressed {
   [data-product-page-layout="gallery-first"] .wm-product-pilot-accordions {
     order: 5 !important;
     width: 100%;
+  }
+
+  /*
+   * Pergola-style: layout attr on <body>, sections are direct children of
+   * .wm-product-pilot-flow. Keep flow as flex (NOT contents) so order works
+   * from first paint; do not wait for JS.
+   */
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow {
+    display: flex !important;
+    flex-direction: column !important;
+    max-width: none !important;
+    margin: 0 !important;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .wm-product-pilot-gallery {
+    display: block !important;
+    order: 1 !important;
+    width: 100%;
+    max-width: none !important;
+    margin: 0 0 0.75rem !important;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .wm-product-pilot-identity {
+    display: contents !important;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow .wm-product-pilot-context {
+    order: 0 !important;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow .wm-pergola-hero-intro {
+    order: 2 !important;
+    width: 100%;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow .wm-pergola-hero-cta {
+    order: 3 !important;
+    width: 100%;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .wm-product-pilot-calculator-column {
+    order: 4 !important;
+    width: 100%;
+    display: block !important;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow .wm-pergola-rate-panel {
+    order: 5 !important;
+    width: 100%;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > #pergola-price-breakdown,
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .pergola-seo-rail,
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .pergola-deep-content,
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > section:not(.wm-product-pilot-identity):not(.wm-product-pilot-gallery):not(.wm-product-pilot-calculator-column) {
+    order: 10 !important;
+    width: 100%;
+  }
+  /* Nested image/thumb order only for window-style flatten — reset inside pergola gallery unit */
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .wm-product-pilot-gallery .product-main-image-container,
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .wm-product-pilot-gallery .product-thumbnail-gallery {
+    order: unset !important;
   }
 }
 

@@ -6,7 +6,7 @@
  * Imports shared louver mobile rules, then page-specific layout.
  * SEO: titles/meta/JSON-LD untouched structurally; long copy stays in DOM.
  */
-@import url('product-louver-mobile.css?v=20260730l');
+@import url('product-louver-mobile.css?v=20261114m1');
 
 @media (max-width: 768px) {
   body.page-louver-pro.page-wooden-finish-louver .wm-louver-hero-intro .section-label {

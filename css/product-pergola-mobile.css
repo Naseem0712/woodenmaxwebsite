@@ -148,20 +148,24 @@
     font-size: 0.72rem !important;
   }
 
+  /* Master mobile: gallery → short desc → calculator → SEO rest */
   .pergola-product-main-flow {
     display: flex;
     flex-direction: column;
   }
 
-  .pergola-product-main-flow > .pergola-hero-block {
+  .pergola-product-main-flow > .pergola-gallery-block,
+  .pergola-product-main-flow > .wm-product-pilot-gallery {
     order: 1;
   }
 
-  .pergola-product-main-flow > .pergola-gallery-block {
+  .pergola-product-main-flow > .pergola-hero-block,
+  .pergola-product-main-flow > .wm-product-pilot-identity {
     order: 2;
   }
 
-  .pergola-product-main-flow > #price-calculator-pergola {
+  .pergola-product-main-flow > #price-calculator-pergola,
+  .pergola-product-main-flow > .wm-product-pilot-calculator-column {
     order: 3;
   }
 
@@ -253,11 +257,15 @@
     padding: 0.25rem 0 0.55rem !important;
   }
 
+  /* Visible product photos — do not clamp to a tiny strip */
   body.page-pergola-pro .pergola-gallery-block .product-main-image,
-  body.page-pergola-pro .pergola-gallery-block .product-main-image-container img {
-    max-height: 150px !important;
+  body.page-pergola-pro .pergola-gallery-block .product-main-image-container img,
+  body.page-pergola-pro .wm-product-pilot-gallery .product-main-image,
+  body.page-pergola-pro .wm-product-pilot-gallery .product-main-image-container img {
+    max-height: none !important;
     width: 100% !important;
-    object-fit: cover !important;
+    height: auto !important;
+    object-fit: contain !important;
     border-radius: 10px;
   }
 

@@ -6,7 +6,7 @@
  * Imports shared pergola mobile rules, then page-specific layout.
  * SEO: titles/meta/JSON-LD untouched structurally; long copy stays in DOM.
  */
-@import url('product-pergola-mobile.css?v=20260730p');
+@import url('product-pergola-mobile.css?v=20261114m1');
 
 @media (max-width: 768px) {
   body.page-pergola-pro.page-aluminium-pergola .wm-pergola-rate-panel {

@@ -197,11 +197,12 @@
     flex-direction: column;
   }
 
-  .mirror-product-main-flow > #wmCatalogCalc {
+  /* Master mobile: photos first, then configure/calc */
+  .mirror-product-main-flow > .wm-mirror-gallery-block {
     order: 1;
   }
 
-  .mirror-product-main-flow > .wm-mirror-gallery-block {
+  .mirror-product-main-flow > #wmCatalogCalc {
     order: 2;
   }
 
@@ -214,9 +215,10 @@
   }
 
   body.silo-mirror-profiles .wm-mirror-gallery-block .product-main-image {
-    max-height: 150px !important;
+    max-height: none !important;
     width: 100% !important;
-    object-fit: cover !important;
+    height: auto !important;
+    object-fit: contain !important;
     border-radius: 10px;
   }
 

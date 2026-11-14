@@ -140,8 +140,10 @@
     flex-direction: column;
   }
 
+  /* When Master gallery-first is present, defer to product-page-pilot.css order.
+     Fallback below for pages without pilot flatten. */
   body.page-shower-pro .wm-shower-hero-intro {
-    order: 1;
+    order: 3;
     margin-bottom: 0.45rem !important;
   }
 
@@ -157,7 +159,7 @@
   }
 
   body.page-shower-pro .wm-shower-hero-cta {
-    order: 2;
+    order: 3;
     display: grid !important;
     grid-template-columns: 1fr 1fr;
     gap: 0.4rem !important;
@@ -176,7 +178,7 @@
   }
 
   body.page-shower-pro .wm-shower-rate-panel {
-    order: 3;
+    order: 5;
     margin-bottom: 0.5rem !important;
     padding: 0.65rem 0.55rem !important;
   }
@@ -196,14 +198,16 @@
     padding: 0.35rem 0.4rem !important;
   }
 
-  /* Calculator + gallery before long types rail */
+  /* Master Amazon order: photos first; calc after short desc */
   body.page-shower-pro .product-detail-grid {
-    order: 4;
+    order: 1;
+    display: flex !important;
+    flex-direction: column !important;
     gap: 0.75rem !important;
   }
 
   body.page-shower-pro .shower-partition-types-panel {
-    order: 5;
+    order: 6;
     margin: 0.45rem 0 0.35rem !important;
     padding: 0.65rem 0.7rem !important;
     max-height: 5.2rem;
@@ -232,18 +236,37 @@
     margin-bottom: 0.35rem !important;
   }
 
-  body.page-shower-pro .product-detail-grid > .product-image-gallery {
-    order: 2 !important;
-  }
-
-  body.page-shower-pro .product-detail-grid > div:last-child,
-  body.page-shower-pro .product-detail-grid > div:nth-child(2) {
+  body.page-shower-pro .product-detail-grid > .product-image-gallery,
+  body.page-shower-pro .product-detail-grid > .wm-product-pilot-gallery {
     order: 1 !important;
   }
 
-  body.page-shower-pro .product-main-image {
-    max-height: 150px !important;
-    object-fit: cover !important;
+  body.page-shower-pro .product-detail-grid > .wm-product-pilot-calculator-column,
+  body.page-shower-pro .product-detail-grid > div:last-child,
+  body.page-shower-pro .product-detail-grid > div:nth-child(2) {
+    order: 2 !important;
+  }
+
+  /* gallery-first Master pages: pilot CSS owns order; never invert calc above photos */
+  body.page-shower-pro [data-product-page-layout="gallery-first"] .wm-product-pilot-calculator-column {
+    order: 4 !important;
+  }
+  body.page-shower-pro [data-product-page-layout="gallery-first"] .product-main-image-container {
+    order: 1 !important;
+  }
+  body.page-shower-pro [data-product-page-layout="gallery-first"] .product-thumbnail-gallery {
+    order: 2 !important;
+  }
+  body.page-shower-pro [data-product-page-layout="gallery-first"] .wm-product-pilot-identity {
+    order: 3 !important;
+  }
+
+  body.page-shower-pro .product-main-image,
+  body.page-shower-pro .product-main-image-container img {
+    max-height: none !important;
+    width: 100% !important;
+    height: auto !important;
+    object-fit: contain !important;
     border-radius: 10px;
   }
 
