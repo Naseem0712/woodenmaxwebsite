@@ -1250,6 +1250,45 @@
     });
   }
 
+  /* Merchant pilot: link directly to a selected standard-size package, not the page header.
+     Only the two verified pilot product pages use this query parameter. */
+  function focusLinkedPackage(section, packages) {
+    if (!section || !packages || !packages.length || typeof location === 'undefined') return;
+    var path = String(location.pathname || '').replace(/\\/$/, '').replace(/\\.html$/, '');
+    if (path !== '/products/aluminium-windows/3-track-sliding-window' &&
+        path !== '/products/shower-partitions/black-profile-shower-partition') return;
+    var params = new URLSearchParams(location.search || '');
+    var requested = params.get('wm_package');
+    if (requested === null || !/^(0|[1-9][0-9]*)$/.test(requested)) return;
+    var idx = Number(requested);
+    if (idx >= packages.length) return;
+    var card = section.querySelector('.wm-std-pkg-card[data-pkg-index="' + idx + '"]');
+    if (!card) return;
+    section.querySelectorAll('.wm-std-pkg-card[data-wm-linked]').forEach(function (el) {
+      el.removeAttribute('data-wm-linked');
+      el.style.outline = '';
+      el.style.outlineOffset = '';
+    });
+    card.setAttribute('data-wm-linked', '1');
+    card.style.outline = '3px solid #1677c8';
+    card.style.outlineOffset = '3px';
+    card.setAttribute('tabindex', '-1');
+    var buy = card.querySelector('[data-action="pkg-buy"]');
+    if (buy) buy.setAttribute('aria-label', 'Book selected package: ' + packages[idx].title + ' — ₹1,000 deposit');
+    if (!card.querySelector('[data-wm-package-link]')) {
+      var link = document.createElement('a');
+      link.setAttribute('data-wm-package-link', '1');
+      link.href = location.pathname + '?wm_package=' + idx;
+      link.textContent = 'Direct link to this package';
+      link.style.display = 'inline-block';
+      link.style.marginTop = '0.5rem';
+      card.appendChild(link);
+    }
+    setTimeout(function () {
+      card.scrollIntoView({ behavior: 'auto', block: 'center' });
+    }, 150);
+  }
+
   /** Hydrate SSR (or already-present) cards: update rates only, never rebuild markup. */
   function hydrateSection(section, anchorEl, product, packages, opts) {
     opts = opts || {};
@@ -1261,6 +1300,7 @@
     sectionState[sectionId] = { product: product, packages: packages, anchorEl: anchorEl };
     updateSectionPrices(section, packages);
     bindSectionClicks(section, sectionId);
+    focusLinkedPackage(section, packages);
   }
 
   function isStaticPackageSection(el) {
