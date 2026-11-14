@@ -2609,13 +2609,23 @@
  );
  }
 
+ function payHelpHtmlPending () {
+ return (
+ '<strong class="calc-pay-help-mode">Secure online payment</strong>' +
+ '<p class="calc-pay-help-note">Choose a payment option and continue to Razorpay. The payment amount and mode are confirmed at checkout.</p>' +
+ '<ul>' +
+ '<li><strong>UPI:</strong> Pay with your supported UPI app.</li>' +
+ '<li><strong>Card / Netbanking:</strong> Use an eligible debit or credit card, or netbanking.</li>' +
+ '</ul>'
+ );
+ }
+
  function syncPayHelpContent (mode) {
  var payHelp = $('#calcPayHelp');
  if (!payHelp) return;
- var isLive = mode === 'live';
- payHelp.innerHTML = isLive ? payHelpHtmlLive() : payHelpHtmlTest();
- payHelp.classList.toggle('calc-pay-help--live', isLive);
- payHelp.classList.toggle('calc-pay-help--test', !isLive);
+ payHelp.innerHTML = mode === 'live' ? payHelpHtmlLive() : mode === 'test' ? payHelpHtmlTest() : payHelpHtmlPending();
+ payHelp.classList.toggle('calc-pay-help--live', mode === 'live');
+ payHelp.classList.toggle('calc-pay-help--test', mode === 'test');
  }
 
  function syncBookOrderFormUi (payChoice) {
@@ -2658,11 +2668,13 @@
  var payHelp = $('#calcPayHelp');
  if (payHelp) {
  payHelp.hidden = false;
- syncPayHelpContent('test');
+ // Do not claim test mode before the payment API confirms it.
+ syncPayHelpContent('pending');
  if (window.WoodenMaxRazorpay && typeof window.WoodenMaxRazorpay.fetchPaymentsHealth === 'function') {
  window.WoodenMaxRazorpay.fetchPaymentsHealth().then(function (h) {
- syncPayHelpContent(h && h.razorpay_mode === 'live' ? 'live' : 'test');
- });
+ var mode = h && h.razorpay_mode;
+ if (mode === 'live' || mode === 'test') syncPayHelpContent(mode);
+ }).catch(function () { /* Keep neutral help when payment status cannot be verified. */ });
  }
  }
  var submitLabel = $('#calcFormSubmit') && $('#calcFormSubmit').querySelector('.calc-form-submit-label');
