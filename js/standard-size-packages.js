@@ -1254,7 +1254,7 @@
      Only the two verified pilot product pages use this query parameter. */
   function focusLinkedPackage(section, packages) {
     if (!section || !packages || !packages.length || typeof location === 'undefined') return;
-    var path = String(location.pathname || '').replace(/\\/$/, '').replace(/\\.html$/, '');
+    var path = String(location.pathname || '').replace(/\/$/, '').replace(/\.html$/, '');
     if (path !== '/products/aluminium-windows/3-track-sliding-window' &&
         path !== '/products/shower-partitions/black-profile-shower-partition') return;
     var params = new URLSearchParams(location.search || '');
