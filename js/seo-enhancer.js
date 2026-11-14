@@ -486,6 +486,15 @@
     var priceMatch = bodyText.match(/(?:₹|Rs\.?|INR)\s*([0-9,]+)\s*[-–to]+\s*(?:₹|Rs\.?|INR)?\s*([0-9,]+)\s*\/?\s*(?:sq\s*ft|sqft|psf)/i);
     var lowPrice  = priceMatch ? priceMatch[1].replace(/,/g, '') : null;
     var highPrice = priceMatch ? priceMatch[2].replace(/,/g, '') : null;
+    // Reject calculator-scrape junk (₹0 / ₹20 glass adder / sub-₹100 noise).
+    if (lowPrice && highPrice) {
+      var lowN = parseInt(lowPrice, 10);
+      var highN = parseInt(highPrice, 10);
+      if (!lowN || !highN || lowN < 100 || highN < 100 || highN < lowN) {
+        lowPrice = null;
+        highPrice = null;
+      }
+    }
 
     var imgEl = document.querySelector('meta[property="og:image"]');
     var imgUrl = imgEl ? imgEl.getAttribute('content') : (BRAND.url + '/images/woodenmax-logo.webp');

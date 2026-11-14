@@ -90,6 +90,72 @@
   color: #ffffff;
 }
 
+/*
+ * Master v1 Cost Calculator capsule — after JS reparents .wm-calculator-finder
+ * to <body>. Shared across windows + pergola / louvers / shower / grills pilots.
+ */
+body > .wm-calculator-finder {
+  position: fixed !important;
+  right: 0.85rem !important;
+  left: auto !important;
+  top: 25vh !important;
+  bottom: auto !important;
+  z-index: 86;
+  box-sizing: border-box;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  min-height: 2.75rem;
+  max-width: min(92vw, 16rem);
+  max-height: none;
+  margin: 0;
+  padding: 0.7rem 1.15rem;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.78) 0%,
+    rgba(30, 58, 138, 0.72) 100%
+  );
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.8125rem;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transform: none;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
+  cursor: pointer;
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+body > .wm-calculator-finder:hover,
+body > .wm-calculator-finder:focus-visible {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 23, 42, 0.9) 0%,
+    rgba(30, 58, 138, 0.84) 100%
+  );
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.2);
+  outline: none;
+}
+body > .wm-calculator-finder.is-calc-in-view,
+body > .wm-calculator-finder.is-suppressed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 [data-product-page-layout="gallery-first"] .wm-product-pilot-calculator-column {
   display: block !important;
 }
@@ -120,10 +186,35 @@
     margin-right: auto;
   }
 
+  /*
+   * Pergola-style pilots: layout attr on <body>, identity/gallery/calc are
+   * direct children of .wm-product-pilot-flow (no single .container wrapper).
+   */
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow {
+    display: grid !important;
+    grid-template-columns: minmax(0, 0.85fr) minmax(34rem, 1.15fr);
+    column-gap: clamp(1.5rem, 3vw, 2.5rem);
+    align-items: start;
+    width: min(100%, calc(100vw - 4rem));
+    max-width: 1180px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
   [data-product-page-layout="gallery-first"] .wm-product-pilot-intro,
   [data-product-page-layout="gallery-first"] .wm-product-pilot-flow,
   [data-product-page-layout="gallery-first"] .wm-product-pilot-calculator-column {
     display: contents !important;
+  }
+
+  /* Keep stacked flow as the grid when layout is on body (override contents). */
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow {
+    display: grid !important;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .wm-product-pilot-calculator-column {
+    display: block !important;
   }
 
   [data-product-page-layout="gallery-first"] .wm-product-pilot-context {
@@ -154,9 +245,32 @@
     max-width: 680px;
   }
 
+  /* No full-width context row on stacked pergola pilots — gallery starts at row 1. */
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .wm-product-pilot-gallery {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    max-width: 540px !important;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .wm-product-pilot-identity {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .wm-product-pilot-calculator-column {
+    grid-column: 2;
+    grid-row: 2;
+    width: 100%;
+    max-width: 680px;
+  }
+
   [data-product-page-layout="gallery-first"] .wm-std-pkg[data-product-id],
   [data-product-page-layout="gallery-first"] .wm-product-pilot-accordions,
   [data-product-page-layout="gallery-first"] #weight-summary-root {
+    grid-column: 1 / -1;
+  }
+
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > section:not(.wm-product-pilot-identity):not(.wm-product-pilot-gallery):not(.wm-product-pilot-calculator-column),
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > .pergola-seo-rail,
+  body[data-product-page-layout="gallery-first"] > .wm-product-pilot-flow > #pergola-price-breakdown {
     grid-column: 1 / -1;
   }
 

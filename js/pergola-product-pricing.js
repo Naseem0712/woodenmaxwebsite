@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
           ui += '</div>';
         }
         ui +=
-          '<p style="margin:8px 0 0;font-size:0.8rem;color:#64748b;">Each product page uses its own structure \u20b9/sqft line from the supplier schedule in <code style="font-size:0.75rem;">data/rates.json</code> (pergola_catalog). Add pillar qty/type and, on retractable, motor package.</p>';
+          '<p style="margin:8px 0 0;font-size:0.8rem;color:#64748b;">Structure, roof and coating use the live schedule for this pergola line. Add pillar qty/type and, on retractable, the motor package.</p>';
         ui += '<div class="pricing-output" id="pricing-output" style="margin-top:12px;"></div>';
         ui +=
           '<div id="pergola-inquiry-wrap" style="margin-top:16px;padding:16px;border:1px solid #e5e7eb;border-radius:8px;background:#f8fafc;">';

@@ -153,11 +153,22 @@
 
   function isMasterCostFinderPage() {
     var family = document.body.getAttribute('data-product-family') || '';
-    // Master v1 floating capsule pages (windows / folding / telescope children).
-    return document.body.classList.contains('page-window-pro') ||
+    // Master v1 floating capsule — windows + any gallery-first product pilot
+    // (pergola / louvers / shower / grills / mirrors) that ships .wm-calculator-finder.
+    if (document.body.classList.contains('page-window-pro') ||
       family === 'aluminium-window' ||
       family === 'folding-system' ||
-      family === 'telescope-window';
+      family === 'telescope-window') {
+      return true;
+    }
+    if (document.querySelector('[data-product-page-layout="gallery-first"]')) {
+      return true;
+    }
+    return document.body.classList.contains('page-pergola-pro') ||
+      document.body.classList.contains('page-louver-pro') ||
+      document.body.classList.contains('page-shower-pro') ||
+      document.body.classList.contains('grills-product-page') ||
+      document.body.classList.contains('page-mirror-pro');
   }
 
   function elementIntersectsViewport(el) {
