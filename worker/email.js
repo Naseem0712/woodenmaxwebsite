@@ -119,7 +119,7 @@ function itemLines (items) {
     .join('\n\n');
 }
 
-function adminBody (order) {
+function adminBody (order, pdfReady) {
   const c = order.customer || {};
   const t = order.totals || {};
   return [
@@ -149,11 +149,11 @@ function adminBody (order) {
     '  Paid now   : ' + fmtInr(order.paidInr),
     '  Balance    : ' + fmtInr(order.balanceInr),
     '',
-    'The order confirmation PDF is attached.',
+    pdfReady ? 'The order confirmation PDF is attached.' : 'The order confirmation PDF is not yet available. Our team will follow up.',
   ].join('\n');
 }
 
-function customerBody (order) {
+function customerBody (order, pdfReady) {
   const c = order.customer || {};
   const t = order.totals || {};
   const isBooking = order.purpose === 'order_booking';
@@ -179,7 +179,7 @@ function customerBody (order) {
       ? 'Your site visit slot is held. Our technical team will contact you within one working day to confirm the visit. This advance is adjusted against your final order value.'
       : 'Our production team will contact you within one working day to confirm final measurements.',
     '',
-    'The complete order confirmation, with all specifications and terms, is attached as a PDF.',
+    pdfReady ? 'The complete order confirmation, with specifications and terms, is attached as a PDF.' : 'Your order details are above. The PDF is not yet available; our team will follow up.',
     '',
     'WoodenMax Architectural Elements',
     '5-6-411/413, Aaghapura, Nampally, Hyderabad 500001',
@@ -199,7 +199,7 @@ export async function queueOrderEmails (env, order, pdfReady) {
     kind: 'admin',
     to: c.admin,
     subject: 'PAID ' + order.orderNo + ' — ' + fmtInr(order.paidInr) + ' — ' + ((order.customer && order.customer.name) || 'Customer'),
-    body: adminBody(order) + (pdfReady ? '' : '\n\n[PDF generation failed for this order — regenerate it from /api/order/' + order.orderNo + '/pdf?regenerate=1]'),
+    body: adminBody(order, pdfReady) + (pdfReady ? '' : '\n\n[PDF generation failed for this order — regenerate it from /api/order/' + order.orderNo + '/pdf?regenerate=1]'),
   });
 
   if (customerEmail && /.+@.+\..+/.test(customerEmail)) {
@@ -207,7 +207,7 @@ export async function queueOrderEmails (env, order, pdfReady) {
       kind: 'customer',
       to: customerEmail,
       subject: 'WoodenMax order ' + order.orderNo + ' — payment received',
-      body: customerBody(order) + (pdfReady ? '' : '\n\n(Your PDF is being prepared and will follow shortly.)'),
+      body: customerBody(order, pdfReady) + (pdfReady ? '' : '\n\n(Your PDF is being prepared and will follow shortly.)'),
     });
   }
 
@@ -331,13 +331,18 @@ async function sendQueuedEmail (env, row) {
     const pdf = await env.DB.prepare('SELECT pdf_blob, pdf_status FROM orders WHERE order_no = ?')
       .bind(row.order_no)
       .first();
-    if (pdf && pdf.pdf_status === 'ready' && pdf.pdf_blob) {
-      const bytes = pdf.pdf_blob instanceof Uint8Array ? pdf.pdf_blob : new Uint8Array(pdf.pdf_blob);
-      payload.attachments = [{
-        filename: 'WoodenMax-' + row.order_no + '.pdf',
-        content: bytesToBase64(bytes),
-      }];
+    if (!pdf || pdf.pdf_status !== 'ready' || !pdf.pdf_blob) {
+      // Keep this message pending for retry; never mark a promised PDF as sent.
+      throw workerErr('Order PDF attachment unavailable for ' + row.order_no, 'PDF');
     }
+    const bytes = pdf.pdf_blob instanceof Uint8Array ? pdf.pdf_blob : new Uint8Array(pdf.pdf_blob);
+    if (bytes.length < 1000 || bytes[0] !== 0x25 || bytes[1] !== 0x50) {
+      throw workerErr('Invalid PDF attachment for ' + row.order_no, 'PDF');
+    }
+    payload.attachments = [{
+      filename: 'WoodenMax-' + row.order_no + '.pdf',
+      content: bytesToBase64(bytes),
+    }];
   }
 
   try {
