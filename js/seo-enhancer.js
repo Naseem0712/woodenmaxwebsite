@@ -170,6 +170,14 @@
         'closes': '19:00'
       }],
       'sameAs': BRAND.sameAs,
+      'description': 'In-house aluminium windows, doors, glass elevations, shower partitions and pergolas manufacturer in Hyderabad since 2014 — factory fabrication plus India-wide installation.',
+      'knowsAbout': [
+        'Aluminium window manufacturing',
+        'Aluminium door fabrication',
+        'Glass elevation systems',
+        'Shower partition fabrication',
+        'Architectural aluminium'
+      ],
       'mainEntityOfPage': pageUrl
       // Note: aggregateRating intentionally omitted — we only publish
       // ratings sourced from verifiable third-party platforms
@@ -410,9 +418,49 @@
     }
   }
 
+  // ---------- 10a. Enrich existing Product JSON-LD with manufacturer ----------
+  // Most PDPs already ship Product + brand + seller Offer (Path B ₹1000), but
+  // omit Product.manufacturer — Google then reads WoodenMax as a merchant only.
+  // Patch in place; never invent package rates or change Offer honesty.
+  function enrichProductManufacturer () {
+    $$('script[type="application/ld+json"]').forEach(function (s) {
+      var raw = s.textContent || '';
+      if (raw.indexOf('"Product"') === -1) return;
+      var data;
+      try { data = JSON.parse(raw); } catch (e) { return; }
+      var list = Array.isArray(data) ? data : [data];
+      var changed = false;
+      for (var i = 0; i < list.length; i++) {
+        var item = list[i];
+        if (!item || typeof item !== 'object') continue;
+        var t = item['@type'];
+        var types = Array.isArray(t) ? t : [t];
+        if (types.indexOf('Product') === -1) continue;
+        if (!item.manufacturer) {
+          item.manufacturer = {
+            '@type': 'Organization',
+            '@id': BRAND.url + '#organization',
+            'name': BRAND.name,
+            'url': BRAND.url,
+            'logo': BRAND.logo
+          };
+          changed = true;
+        }
+        if (!item.brand) {
+          item.brand = { '@type': 'Brand', 'name': BRAND.name, 'url': BRAND.url };
+          changed = true;
+        }
+      }
+      if (!changed) return;
+      try {
+        s.textContent = JSON.stringify(Array.isArray(data) ? list : list[0]);
+      } catch (e) { /* ignore */ }
+    });
+  }
+
   // ---------- 10. Product schema — auto-detect on /products/ pages ----------
   function injectProductSchema () {
-    // Already declared?  Skip.
+    // Already declared?  Skip create — enrichProductManufacturer still runs.
     var existing = $$('script[type="application/ld+json"]').some(function (s) {
       return /"@type"\s*:\s*"Product"/.test(s.textContent || '');
     });
@@ -492,19 +540,34 @@
   }
 
   // ---------- 12. Organization schema with logo + sameAs (helps Knowledge Panel) ----------
+  // Thin Organization stubs (name+logo only) used to block this inject — Google then
+  // never got foundingDate / sameAs / manufacturer description on most PDPs.
   function injectOrganization () {
-    if ($$('script[type="application/ld+json"]').some(function (s) {
-      return /"@type"\s*:\s*"Organization"/.test(s.textContent || '');
-    })) return;
+    var hasRichOrg = $$('script[type="application/ld+json"]').some(function (s) {
+      var raw = s.textContent || '';
+      if (raw.indexOf('"Organization"') === -1) return false;
+      // Rich = manufacturer identity signals (sameAs + founding + description/mfr cue)
+      return /"sameAs"\s*:/.test(raw) && /"foundingDate"\s*:/.test(raw);
+    });
+    if (hasRichOrg) return;
     appendJsonLd({
       '@context': 'https://schema.org',
       '@type': 'Organization',
       '@id': BRAND.url + '#organization',
       'name': BRAND.name,
       'legalName': BRAND.legalName,
+      'alternateName': ['WoodenMax India', 'Woodenmax'],
       'url': BRAND.url,
       'logo': BRAND.logo,
+      'image': BRAND.logo,
       'foundingDate': '2014',
+      'description': 'In-house aluminium windows, doors, glass elevations, shower partitions and pergolas manufacturer based in Hyderabad. Factory fabrication since 2014; project crews across major Indian cities.',
+      'knowsAbout': [
+        'Aluminium window manufacturing',
+        'Aluminium door fabrication',
+        'Glass facade systems',
+        'Shower partition manufacturing'
+      ],
       'founder': {
         '@type': 'Person',
         '@id':  BRAND.url + '/about/founder-story-woodenmax#person',
@@ -542,6 +605,14 @@
           'availableLanguage': ['en', 'hi', 'te']
         }
       ],
+      'address': {
+        '@type': 'PostalAddress',
+        'streetAddress': BRAND.streetAddress,
+        'addressLocality': BRAND.addressLocality,
+        'addressRegion': BRAND.addressRegion,
+        'postalCode': BRAND.postalCode,
+        'addressCountry': BRAND.addressCountry
+      },
       'sameAs': [
         'https://www.instagram.com/woodenmax/',
         'https://www.youtube.com/@woodenmax',
@@ -734,6 +805,7 @@
     try { injectWebSite();           } catch (e) {}
     try { injectOrganization();      } catch (e) {}
     try { injectBreadcrumbFromHtml();} catch (e) {}
+    try { enrichProductManufacturer();} catch (e) {}
     try { injectProductSchema();     } catch (e) {}
     try { ensureSerpImageMeta();     } catch (e) {}
     try { injectSpeakable();         } catch (e) {}

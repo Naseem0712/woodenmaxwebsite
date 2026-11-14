@@ -25,7 +25,7 @@ const vm = require('vm');
 const { ROOT, buildProductLandingMap, landingExists } = require('./product-landing-map.cjs');
 
 const SITE = 'https://woodenmax.in';
-const BRAND = 'Woodenmax';
+const BRAND = 'WoodenMax';
 
 const products = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'products.json'), 'utf8'));
 const mirror = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'mirror.json'), 'utf8'));
