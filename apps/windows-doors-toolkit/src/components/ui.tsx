@@ -1,0 +1,378 @@
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type InputHTMLAttributes,
+  type ReactNode,
+  type SelectHTMLAttributes,
+} from 'react';
+
+export function Money({ n }: { n: number }) {
+  return (
+    <span>
+      {new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0,
+      }).format(n || 0)}
+    </span>
+  );
+}
+
+export function Num({ n, d = 2 }: { n: number; d?: number }) {
+  return (
+    <span>
+      {(n || 0).toLocaleString('en-IN', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: d,
+      })}
+    </span>
+  );
+}
+
+export function PageHeader({
+  title,
+  subtitle,
+  badge,
+}: {
+  title: string;
+  subtitle?: string;
+  badge?: string;
+}) {
+  return (
+    <header className="page-header">
+      <div>
+        <h1>{title}</h1>
+        {subtitle ? <p className="muted">{subtitle}</p> : null}
+      </div>
+      {badge ? <span className="badge">{badge}</span> : null}
+    </header>
+  );
+}
+
+export function Card({
+  title,
+  children,
+  actions,
+}: {
+  title?: string;
+  children: ReactNode;
+  actions?: ReactNode;
+}) {
+  return (
+    <section className="card">
+      {(title || actions) && (
+        <div className="card-head">
+          {title ? <h2>{title}</h2> : <span />}
+          {actions}
+        </div>
+      )}
+      {children}
+    </section>
+  );
+}
+
+export function Kpi({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: ReactNode;
+  hint?: string;
+}) {
+  return (
+    <div className="kpi">
+      <div className="kpi-label">{label}</div>
+      <div className="kpi-value">{value}</div>
+      {hint ? <div className="kpi-hint">{hint}</div> : null}
+    </div>
+  );
+}
+
+type Tone = 'in' | 'link' | 'calc';
+
+export function Field({
+  label,
+  tone = 'in',
+  children,
+  hint,
+}: {
+  label: string;
+  tone?: Tone;
+  children: ReactNode;
+  hint?: string;
+}) {
+  return (
+    <label className={`field tone-${tone}`}>
+      <span className="field-label">{label}</span>
+      {children}
+      {hint ? <span className="field-hint">{hint}</span> : null}
+    </label>
+  );
+}
+
+function formatNumDraft(value: number | string | readonly string[] | undefined): string {
+  if (value === undefined || value === null || value === '') return '';
+  if (typeof value === 'number') return Number.isFinite(value) ? String(value) : '';
+  if (typeof value === 'string') return value;
+  return '';
+}
+
+function isPartialNumber(t: string): boolean {
+  return t === '' || /^-?\d*\.?\d*$/.test(t);
+}
+
+function isCompleteNumber(t: string): boolean {
+  if (t === '' || t === '-' || t === '.' || t === '-.') return false;
+  if (t.endsWith('.')) return false;
+  return !Number.isNaN(Number(t));
+}
+
+/** Minimal change event — never spread live DOM nodes (enumerable props are empty). */
+function synthNumberChange(value: string): React.ChangeEvent<HTMLInputElement> {
+  const box = { value } as HTMLInputElement;
+  return {
+    target: box,
+    currentTarget: box,
+  } as React.ChangeEvent<HTMLInputElement>;
+}
+
+/**
+ * Draft-string numeric input: clearing / mid-edit never forces 0 into state.
+ * Commits on blur (empty → previous value). Compatible with existing
+ * onChange={(e) => set(Number(e.target.value))} call sites via Input type="number".
+ *
+ * Prefer onCommit for qty / factor fields — it always receives a parsed number.
+ *
+ * Mobile keyboard contract (all modes / yellow + linked numerics):
+ * - Renders as type="text" so browsers do not use the native number spinner.
+ * - Defaults to inputMode="decimal" (rates, mm, sqft). Pass inputMode="numeric"
+ *   for integers-only (qty, tracks) or inputMode="tel" when appropriate.
+ * - Input type="number" routes here so Site Measure, Configurator, Settings,
+ *   Less-off, tables, and cards inherit the same keypad without per-field wiring.
+ */
+export function NumberInput({
+  value,
+  onCommit,
+  onChange,
+  tone = 'in',
+  className,
+  emptyAs = 'previous',
+  inputMode = 'decimal',
+  ...rest
+}: Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'value' | 'onChange'> & {
+  value: number | string | null | undefined;
+  /** Preferred API — called with parsed number (or null if emptyAs='null') */
+  onCommit?: (n: number | null) => void;
+  /** Legacy — synthetic change with numeric string, only when value is complete */
+  onChange?: InputHTMLAttributes<HTMLInputElement>['onChange'];
+  tone?: Tone;
+  emptyAs?: 'previous' | 'null' | 'zero';
+}) {
+  const numericValue =
+    typeof value === 'number' ? value : value === '' || value == null ? null : Number(value);
+  const prevRef = useRef<number | null>(
+    numericValue != null && Number.isFinite(numericValue) ? numericValue : null,
+  );
+  const [focused, setFocused] = useState(false);
+  const [draft, setDraft] = useState(() => formatNumDraft(value as number | string | undefined));
+  const onCommitRef = useRef(onCommit);
+  const onChangeRef = useRef(onChange);
+  onCommitRef.current = onCommit;
+  onChangeRef.current = onChange;
+
+  useEffect(() => {
+    if (!focused) {
+      setDraft(formatNumDraft(value as number | string | undefined));
+      if (numericValue != null && Number.isFinite(numericValue)) prevRef.current = numericValue;
+    }
+  }, [value, focused, numericValue]);
+
+  const emit = (n: number | null) => {
+    onCommitRef.current?.(n);
+    if (n != null && Number.isFinite(n)) {
+      onChangeRef.current?.(synthNumberChange(String(n)));
+    }
+  };
+
+  const commit = (raw: string) => {
+    if (raw.trim() === '' || raw === '-' || raw === '.' || raw === '-.') {
+      if (emptyAs === 'null') {
+        emit(null);
+        return;
+      }
+      if (emptyAs === 'zero') {
+        setDraft('0');
+        prevRef.current = 0;
+        emit(0);
+        return;
+      }
+      // previous
+      const prev = prevRef.current;
+      const restore = prev != null && Number.isFinite(prev) ? prev : 0;
+      setDraft(String(restore));
+      // Do not re-emit identical restore on blur when parent already has it —
+      // still emit so controlled parents that missed mid-edit catch up.
+      emit(restore);
+      return;
+    }
+    const n = Number(raw);
+    if (Number.isNaN(n)) {
+      const prev = prevRef.current ?? 0;
+      setDraft(String(prev));
+      emit(prev);
+      return;
+    }
+    prevRef.current = n;
+    setDraft(String(n));
+    emit(n);
+  };
+
+  const mode = inputMode || 'decimal';
+
+  return (
+    <input
+      {...rest}
+      type="text"
+      inputMode={mode}
+      data-numeric="1"
+      data-inputmode={mode}
+      className={`input tone-${tone} ${className ?? ''}`}
+      value={focused ? draft : formatNumDraft(value as number | string | undefined)}
+      onFocus={(e) => {
+        setFocused(true);
+        setDraft(formatNumDraft(value as number | string | undefined));
+        rest.onFocus?.(e);
+      }}
+      onChange={(e) => {
+        const t = e.target.value;
+        if (!isPartialNumber(t)) return;
+        setDraft(t);
+        if (isCompleteNumber(t)) {
+          const n = Number(t);
+          prevRef.current = n;
+          emit(n);
+        }
+      }}
+      onBlur={(e) => {
+        setFocused(false);
+        commit(draft);
+        rest.onBlur?.(e);
+      }}
+    />
+  );
+}
+
+export function Input(
+  props: InputHTMLAttributes<HTMLInputElement> & {
+    tone?: Tone;
+    emptyAs?: 'previous' | 'null' | 'zero';
+  },
+) {
+  const { tone = 'in', className, type, emptyAs, ...rest } = props;
+  if (type === 'number') {
+    const { value, onChange, inputMode, ...numRest } = rest;
+    return (
+      <NumberInput
+        tone={tone}
+        className={className}
+        emptyAs={emptyAs}
+        inputMode={inputMode ?? 'decimal'}
+        value={value as number | string | undefined}
+        onChange={onChange}
+        {...numRest}
+      />
+    );
+  }
+  if (type === 'tel') {
+    const { inputMode, ...telRest } = rest;
+    return (
+      <input
+        {...telRest}
+        type="tel"
+        inputMode={inputMode ?? 'tel'}
+        className={`input tone-${tone} ${className ?? ''}`}
+      />
+    );
+  }
+  return <input type={type} className={`input tone-${tone} ${className ?? ''}`} {...rest} />;
+}
+
+export function Select(props: SelectHTMLAttributes<HTMLSelectElement> & { tone?: Tone }) {
+  const { tone = 'in', className, children, ...rest } = props;
+  return (
+    <select className={`input tone-${tone} ${className ?? ''}`} {...rest}>
+      {children}
+    </select>
+  );
+}
+
+export function CalcBox({
+  label,
+  children,
+  style,
+}: {
+  label: string;
+  children: ReactNode;
+  style?: CSSProperties;
+}) {
+  return (
+    <div className="calc-box" style={style}>
+      <div className="calc-label">{label}</div>
+      <div className="calc-value">{children}</div>
+    </div>
+  );
+}
+
+export function Toolbar({ children }: { children: ReactNode }) {
+  return <div className="toolbar">{children}</div>;
+}
+
+export function Btn({
+  children,
+  onClick,
+  variant = 'primary',
+  type = 'button',
+  disabled,
+  title,
+  'data-testid': dataTestId,
+}: {
+  children: ReactNode;
+  onClick?: () => void;
+  variant?: 'primary' | 'ghost' | 'danger';
+  type?: 'button' | 'submit';
+  disabled?: boolean;
+  title?: string;
+  'data-testid'?: string;
+}) {
+  return (
+    <button
+      type={type}
+      className={`btn btn-${variant}`}
+      onClick={onClick}
+      disabled={disabled}
+      title={title}
+      data-testid={dataTestId}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function Legend() {
+  return (
+    <div className="legend">
+      <span>
+        <i className="swatch yellow" /> Type / edit
+      </span>
+      <span>
+        <i className="swatch blue" /> Linked from Settings / other tool
+      </span>
+      <span>
+        <i className="swatch white" /> Calculated
+      </span>
+    </div>
+  );
+}
