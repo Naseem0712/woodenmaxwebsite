@@ -174,9 +174,9 @@
       '.wm-weos-pkg__actions{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.65rem}',
       '.wm-weos-pkg__btn{padding:.5rem .85rem;border:0;border-radius:8px;background:linear-gradient(135deg,#b8893d,#d4b170);color:#111;font-weight:700;cursor:pointer;font-size:.82rem}',
       '.wm-weos-pkg__btn--ghost{background:#fff;border:1px solid #d1d5db;color:#0f172a}',
-      '.wm-weos-pkg__preview-wrap{min-height:220px}',
-      '.wm-weos-pkg__preview{background:#fff;border:1px solid #e5e7eb;border-radius:10px;min-height:220px;max-height:320px;padding:.4rem;display:flex;align-items:center;justify-content:center;overflow:hidden}',
-      '.wm-weos-pkg__preview svg{max-width:100%;max-height:300px;height:auto}',
+      '.wm-weos-pkg__preview-wrap{min-height:260px}',
+      '.wm-weos-pkg__preview{background:#fff;border:1px solid #e5e7eb;border-radius:10px;min-height:260px;max-height:420px;padding:.5rem;display:flex;align-items:center;justify-content:center;overflow:auto}',
+      '.wm-weos-pkg__preview svg{max-width:100%;max-height:400px;width:auto;height:auto;display:block}',
       '.wm-weos-pkg__modal{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem}',
       '.wm-weos-pkg__modal[hidden]{display:none!important}',
       '.wm-weos-pkg__modal-card{position:relative;background:#fff;color:#0b0b0b;border-radius:12px;max-width:520px;width:100%;padding:1.1rem 1.15rem 1.25rem;border:1px solid #e5e7eb;box-shadow:0 18px 40px rgba(15,23,42,.18)}',
@@ -207,9 +207,12 @@
 
   function readForm(root) {
     var glassN = Number(radioValue('weos-glass-n', root) || 3);
+    if (glassN !== 3 && glassN !== 4) glassN = glassN >= 4 ? 4 : 3;
     var meshVal = radioValue('weos-mesh', root) || '0';
+    // 3 glass → mesh forced off + side opening (matches WeOS 3-track rules)
     if (glassN === 3) meshVal = '0';
-    var meshOn = meshVal === '2';
+    var meshOn = glassN === 4 && meshVal === '2';
+    var opening = glassN === 4 ? 'center' : 'side';
     return {
       product: PRODUCT_ID,
       width: Number($('#weos-w', root).value) || 1500,
@@ -219,8 +222,14 @@
       mesh: meshOn,
       meshChoice: meshOn ? 'mesh2' : 'no_mesh',
       meshShutters: meshOn ? 2 : 0,
-      trackCount: glassN === 4 ? 4 : 3,
-      opening: glassN === 4 ? 'center' : 'side',
+      meshType: meshOn ? 'standard' : undefined,
+      // 3-track page: 3g side / 4g+mesh center stay on trackCount=3
+      // (4-track only for side+4g with no mesh — not offered in this UI)
+      trackCount: 3,
+      opening: opening,
+      openingExplicit: true,
+      system: 'sliding',
+      sectionSeries: PRODUCT_ID,
       glass: ($('#weos-glass', root) && $('#weos-glass', root).value) || '10mm_toughened',
       locking: radioValue('weos-lock', root) || 'multipoint',
       colour: radioValue('weos-colour', root) || 'Matte Black',
